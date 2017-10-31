@@ -1,0 +1,8 @@
+@media screen and (max-width:1024px){
+    .box{
+      overflow-x: scroll;
+  }
+  }
+.filter{
+  padding-bottom: 10px;
+}

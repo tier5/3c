@@ -1,0 +1,16 @@
+.products-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.products-list .product-info {
+    margin-left: 0;
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+.button-box{
+    float: right;
+}
+.has-error {
+  color: red;
+}

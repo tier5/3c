@@ -1,0 +1,314 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Dashboard
+      <small>Control panel</small>
+    </h1>
+    <!--<ol class="breadcrumb">-->
+      <!--<li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>-->
+      <!--<li class="active">Dashboard</li>-->
+    <!--</ol>-->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <!-- Only for Admin and Superadmin-->
+      <div class="col-lg-3 col-xs-6"   *ngIf="(authState | async).isSuperAdmin">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3>{{admin}}</h3>
+            <p>Admins</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+          <a routerLink="/admin/list" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
+        <!-- small box -->
+        <div class="small-box bg-red">
+          <div class="inner">
+            <h3>{{agent}}</h3>
+            <p>Agents</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a routerLink="/agent/list" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6" *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
+        <!-- small box -->
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>{{depertment}}</h3>
+            <p>Departments</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a routerLink="/department/list" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6" *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
+        <!-- small box -->
+        <div class="small-box bg-blue">
+          <div class="inner">
+            <h3>{{widgets}}</h3>
+            <p>Widgets</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a routerLink="/widget/list" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+
+      <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3>{{pendingChatCount}}</h3>
+            <h4>New Requests</h4>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+          <a href="/chat/pending" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+        <!-- small box -->
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>{{ongoingChatCount}}</h3>
+            <h4>Live Sessions</h4>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+          <a href="/chat/ongoing" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+        <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+            <!-- small box -->
+            <div class="small-box bg-blue">
+                <div class="inner">
+                    <h3>{{closedChatCount}}</h3>
+                    <h4>Closed </h4>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/chat/resolve" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{rejectedChatCount}}</h3>
+                    <h4>Rejected </h4>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/chat/rejected" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="row" *ngIf="(authState | async).isAgent">
+        <div class="col-lg-3 col-xs-12" *ngIf="!!(showChats() | async).length">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Pending chat requests </h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <ul class="products-list product-list-in-box">
+                  <ng-container   *ngFor="let contact of (chatState | async).ongoing; let i = index;">
+                <li class="item" *ngIf="contact.status == 1 || contact.status == 6">
+                  <div class="product-info">
+                    <a href="javascript:void(0)" class="product-title">{{contact.client}}</a>
+                    <span class="product-description">
+                      {{contact.room}} - {{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}}
+                    </span>
+                    <span >
+                      <span *ngIf="contact.transferInfo !== ''">
+                        Transfer By : {{contact.transferInfo}}
+                      </span>
+                    </span>
+                  </div>
+                  <div class="button-box">
+                    <button class="btn btn-success" (click)="onSomeMsgAction(2,contact.room)">Accept</button>
+                    <button class="btn btn-danger"  (click)="onSomeMsgAction(3,contact.room)">Reject</button>
+                  </div>
+                </li>
+                  </ng-container>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+
+      <div class="col-lg-3 col-xs-12" *ngIf="widgetLists.length > 0">
+        <div class="box box-info">
+          <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <i class="fa fa-envelope"></i>
+            <h3 class="box-title">Initiate chat</h3>
+          </div>
+          <div class="box-body">
+            <form>
+              <div class="form-group">
+                <label class="control-label">Number</label>
+                <input type="text" class="form-control" name="number" #number placeholder="Please enter exactly 10 digits">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Message</label>
+                <input type="text" class="form-control" name="message" #message placeholder="Message">
+              </div>
+              <div class="form-group">
+                <label class="control-label">File</label>
+                <input type="file" class="form-control" name="file" #file placeholder="attach a file for mms" (change)="uploadFile($event)">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Select a widget</label>
+                <select class="form-control" #widgetSelect name="widgetSelect">
+                  <option value="" selected>Select a Widget</option>
+                  <ng-container *ngFor="let list of widgetLists">
+                    <option [value]="list.widget_uuid" *ngIf="list.twilio_numbers !== null">
+                      {{ list.twilio_numbers.number }}
+                      {{ list.website !== null ? ' ( '  +list.website+ ' ) ' : '' }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="initiateError">
+                <span class="has-error">{{ initiateMessage }}</span>
+              </div>
+            </form>
+          </div>
+          <div class="box-footer clearfix">
+            <button type="button" class="pull-right btn btn-default" id="sendEmail" (click)="sendMessage(number.value, message.value, widgetSelect.selectedOptions[0].value)">
+              Send
+              <i class="fa fa-arrow-circle-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!--<div class="row" *ngIf="(authState | async).isAgent">-->
+          <!--<div class="col-md-4" *ngIf="!!(showChats() | async).length">-->
+              <!--<ul>-->
+                  <!--<ng-container-->
+                          <!--*ngFor="let contact of (chatState | async).ongoing; let i = index;">-->
+                      <!--<li [ngClass]="{ active : currentChatIndex == i}"-->
+                          <!--(click)="changeCurrentChat(i)" *ngIf="contact.status == 1 || contact.status == 6">-->
+                          <!--<div class="col-md-2">-->
+                              <!--<div class="chat-head row">-->
+                                  <!--<img src="../../../../assets/img/avatar5.png"-->
+                                       <!--class="img-responsive">-->
+                              <!--</div>-->
+                          <!--</div>-->
+                          <!--<div class="col-md-10">-->
+                              <!--<div class="chat-content">-->
+                                  <!--<h3>{{contact.client}} <span>{{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}} </span>-->
+                                  <!--</h3>-->
+                                  <!--<p>{{contact.room}}</p>-->
+                              <!--</div>-->
+                          <!--</div>-->
+                      <!--</li>-->
+                  <!--</ng-container>-->
+              <!--</ul>-->
+          <!--</div>-->
+
+
+
+
+
+      <!--</div>-->
+
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+
+  <!--<section class="content">-->
+    <!--&lt;!&ndash; Info boxes &ndash;&gt;-->
+    <!--<div class="row">-->
+      <!--<div class="col-md-3 col-sm-6 col-xs-12">-->
+        <!--<div class="info-box">-->
+          <!--<span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>-->
+
+          <!--<div class="info-box-content">-->
+            <!--<span class="info-box-text">CPU Traffic</span>-->
+            <!--<span class="info-box-number">90<small>%</small></span>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; /.info-box-content &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /.info-box &ndash;&gt;-->
+      <!--</div>-->
+      <!--&lt;!&ndash; /.col &ndash;&gt;-->
+      <!--<div class="col-md-3 col-sm-6 col-xs-12">-->
+        <!--<div class="info-box">-->
+          <!--<span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>-->
+
+          <!--<div class="info-box-content">-->
+            <!--<span class="info-box-text">Likes</span>-->
+            <!--<span class="info-box-number">41,410</span>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; /.info-box-content &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /.info-box &ndash;&gt;-->
+      <!--</div>-->
+      <!--&lt;!&ndash; /.col &ndash;&gt;-->
+
+      <!--&lt;!&ndash; fix for small devices only &ndash;&gt;-->
+      <!--<div class="clearfix visible-sm-block"></div>-->
+
+      <!--<div class="col-md-3 col-sm-6 col-xs-12">-->
+        <!--<div class="info-box">-->
+          <!--<span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>-->
+
+          <!--<div class="info-box-content">-->
+            <!--<span class="info-box-text">Sales</span>-->
+            <!--<span class="info-box-number">760</span>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; /.info-box-content &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /.info-box &ndash;&gt;-->
+      <!--</div>-->
+      <!--&lt;!&ndash; /.col &ndash;&gt;-->
+      <!--<div class="col-md-3 col-sm-6 col-xs-12">-->
+        <!--<div class="info-box">-->
+          <!--<span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>-->
+
+          <!--<div class="info-box-content">-->
+            <!--<span class="info-box-text">New Members</span>-->
+            <!--<span class="info-box-number">2,000</span>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; /.info-box-content &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /.info-box &ndash;&gt;-->
+      <!--</div>-->
+      <!--&lt;!&ndash; /.col &ndash;&gt;-->
+    <!--</div>-->
+  <!--</section>-->
+
+</div>

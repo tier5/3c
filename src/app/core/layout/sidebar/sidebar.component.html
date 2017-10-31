@@ -1,0 +1,249 @@
+<aside class="main-sidebar">
+    <div class="slimScrollDiv">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="../../../../assets/img/avatar5.png" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p> {{(authState | async).name}} </p>
+                    <a><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- search form -->
+            <!--<form class="sidebar-form">-->
+            <!--<div class="input-group">-->
+            <!--<input type="text" name="q" class="form-control" placeholder="Search...">-->
+            <!--<span class="input-group-btn">-->
+            <!--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>-->
+            <!--</button>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--</form>-->
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATIONS</li>
+
+                <!-- Dashboard -->
+                <li class="treeview"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a href="/dashboard">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="header" *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">USER
+                    ACCOUNTS
+                </li>
+
+                <!-- Admins -->
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a>
+                        <i class="fa fa-unlock-alt"></i> <span> Admins</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a routerLink="/admin/create"><i class="fa fa-circle-o"></i> Create</a></li>
+                        <li><a routerLink="/admin/list"><i class="fa fa-circle-o"></i> List</a></li>
+                    </ul>
+                </li>
+
+                <!-- Agents -->
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a>
+                        <i class="fa fa-lock"></i> <span> Agents</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a routerLink="/agent/create"><i class="fa fa-circle-o"></i> Create</a></li>
+                        <li><a routerLink="/agent/list"><i class="fa fa-circle-o"></i> List</a></li>
+                    </ul>
+                </li>
+
+                <li class="header" *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
+                    ORGANIZATION
+                </li>
+
+                <!-- Departments -->
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a>
+                        <i class="fa fa-puzzle-piece"></i> <span> Departments</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a routerLink="/department/create"><i class="fa fa-circle-o"></i> Create</a></li>
+                        <li><a routerLink="/department/list"><i class="fa fa-circle-o"></i> List</a></li>
+                    </ul>
+                </li>
+
+                <!-- Widgets -->
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a>
+                        <i class="fa fa-th"></i> <span>Widgets</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a routerLink="/widget/create"><i class="fa fa-circle-o"></i> Create</a></li>
+                        <li><a routerLink="/widget/list"><i class="fa fa-circle-o"></i> List</a></li>
+                    </ul>
+                </li>
+
+                <li class="header" *ngIf="(authState | async).isAgent">COMMUNICATIONS</li>
+
+                <!-- Chat Rooms -->
+                <li class="treeview"
+                    *ngIf="(authState | async).isAgent"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a>
+                        <i class="fa fa-comments"></i> <span>Chat Options</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="/chat/pending">
+                                <i class="fa fa-comment"></i> <span>New Requests</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/chat/ongoing">
+                                <i class="fa fa-comment"></i> <span>Live Sessions</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/chat/rejected">
+                                <i class="fa fa-comment"></i> <span>Rejected</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/chat/resolve">
+                                <i class="fa fa-comment"></i> <span>Closed</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+              <!-- Chat Rooms -->
+              <li class="treeview"
+                  *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                  routerLinkActive="active"
+                  [disable-hover]="true"
+                  [appDropdown]="'menu-open'"
+              >
+                <a>
+                  <i class="fa fa-comments"></i> <span>Chat Options</span>
+                  <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li>
+                    <a href="/chats/agent-live">
+                      <i class="fa fa-comment"></i> <span>Live Sessions</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/chats/agent-rejected">
+                      <i class="fa fa-comment"></i> <span>Rejected</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/chats/agent-closed">
+                      <i class="fa fa-comment"></i> <span>Closed</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+               <!--  Previous Chats of Agents
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a routerLink="/chats/list-agent">
+                        <i class="fa fa-comments"></i> <span>Chats</span>
+                        <span class="pull-right-container">
+                </span>
+                    </a>
+                </li>-->
+
+                <!-- Previous Chats of Agents -->
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a routerLink="/chats/list-agents-contacts">
+                        <i class="fa fa-address-book"></i> <span>Contact List</span>
+                        <span class="pull-right-container">
+                </span>
+                    </a>
+                </li>
+                <!-- Twilio Accounts -->
+                <li class="header" *ngIf="(authState | async).isSuperAdmin">CREDENTIALS</li>
+
+                <li class="treeview"
+                    *ngIf="(authState | async).isSuperAdmin"
+                    routerLinkActive="active"
+                    [disable-hover]="true"
+                    [appDropdown]="'menu-open'"
+                >
+                    <a>
+                        <i class="fa fa-compress"></i> <span> Twilio Accounts</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a routerLink="/twilio/sub-account"><i class="fa fa-list"></i> Twilio Sub-accounts</a></li>
+                        <li><a routerLink="/twilio/create"><i class="fa fa-circle-o"></i> Create</a></li>
+                        <li><a routerLink="/twilio/list"><i class="fa fa-circle-o"></i> List</a></li>
+                    </ul>
+                </li>
+                <!-- Twilio Accounts -->
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </div>
+</aside>

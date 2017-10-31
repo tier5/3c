@@ -1,0 +1,177 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>Closed</h1>
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>-->
+            <!--<li><a href="javascript:void(0)">Resolve Chats</a></li>-->
+            <!--<li class="active">Chat</li>-->
+        <!--</ol>-->
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <h2>Closed Chats</h2>
+                        </div>
+
+                        <div class="row" *ngIf="(chatState | async).closedChats.length > 0">
+                            <div class="col-md-3 col-sm-3">
+                                <div class="row">
+
+                                    <div class="chat-list">
+                                        <ul>
+                                            <ng-container
+                                                    *ngFor="let contact of (chatState | async).closedChats; let i = index;">
+                                                <li [ngClass]="{ active : currentChatIndex == i}"
+                                                    (click)="changeCurrentChat(i)">
+                                                    <div class="col-md-2">
+                                                        <div class="chat-head row">
+                                                            <img src="../../../../assets/img/avatar5.png"
+                                                                 class="img-responsive">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="chat-content">
+                                                            <h3>{{contact.client_name}} <span>{{contact.chat_time.date | amFromUtc | amLocal | amTimeAgo}}</span>
+                                                            </h3>
+                                                            <p>{{contact.name}}</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9">
+                                <div class="row">
+                                    <div class="box box-primary direct-chat direct-chat-primary">
+                                        <div class="box-body">
+                                            <div class="chat-btn">
+                                                <div *ngIf="(chatState | async).closedChats[currentChatIndex]?.status == 2">
+                                                    <!--<button (click)="onSomeMsgAction(5)" class="btn btn-success">Resolve Chat</button>-->
+                                                    <!--<div class="dropdown target-drop" [appDropdown]="'open'" [disable-hover]="true" >-->
+                                                    <!--<button class="btn btn-default dropdown-toggle"-->
+                                                    <!--type="button" data-toggle="dropdown">-->
+                                                    <!--Transfer-->
+                                                    <!--<span class="caret"></span>-->
+                                                    <!--</button>-->
+                                                    <!--<ul class="dropdown-menu">-->
+                                                    <!--<li class="dropdown-submenu" *ngFor="let department of (chatState | async).agentList; let i = index;">-->
+                                                    <!--<div class="dropdown" [appDropdown]="'open'" [disable-hover]="false">-->
+                                                    <!--<a class="test" tabindex="-1">{{ department.department_name }}  <span class="caret"></span></a>-->
+                                                    <!--<ul class="dropdown-menu">-->
+                                                    <!--<li><a tabindex="-1" (click)="transferChatToDepartment(department.department_id)">Transfer to department </a></li>-->
+                                                    <!--<li class="dropdown-submenu">-->
+                                                    <!--<a tabindex="-1" >Transfer to agent </a>-->
+                                                    <!--<ul class="super-sub">-->
+                                                    <!--<li *ngFor="let agent of department.agent">-->
+                                                    <!--<a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)" [ngClass]="(agent.agent_id === agentId)? 'btn-disabled' : ''"> {{ agent.first_name }}  </a>-->
+                                                    <!--</li>-->
+                                                    <!--</ul>-->
+                                                    <!--</li>-->
+                                                    <!--</ul>-->
+                                                    <!--</div>-->
+                                                    <!--</li>-->
+                                                    <!--</ul>-->
+                                                    <!--</div>-->
+                                                </div>
+                                                <!-- Conversations are loaded here -->
+                                                <div class="direct-chat-messages"
+                                                     #scrollChat>
+                                                    <!-- Message. Default to the left -->
+                                                    <div class="direct-chat-msg"
+                                                         [ngClass]="{ right: chat.direction == 2 }"
+                                                         *ngFor="let chat of (chatState | async).closedChats[currentChatIndex]?.chats">
+                                                        <div class="direct-chat-info clearfix">
+                                                            <span class="direct-chat-name"
+                                                                  [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
+                                                            <span class="direct-chat-timestamp"
+                                                                  [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'"> {{chat.created_at.date | amFromUtc | amLocal | amTimeAgo }} </span>
+                                                        </div>
+                                                        <img class="direct-chat-img"
+                                                             [src]="chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'"
+                                                             alt="Message User Image"><!-- /.direct-chat-img -->
+                                                        <div class="direct-chat-text">
+                                                          <div *ngIf="chat.isMMS">
+                                                            <a [href]="chat.fileUrl" target="_blank">
+                                                              <div *ngIf="chat.fileType === 'image'">
+                                                                <img [src]="chat.fileUrl" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'audio'">
+                                                                <img [src]="'../../../../assets/img/audio.png'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'video'">
+                                                                <img [src]="'../../../../assets/img/video.jpeg'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'document'">
+                                                                <img [src]="'../../../../assets/img/doc.jpg'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                            </a>
+                                                          </div>
+                                                            {{chat.message}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.direct-chat-messages-->
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                        <div class="box-footer"
+                                             *ngIf="(chatState | async).closedChats[currentChatIndex]?.status != 5">
+                                            <!--<form #form="ngForm" (submit)="sendMsg(form)">-->
+                                            <!--<div class="input-group">-->
+                                            <!--<input type="text"-->
+                                            <!--name="messageBody"-->
+                                            <!--placeholder="Type Message ..."-->
+                                            <!--class="form-control"-->
+                                            <!--ngModel-->
+                                            <!--required-->
+                                            <!--&gt;-->
+                                            <!--<span class="input-group-btn">-->
+                                            <!--<button type="button"-->
+                                            <!--[disabled]="!form.invalid"-->
+                                            <!--class="btn btn-default btn-flat">-->
+                                            <!--<i class="fa fa-paperclip" aria-hidden="true"></i>-->
+                                            <!--</button>-->
+                                            <!--<button type="submit"-->
+                                            <!--[disabled]="form.invalid"-->
+                                            <!--class="btn btn-primary btn-flat">-->
+                                            <!--Send-->
+                                            <!--</button>-->
+                                            <!--</span>-->
+                                            <!--</div>-->
+                                            <!--</form>-->
+                                        </div>
+                                        <!-- /.box-footer-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="row" *ngIf="!(chatState | async).ongoing.length">-->
+                        <!--<h2>No Ongoing Chats at this Moment!</h2>-->
+                        <!--</div>-->
+
+                        <div class="row">
+                            <div class="box box-primary">
+                                <div class="box-body" *ngIf="(chatState | async).closedChats.length == 0">
+                                    <h4>No Resolve Chats at this Moment!</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+
+

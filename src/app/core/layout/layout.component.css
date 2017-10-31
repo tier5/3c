@@ -1,0 +1,18 @@
+/*.main-footer {position: absolute;*/
+/*width: 100%;*/
+/*bottom: 0;*/
+/*margin: 0 !important;*/
+/*padding-right: 68px;*/
+/*}*/
+/*.fixed .wrapper{padding-bottom: 50px;}*/
+
+/*router-outlet > div {*/
+    /*min-height: 500px;*/
+/*}*/
+
+.spinnerloader{
+  z-index: 0;
+  position: relative;
+}
+
+

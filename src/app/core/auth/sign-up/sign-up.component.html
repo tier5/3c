@@ -1,0 +1,156 @@
+<div class="hold-transition register-page">
+  <div class="register-box">
+    <div class="register-logo">
+      <a [routerLink]="['/']"><b>TM</b>SMS</a>
+    </div>
+
+    <div class="register-box-body">
+      <p class="login-box-msg">Register a new membership</p>
+
+      <form [formGroup]="form" (submit)="onSignUp()">
+        <!-- First Name -->
+        <div class="form-group has-feedback">
+          <input type="text"
+                 class="form-control"
+                 placeholder="First Name"
+                 formControlName="firstName"
+          >
+          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('firstName').invalid && form.get('firstName').touched">
+          <div class="alert alert-danger" *ngIf="form.get('firstName').hasError('required')">
+            Your First Name is Required!
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group has-feedback">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Last Name"
+                 formControlName="lastName"
+          >
+          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('lastName').invalid && form.get('lastName').touched">
+          <div class="alert alert-danger" *ngIf="form.get('lastName').hasError('required')">
+            Your Last Name is Required!
+          </div>
+        </div>
+
+
+
+        <!-- Phone -->
+        <div class="form-group has-feedback">
+          <input type="text"
+                 class="form-control"
+                 [textMask]="{mask: mask, guide: false}"
+                 placeholder="Phone No"
+                 formControlName="phone"
+          >
+          <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('phone').invalid && form.get('phone').touched">
+          <div class="alert alert-danger">
+            <div *ngIf="form.get('phone').hasError('required')">
+              Your Phone Number is Required!
+            </div>
+            <div *ngIf="form.get('phone').hasError('minlength')">
+              Your Phone Number should be at least 10 Digits Long!
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group has-feedback">
+          <input type="email"
+                 class="form-control"
+                 placeholder="Email"
+                 formControlName="email"
+          >
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('email').invalid && form.get('email').touched">
+          <div class="alert alert-danger">
+            <div *ngIf="form.get('email').hasError('email')">
+              Enter a Proper Email!
+            </div>
+            <div *ngIf="form.get('email').hasError('required')">
+              Your Email is Required!
+            </div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group has-feedback">
+          <input type="password"
+                 class="form-control"
+                 placeholder="Password"
+                 formControlName="password"
+          >
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('password').invalid && form.get('password').touched">
+          <div class="alert alert-danger">
+            <div *ngIf="form.get('password').hasError('required')">
+              Your Password is Required!
+            </div>
+            <div *ngIf="form.get('password').hasError('minlength')">
+              Your Password should be at least 6 Characters Long!
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group has-feedback">
+          <input type="password"
+                 class="form-control"
+                 placeholder="Retype Password"
+                 formControlName="conf_pass"
+          >
+          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('conf_pass').invalid && form.get('conf_pass').touched">
+          <div class="alert alert-danger" >
+            <div *ngIf="form.get('conf_pass').hasError('required')">
+              Confirm password is Required!
+            </div>
+            <div *ngIf="form.get('conf_pass').hasError('confirmPassword')">
+              Confirm Password did not Match!
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-8">
+            <!--<div>-->
+              <!--<input class="styled-checkbox" id="styled-checkbox" type="checkbox" value="1">-->
+              <!--<label for="styled-checkbox">I agree to the <a href="#">terms</a></label>-->
+            <!--</div>-->
+          </div>
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <button type="submit"
+                    class="btn btn-primary btn-block btn-flat"
+                    [disabled]="form.invalid"
+            >
+              Submit
+            </button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <!--<div class="social-auth-links text-center">-->
+        <!--<p>- OR -</p>-->
+        <!--<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using-->
+          <!--Facebook</a>-->
+        <!--<a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using-->
+          <!--Google+</a>-->
+      <!--</div>-->
+
+      <a [routerLink]="['/sign-in']" class="text-center">I already have a membership</a>
+    </div>
+    <!-- /.form-box -->
+  </div>
+</div>

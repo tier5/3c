@@ -1,0 +1,143 @@
+<div class="content-wrapper">
+    <!--<section class="content-header">-->
+        <!--<h1>Departments</h1>-->
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>-->
+            <!--<li><a href="javascript:void(0)">Department</a></li>-->
+            <!--<li class="active"><a href="javascript:void(0)">List</a></li>-->
+        <!--</ol>-->
+    <!--</section>-->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">List of all Departments</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                          <div class="row filter">
+                            <div class="col-sm-4" *ngIf="!(authState | async).isAdmin;">
+                                <span class="labelwidth">company :</span>
+                              <select class='select-option filterbox' [(ngModel)]='companySearch'>
+                                <option value="">Filter by company</option>
+                                <option class='option' *ngFor='let option of companyList' [value]="option.company">{{option.company}}</option>
+                              </select>
+                            </div>
+                              <div class="col-sm-8"><span class="labelwidth">Search : </span><input [(ngModel)]="term" placeholder="All keywords" class="searchbox"></div>
+                          </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="departmentListTable" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th rowspan="1" colspan="1" >#</th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">Department Name </th>
+                                            <th rowspan="1" colspan="1" >Department Description</th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">Company </th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">Created Date</th>
+                                            <th rowspan="1" colspan="1" >Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).department.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item.department_name}}</td>
+                                            <td>{{item.department_details | slice:0:120 }}</td>
+                                            <!--<td>{{item.user_details?.company}}</td>-->
+                                            <td>{{item.company_name}}</td>
+                                            <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
+                                            <td>
+                                                <!--<button type="button" class="btn btn-primary btn-xs">-->
+                                                    <!--<i class="fa fa-search" aria-hidden="true"></i>-->
+                                                     <!--View-->
+                                                <!--</button>-->
+                                                <button type="button" class="btn btn-warning btn-xs" (click)="onEdit(item.id)"
+                                                        data-toggle="tooltip" data-placement="top" title="Edit department">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-xs" (click)="preDelete(item.id, template)"
+                                                        data-toggle="tooltip" data-placement="top" title="Delete department">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <pagination-controls class="older_post_text"
+                                                             (pageChange)="page=$event"
+                                                             maxSize="9"
+                                                             directionLinks="true"
+                                                             autoHide="true"
+                                                             previousLabel=""
+                                                             nextLabel=""
+                                                             screenReaderPaginationLabel=""
+                                                             screenReaderPageLabel="page"
+                                                             screenReaderCurrentLabel="You're on page">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Pagination -->
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Department Delete</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row" *ngIf="deleteCheckList['agents'] !== undefined && deleteCheckList['agents'].length > 0">
+        <div class="col-md-12">
+          <div class="col-md-8">
+          <h5>Following agents will be free after deleting this department:</h5>
+        </div>
+          <div class="col-md-4">
+            <div class="row" *ngFor="let department of deleteCheckList['agents']">
+              <div class="col-md-12">
+                <h5>{{ department.first_name + ' ' + department.last_name}}</h5>
+              </div>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="deleteCheckList['widgets'] !== undefined && deleteCheckList['widgets'].length > 0">
+        <div class="col-md-12">
+          <div class="col-md-8">
+            <h5>Following widgets will be free after deleting this department:</h5>
+          </div>
+          <div class="col-md-4">
+            <div class="row" *ngFor="let widgets of deleteCheckList['widgets']">
+              <div class="col-md-12">
+                <h5>{{ widgets.website }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="deleteCheckList['isSingleDepartmentWidgets']">
+        <div class="col-md-12">
+          <h4>There is some widgets which contains this department only,can't able to delete this department.</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-warning btn-lg pull-right" [disabled]="deleteCheckList['isSingleDepartmentWidgets']" (click)="deleteDepartment(deleteCheckList.department.id, template)">Delete</button>
+          <button class="btn btn-success btn-lg" aria-label="Close" (click)="bsModalRef.hide()">Skip</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

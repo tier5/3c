@@ -1,0 +1,71 @@
+<div class="content-wrapper">
+  <!--<section class="content-header">-->
+    <!--<h1>Twilio Section</h1>-->
+    <!--<ol class="breadcrumb">-->
+      <!--<li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>-->
+      <!--<li><a href="javascript:void(0)">Twilio Accounts</a></li>-->
+      <!--<li class="active"><a routerLink="/twilio/create">Create </a></li>-->
+    <!--</ol>-->
+  <!--</section>-->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <!-- /.box-header -->
+          <div class="box-body">
+            <form #form="ngForm" (submit)="onSubmit(form)">
+              <!-- text input -->
+              <div class="box-header with-border">
+                <h3 class="box-title">Create Twilio Credentials</h3>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{ 'has-error': sid.invalid && sid.touched }">
+                  <label class="control-label" for="tSid">
+                    <i *ngIf="sid.invalid && sid.touched" class="fa fa-times-circle-o"></i>
+                     Twilio SID
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         id="tSid"
+                         name="twilio_sid"
+                         [ngModel]="twilio.twilio_sid"
+                         #sid="ngModel"
+                         required
+                         placeholder="Enter ..."
+                  >
+                  <span *ngIf="sid.invalid && sid.touched" class="help-block">Your Twilio SID is Required!</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{ 'has-error': token.invalid && token.touched }">
+                  <label class="control-label" for="tToken">
+                    <i *ngIf="token.invalid && token.touched" class="fa fa-times-circle-o"></i>
+                     Twilio Token
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         id="tToken"
+                         name="twilio_token"
+                         [ngModel]="twilio.twilio_token"
+                         #token="ngModel"
+                         required
+                         placeholder="Enter ..."
+                  >
+                  <span *ngIf="token.invalid && token.touched" class="help-block">Your Twilio Token is Required!</span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="box-footer">
+                  <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right"> Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+</div>

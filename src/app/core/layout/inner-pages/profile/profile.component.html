@@ -1,0 +1,218 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            User Profile
+        </h1>
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>-->
+            <!--<li class="active">Profile</li>-->
+        <!--</ol>-->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="../../../../../assets/img/avatar5.png" alt="User profile picture">
+
+                        <h3 class="profile-username text-center"> {{(authState | async).name}}</h3>
+
+                        <p class="text-muted text-center" *ngIf="(authState | async).isSuperAdmin">Super Admin</p>
+                        <p class="text-muted text-center" *ngIf="(authState | async).isAdmin">Admin</p>
+                        <p class="text-muted text-center" *ngIf="(authState | async).isAgent">Agent</p>
+
+
+                        <!--<ul class="list-group list-group-unbordered">-->
+                            <!--<li class="list-group-item">-->
+                                <!--<b>Followers</b> <a class="pull-right">1,322</a>-->
+                            <!--</li>-->
+                            <!--<li class="list-group-item">-->
+                                <!--<b>Following</b> <a class="pull-right">543</a>-->
+                            <!--</li>-->
+                            <!--<li class="list-group-item">-->
+                                <!--<b>Friends</b> <a class="pull-right">13,287</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+
+                        <!--<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li [ngClass]="{active: selectedTab}"><a data-toggle="tab" (click)="toggleSelectedTab()">Account Info</a></li>
+                        <li [ngClass]="{active: !selectedTab}"><a data-toggle="tab" (click)="toggleSelectedTab()">Change Password</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" *ngIf="selectedTab" id="info">
+                            <form [formGroup]="profileForm" (submit)="onUpdateInfo()" class="form-horizontal">
+
+                                <!-- First Name -->
+                                <div class="form-group" [ngClass]="{ 'has-error': profileForm.get('firstName').invalid && profileForm.get('firstName').touched && profileForm.get('firstName').hasError('required') }">
+                                    <label for="fName" class="col-sm-2 control-label">
+                                        <i *ngIf="profileForm.get('firstName').invalid && profileForm.get('firstName').touched && profileForm.get('firstName').hasError('required')" class="fa fa-times-circle-o"></i>
+                                         First Name
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="fName"
+                                               formControlName="firstName"
+                                        >
+                                        <span *ngIf="profileForm.get('firstName').invalid && profileForm.get('firstName').touched && profileForm.get('firstName').hasError('required')" class="help-block">Your First Name is Required!</span>
+                                    </div>
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="form-group" [ngClass]="{ 'has-error': profileForm.get('lastName').invalid && profileForm.get('lastName').touched && profileForm.get('lastName').hasError('required') }">
+                                    <label for="lName" class="col-sm-2 control-label">
+                                        <i *ngIf="profileForm.get('lastName').invalid && profileForm.get('lastName').touched && profileForm.get('lastName').hasError('required')" class="fa fa-times-circle-o"></i>
+                                         Last Name
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="email"
+                                               class="form-control"
+                                               id="lName"
+                                               formControlName="lastName"
+                                        >
+                                        <span *ngIf="profileForm.get('lastName').invalid && profileForm.get('lastName').touched && profileForm.get('lastName').hasError('required')" class="help-block">Your Last Name is Required!</span>
+                                    </div>
+                                </div>
+
+                                <!-- User Name -->
+                                <div class="form-group" [ngClass]="{ 'has-error': profileForm.get('company').invalid && profileForm.get('company').touched }">
+                                    <label for="company" class="col-sm-2 control-label">
+                                        <i *ngIf="profileForm.get('company').invalid && profileForm.get('userName').touched" class="fa fa-times-circle-o"></i>
+                                        Company
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input *ngIf="(authState | async).isAgent" type="text"
+                                               class="form-control"
+                                               id="company"
+                                               formControlName="company"
+                                               placeholder="Company Name" disabled>
+                                        <input *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin" type="text"
+                                               class="form-control"
+                                               id="company"
+                                               formControlName="company"
+                                               placeholder="Company Name">
+                                        <span *ngIf="profileForm.get('company').invalid && profileForm.get('company').touched" class="help-block">Your User Name is Required!</span>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group" [ngClass]="{ 'has-error': profileForm.get('email').invalid && profileForm.get('email').touched }">
+                                    <label for="email" class="col-sm-2 control-label">
+                                        <i *ngIf="profileForm.get('email').invalid && profileForm.get('email').touched" class="fa fa-times-circle-o"></i>
+                                         Email
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="email"
+                                               formControlName="email"
+                                               placeholder="Name"
+                                        >
+                                        <span *ngIf="profileForm.get('email').invalid && profileForm.get('email').touched && profileForm.get('email').hasError('email')" class="help-block">Enter a Proper Email Address!</span>
+                                        <span *ngIf="profileForm.get('email').invalid && profileForm.get('email').touched && profileForm.get('email').hasError('required')" class="help-block">Your Email Address is Required!</span>
+                                    </div>
+                                </div>
+
+                                <!-- Phone No -->
+                                <div class="form-group" [ngClass]="{ 'has-error': profileForm.get('phone').invalid && profileForm.get('phone').touched }">
+                                    <label for="phoneNo" class="col-sm-2 control-label">
+                                        <i *ngIf="profileForm.get('phone').invalid && profileForm.get('phone').touched" class="fa fa-times-circle-o"></i>
+                                         Phone No
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="phoneNo"
+                                               [textMask]="{mask: mask, guide: false}"
+                                               formControlName="phone"
+                                               placeholder="PhoneNo"
+                                        >
+                                        <span *ngIf="profileForm.get('phone').invalid && profileForm.get('phone').touched && profileForm.get('phone').hasError('required')" class="help-block">Your Phone Number is Required!</span>
+                                        <span *ngIf="profileForm.get('phone').invalid && profileForm.get('phone').touched && profileForm.get('phone').hasError('minlength')" class="help-block">Your Phone Number should be at least 10 Digits Long!</span>
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-danger" [disabled]="profileForm.invalid"><i *ngIf="loader1" class="fa fa-spinner fa-spin"></i> Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="tab-pane active" *ngIf="!selectedTab" id="password">
+                            <form [formGroup]="passwordForm" (submit)="onUpdatePassword()" class="form-horizontal">
+
+                                <!-- Password -->
+                                <div class="form-group" [ngClass]="{ 'has-error': passwordForm.get('password').invalid && passwordForm.get('password').touched }">
+                                    <label for="pass" class="col-sm-2 control-label">
+                                        <i *ngIf="passwordForm.get('password').invalid && passwordForm.get('password').touched" class="fa fa-times-circle-o"></i>
+                                         Password
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="password"
+                                               class="form-control"
+                                               id="pass"
+                                               formControlName="password"
+                                        >
+                                        <span *ngIf="passwordForm.get('password').invalid && passwordForm.get('password').touched && passwordForm.get('password').hasError('required')" class="help-block">Your Password is Required!</span>
+                                        <span *ngIf="passwordForm.get('password').invalid && passwordForm.get('password').touched && passwordForm.get('password').hasError('minlength')" class="help-block">Your Password is Required!</span>
+                                    </div>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="form-group" [ngClass]="{ 'has-error': passwordForm.get('confPassword').invalid && passwordForm.get('confPassword').touched }">
+                                    <label for="cnfPass" class="col-sm-2 control-label">
+                                        <i *ngIf="passwordForm.get('confPassword').invalid && passwordForm.get('confPassword').touched" class="fa fa-times-circle-o"></i>
+                                         Confirm Password
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="password"
+                                               class="form-control"
+                                               id="cnfPass"
+                                               formControlName="confPassword"
+                                        >
+                                        <span *ngIf="passwordForm.get('confPassword').invalid && passwordForm.get('confPassword').touched && passwordForm.get('confPassword').hasError('required')" class="help-block">Confirm Password is Required!</span>
+                                        <span *ngIf="passwordForm.get('confPassword').invalid && passwordForm.get('confPassword').touched && passwordForm.get('confPassword').hasError('confirmPassword')" class="help-block">Confirm Password did not Match!</span>
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-danger" [disabled]="passwordForm.invalid"> <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i> Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+</div>

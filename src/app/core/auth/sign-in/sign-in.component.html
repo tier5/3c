@@ -1,0 +1,91 @@
+<div class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <a [routerLink]="['/']"><b>TM</b>SMS</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+
+      <form #form="ngForm" (submit)="onSignIn(form)">
+        <div class="form-group has-feedback">
+          <input type="email"
+                 class="form-control"
+                 placeholder="Email"
+                 name="email"
+                 required
+                 ngModel
+                 #email="ngModel"
+          >
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="alert alert-danger" *ngIf="email.invalid && email.touched">
+          <div *ngIf="form.controls.email?.errors.required">
+            Your Email Address or Username is Required!
+          </div>
+        </div>
+
+        <div class="form-group has-feedback">
+          <input type="password"
+                 class="form-control"
+                 placeholder="Password"
+                 name="password"
+                 required
+                 ngModel
+                 minlength="6"
+                 #password="ngModel"
+          >
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="alert alert-danger" *ngIf="password.invalid && password.touched">
+          <div *ngIf="form.controls.password?.errors.minlength">
+            Password must be 6 characters long!
+          </div>
+          <div *ngIf="form.controls.password?.errors.required">
+            Your password is required!
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-4">
+            <!--<div class="checkbox icheck">-->
+              <!--<label>-->
+                <!--<input type="checkbox"> Remember Me-->
+              <!--</label>-->
+            <!--</div>-->
+          </div>
+          <div class="col-xs-4">
+            <a class="btn btn-primary btn-block btn-flat" [routerLink]="['/sign-up']">
+              Sign Up
+            </a>
+          </div>
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <button type="submit"
+                    class="btn btn-primary btn-block btn-flat"
+                    [disabled]="form.invalid"
+            >
+              Sign In
+            </button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <!--<div class="social-auth-links text-center">-->
+        <!--<p>- OR -</p>-->
+        <!--<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using-->
+          <!--Facebook</a>-->
+        <!--<a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using-->
+          <!--Google+</a>-->
+      <!--</div>-->
+      <!-- /.social-auth-links -->
+
+      <a [routerLink]="['/forgot-password']">I forgot my password</a><br>
+      <!--<a [routerLink]="['/sign-up']" class="text-center">Register a new membership</a>-->
+
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+
+</div>

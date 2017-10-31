@@ -1,0 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic");
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+html{background: #D2D6DE; height: auto;}
+body{background: #D2D6DE;}

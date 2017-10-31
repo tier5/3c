@@ -1,0 +1,78 @@
+<div class="content-wrapper">
+    <!--<section class="content-header">-->
+        <!--<h1>Twilio Section</h1>-->
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>-->
+            <!--<li><a href="javascript:void(0)">Twilio Accounts</a></li>-->
+            <!--<li class="active"><a routerLink="/twilio/list">List </a></li>-->
+        <!--</ol>-->
+    <!--</section>-->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">List of Twilio Accounts</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="All fields"></div>
+                                <div class="col-sm-6"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="twilioTable" class="table table-bordered table-hover dataTable"
+                                           role="grid" aria-describedby="example2_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th rowspan="1" colspan="1">#</th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">User
+                                            </th>
+                                            <!--<th class="sorting" rowspan="1" colspan="1" >User Name</th>-->
+                                            <th rowspan="1" colspan="1">Email Address</th>
+                                            <th rowspan="1" colspan="1">Twilio SID</th>
+                                            <th rowspan="1" colspan="1">Twilio Account Type</th>
+                                            <th rowspan="1" colspan="1" >Created Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr role="row" class="odd"
+                                            *ngFor="let item of (afterLoginState | async).twilio.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item.user_info.first_name}} {{item.user_info.last_name}}</td>
+                                            <!--<td>{{item.user_info.username}}</td>-->
+                                            <td>{{item.user_info.email}}</td>
+                                            <td>{{item.twilio_sid}}</td>
+                                            <td>{{ item.user_info.type == '1' ? 'Main Account' : 'Subaccount' }}</td>
+                                            <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <pagination-controls class="older_post_text"
+                                                             (pageChange)="page=$event"
+                                                             maxSize="9"
+                                                             directionLinks="true"
+                                                             autoHide="true"
+                                                             previousLabel=""
+                                                             nextLabel=""
+                                                             screenReaderPaginationLabel=""
+                                                             screenReaderPageLabel="page"
+                                                             screenReaderCurrentLabel="You're on page">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
