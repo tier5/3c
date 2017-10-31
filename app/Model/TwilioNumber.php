@@ -1,0 +1,20 @@
+<?php
+/**
+* TwilioNumber model to manage CRUD operation and relations of twilio_numbers table.
+*/
+namespace App\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class TwilioNumber extends Model
+{
+  /**
+  * @var boolean
+  */
+  public $timestamps = true;
+
+  /**
+  * @var null|string
+  */
+  protected $table = 'twilio_numbers';
+}
