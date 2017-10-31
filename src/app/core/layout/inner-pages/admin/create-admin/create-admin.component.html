@@ -1,0 +1,147 @@
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>Admin Section</h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="#">Tables</a></li>
+      <li class="active">Data tables</li>
+    </ol>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <!-- /.box-header -->
+          <div class="box-body" *ngIf="(authState | async).twilioIsActive">
+            <form #form="ngForm" (submit)="onSubmit(form)">
+              <!-- text input -->
+              <div class="box-header with-border">
+                <h3 class="box-title">Create Admin</h3>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="(firstName.invalid && firstName.touched) ? 'has-error': ''">
+                    <label class="control-label" for="firstName">First Name
+                      <i *ngIf="firstName.invalid && firstName.touched" class="fa fa-times-circle-o"></i>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="firstName"
+                           name="firstName"
+                           [ngModel]="admin.firstName"
+                           #firstName="ngModel"
+                           required
+                           placeholder="First Name"
+                    >
+                    <span *ngIf="firstName.invalid && firstName.touched" class="help-block">Your First Name is Required !</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="(lastName.invalid && lastName.touched) ? 'has-error': ''">
+                    <label class="control-label" for="lastName">Last Name
+                      <i *ngIf="lastName.invalid && lastName.touched" class="fa fa-times-circle-o"></i>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="lastName"
+                           name="lastName"
+                           [ngModel]="admin.lastName"
+                           #lastName="ngModel"
+                           required
+                           placeholder="Last Name"
+                    >
+                    <span *ngIf="lastName.invalid && lastName.touched" class="help-block">Your Last Name is Required !</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="(email.invalid && email.touched) ? 'has-error': ''">
+                    <label class="control-label" for="email">Email
+                      <i *ngIf="email.invalid && email.touched" class="fa fa-times-circle-o"></i>
+                    </label>
+                    <input type="email"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           [ngModel]="admin.email"
+                           #email="ngModel"
+                           email
+                           required
+                           placeholder="email"
+                    >
+                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.email" class="help-block">Please Enter a Proper Email Address!</span>
+                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required" class="help-block">Your Email Address is Required!</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="(userName.invalid && userName.touched) ? 'has-error': ''">
+                    <label class="control-label" for="userName">Username
+                      <i *ngIf="userName.invalid && userName.touched" class="fa fa-times-circle-o"></i>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="userName"
+                           placeholder="Username"
+                           [ngModel]="admin.userName"
+                           name="userName"
+                           required
+                           ngModel
+                           #userName="ngModel"
+                    >
+                    <span *ngIf="userName.invalid && userName.touched" class="help-block">Your Username is Required !</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="(phone.invalid && phone.touched) ? 'has-error': ''">
+                    <label class="control-label" for="phone">Phone
+                      <i *ngIf="phone.invalid && phone.touched" class="fa fa-times-circle-o"></i>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           [textMask]="{mask: mask, guide: false}"
+                           id="phone"
+                           placeholder="phone"
+                           [ngModel]="admin.phone"
+                           name="phone"
+                           required
+                           ngModel
+                           #phone="ngModel"
+                    >
+                    <span *ngIf="phone.invalid && phone.touched" class="help-block">Your Phone Number is Required !</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Company</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Company"
+                           [ngModel]="admin.company"
+                           name="company"
+                           ngModel
+                           #company="ngModel"
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="box-footer">
+                  <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right" >Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="box-body" *ngIf="!(authState | async).twilioIsActive">
+            <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+</div>

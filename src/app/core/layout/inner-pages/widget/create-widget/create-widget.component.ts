@@ -1,0 +1,235 @@
+import { ActivatedRoute, Data } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { IDatePickerConfig } from 'ng2-date-picker';
+import { Subscription } from 'rxjs/Subscription';
+import { Moment } from 'moment'
+
+import * as AdminActions from '../../../store/admin/admin.actions';
+import * as DepartmentActions from '../../../store/department/department.actions';
+import * as WidgetActions from '../../../store/widget/widget.actions';
+import * as fromAuth from '../../../../store/auth/auth.reducers';
+import * as fromAfterLogin from '../../../store/after-login.reducers';
+import 'rxjs/add/operator/distinctUntilChanged'
+
+interface FileReaderEventTarget extends EventTarget {
+  result: string
+}
+
+interface FileReaderEvent extends Event {
+  target: FileReaderEventTarget;
+
+  getMessage(): string;
+}
+
+@Component({
+  selector: 'app-create-widget',
+  templateUrl: './create-widget.component.html',
+  styleUrls: ['./create-widget.component.css']
+})
+export class CreateWidgetComponent implements OnInit, OnDestroy {
+
+  /** Variable Declaration */
+  @ViewChild('form') form: NgForm;
+  authState: Observable<fromAuth.State>;
+  afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  afterLoginSubscription: Subscription;
+  editMode: boolean = false;
+  widgetId: number;
+  id: number
+  updateWidget: any
+  widget = {
+    id: 0,
+    userId: 0,
+    parentId: 0,
+    departmentIdArray: 0,
+    departmentId: 0,
+    website: '',
+    scheduleTimezone: '',
+    details: '',
+    areaCode: '',
+    daysArray: '',
+    startTime: '',
+    endTime: '',
+    image: ''
+  };
+
+  config: IDatePickerConfig = {
+    firstDayOfWeek: 'su',
+    monthFormat: 'MMM, YYYY',
+    disableKeypress: true,
+    allowMultiSelect: false,
+    closeOnSelect: undefined,
+    closeOnSelectDelay: 100,
+    onOpenDelay: 0,
+    weekDayFormat: 'ddd',
+    appendTo: document.body,
+    drops: 'down',
+    opens: 'right',
+    showNearMonthDays: false,
+    showWeekNumbers: false,
+    enableMonthSelector: true,
+    yearFormat: 'YYYY',
+    showGoToCurrent: true,
+    dayBtnFormat: 'DD',
+    monthBtnFormat: 'MMM',
+    hours12Format: 'hh',
+    hours24Format: 'HH',
+    meridiemFormat: 'A',
+    minutesFormat: 'mm',
+    minutesInterval: 1,
+    secondsFormat: 'ss',
+    secondsInterval: 1,
+    showSeconds: false,
+    showTwentyFourHours: false,
+    timeSeparator: ':',
+    multipleYearsNavigateBy: 10,
+    showMultipleYearsNavigation: false,
+    locale: 'en'
+  };
+  validationMinTime: Moment;
+
+
+  departments: any;
+
+  /** Initializing variables */
+  postedImage: File;
+  hideUploadedImage: boolean = true;
+
+  /** Service injection */
+  constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>,
+               private activatedRoute: ActivatedRoute,
+               private cdr: ChangeDetectorRef,
+               private element: ElementRef) { }
+
+  ngOnInit () {
+    this.store.dispatch(new AdminActions.GetAdminListAttempt());
+    this.store.dispatch(new WidgetActions.GetTimeZoneListAttempt());
+    this.authState = this.store.select('auth');
+    this.afterLoginState = this.store.select('afterLogin');
+
+    this.activatedRoute.data.subscribe(
+      (data: Data) => {
+        this.editMode = data['editMode'];
+        /** Perform operation is present mode is edit mode */
+        if (this.editMode) {
+          this.widgetId = this.activatedRoute.snapshot.params['id'];
+          this.store.dispatch(new WidgetActions.GetWidgetToEditAttempt({ widgetId: this.widgetId }));
+
+          this.updateWidget = this.store.select('afterLogin')
+            .map(data => data.widget.toEdit)
+            .distinctUntilChanged()
+            .subscribe(
+              (widget) => {
+                if(widget) {
+                  this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId:  widget.user_id}));
+                  this.widget.id = widget.id;
+                  this.widget.userId = widget.user_id;
+                  this.widget.website = widget.website;
+                  this.widget.details = widget.details;
+                  this.widget.scheduleTimezone = widget.schedule_timezone;
+                  this.widget.areaCode = widget.area_code;
+                  this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
+                  this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
+                  this.widget.daysArray = widget.widget_schedule ? (widget.widget_schedule.day).split(',') : '';
+                  this.widget.departmentId = widget.widget_department ? widget.widget_department.department_id : '';
+                  // const image = this.element.nativeElement.querySelector('.uploaded-image');
+                  // image.src = widget.image;
+                  // this.hideUploadedImage = false;
+                  this.cdr.detectChanges();
+                }
+              }
+            )
+        }
+      }
+    )
+    this.afterLoginSubscription = this.store.select('afterLogin')
+      .map(data => data.widget.resetWidgetForm)
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.form.reset()
+            this.store.dispatch(new WidgetActions.ResetWidgetForm())
+          }
+        }
+      )
+  }
+
+  /** Function call to create or edit a admin */
+  onSubmit (form: NgForm) {
+    if (this.editMode) {
+      const data = {...form.value}
+      this.store.dispatch(new WidgetActions.EditWidgetAttempt({...data}))
+    } else {
+      const formData = new FormData()
+      formData.append('image', this.postedImage)
+      formData.append('userId', form.value.userId)
+      formData.append('departmentIdArray', form.value.departmentIdArray)
+      formData.append('website', form.value.website)
+      formData.append('details', form.value.details)
+      formData.append('scheduleTimezone', form.value.scheduleTimezone)
+      formData.append('areaCode', form.value.areaCode)
+      formData.append('daysArray', form.value.daysArray)
+      formData.append('startTime', form.value.startTime)
+      formData.append('endTime', form.value.endTime)
+
+      this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData))
+    }
+  }
+
+  /** Un-subscribing from all custom made events when component is destroyed */
+  ngOnDestroy () {
+    this.afterLoginSubscription.unsubscribe();
+  }
+
+  /** Function call to upload image or video */
+  fileUploaded (event) {
+
+    if (event.target.files.length > 0) {
+      this.hideUploadedImage = false
+      this.postedImage = event.target.files[0]
+      const image = this.element.nativeElement.querySelector('.uploaded-image')
+      const reader = new FileReader()
+
+      reader.onload = function (fre: FileReaderEvent) {
+        const src = fre.target.result
+        image.src = src
+      }
+
+      reader.readAsDataURL(event.target.files[0])
+    } else {
+      this.hideUploadedImage = true
+      this.postedImage = undefined
+    }
+
+  }
+
+  /* Function to fetch department list with respect to adminId/userId */
+  adminChanged (id: number) {
+    if (!!id) {
+      this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: id}));
+    }
+  }
+
+  removeUploadedImage() {
+    this.hideUploadedImage = true;
+    this.postedImage = undefined;
+  }
+
+  log1(event) {
+    if(event) {
+      this.validationMinTime = this.form.value.startTime;
+      this.cdr.detectChanges();
+      const date = new Date( event )
+    }
+  }
+
+  log2(event) {
+    if(event) {
+      const date = new Date( event )
+    }
+  }
+
+}

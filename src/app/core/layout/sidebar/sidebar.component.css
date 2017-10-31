@@ -1,0 +1,13 @@
+a {
+    cursor: pointer;
+}
+.main-sidebar{
+    overflow: hidden;
+    min-width: 240px;
+}
+.sidebar{
+    overflow-y: auto;
+    height: 90%;
+    position: absolute;
+    width: 250px;
+}

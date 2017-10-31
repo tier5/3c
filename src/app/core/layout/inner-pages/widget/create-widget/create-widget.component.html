@@ -1,0 +1,301 @@
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1><span>Widget Section</span></h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Tables</a></li>
+            <li class="active">Data tables</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                    <div class="box-body" *ngIf="(authState | async).twilioIsActive">
+                        <form #form="ngForm" (submit)="onSubmit(form)">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    <span *ngIf="editMode">Edit </span>
+                                    <span *ngIf="!editMode">Create </span>
+                                    Widget
+                                </h3>
+                            </div>
+
+                            <div class="row">
+
+                                <!-- Admin for Widget -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="admin">
+                                            Admin for Widget
+                                        </label>
+                                        <select class="form-control"
+                                                id="admin"
+                                                name="userId"
+                                                [disabled]="editMode"
+                                                #selectedAdmin
+                                                [ngModel]="widget.userId"
+                                                (change)="adminChanged(selectedAdmin.value)">
+                                            <option selected value="0">Choose...</option>
+                                            <option [value]="item.id"
+                                                    *ngFor="let item of (afterLoginState | async).admin?.list; let i = index">
+                                                {{item.first_name}} {{item.last_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Department -->
+                                <div class="col-md-6" *ngIf="selectedAdmin.value > 0">
+                                    <div class="form-group">
+                                        <label class="control-label" for="department">
+                                            Department for Widget
+                                        </label>
+                                        <select class="form-control"
+                                                id="department"
+                                                name="departmentIdArray"
+                                                [disabled]="editMode"
+                                                #selectedDepartment="ngModel"
+                                                [ngModel]="widget.departmentId" multiple
+                                        >
+                                            <option [value]="item.id"
+                                                    *ngFor="let item of (afterLoginState | async).department.list"
+                                            >
+                                                {{item.department_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" *ngIf="selectedAdmin.value > 0">
+
+                                <!-- Web Site URL -->
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         [ngClass]="(website.invalid && website.touched) ? 'has-error': ''">
+                                        <label class="control-label" for="website">
+                                            <i *ngIf="website.invalid && website.touched"
+                                               class="fa fa-times-circle-o">
+                                            </i>
+                                            Website URL
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="website"
+                                               name="website"
+                                               [ngModel]="widget.website"
+                                               #website="ngModel"
+                                               required
+                                               placeholder="Website URL"
+                                        >
+                                        <span *ngIf="website.invalid && website.touched" class="help-block">Website URL is Required !</span>
+                                    </div>
+                                </div>
+
+                                <!-- Web Site Details -->
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         [ngClass]="(details.invalid && details.touched) ? 'has-error': ''">
+                                        <label class="control-label" for="details">
+                                            <i *ngIf="details.invalid && details.touched"
+                                               class="fa fa-times-circle-o">
+                                            </i>
+                                            Widget Details
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="details"
+                                               name="details"
+                                               [ngModel]="widget.details"
+                                               #details="ngModel"
+                                               required
+                                               placeholder="Details about the widget ...."
+                                        >
+                                        <span *ngIf="details.invalid && details.touched" class="help-block">Widget details is Required !</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" *ngIf="selectedAdmin.value > 0">
+
+                                <!-- TimeZone -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="timezone">
+                                            Timezone
+                                        </label>
+                                        <select class="form-control"
+                                                id="timezone"
+                                                name="scheduleTimezone"
+                                                [disabled]="editMode"
+                                                #selectedTimezone
+                                                required
+                                                [ngModel]="widget.scheduleTimezone"
+                                        >
+                                            <option selected value="0">Choose...</option>
+                                            <option [value]="item.id"
+                                                    *ngFor="let item of (afterLoginState | async).widget?.timezoneList; let i = index"
+                                            >
+                                                {{item.timezone_name}}
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <!-- Area Code -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="areaCode">Area Code</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="areaCode"
+                                               name="areaCode"
+                                               [ngModel]="widget.areaCode"
+                                               placeholder="Area Code"
+                                        >
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" *ngIf="selectedAdmin.value > 0">
+                                <div class="col-md-6">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="image">Widget Logo </label>
+                                        <i class="fa fa-upload fa-4x" aria-hidden="true"></i>
+                                        <input type="file"
+                                               class="form-control"
+                                               id="image"
+                                               (change)="fileUploaded($event)"
+                                               accept="image/*"
+                                               name="image"
+                                               ngModel
+                                               #fileUpload="ngModel"
+
+                                        >
+                                    </div>
+                                    <span *ngIf="fileUpload.invalid && fileUpload.touched && postedImage===undefined" class="help-block">Website URL is Required!</span>
+                                    <div class="col-md-6" [hidden]="hideUploadedImage">
+                                            <div class="image">
+                                                <i class="fa fa-times-circle fa-pull-right"
+                                                   aria-hidden="true"
+                                                   (click)="removeUploadedImage()"
+                                                ></i>
+                                                <img
+                                                        class="img-responsive uploaded-image"
+                                                        width="100%"
+                                                        height="auto"
+                                                />
+                                            </div>
+                                        </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         [ngClass]="(daysArray.invalid && daysArray.touched) ? 'has-error': ''">
+                                        <label class="control-label" for="settings">Limit setting time & days </label>
+                                        <select name="daysArray"
+                                                class="form-control"
+                                                [ngModel]="widget.daysArray"
+                                                required
+                                                #daysArray="ngModel" id="settings" multiple>
+                                            <option value="Mon">Mon</option>
+                                            <option value="Tue">Tue</option>
+                                            <option value="Wed">Wed</option>
+                                            <option value="Thu">Thu</option>
+                                            <option value="Fri">Fri</option>
+                                            <option value="Sat">Sat</option>
+                                            <option value="Sun">Sun</option>
+                                        </select>
+                                        <span *ngIf="daysArray.invalid && daysArray.touched" class="help-block">Choosing Available Days is Required!</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="selectedAdmin.value > 0">
+                                <!-- From Time -->
+                                <div class="col-md-6"
+                                     [ngClass]="(timeDirectivePickerModel1.invalid && timeDirectivePickerModel1.touched) ? 'has-error': ''">
+                                    <div class="form-group">
+                                        <label class="control-label" for="startTime">
+                                            <i *ngIf="timeDirectivePickerModel1.invalid && timeDirectivePickerModel1.touched"
+                                               class="fa fa-times-circle-o">
+                                            </i>
+                                             From Time
+                                        </label>
+                                        <input id="startTime"
+                                               class="form-control"
+                                               [dpDayPicker]="config"
+                                               name="startTime"
+                                               #dateDirectivePicker1="dpDayPicker"
+                                               #timeDirectivePickerModel1="ngModel"
+                                               mode="time"
+                                               [ngModel]="widget.startTime"
+                                               [placeholder]="'Choose a time ...'"
+                                               [required]="'required'"
+                                               (onChange)="log1($event)"
+                                               [theme]="'dp-material dp-main'"
+                                        />
+                                        <span *ngIf="timeDirectivePickerModel1.invalid && timeDirectivePickerModel1.touched && timeDirectivePickerModel1.errors?.required" class="help-block">Start Time is Required!</span>
+                                    </div>
+                                </div>
+
+                                <!-- To Time -->
+                                <div class="col-md-6"
+                                     [ngClass]="(timeDirectivePickerModel2.invalid && timeDirectivePickerModel2.touched) ? 'has-error': ''">
+                                    <div class="form-group" >
+                                        <label class="control-label" for="endTime">
+                                            <i *ngIf="timeDirectivePickerModel2.invalid && timeDirectivePickerModel2.touched"
+                                               class="fa fa-times-circle-o">
+                                            </i>
+                                             To Time
+                                        </label>
+                                        <input id="endTime"
+                                               class="form-control"
+                                               [dpDayPicker]="config"
+                                               name="endTime"
+                                               #dateDirectivePicker2="dpDayPicker"
+                                               #timeDirectivePickerModel2="ngModel"
+                                               mode="time"
+                                               [ngModel]="widget.endTime"
+                                               [placeholder]="'Choose a time ...'"
+                                               [minTime]="validationMinTime"
+                                               [required]="'required'"
+                                               (onChange)="log2($event)"
+                                               [theme]="'dp-material dp-main'"
+                                        />
+
+                                            <span *ngIf="timeDirectivePickerModel2.invalid && timeDirectivePickerModel2.touched && timeDirectivePickerModel2.errors?.required" class="help-block">End Time is Required</span>
+                                            <span *ngIf="timeDirectivePickerModel2.invalid && timeDirectivePickerModel2.touched && timeDirectivePickerModel2.errors?.minTime" class="help-block">End Time Should before Start Time</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="box-footer">
+                                    <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="box-body" *ngIf="!(authState | async).twilioIsActive">
+                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+</div>

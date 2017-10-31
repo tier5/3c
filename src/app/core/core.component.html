@@ -1,0 +1,3 @@
+<router-outlet></router-outlet>
+
+<app-alert *ngIf="(alertState | async).show" [text]="(alertState | async).message" [type]="(alertState | async).type"></app-alert>

@@ -1,0 +1,15 @@
+label {
+    display: block;
+}
+
+i.fa-upload {
+    position: absolute;
+}
+
+i.fa-upload, i.fa-times-circle {
+    cursor: pointer;
+}
+
+input[type=file] {
+    opacity: 0;
+}
