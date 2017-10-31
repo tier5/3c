@@ -1,0 +1,27 @@
+1. user table migration and seeder v1.0
+  * Created User,UserToken Table Migration and User table Seeder
+2. universal login api v1.0
+  * Universal Login API for login to the system.
+  * Fetching data for a user with the token generated in the time of login.
+3. Forget Password API v1.0
+  * forget password api for the system.
+4. modified gitignore file and add some js file
+  * Modified the .gitignore file.
+  * Add js file which are related to the theam.
+5. update user profile v1.0
+  * Update User profile API.
+6. store and view twilio credentials api v1.0
+  * Store Twilio information in db.
+  * fetch twilio information form db.
+7. admin registration api v1.0
+  *Admin registration api
+  *Create twilio subacount with the admin Credentials
+  *store twilio information(twilio_sid,twilio_token) to local db
+8. admin list api v1.0
+  * modification in the status response in the API.
+9. admin list api v1.1
+  * Admin List api
+  * Emulate User Api
+  * Block user API
+  * Unblock User API
+  * Update Admin Details API
