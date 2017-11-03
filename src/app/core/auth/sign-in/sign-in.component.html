@@ -25,7 +25,7 @@
             Please Enter a Proper Email Address!
           </div>
           <div *ngIf="form.controls.email?.errors.required">
-            <strong>Danger!</strong> Your Email Address is Required!
+            Your Email Address is Required!
           </div>
         </div>
 
@@ -80,7 +80,7 @@
       <!--</div>-->
       <!-- /.social-auth-links -->
 
-      <a href="#">I forgot my password</a><br>
+      <a [routerLink]="['/forgot-password']">I forgot my password</a><br>
       <a [routerLink]="['/sign-up']" class="text-center">Register a new membership</a>
 
     </div>

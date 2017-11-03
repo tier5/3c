@@ -14,7 +14,8 @@ import { HeaderComponent } from './layout/header/header.component'
 import { LayoutComponent } from './layout/layout.component'
 import { NotAuthGuard } from './auth/not-auth.guard'
 import { reducers } from './store/core.reducers';
-import { SidebarComponent } from './layout/sidebar/sidebar.component'
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { AlertComponent } from './alert/alert.component'
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component'
     CoreComponent,
     LayoutComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    AlertComponent
   ],
   exports: [CoreComponent],
   providers: [

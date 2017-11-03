@@ -9,6 +9,8 @@ const coreRoutes: Routes = [
   { path: '',  pathMatch: 'full', redirectTo: 'sign-in' },
   { path: 'sign-in', canActivate: [ NotAuthGuard ], loadChildren: './auth/sign-in/sign-in.module#SignInModule' },
   { path: 'sign-up', canActivate: [ NotAuthGuard ], loadChildren: './auth/sign-up/sign-up.module#SignUpModule' },
+  { path: 'forgot-password', canActivate: [ NotAuthGuard ], loadChildren: './auth/forgot-password/forgot-password.module#ForgotPasswordModule' },
+  { path: 'reset-password', canActivate: [ NotAuthGuard ], loadChildren: './auth/reset-password/reset-password.module#ResetPasswordModule' },
   { path: '', canActivate: [ AuthGuard ], component: LayoutComponent, children: [
     { path: 'dashboard', loadChildren: './inner-pages/dashboard/dashboard.module#DashboardModule'}
   ] },
@@ -20,4 +22,3 @@ const coreRoutes: Routes = [
   exports: [RouterModule]
 })
 export class CoreRoutingModule { }
-

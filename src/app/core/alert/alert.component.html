@@ -1,0 +1,12 @@
+<div class="alert"
+     role="alert"
+     *ngIf="show"
+     [style.background]="color"
+     [style.color]="font"
+     [style.opacity]="opacity"
+>
+  {{text}}
+  <i (click)="dismiss()"
+     class="fa fa-remove fa-fw pull-right"
+  ></i>
+</div>
