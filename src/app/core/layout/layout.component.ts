@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
+  hovered:boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleLeftSidebar($event){
+    this.hovered = $event.type == 'mouseover';
+    if ($event.type == 'click') {
+      this.hovered = !this.hovered;
+    }
   }
 
 }

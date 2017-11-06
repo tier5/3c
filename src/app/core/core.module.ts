@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { StoreModule } from '@ngrx/store'
 
+import { AlertComponent } from './alert/alert.component';
 import { AuthEffects } from './store/auth/auth.effects';
 import { AuthGuard } from './auth/auth.guard'
 import { CoreComponent } from './core.component';
@@ -14,14 +15,15 @@ import { HeaderComponent } from './layout/header/header.component'
 import { LayoutComponent } from './layout/layout.component'
 import { NotAuthGuard } from './auth/not-auth.guard'
 import { reducers } from './store/core.reducers';
+import { SharedModule } from './shared/shared.module'
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { AlertComponent } from './alert/alert.component'
 
 @NgModule({
   imports: [
     CommonModule,
     CoreRoutingModule,
     HttpClientModule,
+    SharedModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []

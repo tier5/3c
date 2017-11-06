@@ -49,7 +49,6 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
-
   /** Function call on submit */
   onResetPassword () {
     const obj = {
