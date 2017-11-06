@@ -1,6 +1,3 @@
 <router-outlet></router-outlet>
 
-
-<app-alert [color]="successColor" [text]='successText']></app-alert>
-<app-alert [color]="warningCOlor" [text]="warningText"></app-alert>
-<app-alert [color]="dangerColor" [text]="dangerText"></app-alert>
+<app-alert *ngIf="(alertState | async).show" [text]="(alertState | async).message" [type]="(alertState | async).type"></app-alert>

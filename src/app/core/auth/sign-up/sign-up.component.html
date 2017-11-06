@@ -38,6 +38,42 @@
           </div>
         </div>
 
+        <!-- User Name -->
+        <div class="form-group has-feedback">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Username"
+                 formControlName="userName"
+          >
+          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('userName').invalid && form.get('userName').touched">
+          <div class="alert alert-danger" *ngIf="form.get('userName').hasError('required')">
+            Your Username is Required!
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group has-feedback">
+          <input type="text"
+                 class="form-control"
+                 [textMask]="{mask: mask, guide: false}"
+                 placeholder="Phone No"
+                 formControlName="phone"
+          >
+          <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+        </div>
+        <div *ngIf="form.get('phone').invalid && form.get('phone').touched">
+          <div class="alert alert-danger">
+            <div *ngIf="form.get('phone').hasError('required')">
+              Your Password is Required!
+            </div>
+            <div *ngIf="form.get('phone').hasError('minlength')">
+              Your Phone Number should be at least 10 Digits Long!
+            </div>
+          </div>
+        </div>
+
         <!-- Email -->
         <div class="form-group has-feedback">
           <input type="email"
@@ -49,11 +85,11 @@
         </div>
         <div *ngIf="form.get('email').invalid && form.get('email').touched">
           <div class="alert alert-danger">
-            <div *ngIf="form.get('email').hasError('required')">
-              Your Email is Required!
-            </div>
             <div *ngIf="form.get('email').hasError('email')">
               Enter a Proper Email!
+            </div>
+            <div *ngIf="form.get('email').hasError('required')">
+              Your Email is Required!
             </div>
           </div>
         </div>

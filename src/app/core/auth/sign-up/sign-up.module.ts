@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core';
+import { TextMaskModule } from 'angular2-text-mask'
 
 import { SignUpComponent } from './sign-up.component';
 import { SignUpRoutingModule } from './sign-up-routing.module';
@@ -10,7 +11,8 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SignUpRoutingModule
+    SignUpRoutingModule,
+    TextMaskModule
   ],
   declarations: [SignUpComponent]
 })

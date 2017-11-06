@@ -1,11 +1,8 @@
-<div class="alert"
+<div class="alert animated fadeInRight"
      role="alert"
-     *ngIf="show"
      [style.background]="color"
-     [style.color]="font"
-     [style.opacity]="opacity"
 >
-  {{text}}
+  <strong>{{text}}</strong>
   <i (click)="dismiss()"
      class="fa fa-remove fa-fw pull-right"
   ></i>
