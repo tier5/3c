@@ -565,7 +565,7 @@ a:focus {
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.sidebar-menu .active > .treeview-menu {
+.sidebar-menu .menu-open > .treeview-menu {
   display: block;
 }
 /*

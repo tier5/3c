@@ -12,7 +12,8 @@ const coreRoutes: Routes = [
   { path: 'forgot-password', canActivate: [ NotAuthGuard ], loadChildren: './auth/forgot-password/forgot-password.module#ForgotPasswordModule' },
   { path: 'reset-password/:id', canActivate: [ NotAuthGuard ], loadChildren: './auth/reset-password/reset-password.module#ResetPasswordModule' },
   { path: '', canActivate: [ AuthGuard ], component: LayoutComponent, children: [
-    { path: 'dashboard', loadChildren: './inner-pages/dashboard/dashboard.module#DashboardModule'}
+    { path: 'dashboard', loadChildren: './inner-pages/dashboard/dashboard.module#DashboardModule'},
+    { path: 'profile', loadChildren: './inner-pages/profile/profile.module#ProfileModule'}
   ] },
   { path: '**', redirectTo: 'sign-in' }
 ];

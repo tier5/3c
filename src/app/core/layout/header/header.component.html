@@ -19,7 +19,7 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
         <!-- Messages: style can be found in dropdown.less-->
-        <li class="dropdown messages-menu" appDropdown>
+        <li class="dropdown messages-menu" [appDropdown]="'open'">
           <a class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-envelope-o"></i>
             <span class="label label-success">4</span>
@@ -49,7 +49,7 @@
         </li>
 
         <!-- Notifications: style can be found in dropdown.less -->
-        <li class="dropdown notifications-menu" appDropdown>
+        <li class="dropdown notifications-menu" [appDropdown]="'open'">
           <a class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-bell-o"></i>
             <span class="label label-warning">10</span>
@@ -71,7 +71,7 @@
         </li>
 
         <!-- Tasks: style can be found in dropdown.less -->
-        <li class="dropdown tasks-menu" appDropdown>
+        <li class="dropdown tasks-menu" [appDropdown]="'open'">
           <a class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-flag-o"></i>
             <span class="label label-danger">9</span>
@@ -104,7 +104,7 @@
         </li>
 
         <!-- User Account: style can be found in dropdown.less -->
-        <li class="dropdown user user-menu" appDropdown>
+        <li class="dropdown user user-menu" [appDropdown]="'open'">
           <a  class="dropdown-toggle" data-toggle="dropdown">
             <img src="../../../../assets/img/avatar5.png" class="user-image" alt="User Image">
             <span class="hidden-xs">Jon Vaughn</span>
@@ -115,29 +115,28 @@
               <img src="../../../../assets/img/avatar5.png" class="img-circle" alt="User Image">
 
               <p>
-                Jon Vaughn - Web Developer
+                Jon Vaughn - Super Admin
                 <small>Member since Nov. 1999</small>
               </p>
             </li>
             <!-- Menu Body -->
-            <li class="user-body">
-              <div class="row">
-                <div class="col-xs-4 text-center">
-                  <a>Followers</a>
-                </div>
-                <div class="col-xs-4 text-center">
-                  <a>Sales</a>
-                </div>
-                <div class="col-xs-4 text-center">
-                  <a>Friends</a>
-                </div>
-              </div>
-              <!-- /.row -->
-            </li>
+            <!--<li class="user-body">-->
+              <!--<div class="row">-->
+                <!--<div class="col-xs-4 text-center">-->
+                  <!--<a>Followers</a>-->
+                <!--</div>-->
+                <!--<div class="col-xs-4 text-center">-->
+                  <!--<a>Sales</a>-->
+                <!--</div>-->
+                <!--<div class="col-xs-4 text-center">-->
+                  <!--<a>Friends</a>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</li>-->
             <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
-                <a class="btn btn-default btn-flat">Profile</a>
+                <a class="btn btn-default btn-flat" routerLink="/profile"> Profile</a>
               </div>
               <div class="pull-right">
                 <a class="btn btn-default btn-flat">Sign out</a>

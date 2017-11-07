@@ -1,23 +1,41 @@
-import { Directive, HostBinding, HostListener } from '@angular/core'
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core'
 
 @Directive({
   selector: '[appDropdown]'
 })
 export class DropdownDirective {
 
-  @HostBinding('class.open') isOpen = false;
+  @Input('appDropdown') dd: string;
+  @Input('disable-hover') dh: boolean = false;
 
-  constructor() { }
+  clicked: boolean = false;
+
+  constructor(private renderer: Renderer2,
+              private el: ElementRef) { }
 
   @HostListener('click') toggle () {
-    this.isOpen = !this.isOpen;
+    if (this.el.nativeElement.classList.contains(this.dd)) {
+      this.renderer.removeClass(this.el.nativeElement, this.dd);
+      this.clicked = true;
+    } else {
+      this.renderer.addClass(this.el.nativeElement, this.dd);
+      this.clicked = false;
+    }
   }
 
   @HostListener('mouseover') toggleOpen () {
-    this.isOpen = true;
+    if(!this.dh) {
+      this.renderer.addClass(this.el.nativeElement, this.dd);
+    }
   }
 
   @HostListener('mouseout') toggleClose () {
-    this.isOpen = false;
-  }
+    if (!this.dh) {
+      if (!this.clicked) {
+        this.renderer.removeClass(this.el.nativeElement, this.dd);
+      }
+      this.renderer.removeClass(this.el.nativeElement, this.dd);
+      }
+    }
+
 }
