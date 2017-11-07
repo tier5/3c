@@ -34,40 +34,40 @@ export class AuthEffects {
         headers: headers
       }
       return this.httpClient.post(apiUrl, action.payload, config)
-    })
-    .mergeMap((res: any) => {
-      if (res.status) {
-        return [
-          {
-            type: AlertActions.ALERT_SHOW,
-            payload: {message: res.message, type: 'success'}
-          },
-          {
-            type: AuthActions.SIGNUP_SUCCESS,
-            payload: true
+        .mergeMap((res: any) => {
+          if (res.status) {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'success'}
+              },
+              {
+                type: AuthActions.SIGNUP_SUCCESS,
+                payload: true
+              }
+            ]
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'danger'}
+              },
+              {
+                type: AuthActions.SIGNUP_FAILED,
+              }
+            ]
           }
-        ]
-      } else {
-        return [
-          {
-            type: AlertActions.ALERT_SHOW,
-            payload: {message: res.message, type: 'danger'}
-          },
-          {
-            type: AuthActions.SIGNUP_FAILED,
-          }
-        ]
-      }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.message, type: 'danger' }
+            }
+          )
+        })
     })
-    .retry()
-    .catch((err: HttpErrorResponse) => {
-      return of(
-        {
-          type: AlertActions.ALERT_SHOW,
-          payload: { message: err.error.email ? err.error.email[0] : '', type: 'danger' }
-        }
-      )
-    })
+
 
   @Effect()
   authSignIn = this.actions$
@@ -79,30 +79,30 @@ export class AuthEffects {
         headers: headers
       }
       return this.httpClient.post(apiUrl, action.payload, config)
+        .map((res: any) => {
+          if (res.status) {
+            this.router.navigate(['/dashboard'])
+            return {
+              type: AuthActions.SIGNIN_SUCCESS,
+              payload: res.response.userToken
+            }
+          } else {
+            return {
+              type: AlertActions.ALERT_SHOW,
+              payload: {message: res.message, type: 'danger'}
+            }
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.error.message, type: 'danger' }
+            }
+          )
+        })
     })
-    .map((res: any) => {
-      if (res.status) {
-        this.router.navigate(['/dashboard'])
-        return {
-          type: AuthActions.SIGNIN_SUCCESS,
-          payload: res.response.userToken
-        }
-      } else {
-        return {
-          type: AlertActions.ALERT_SHOW,
-          payload: {message: res.message, type: 'danger'}
-        }
-      }
-    })
-    .retry()
-    .catch((err: HttpErrorResponse) => {
-      return of(
-        {
-          type: AlertActions.ALERT_SHOW,
-          payload: { message: err.error.message, type: 'danger' }
-        }
-      )
-    })
+
 
   @Effect()
   authForgotPassword = this.actions$
@@ -114,41 +114,41 @@ export class AuthEffects {
         headers: headers
       }
       return this.httpClient.post(apiUrl, action.payload, config)
-    })
-    .mergeMap((res: any) => {
-      if (res.status) {
-        this.router.navigate(['/sign-in']);
-        return [
-          {
-            type: AlertActions.ALERT_SHOW,
-            payload: {message: res.message, type: 'success'}
-          },
-          {
-            type: AuthActions.FORGOT_PASSWORD_SUCCESS,
-            payload: true
+        .mergeMap((res: any) => {
+          if (res.status) {
+            this.router.navigate(['/sign-in']);
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'success'}
+              },
+              {
+                type: AuthActions.FORGOT_PASSWORD_SUCCESS,
+                payload: true
+              }
+            ]
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'danger'}
+              },
+              {
+                type: 'FORGOT_PASSWORD_FAILED',
+              }
+            ]
           }
-        ]
-      } else {
-        return [
-          {
-            type: AlertActions.ALERT_SHOW,
-            payload: {message: res.message, type: 'danger'}
-          },
-          {
-            type: 'FORGOT_PASSWORD_FAILED',
-          }
-        ]
-      }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.error.message, type: 'danger' }
+            }
+          )
+        })
     })
-    .retry()
-    .catch((err: HttpErrorResponse) => {
-      return of(
-        {
-          type: AlertActions.ALERT_SHOW,
-          payload: { message: err.error.message, type: 'danger' }
-        }
-      )
-    })
+
 
   @Effect()
   authResetPassword = this.actions$
@@ -160,41 +160,41 @@ export class AuthEffects {
         headers: headers
       }
       return this.httpClient.post(apiUrl, action.payload, config)
-    })
-    .mergeMap((res: any) => {
-      if (res.status) {
-        this.router.navigate(['/sign-in']);
-        return [
-          {
-            type: AlertActions.ALERT_SHOW,
-            payload: {message: res.message, type: 'success'}
-          },
-          {
-            type: AuthActions.RESET_PASSWORD_SUCCESS,
-            payload: true
+        .mergeMap((res: any) => {
+          if (res.status) {
+            this.router.navigate(['/sign-in']);
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'success'}
+              },
+              {
+                type: AuthActions.RESET_PASSWORD_SUCCESS,
+                payload: true
+              }
+            ]
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'danger'}
+              },
+              {
+                type: 'RESET_PASSWORD_SUCCESS',
+              }
+            ]
           }
-        ]
-      } else {
-        return [
-          {
-            type: AlertActions.ALERT_SHOW,
-            payload: {message: res.message, type: 'danger'}
-          },
-          {
-            type: 'RESET_PASSWORD_SUCCESS',
-          }
-        ]
-      }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.error.message, type: 'danger' }
+            }
+          )
+        })
     })
-    .retry()
-    .catch((err: HttpErrorResponse) => {
-      return of(
-        {
-          type: AlertActions.ALERT_SHOW,
-          payload: { message: err.error.message, type: 'danger' }
-        }
-      )
-    })
+
 
   // @Effect()
   // authSignOut = this.actions$
