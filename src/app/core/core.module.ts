@@ -10,13 +10,11 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { AuthGuard } from './auth/auth.guard'
 import { CoreComponent } from './core.component';
 import { CoreRoutingModule } from './core-routing.module';
-import { environment } from '../../environments/environment'
-import { HeaderComponent } from './layout/header/header.component'
-import { LayoutComponent } from './layout/layout.component'
-import { NotAuthGuard } from './auth/not-auth.guard'
+import { environment } from '../../environments/environment';
+import { LayoutModule } from './layout/layout.module'
+import { NotAuthGuard } from './auth/not-auth.guard';
 import { reducers } from './store/core.reducers';
-import { SharedModule } from './shared/shared.module'
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -24,15 +22,13 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
     CoreRoutingModule,
     HttpClientModule,
     SharedModule,
+    LayoutModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [
     CoreComponent,
-    LayoutComponent,
-    HeaderComponent,
-    SidebarComponent,
     AlertComponent
   ],
   exports: [CoreComponent],
