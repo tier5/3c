@@ -8,13 +8,19 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 export class HeaderComponent implements OnInit {
 
   @Output() tls: EventEmitter<any> = new EventEmitter();
+  @Output() mtls: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
   }
 
   toggleLeftSidebar() {
-    this.tls.emit(event);
+    if(window.screen.width <= 767) {
+      this.mtls.emit(event);
+    } else {
+      this.tls.emit(event);
+    }
   }
 
 }

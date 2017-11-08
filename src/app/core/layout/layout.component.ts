@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  hovered:boolean = false;
+  hovered: boolean = false;
+  mobileViewClicked: boolean = false;
 
   constructor() { }
 
@@ -19,6 +20,13 @@ export class LayoutComponent implements OnInit {
       this.hovered = !this.hovered;
     } else {
       this.hovered = $event.type == 'mouseover';
+    }
+  }
+
+  toggleLeftSidebarMobile($event) {
+    if ($event.type == 'click') {
+      this.mobileViewClicked = !this.mobileViewClicked;
+      console.log(this.mobileViewClicked);
     }
   }
 

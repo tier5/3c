@@ -1,16 +1,23 @@
 <div class="skin-blue fixed sidebar-mini sidebar-mini-expand-feature"
-     [ngClass]="hovered ? 'sidebar-expanded-on-hover' : 'sidebar-collapse'"
+     [ngClass]="{
+                  'sidebar-expanded-on-hover': hovered,
+                  'sidebar-collapse': !hovered,
+                  'sidebar-open': mobileViewClicked
+                }"
 >
 <!-- Site wrapper -->
 <div class="wrapper">
 
-
-  <app-header (tls)="toggleLeftSidebar($event)"></app-header>
+  <app-header (mtls)="toggleLeftSidebarMobile($event)"
+              (tls)="toggleLeftSidebar($event)"
+  ></app-header>
   <!-- =============================================== -->
 
   <!-- Left side column. contains the sidebar -->
 
-  <app-sidebar (mouseover)="toggleLeftSidebar($event)" (mouseout)="toggleLeftSidebar($event)"></app-sidebar>
+  <app-sidebar (mouseover)="toggleLeftSidebar($event)"
+               (mouseout)="toggleLeftSidebar($event)"
+  ></app-sidebar>
   <!-- =============================================== -->
 
   <router-outlet></router-outlet>
@@ -219,5 +226,4 @@
 </div>
 <!-- ./wrapper -->
 </div>
-<!-- sidebar-expanded-on-hover -->
-<!-- sidebar-collapse -->
+
