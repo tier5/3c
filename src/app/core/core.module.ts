@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects'
-import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { StoreModule } from '@ngrx/store'
@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store'
 import { AlertComponent } from './alert/alert.component';
 import { AuthEffects } from './store/auth/auth.effects';
 import { AuthGuard } from './auth/auth.guard'
+import { AuthInterceptor } from './auth/auth.interceptor'
 import { CoreComponent } from './core.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { environment } from '../../environments/environment';
@@ -34,7 +35,8 @@ import { SharedModule } from './shared/shared.module';
   exports: [CoreComponent],
   providers: [
     AuthGuard,
-    NotAuthGuard
+    NotAuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
 })
 export class CoreModule { }

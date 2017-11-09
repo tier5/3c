@@ -26,7 +26,6 @@ export class LayoutComponent implements OnInit {
   toggleLeftSidebarMobile($event) {
     if ($event.type == 'click') {
       this.mobileViewClicked = !this.mobileViewClicked;
-      console.log(this.mobileViewClicked);
     }
   }
 

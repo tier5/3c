@@ -195,6 +195,39 @@ export class AuthEffects {
         })
     })
 
+  @Effect()
+  authSignOut = this.actions$
+    .ofType(AuthActions.SIGNOUT_ATTEMPT)
+    .switchMap((action: AuthActions.SignOutAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'log-out'
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const config = {
+        headers: headers
+      }
+      return this.httpClient.post(apiUrl, '', config)
+        .map((res: any) => {
+          if (res.status) {
+            this.router.navigate(['/'])
+            return {
+              type: AuthActions.SIGNOUT_SUCCESS
+            }
+          } else {
+            return {
+              type: AlertActions.ALERT_SHOW,
+              payload: {message: res.message, type: 'danger'}
+            }
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.error.message, type: 'danger' }
+            }
+          )
+        })
+    })
+
 
   // @Effect()
   // authSignOut = this.actions$

@@ -11,6 +11,7 @@ i {
 }
 
 :host {
+    z-index: 1001;
     position: fixed;
     width: 35%;
     right: 5px;
