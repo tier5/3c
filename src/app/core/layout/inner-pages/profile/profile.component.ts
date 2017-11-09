@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store'
+
+import * as fromProfile from '../../store/profile/profile.reducers';
+import * as ProfileActions from '../../store/profile/profile.actions'
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +11,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<fromProfile.ProfileState>) { }
 
   ngOnInit() {
+    this.store.dispatch(new ProfileActions.GetProfileAttempt());
   }
 
 }
