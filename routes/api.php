@@ -38,3 +38,27 @@ Route::post('emulate-user','UserController@emulateUser');
 Route::post('block-user','UserController@blockUser');
 //Unblock user
 Route::post('unblock-user','UserController@unblockUser');
+
+//User logOut
+Route::any('log-out','UserController@logOut');
+//create Department
+Route::post('create-department','DepartmentController@createDepartment');
+//edit Department
+Route::post('edit-department','DepartmentController@editDepartment');
+//view Department
+Route::post('view-department','DepartmentController@viewDepartment');
+//Depaerment List
+Route::post('department-list','DepartmentController@departmentList');
+
+// Agent register
+Route::post('agent-register','UserController@agentRegister');
+// Agent List of an Admin or SuperAdmin
+Route::post('listofAgent','UserController@listofAgent');
+// Edit Agent
+Route::post('agent-update','UserController@updateAgent');
+// Block Unblock Agent
+Route::post('agent-status-update','UserController@agentStatusUpdate');
+// validate Twilio Credentials
+Route::get('validate-twilio-credentials','TwilioController@validateTwilioCredentials');
+// Twilio Account List
+Route::get('twilio-account-list','TwilioController@twilioAccountList');

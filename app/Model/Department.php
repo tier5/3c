@@ -1,12 +1,12 @@
 <?php
 /**
-* Users model to manage CRUD operation and relations of users table.
+* Department model to manage CRUD operation and relations of department table.
 */
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Users extends Model
+class Department extends Model
 {
   /**
   * @var boolean
@@ -16,5 +16,5 @@ class Users extends Model
   /**
   * @var null|string
   */
-  protected $table = 'users';
+  protected $table = 'department';
 }

@@ -25,3 +25,41 @@
   * Block user API
   * Unblock User API
   * Update Admin Details API
+10. Modify Login API, Registration API, Update User API v1.0
+  * Username integration in Login API
+  * Username integration in Registration API
+  * Username integration in Update User API
+
+11. User Logout API v1.0
+  * user logout api
+12. update login and user creation Seeder
+  * update the login function for the user type flag.
+  * add profile status flag to Seeder
+13. departments api v1.0
+  * create department
+  * edit department
+  * view department
+  * department List
+
+14. Agent API v1.0
+  * Create Agent API
+  * Get AGent List
+  * Edit Agent
+  * Activate/Deactivate Agent
+  * Emulate User
+15. departments api v1.1
+  * modify the create and edit department function
+16. departments api v1.2
+  * modify the department list function
+
+17. UsersController & TwilioController Modification
+  * Reindentation
+  * Response Code Modification
+18. Controllers & Model Modification v1.2
+  * Reindentation
+  * Response Code Modification
+  * Proper Comments and documentation
+19. API response change & logout Modified
+  * Modification in each Add API
+  * Edit API for sending current set of data as a part of response
+  * Logout function modified

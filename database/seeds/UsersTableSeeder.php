@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
           'username' => 'Superadmin',
           'type'=> '1',
           'password' => Hash::make('123456'),
+          'profile_status'=>1,
       ]);
     }
 }
