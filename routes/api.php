@@ -49,7 +49,6 @@ Route::post('edit-department','DepartmentController@editDepartment');
 Route::post('view-department','DepartmentController@viewDepartment');
 //Depaerment List
 Route::post('department-list','DepartmentController@departmentList');
-
 // Agent register
 Route::post('agent-register','UserController@agentRegister');
 // Agent List of an Admin or SuperAdmin
@@ -62,3 +61,23 @@ Route::post('agent-status-update','UserController@agentStatusUpdate');
 Route::get('validate-twilio-credentials','TwilioController@validateTwilioCredentials');
 // Twilio Account List
 Route::get('twilio-account-list','TwilioController@twilioAccountList');
+// Get available phone numbers from Twilio
+Route::get('getPurchasedPhoneNumber/{widgetId}/{userId}/{areaCode}', 'TwilioController@getPurchasedPhoneNumber');
+// create Widgets
+Route::post('createWidgets', 'WidgetController@createWidgets');
+// Get list of Widgets
+Route::get('listWidgets', 'WidgetController@listWidgets');
+
+//Create Twilio SID for Admin User
+Route::post('create-user-twilio-sid','UserController@createUserTwilioSid');
+
+// Update Widgets
+Route::post('updateWidgets', 'WidgetController@updateWidgets');
+// Widget Department Mapping
+Route::post('updateWidgetDepartment', 'WidgetController@updateWidgetDepartment');
+// Widget Schedule Mapping
+Route::post('updateWidgetSchedule', 'WidgetController@updateWidgetSchedule');
+// View Widget
+Route::post('viewWidgets', 'WidgetController@viewWidgets');
+//Timezone API
+Route::get('get-timezone', 'WidgetController@getTimezones');

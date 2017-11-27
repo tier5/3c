@@ -63,3 +63,27 @@
   * Modification in each Add API
   * Edit API for sending current set of data as a part of response
   * Logout function modified
+20. Make migrations and model for widgets, widget_department_mapping, widget_schedule_mapping, twilio_numbers
+  * widgets
+  * widget_department_mapping
+  * widget_schedule_mapping
+  * twilio_numbers
+21. Widget API v1.0
+  * Modify in Widget migration
+  * Api to Create widget
+22. Widget API v1.1
+  * Lists Widgets
+  * Update Widgets
+  * Update Widget Department
+  * Update Widget Schedule
+  * View Widget
+  * Integrate Department creation and schedule insertion at widget creation
+  * Integrate Department creation and schedule insertion at widget updation
+23. Add image to Widget Api
+  * Migration for add image column to widgets Table
+  * Upload image and save it to database
+  * Edit image and save it to database
+24. Change Params in WidgetsController
+  * Request params change to camelcase
+25. Create migration to modify widget_schedule_mapping table
+  * Add timestamps for widget_schedule_mapping table.

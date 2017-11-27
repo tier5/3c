@@ -6,6 +6,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Department;
+use App\Model\DepartmentAgentMap;
 use Illuminate\Http\Request;
 use Auth,Mail,Hash;
 use Response;
@@ -91,7 +93,7 @@ class UserController extends Controller
             'status'  => false,
             'code'    => 400,
             'error'   => true,
-            'response'=> null,
+            'response'=> [],
             'message' => 'Invalid username or password!'
         ));
 
@@ -127,7 +129,7 @@ class UserController extends Controller
                 'status'  => false,
                 'code'    => 400,
                 'error'   => true,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'No User Found !'
             ));
 
@@ -138,7 +140,7 @@ class UserController extends Controller
             'status'  => false,
             'code'    => 400,
             'error'   => true,
-            'response'=> null,
+            'response'=> [],
             'message' => 'Invalid token !'
         ));
 
@@ -190,7 +192,7 @@ class UserController extends Controller
                     'code'    => 200,
                     'status'  => true,
                     'error'   => false,
-                    'response'=> null,
+                    'response'=> [],
                     'message' => 'Password Reset Mail Successfully Send To Your Registered Email!!'
                 ]);
 
@@ -202,7 +204,7 @@ class UserController extends Controller
                     'code'    => 400,
                     'status'  => false,
                     'error'   => true,
-                    'response'=> null,
+                    'response'=> [],
                     'message' => 'Try Again !!!'
                 ));
 
@@ -213,7 +215,7 @@ class UserController extends Controller
                 'status'  => false,
                 'code'    => 400,
                 'error'   => true,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'No User Found !'
             ));
 
@@ -252,7 +254,7 @@ class UserController extends Controller
                   'code'    => 400,
                   'error'   => true,
                   'status'  => false,
-                  'response'=> null,
+                  'response'=> [],
                   'message' => 'Try Again!!'
                 ]);
 
@@ -262,7 +264,7 @@ class UserController extends Controller
                     'code'    => 200,
                     'error'   => false,
                     'status'  => true,
-                    'response'=> null,
+                    'response'=> [],
                     'message' => 'Password Reset Mail Successfully Send To Your Registered Email!!'
                 ]);
 
@@ -273,7 +275,7 @@ class UserController extends Controller
             'status'  => false,
             'code'    => 400,
             'error'   => true,
-            'response'=> null,
+            'response'=> [],
             'message' => 'No User Found !'
         ));
 
@@ -284,7 +286,7 @@ class UserController extends Controller
             'status'  => false,
             'code'    => 400,
             'error'   => true,
-            'response'=> null,
+            'response'=> [],
             'message' => 'No User Found !'
         ));
 
@@ -319,7 +321,7 @@ class UserController extends Controller
              return Response::json(array(
                  'status'  => false,
                  'code'    => 400,
-                 'response'=> null,
+                 'response'=> [],
                  'error'   => true,
                  'message' => 'No User Found !'
              ));
@@ -330,7 +332,7 @@ class UserController extends Controller
           return Response::json(array(
              'status'  => false,
              'code'    => 400,
-             'response'=> null,
+             'response'=> [],
              'error'   => true,
              'message' => 'Invalid ID !'
           ));
@@ -363,18 +365,18 @@ class UserController extends Controller
               'success' => true,
               'error'   => false,
               'status'  => true,
-              'response'=> null,
+              'response'=> [],
               'message' => 'Your Password Updated Successfully!'
             ]);
 
         } else {
 
             return Response()->json([
-                'code'    =>400,
+                'code'    => 400,
                 'success' => false,
                 'error'   => true,
                 'status'  => false,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'Try Again!'
             ]);
 
@@ -386,7 +388,7 @@ class UserController extends Controller
             'error'   => true,
             'success' => false,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => 'Password And Confirm Password Is Not Same!'
         ]);
 
@@ -433,7 +435,7 @@ class UserController extends Controller
                         'code'    => 400,
                         'error'   => true,
                         'status'  => false,
-                        'response'=> null,
+                        'response'=> [],
                         'message' => 'Email ID already exists !'
                     ]);
 
@@ -455,7 +457,7 @@ class UserController extends Controller
                         'code'    => 400,
                         'error'   => true,
                         'status'  => false,
-                        'response'=> null,
+                        'response'=> [],
                         'message' => 'UserName already exists !'
                     ]);
 
@@ -483,7 +485,7 @@ class UserController extends Controller
            'code'    => 400,
            'error'   => true,
            'status'  => false,
-           'response'=> null,
+           'response'=> [],
            'message' => 'Not a valid User ID !'
         ]);
 
@@ -503,8 +505,17 @@ class UserController extends Controller
     $email     = trim($request->email);
     $userName  = trim($request->userName);
     $phone     = $request->phone;
-    $password  = $request->password;
     $company   = $request->company;
+
+    if( $request->password !="" ){
+
+        $password = $request->password; //take user inputed password
+
+    } else {
+
+        $password = $this->generateRandomString(); //generate Random Password for the admin
+
+    }
 
     //Assign the parentId adn User type of the Created User
     if(Auth::check()){
@@ -576,6 +587,8 @@ class UserController extends Controller
                       }
                   }
 
+                  $this->sendRegistrationEmail($email,$password); //send email and password to the register admin user
+
                   return Response()->json([
                      'code'    => 200,
                      'success' => true,
@@ -592,7 +605,7 @@ class UserController extends Controller
                        'success' => false,
                        'error'   => true,
                        'status'  => false,
-                       'response'=> null,
+                       'response'=> [],
                        'message' => 'Admin User not saved,please try again in a while !'
                    ]);
 
@@ -604,7 +617,7 @@ class UserController extends Controller
                  'error'   => true,
                  'success' => false,
                  'status'  => false,
-                 'response'=> null,
+                 'response'=> [],
                  'message' => 'Email ID exist,please choose new email id !'
               ]);
 
@@ -616,7 +629,7 @@ class UserController extends Controller
              'error'   => true,
              'success' => false,
              'status'  => false,
-             'response'=> null,
+             'response'=> [],
              'message' => 'Username exist,please choose new username !'
           ]);
 
@@ -628,7 +641,7 @@ class UserController extends Controller
           'error'   => true,
           'success' => false,
           'status'  => false,
-          'response'=> null,
+          'response'=> [],
           'message' => 'Please provide valid data !'
       ]);
 
@@ -643,7 +656,7 @@ class UserController extends Controller
    */
   public function adminList()
   {
-    $adminList = Users::where('type',2)->select('id','parent_id','first_name','last_name','email','username','type','phone','company','created_at','updated_at')->get();
+    $adminList = Users::where('type',2)->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')->with('twilioInfo')->get();
 
     if(count($adminList)!=0){
 
@@ -708,7 +721,7 @@ class UserController extends Controller
                 'success' => false,
                 'error'   => true,
                 'status'  => false,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'Sorry user not found !'
             ]);
 
@@ -720,7 +733,7 @@ class UserController extends Controller
             'error'   => true,
             'success' => false,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => 'Sorry user not found !'
         ]);
 
@@ -762,12 +775,14 @@ class UserController extends Controller
 
             }
 
+            $getUser = Users::where('id',$userId)->with('twilioInfo')->first();
+
             return Response()->json([
                 'code'    => 200,
                 'success' => true,
                 'error'   => false,
                 'status'  => true,
-                'response'=> null,
+                'response'=> $getUser,
                 'message' => 'User Blocked !'
             ]);
 
@@ -778,7 +793,7 @@ class UserController extends Controller
                 'success' => false,
                 'error'   => true,
                 'status'  => false,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'User Not Blocked try again later !'
             ]);
 
@@ -790,7 +805,7 @@ class UserController extends Controller
             'success' => false,
             'error'   => true,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => 'User not found !'
         ]);
 
@@ -832,11 +847,13 @@ class UserController extends Controller
 
             }
 
+            $getUser = Users::where('id',$userId)->with('twilioInfo')->first();
+
             return Response()->json([
                 'code'    => 200,
                 'success' => true,
                 'status'  => true,
-                'response'=> null,
+                'response'=> $getUser,
                 'message' => 'User Unblocked !'
             ]);
 
@@ -846,7 +863,7 @@ class UserController extends Controller
                 'code'    => 400,
                 'success' => false,
                 'status'  => false,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'User Not Unblock try again later !'
             ]);
 
@@ -857,7 +874,7 @@ class UserController extends Controller
               'code'    => 400,
               'error'   => true,
               'status'  => false,
-              'response'=> null,
+              'response'=> [],
               'message' => 'User not found !'
           ]);
 
@@ -887,7 +904,7 @@ class UserController extends Controller
                     'code'    => 200,
                     'success' => true,
                     'status'  => true,
-                    'response'=> null,
+                    'response'=> [],
                     'message' => 'User Logged Out !'
                 ]);
 
@@ -897,7 +914,7 @@ class UserController extends Controller
                     'code'    => 400,
                     'success' => false,
                     'status'  => false,
-                    'response'=> null,
+                    'response'=> [],
                     'message' => 'User Not Logged Out !'
                 ]);
 
@@ -908,7 +925,7 @@ class UserController extends Controller
                 'code'    => 400,
                 'success' => false,
                 'status'  => false,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'User Not Found !'
             ]);
 
@@ -919,7 +936,7 @@ class UserController extends Controller
             'code'    => 400,
             'success' => false,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => 'Token Not Found !'
         ]);
 
@@ -939,10 +956,10 @@ class UserController extends Controller
     $email      = trim($request->email);
     $userName   = trim($request->userName);
     $phone      = $request->phone;
-    $password   = $request->password;
-    $parentId   = $request->parentId;
-    $department = $request->department;
-    $type       = 3;
+    $password   = $this->generateRandomString(); //generate Random Password for the agent
+    $parentId   = $request->parentId; //admin ID
+    $departmentId = $request->departmentId; //department id
+    $type       = 3;  //Agent User
 
     if($email!="" && $userName!= ""){
 
@@ -967,14 +984,21 @@ class UserController extends Controller
 
               if($saveUser->save()){
 
-                  return Response()->json([
-                      'code'    => 200,
-                      'success' => true,
-                      'error'   => false,
-                      'status'  => true,
-                      'response'=> $saveUser,
-                      'message' => 'Agent User Saved !'
-                  ]);
+                  $saveDepartment                = new DepartmentAgentMap;
+                  $saveDepartment->department_id = $departmentId;
+                  $saveDepartment->user_id       = $saveUser->id;
+                  $saveDepartment->save();
+
+                $this->sendRegistrationEmail($email,$password); //send email and password to the register Agent
+
+                return Response()->json([
+                    'code'    => 200,
+                    'success' => true,
+                    'error'   => false,
+                    'status'  => true,
+                    'response'=> $saveUser,
+                    'message' => 'Agent User Saved !'
+                ]);
 
               } else {
 
@@ -983,7 +1007,7 @@ class UserController extends Controller
                      'error'   => true,
                      'success' => false,
                      'status'  => false,
-                     'response'=> null,
+                     'response'=> [],
                      'message' => 'Agent User not saved,please try again in a while !'
                  ]);
 
@@ -995,7 +1019,7 @@ class UserController extends Controller
                  'error'   => true,
                  'success' => false,
                  'status'  => false,
-                 'response'=> null,
+                 'response'=> [],
                  'message' => 'Email ID exist,please choose new email id !'
               ]);
 
@@ -1007,7 +1031,7 @@ class UserController extends Controller
              'error' => true,
              'success' => false,
              'status' => false,
-             'response'=> null,
+             'response'=> [],
              'message' => 'Username exist,please choose new username !'
           ]);
 
@@ -1019,7 +1043,7 @@ class UserController extends Controller
            'error'   => true,
            'success' => false,
            'status'  => false,
-           'response'=> null,
+           'response'=> [],
            'message' => 'Please provide valid data !'
         ]);
 
@@ -1034,24 +1058,33 @@ class UserController extends Controller
    */
   public function listofAgent(Request $request)
   {
-    $adminId = $request->parent_id;
+    $userToken = $request->token;
 
-    if ($adminId!='') { //Get agent list of an admin
+    if ($userToken!='') { //Get agent list of an admin
 
-        $getAgents = Users::where('parent_id',$adminId)->get();
+        $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
+        if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
 
-    } else {  // Get all agents
+            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails')->get();
+        } else {  // Get all agents
 
-        $getAgents = Users::where('type',3)->get();
+            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails')->get();
 
-    }
-    if (count($getAgents)!=0) {
+        }
 
-        $response = array('code'=>200,'error'=>true,'response'=>$getAgents,'status'=>true,'message'=>'List of Agents !');
+        if (count($getAgents)!=0) {
 
-    } else{
+            $response = array('code'=>200,'error'=>false,'response'=>$getAgents,'status'=>true,'message'=>'List of Agents !');
 
-        $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Agent Found !');
+        } else{
+
+            $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Agent Found !');
+
+        }
+
+    }else{
+
+        $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Invalid Token !');
 
     }
 
@@ -1066,15 +1099,15 @@ class UserController extends Controller
    */
   public function updateAgent(Request $request)
   {
-    $userId     = $request->id;
+    $userId     = $request->userId;
     $firstName  = $request->firstName;
     $lastName   = $request->lastName;
     $email      = trim($request->email);
     $userName   = trim($request->userName);
     $phone      = $request->phone;
-    $password   = $request->password;
-    $parentId   = $request->parentId;
-    $department = $request->department;
+    //$password   = $request->password;
+    // $parentId   = $request->parentId;
+    // $department = $request->departmentId;
 
     if ($userId!='') {
 
@@ -1092,36 +1125,35 @@ class UserController extends Controller
                   $checkUser->first_name = $firstName;
                   $checkUser->last_name  = $lastName;
                   $checkUser->phone      = $phone;
-                  $checkUser->password   = Hash::make($password);
-                  $checkUser->parent_id  = $parentId;
+                  // $checkUser->parent_id  = $parentId;
 
                 if ($checkUser->save()){ // Save user data
 
-                    $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>false,'message'=>'Agent Updated!');
+                    $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>true,'message'=>'Agent Updated!');
 
                 } else {
 
-                    $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Agent not updated !');
+                    $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent not updated !');
 
                 }
               } else {
 
-                  $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Username exist. Please give another !');
+                  $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Username exist. Please give another !');
 
               }
           } else {
 
-              $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Please give an unique username !');
+              $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Please give an unique username !');
 
           }
       } else {
 
-          $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Agent ID not Found !');
+          $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent ID not Found !');
 
       }
     } else {
 
-        $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Agent ID not Found !');
+        $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent ID not Found !');
 
     }
 
@@ -1147,33 +1179,176 @@ class UserController extends Controller
             if ($checkUser->profile_status == 2) { //Check status is Inactive
 
                 $checkUser->profile_status = 1;
-                $response                  = array('code'=>200,'response'=>null,'error'=>false,'status'=>false,'message'=>'Agent Activated !');
+                $response                  = array('code'=>200,'response'=>[],'error'=>false,'status'=>false,'message'=>'Agent Activated !');
 
             } else {
 
                 $checkUser->profile_status = 2;
-                $response                  = array('code'=>200,'response'=>null,'error'=>false,'status'=>false,'message'=>'Agent DeActivated !');
+                $response                  = array('code'=>200,'response'=>[],'error'=>false,'status'=>false,'message'=>'Agent DeActivated !');
 
             }
 
             if (!$checkUser->save()) { // User status Update
 
-                $response = array('code'=>400,'response'=>null,'error'=>true,'status'=>false,'message'=>'Agent Update Failed !');
+                $response = array('code'=>400,'response'=>[],'error'=>true,'status'=>false,'message'=>'Agent Update Failed !');
 
             }
 
         } else {
 
-            $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'No Agent Found !');
+            $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Agent Found !');
 
         }
 
     } else {
 
-        $response = array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'No Agent Found !');
+        $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Agent Found !');
 
     }
 
     return Response()->json($response);
   }
+
+  /**
+   * Send Email to users when they are registering to the system
+   *
+   * @param $email,$password
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function sendRegistrationEmail($email,$password)
+  {
+    $email = trim($email);
+    $password = trim($password);
+    if($email != ""){
+
+      $checkUser = Users::where('email',$email)->first();
+
+      if(count($checkUser)!=0) {
+
+            $body       = 'Thanks for signup up with 3c.<br><br>
+	                         Your login ID is your email/username you used during your sign up process.<br><br>
+	                         Your password is : ';
+            $body .= $password;
+            $body .= '<br><br>';
+            $body .= 'Your Username is : ';
+            $body .= $checkUser->username;
+            $body .= '<br><br><br>Please Change your password !';
+            // Send Mail to user email id with the created password
+            Mail::send([],[], function($message) use ($body,$checkUser){
+                $message->from(getenv('MAIL_USERNAME'),"Password");
+                $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login')->setBody($body,'text/html');
+            });
+
+            if (Mail::failures()) {
+
+                return Response()->json([
+                  'code'    => 400,
+                  'error'   => true,
+                  'status'  => false,
+                  'response'=> [],
+                  'message' => 'Try Again!!'
+                ]);
+
+            } else {
+
+                return Response()->json([
+                    'code'    => 200,
+                    'error'   => false,
+                    'status'  => true,
+                    'response'=> [],
+                    'message' => 'Mail Successfully Send To Your Registered Email!!'
+                ]);
+
+            }
+      } else {
+
+        return Response::json(array(
+            'status'  => false,
+            'code'    => 400,
+            'error'   => true,
+            'response'=> [],
+            'message' => 'No User Found !'
+        ));
+
+      }
+    } else {
+
+        return Response::json(array(
+            'status'  => false,
+            'code'    => 400,
+            'error'   => true,
+            'response'=> [],
+            'message' => 'No User Found !'
+        ));
+
+    }
+  }
+  /**
+   * create Twilio SID for admin user
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function createUserTwilioSid(Request $request)
+  {
+   $userId = $request->userId;
+
+   if($userId != ""){
+
+     $checkUser = Users::where('id',$userId)->first();
+     if( count($checkUser)!=0 ){
+
+       $UserData                          = new Request;
+       $UserData->userId                  = $checkUser->id; //admin ID
+       $UserData->email                   = $checkUser->email; //admin Email ID Used as the Firendly Name in Twilio Account
+       //send to TwilioController for creating twilio subacount
+       $saveAdminTwilioCredential         =  app(\App\Http\Controllers\TwilioController::class)
+       ->createTwilioSubacount($UserData);   // Create Twilio sub-account
+       $saveAdminTwilioCredentialResponse = json_decode($saveAdminTwilioCredential->content(), true);
+
+         if($saveAdminTwilioCredentialResponse['code'] == 200){
+            $checkUser = Users::where('id',$userId)->with('twilioInfo')->first();
+           \Log::info($saveAdminTwilioCredentialResponse['message']);
+           return Response()->json([
+               'code'    => 200,
+               'error'   => false,
+               'status'  => true,
+               'response'=> $checkUser,
+               'message' => $saveAdminTwilioCredentialResponse['message']
+           ]);
+
+         }
+
+         if($saveAdminTwilioCredentialResponse['code'] == 400){
+
+           \Log::info($saveAdminTwilioCredentialResponse['message']);
+           return Response()->json([
+               'code'    => 400,
+               'error'   => true,
+               'status'  => false,
+               'response'=> [],
+               'message' => $saveAdminTwilioCredentialResponse['message']
+           ]);
+
+         }
+      } else {
+         return Response()->json([
+               'code'    => 400,
+               'error'   => true,
+               'status'  => false,
+               'response'=> [],
+               'message' => 'user not found !'
+          ]);
+      }
+    } else {
+      return Response()->json([
+         'code'    => 400,
+         'error'   => true,
+         'status'  => false,
+         'response'=> [],
+         'message' => 'Not a valid User Id !'
+      ]);
+    }
+  }
+
 }

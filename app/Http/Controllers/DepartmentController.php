@@ -49,7 +49,7 @@ class DepartmentController extends Controller
                 return Response::json(array(
                   'status'  => false,
                   'code'    => 400,
-                  'response'=> null,
+                  'response'=> [],
                   'message' => 'Department Not saved  !'
                 ));
 
@@ -85,7 +85,7 @@ class DepartmentController extends Controller
                             return  Response::json(array(
                                 'status'  => false,
                                 'code'    => 400,
-                                'response'=> null,
+                                'response'=> [],
                                 'message' => 'Department Not saved  !'
                             ));
 
@@ -95,7 +95,7 @@ class DepartmentController extends Controller
                         return Response::json(array(
                             'status'  => false,
                             'code'    => 400,
-                            'response'=> null,
+                            'response'=> [],
                             'message' => 'Bad Request !'
                         ));
 
@@ -105,7 +105,7 @@ class DepartmentController extends Controller
                     return  Response::json(array(
                         'status'  => false,
                         'code'    => 400,
-                        'response'=> null,
+                        'response'=> [],
                         'message' => 'Invalid token !'
                     ));
 
@@ -115,7 +115,7 @@ class DepartmentController extends Controller
             return Response::json(array(
                 'status'  => false,
                 'code'    => 400,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'Bad Request !'
             ));
 
@@ -155,7 +155,7 @@ class DepartmentController extends Controller
               return  Response::json(array(
                   'status'  => false,
                   'code'    => 400,
-                  'response'=> null,
+                  'response'=> [],
                   'message' => 'Department not Updated !'
               ));
 
@@ -165,7 +165,7 @@ class DepartmentController extends Controller
           return  Response::json(array(
               'status'  => false,
               'code'    => 400,
-              'response'=> null,
+              'response'=> [],
               'message' => 'Sorry Department not found !'
           ));
 
@@ -200,7 +200,7 @@ class DepartmentController extends Controller
               return  Response::json(array(
                   'status'  => false,
                   'code'    => 400,
-                  'response'=> null,
+                  'response'=> [],
                   'message' => 'Sorry Department not found !'
               ));
 
@@ -210,7 +210,7 @@ class DepartmentController extends Controller
           return  Response::json(array(
               'status'  => false,
               'code'    => 400,
-              'response'=> null,
+              'response'=> [],
               'message' => 'Please select a department !'
           ));
 
@@ -289,7 +289,7 @@ class DepartmentController extends Controller
             return  Response::json(array(
                 'status'   => false,
                 'code'     => 400,
-                'response' => null,
+                'response' => [],
                 'message'  => 'Invalid Token !'
             ));
 
@@ -323,7 +323,7 @@ class DepartmentController extends Controller
         return  Response::json(array(
           'status'  => false,
           'code'    => 400,
-          'response' => null,
+          'response' => [],
           'message' => 'sorry no data found !'
         ));
 

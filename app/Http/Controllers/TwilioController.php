@@ -12,6 +12,9 @@ use App\Model\UserToken;              /* User Token Model */
 use App\Model\Users;                /* User Model */
 use App\Model\TwilioCredentials;  /* Twilio Credentials Model */
 use Twilio\Rest\Client; /* Twilio REST client */
+use Helper;
+use App\Model\Widgets;
+use App\Model\TwilioNumber;
 
 class TwilioController extends Controller
 {
@@ -61,7 +64,7 @@ class TwilioController extends Controller
               'error'   => true,
               'status'  => false,
               'code'    => 400,
-              'response'=> null,
+              'response'=> [],
               'message' => 'No User Found !'
           ));
 
@@ -101,7 +104,7 @@ class TwilioController extends Controller
                   'error'   => true,
                   'status'  => false,
                   'code'    => 400,
-                  'response'=> null,
+                  'response'=> [],
                   'message' => 'Sorry Twilio Credentials no found !'
               ));
 
@@ -112,7 +115,7 @@ class TwilioController extends Controller
               'error'   => true,
               'status'  => false,
               'code'    => 400,
-              'response'=> null,
+              'response'=> [],
               'message' => 'Sorry user not found !'
            ));
 
@@ -123,7 +126,7 @@ class TwilioController extends Controller
           'error'   => true,
           'status'  => false,
           'code'    => 400,
-          'response'=> null,
+          'response'=> [],
           'message' => 'Please Provide a Token !'
       ));
 
@@ -180,7 +183,7 @@ class TwilioController extends Controller
                 'error'   => true,
                 'status'  => false,
                 'code'    => 400,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'Sorry Twilio Credentials not Created !'
             ));
 
@@ -192,7 +195,7 @@ class TwilioController extends Controller
             'error'   => true,
             'code'    => 400,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => $e->getMessage()
         ));
 
@@ -205,7 +208,7 @@ class TwilioController extends Controller
             'error'   => true,
             'code'    => 400,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => 'Sorry Twilio Credentials not found !'
         ));
 
@@ -259,7 +262,7 @@ class TwilioController extends Controller
               'error'   => true,
               'status'  => false,
               'code'    => 400,
-              'response'=> null,
+              'response'=> [],
               'message' => 'Sorry Twilio Credentials not Updated !'
             ));
 
@@ -271,7 +274,7 @@ class TwilioController extends Controller
             'error' => true,
             'code' => 400,
             'status' => false,
-            'response'=> null,
+            'response'=> [],
             'message' => $e->getMessage()
         ));
 
@@ -284,7 +287,7 @@ class TwilioController extends Controller
           'error'   => true,
           'code'    => 400,
           'status'  => false,
-          'response'=> null,
+          'response'=> [],
           'message' => 'Sorry Twilio Credentials not found !'
         ));
     }
@@ -340,7 +343,7 @@ class TwilioController extends Controller
                 'error'   => true,
                 'status'  => false,
                 'code'    => 400,
-                'response'=> null,
+                'response'=> [],
                 'message' => 'Sorry Twilio Credentials not Updated !'
             ));
 
@@ -352,7 +355,7 @@ class TwilioController extends Controller
             'error'   => true,
             'code'    => 400,
             'status'  => false,
-            'response'=> null,
+            'response'=> [],
             'message' => $e->getMessage()
         ));
 
@@ -365,7 +368,7 @@ class TwilioController extends Controller
           'error'   => true,
           'code'    => 400,
           'status'  => false,
-          'response'=> null,
+          'response'=> [],
           'message' => 'Sorry Twilio Credentials not found !'
         ));
 
@@ -424,5 +427,98 @@ class TwilioController extends Controller
     }
   }
 
+  /**
+  * Get Available Phone Numbers from Twilio
+  * @params widgetId = integer, user_id = integer , area_code = integer
+  * @return \Illuminate\Http\JsonResponse
+  */
+  public function getPurchasedPhoneNumber($widgetId, $userId, $areaCode)
+  {
+    $checkWidgets = Widgets::where('id',$widgetId)->first();
+    $checkUser    = Users::where('id',$userId)->first();
 
+    if(count($checkWidgets) == 0){
+
+      return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets not found !'));
+
+    }
+
+    // Check user is valid or not
+    if (count($checkUser) == 0) {
+
+      return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Users not found !'));
+
+    }
+
+    // Get Twilio Credentials
+    $getTwilioCredentials = TwilioCredentials::where('user_id',$userId)->first();
+
+    if(count($getTwilioCredentials)!=0){
+
+        $sid      = $getTwilioCredentials->twilio_sid;
+        $token    = $getTwilioCredentials->twilio_token;
+
+        $client   = new Client($sid, $token);
+
+        // Get Available Phone Numbers
+        if ($areaCode == null) {
+
+          $numbers = $client->availablePhoneNumbers('US')->local->read(); //area_code is null
+
+        } else {
+          $numbers = $client->availablePhoneNumbers('US')->local->read(
+
+            array("areaCode" => $areaCode)  //if areaCode is there
+
+          );
+        }
+
+
+
+        try {
+
+          $selectedNumber  = $numbers[0]->phoneNumber;
+
+          $purchasedNumber = $client->incomingPhoneNumbers->create(array("phoneNumber" => $selectedNumber));
+
+        } catch (\Exception $e) {
+
+          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>$e->getMessage().'Error Line'.$e->getLine()));
+
+        }
+        
+        $prefix          = substr($purchasedNumber->phone_number, 0, -10);  //get prefix of phone_number
+        $phoneNumber     = substr($purchasedNumber->phone_number, -10); //phone_number
+        $numberUnid      = substr( str_shuffle( str_repeat( 'abcdefghijklmnopqrstuvwxyz0123456789', 10 ) ), 0, 8 ); // generate numberunid
+
+        // Saving Twilio number
+        $twilioNumber                         = new TwilioNumber;
+        $twilioNumber->user_id                = $userId;
+        $twilioNumber->widget_id              = $widgetId;
+        $twilioNumber->prefix                 = $prefix;
+        $twilioNumber->number                 = $phoneNumber;
+        $twilioNumber->twilio_number_sid      = $purchasedNumber->account_sid;
+        $twilioNumber->twilio_sub_account_sid = $purchasedNumber->sid;
+        $twilioNumber->twilio_credentials_id  = $getTwilioCredentials->id;
+        $twilioNumber->number_unid            = $numberUnid;
+
+        // Update widgets active
+        $checkWidgets->status = 1;
+        $checkWidgets->update();
+
+        if ($twilioNumber->save()) {
+
+          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>[],'status'=>false,'message'=>'Widget updated and Twilio purchased saved !'));
+
+        } else {
+
+          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widget updated but Twilio purchased failed !'));
+
+        }
+    } else {
+
+      return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Twilio Credentials not found !'));
+
+    }
+  }
 }
