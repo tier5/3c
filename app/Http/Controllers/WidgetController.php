@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Timezone;
 use Illuminate\Http\Request;
+use Response;
 use App\Model\Widgets;
 use App\Model\Users;
 use App\Model\Department;
@@ -33,10 +34,17 @@ class WidgetController extends Controller
       $areaCode         = $request->areaCode;
       $widgetDepartment = $request->departmentIdArray;
       $widgetLogo       = $request->image;
+      $widgetDepartment = explode(',',$widgetDepartment);
 
+      $dayArray         = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      $daysArray        = $request->daysArray == '' ? $dayArray : explode(',',$request->daysArray);
+      $startTime        = $request->startTime == '' ? '00:00:00' : $request->startTime;
+      $endTime          = $request->endTime == '' ? '24:00:00' : $request->endTime;
       $imagePath        = '';
       $supportedFormat  = array('jpeg','jpg','png','gif','tif');
       $generateFileName = date("YmdHis");
+      $widgetUuid = app(\App\Http\Controllers\UserController::class)
+            ->generateRandomString();   //creating widget uuid
 
       // Check file is in param
       if ($request->hasFile('image')) {
@@ -86,6 +94,7 @@ class WidgetController extends Controller
           $widgets->area_code         = $areaCode;
           $widgets->schedule_timezone = $scheduleTimezone;
           $widgets->details           = $details;
+          $widgets->widget_uuid       = $widgetUuid;
           $widgets->status            = 0;
 
           if ($imagePath != '') {
@@ -99,9 +108,9 @@ class WidgetController extends Controller
             // Save Widget Schdule Time
             $req            = new Request;
             $req->widgetId  = $widgets->id;
-            $req->daysArray = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            $req->startTime = '00:00';
-            $req->endTime   = '24:00';
+            $req->daysArray = $daysArray;
+            $req->startTime = $startTime;
+            $req->endTime   = $endTime;
             $this->updateWidgetSchedule($req);
 
             // Save Widget Departments
@@ -145,11 +154,23 @@ class WidgetController extends Controller
 
       if (count($listsWidgets) != 0) {
 
-        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$listsWidgets,'status'=>false,'message'=>'Lists of Widgets !'));
+          return Response::json(array(
+              'status'   => true,
+              'code'     => 200,
+              'error'    => false,
+              'response' => $listsWidgets,
+              'message'  => 'Lists of Widgets !'
+          ));
 
       } else {
 
-        return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Widgets Found !'));
+          return Response::json(array(
+              'status'   => false,
+              'code'     => 400,
+              'error'    => true,
+              'response' => [],
+              'message'  => 'No Widgets Found !'
+          ));
 
       }
     }
@@ -176,7 +197,6 @@ class WidgetController extends Controller
       $imagePath              = '';
       $supportedFormat        = array('jpeg','jpg','png','gif','tif');
       $generateFileName       = date("YmdHis");
-      $extension              = $request->image->extension();
 
       // If userId is not present
       if ($userId == '') {
@@ -199,6 +219,7 @@ class WidgetController extends Controller
       if (count($checkWidget) == 1) {
         // Check file is in param
         if ($request->hasFile('image')) {
+          $extension = $request->image->extension();
 
           if (in_array($extension, $supportedFormat)) {
 
@@ -428,14 +449,73 @@ class WidgetController extends Controller
     {
         $timezones = Timezone::get();
         if(count($timezones)!=0) {
-            $response = json_encode(array('code'=>200,'error'=>false,'response'=>$timezones,'status'=>true,'message'=>'All Timezones !'));
+
+            return Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'error'    => false,
+                'response' => $timezones,
+                'message'  => 'All Timezones !'
+            ));
 
         } else {
-            $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Timezone found !'));
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => false,
+                'response' => [],
+                'message'  => 'No Timezones Found !'
+            ));
 
         }
-
-        return $response;
     }
+
+    /**
+     * Get widget respect to widget uuid
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getWidgetData(Request $request)
+    {
+        $widgetUuid = $request->widgetUuid;
+        if( $widgetUuid != "" ){
+
+            $widgetData = Widgets::where('widget_uuid',$widgetUuid)->with('userDetails','twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get();
+
+            if(count($widgetData) != 0){
+
+                return Response::json(array(
+                    'status'   => true,
+                    'code'     => 200,
+                    'error'    => false,
+                    'response' => $widgetData,
+                    'message'  => 'Widget Data !'
+                ));
+
+            }else{
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Sorry No Widget Data Found !'
+                ));
+            }
+        }else{
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry Invalid Widget ID !'
+            ));
+
+        }
+    }
+
 
 }

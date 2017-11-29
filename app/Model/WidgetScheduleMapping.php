@@ -11,7 +11,7 @@ class WidgetScheduleMapping extends Model
   /**
   * @var boolean
   */
-  public $timestamps = false;
+    public $timestamps = true;
 
   /**
   * @var null|string

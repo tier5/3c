@@ -12,3 +12,4 @@ yarn-error.log
 .env
 
 /resources/assets/frontend/
+/public/widgets

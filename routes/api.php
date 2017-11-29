@@ -81,3 +81,9 @@ Route::post('updateWidgetSchedule', 'WidgetController@updateWidgetSchedule');
 Route::post('viewWidgets', 'WidgetController@viewWidgets');
 //Timezone API
 Route::get('get-timezone', 'WidgetController@getTimezones');
+//widget data API
+Route::post('widget-data', 'WidgetController@getWidgetData');
+//reset password API
+Route::post('reset-password','UserController@resetPassword');
+
+

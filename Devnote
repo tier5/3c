@@ -87,3 +87,8 @@
   * Request params change to camelcase
 25. Create migration to modify widget_schedule_mapping table
   * Add timestamps for widget_schedule_mapping table.
+26. Widget v1.2
+  * Modify WidgetsController
+  * Modify UserController
+  * Modify twilioController
+  

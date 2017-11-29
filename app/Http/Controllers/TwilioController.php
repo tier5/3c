@@ -16,6 +16,7 @@ use Helper;
 use App\Model\Widgets;
 use App\Model\TwilioNumber;
 
+
 class TwilioController extends Controller
 {
 
@@ -478,7 +479,6 @@ class TwilioController extends Controller
         try {
 
           $selectedNumber  = $numbers[0]->phoneNumber;
-
           $purchasedNumber = $client->incomingPhoneNumbers->create(array("phoneNumber" => $selectedNumber));
 
         } catch (\Exception $e) {
@@ -486,9 +486,9 @@ class TwilioController extends Controller
           return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>$e->getMessage().'Error Line'.$e->getLine()));
 
         }
-        
-        $prefix          = substr($purchasedNumber->phone_number, 0, -10);  //get prefix of phone_number
-        $phoneNumber     = substr($purchasedNumber->phone_number, -10); //phone_number
+
+        $prefix          = substr($purchasedNumber->phoneNumber, 0, -10);  //get prefix of phone_number
+        $phoneNumber     = substr($purchasedNumber->phoneNumber, -10); //phone_number
         $numberUnid      = substr( str_shuffle( str_repeat( 'abcdefghijklmnopqrstuvwxyz0123456789', 10 ) ), 0, 8 ); // generate numberunid
 
         // Saving Twilio number
@@ -497,7 +497,7 @@ class TwilioController extends Controller
         $twilioNumber->widget_id              = $widgetId;
         $twilioNumber->prefix                 = $prefix;
         $twilioNumber->number                 = $phoneNumber;
-        $twilioNumber->twilio_number_sid      = $purchasedNumber->account_sid;
+        $twilioNumber->twilio_number_sid      = $purchasedNumber->accountSid;
         $twilioNumber->twilio_sub_account_sid = $purchasedNumber->sid;
         $twilioNumber->twilio_credentials_id  = $getTwilioCredentials->id;
         $twilioNumber->number_unid            = $numberUnid;
@@ -508,7 +508,7 @@ class TwilioController extends Controller
 
         if ($twilioNumber->save()) {
 
-          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>[],'status'=>false,'message'=>'Widget updated and Twilio purchased saved !'));
+          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>[],'status'=>true,'message'=>'Widget updated and Twilio purchased saved !'));
 
         } else {
 

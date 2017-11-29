@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTimestampsWidgetScheduleMapping extends Migration
+class UpdateWidgetTableModifyNumberUnidField extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTimestampsWidgetScheduleMapping extends Migration
      */
     public function up()
     {
-        Schema::table('widget_schedule_mapping', function (Blueprint $table) {
-            $table->timestamps();
+        Schema::table('twilio_numbers', function($table) {
+            $table->text('number_unid')->nullable()->change();
         });
     }
 
@@ -25,9 +25,9 @@ class AddTimestampsWidgetScheduleMapping extends Migration
      */
     public function down()
     {
-        Schema::table('widget_schedule_mapping', function (Blueprint $table) {
-            $table->dropColumn('created_at');
-            $table->dropColumn('updated_at');
+        Schema::table('twilio_numbers', function (Blueprint $table) {
+            $table->dropColumn('number_unid');
         });
+
     }
 }

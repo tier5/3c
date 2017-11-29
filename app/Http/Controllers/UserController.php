@@ -55,29 +55,19 @@ class UserController extends Controller
     if(Auth::attempt($credentials)) { //Attempt Auth login
 
         $token = $this->generateRandomString();
-        $createToken = UserToken::where('user_id',Auth::user()->id)->with('userInfo')->first();
 
-        if(count($createToken) ==0 ) {
 
             //create a new token
-            $createToken                  = new UserToken;
-            $createToken->user_id         = Auth::user()->id;
-            $createToken->token           = $token;
-            $createToken->profile_user_id = Auth::user()->id;
-            $createToken->status          = 1;
-            $createToken->save();
+            $saveToken                  = new UserToken;
+            $saveToken->user_id         = Auth::user()->id;
+            $saveToken->token           = $token;
+            $saveToken->profile_user_id = Auth::user()->id;
+            $saveToken->status          = 1;
+            $saveToken->save();
 
-        } else {
+            $createToken = UserToken::where('user_id',Auth::user()->id)->with('userInfo')->first(); //sending user info with token
 
-            //update the old token
-            $createToken->user_id         = Auth::user()->id;
-            $createToken->token           = $token;
-            $createToken->profile_user_id = Auth::user()->id;
-            $createToken->status          = 1;
-            $createToken->update();
-
-        }
-        $response = ['userId'=>Auth::user()->id,'userToken'=>$createToken->token,'userType'=>Auth::user()->type,'firstName'=>$createToken->userInfo->first_name,'lastName'=>$createToken->userInfo->last_name,'email'=>$createToken->userInfo->email];
+        $response = ['userId'=>Auth::user()->id,'userToken'=>$saveToken->token,'userType'=>Auth::user()->type,'firstName'=>$createToken->userInfo->first_name,'lastName'=>$createToken->userInfo->last_name,'email'=>$createToken->userInfo->email];
 
         return Response::json(array(
             'status'   => true,
@@ -586,9 +576,7 @@ class UserController extends Controller
 
                       }
                   }
-
                   $this->sendRegistrationEmail($email,$password); //send email and password to the register admin user
-
                   return Response()->json([
                      'code'    => 200,
                      'success' => true,
@@ -774,7 +762,6 @@ class UserController extends Controller
               \Log::info($updateAdminTwilioCredentialResponse['message']);  // Twilio response Log
 
             }
-
             $getUser = Users::where('id',$userId)->with('twilioInfo')->first();
 
             return Response()->json([
@@ -846,9 +833,7 @@ class UserController extends Controller
                 \Log::info($updateAdminTwilioCredentialResponse['message']); // Log Twilio response
 
             }
-
-            $getUser = Users::where('id',$userId)->with('twilioInfo')->first();
-
+              $getUser = Users::where('id',$userId)->with('twilioInfo')->first();
             return Response()->json([
                 'code'    => 200,
                 'success' => true,
@@ -990,15 +975,14 @@ class UserController extends Controller
                   $saveDepartment->save();
 
                 $this->sendRegistrationEmail($email,$password); //send email and password to the register Agent
-
-                return Response()->json([
-                    'code'    => 200,
-                    'success' => true,
-                    'error'   => false,
-                    'status'  => true,
-                    'response'=> $saveUser,
-                    'message' => 'Agent User Saved !'
-                ]);
+                  return Response()->json([
+                      'code'    => 200,
+                      'success' => true,
+                      'error'   => false,
+                      'status'  => true,
+                      'response'=> $saveUser,
+                      'message' => 'Agent User Saved !'
+                  ]);
 
               } else {
 
@@ -1235,7 +1219,7 @@ class UserController extends Controller
             $body .= '<br><br><br>Please Change your password !';
             // Send Mail to user email id with the created password
             Mail::send([],[], function($message) use ($body,$checkUser){
-                $message->from(getenv('MAIL_USERNAME'),"Password");
+                $message->from(getenv('MAIL_USERNAME'));
                 $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login')->setBody($body,'text/html');
             });
 
@@ -1283,6 +1267,7 @@ class UserController extends Controller
 
     }
   }
+
   /**
    * create Twilio SID for admin user
    *
@@ -1350,5 +1335,73 @@ class UserController extends Controller
       ]);
     }
   }
+  /**
+     * Reset Password for all users
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+  */
+
+  public function resetPassword(Request $request)
+  {
+    $userToken      = $request->token;  //token recive from the user
+    $password       = $request->password;   //password recive from the user
+    $confPassword   = $request->confPassword;   //confirm password recive from the user
+
+    if( $userToken != "" ){
+        if($password == $confPassword){
+            $findUser = UserToken::where('token',$userToken)->first();
+            if( count($findUser) != 0 ){
+                $newPassword = Hash::make($password);
+                $updatePassword = Users::where('id',$findUser->profile_user_id)
+                    ->update(array('password' => $newPassword));
+                if($updatePassword){
+                    return Response()->json([
+                        'code'    => 200,
+                        'error'   => false,
+                        'status'  => true,
+                        'response'=> [],
+                        'message' => 'Password Updated,Login With new Password !'
+                    ]);
+                }else{
+                    return Response()->json([
+                        'code'    => 400,
+                        'error'   => true,
+                        'status'  => false,
+                        'response'=> [],
+                        'message' => 'Something went wrong,Please try again !'
+                    ]);
+                }
+            }else{
+                return Response()->json([
+                    'code'    => 400,
+                    'error'   => true,
+                    'status'  => false,
+                    'response'=> [],
+                    'message' => 'Sorry user not found !'
+                ]);
+            }
+        }else{
+            return Response()->json([
+                'code'    => 400,
+                'error'   => true,
+                'status'  => false,
+                'response'=> [],
+                'message' => 'Password and Confirm Password not same !'
+            ]);
+        }
+
+
+    }else{
+        return Response()->json([
+            'code'    => 400,
+            'error'   => true,
+            'status'  => false,
+            'response'=> [],
+            'message' => 'Not a valid User Token !'
+        ]);
+    }
+  }
+
 
 }
