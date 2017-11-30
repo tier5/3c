@@ -4,7 +4,7 @@
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
     <div class="side-bar slideInRight animated" v-if="showSideBar">
       <span class="close-form hide1 cross" @click="closeSideBar">x</span>
-      <h3 class="side-logo"><img :src="widget.logo" alt="img"></h3>
+      <h3 class="side-logo"><img :src="widget_logo.src" alt="img"></h3>
       <h2 v-if="!isAvailable || !chatScheduleClicked">Get In Touch With Us</h2>
       <p v-if="!isAvailable || !chatScheduleClicked">{{ this.widget.description }}</p><br>
       <div class="formcontainer">
@@ -17,7 +17,7 @@
               <div class="form-group">
                 <select class="form-control" v-model="selectedDay">
                   <option :value="null">Select Date</option>
-                  <option :value="day" v-for="(day, key) in widget.timesetfinal" :key="day.start">{{ key }}</option>
+                  <option :value="day" v-for="(day) in availableDays" >{{ day }}</option>
                 </select>
               </div>
             </div>
@@ -120,7 +120,9 @@ export default {
       selectedTime: null,
       widgetId: null,
       widgetHost: null,
+      widget_timezone: null,
       widget: {},
+      availableDays: {},
       time: {
         nowInLocal: '',
         utc: '',
@@ -133,6 +135,10 @@ export default {
         end_val: ''
       },
       widgetButton: {
+        title: '',
+        src: ''
+      },
+      widget_logo: {
         title: '',
         src: ''
       },
@@ -161,23 +167,26 @@ export default {
   created () {
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
     this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
-
-    this.$http.post(this.widgetHost + '/app/api/widget/fetch', { uuid: this.widgetId })
+    this.widgetHostLocal = 'http://3c.local';
+    this.$http.post( this.widgetHostLocal+'/api/v1/widget-data', { widgetUuid: 'HFQzyG7F48AhHL3W' })
+    //this.$http.post(this.widgetHost + '/app/api/widget/fetch', { uuid: this.widgetId })
       .then(
         (response) => {
           if(response.status) {
             console.log(response);
             this.widget = response.body.widget;
-            let requiredUrl = this.widget.url;
+            this.widget_timezone = response.body.timezone;
+            this.availableDays = response.body.dates;
+            let requiredUrl = response.url;
             // Add Checking 'requiredUrl' will not match
             const currentUrl = location.protocol + '\/\/' + location.host;
-            requiredUrl = 'http://localhost:8080';
-            if(requiredUrl === currentUrl){
-              if(this.widget.status && this.checkDevice()) {
-                this.showButton();
-              }
-            }
-
+            requiredUrl = 'http://localhost:8083/';
+            // if(requiredUrl === currentUrl){
+            //   if( this.checkDevice()) {
+            //     this.showButton();
+            //   }
+            // }
+            this.showButton();
           }
         },
         (error) => {
@@ -200,185 +209,19 @@ export default {
     availableTimes () {
       this.selectedTime = null;
       if (this.selectedDay != null) {
-
         const optionTime = [];
-        let startTime = parseFloat(this.selectedDay.start.split(':')[0]);
-        const endTime = parseFloat(this.selectedDay.end.split(':')[0]);
-        const startTimeMin = parseInt(this.selectedDay.start.split(':')[1]);
-        const endTimeMin = parseInt(this.selectedDay.end.split(':')[1]);
-        let diff, min, hour_carry;
-
-        if (startTime > endTime && startTime < 12 && endTime < 12) { // start: 11:00, end: 3:00
-          diff = 24 - startTime + endTime;
-          min = endTimeMin - startTimeMin;
-          hour_carry = 0;
-
-          if(min < 0){
-            min += 60;
-            hour_carry += 1;
+        let startTime = this.time.start_val;
+        const endTime = this.time.end_val;
+        let i,diff;
+        for(i=startTime; i<=endTime;i++) {
+          if(i<12) {
+            optionTime.push(i+'am');
+          } else {
+            diff = endTime-12;
+             optionTime.push(diff+' pm');
           }
-
-          diff = diff - hour_carry;
-
-          optionTime.push(startTime+' am');
-
-          for(let i=0; i < diff; i++) {
-
-            startTime++;
-
-            if (startTime >= 12 && startTime < 24) {
-              if(startTime == 12) {
-                optionTime.push(i==diff-1?startTime+':'+endTimeMin+' pm': startTime+' pm');
-              } else {
-                optionTime.push(i==diff-1?(startTime-12)+':'+endTimeMin+' pm': (startTime-12)+' pm');
-              }
-            } else {
-              optionTime.push(i==diff-1?startTime+':'+endTimeMin+' am': startTime+' am');
-            }
-          }
-
-        } else if (startTime > endTime && startTime >= 12 && endTime < 12) { // start: 13:00, end: 3:00
-          diff = 24 - startTime + endTime;
-          min = endTimeMin - startTimeMin;
-          hour_carry = 0;
-
-          if(min < 0){
-            min += 60;
-            hour_carry += 1;
-          }
-
-          diff = diff - hour_carry;
-
-          optionTime.push((startTime-12)+':'+startTimeMin+' pm');
-
-          for(let i=0; i < diff-1; i++) {
-
-            startTime++;
-
-            if (startTime >= 12 && startTime < 24) {
-              if(startTime == 12) {
-                optionTime.push(i==diff-1 ? startTime + ':' + endTimeMin + ' pm' : startTime + ' pm');
-              } else {
-                optionTime.push(i==diff-1 ? (startTime - 12) + ':' + endTimeMin + ' pm' : (startTime-12) + ' pm');
-              }
-            } else {
-              optionTime.push(i==diff-1?startTime+':'+endTimeMin+' am': startTime+' am');
-            }
-          }
-
-        } else if(startTime < endTime && startTime < 12 && endTime <= 12){ // start: 3:00, end: 11:00
-          var diff    = endTime-startTime,
-            min     = endTimeMin - startTimeMin,
-            hour_carry  = 0;
-
-          if(min < 0){
-            min += 60;
-            hour_carry += 1;
-          }
-
-          diff = diff-hour_carry;
-
-          optionTime.push(startTime?startTime+' am' :'12 am');
-
-          for(var i=0; i < diff-1; i++) {
-
-            startTime++;
-
-            if (startTime >= 12 && startTime < 24) {
-              if(startTime == 12) {
-                optionTime.push(i==diff-1?startTime+':'+endTimeMin+' pm': startTime+' pm');
-              } else {
-                optionTime.push(i==diff-1?(startTime-12)+':'+endTimeMin+' pm': (startTime-12)+' pm');
-              }
-            } else {
-              optionTime.push(i==diff-1?startTime+':'+endTimeMin+' am': startTime+' am');
-            }
-          }
-
-        } else if(startTime < endTime && startTime < 12 && endTime > 12) { // start: 3:00, end: 15:00
-          var diff    = endTime-startTime,
-            min     = endTimeMin - startTimeMin,
-            hour_carry  = 0;
-
-          if(min < 0){
-            min += 60;
-            hour_carry += 1;
-          }
-
-          diff = diff-hour_carry;
-
-          optionTime.push(startTime?startTime+' am' :'12 am');
-
-          for(var i=0; i < diff-1; i++) {
-
-            startTime++;
-
-            if (startTime >= 12 && startTime < 24) {
-              if(startTime == 12) {
-                optionTime.push(i==diff-1?startTime+':'+endTimeMin+' pm': startTime+' pm');
-              } else {
-                optionTime.push(i==diff-1?(startTime-12)+':'+endTimeMin+' pm': (startTime-12)+' pm');
-              }
-            } else {
-              optionTime.push(i==diff-1?startTime+':'+endTimeMin+' am': startTime+' am');
-            }
-          }
-        } else if(startTime < endTime && startTime > 12 && endTime > 12) { // start: 13:00, end: 21:00
-          var diff    = endTime-startTime,
-            min     = endTimeMin - startTimeMin,
-            hour_carry  = 0;
-
-          if(min < 0){
-            min += 60;
-            hour_carry += 1;
-          }
-
-          diff = diff-hour_carry;
-
-          optionTime.push((startTime-12)+':'+startTimeMin+' pm');
-
-          for(var i=0; i < diff-1; i++) {
-
-            startTime++;
-
-            if (startTime >= 12 && startTime < 24) {
-              if(startTime == 12) {
-                optionTime.push(i==diff-1?startTime+':'+endTimeMin+' pm': startTime+' pm');
-              } else {
-                optionTime.push(i==diff-1?(startTime-12)+':'+endTimeMin+' pm': (startTime-12)+' pm');
-              }
-            } else {
-              optionTime.push(i==diff-1?startTime+':'+endTimeMin+' am': startTime+' am');
-            }
-          }
-        } else if(startTime < endTime && startTime >= 12 && endTime > 12) { // start: 12:00, end: 24:00
-          diff = endTime-startTime,
-            min     = endTimeMin - startTimeMin,
-            hour_carry  = 0;
-
-          if(min < 0){
-            min += 60;
-            hour_carry += 1;
-          }
-
-          diff = diff-hour_carry;
-
-          optionTime.push(startTime+' pm');
-
-          for(let i=0; i < diff-1; i++) {
-
-            startTime++;
-
-            optionTime.push((startTime-12)+' pm');
-          }
-        } else {
-
-          optionTime.push('0 am');
-
         }
-
         return optionTime;
-
       }
       return null;
     }
@@ -387,7 +230,6 @@ export default {
     validateBeforeSubmit() {
       if(this.chatScheduleClicked) {
         if( this.validateSchedule() && this.validatePhoneNumber() ){
-          console.log("ok");
           this.chatNow();
         }
       } else {
@@ -404,7 +246,6 @@ export default {
       this.showSideBar = true;
     },
     closeSideBar () {
-      console.log('here');
       this.showSideBar = false;
     },
     checkDevice () {
@@ -432,9 +273,7 @@ export default {
 
         default:
           break;
-
       }
-
       return this.showWidget;
     },
     formatDate (date) {
@@ -452,18 +291,19 @@ export default {
       return [year, month, day].join('-');
     },
     configureView () {
-      if(this.widget.widget_type == 0) {
-        this.widgetButton.title = 'Chat with us';
-        this.widgetButton.src = this.widgetHost + '/images/text-btn.png';
-        //this.widgetButton.src = "https://www.tablotv.com/sf/uploads/tablo_chat_icon.png";
-        this.btnProp.showChatSchedule = this.isAvailable;
-        if(this.chatScheduleClicked) {
-          this.btnProp.showChatNow = false;
-          this.btnProp.showChatLater = true;
-        } else {
-          this.btnProp.showChatNow = true;
-          this.btnProp.showChatLater = false;
-        }
+      this.widgetButton.title = 'Chat with us';
+      //this.widgetButton.src = this.widgetHost + '/images/text-btn.png';
+      this.widgetButton.src = this.widgetHostLocal +'/widgets/chat-btn.png'; 
+      this.showWidget= true;
+      this.widget_logo.src = this.widgetHostLocal +'/widgets/'+this.widget.image;
+      //this.widgetButton.src = "https://www.tablotv.com/sf/uploads/tablo_chat_icon.png";
+      this.btnProp.showChatSchedule = this.isAvailable;
+      if(this.chatScheduleClicked) {
+        this.btnProp.showChatNow = false;
+        this.btnProp.showChatLater = true;
+      } else {
+        this.btnProp.showChatNow = true;
+        this.btnProp.showChatLater = false;
       } 
     },
     chatSchedule () {
@@ -568,7 +408,7 @@ export default {
       const responsive_width = 991;
       const device_width = window.screen.width;
 
-      this.timezone = (this.widget.widget_schedule.timezonedetails.timezone_name).replace(/ *\([^)]*\) */g, "");
+      this.timezone = (this.widget_timezone.timezone_name).replace(/ *\([^)]*\) */g, "");
 
 //      $("#commonform").on('click', ':not(.close-form)', function(e) {
 //        e.stopPropagation();
@@ -576,18 +416,15 @@ export default {
 
       this.time.nowInLocal = new Date();
       this.time.utc = new Date(this.time.nowInLocal.getTime() + this.time.nowInLocal.getTimezoneOffset() * 60000);
-      this.time.nowInUTC = new Date( this.time.utc.getTime() + (parseInt(this.widget.timedifference.split(":")[0]) * 60 * 60000));
+      this.time.nowInUTC = new Date( this.time.utc.getTime() + (parseInt(this.widget_timezone.time_difference.split(":")[0]) * 60 * 60000));
       this.time.cur_date_UTC = this.formatDate(this.time.nowInUTC);
       this.time.cur_time_UTC = this.time.nowInUTC.getHours();
-      this.time.first_val = Object.keys(this.widget.timesetfinal)[0];
-      console.log(this.widget.timesetfinal);
-      this.time.schedules = this.widget.timesetfinal[this.time.first_val];
-      this.time.start_val = parseInt(this.time.schedules.start.toString().split(":")[0]);
-      this.time.end_val = parseInt(this.time.schedules.end.toString().split(":")[0]);
-
-      console.log(this.time.start_val);
-
-      if (this.time.first_val.trim() === this.time.cur_date_UTC.trim()) {
+      this.time.cur_day_UTC = this.time.nowInUTC.getDay();
+      this.time.schedules = this.widget_timezone.days;
+      this.time.start_val = parseInt(this.widget.widget_schedule.start_time.toString().split(":")[0]);
+      this.time.end_val = parseInt(this.widget.widget_schedule.end_time.toString().split(":")[0]);
+   
+      if(this.time.schedules.hasOwnProperty(this.time.cur_day_UTC))  {
         if (this.time.cur_time_UTC >= this.time.start_val && this.time.cur_time_UTC < this.time.end_val) {
           console.log('true: available');
           this.btnProp.showChatSchedule = true;
