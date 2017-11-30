@@ -8,6 +8,9 @@ import Chat from './Chat.vue';
 import Example from './Example.vue';
 import Chatlog from './Chatlog.vue';
 import ChatWindow from './ChatWindow.vue';
+import VueValidate from 'vuelidate';
+
+
 
 var node = document.createElement("div");
 node.id = 'dynamicId';
@@ -15,6 +18,7 @@ document.body.appendChild(node);
 
 Vue.use(VueResource);
 Vue.use(VueMask);
+Vue.use(VueValidate);
 
 Vue.directive('mask', VueMaskDirective);
 Vue.component('example', Example);

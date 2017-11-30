@@ -2,16 +2,16 @@
   <div>
     <!--<img src="https://forum-archive.vuejs.org/uploads/system/site-logo.png">-->
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
-    <div class="side-bar slideInRight animated" v-if="showSideBar">vmjk,jh
+    <div class="side-bar slideInRight animated" v-if="showSideBar">
       <span class="close-form hide1 cross" @click="closeSideBar">x</span>
       <h3 class="side-logo"><img :src="widget.logo" alt="img"></h3>
       <h2 v-if="!isAvailable || !chatScheduleClicked">Get In Touch With Us</h2>
       <p v-if="!isAvailable || !chatScheduleClicked">{{ this.widget.description }}</p><br>
       <div class="formcontainer">
-        <h3 v-if="chatScheduleClicked">What is the best time to call you?</h3>
+        <h3 v-if="chatScheduleClicked">Schedule a time to chat!!!</h3>
         <h5 class="error-msg-scheduled-call" v-if="errorMessage!=''">{{ errorMessage }}</h5>
         <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/images/right-arrow.png'" alt="img"></div>
-        <form>
+        <form @submit.prevent="validateBeforeSubmit">
           <div class="row" v-if="chatScheduleClicked">
             <div class="col-sm-5 cust-pad">
               <div class="form-group">
@@ -38,36 +38,45 @@
           </div>
           <div class="row">
             <div class="col-md-12 cust-pad">
-              <div class="form-group">
-                <input class="form-control" type="text" name=""  v-model="name" placeholder="Enter Your Name">
+              <div class="form-group" :class="{ 'has-error': $v.name.$error }">
+                <input class="form-control" type="text"  v-model="name" placeholder="Enter Your Name" @blur="$v.name.$touch()"  >
+                <span v-if="($v.name.$error  )  " class="help-block">
+                  Your name is required! 
+                </span>
               </div>
             </div>
             <div class="col-md-12 cust-pad">
-              <div class="form-group">
-                <input class="form-control" type="email" name=""  v-model="email" placeholder="Enter Your Email ID">
+
+              <div class="form-group"  :class="{ 'has-error': $v.email.$error  }">
+                <input v-model="email" class="form-control" type="text" placeholder="Enter Your Email ID" @blur="$v.email.$touch()" >
+                <span v-if="($v.email.$error  )  " class="help-block">
+                  Your email is required!
+                 </span>
               </div>
             </div>
             <div class="col-md-12 cust-pad">
-              <div class="form-group">
-                <input class="form-control" type="text" name="" v-mask="'+1(###)-###-####'" v-model="phoneField" placeholder="Enter Your Phone Number">
+              <d<div class="form-group"  :class="{ 'has-error': $v.phoneField.$error  }">
+                <input class="form-control" type="text"  v-mask="'+1(###)-###-####'" v-model="phoneField" placeholder="Enter Your Phone Number" @blur="$v.phoneField.$touch()" >
+                <span v-if="($v.phoneField.$error )  " class="help-block">
+                  Your phone number is required!
+                </span>
               </div>
             </div>
           </div><br>
           <div class="row" v-if="btnProp.showChatNow">
             <div class="col-md-12">
               <div class="form-group">
-                <a @click="chatNow()">
-                  <img :src="widgetHost + '/images/textme.png'" alt="CHAT NOW">
-                </a>
+                <button class="btn btn-primary" type="submit"  :disabled="$v.$invalid">
+                  Submit
+                </button>
               </div>
             </div>
           </div>
           <div class="row" v-if="btnProp.showChatLater">
             <div class="col-md-12">
               <div class="form-group">
-                <a @click="chatLater()">
-                  <img :src="widgetHost + '/images/call-later.png'" alt="CHAT LATER">
-                </a>
+                <button class="btn btn-primary" type="submit" :disabled="$v.$invalid">Submit
+                </button>
               </div>
             </div>
           </div>
@@ -81,6 +90,9 @@
 </template>
 
 <script>
+
+import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators'
+
 export default {
   name: 'app',
   data () {
@@ -131,6 +143,19 @@ export default {
         showChatNow:true,
         showChatLater: false,
       }
+    }
+  },
+  // Validation
+  validations: {
+    email: {
+      required,
+      email
+    },
+    name : {
+      required
+    },
+    phoneField : {
+      required
     }
   },
   created () {
@@ -359,6 +384,19 @@ export default {
     }
   },
   methods: {
+    validateBeforeSubmit() {
+      if(this.chatScheduleClicked) {
+        if( this.validateSchedule() && this.validatePhoneNumber() ){
+          console.log("ok");
+          this.chatNow();
+        }
+      } else {
+         if(this.validatePhoneNumber()  ){
+          console.log("ok");
+          this.chatLater();
+        }
+      }
+    },
     addMessage() {
       console.log("Message added");
     },
@@ -482,46 +520,39 @@ export default {
         return false;
       }
     },
-    sendData (client, type, date, time) {
+  
+    sendData (client_name, client_email, client_phone, type, date, time) {
       let start, end, dataToSend;
-      if(type == 1) {
 
-        if(time != undefined) {
-          if(time.split(' ')[1] == 'am') {
-            start = time.split(' ')[0].indexOf(':') > -1? time.split(' ')[0] : time.split(' ')[0]+':00';
-            end = (parseInt(start.split(':')[0])+1)+':'+start.split(':')[1];
-          } else {
-            start = time.split(' ')[0].indexOf(':') > -1 ? parseInt(time.split(' ')[0].split(':')[0]) >= 12 ? time.split(' ')[0]: (parseInt(time.split(' ')[0].split(':')[0])+12)+':'+time.split(' ')[0].split(':')[1]: parseInt(time.split(' ')[0].split(':')[0]) >= 12 ?time.split(' ')[0].split(':')[0]+':00': (parseInt(time.split(' ')[0].split(':')[0])+12)+':00';
-            end = (parseInt(start.split(':')[0])+1) >= 24? start.split(':')[0]+':'+start.split(':')[1] : (parseInt(start.split(':')[0])+1)+':'+start.split(':')[1];
-          }
-        }
-
-        dataToSend = {
-          customer: client,
-          type: type,
-          embed_id: this.widgetId,
-          schedule_date: date != undefined ? date:0,
-          schedule_start_time: start != undefined ? start.split(':')[0]+':00:00': 0,
-          schedule_end_time: end != undefined ? end.split(':')[0]+':00:00': 0
-        };
-
-        if( date == undefined ) {
-          this.startTimer();
+      if(time != undefined) {
+        if(time.split(' ')[1] == 'am') {
+          start = time.split(' ')[0].indexOf(':') > -1? time.split(' ')[0] : time.split(' ')[0]+':00';
+          end = (parseInt(start.split(':')[0])+1)+':'+start.split(':')[1];
         } else {
-          this.showMessage(type);
+          start = time.split(' ')[0].indexOf(':') > -1 ? parseInt(time.split(' ')[0].split(':')[0]) >= 12 ? time.split(' ')[0]: (parseInt(time.split(' ')[0].split(':')[0])+12)+':'+time.split(' ')[0].split(':')[1]: parseInt(time.split(' ')[0].split(':')[0]) >= 12 ?time.split(' ')[0].split(':')[0]+':00': (parseInt(time.split(' ')[0].split(':')[0])+12)+':00';
+          end = (parseInt(start.split(':')[0])+1) >= 24? start.split(':')[0]+':'+start.split(':')[1] : (parseInt(start.split(':')[0])+1)+':'+start.split(':')[1];
         }
-      } else {
-
-        dataToSend = {
-          customer: client,
-          type: type,
-          embed_id: this.widgetId
-        };
-
-        this.showMessage(type);
-
       }
 
+      dataToSend = {
+        customer: {
+          'name' : client_name,
+          'email' : client_email,
+          'phone_number' : client_phone
+        },
+        type: type,
+        embed_id: this.widgetId,
+        schedule_date: date != undefined ? date:0,
+        schedule_start_time: start != undefined ? start.split(':')[0]+':00:00': 0,
+        schedule_end_time: end != undefined ? end.split(':')[0]+':00:00': 0
+      };
+
+      if( date == undefined ) {
+        this.startTimer();
+      } else {
+        this.showMessage(type);
+      }
+      
       this.$http.post(this.widgetHost + '/app/api/widget-call', dataToSend)
         .then(
           (response) => {
@@ -549,9 +580,12 @@ export default {
       this.time.cur_date_UTC = this.formatDate(this.time.nowInUTC);
       this.time.cur_time_UTC = this.time.nowInUTC.getHours();
       this.time.first_val = Object.keys(this.widget.timesetfinal)[0];
+      console.log(this.widget.timesetfinal);
       this.time.schedules = this.widget.timesetfinal[this.time.first_val];
       this.time.start_val = parseInt(this.time.schedules.start.toString().split(":")[0]);
       this.time.end_val = parseInt(this.time.schedules.end.toString().split(":")[0]);
+
+      console.log(this.time.start_val);
 
       if (this.time.first_val.trim() === this.time.cur_date_UTC.trim()) {
         if (this.time.cur_time_UTC >= this.time.start_val && this.time.cur_time_UTC < this.time.end_val) {
@@ -592,64 +626,59 @@ export default {
       });
     },
     startTimer() {
-  var timer_start = 30;
-  var refreshIntervalId = setInterval(function(){
-    $('.formcontainer #timer').text('');
-    $('.formcontainer #timer').text(timer_start);
+      var timer_start = 30;
+      var refreshIntervalId = setInterval(function(){
+        $('.formcontainer #timer').text('');
+        $('.formcontainer #timer').text(timer_start);
 
-    timer_start--;
+        timer_start--;
 
-    if(timer_start==0){
+       if(timer_start==0){
 
-      clearInterval(refreshIntervalId);
+        clearInterval(refreshIntervalId);
 
-      $('.formcontainer #timer').remove();
-      $('.formcontainer #msg').remove();
-      $('.formcontainer').append('<p style="font-size: 20px;font-style: italic;color: #337ab7;" id="confirmation">Have you got any call or sms from our representative?</p><div id="container" style="text-align: center;"><p id="yesNo"><button id="yes" style="width: 100px;height: 40px;margin-right:2px;">Yes</button><button id="no" style="width: 100px;height: 40px;margin-left:2px;">No</button></p></div>');
-
-      $('body').on('click', '#yes', function(){
-        $('.formcontainer #confirmation').remove();
-        $('.formcontainer #yesNo').remove();
+        $('.formcontainer #timer').remove();
         $('.formcontainer #msg').remove();
-        $('.formcontainer').append('<p style="font-size: 20px;font-style: italic;color: #337ab7;" id="msg">Thanks for contacting us!</p>');
-        $('.formcontainer #again').remove();
-        $('.formcontainer').append("<span style='display: block;text-decoration: underline; cursor: pointer;' id='again'>Call or Send SMS again</span>");
-      });
+        $('.formcontainer').append('<p style="font-size: 20px;font-style: italic;color: #337ab7;" id="confirmation">Have you got any call or sms from our representative?</p><div id="container" style="text-align: center;"><p id="yesNo"><button id="yes" style="width: 100px;height: 40px;margin-right:2px;">Yes</button><button id="no" style="width: 100px;height: 40px;margin-left:2px;">No</button></p></div>');
 
-      $('body').on('click', '#no', function(){
+        $('body').on('click', '#yes', function(){
+          $('.formcontainer #confirmation').remove();
+          $('.formcontainer #yesNo').remove();
+          $('.formcontainer #msg').remove();
+          $('.formcontainer').append('<p style="font-size: 20px;font-style: italic;color: #337ab7;" id="msg">Thanks for contacting us!</p>');
+          $('.formcontainer #again').remove();
+          $('.formcontainer').append("<span style='display: block;text-decoration: underline; cursor: pointer;' id='again'>Call or Send SMS again</span>");
+        });
+
+        $('body').on('click', '#no', function(){
         $('.formcontainer #confirmation').remove();
         $('.formcontainer #yesNo').remove();
         $('.formcontainer #msg').remove();
         $('.formcontainer').append('<p style="font-size: 20px;font-style: italic;color: #337ab7;" id="msg">All of our representative are busy now. You will get a sms or call from them shortly!</p>');
         $('.formcontainer #again').remove();
         $('.formcontainer').append("<span style='display: block;text-decoration: underline; cursor: pointer;' id='again'>Call or Send SMS again</span>");
-      });
+        });
 
-      $('body').on('click', '#again', function(){
+        $('body').on('click', '#again', function(){
         $('.formcontainer #msg').remove();
         $('.formcontainer #again').remove();
         $('.commonform').show();
+        });
+      }
+      $('body').on('click', '.close-form',function(){
+        clearInterval(refreshIntervalId);
+        $( '#timer' ).remove();
       });
-    }
-    $('body').on('click', '.close-form',function(){
-      clearInterval(refreshIntervalId);
-      $( '#timer' ).remove();
-    });
-  },1000);
+    },1000);
 
-},
-    chatNow () {
-      if(this.validatePhoneNumber()){
-        this.sendData(this.phoneField, 1);
-      }
-    },
-    chatLater () {
-      if( this.validateSchedule() && this.validatePhoneNumber()){
-        this.sendData(this.phoneField, 1, this.selectedDay, this.selectedTime);
-      }
-    },
-  
-  }
+  },
+  chatNow () {
+    this.sendData(this.name, this.email, this.phoneField, 1);
+  },
+  chatLater () {
+    this.sendData(this.name, this.email, this.phoneField, 1, this.selectedDay, this.selectedTime);
+  },
+}
 }
 </script>
 
