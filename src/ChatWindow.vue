@@ -397,7 +397,7 @@ export default {
           'email' : client_email,
           'phone_number' : client_phone
         },
-        embed_id: this.widgetId,
+        widget_uuid: this.widgetId,
         schedule_date: date != undefined ? date:0,
         schedule_start_time: start != undefined ? start.split(':')[0]+':00:00': 0,
 
