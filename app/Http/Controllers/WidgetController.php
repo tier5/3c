@@ -540,6 +540,21 @@ class WidgetController extends Controller
               $timezone['days']               = $days;
               $timezone['id']                 = $timezone_data->id;
 
+              $departmentArray = [];
+              $deptArray = $widgetData->widgetDepartment;
+              if(count($deptArray)>0) {
+                foreach ($deptArray as $dept) {
+                  $departments = [];
+                  $departments['id']              = $dept->department_id;
+                  $departments['department_name'] = $dept->departmentDetails->department_name;
+                  $departments['department_details'] = $dept->departmentDetails->department_details;
+                  $departments['status'] = $dept->departmentDetails->status;
+                  $departments['user_id'] = $dept->departmentDetails->user_id;
+                  $departmentArray[] = $departments;
+                }
+
+              }
+
 
                 return Response::json(array(
                     'status'   => true,
@@ -548,6 +563,7 @@ class WidgetController extends Controller
                     'widget'   => $widgetData,
                     'timezone' => $timezone,
                     'dates'     => $dates,
+                    'departments' => $departmentArray,
                     'message'  => 'Widget Data !'
                 ));
 
