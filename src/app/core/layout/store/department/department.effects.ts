@@ -128,7 +128,7 @@ export class DepartmentEffects {
     });
 
   @Effect()
-  getToEditDepartmentList = this.actions$
+  getToEditDepartment = this.actions$
     .ofType(DepartmentActions.GET_TO_EDIT_DEPARTMENT_ATTEMPT)
     .switchMap((action: DepartmentActions.GetToEditDepartmentAttempt) => {
       const apiUrl = environment.API_BASE_URL + 'view-department';

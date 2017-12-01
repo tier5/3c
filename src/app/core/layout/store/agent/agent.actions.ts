@@ -2,13 +2,20 @@ import { Action } from '@ngrx/store';
 
 export const GET_AGENT_ATTEMPT = 'GET_AGENT_ATTEMPT';
 export const GET_AGENT_SUCCESS = 'GET_AGENT_SUCCESS';
+
 export const ADD_AGENT_ATTEMPT = 'ADD_AGENT_ATTEMPT';
 export const ADD_AGENT_SUCCESS = 'ADD_AGENT_SUCCESS';
+
 export const EDIT_AGENT_ATTEMPT = 'EDIT_AGENT_ATTEMPT';
 export const EDIT_AGENT_SUCCESS = 'EDIT_AGENT_SUCCESS';
+
 export const GET_AGENT_LIST_ATTEMPT = 'GET_AGENT_LIST_ATTEMPT';
 export const GET_AGENT_LIST_SUCCESS = 'GET_AGENT_LIST_SUCCESS';
+
 export const RESET_AGENT_FORM = 'RESET_AGENT_FORM';
+
+export const GET_TO_EDIT_AGENT_ATTEMPT = 'GET_TO_EDIT_AGENT_ATTEMPT';
+export const GET_TO_EDIT_AGENT_SUCCESS = 'GET_TO_EDIT_AGENT_SUCCESS';
 
 export class GetAgentAttempt implements Action {
   readonly type = GET_AGENT_ATTEMPT;
@@ -52,9 +59,19 @@ export class ResetAgentForm implements Action {
   readonly type = RESET_AGENT_FORM;
 }
 
+export class GetToEditAgentAttempt implements Action {
+  readonly type = GET_TO_EDIT_AGENT_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class GetToEditAgentSuccess implements Action {
+  readonly type = GET_TO_EDIT_AGENT_SUCCESS;
+  constructor(public payload: any) { }
+}
 
 export type AgentActions = ResetAgentForm |
   GetAgentAttempt | GetAgentSuccess |
   AddAgentAttempt | AddAgentSuccess |
   EditAgentAttempt | EditAgentSuccess |
-  GetAgentListAttempt | GetAgentListSuccess ;
+  GetAgentListAttempt | GetAgentListSuccess |
+  GetToEditAgentAttempt | GetToEditAgentSuccess;

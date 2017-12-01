@@ -104,6 +104,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     this.cdr.detectChanges();
   }
 
+  /** Un-subscribe from all subscription when component destroys */
   ngOnDestroy(){
     this.authSubscription.unsubscribe();
     this.afterLoginSubscription.unsubscribe();

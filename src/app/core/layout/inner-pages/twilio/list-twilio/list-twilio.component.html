@@ -37,7 +37,7 @@
               </thead>
               <tbody>
                 <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).twilio.list; let i = index">
-                  <td>{{i}}</td>
+                  <td>{{i+1}}</td>
                   <td>{{item.user_info.first_name}} {{item.user_info.last_name}}</td>
                   <td>{{item.user_info.username}}</td>
                   <td>{{item.user_info.email}}</td>

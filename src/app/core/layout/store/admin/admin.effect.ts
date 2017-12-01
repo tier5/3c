@@ -135,130 +135,153 @@ export class AdminEffects {
           })
       });
 
-      @Effect()
-      createTwilioSid = this.actions$
-        .ofType(AdminActions.CREATE_TWILIO_SID_ATTEMPT)
-        .switchMap((action: AdminActions.CreateTwilioSidAttempt) => {
-            const apiUrl = environment.API_BASE_URL + 'create-user-twilio-sid';
-            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
-            const config = {
-              headers: headers
+  @Effect()
+  createTwilioSid = this.actions$
+    .ofType(AdminActions.CREATE_TWILIO_SID_ATTEMPT)
+    .switchMap((action: AdminActions.CreateTwilioSidAttempt) => {
+        const apiUrl = environment.API_BASE_URL + 'create-user-twilio-sid';
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const config = {
+          headers: headers
+        }
+        return this.httpClient.post(apiUrl, action.payload, config)
+          .mergeMap((res: any) => {
+            if (res.status) {
+              return [
+                {
+                  type: AdminActions.CREATE_TWILIO_SID_SUCCESS,
+                  payload: res.response
+                },
+                {
+                  type: AlertActions.ALERT_SHOW,
+                  payload: { message: res.message, type: 'success' }
+                }
+              ]
+            } else {
+              return [
+                {
+                  type: AlertActions.ALERT_SHOW,
+                  payload: { message: res.message, type: 'danger' }
+                }
+              ]
             }
-            return this.httpClient.post(apiUrl, action.payload, config)
-              .mergeMap((res: any) => {
-                if (res.status) {
-                  return [
-                    {
-                      type: AdminActions.CREATE_TWILIO_SID_SUCCESS,
-                      payload: res.response
-                    },
-                    {
-                      type: AlertActions.ALERT_SHOW,
-                      payload: { message: res.message, type: 'success' }
-                    }
-                  ]
-                } else {
-                  return [
-                    {
-                      type: AlertActions.ALERT_SHOW,
-                      payload: { message: res.message, type: 'danger' }
-                    }
-                  ]
+          })
+          .catch((err: HttpErrorResponse) => {
+            return of(
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: err.error, type: 'danger' }
+              }
+            )
+          })
+      });
+
+  @Effect()
+  blockUser = this.actions$
+    .ofType(AdminActions.BLOCK_ADMIN_USER_ATTEMPT)
+    .switchMap((action: AdminActions.BlockAdminUserAttempt) => {
+        const apiUrl = environment.API_BASE_URL + 'block-user';
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const config = {
+          headers: headers
+        }
+        return this.httpClient.post(apiUrl, action.payload, config)
+          .mergeMap((res: any) => {
+            if (res.status) {
+              return [
+                {
+                  type: AdminActions.BLOCK_ADMIN_USER_SUCCESS,
+                  payload: res.response
+                },
+                {
+                  type: AlertActions.ALERT_SHOW,
+                  payload: { message: res.message, type: 'success' }
                 }
-              })
-              .catch((err: HttpErrorResponse) => {
-                return of(
-                  {
-                    type: AlertActions.ALERT_SHOW,
-                    payload: { message: err.error, type: 'danger' }
-                  }
-                )
-              })
-          });
-
-          @Effect()
-          blockUser = this.actions$
-            .ofType(AdminActions.BLOCK_ADMIN_USER_ATTEMPT)
-            .switchMap((action: AdminActions.BlockAdminUserAttempt) => {
-                const apiUrl = environment.API_BASE_URL + 'block-user';
-                const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
-                const config = {
-                  headers: headers
+              ]
+            } else {
+              return [
+                {
+                  type: AlertActions.ALERT_SHOW,
+                  payload: { message: res.message, type: 'danger' }
                 }
-                return this.httpClient.post(apiUrl, action.payload, config)
-                  .mergeMap((res: any) => {
-                    if (res.status) {
-                      return [
-                        {
-                          type: AdminActions.BLOCK_ADMIN_USER_SUCCESS,
-                          payload: res.response
-                        },
-                        {
-                          type: AlertActions.ALERT_SHOW,
-                          payload: { message: res.message, type: 'success' }
-                        }
-                      ]
-                    } else {
-                      return [
-                        {
-                          type: AlertActions.ALERT_SHOW,
-                          payload: { message: res.message, type: 'danger' }
-                        }
-                      ]
-                    }
-                  })
-                  .catch((err: HttpErrorResponse) => {
-                    return of(
-                      {
-                        type: AlertActions.ALERT_SHOW,
-                        payload: { message: err.error, type: 'danger' }
-                      }
-                    )
-                  })
-              });
+              ]
+            }
+          })
+          .catch((err: HttpErrorResponse) => {
+            return of(
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: err.error, type: 'danger' }
+              }
+            )
+          })
+      });
 
-              @Effect()
-              unblockUser = this.actions$
-                .ofType(AdminActions.UNBLOCK_ADMIN_USER_ATTEMPT)
-                .switchMap((action: AdminActions.UnblockAdminUserAttempt) => {
-                    const apiUrl = environment.API_BASE_URL + 'unblock-user';
-                    const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
-                    const config = {
-                      headers: headers
-                    }
-                    return this.httpClient.post(apiUrl, action.payload, config)
-                      .mergeMap((res: any) => {
-                        if (res.status) {
-                          return [
-                            {
-                              type: AdminActions.UNBLOCK_ADMIN_USER_SUCCESS,
-                              payload: res.response
-                            },
-                            {
-                              type: AlertActions.ALERT_SHOW,
-                              payload: { message: res.message, type: 'success' }
-                            }
-                          ]
-                        } else {
-                          return [
-                            {
-                              type: AlertActions.ALERT_SHOW,
-                              payload: { message: res.message, type: 'danger' }
-                            }
-                          ]
-                        }
-                      })
-                      .catch((err: HttpErrorResponse) => {
-                        return of(
-                          {
-                            type: AlertActions.ALERT_SHOW,
-                            payload: { message: err.error, type: 'danger' }
-                          }
-                        )
-                      })
-                  });
+  @Effect()
+  unblockUser = this.actions$
+    .ofType(AdminActions.UNBLOCK_ADMIN_USER_ATTEMPT)
+    .switchMap((action: AdminActions.UnblockAdminUserAttempt) => {
+        const apiUrl = environment.API_BASE_URL + 'unblock-user';
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const config = {
+          headers: headers
+        }
+        return this.httpClient.post(apiUrl, action.payload, config)
+          .mergeMap((res: any) => {
+            if (res.status) {
+              return [
+                {
+                  type: AdminActions.UNBLOCK_ADMIN_USER_SUCCESS,
+                  payload: res.response
+                },
+                {
+                  type: AlertActions.ALERT_SHOW,
+                  payload: { message: res.message, type: 'success' }
+                }
+              ]
+            } else {
+              return [
+                {
+                  type: AlertActions.ALERT_SHOW,
+                  payload: { message: res.message, type: 'danger' }
+                }
+              ]
+            }
+          })
+          .catch((err: HttpErrorResponse) => {
+            return of(
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: err.error, type: 'danger' }
+              }
+            )
+          })
+      });
 
-
-
+  @Effect()
+  getToEditAdmin = this.actions$
+    .ofType(AdminActions.GET_TO_EDIT_ADMIN_ATTEMPT)
+    .switchMap((action: AdminActions.GetToEditAdminAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'view-admin';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const config = {
+        headers: headers
+      }
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .map((res: any) => {
+          return {
+            type: AdminActions.GET_TO_EDIT_ADMIN_SUCCESS,
+            payload: res.response
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.message, type: 'danger' }
+            }
+          )
+        })
+    });
 
 }

@@ -12,18 +12,20 @@ import * as AgentActions from '../../../store/agent/agent.actions';
   styleUrls: ['./list-agent.component.css']
 })
 export class ListAgentComponent implements OnInit {
-    /** Variable declaration */
+
+  /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
 
-    /** Service injection */
+  /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-                private router: Router) { }
-    /** Function to be executed when component initializes */
+              private router: Router) { }
+  /** Function to be executed when component initializes */
   ngOnInit() {
-      this.store.dispatch(new AgentActions.GetAgentListAttempt());
-      this.afterLoginState = this.store.select('afterLogin');
+    this.store.dispatch(new AgentActions.GetAgentListAttempt());
+    this.afterLoginState = this.store.select('afterLogin');
   }
-    /* Function to Edit Agent */
+
+  /** Function to Edit Agent */
   onEditAgent(id: number) {
     this.router.navigate([ 'agent/edit/', id ]);
   }

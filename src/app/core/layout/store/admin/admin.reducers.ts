@@ -3,12 +3,14 @@ import * as AdminActions from './admin.actions';
 export interface AdminState {
   info: any,
   list: any,
+  toEdit: any,
   resetAdminForm: boolean
 }
 
 const initialState: AdminState = {
   info: null,
   list: [],
+  toEdit: {},
   resetAdminForm: false
 };
 
@@ -69,6 +71,11 @@ export function adminReducer(state = initialState, action: AdminActions.AdminAct
       return {
         ...state,
         list: [...unblockAdminData ]
+      };
+    case (AdminActions.GET_TO_EDIT_ADMIN_SUCCESS):
+      return {
+        ...state,
+        toEdit: { ...action.payload }
       };
     default:
       return state;
