@@ -1,5 +1,5 @@
 import { ActivatedRoute, Data } from '@angular/router';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -9,28 +9,32 @@ import * as AdminActions from '../../../store/admin/admin.actions';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as DepartmentActions from '../../../store/department/department.actions';
+import { Subscription } from 'rxjs/Subscription'
 
 @Component({
   selector: 'app-create-department',
   templateUrl: './create-department.component.html',
   styleUrls: ['./create-department.component.css']
 })
-export class CreateDepartmentComponent implements OnInit {
+export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   /** Variable declaration */
   @ViewChild('form') form:NgForm;
   authState: Observable<fromAuth.State>;
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  authSubscription: Subscription;
+  afterLoginSubscription: Subscription;
   editMode: boolean = false;
   depId: number;
   updateDep: any;
+  loggedInAdminId: number;
   dep = {
     userId: 0,
     departmentName: '',
     departmentDetails: ''
   };
 
-  /** Service injetion */
+  /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
               private cdr: ChangeDetectorRef) { }
@@ -41,13 +45,26 @@ export class CreateDepartmentComponent implements OnInit {
     this.authState = this.store.select('auth');
     this.afterLoginState = this.store.select('afterLogin');
 
-    this.store.select('afterLogin')
+    this.authSubscription = this.store.select('auth')
+      .subscribe(
+        (data) => {
+          if(data.isAdmin) {
+            this.dep.userId = data.userId;
+            this.loggedInAdminId = data.userId;
+          }
+        }
+      );
+
+    this.afterLoginSubscription = this.store.select('afterLogin')
       .map(data => data.department.resetDepartmentForm)
       .subscribe(
         (data) => {
           if(data) {
             this.form.reset();
             this.store.dispatch(new DepartmentActions.ResetDepartmentForm());
+            if(!!this.loggedInAdminId) {
+              this.form.form.patchValue({ userId: this.loggedInAdminId});
+            }
           }
         }
       );
@@ -68,12 +85,11 @@ export class CreateDepartmentComponent implements OnInit {
             .subscribe(
               (dep) => {
                 if(dep) {
-                  setTimeout(() => {
+                  //setTimeout(() => {
                     this.dep.userId = dep.user_id;
-                    //  this.cdr.detectChanges();
                     this.dep.departmentName = dep.department_name;
                     this.dep.departmentDetails = dep.department_details;
-                  }, 0)
+                  //}, 0)
                 }
               }
             );
@@ -81,6 +97,16 @@ export class CreateDepartmentComponent implements OnInit {
       }
     );
 
+  }
+
+  /** Your code to update the model */
+  ngAfterViewChecked(){
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(){
+    this.authSubscription.unsubscribe();
+    this.afterLoginSubscription.unsubscribe();
   }
 
   /** Function call to create a new department */

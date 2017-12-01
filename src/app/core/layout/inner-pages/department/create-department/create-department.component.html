@@ -28,9 +28,9 @@
                                             <select class="form-control"
                                                     id="admin"
                                                     name="userId"
-                                                    [disabled]="editMode"
+                                                    [disabled]="editMode || (authState | async).isAdmin"
                                                     #selected
-                                                    [ngModel]="dep.userId"
+                                                    [(ngModel)]="dep.userId"
                                             >
                                                 <option selected value="0">Choose...</option>
                                                 <option [value]="item.id"
