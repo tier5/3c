@@ -85,5 +85,6 @@ Route::get('get-timezone', 'WidgetController@getTimezones');
 Route::post('widget-data', 'WidgetController@getWidgetData');
 //reset password API
 Route::post('reset-password','UserController@resetPassword');
-
+//get widget departments
+Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
 
