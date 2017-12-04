@@ -35,11 +35,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
       'lastName': new FormControl(null, Validators.required),
       'userName': new FormControl(null, Validators.required),
       'phone': new FormControl(null, [Validators.required, Validators.minLength(14)]),
-      'email': new FormControl(null, [Validators.required, Validators.email])
+      'email': new FormControl({value: null, disabled: true}, [Validators.required, Validators.email])
     });
     /** Password form initialization */
     this.passwordForm = this.formBuilder.group({
-      'userId': new FormControl(null, Validators.required),
+      'userId': new FormControl(null),
       'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
       'confPassword': new FormControl(null)
     }, {validator: this.confirmPassword});

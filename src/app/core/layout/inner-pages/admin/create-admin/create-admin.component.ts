@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import * as AdminActions from '../../../store/admin/admin.actions';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
@@ -48,13 +49,14 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
         if(this.editMode) {
           /** Checking route params to get id of department to edit */
           this.userId = this.activatedRoute.snapshot.params['id'];
+          this.store.dispatch(new AdminActions.GetToEditAdminAttempt({adminId: this.userId}));
           this.updateAdmin = this.store.select('afterLogin')
-            .map(data => data.admin.list)
+            .map(data => data.admin.toEdit)
+            .distinctUntilChanged()
             .subscribe(
-              (list) => {
-                list.filter(admin => {
-                  if (admin.id == this.userId) {
-                    this.admin.userId = data.id;
+              (admin) => {
+                  if (admin) {
+                    this.admin.userId = admin.id;
                     this.admin.firstName = admin.first_name;
                     this.admin.lastName = admin.last_name;
                     this.admin.userName = admin.username;
@@ -62,7 +64,6 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
                     this.admin.phone = admin.phone;
                     this.admin.company = admin.company;
                   }
-                });
               }
             );
         }

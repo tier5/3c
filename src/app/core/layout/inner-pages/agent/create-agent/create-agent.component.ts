@@ -3,13 +3,14 @@ import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, View
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import * as AdminActions from '../../../store/admin/admin.actions';
 import * as AgentActions from '../../../store/agent/agent.actions';
 import * as DepartmentActions from '../../../store/department/department.actions';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-create-agent',
@@ -61,8 +62,9 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         .subscribe(
           (data) => {
             if(data.isAdmin) {
-              this.agent.userId = data.userId;
+              this.agent.parentId = data.userId;
               this.loggedInAdminId = data.userId;
+              this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: data.userId}));
             }
           }
         );
@@ -75,39 +77,42 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                 /** Perform operation is present mode is edit mode */
                 this.selectDept = true;
                 this.userId = this.activatedRoute.snapshot.params['id'];
-                //this.store.dispatch(new AgentActions.GetToEditAgentAttempt({agentId: this.userId}));
+                this.store.dispatch(new AgentActions.GetToEditAgentAttempt({agentId: this.userId}));
                 this.updateAgent = this.store.select('afterLogin')
-                  .map(data => data.agent.list)
+                  .map(data => data.agent.toEdit)
+                  .distinctUntilChanged()
                   .subscribe(
-                      (list) => {
-                          list.filter(agent => {
-                              if (agent.id == this.userId) {
-                                  this.agent.parentId = agent.parent_id;
-                                  this.agent.firstName = agent.first_name;
-                                  this.agent.lastName = agent.last_name;
-                                  this.agent.userName = agent.username;
-                                  this.agent.email = agent.email;
-                                  this.agent.phone = agent.phone;
-                                  this.agent.departmentId = agent.department_agent_mapping.department_id;
-                              }
-                          });
+                  (agent) => {
+                      if (agent) {
+                        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: agent.parent_id}));
+                        this.agent.parentId = agent.parent_id;
+                        this.agent.firstName = agent.first_name;
+                        this.agent.lastName = agent.last_name;
+                        this.agent.userName = agent.username;
+                        this.agent.email = agent.email;
+                        this.agent.phone = agent.phone;
+                        this.agent.departmentId = agent.department_id;
                       }
+                    }
                   );
                   this.selectAdmin = true;
               }
             }
         );
         this.afterLoginSubscription = this.store.select('afterLogin')
-            .map(data => data.agent.resetAgentForm)
-            .subscribe(
-                (data) => {
-                    if(data) {
-                        this.form.reset();
-                        this.selectDept = false;
-                        this.store.dispatch(new AgentActions.ResetAgentForm());
-                    }
+          .map(data => data.agent.resetAgentForm)
+          .subscribe(
+            (data) => {
+              if(data) {
+                this.form.reset();
+                this.selectDept = false;
+                this.store.dispatch(new AgentActions.ResetAgentForm());
+                if(!!this.loggedInAdminId) {
+                  this.form.form.patchValue({ parentId: this.loggedInAdminId, departmentId: 0 });
                 }
-            );
+              }
+            }
+          );
     }
 
     ngAfterViewChecked() {
@@ -127,6 +132,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
       this.afterLoginSubscription.unsubscribe();
+      this.authSubscription.unsubscribe();
     }
 
     /** Function to fetch department list with respect to adminId/userId */

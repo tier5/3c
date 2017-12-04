@@ -16,7 +16,7 @@
             <form #form="ngForm" (submit)="onSubmit(form)">
               <!-- text input -->
               <div class="box-header with-border">
-                <h3 class="box-title">Create Admin</h3>
+                <h3 class="box-title">{{editMode ? 'Edit' : 'Create'}} Admin</h3>
               </div>
               <div class="row">
                 <div class="col-md-6">
