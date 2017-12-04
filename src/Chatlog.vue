@@ -1,11 +1,10 @@
 <template>
-	<div> 
+	<div class="chat-log"> 
 		 <div class="formcontainer">
             <div class="col-md-12 cust-pad">
               	<div class="form-group">
-	             	<div class="row">
-						sgdfg
-					</div>
+	             	<chat-message v-for="message in messages" :message="message">
+					</chat-message>
 				</div>
 			</div>
 		</div>
@@ -15,12 +14,7 @@
 
 <script>
 	export default {
-		data() {
-			return {
-				'text' : "Dummy Chat text"
-			}
-		},
-
+		props : ['messages']
 	}
 </script>
 

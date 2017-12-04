@@ -1,8 +1,7 @@
 <template>
   <div class="app">
     <chat-window></chat-window>
-    <!-- <chatlog></chatlog>
-    <chat v-on:messagesent="addMessage"></chat> -->
+    <!--   <chat> </chat>   -->
   </div>
 </template>
 

@@ -97,7 +97,7 @@
         <span v-if="btnProp.showChatSchedule"><a @click="chatSchedule">{{ chatScheduleTitle }}</a></span>
       </div>
       <div v-if="formSubmit" id="department">
-          <div class="container">
+          <div class="container" v-if="!checkMobile">
            <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/widgets/right-arrow.png'" alt="img"></div>
               <div class="col-md-8">
                 <div class="col-md-5" v-if="!departmentFormSubmit">
@@ -117,14 +117,20 @@
                       <p v-if="chatScheduleClicked">
                         Thank you for showing interest in our platform .One of our agents will chat with you at the specified time.
                       </p>
-                      <p v-if="!chatScheduleClicked">Thank you for showing interest in our platform .One of our agents will chat with you soon.</p>
+                      <p v-if="!chatScheduleClicked">Thank you for showing interest in our platform . To start chatting click the button given below.</p>
                     </div>
+                    <button type="button" class="btn btn-primary" @click="startChat"> Start Chat </button>
                     <div class="col-md-12 cust-pad">
                       <!-- <span style='display: block;text-decoration: underline; cursor: pointer;' id='again'>Chat again</span> -->
                     </div>
                   </div>
                 </div>
             </div>
+          </div>
+          <div class="container" v-if="checkMobile">
+           <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/widgets/right-arrow.png'" alt="img"></div>
+              <chat-mobile v-on:messageSent="sendChatMessage"> </chat-mobile>
+            </div>        
           </div>
       </div>
     </div>
@@ -164,7 +170,7 @@ export default {
       selectedTime: null,
       widgetId: null,
       widgetHost: null,
-      widget_timezone: null,
+      widgetTimezone: null,
       widgetDepartments: {},
       widget: {},
       availableDays: {},
@@ -197,6 +203,8 @@ export default {
       formSubmit : false,
       departmentFormSubmit : false,
       dataToSend : {},
+      checkEmail : false,
+      checkMobile : ''
     }
   },
 
@@ -223,15 +231,15 @@ export default {
           if(response.status) {
             if(response.body.status) {
               this.widget = response.body.widget;
-              this.widget_timezone = response.body.timezone;
-              this.widgetDepartments = response.body.departments;
+              this.widgetTimezone = response.body.timezone;
               this.availableDays = response.body.dates;
               let requiredUrl = response.url;
               // Add Checking 'requiredUrl' will not match
               const currentUrl = location.protocol + '\/\/' + location.host;
-              requiredUrl = 'http://localhost:8081';
+              requiredUrl = 'http://localhost:8080';
               if(requiredUrl === currentUrl){
                 this.showWidget = true;
+                this.checkDevice();
                 this.showButton();
                 
               }
@@ -392,24 +400,60 @@ export default {
       }
 
       this.dataToSend = {
-        customer: {
+        client: {
           'name' : client_name,
           'email' : client_email,
           'phone_number' : client_phone
         },
         widget_uuid: this.widgetId,
         schedule_date: date != undefined ? date:0,
-        schedule_start_time: start != undefined ? start.split(':')[0]+':00:00': 0,
+        schedule_time: start != undefined ? start.split(':')[0]+':00:00': 0,
 
       };
+
       this.formSubmit = true;
+      this.$http.post(this.widgetHost + '/api/v1/widget-departments', { widget_data: this.dataToSend })
+      .then(
+        (response) => {
+          if(response.status) {
+            if(response.body.status) {
+              console.log(response);
+              this.widgetDepartments = response.body.departments;
+            }
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+      
+      // setTimeout(() => {
+      //     this.checkEmail = true;
+      //   }, 3000);
+      /** API call to sned mail to the entered email id */
+      // this.$http.post(this.widgetHost + '/api/v1/widget-data', { data: this.dataToSend })
+      // .then(
+      //   (response) => {
+      //     console.log(response);
+      //     if(response.status) {
+      //       if(response.body.status) {
+      //         console.log(response);
+      //         this.checkEmail = true;
+      //       }
+      //     }
+      //   },
+      //   (error) => {
+      //     console.error(error);
+      //     this.checkEmail = false;
+      //   }
+      // );
     },
     showButton () {
       const min_width = 600;
       const responsive_width = 991;
       const device_width = window.screen.width;
 
-      this.timezone = (this.widget_timezone.timezone_name).replace(/ *\([^)]*\) */g, "");
+      this.timezone = (this.widgetTimezone.timezone_name).replace(/ *\([^)]*\) */g, "");
 
 //      $("#commonform").on('click', ':not(.close-form)', function(e) {
 //        e.stopPropagation();
@@ -417,11 +461,11 @@ export default {
 
       this.time.nowInLocal = new Date();
       this.time.utc = new Date(this.time.nowInLocal.getTime() + this.time.nowInLocal.getTimezoneOffset() * 60000);
-      this.time.nowInUTC = new Date( this.time.utc.getTime() + (parseInt(this.widget_timezone.time_difference.split(":")[0]) * 60 * 60000));
+      this.time.nowInUTC = new Date( this.time.utc.getTime() + (parseInt(this.widgetTimezone.time_difference.split(":")[0]) * 60 * 60000));
       this.time.cur_date_UTC = this.formatDate(this.time.nowInUTC);
       this.time.cur_time_UTC = this.time.nowInUTC.getHours();
       this.time.cur_day_UTC = this.time.nowInUTC.getDay();
-      this.time.schedules = this.widget_timezone.days;
+      this.time.schedules = this.widgetTimezone.days;
       this.time.start_val = parseInt(this.widget.widget_schedule.start_time.toString().split(":")[0]);
       this.time.end_val = parseInt(this.widget.widget_schedule.end_time.toString().split(":")[0]);
       if(this.time.schedules.hasOwnProperty(this.time.cur_day_UTC))  {
@@ -451,6 +495,27 @@ export default {
   chatLater () {
     this.sendData(this.name, this.email, this.phoneField, this.selectedDay, this.selectedTime);
   },
+  checkDevice () {
+      const min_width = 600;
+      const device_width = window.screen.width;
+      this.checkMobile = false;
+
+       // Desktop
+      if(device_width > min_width) {
+        this.checkMobile = false;
+      }
+      // Mobile
+      if(device_width <= min_width) {
+        this.checkMobile = true;
+      }
+  },
+  startChat () {
+    console.log("Start chat");
+  },
+  sendChatMessage(message) {
+    this.dataToSend.message = message;
+    console.log(this.dataToSend);
+  }
 }
 }
 </script>
