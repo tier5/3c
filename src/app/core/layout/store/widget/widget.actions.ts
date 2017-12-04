@@ -51,6 +51,7 @@ export class EditWidgetSuccess implements Action {
 
 export class GetWidgetListAttempt implements Action {
   readonly type = GET_WIDGET_LIST_ATTEMPT
+  constructor (public payload: any) { }
 }
 
 export class GetWidgetListSuccess implements Action {

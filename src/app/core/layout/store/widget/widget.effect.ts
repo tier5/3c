@@ -102,7 +102,7 @@ export class WidgetEffects {
       const config = {
         headers: headers
       }
-      return this.httpClient.get(apiUrl, config)
+      return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
           if (res.status) {
             return {
