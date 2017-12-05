@@ -41,6 +41,7 @@
 		    },
 		},
 		methods: {
+			/** to send the message */
 			submit() {
 				console.log(this.messageText);
 				this.$emit('messageSent', this.messageText);

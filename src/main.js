@@ -22,7 +22,7 @@ document.body.appendChild(node);
 Vue.use(VueResource);
 Vue.use(VueMask);
 Vue.use(VueValidate);
-Vue.use(VueSocketio, 'http://localhost:3100');
+//Vue.use(VueSocketio, 'http://localhost:3100');
 
 Vue.directive('mask', VueMaskDirective);
 Vue.component('chat', Chat);

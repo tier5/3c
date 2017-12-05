@@ -31,47 +31,18 @@ export default {
     }
   },
   data() {
-		return {
-			messages : []
-		}
-	},
+    return {
+      messages : []
+    }
+  },
   created() {
-    // this.$http.get('http://3c.local/api/v1/messages')
-    // .then(
-    //     (response) => {
-    //       //console.log(response);
-    //       if(response.status) {
-    //         if(response.body.status) {
-    //           //console.log(response.body.messages);
-    //           this.messages = response.body.messages;
-    //         }
-    //       }
-    //     },
-    //     (error) => {
-    //       console.error(error);
-    //     }
-    //   );
   },
   methods : {
     /** to add sent chat message */
   	addMessage(message) {
   		console.log("sent");
+      /** emitting the socket instance */
       this.$socket.emit('send', message);
-      //this.$socket.emit('get');
-      // this.$http.post('http://3c.local/api/v1/add-message', { message: message })
-      // .then(
-      //     (response) => {
-      //       // console.log(response);
-      //       if(response.status) {
-      //         if(response.body.status) {
-      //           //console.log(response.body.messages);
-      //         }
-      //       }
-      //     },
-      //     (error) => {
-      //       console.error(error);
-      //     }
-      //   );
   	},
   }
 }
