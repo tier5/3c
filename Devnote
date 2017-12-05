@@ -91,4 +91,12 @@
   * Modify WidgetsController
   * Modify UserController
   * Modify twilioController
+27. Backend released v1.1
+  * Modifications in WidgetController to get timezone
+28. Backend released v1.2
+  * Modifications in WidgetController to get departments
+29. Backend released v1.3
+  * Modifications in UserController to get agent details
+30. Backend released v1.4
+  * Modifications in UserController to get admin details
   

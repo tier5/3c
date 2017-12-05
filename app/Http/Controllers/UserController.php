@@ -672,6 +672,51 @@ class UserController extends Controller
   }
 
   /**
+   * Get Admin Details
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function viewAdmin()
+  {
+
+    $adminId = $request->adminId;
+
+    if ($adminId!='') { //Get admin details
+      $admin = Users::where('id',$adminId)->first();
+
+      if( count($admin) != 0 ) {
+
+        return  Response::json(array(
+          'status'   => true,
+          'code'     => 200,
+          'response' => $admin,
+          'message'  => 'Admin Found !'
+        ));
+
+      } else {
+
+        return  Response::json(array(
+          'status'  => false,
+          'code'    => 400,
+          'response'=> [],
+          'message' => 'Sorry admin not found !'
+        ));
+
+      }
+    } else {
+
+      return  Response::json(array(
+        'status'  => false,
+        'code'    => 400,
+        'response'=> [],
+        'message' => 'Please select an admin !'
+      ));
+
+    }
+  }
+
+  /**
    * Emulate admin an user
    *
    * @param Request $request
@@ -1203,9 +1248,9 @@ class UserController extends Controller
   {
     $agentId = $request->agentId;
 
-    if ($agentId!='') { //Get agent list of an admin
+    if ($agentId!='') { //Get agent details
 
-      $agent = User::where('id',$agentId)->first();
+      $agent = Users::where('id',$agentId)->first();
 
       if( count($agent) != 0 ) {
 
