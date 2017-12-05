@@ -57,6 +57,8 @@ Route::post('listofAgent','UserController@listofAgent');
 Route::post('agent-update','UserController@updateAgent');
 // Block Unblock Agent
 Route::post('agent-status-update','UserController@agentStatusUpdate');
+//view Agent
+Route::post('view-agent','UserController@viewAgent');
 // validate Twilio Credentials
 Route::get('validate-twilio-credentials','TwilioController@validateTwilioCredentials');
 // Twilio Account List

@@ -1194,6 +1194,50 @@ class UserController extends Controller
   }
 
   /**
+   * To get the agent details
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function viewAgent(Request $request)
+  {
+    $agentId = $request->agentId;
+
+    if ($agentId!='') { //Get agent list of an admin
+
+      $agent = User::where('id',$agentId)->first();
+
+      if( count($agent) != 0 ) {
+
+        return  Response::json(array(
+          'status'   => true,
+          'code'     => 200,
+          'response' => $agent,
+          'message'  => 'Agent Found !'
+        ));
+
+      } else {
+
+        return  Response::json(array(
+          'status'  => false,
+          'code'    => 400,
+          'response'=> [],
+          'message' => 'Sorry agent not found !'
+        ));
+
+      }
+    } else {
+
+      return  Response::json(array(
+        'status'  => false,
+        'code'    => 400,
+        'response'=> [],
+        'message' => 'Please select an agent !'
+      ));
+
+    }
+  }
+  /**
    * Send Email to users when they are registering to the system
    *
    * @param $email,$password
