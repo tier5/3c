@@ -437,7 +437,33 @@ class WidgetController extends Controller
       } else {
 
         $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->first();
-        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>false,'message'=>'Widget Details !'));
+        
+        /** to get all the widget departments */
+        $departmentArray = [];
+
+        foreach($viewWidget->widgetDepartment as $department) {
+          $departmentArray[] = $department->department_id;
+        }
+
+        /** array to send the response */
+        $widgetArray = [];
+
+        $widgetArray['id']                 = $viewWidget->id;
+        $widgetArray['details']            = $viewWidget->details;
+        $widgetArray['area_code']          = $viewWidget->area_code;
+        $widgetArray['image']              = $viewWidget->image;
+        $widgetArray['schedule_timezone']  = $viewWidget->schedule_timezone;
+        $widgetArray['status']             = $viewWidget->status;
+        $widgetArray['user_id']            = $viewWidget->user_id;
+        $widgetArray['website']            = $viewWidget->website;
+        $widgetArray['widget_uuid']        = $viewWidget->widget_uuid;
+        $widgetArray['widget_department']  = $viewWidget->widgetDepartment;
+        $widgetArray['twilio_numbers']     = $viewWidget->twilioNumbers;
+        $widgetArray['widget_schedule']    = $viewWidget->widgetSchedule;
+        $widgetArray['departments']        = $departmentArray;
+
+
+        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$widgetArray,'status'=>true,'message'=>'Widget Details !'));
 
       }
 
