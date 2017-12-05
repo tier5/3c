@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <chat-window></chat-window>
-    <!--   <chat> </chat>   -->
+    <!--  <chat-window></chat-window> -->
+    <chat> </chat>   
   </div>
 </template>
 

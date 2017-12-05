@@ -18,13 +18,17 @@ export default {
     connect: function(){
       console.log('socket connected')
     },
+    /** to receive the message */
+    receive: function() {
+      this.$socket.emit('get');
+      console.log("receive");
+    },
+    /** event fired on sending message to get the message*/
     getMessage: function(val){
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)');
-      console.log("ddd");
+      console.log('This method was fired by the socket server.');
       this.messages =val;
       console.log(val);
     }
-
   },
   data() {
 		return {
@@ -49,11 +53,11 @@ export default {
     //   );
   },
   methods : {
+    /** to add sent chat message */
   	addMessage(message) {
   		console.log("sent");
       this.$socket.emit('send', message);
-      this.$socket.emit('get');
-
+      //this.$socket.emit('get');
       // this.$http.post('http://3c.local/api/v1/add-message', { message: message })
       // .then(
       //     (response) => {

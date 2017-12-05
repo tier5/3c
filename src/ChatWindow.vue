@@ -318,15 +318,11 @@ export default {
       // );
       
     },
-    addMessage() {
-      console.log("Message added");
-    },
     openSideBar () {
       this.showSideBar = true;
     },
     closeSideBar () {
       this.showSideBar = false;
-
     },
     formatDate (date) {
       const d = new Date(date);
@@ -385,7 +381,6 @@ export default {
         return false;
       }
     },
-  
     sendData (client_name, client_email, client_phone, date, time) {
       let start, end;
       if(time != undefined) {
@@ -412,6 +407,8 @@ export default {
       };
 
       this.formSubmit = true;
+
+      /** api call to get the departments for the widget */
       this.$http.post(this.widgetHost + '/api/v1/widget-departments', { widget_data: this.dataToSend })
       .then(
         (response) => {
@@ -495,6 +492,7 @@ export default {
   chatLater () {
     this.sendData(this.name, this.email, this.phoneField, this.selectedDay, this.selectedTime);
   },
+  /** to check if mobile or desktop */
   checkDevice () {
       const min_width = 600;
       const device_width = window.screen.width;

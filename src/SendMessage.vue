@@ -21,12 +21,12 @@
 				messageText : ''
 			}
 		},
-
 		methods: {
+			/** to send chat message */
 			send() {
 				this.$emit('messageSent',{
 					'message' : this.messageText,
-					'user'  : 'Admin'
+					'user'    : 'Admin'
 				});
 				this.messageText = '';
 			}
