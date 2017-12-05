@@ -677,7 +677,7 @@ class UserController extends Controller
    * @param Request $request
    * @return \Illuminate\Http\JsonResponse
    */
-  public function viewAdmin()
+  public function viewAdmin(Request $request)
   {
 
     $adminId = $request->adminId;
@@ -1250,14 +1250,37 @@ class UserController extends Controller
 
     if ($agentId!='') { //Get agent details
 
-      $agent = Users::where('id',$agentId)->first();
+      $agent = Users::where('id',$agentId)->with('departmentAgentMapping.departmentDetails.userDetails')->get()->first();
 
       if( count($agent) != 0 ) {
+
+        $agentArray = [];
+
+        /** to send the agent details */
+        $agentArray['company']             = $agent->company;
+        $agentArray['email']               = $agent->email;
+        $agentArray['id']                  = $agent->id;
+        $agentArray['first_name']          = $agent->first_name;
+        $agentArray['last_name']           = $agent->last_name;
+        $agentArray['parent_id']           = $agent->parent_id;
+        $agentArray['password']            = $agent->password;
+        $agentArray['phone']               = $agent->phone;
+        $agentArray['profile_status']      = $agent->profile_status;
+        $agentArray['type']                = $agent->type;
+        $agentArray['username']            = $agent->username;
+        $agentArray['department_id']       = $agent->departmentAgentMapping->department_id;
+        $agentArray['department_name']     = $agent->departmentAgentMapping->departmentDetails->department_name;
+        $agentArray['department_details']  = $agent->departmentAgentMapping->departmentDetails->department_details;
+        $agentArray['admin_first_name']    = $agent->departmentAgentMapping->departmentDetails->userDetails->first_name;
+        $agentArray['admin_username']      = $agent->departmentAgentMapping->departmentDetails->userDetails->username;
+        $agentArray['admin_last_name']     = $agent->departmentAgentMapping->departmentDetails->userDetails->last_name;
+
+
 
         return  Response::json(array(
           'status'   => true,
           'code'     => 200,
-          'response' => $agent,
+          'response' => $agentArray,
           'message'  => 'Agent Found !'
         ));
 
