@@ -32,6 +32,8 @@ Route::post('get-twilio-information','TwilioController@getTwilioInformation');
 Route::post('admin-registration','UserController@adminRegistration');
 //Admin List
 Route::get('admin-list','UserController@adminList');
+//View Admin
+Route::post('view-admin','UserController@viewAdmin');
 //Emulate User
 Route::post('emulate-user','UserController@emulateUser');
 //Block User
@@ -57,6 +59,8 @@ Route::post('listofAgent','UserController@listofAgent');
 Route::post('agent-update','UserController@updateAgent');
 // Block Unblock Agent
 Route::post('agent-status-update','UserController@agentStatusUpdate');
+//view Agent
+Route::post('view-agent','UserController@viewAgent');
 // validate Twilio Credentials
 Route::get('validate-twilio-credentials','TwilioController@validateTwilioCredentials');
 // Twilio Account List
@@ -85,5 +89,6 @@ Route::get('get-timezone', 'WidgetController@getTimezones');
 Route::post('widget-data', 'WidgetController@getWidgetData');
 //reset password API
 Route::post('reset-password','UserController@resetPassword');
-
+//get widget departments
+Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
 

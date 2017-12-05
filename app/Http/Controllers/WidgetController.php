@@ -15,6 +15,10 @@ use App\Model\WidgetDepartmentMapping;
 use App\Model\WidgetScheduleMapping;
 use App\Http\Controllers\TwilioController;
 use Helper;
+use App\Exceptions\EntityConflictException;
+use App\Exceptions\HttpBadRequestException;
+use Illuminate\Database\QueryException;
+use DB;
 
 class WidgetController extends Controller
 {
@@ -433,7 +437,33 @@ class WidgetController extends Controller
       } else {
 
         $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->first();
-        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>false,'message'=>'Widget Details !'));
+        
+        /** to get all the widget departments */
+        $departmentArray = [];
+
+        foreach($viewWidget->widgetDepartment as $department) {
+          $departmentArray[] = $department->department_id;
+        }
+
+        /** array to send the response */
+        $widgetArray = [];
+
+        $widgetArray['id']                 = $viewWidget->id;
+        $widgetArray['details']            = $viewWidget->details;
+        $widgetArray['area_code']          = $viewWidget->area_code;
+        $widgetArray['image']              = $viewWidget->image;
+        $widgetArray['schedule_timezone']  = $viewWidget->schedule_timezone;
+        $widgetArray['status']             = $viewWidget->status;
+        $widgetArray['user_id']            = $viewWidget->user_id;
+        $widgetArray['website']            = $viewWidget->website;
+        $widgetArray['widget_uuid']        = $viewWidget->widget_uuid;
+        $widgetArray['widget_department']  = $viewWidget->widgetDepartment;
+        $widgetArray['twilio_numbers']     = $viewWidget->twilioNumbers;
+        $widgetArray['widget_schedule']    = $viewWidget->widgetSchedule;
+        $widgetArray['departments']        = $departmentArray;
+
+
+        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$widgetArray,'status'=>true,'message'=>'Widget Details !'));
 
       }
 
@@ -477,45 +507,184 @@ class WidgetController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getWidgetData(Request $request)
-    {
-        $widgetUuid = $request->widgetUuid;
-        if( $widgetUuid != "" ){
+  public function getWidgetData(Request $request)
+  {
+    try {
 
-            $widgetData = Widgets::where('widget_uuid',$widgetUuid)->with('userDetails','twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get();
+      DB::beginTransaction();
 
-            if(count($widgetData) != 0){
+      $widgetUuid = $request->widgetUuid;
+      if( $widgetUuid != "" ){
 
-                return Response::json(array(
-                    'status'   => true,
-                    'code'     => 200,
-                    'error'    => false,
-                    'response' => $widgetData,
-                    'message'  => 'Widget Data !'
-                ));
+        $widgetData = Widgets::where('widget_uuid',$widgetUuid)->with('userDetails','twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get();
 
-            }else{
+        if(count($widgetData) != 0){
 
-                return Response::json(array(
-                    'status'   => false,
-                    'code'     => 400,
-                    'error'    => true,
-                    'response' => [],
-                    'message'  => 'Sorry No Widget Data Found !'
-                ));
+          $widgetArray = [];
+          $widgetData = $widgetData->first();
+          $timezone_data = Timezone::where('id',$widgetData->schedule_timezone)->first();
+          $days= [];
+          $weekdays = [
+            'Mon' => 1,
+            'Tue' => 2 ,
+            'Wed' => 3,
+            'Thu' => 4,
+            'Fri' => 5,
+            'Sat' => 6,
+            'Sun' => 0
+          ];
+          $dates = [];
+          $date = date('w');
+          $day  = date('w');
+          $start_date =  date('Y-m-d', strtotime('-'.$day.' days'));
+          $daysArray = explode(',', $widgetData->widgetSchedule->day);
+          for($i=0; $i< count($daysArray) ; $i++) {
+            if(array_key_exists( $daysArray[$i], $weekdays) )
+            {
+              if($daysArray[$i]=="Sun") {
+                $dates[]=  date('Y-m-d', strtotime('next sunday'));
+              } else if($daysArray[$i]=="Mon") {
+                $dates[]=  date('Y-m-d', strtotime('next monday'));
+              } else if($daysArray[$i]=="Tue") {
+                $dates[]=  date('Y-m-d', strtotime('next tuesday'));
+              } else if($daysArray[$i]=="Wed") {
+                $dates[]=  date('Y-m-d', strtotime('next wednesday'));
+              } else if($daysArray[$i]=="Thu") {
+                $dates[]=  date('Y-m-d', strtotime('next thursday'));
+              } else if($daysArray[$i]=="Fri") {
+                $dates[]=  date('Y-m-d', strtotime('next friday'));
+              } else {
+                $dates[]=  date('Y-m-d', strtotime('next saturday'));
+              } 
+              $days[$weekdays[$daysArray[$i]]] =$daysArray[$i];
+                  
             }
-        }else{
+          }
+          $timezone['time_difference']    = $timezone_data->time_difference;
+          $timezone['status']             = $timezone_data->status;
+          $timezone['timezone_name']      = $timezone_data->timezone_name;
+          $timezone['days']               = $days;
+          $timezone['id']                 = $timezone_data->id;
 
-            return Response::json(array(
-                'status'   => false,
-                'code'     => 400,
-                'error'    => true,
-                'response' => [],
-                'message'  => 'Sorry Invalid Widget ID !'
-            ));
+          
+          return Response::json(array(
+            'status'   => true,
+            'code'     => 200,
+            'error'    => false,
+            'widget'   => $widgetData,
+            'timezone' => $timezone,
+            'dates'     => $dates,
+            'message'  => 'Widget Data !'
+          ));
 
+        } else {
+
+          return Response::json(array(
+            'status'   => false,
+            'code'     => 400,
+            'error'    => false,
+            'widget' => [],
+            'message'  => 'Sorry No Widget Data Found !'
+          ));
         }
+      } else {
+
+        return Response::json(array(
+          'status'   => false,
+          'code'     => 400,
+          'error'    => false,
+          'widget' => [],
+          'message'  => 'Sorry Invalid Widget ID !'
+        ));
+      }
+    } catch (Exception $exception) {
+      DB::rollBack();
+      return Response::json(array(
+        'status'        => false,
+        'error'         => "Internal server error.",
+        'error_info'    => $exception->getMessage()
+      ));
+    } finally {
+        DB::commit();
     }
+  }
 
+  /**
+  * Get widget departments accroding to widget uuid
+  *
+  * @param Request $request
+  * @return \Illuminate\Http\JsonResponse
+  */
+  public function getWidgetDepartments(Request $request)
+  {
+    try {
 
+      DB::beginTransaction();
+
+      $widget = $request->widget_data;
+      $widgetUuid = $widget['widget_uuid'];
+      if( $widgetUuid != "" ){
+
+        $widgetData = Widgets::where('widget_uuid',$widgetUuid)->with('userDetails','twilioNumbers','widgetDepartment.departmentDetails')->get();
+
+        if(count($widgetData) != 0){
+
+          $widgetArray = [];
+          $widgetData = $widgetData->first();
+          
+
+          $departmentArray = [];
+          $deptArray = $widgetData->widgetDepartment;
+          if(count($deptArray)>0) {
+            foreach ($deptArray as $dept) {
+              $departments = [];
+              $departments['id']              = $dept->department_id;
+              $departments['department_name'] = $dept->departmentDetails->department_name;
+              $departments['department_details'] = $dept->departmentDetails->department_details;
+              $departments['status'] = $dept->departmentDetails->status;
+              $departments['user_id'] = $dept->departmentDetails->user_id;
+              $departmentArray[] = $departments;
+            }
+          }
+
+          return Response::json(array(
+            'status'   => true,
+            'code'     => 200,
+            'error'    => false,
+            'widget'   => $widgetData,
+            'departments' => $departmentArray,
+            'message'  => 'Widget Data !'
+          ));
+
+        } else {
+
+          return Response::json(array(
+            'status'   => false,
+            'code'     => 400,
+            'error'    => false,
+            'widget' => [],
+            'message'  => 'Sorry No Widget Data Found !'
+          ));
+        }
+      } else {
+
+        return Response::json(array(
+          'status'   => false,
+          'code'     => 400,
+          'error'    => false,
+          'widget' => [],
+          'message'  => 'Sorry Invalid Widget ID !'
+        ));
+      }
+    } catch (Exception $exception) {
+      DB::rollBack();
+      return Response::json(array(
+        'status'        => false,
+        'error'         => "Internal server error.",
+        'error_info'    => $exception->getMessage()
+      ));
+    } finally {
+        DB::commit();
+    }
+  }
 }

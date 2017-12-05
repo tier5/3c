@@ -672,6 +672,51 @@ class UserController extends Controller
   }
 
   /**
+   * Get Admin Details
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function viewAdmin(Request $request)
+  {
+
+    $adminId = $request->adminId;
+
+    if ($adminId!='') { //Get admin details
+      $admin = Users::where('id',$adminId)->first();
+
+      if( count($admin) != 0 ) {
+
+        return  Response::json(array(
+          'status'   => true,
+          'code'     => 200,
+          'response' => $admin,
+          'message'  => 'Admin Found !'
+        ));
+
+      } else {
+
+        return  Response::json(array(
+          'status'  => false,
+          'code'    => 400,
+          'response'=> [],
+          'message' => 'Sorry admin not found !'
+        ));
+
+      }
+    } else {
+
+      return  Response::json(array(
+        'status'  => false,
+        'code'    => 400,
+        'response'=> [],
+        'message' => 'Please select an admin !'
+      ));
+
+    }
+  }
+
+  /**
    * Emulate admin an user
    *
    * @param Request $request
@@ -1193,6 +1238,73 @@ class UserController extends Controller
     return Response()->json($response);
   }
 
+  /**
+   * To get the agent details
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function viewAgent(Request $request)
+  {
+    $agentId = $request->agentId;
+
+    if ($agentId!='') { //Get agent details
+
+      $agent = Users::where('id',$agentId)->with('departmentAgentMapping.departmentDetails.userDetails')->get()->first();
+
+      if( count($agent) != 0 ) {
+
+        $agentArray = [];
+
+        /** to send the agent details */
+        $agentArray['company']             = $agent->company;
+        $agentArray['email']               = $agent->email;
+        $agentArray['id']                  = $agent->id;
+        $agentArray['first_name']          = $agent->first_name;
+        $agentArray['last_name']           = $agent->last_name;
+        $agentArray['parent_id']           = $agent->parent_id;
+        $agentArray['password']            = $agent->password;
+        $agentArray['phone']               = $agent->phone;
+        $agentArray['profile_status']      = $agent->profile_status;
+        $agentArray['type']                = $agent->type;
+        $agentArray['username']            = $agent->username;
+        $agentArray['department_id']       = $agent->departmentAgentMapping->department_id;
+        $agentArray['department_name']     = $agent->departmentAgentMapping->departmentDetails->department_name;
+        $agentArray['department_details']  = $agent->departmentAgentMapping->departmentDetails->department_details;
+        $agentArray['admin_first_name']    = $agent->departmentAgentMapping->departmentDetails->userDetails->first_name;
+        $agentArray['admin_username']      = $agent->departmentAgentMapping->departmentDetails->userDetails->username;
+        $agentArray['admin_last_name']     = $agent->departmentAgentMapping->departmentDetails->userDetails->last_name;
+
+
+
+        return  Response::json(array(
+          'status'   => true,
+          'code'     => 200,
+          'response' => $agentArray,
+          'message'  => 'Agent Found !'
+        ));
+
+      } else {
+
+        return  Response::json(array(
+          'status'  => false,
+          'code'    => 400,
+          'response'=> [],
+          'message' => 'Sorry agent not found !'
+        ));
+
+      }
+    } else {
+
+      return  Response::json(array(
+        'status'  => false,
+        'code'    => 400,
+        'response'=> [],
+        'message' => 'Please select an agent !'
+      ));
+
+    }
+  }
   /**
    * Send Email to users when they are registering to the system
    *
