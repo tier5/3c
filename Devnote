@@ -103,3 +103,5 @@
   * Modifications in UserController to get agent and admin details
 32. Backend released v1.6
   * Modifications in WidgetController to send the widget departments
+33. Backend released v1.7
+  * Modifications in DepartmentController to send the departments w.r.t admin

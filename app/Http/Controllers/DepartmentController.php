@@ -237,7 +237,7 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 1 ) { //Superadmin Department List
 
-                  $department = Department::get();
+                  $department = Department::where('user_id',$userId)->get();
 
                   if(count($department) != 0){
 
