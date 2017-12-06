@@ -90,4 +90,7 @@ Route::post('widget-data', 'WidgetController@getWidgetData');
 Route::post('reset-password','UserController@resetPassword');
 //get widget departments
 Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
-
+//test function route
+Route::post('widget-departments-list', 'ChatController@createSmsTemplate');
+//test Route
+Route::post('test-chat', 'ChatController@checkMessage');

@@ -234,7 +234,7 @@ class UserController extends Controller
 
             // Send Mail to user email id
             Mail::send([],[], function($message) use ($body,$forget_check){
-                $message->from(getenv('MAIL_USERNAME'),"Password");
+                //$message->from(getenv('MAIL_USERNAME'),"Password");
                 $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password')->setBody($body,'text/html');
             });
 
