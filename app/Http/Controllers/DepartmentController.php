@@ -228,16 +228,13 @@ class DepartmentController extends Controller
 
       $userToken = $request->token; //user Token
       $userId    = $request->userId; //user ID
-
       if( $userToken != "" ) {
-
           $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
 
           if( count($checkUser) != 0 ) {
 
-              if( $checkUser->userInfo->type == 1 ) { //Superadmin Department List
-
-                  $department = Department::where('user_id',$userId)->get();
+              if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
+                  $department = Department::get();
 
                   if(count($department) != 0){
 
@@ -256,6 +253,31 @@ class DepartmentController extends Controller
                         'response' => [],
                         'message'  => 'Sorry Department not found !'
                     ));
+
+                  }
+              }
+
+              if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
+
+                  $department = Department::where('user_id',$userId)->get();
+
+                  if(count($department) != 0){
+
+                      return  Response::json(array(
+                          'status'   => true,
+                          'code'     => 200,
+                          'response' => $department,
+                          'message'  => 'Department List!'
+                      ));
+
+                  } else {
+
+                      return  Response::json(array(
+                          'status'   => false,
+                          'code'     => 400,
+                          'response' => [],
+                          'message'  => 'Sorry Department not found !'
+                      ));
 
                   }
               }
@@ -295,7 +317,7 @@ class DepartmentController extends Controller
 
           }
       } elseif ( $userId != ""){
-
+            \Log::info('this is hit !!!!!!!!!!');
           //fetching the list of department for a specific user/admin
           $department = Department::where('user_id',$userId)->get();
 
