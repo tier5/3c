@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Response;
 use App\Model\Widgets;
 use App\Model\Users;
+use App\Model\UserToken;
 use App\Model\Department;
 use App\Model\WidgetDepartmentMapping;
 use App\Model\WidgetScheduleMapping;
@@ -72,19 +73,21 @@ class WidgetController extends Controller
       if($website!= "") {
 
         // Get User Id from token in case of userId is not provided
-        if ($userId == '') {
+        if ($userId == '' || $userId=="undefined") {
 
           $userId = Helper::getUserIdFromToken($token);
+           
 
         }
 
         $checkUser    = Users::where('id',$userId)->first();
         $checkWidgets = Widgets::where('website',$website)->first();
 
+
         // Check user is valid or not
         if (count($checkUser) == 0) {
 
-          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Users not found !'));
+          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>$token,'status'=>false,'message'=>'Users not found !'));
 
         }
 
@@ -122,12 +125,16 @@ class WidgetController extends Controller
             $reqDepartments->widgetId          = $widgets->id;
             $reqDepartments->userId            = $userId;
             $reqDepartments->departmentIdArray = $widgetDepartment;
+
+                 
             $this->updateWidgetDepartment($reqDepartments);
+
 
             // Get purchased twilio purchased phone numbers
             $twilioController  = new TwilioController;
             $purchasedResponse = $twilioController->getPurchasedPhoneNumber($widgets->id, $userId, $areaCode);
             return $purchasedResponse;
+
 
           } else {
 
@@ -152,111 +159,144 @@ class WidgetController extends Controller
     *
     * @return \Illuminate\Http\JsonResponse
     */
-    public function listWidgets()
+    public function listWidgets(Request $request)
     {
-      $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get(); //Get Widgets with Twilio numbers
 
-      if (count($listsWidgets) != 0) {
+      $userToken = $request->token; //user Token
+      $userId    = $request->userId; //user ID
+      if( $userToken != "" ) {
+        $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
 
-          return Response::json(array(
-              'status'   => true,
-              'code'     => 200,
-              'error'    => false,
-              'response' => $listsWidgets,
-              'message'  => 'Lists of Widgets !'
-          ));
+        if( count($checkUser) != 0 ) {
 
-      } else {
+          if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Widget List
 
-          return Response::json(array(
-              'status'   => false,
-              'code'     => 400,
-              'error'    => true,
-              'response' => [],
-              'message'  => 'No Widgets Found !'
-          ));
+            $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get(); //Get Widgets with Twilio numbers
 
-      }
-    }
 
-    /**
-    * Get List of widgets for admin
-    *
-    * @return \Illuminate\Http\JsonResponse
-    */
-    public function adminWidgetList(Request $request)
-    {
-      $adminId  = $request->adminId;
+            if(count($listsWidgets) != 0){
 
-      if($adminId!="") {
+              return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widget List!'
+              ));
 
-        $listsWidgets = Widgets::where('user_id', $adminId)
-                               ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
-                               ->get(); //Get Widgets with all widget details
+            } else {
 
-        if (count($listsWidgets) != 0) {
+              return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+              ));
 
-          /** array to send the response */
-          $widgets = [];
-
-          foreach ($listsWidgets as $widget) {
-            /** to get all the widget departments */
-            $departmentArray = [];
-
-            foreach($widget->widgetDepartment as $department) {
-              $departmentArray[] = $department->department_id;
             }
-
-
-            $widgetArray = [];
-
-            $widgetArray['id']                 = $widget->id;
-            $widgetArray['details']            = $widget->details;
-            $widgetArray['area_code']          = $widget->area_code;
-            $widgetArray['image']              = $widget->image;
-            $widgetArray['schedule_timezone']  = $widget->schedule_timezone;
-            $widgetArray['status']             = $widget->status;
-            $widgetArray['user_id']            = $widget->user_id;
-            $widgetArray['website']            = $widget->website;
-            $widgetArray['widget_uuid']        = $widget->widget_uuid;
-            $widgetArray['widget_department']  = $widget->widgetDepartment;
-            $widgetArray['twilio_numbers']     = $widget->twilioNumbers;
-            $widgetArray['widget_schedule']    = $widget->widgetSchedule;
-            $widgetArray['departments']        = $departmentArray;
-
-            $widgets[] = $widgetArray;
-
           }
-          
-          return Response::json(array(
-            'status'   => true,
-            'code'     => 200,
-            'error'    => false,
-            'response' => $widgets,
-            'message'  => 'Lists of Widgets !'
-          ));
+
+          if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Widgets List
+
+            $listsWidgets = Widgets::where('user_id',$userId)
+                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                   ->get(); //Get Widgets with Twilio numbers
+
+            if(count($listsWidgets) != 0){
+
+              return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widget List!'
+              ));
+
+            } else {
+
+              return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+              ));
+
+            }
+          }
+
+          if( $checkUser->userInfo->type == 2 ) { //Admin Department List
+
+            $listsWidgets = Widgets::where('user_id',$checkUser->userInfo->id)
+                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                   ->get(); //Get Widgets with Twilio numbers
+
+
+            if( count($listsWidgets) != 0 ) {
+
+              return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widgets List!'
+              ));
+
+            } else {
+
+              return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+              ));
+
+            }
+          }
 
         } else {
 
-          return Response::json(array(
+          return  Response::json(array(
             'status'   => false,
             'code'     => 400,
-            'error'    => true,
             'response' => [],
-            'message'  => 'No Widgets Found !'
+            'message'  => 'Invalid Token !'
           ));
+
         }
+      } elseif ( $userId != ""){
+            \Log::info('this is hit !!!!!!!!!!');
+          //fetching the list of widgets for a specific user/admin
+
+          $listsWidgets = Widgets::where('user_id',$userId)
+                                 ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                 ->get(); //Get Widgets with Twilio numbers
+
+          if( count($listsWidgets) != 0 ) {
+
+            return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widgets List!'
+            ));
+
+          } else {
+
+            return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+            ));
+
+          }
       } else {
 
-        return Response::json(array(
-          'status'   => false,
-          'code'     => 200,
-          'error'    => true,
+        return  Response::json(array(
+          'status'  => false,
+          'code'    => 400,
           'response' => [],
-          'message'  => 'Please select an admin !'
+          'message' => 'sorry no widget data found !'
         ));
+
       }
-      
     }
 
     /**
@@ -355,7 +395,7 @@ class WidgetController extends Controller
           // Get Widget Details
           $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->first();
 
-          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>false,'message'=>'Widgets updated successfully !'));
+          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>true,'message'=>'Widgets updated successfully !'));
 
         } else {
 

@@ -70,9 +70,7 @@ Route::get('getPurchasedPhoneNumber/{widgetId}/{userId}/{areaCode}', 'TwilioCont
 // create Widgets
 Route::post('createWidgets', 'WidgetController@createWidgets');
 // Get list of Widgets
-Route::get('listWidgets', 'WidgetController@listWidgets');
-//Widget List for admin
-Route::post('admin-widget-list','WidgetController@adminWidgetList');
+Route::post('listWidgets', 'WidgetController@listWidgets');
 //Create Twilio SID for Admin User
 Route::post('create-user-twilio-sid','UserController@createUserTwilioSid');
 
