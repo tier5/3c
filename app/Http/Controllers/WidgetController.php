@@ -39,10 +39,9 @@ class WidgetController extends Controller
       $areaCode         = $request->areaCode;
       $widgetDepartment = $request->departmentIdArray;
       $widgetLogo       = $request->image;
-      $widgetDepartment = explode(',',$widgetDepartment);
 
       $dayArray         = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      $daysArray        = $request->daysArray == '' ? $dayArray : explode(',',$request->daysArray);
+      $daysArray        = $request->daysArray == '' ? $dayArray : $request->daysArray;
       $startTime        = $request->startTime == '' ? '00:00:00' : $request->startTime;
       $endTime          = $request->endTime == '' ? '24:00:00' : $request->endTime;
       $imagePath        = '';
@@ -347,9 +346,12 @@ class WidgetController extends Controller
 
           if (in_array($extension, $supportedFormat)) {
 
-            // Delete previous image
-            $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
-            unlink($deleteImage);
+            if($checkWidget->image!='') {
+              // Delete previous image
+              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
+              unlink($deleteImage);
+            }
+            
 
             // Save new image
             $imageName   = $generateFileName.'.'.$extension;
@@ -373,6 +375,11 @@ class WidgetController extends Controller
 
           $checkWidget->image           = $imagePath;
 
+        } else {
+          
+          $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
+          $checkWidget->image = '';
+          unlink($deleteImage);
         }
 
         if ($checkWidget->save()) {
@@ -420,7 +427,7 @@ class WidgetController extends Controller
     {
       $widgetId         = $request->widgetId;
       $widgetUserId     = $request->userId;
-      $widgetDepartment = $request->departmentIdArray;
+      $widgetDepartment = explode(',', $request->departmentIdArray);
       $token            = $request->token;
 
       $checkWidget      = Widgets::find($widgetId);
@@ -494,7 +501,7 @@ class WidgetController extends Controller
       $widgetScheduleDay         = $request->daysArray;
       $widgetStartTime           = $request->startTime;
       $widgetEndTime             = $request->endTime;
-      $days                      = implode(',',$widgetScheduleDay);
+      $days                      = $request->daysArray;
 
       $checkWidget               = Widgets::find($widgetId);
 
@@ -504,7 +511,7 @@ class WidgetController extends Controller
         return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widget not found !'));
 
       }
-
+      
       $checkWidgetSchedule = WidgetScheduleMapping::where('widget_id', $widgetId)->first();
 
       if (count($checkWidgetSchedule) == 0) {
