@@ -180,6 +180,86 @@ class WidgetController extends Controller
     }
 
     /**
+    * Get List of widgets for admin
+    *
+    * @return \Illuminate\Http\JsonResponse
+    */
+    public function adminWidgetList(Request $request)
+    {
+      $adminId  = $request->adminId;
+
+      if($adminId!="") {
+
+        $listsWidgets = Widgets::where('user_id', $adminId)
+                               ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                               ->get(); //Get Widgets with all widget details
+
+        if (count($listsWidgets) != 0) {
+
+          /** array to send the response */
+          $widgets = [];
+
+          foreach ($listsWidgets as $widget) {
+            /** to get all the widget departments */
+            $departmentArray = [];
+
+            foreach($widget->widgetDepartment as $department) {
+              $departmentArray[] = $department->department_id;
+            }
+
+
+            $widgetArray = [];
+
+            $widgetArray['id']                 = $widget->id;
+            $widgetArray['details']            = $widget->details;
+            $widgetArray['area_code']          = $widget->area_code;
+            $widgetArray['image']              = $widget->image;
+            $widgetArray['schedule_timezone']  = $widget->schedule_timezone;
+            $widgetArray['status']             = $widget->status;
+            $widgetArray['user_id']            = $widget->user_id;
+            $widgetArray['website']            = $widget->website;
+            $widgetArray['widget_uuid']        = $widget->widget_uuid;
+            $widgetArray['widget_department']  = $widget->widgetDepartment;
+            $widgetArray['twilio_numbers']     = $widget->twilioNumbers;
+            $widgetArray['widget_schedule']    = $widget->widgetSchedule;
+            $widgetArray['departments']        = $departmentArray;
+
+            $widgets[] = $widgetArray;
+
+          }
+          
+          return Response::json(array(
+            'status'   => true,
+            'code'     => 200,
+            'error'    => false,
+            'response' => $widgets,
+            'message'  => 'Lists of Widgets !'
+          ));
+
+        } else {
+
+          return Response::json(array(
+            'status'   => false,
+            'code'     => 400,
+            'error'    => true,
+            'response' => [],
+            'message'  => 'No Widgets Found !'
+          ));
+        }
+      } else {
+
+        return Response::json(array(
+          'status'   => false,
+          'code'     => 200,
+          'error'    => true,
+          'response' => [],
+          'message'  => 'Please select an admin !'
+        ));
+      }
+      
+    }
+
+    /**
     * Edit changes of widgets for websites
     * @param Request $request
     * @return \Illuminate\Http\JsonResponse
@@ -610,7 +690,7 @@ class WidgetController extends Controller
   }
 
   /**
-  * Get widget departments accroding to widget uuid
+  * Get widget departments according to widget uuid
   *
   * @param Request $request
   * @return \Illuminate\Http\JsonResponse

@@ -105,5 +105,7 @@
   * Modifications in WidgetController to send the widget departments
 33. Backend released v1.7
   * Modifications in DepartmentController to send the departments w.r.t admin
-33. Backend released v1.8
+34. Backend released v1.8
   * Fix in DepartmentController to send the departments w.r.t admin
+35. Backend released v1.9
+  * Modifications in WidgetController to get widgets w.r.t admin
