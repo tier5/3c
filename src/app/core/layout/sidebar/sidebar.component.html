@@ -8,7 +8,7 @@
           <img src="../../../../assets/img/avatar5.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Jon Vaughn</p>
+          <p>  {{(authState | async).name}} </p>
           <a><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -180,6 +180,34 @@
               </a>
             </li>
           </ul>
+        </li>
+
+        <!-- Previous Chats of Agents -->
+        <li class="treeview"
+            *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+            routerLinkActive="active"
+            [disable-hover]="true"
+            [appDropdown]="'menu-open'"
+        >
+          <a routerLink="/chats/list-agent">
+            <i class="fa fa-comments"></i> <span>Chats</span>
+                <span class="pull-right-container">
+                </span>
+          </a>
+        </li>
+
+        <!-- Previous Chats of Agents -->
+        <li class="treeview"
+            *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+            routerLinkActive="active"
+            [disable-hover]="true"
+            [appDropdown]="'menu-open'"
+        >
+          <a routerLink="/chats/list-agents-contacts">
+            <i class="fa fa-address-book"></i> <span>Contact List</span>
+                <span class="pull-right-container">
+                </span>
+          </a>
         </li>
       </ul>
     </section>

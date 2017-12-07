@@ -6,7 +6,8 @@ import * as fromTwilio from './twilio/twilio.reducers';
 import * as fromDepartment from './department/department.reducers';
 import * as fromAdmin from './admin/admin.reducers';
 import * as fromAgent from './agent/agent.reducers';
-import * as fromwidget from './widget/widget.reducers';
+import * as fromWidget from './widget/widget.reducers';
+import * as fromChat from './chat/chat.reducers';
 
 export interface AfterLoginFeatureState extends fromApp.AppState {
   afterLogin: FeatureState
@@ -18,14 +19,16 @@ export interface FeatureState {
   department: fromDepartment.DepartmentState,
   admin: fromAdmin.AdminState,
   agent: fromAgent.AgentState,
-  widget: fromwidget.WidgetState,
+  widget: fromWidget.WidgetState,
+  chat: fromChat.ChatState,
 };
 
-export const reducers: ActionReducerMap<FeatureState>  = {
+export const reducers: ActionReducerMap<FeatureState> = {
   profile: fromProfile.profileReducer,
   twilio: fromTwilio.twilioReducer,
   department: fromDepartment.departmentReducer,
   admin: fromAdmin.adminReducer,
   agent: fromAgent.agentReducer,
-  widget: fromwidget.widgetReducer
+  widget: fromWidget.widgetReducer,
+  chat: fromChat.chatReducer,
 };

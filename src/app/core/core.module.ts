@@ -19,6 +19,8 @@ import { LayoutModule } from './layout/layout.module'
 import { NotAuthGuard } from './auth/not-auth.guard';
 import { reducers } from './store/core.reducers';
 import { SharedModule } from './shared/shared.module';
+import { MomentModule } from 'angular2-moment';
+import {ChatService} from "./layout/inner-pages/chat/chat.service";
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     SharedModule,
     LayoutModule,
+    MomentModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
@@ -42,6 +45,7 @@ import { SharedModule } from './shared/shared.module';
     IsAgentGuard,
     IsSuperAdminGuard,
     NotAuthGuard,
+    ChatService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
 })

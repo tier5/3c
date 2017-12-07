@@ -2,9 +2,13 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import * as fromAfterLogin from '../../store/after-login.reducers';
 import * as ProfileActions from '../../store/profile/profile.actions';
+import * as fromAuth from '../../../store/auth/auth.reducers';
+import * as fromApp from '../../../store/core.reducers';
+import * as AuthActions from '../../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-profile',
@@ -20,20 +24,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profileSubscription2: Subscription;
   mask: Array<string | RegExp> = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   selectedTab: boolean = true;
+  authState: Observable<fromAuth.State>;
 
   /** Service injection */
   constructor(private formBuilder: FormBuilder,
-              private store: Store<fromAfterLogin.AfterLoginFeatureState>) { }
+              private store: Store<fromAfterLogin.AfterLoginFeatureState>,
+              private storeAuth: Store<fromApp.AppState>) { }
 
   /** Function to be executed when component initializes */
   ngOnInit () {
+    this.authState = this.storeAuth.select('auth');
     this.store.dispatch(new ProfileActions.GetProfileAttempt());
     /** Profile form initialization */
     this.profileForm = new FormGroup({
       'userId': new FormControl(null, Validators.required),
       'firstName': new FormControl(null, Validators.required),
       'lastName': new FormControl(null, Validators.required),
-      'userName': new FormControl(null, Validators.required),
       'phone': new FormControl(null, [Validators.required, Validators.minLength(14)]),
       'email': new FormControl({value: null, disabled: true}, [Validators.required, Validators.email])
     });
@@ -96,6 +102,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   /** Function call to update info */
   onUpdateInfo() {
     this.store.dispatch(new ProfileActions.EditProfileAttempt(this.profileForm.value));
+    this.store.dispatch(new AuthActions.UpdateAttempt(this.profileForm.value));
   }
 
   /** Function call to update password */

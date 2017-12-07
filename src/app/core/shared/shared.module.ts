@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { AutoScrollDirective } from './auto-scroll.directive';
 import { DropdownDirective } from './dropdown.directive';
 
 @NgModule({
@@ -8,10 +9,12 @@ import { DropdownDirective } from './dropdown.directive';
     CommonModule
   ],
   declarations: [
-    DropdownDirective
+    DropdownDirective,
+    AutoScrollDirective
   ],
   exports: [
-    DropdownDirective
+    DropdownDirective,
+    AutoScrollDirective
   ]
 })
 export class SharedModule { }

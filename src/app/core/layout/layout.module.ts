@@ -1,29 +1,32 @@
 import { CommonModule } from '@angular/common';
+import { EffectsModule } from '@ngrx/effects';
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { MomentModule } from 'angular2-moment';
 
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { ProfileEffects } from './store/profile/profile.effect';
-import { profileReducer } from './store/profile/profile.reducers';
 import { reducers } from './store/after-login.reducers';
 import { TwilioEffects } from './store/twilio/twilio.effect';
 import { DepartmentEffects } from './store/department/department.effects';
 import { AdminEffects } from './store/admin/admin.effect';
 import { AgentEffects } from './store/agent/agent.effect';
 import { WidgetEffects } from './store/widget/widget.effect';
+import { ChatEffects } from './store/chat/chat.effects'
+import { ChatService } from './inner-pages/chat/chat.service'
 
 @NgModule({
   imports: [
     CommonModule,
     LayoutRoutingModule,
     SharedModule,
+    MomentModule,
     StoreModule.forFeature('afterLogin', reducers),
-    EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects])
+    EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects, ChatEffects])
   ],
   declarations: [
     LayoutComponent,

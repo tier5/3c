@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import * as fromApp from '../../store/core.reducers';
 import * as fromAuth from '../../store/auth/auth.reducers';
 import * as AuthActions from '../../store/auth/auth.actions';
+import {ChatService} from "../inner-pages/chat/chat.service";
 
 @Component({
   selector: 'app-header',
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit {
   /** Function call to sign out */
   onSignOut() {
     this.store.dispatch(new AuthActions.SignOutAttempt());
+
   }
 
 }

@@ -40,7 +40,7 @@ h2{
 .chat-list ul li:last-child{
     border: 0;
 }
-.chat-list ul li:hover, .chat-list ul li.active {
+.chat-list ul li:hover{
     background: #3c8dbc;
     box-shadow: 1px 1px 1px 1px #666;
     border-bottom: 1px solid #3c8dbc;
@@ -63,13 +63,13 @@ h2{
     font-size: 12px;
     color: #000;
 }
-.chat-list ul li:hover h3,.chat-list ul li.active h3{
+.chat-list ul li:hover h3{
     color: #fff;
 }
-.chat-list ul li:hover h3 span, .chat-list ul li.active h3 span{
+.chat-list ul li:hover h3 span{
     color: #fff;
 }
-.chat-list ul li:hover p, .chat-list ul li.active p{
+.chat-list ul li:hover p{
     color: #fff;
 }
 .chat-box{
@@ -99,85 +99,3 @@ h2{
 .direct-chat-messages {
     height: 500px;
 }
-
-.dropdown-submenu {
-    position: relative;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-    padding: 5px;
-}
-.dropdown-submenu:last-child {
-    border: none;
-}
-
-.chat-btn{
-    margin: 10px 20px 20px;
-}
-
-.chat-btn .target-drop{
-    display: inline-block;
-}
-.dropdown-submenu a{
-    color: #666;
-}
-.open>.dropdown-menu {
-    display: block;
-}
-
-.dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -1px;
-    text-align: center;
-}
-.dropdown-submenu .dropdown-menu li {
-    border-bottom: 1px solid #eee;
-}
-.dropdown-submenu .dropdown-menu li:last-child {
-    border: none;
-}
-.show {
-    display: block;
-}
-
-a {
-    cursor: pointer;
-}
-
-
-
-
-
-
-
-.super-sub{display: none;}
-
-li.dropdown-submenu li:hover .super-sub{display: block}
-ul.super-sub{padding: 0;
-    margin: 0;
-    position: absolute;
-    right: -188px;
-    width: 194px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.15);
-    top: 4px;
-}
-ul.super-sub li{list-style: none; padding: 4px 0;}
-ul.super-sub li a{display: block;}
-ul.super-sub li:hover{background: #e1e3e9;}
-
-
-.btn-disabled,.btn-disabled[disabled] {
-    opacity: .4;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-
-
-
-
-
-
-
-
