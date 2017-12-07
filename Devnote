@@ -113,3 +113,5 @@
   * Modifications in WidgetController to update departments of widget
 37. Backend released v1.11
   * Modifications in WidgetController to get all departments depending on the user
+38. Backend released v1.12
+  * Modifications in UserController for code indentation

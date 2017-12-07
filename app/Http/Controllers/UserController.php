@@ -1388,62 +1388,61 @@ class UserController extends Controller
    */
   public function createUserTwilioSid(Request $request)
   {
-   $userId = $request->userId;
+    $userId = $request->userId;
 
-   if($userId != ""){
+    if($userId != ""){
 
-     $checkUser = Users::where('id',$userId)->first();
-     if( count($checkUser)!=0 ){
+      $checkUser = Users::where('id',$userId)->first();
+      if( count($checkUser)!=0 ){
 
-       $UserData                          = new Request;
-       $UserData->userId                  = $checkUser->id; //admin ID
-       $UserData->email                   = $checkUser->email; //admin Email ID Used as the Firendly Name in Twilio Account
-       //send to TwilioController for creating twilio subacount
-       $saveAdminTwilioCredential         =  app(\App\Http\Controllers\TwilioController::class)
-       ->createTwilioSubacount($UserData);   // Create Twilio sub-account
-       $saveAdminTwilioCredentialResponse = json_decode($saveAdminTwilioCredential->content(), true);
+        $UserData                          = new Request;
+        $UserData->userId                  = $checkUser->id; //admin ID
+        $UserData->email                   = $checkUser->email; //admin Email ID Used as the Firendly Name in Twilio Account
+        //send to TwilioController for creating twilio subacount
+        $saveAdminTwilioCredential         =  app(\App\Http\Controllers\TwilioController::class)
+         ->createTwilioSubacount($UserData);   // Create Twilio sub-account
+        $saveAdminTwilioCredentialResponse = json_decode($saveAdminTwilioCredential->content(), true);
 
-         if($saveAdminTwilioCredentialResponse['code'] == 200){
-            $checkUser = Users::where('id',$userId)->with('twilioInfo')->first();
-           \Log::info($saveAdminTwilioCredentialResponse['message']);
-           return Response()->json([
-               'code'    => 200,
-               'error'   => false,
-               'status'  => true,
-               'response'=> $checkUser,
-               'message' => $saveAdminTwilioCredentialResponse['message']
-           ]);
-
-         }
-
-         if($saveAdminTwilioCredentialResponse['code'] == 400){
-
-           \Log::info($saveAdminTwilioCredentialResponse['message']);
-           return Response()->json([
-               'code'    => 400,
-               'error'   => true,
-               'status'  => false,
-               'response'=> [],
-               'message' => $saveAdminTwilioCredentialResponse['message']
-           ]);
-
-         }
-      } else {
-         return Response()->json([
-               'code'    => 400,
-               'error'   => true,
-               'status'  => false,
-               'response'=> [],
-               'message' => 'user not found !'
+        if($saveAdminTwilioCredentialResponse['code'] == 200){
+          $checkUser = Users::where('id',$userId)->with('twilioInfo')->first();
+          \Log::info($saveAdminTwilioCredentialResponse['message']);
+          return Response()->json([
+            'code'    => 200,
+            'error'   => false,
+            'status'  => true,
+            'response'=> $checkUser,
+            'message' => $saveAdminTwilioCredentialResponse['message']
           ]);
+        }
+
+        if($saveAdminTwilioCredentialResponse['code'] == 400){
+
+          \Log::info($saveAdminTwilioCredentialResponse['message']);
+          return Response()->json([
+            'code'    => 400,
+            'error'   => true,
+            'status'  => false,
+            'response'=> [],
+            'message' => $saveAdminTwilioCredentialResponse['message']
+          ]);
+
+        }
+      } else {
+        return Response()->json([
+          'code'    => 400,
+          'error'   => true,
+          'status'  => false,
+          'response'=> [],
+          'message' => 'user not found !'
+        ]);
       }
     } else {
       return Response()->json([
-         'code'    => 400,
-         'error'   => true,
-         'status'  => false,
-         'response'=> [],
-         'message' => 'Not a valid User Id !'
+        'code'    => 400,
+        'error'   => true,
+        'status'  => false,
+        'response'=> [],
+        'message' => 'Not a valid User Id !'
       ]);
     }
   }
