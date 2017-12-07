@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { PendingComponent } from './pending/pending.component';
@@ -9,7 +10,8 @@ import { RejectedComponent } from './rejected/rejected.component';
 @NgModule({
   imports: [
     CommonModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    FormsModule
   ],
   declarations: [
     PendingComponent,
