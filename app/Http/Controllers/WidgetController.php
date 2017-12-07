@@ -411,7 +411,12 @@ class WidgetController extends Controller
       // Check Departments of Admin
       foreach ($widgetDepartment as $checkKey => $checkValue) {
 
-        $checkDepartment = Department::where('id',$checkValue)->where('user_id',$widgetUserId)->first();
+        if($checkUser->type == 1) {
+          $checkDepartment = Department::where('id',$checkValue)->first();
+
+        } else {
+          $checkDepartment = Department::where('id',$checkValue)->where('user_id',$widgetUserId)->first();
+        }
 
         if (count($checkDepartment) == 0) {
 
