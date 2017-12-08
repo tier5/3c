@@ -1,8 +1,8 @@
 <template>
-  <div id="chat">
+  <div>
     <!--<img src="https://forum-archive.vuejs.org/uploads/system/site-logo.png">-->
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
-    <div class="side-bar slideInRight animated" v-if="showSideBar">
+    <div class="side-bar slideInRight animated" v-if="showSideBar && !chat">
       <span class="close-form hide1 cross" @click="closeSideBar">x</span>
       <h3 class="side-logo"><img :src="widgetLogo.src" alt=""></h3>
       <div v-if="!formSubmit">
@@ -133,7 +133,9 @@
             </div>        
           </div>
       </div>
+      <chat v-if="chat" > </chat>
     </div>
+    
      
   </div>
 </template>
@@ -156,6 +158,8 @@ export default {
           author  : 'John',
         },
       ],
+      chat : false,
+      chat_id: '',
       msg: 'Welcome to Your Vue.js App',
       showWidget: false,
       isAvailable: false,
@@ -509,6 +513,28 @@ export default {
   },
   startChat () {
     console.log("Start chat");
+    this.chat = true;
+
+    this.$http.post(this.widgetHost + '/api/v1/add-chat-user', { data: this.dataToSend })
+      .then(
+        (response) => {
+          
+          if(response.status) {
+            if(response.body.status) {
+              console.log(response.body);
+              this.chat_id = response.body.response.id;
+              this.$localStorage.set('id', this.chat_id)
+              console.log(this.chat_id);
+              
+            }
+          }
+        },
+        (error) => {
+          this.showWidget = false;
+          console.error(error);
+        }
+      );
+     
   },
   sendChatMessage(message) {
     this.dataToSend.message = message;

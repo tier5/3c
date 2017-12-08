@@ -2,7 +2,8 @@
   <div class="chat">
     <div class="side-bar slideInRight animated">
         <h1>Get In Touch With Us</h1>
-        <div class="formcontainer">
+        <div id="formcontainer"> 
+          <div class="" v-for="update in updates"> {{update}} </div>
     		  <chatlog :messages="messages"></chatlog>
     		  <send-message v-on:messageSent="addMessage"></send-message> 
     	  </div>
@@ -16,33 +17,53 @@ export default {
   name: 'chat',
   sockets:{
     connect: function(){
-      console.log('socket connected')
+      console.log('socket connected');
+      
     },
     /** to receive the message */
     receive: function() {
-      this.$socket.emit('get');
+      this.$socket.emit('get', this.id);
       console.log("receive");
+      //this.$socket.emit('unsubscribe');
     },
     /** event fired on sending message to get the message*/
     getMessage: function(val){
       console.log('This method was fired by the socket server.');
       this.messages =val;
       console.log(val);
+      console.log("chats"+this.id);
+    },
+    updateChat: function (username, data) {
+      console.log(data);
+      console.log('update chat'+username+" ");
+      this.updates.push(username+' ');
+      //$('#formcontainer').append('<b>'+username + ':</b> ' + data + '<br>');
     }
   },
   data() {
     return {
-      messages : []
+      messages : [],
+      id : '',
+      updates : [],
+      room_name : ''
     }
   },
   created() {
+    this.id= this.$localStorage.get('id');
+    console.log(this.id);
+    this.$socket.emit('adduser', this.id);
   },
   methods : {
     /** to add sent chat message */
   	addMessage(message) {
   		console.log("sent");
+      
       /** emitting the socket instance */
-      this.$socket.emit('send', message);
+      let data = {
+        message : message,
+        id  : this.id
+      };
+      this.$socket.emit('send', data);
   	},
   }
 }

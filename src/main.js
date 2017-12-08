@@ -12,6 +12,8 @@ import SendMessage from './SendMessage.vue';
 import ChatMobile from './ChatMobile.vue';
 import VueValidate from 'vuelidate';
 import VueSocketio from 'vue-socket.io';
+import VueLocalStorage from 'vue-localstorage'
+
 
 
 
@@ -22,7 +24,8 @@ document.body.appendChild(node);
 Vue.use(VueResource);
 Vue.use(VueMask);
 Vue.use(VueValidate);
-//Vue.use(VueSocketio, 'http://localhost:3100');
+Vue.use(VueSocketio, 'http://localhost:3100');
+Vue.use(VueLocalStorage);
 
 Vue.directive('mask', VueMaskDirective);
 Vue.component('chat', Chat);
