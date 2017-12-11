@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
+import { EffectsModule } from '@ngrx/effects';
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { ProfileEffects } from './store/profile/profile.effect';
-import { profileReducer } from './store/profile/profile.reducers';
 import { reducers } from './store/after-login.reducers';
 import { TwilioEffects } from './store/twilio/twilio.effect';
 import { DepartmentEffects } from './store/department/department.effects';

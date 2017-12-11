@@ -1,11 +1,13 @@
 import * as ChatActions from './chat.actions';
 
 export interface ChatState {
+  ongoing: any,
   list: any,
   connected: boolean
 }
 
 const initialState: ChatState = {
+  ongoing: [],
   list: [],
   connected: false
 };
