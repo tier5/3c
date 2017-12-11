@@ -8,7 +8,7 @@
 		             		{{ message.message }}
 						</div>
 						<div class="row">
-		             		{{ message.user }}
+		             		{{ message.from_number }}
 						</div>
 					</div>
 				</div>

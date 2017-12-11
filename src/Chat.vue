@@ -15,9 +15,11 @@
 <script>
 export default {
   name: 'chat',
+  props : ['chatId'],
   sockets:{
     connect: function(){
       console.log('socket connected');
+      console.log(chatId);
       
     },
     /** to receive the message */
@@ -33,37 +35,59 @@ export default {
       console.log(val);
       console.log("chats"+this.id);
     },
-    updateChat: function (username, data) {
+    updateChat: function (data) {
       console.log(data);
-      console.log('update chat'+username+" ");
-      this.updates.push(username+' ');
+      console.log('update chat'+data+" ");
+      this.updates.push(data);
       //$('#formcontainer').append('<b>'+username + ':</b> ' + data + '<br>');
+    },
+    addedUser : function(data) {
+      this.user = data.id;
+    },
+    connectToRoom : function(data) {
+      this.roomNo = "room-"+data.roomNo;
+      console.log(this.roomNo);
+      console.log("Connect to room");
     }
+
+
   },
   data() {
     return {
       messages : [],
       id : '',
       updates : [],
-      room_name : ''
+      room_name : '',
+      roomNo : '',
+      user : ''
     }
   },
   created() {
     this.id= this.$localStorage.get('id');
     console.log(this.id);
+
     this.$socket.emit('adduser', this.id);
+
   },
   methods : {
     /** to add sent chat message */
+    
+
   	addMessage(message) {
   		console.log("sent");
-      
-      /** emitting the socket instance */
+      console.log(message);
+      if(message) {
+        this.$socket.emit('send', { message: message.message, user: this.id, room_number: this.roomNo});
+      }
+
       let data = {
         message : message,
         id  : this.id
       };
-      this.$socket.emit('send', data);
+     
+      /** emitting the socket instance */
+      
+      //this.$socket.emit('send', data);
   	},
   }
 }

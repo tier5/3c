@@ -1,73 +1,64 @@
 var app = require('express')();
-var http = require('http');
+var http = require('http').Server(app);
+var path = require('path');
+var io = require('socket.io')(http);
+var axios = require('axios');
+var qs = require('qs');
 
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
 var mysql = require('mysql');
 var request = require('request');
 
+var bodyParser = require("body-parser");
 
-/** for connecting to mysql server */
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'toor',
-  database : '3c'
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
+// /** for connecting to mysql server */
+// var connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : 'toor',
+//   database : '3c'
+// });
 
 // usernames which are currently connected to the chat
+
+users = [];
+var roomno = 1;
+
+
 var usernames = {};
 
-// rooms which are currently available in chat
-var rooms = ['room1','room2','room3'];
-var room_name = "";
-var i = 0;
-connection.connect();
 
-server.listen(3100);
+// connection.connect();
+
+// server.listen(3100);
 
 io.on('connection', function(socket){
 
-console.log(rooms[i]);
+  //console.log('A user connected');
   //console.log(socket);
 
+
+
   // when the client emits 'adduser', this listens and executes
-  socket.on('adduser', function(username){
+  socket.on('adduser', function(id){
 
-    room_name = rooms[i];
-    console.log(room_name);
-    if (io.sockets.adapter.rooms[room_name]) {
-      if( io.sockets.adapter.rooms[room_name].length > 2) {
-        console.log("room excess");
-        i++;
-        room_name = rooms[i];
-        console.log(room_name);
-      }
-      console.log("room check");
-      //console.log(io.sockets.adapter.rooms[room_name].length);
-      // i++;
-      // room_name = rooms[i];
-      console.log(room_name);
+
+    // Increase room no if 2 clients are present in a room.
+    if (io.sockets.adapter.rooms["room-"+roomno] && io.sockets.adapter.rooms["room-"+roomno].length > 1) {
+      roomno++;
     }
-
-    console.log(username);
-    // store the username in the socket session for this client
-    socket.username = username;
-
-    // store the room name in the socket session for this client
-    socket.room = room_name;
-
-    // add the client's username to the global list
-    usernames[username] = username;
-    // send client to room 1
-    socket.join(room_name);
-    // echo to client they've connected
-    socket.emit('updateChat', username+ 'you have connected to '+room_name);
-    // echo to room 1 that a person has connected to their room
-    io.sockets.in(room_name).emit('updateChat',username+ 'has connected to this room');
+    
+    socket.join("room-"+roomno);
+    console.log('A user connected to '+roomno);
+    //Send this event to everyone in the room.
+    io.sockets.in("room-"+roomno)
+              .emit('connectToRoom', { roomNo: roomno });
+    
+    io.sockets.in("room-"+roomno).emit('updateChat', id+'has connected to this room');
     //socket.emit('updaterooms', rooms, 'room1');
+    // roomno++;
 
-    console.log(username+"has joined");
   });
 
 
@@ -85,49 +76,53 @@ console.log(rooms[i]);
 
   /** event on sending chat message */
   socket.on('send', function(data) {
-      var srvSockets =io.sockets.adapter.rooms[room_name];
-      console.log(srvSockets);
-      console.log(data.id);
-      io.sockets.in(room_name).emit('updateChat',data.message.message+ ' sent by '+data.id);
+
+      //console.log(data);
+      io.sockets.in("room-"+roomno).emit('updateChat',data.message+ ' sent by '+data.user);
       console.log('message sent');
+      console.log(data);
+      var room1= "room-"+roomno;
+      // console.log()
 
-      // var query = 'INSERT INTO `messages`(`message`, `user`, `from_number`) VALUES ("'  +data.message.message+ '","' + data.message.user+ '","' + data.id+ '")';
-      // connection.query(query, function (err, rows, fields) {
-      //   if (err) throw err 
-        //io.emit('receive');
-      // })
 
-      // request.post( 'http://3c.local/api/v1/add-messages', {data: data }, function (error, response, body) {
-      //   console.log(body);
-      //   io.emit('receive');
-      // });
+      axios.post('http://3c.local/api/v1/add-messages', data)
+      .then(function (response) {
+        console.log(data);
+        //console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
       
+
   });
 
   /** to get all the chat messages */
   socket.on('get', function(data) {
       console.log("Get messages");
-      // var rows=[];
-      // //var query = 'SELECT * FROM `messages` WHERE 1';
-      // request('http://3c.local/api/v1/messages/'+socket.id, function (error, response, body) {
-      //   var result = JSON.parse(body);
-      //   // console.log(rows.response);
-      //   var rows = result.response;
-      //   // console.log(rows);
-      //   io.emit('getMessage',rows);
-      // });
+      
+      axios.get('http://3c.local/api/v1/messages')
+      .then(function (response) {
+        console.log(response);
+        //console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
       
   });
 
   /** on socket disconnection */
   socket.on('disconnect', function(room)  {
     console.log(socket.id,'disconnected', room);
-    var query = 'SELECT * FROM `messages` WHERE 1';
-    connection.query(query, function (err, rows, fields) {
-      if (err) throw err
-    
-    })
   });
 
 
+});
+
+
+http.listen(3000, function() {
+   console.log('listening on *:3000');
 });

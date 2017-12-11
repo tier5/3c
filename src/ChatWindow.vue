@@ -133,7 +133,7 @@
             </div>        
           </div>
       </div>
-      <chat v-if="chat" > </chat>
+      <chat v-if="chat" :chatId="chat_id"> </chat>
     </div>
     
      
