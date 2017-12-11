@@ -11,51 +11,24 @@ import 'rxjs/add/operator/switchMap';
 import * as ChatActions from '../chat/chat.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
+import { ChatService } from '../../inner-pages/chat/chat.service'
 
 @Injectable()
 export class DepartmentEffects {
 
   constructor (private actions$: Actions,
+               private chatService: ChatService,
                private httpClient: HttpClient) {}
 
   @Effect()
   connect = this.actions$
-    .ofType(ChatActions.CONNECT_TRY)
-    .switchMap((action: ChatActions.ConnectTry) => {
-      const apiUrl = environment.API_BASE_URL + 'create-department';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
-      const config = {
-        headers: headers
-      }
-      return this.httpClient.post(apiUrl, action.payload, config)
-        .mergeMap((res: any) => {
-        if (res.status) {
-          return [
-            {
-              type: AlertActions.ALERT_SHOW,
-              payload: {message: res.message, type: 'success'}
-            },
-            {
-              type: ChatActions.CONNECT_SUCCESS,
-              payload: res.response
-            }
-          ]
-        } else {
-          return [
-            {
-              type: AlertActions.ALERT_SHOW,
-              payload: {message: res.message, type: 'danger'}
-            }
-          ]
+    .ofType(ChatActions.CONNECT_ATTEMPT)
+    .map(() => {
+      this.chatService.connect();
+      return of(
+        {
+          type: ChatActions.CONNECT_SUCCESS
         }
-        })
-        .catch((err: HttpErrorResponse) => {
-          return of(
-            {
-              type: AlertActions.ALERT_SHOW,
-              payload: {message: err.message, type: 'danger'}
-            }
-          )
-        })
+      )
     });
 }

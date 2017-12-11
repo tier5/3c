@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
 
 import * as fromAfterLogin from './store/after-login.reducers';
-import * as fromChat from './store/chat/chat.reducers'
-import { Observable } from 'rxjs/Observable'
+import * as fromChat from './store/chat/chat.reducers';
+import * as ChatActions from './store/chat/chat.actions';
 
 @Component({
   selector: 'app-layout.component.ts',
@@ -14,16 +16,25 @@ export class LayoutComponent implements OnInit {
 
   /** Variable declaration */
   hovered: boolean = false;
-  mobileViewClicked: boolean = false
+  mobileViewClicked: boolean = false;
   chatState: Observable<fromChat.ChatState>;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) { }
 
   ngOnInit() {
-    if(this.store.select('auth').map(data => data.isAgent)) {
-      this.chatState = this.store.select('afterLogin')
-        .map(data => data.chat);
-    }
+    this.store.select('auth')
+      .take(1)
+      .map(data => data.isAgent)
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.chatState = this.store.select('afterLogin')
+              .map(data => data.chat);
+            console.log(data);
+            this.store.dispatch(new ChatActions.ConnectAttempt());
+          }
+        }
+      );
   }
 
   /** Function to toggle sidebar in desktop view */
