@@ -8,13 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-  /**
-  * @var boolean
-  */
-  public $timestamps = true;
+	/**
+	* @var boolean
+	*/
+	public $timestamps = true;
 
-  /**
-  * @var null|string
-  */
-  protected $table = 'department';
+	/**
+	* @var null|string
+	*/
+	protected $table = 'department';
+
+	/**
+    * one to one relationship with users table
+    */
+  	public function userDetails() {
+
+    return $this->hasOne('App\Model\Users','id','user_id');
+
+	}
 }

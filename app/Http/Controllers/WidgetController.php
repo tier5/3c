@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Response;
 use App\Model\Widgets;
 use App\Model\Users;
+use App\Model\UserToken;
 use App\Model\Department;
 use App\Model\WidgetDepartmentMapping;
 use App\Model\WidgetScheduleMapping;
@@ -38,10 +39,9 @@ class WidgetController extends Controller
       $areaCode         = $request->areaCode;
       $widgetDepartment = $request->departmentIdArray;
       $widgetLogo       = $request->image;
-      $widgetDepartment = explode(',',$widgetDepartment);
 
       $dayArray         = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      $daysArray        = $request->daysArray == '' ? $dayArray : explode(',',$request->daysArray);
+      $daysArray        = $request->daysArray == '' ? $dayArray : $request->daysArray;
       $startTime        = $request->startTime == '' ? '00:00:00' : $request->startTime;
       $endTime          = $request->endTime == '' ? '24:00:00' : $request->endTime;
       $imagePath        = '';
@@ -72,19 +72,21 @@ class WidgetController extends Controller
       if($website!= "") {
 
         // Get User Id from token in case of userId is not provided
-        if ($userId == '') {
+        if ($userId == '' || $userId=="undefined") {
 
           $userId = Helper::getUserIdFromToken($token);
+           
 
         }
 
         $checkUser    = Users::where('id',$userId)->first();
         $checkWidgets = Widgets::where('website',$website)->first();
 
+
         // Check user is valid or not
         if (count($checkUser) == 0) {
 
-          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>null,'status'=>false,'message'=>'Users not found !'));
+          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>$token,'status'=>false,'message'=>'Users not found !'));
 
         }
 
@@ -122,12 +124,16 @@ class WidgetController extends Controller
             $reqDepartments->widgetId          = $widgets->id;
             $reqDepartments->userId            = $userId;
             $reqDepartments->departmentIdArray = $widgetDepartment;
+
+                 
             $this->updateWidgetDepartment($reqDepartments);
+
 
             // Get purchased twilio purchased phone numbers
             $twilioController  = new TwilioController;
             $purchasedResponse = $twilioController->getPurchasedPhoneNumber($widgets->id, $userId, $areaCode);
             return $purchasedResponse;
+
 
           } else {
 
@@ -152,29 +158,142 @@ class WidgetController extends Controller
     *
     * @return \Illuminate\Http\JsonResponse
     */
-    public function listWidgets()
+    public function listWidgets(Request $request)
     {
-      $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get(); //Get Widgets with Twilio numbers
 
-      if (count($listsWidgets) != 0) {
+      $userToken = $request->token; //user Token
+      $userId    = $request->userId; //user ID
+      if( $userToken != "" ) {
+        $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
 
-          return Response::json(array(
-              'status'   => true,
-              'code'     => 200,
-              'error'    => false,
-              'response' => $listsWidgets,
-              'message'  => 'Lists of Widgets !'
+        if( count($checkUser) != 0 ) {
+
+          if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Widget List
+
+            $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->get(); //Get Widgets with Twilio numbers
+
+
+            if(count($listsWidgets) != 0){
+
+              return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widget List!'
+              ));
+
+            } else {
+
+              return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+              ));
+
+            }
+          }
+
+          if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Widgets List
+
+            $listsWidgets = Widgets::where('user_id',$userId)
+                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                   ->get(); //Get Widgets with Twilio numbers
+
+            if(count($listsWidgets) != 0){
+
+              return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widget List!'
+              ));
+
+            } else {
+
+              return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+              ));
+
+            }
+          }
+
+          if( $checkUser->userInfo->type == 2 ) { //Admin Department List
+
+            $listsWidgets = Widgets::where('user_id',$checkUser->userInfo->id)
+                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                   ->get(); //Get Widgets with Twilio numbers
+
+
+            if( count($listsWidgets) != 0 ) {
+
+              return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widgets List!'
+              ));
+
+            } else {
+
+              return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+              ));
+
+            }
+          }
+
+        } else {
+
+          return  Response::json(array(
+            'status'   => false,
+            'code'     => 400,
+            'response' => [],
+            'message'  => 'Invalid Token !'
           ));
 
+        }
+      } elseif ( $userId != ""){
+            \Log::info('this is hit !!!!!!!!!!');
+          //fetching the list of widgets for a specific user/admin
+
+          $listsWidgets = Widgets::where('user_id',$userId)
+                                 ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                 ->get(); //Get Widgets with Twilio numbers
+
+          if( count($listsWidgets) != 0 ) {
+
+            return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $listsWidgets,
+                'message'  => 'Widgets List!'
+            ));
+
+          } else {
+
+            return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'message'  => 'Sorry Widget not found !'
+            ));
+
+          }
       } else {
 
-          return Response::json(array(
-              'status'   => false,
-              'code'     => 400,
-              'error'    => true,
-              'response' => [],
-              'message'  => 'No Widgets Found !'
-          ));
+        return  Response::json(array(
+          'status'  => false,
+          'code'    => 400,
+          'response' => [],
+          'message' => 'sorry no widget data found !'
+        ));
 
       }
     }
@@ -227,9 +346,12 @@ class WidgetController extends Controller
 
           if (in_array($extension, $supportedFormat)) {
 
-            // Delete previous image
-            $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
-            unlink($deleteImage);
+            if($checkWidget->image!='') {
+              // Delete previous image
+              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
+              unlink($deleteImage);
+            }
+            
 
             // Save new image
             $imageName   = $generateFileName.'.'.$extension;
@@ -253,6 +375,11 @@ class WidgetController extends Controller
 
           $checkWidget->image           = $imagePath;
 
+        } else {
+          
+          $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
+          $checkWidget->image = '';
+          unlink($deleteImage);
         }
 
         if ($checkWidget->save()) {
@@ -275,7 +402,7 @@ class WidgetController extends Controller
           // Get Widget Details
           $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->first();
 
-          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>false,'message'=>'Widgets updated successfully !'));
+          return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>true,'message'=>'Widgets updated successfully !'));
 
         } else {
 
@@ -300,7 +427,7 @@ class WidgetController extends Controller
     {
       $widgetId         = $request->widgetId;
       $widgetUserId     = $request->userId;
-      $widgetDepartment = $request->departmentIdArray;
+      $widgetDepartment = explode(',', $request->departmentIdArray);
       $token            = $request->token;
 
       $checkWidget      = Widgets::find($widgetId);
@@ -331,7 +458,12 @@ class WidgetController extends Controller
       // Check Departments of Admin
       foreach ($widgetDepartment as $checkKey => $checkValue) {
 
-        $checkDepartment = Department::where('id',$checkValue)->where('user_id',$widgetUserId)->first();
+        if($checkUser->type == 1) {
+          $checkDepartment = Department::where('id',$checkValue)->first();
+
+        } else {
+          $checkDepartment = Department::where('id',$checkValue)->where('user_id',$widgetUserId)->first();
+        }
 
         if (count($checkDepartment) == 0) {
 
@@ -369,7 +501,7 @@ class WidgetController extends Controller
       $widgetScheduleDay         = $request->daysArray;
       $widgetStartTime           = $request->startTime;
       $widgetEndTime             = $request->endTime;
-      $days                      = implode(',',$widgetScheduleDay);
+      $days                      = $request->daysArray;
 
       $checkWidget               = Widgets::find($widgetId);
 
@@ -379,7 +511,7 @@ class WidgetController extends Controller
         return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widget not found !'));
 
       }
-
+      
       $checkWidgetSchedule = WidgetScheduleMapping::where('widget_id', $widgetId)->first();
 
       if (count($checkWidgetSchedule) == 0) {
@@ -437,7 +569,33 @@ class WidgetController extends Controller
       } else {
 
         $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->first();
-        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$viewWidget,'status'=>false,'message'=>'Widget Details !'));
+        
+        /** to get all the widget departments */
+        $departmentArray = [];
+
+        foreach($viewWidget->widgetDepartment as $department) {
+          $departmentArray[] = $department->department_id;
+        }
+
+        /** array to send the response */
+        $widgetArray = [];
+
+        $widgetArray['id']                 = $viewWidget->id;
+        $widgetArray['details']            = $viewWidget->details;
+        $widgetArray['area_code']          = $viewWidget->area_code;
+        $widgetArray['image']              = $viewWidget->image;
+        $widgetArray['schedule_timezone']  = $viewWidget->schedule_timezone;
+        $widgetArray['status']             = $viewWidget->status;
+        $widgetArray['user_id']            = $viewWidget->user_id;
+        $widgetArray['website']            = $viewWidget->website;
+        $widgetArray['widget_uuid']        = $viewWidget->widget_uuid;
+        $widgetArray['widget_department']  = $viewWidget->widgetDepartment;
+        $widgetArray['twilio_numbers']     = $viewWidget->twilioNumbers;
+        $widgetArray['widget_schedule']    = $viewWidget->widgetSchedule;
+        $widgetArray['departments']        = $departmentArray;
+
+
+        return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$widgetArray,'status'=>true,'message'=>'Widget Details !'));
 
       }
 
@@ -584,7 +742,7 @@ class WidgetController extends Controller
   }
 
   /**
-  * Get widget departments accroding to widget uuid
+  * Get widget departments according to widget uuid
   *
   * @param Request $request
   * @return \Illuminate\Http\JsonResponse

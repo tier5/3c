@@ -32,6 +32,8 @@ Route::post('get-twilio-information','TwilioController@getTwilioInformation');
 Route::post('admin-registration','UserController@adminRegistration');
 //Admin List
 Route::get('admin-list','UserController@adminList');
+//View Admin
+Route::post('view-admin','UserController@viewAdmin');
 //Emulate User
 Route::post('emulate-user','UserController@emulateUser');
 //Block User
@@ -57,6 +59,8 @@ Route::post('listofAgent','UserController@listofAgent');
 Route::post('agent-update','UserController@updateAgent');
 // Block Unblock Agent
 Route::post('agent-status-update','UserController@agentStatusUpdate');
+//view Agent
+Route::post('view-agent','UserController@viewAgent');
 // validate Twilio Credentials
 Route::get('validate-twilio-credentials','TwilioController@validateTwilioCredentials');
 // Twilio Account List
@@ -66,8 +70,7 @@ Route::get('getPurchasedPhoneNumber/{widgetId}/{userId}/{areaCode}', 'TwilioCont
 // create Widgets
 Route::post('createWidgets', 'WidgetController@createWidgets');
 // Get list of Widgets
-Route::get('listWidgets', 'WidgetController@listWidgets');
-
+Route::post('listWidgets', 'WidgetController@listWidgets');
 //Create Twilio SID for Admin User
 Route::post('create-user-twilio-sid','UserController@createUserTwilioSid');
 
