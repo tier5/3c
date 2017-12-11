@@ -37,7 +37,7 @@ class Widgets extends Model
     }
 
     /**
-     * One-to-One relationship with TwilioNumber table
+     * One-to-One relationship with WidgetScheduleMapping table
      */
     public function widgetSchedule(){
 
