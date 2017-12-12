@@ -17,7 +17,6 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
     case ChatActions.CONNECT_SUCCESS:
       return {
         ...state,
-      //  connected: action.payload
         connected: true
       };
     default:

@@ -14,7 +14,7 @@ import { environment } from '../../../../../environments/environment';
 import { ChatService } from '../../inner-pages/chat/chat.service'
 
 @Injectable()
-export class DepartmentEffects {
+export class ChatEffects {
 
   constructor (private actions$: Actions,
                private chatService: ChatService,
@@ -23,12 +23,15 @@ export class DepartmentEffects {
   @Effect()
   connect = this.actions$
     .ofType(ChatActions.CONNECT_ATTEMPT)
-    .map(() => {
-      this.chatService.connect();
+    .switchMap((action: ChatActions.ConnectAttempt) => {
+      console.log('in here');
       return of(
         {
           type: ChatActions.CONNECT_SUCCESS
         }
-      )
+      );
+    })
+    .do(() => {
+      this.chatService.connect();
     });
 }
