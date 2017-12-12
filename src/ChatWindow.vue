@@ -225,6 +225,11 @@ export default {
       required
     }
   },
+  sockets:{
+    connect: function(){
+      console.log('socket connected');
+    }
+  },
   created () {
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
     this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
@@ -399,11 +404,10 @@ export default {
       }
 
       this.dataToSend = {
-        client: {
-          'name' : client_name,
-          'email' : client_email,
-          'phone_number' : client_phone
-        },
+      
+        name: client_name,
+        email: client_email,
+        from_number: client_phone,
         widget_uuid: this.widgetId,
         schedule_date: date != undefined ? date:0,
         schedule_time: start != undefined ? start.split(':')[0]+':00:00': 0,
@@ -428,26 +432,6 @@ export default {
         }
       );
       
-      // setTimeout(() => {
-      //     this.checkEmail = true;
-      //   }, 3000);
-      /** API call to sned mail to the entered email id */
-      // this.$http.post(this.widgetHost + '/api/v1/widget-data', { data: this.dataToSend })
-      // .then(
-      //   (response) => {
-      //     console.log(response);
-      //     if(response.status) {
-      //       if(response.body.status) {
-      //         console.log(response);
-      //         this.checkEmail = true;
-      //       }
-      //     }
-      //   },
-      //   (error) => {
-      //     console.error(error);
-      //     this.checkEmail = false;
-      //   }
-      // );
     },
     showButton () {
       const min_width = 600;
@@ -513,27 +497,9 @@ export default {
   },
   startChat () {
     console.log("Start chat");
-    this.chat = true;
-
-    this.$http.post(this.widgetHost + '/api/v1/add-chat-user', { data: this.dataToSend })
-      .then(
-        (response) => {
-          
-          if(response.status) {
-            if(response.body.status) {
-              console.log(response.body);
-              this.chat_id = response.body.response.id;
-              this.$localStorage.set('id', this.chat_id)
-              console.log(this.chat_id);
-              
-            }
-          }
-        },
-        (error) => {
-          this.showWidget = false;
-          console.error(error);
-        }
-      );
+    
+    this.$socket.emit('startChat', this.dataToSend);
+    
      
   },
   sendChatMessage(message) {

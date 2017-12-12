@@ -24,7 +24,7 @@ export default {
     },
     /** to receive the message */
     receive: function() {
-      this.$socket.emit('get', this.id);
+      this.$socket.emit('get', {  id :this.id , widget_uuid : this.widgetId , widget_host : this.widgetHost });
       console.log("receive");
       //this.$socket.emit('unsubscribe');
     },
@@ -37,8 +37,14 @@ export default {
     },
     updateChat: function (data) {
       console.log(data);
+      console.log('update chat'+data.message+"sent by  "+data.user);
+      this.updates.push(data.message+"sent by  "+data.user);
+      //$('#formcontainer').append('<b>'+username + ':</b> ' + data + '<br>');
+    },
+    updateRoom: function (data) {
+      console.log(data);
       console.log('update chat'+data+" ");
-      this.updates.push(data);
+      this.updates.push(" Agent has joined room");
       //$('#formcontainer').append('<b>'+username + ':</b> ' + data + '<br>');
     },
     addedUser : function(data) {
@@ -59,12 +65,19 @@ export default {
       updates : [],
       room_name : '',
       roomNo : '',
-      user : ''
+      user : '',
+      widgetId: null,
+      widgetHost: null,
     }
   },
   created() {
     this.id= this.$localStorage.get('id');
     console.log(this.id);
+
+    this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
+    this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
+    console.log(this.widgetId);
+    console.log(this.widgetHost);
 
     this.$socket.emit('adduser', this.id);
 
@@ -77,7 +90,7 @@ export default {
   		console.log("sent");
       console.log(message);
       if(message) {
-        this.$socket.emit('send', { message: message.message, user: this.id, room_number: this.roomNo});
+        this.$socket.emit('send', { message: message.message, user: this.id, room_number: this.roomNo , widget_uuid : this.widgetId, widget_host : this.widgetHost});
       }
 
       let data = {
@@ -85,9 +98,6 @@ export default {
         id  : this.id
       };
      
-      /** emitting the socket instance */
-      
-      //this.$socket.emit('send', data);
   	},
   }
 }

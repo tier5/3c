@@ -3,8 +3,8 @@
 		 <div class="formcontainer">
             <div class="col-md-12 cust-pad">
               	<div class="form-group">
-	             	<chat-message v-for="message in messages" :message="message">
-					</chat-message>
+	             	<div v-for="message in messages"> {{message}}
+					</div>
 				</div>
 			</div>
 		</div>
