@@ -30,7 +30,6 @@ export class LayoutComponent implements OnInit {
           if (data) {
             this.chatState = this.store.select('afterLogin')
               .map(data => data.chat);
-            console.log(data);
             this.store.dispatch(new ChatActions.ConnectAttempt());
           }
         }

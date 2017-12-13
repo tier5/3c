@@ -24,7 +24,6 @@ export class ChatEffects {
   connect = this.actions$
     .ofType(ChatActions.CONNECT_ATTEMPT)
     .switchMap((action: ChatActions.ConnectAttempt) => {
-      console.log('in here');
       return of(
         {
           type: ChatActions.CONNECT_SUCCESS
