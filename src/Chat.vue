@@ -13,48 +13,47 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   name: 'chat',
-  props : ['chatId'],
   sockets:{
     connect: function(){
       console.log('socket connected');
-      console.log(chatId);
       
     },
-    /** to receive the message */
-    receive: function() {
-      this.$socket.emit('get', {  id :this.id , widget_uuid : this.widgetId , widget_host : this.widgetHost });
-      console.log("receive");
-      //this.$socket.emit('unsubscribe');
+    /** to join the client to the room */
+    clientConnected: function(data) {
+      
+      this.client = data;
+      this.roomNo = data.room_number;
+      console.log("connected client");
+  
     },
-    /** event fired on sending message to get the message*/
-    getMessage: function(val){
-      console.log('This method was fired by the socket server.');
-      this.messages =val;
-      console.log(val);
-      console.log("chats"+this.id);
+    /**when the client does not get connected */ 
+    clientNotConnected: function() {
+
+      console.log("Client join failed");
+      this.$socket.emit('disconnect' , this.roomNo);
     },
-    updateChat: function (data) {
-      console.log(data);
-      console.log('update chat'+data.message+"sent by  "+data.user);
-      this.updates.push(data.message+"sent by  "+data.user);
-      //$('#formcontainer').append('<b>'+username + ':</b> ' + data + '<br>');
-    },
+
     updateRoom: function (data) {
       console.log(data);
-      console.log('update chat'+data+" ");
-      this.updates.push(" Agent has joined room");
-      //$('#formcontainer').append('<b>'+username + ':</b> ' + data + '<br>');
+      var update_message = data.name+' has joined the room';
+      this.updates.push(update_message);
+      
     },
-    addedUser : function(data) {
-      this.user = data.id;
+
+    /** when the socket gets disconnected */ 
+    disconnect: function(data) {
+      window.location = window.location.href;
     },
-    connectToRoom : function(data) {
-      this.roomNo = "room-"+data.roomNo;
-      console.log(this.roomNo);
-      console.log("Connect to room");
-    }
+    /** to update the chat log */
+    updateChat: function (data) {
+      console.log("update");
+      var update_message = data.message+' sent by ' + data.user;
+      console.log(update_message);
+      this.updates.push(update_message);
+    },
 
 
   },
@@ -65,38 +64,33 @@ export default {
       updates : [],
       room_name : '',
       roomNo : '',
-      user : '',
+      client : {},
       widgetId: null,
       widgetHost: null,
     }
   },
   created() {
-    this.id= this.$localStorage.get('id');
-    console.log(this.id);
+
+    console.log(Vue.ls.get('client'));
 
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
     this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
-    console.log(this.widgetId);
-    console.log(this.widgetHost);
 
-    this.$socket.emit('adduser', this.id);
+    this.client = Vue.ls.get('client');
+    console.log(this.client);
+    this.$socket.emit('clientConnect', this.client);
 
   },
   methods : {
+
     /** to add sent chat message */
     
-
   	addMessage(message) {
   		console.log("sent");
       console.log(message);
       if(message) {
-        this.$socket.emit('send', { message: message.message, user: this.id, room_number: this.roomNo , widget_uuid : this.widgetId, widget_host : this.widgetHost});
+        this.$socket.emit('sendMessage', { message: message.message, user: this.client.name, roomNumber: this.roomNo , fromNumber : this.client.from_number, widgetUuid : this.widgetId, widgetHost : this.widgetHost});
       }
-
-      let data = {
-        message : message,
-        id  : this.id
-      };
      
   	},
   }
