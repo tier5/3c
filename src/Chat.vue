@@ -18,8 +18,8 @@ export default {
   name: 'chat',
   sockets:{
     connect: function(){
-      console.log('socket connected');
-      
+      console.log('Emiting client-connected from vue');
+    //  this.$socket.emit('client-connected', this.client);
     },
     /** to join the client to the room */
     clientConnected: function(data) {
@@ -54,7 +54,13 @@ export default {
       console.log(update_message);
       this.updates.push(update_message);
     },
-
+    clientAddedToRoom: function (data) {
+      this.client = data;
+      this.roomNo = data.room_number;
+    },
+    connectedToRoom: function (msg) {
+      console.log(msg);
+    }
 
   },
   data() {
@@ -78,7 +84,14 @@ export default {
 
     this.client = Vue.ls.get('client');
     console.log(this.client);
-    this.$socket.emit('clientConnect', this.client);
+    // this.$socket.emit('client-connected', this.client);
+
+    // this.$socket.on('client-added-to-room', function (data) {
+    //   this.client = data;
+    //   this.roomNo = data.room_number;
+    // })
+    
+      this.$socket.emit('client-connected', this.client);
 
   },
   methods : {
