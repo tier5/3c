@@ -133,7 +133,7 @@
             </div>        
           </div>
       </div>
-      <chat v-if="chat" :chatId="chat_id"> </chat>
+      <chat v-if="chat"> </chat>
     </div>
     
      
@@ -142,7 +142,8 @@
 
 <script>
 
-import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators'
+import Vue from 'vue';
+import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators';
 
 export default {
   name: 'app',
@@ -159,7 +160,6 @@ export default {
         },
       ],
       chat : false,
-      chat_id: '',
       msg: 'Welcome to Your Vue.js App',
       showWidget: false,
       isAvailable: false,
@@ -223,11 +223,6 @@ export default {
     },
     phoneField : {
       required
-    }
-  },
-  sockets:{
-    connect: function(){
-      console.log('socket connected');
     }
   },
   created () {
@@ -308,23 +303,9 @@ export default {
     },
     departmentSubmit(id) {
       this.departmentFormSubmit = true;
-      this.dataToSend.department_id = id;
+      this.dataToSend.departmentId = id;
 
       console.log(this.dataToSend);
-      // this.$http.post(this.widgetHost + '/api/v1/widget-data', { data: this.dataToSend })
-      // .then(
-      //   (response) => {
-      //     console.log(response);
-      //     if(response.status) {
-      //       if(response.body.status) {
-      //         console.log(response);
-      //       }
-      //     }
-      //   },
-      //   (error) => {
-      //     console.error(error);
-      //   }
-      // );
       
     },
     openSideBar () {
@@ -407,10 +388,10 @@ export default {
       
         name: client_name,
         email: client_email,
-        from_number: client_phone,
-        widget_uuid: this.widgetId,
-        schedule_date: date != undefined ? date:0,
-        schedule_time: start != undefined ? start.split(':')[0]+':00:00': 0,
+        fromNumber: client_phone,
+        widgetUuid: this.widgetId,
+        scheduleDate: date != undefined ? date:0,
+        scheduleTime: start != undefined ? start.split(':')[0]+':00:00': 0,
 
       };
 
@@ -437,6 +418,7 @@ export default {
       const min_width = 600;
       const responsive_width = 991;
       const device_width = window.screen.width;
+
 
       this.timezone = (this.widgetTimezone.timezone_name).replace(/ *\([^)]*\) */g, "");
 
@@ -497,9 +479,9 @@ export default {
   },
   startChat () {
     console.log("Start chat");
-    
-    this.$socket.emit('startChat', this.dataToSend);
-    
+    Vue.ls.set('client', this.dataToSend);
+    console.log(Vue.ls.get('client'));
+    this.chat = true;
      
   },
   sendChatMessage(message) {

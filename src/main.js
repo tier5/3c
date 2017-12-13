@@ -11,10 +11,11 @@ import SendMessage from './SendMessage.vue';
 import ChatMobile from './ChatMobile.vue';
 import VueValidate from 'vuelidate';
 import VueSocketio from 'vue-socket.io';
-import VueLocalStorage from 'vue-localstorage'
+import VueLocalStorage from 'vue-ls';
+ 
 
-import Echo from "laravel-echo";
-import Pusher from 'pusher-js';
+// import Echo from "laravel-echo";
+// import Pusher from 'pusher-js';
 
 
 var node = document.createElement("div");
