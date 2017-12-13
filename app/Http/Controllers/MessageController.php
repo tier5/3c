@@ -104,29 +104,30 @@ class MessageController extends Controller
     }
 
 
-    public function getAgent()
+    public function getAgents($id)
     {
-       $agent =Users::find(5);
-       return Response::json(array(
-            'status'   => true,
-            'error'    => false,
-            'code'     => 200,
-            'response' => $agent,
-            'message'  => 'Agent'
-        ));
-    }
+        $agents = DepartmentAgentMap::where('department_id', $id)->get();
+        $agentsList = [];
 
-    public function addAgents(Request $request)
-    {
-       
+        foreach ($agents as $key => $agent) {
+
+            $dept_agents = ChatAgents::where('agent_id', $agent->user_id)->get();
+            if(count($dept_agents)>0) {
+                foreach ($dept_agents as $dept_agent) {
+                    $agentsList[] = $dept_agent;
+                }
+            }
+            
+        }
         return Response::json(array(
             'status'   => true,
             'error'    => false,
             'code'     => 200,
-            'response' => $agents,
-            'message'  => 'Agents'
+            'response' => $agentsList,
+            'message'  => 'Agent'
         ));
     }
+
 
 
 }
