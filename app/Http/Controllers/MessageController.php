@@ -14,6 +14,8 @@ use App\Model\Users;
 use App\Model\ChatUsers;
 use App\Model\Department;
 use App\Events\SocketMessage;
+use App\Model\DepartmentAgentMap;
+use App\Model\ChatAgents;
 
 class MessageController extends Controller
 {
@@ -71,7 +73,7 @@ class MessageController extends Controller
     	
 
         return Response::json(array(
-            'status'   => false,
+            'status'   => true,
             'error'    => false,
             'code'     => 200,
             'response' => $user ,
@@ -89,6 +91,29 @@ class MessageController extends Controller
             'code'     => 200,
             'response' => $agent,
             'message'  => 'Agent'
+        ));
+    }
+
+    public function addAgents(Request $request)
+    {
+        $departmentId = $request->departmentId;
+        $roomNumber  = $request->roomNumber;
+        $agentList =DepartmentAgentMap::where('department_id', $departmentId )->get();
+
+        foreach ($agentList as $list) {
+            $agent = new ChatAgents;
+            $agent->agent_id = $list->user_id;
+            $agent->room_number = $roomNumber;
+            $agent->save();
+        }
+
+        $agents = ChatAgents::where('room_number' , $roomNumber)->get();
+        return Response::json(array(
+            'status'   => true,
+            'error'    => false,
+            'code'     => 200,
+            'response' => $agents,
+            'message'  => 'Agents'
         ));
     }
 

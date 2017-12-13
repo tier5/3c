@@ -96,6 +96,8 @@ Route::get('messages', 'MessageController@getMessage');
 
 Route::post('add-messages', 'MessageController@addMessage');
 Route::post('add-chat-user', 'MessageController@addUser');
+
+Route::post('add-agents', 'MessageController@addAgents');
 Route::get('agent-chat', 'MessageController@getAgent');
 Route::get('/fire', function () {
     // this fires the event
