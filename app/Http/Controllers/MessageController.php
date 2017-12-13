@@ -71,12 +71,34 @@ class MessageController extends Controller
 	    	$user->save();
     	}
     	
+        $departmentId = $request->departmentId;
+        $roomNumber  = $user->room_number;
+        $agentList =DepartmentAgentMap::where('department_id', $departmentId )->get();
 
+        foreach ($agentList as $list) {
+            $agent = new ChatAgents;
+            $agent->agent_id = $list->user_id;
+            $agent->room_number = $roomNumber;
+            $agent->save();
+        }
+
+        $agents = ChatAgents::where('room_number' , $roomNumber)->get();
+
+
+        $response= array (
+            'id' => $user->id,
+            'from_number' => $user->from_number,
+            'name' => $user->name,
+            'email' => $user->email,
+            'department_id' => $user->department_id,
+            'room_number' => $user->room_number,
+            'agents'  => json_encode($agents)
+        );
         return Response::json(array(
             'status'   => true,
             'error'    => false,
             'code'     => 200,
-            'response' => $user ,
+            'response' => $response ,
             'message'  => 'User added'
         ));
     }
@@ -96,18 +118,7 @@ class MessageController extends Controller
 
     public function addAgents(Request $request)
     {
-        $departmentId = $request->departmentId;
-        $roomNumber  = $request->roomNumber;
-        $agentList =DepartmentAgentMap::where('department_id', $departmentId )->get();
-
-        foreach ($agentList as $list) {
-            $agent = new ChatAgents;
-            $agent->agent_id = $list->user_id;
-            $agent->room_number = $roomNumber;
-            $agent->save();
-        }
-
-        $agents = ChatAgents::where('room_number' , $roomNumber)->get();
+       
         return Response::json(array(
             'status'   => true,
             'error'    => false,
