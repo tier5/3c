@@ -120,12 +120,27 @@ class MessageController extends Controller
             
         // }
 
-        $agentsList = ChatAgents::all();
+        $agentsList = ChatAgents::where('agent_id', '!=', null)->groupBy('agent_id')->get();
+        $all_agents = [];
+        foreach ($agentsList as $list) {
+            $rooms = ChatAgents::where('agent_id', $list->agent_id)->get();
+            $all_rooms = [];
+            $agents['agent_id'] = $list->agent_id;
+            foreach($rooms as $room) {
+                $agent_rooms['name']= $room->room_number;
+                $agent_rooms['status'] = $room->status;
+                $all_rooms[]= $agent_rooms;
+            }
+            $agents['rooms'] = $all_rooms;
+            $all_agents[] = $agents;
+            
+        }
+
         return Response::json(array(
             'status'   => true,
             'error'    => false,
             'code'     => 200,
-            'response' => $agentsList,
+            'response' => json_encode($all_agents),
             'message'  => 'Agent'
         ));
     }
