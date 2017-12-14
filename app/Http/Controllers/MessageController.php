@@ -92,7 +92,7 @@ class MessageController extends Controller
             'email' => $user->email,
             'department_id' => $user->department_id,
             'room_number' => $user->room_number,
-            'agents'  => json_encode($agents)
+            'agents'  => $agents
         );
         return Response::json(array(
             'status'   => true,
@@ -106,20 +106,6 @@ class MessageController extends Controller
 
     public function getAgents()
     {
-        // $agents = DepartmentAgentMap::where('department_id', $id)->get();
-        // $agentsList = [];
-
-        // foreach ($agents as $key => $agent) {
-
-        //     $dept_agents = ChatAgents::where('agent_id', $agent->user_id)->get();
-        //     if(count($dept_agents)>0) {
-        //         foreach ($dept_agents as $dept_agent) {
-        //             $agentsList[] = $dept_agent;
-        //         }
-        //     }
-            
-        // }
-
         $agentsList = ChatAgents::where('agent_id', '!=', null)->groupBy('agent_id')->get();
         $all_agents = [];
         foreach ($agentsList as $list) {
@@ -140,7 +126,61 @@ class MessageController extends Controller
             'status'   => true,
             'error'    => false,
             'code'     => 200,
-            'response' => json_encode($all_agents),
+            'response' => $all_agents,
+            'message'  => 'Agent'
+        ));
+    }
+
+    /** to accept the chat request by the agent */ 
+    public function acceptRequest(Request $request)
+    {
+        $agent_id = $request->agentId;
+        $room_number = $request->roomNumber;
+        $agent = [];
+
+        $all_agents = ChatAgents::where('room_number', $room_number)->get();
+
+        foreach ($all_agents as $each_agent) {
+            
+            if($each_agent->agent_id == $agent_id) {
+                $each_agent->status = 2;
+                $each_agent->save();
+                $agent = $each_agent;
+            } else {
+                $each_agent->delete();
+            }
+        }
+
+        return Response::json(array(
+            'status'   => true,
+            'error'    => false,
+            'code'     => 200,
+            'response' => $agent,
+            'message'  => 'Agent'
+        ));
+    }
+
+
+    /** to accept the chat request by the agent */ 
+    public function rejectRequest(Request $request)
+    {
+        $agent_id = $request->agentId;
+        $room_number = $request->roomNumber;
+        
+        $agents = ChatAgents::where('room_number', $room_number)
+                                ->where('agent_id', $agent_id)
+                                ->get();
+        if(count($agents)>0) {
+            foreach($agents as $agent) {
+                $agent->delete();
+            }
+            
+        }
+        return Response::json(array(
+            'status'   => true,
+            'error'    => false,
+            'code'     => 200,
+            'response' => 'Request rejected',
             'message'  => 'Agent'
         ));
     }

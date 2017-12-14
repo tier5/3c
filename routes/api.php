@@ -96,6 +96,8 @@ Route::get('messages', 'MessageController@getMessage');
 
 Route::post('add-messages', 'MessageController@addMessage');
 Route::post('add-chat-user', 'MessageController@addUser');
+Route::post('accept-chat-request', 'MessageController@acceptRequest');
+Route::post('reject-chat-request', 'MessageController@rejectRequest');
 
 Route::get('get-agents', 'MessageController@getAgents');
 // Route::get('agent-chat', 'MessageController@getAgent');
