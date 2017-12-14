@@ -91,8 +91,7 @@ Route::post('reset-password','UserController@resetPassword');
 //get widget departments
 Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
 
-//get widget departments
-Route::get('messages', 'MessageController@getMessage');
+Route::post('get-messages', 'MessageController@getMessages');
 
 Route::post('add-messages', 'MessageController@addMessage');
 Route::post('add-chat-user', 'MessageController@addUser');

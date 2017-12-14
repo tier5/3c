@@ -77,9 +77,9 @@ io.on('connection', function(socket) {
         // Send message to everyone in that particular room
 
         console.log('message sent');
-        console.log(data);
+        // console.log(data);
         /**api call to add message to the database */
-        axios.post(data.widgetHost+ '/api/v1/add-messages', data)
+        axios.post('http://3c.local/api/v1/add-messages', data)
             .then(function (response) {
                 if(response.data.status) {
                     // Send message to everyone in that particular room
@@ -91,6 +91,18 @@ io.on('connection', function(socket) {
             .catch(function (error) {
                 console.log(error);
             });
+
+        // /**api call to get message to the database */
+        // axios.post('http://3c.local/api/v1/get-messages', { roomNumber : data.roomNo} )
+        //     .then(function (response) {
+        //         if(response.data.status) {
+        //             // Send message to everyone in that particular room
+        //             console.log(response.data.response);
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
     });
 
     //////////////////////////////////////////////////////////////////////////////////////////////

@@ -25,14 +25,18 @@ class MessageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getMessage()
+
+    /** to get all the messages of a chat room */ 
+    public function getMessages(Request $request)
     {
-       $message =Messages::all();
-       return Response::json(array(
+        $room_number = $request->roomNumber;
+        $messages =Messages::where('room_number' , $room_number)->get();
+
+        return Response::json(array(
             'status'   => true,
             'error'    => false,
             'code'     => 200,
-            'response' => $message,
+            'response' => $messages,
             'message'  => 'All messages'
         ));
     }
