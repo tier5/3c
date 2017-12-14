@@ -41,6 +41,7 @@ class MessageController extends Controller
     {
        $message =new Messages;
        $message->message = $request->message;
+       $message->agent = $request->agent;
        $message->user = $request->user;
        $message->room_number = $request->roomNumber;
        //$message->from_number = $request->data['id'];
