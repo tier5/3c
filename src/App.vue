@@ -1,7 +1,6 @@
 <template>
   <div class="app">
     <chat-window></chat-window>
-    
   </div>
 </template>
 

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<img src="https://forum-archive.vuejs.org/uploads/system/site-logo.png">-->
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
     <div class="side-bar slideInRight animated" v-if="showSideBar && !chat">
       <span class="close-form hide1 cross" @click="closeSideBar">x</span>
@@ -55,7 +54,6 @@
                 </div>
               </div>
               <div class="col-md-12 cust-pad">
-
                 <div class="form-group"  :class="{ 'has-error': $v.email.$error  }">
                   <input v-model="email" class="form-control" type="text" placeholder="Enter Your Email ID" @blur="$v.email.$touch()" >
                   <span v-if="($v.email.$error)" class="help-block">
@@ -101,25 +99,32 @@
            <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/widgets/right-arrow.png'" alt="img"></div>
               <div class="col-md-8">
                 <div class="col-md-5" v-if="!departmentFormSubmit">
-                <div class="form-group">
-                  <label class="control-label">
-                      Choose a department
-                  </label>
-                  <div>
-                    <div v-for="department in widgetDepartments"  class="list-group" >
-                       <a  class="list-group-item" @click="departmentSubmit(department.id)"> {{ department.department_name }} </a>
+                  <div class="form-group">
+                    <label class="control-label">
+                        Choose a department
+                    </label>
+                    <div>
+                      <div v-for="department in widgetDepartments"  class="list-group" >
+                         <a  class="list-group-item" @click="departmentSubmit(department.id)"> {{ department.department_name }} </a>
+                      </div>
                     </div>
                   </div>
-                </div></div>
+                </div>
                 <div class="col-md-5" v-if="departmentFormSubmit">
                   <div class="panel-body">
                     <div class="formcontainer">
-                      <p v-if="chatScheduleClicked">
-                        Thank you for showing interest in our platform .One of our agents will chat with you at the specified time.
-                      </p>
-                      <p v-if="!chatScheduleClicked">Thank you for showing interest in our platform . To start chatting click the button given below.</p>
+                      <div v-if="chatScheduleClicked">
+                        <p>
+                          Thank you for showing interest in our platform .One of our agents will chat with you at the specified time.
+                        </p>
+                      </div>
+                      <div v-if="!chatScheduleClicked">
+                        <p>
+                          Thank you for showing interest in our platform . To start chatting click the button given below.
+                        </p>
+                        <button type="button" class="btn btn-primary" @click="startChat"> Start Chat </button>
+                      </div>  
                     </div>
-                    <button type="button" class="btn btn-primary" @click="startChat"> Start Chat </button>
                     <div class="col-md-12 cust-pad">
                       <!-- <span style='display: block;text-decoration: underline; cursor: pointer;' id='again'>Chat again</span> -->
                     </div>
@@ -306,6 +311,8 @@ export default {
       this.dataToSend.departmentId = id;
 
       console.log(this.dataToSend);
+
+      /** api call to send the chat schedule  */
       
     },
     openSideBar () {
@@ -332,7 +339,7 @@ export default {
       this.widgetButton.title = 'Chat with us';
       //this.widgetButton.src = this.widgetHost + '/images/text-btn.png';
       this.widgetButton.src = this.widgetHost +'/widgets/chat-btn.png'; 
-      this.widgetLogo.src = this.widgetHost +'/widgets/'+this.widget.image;
+      this.widgetLogo.src = this.widget.image;
       this.btnProp.showChatSchedule = this.isAvailable;
       if(this.chatScheduleClicked) {
         this.btnProp.showChatNow = false;
