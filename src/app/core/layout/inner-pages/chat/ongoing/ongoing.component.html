@@ -20,7 +20,7 @@
             <div class="row">
               <div class="chat-list">
                 <ul>
-                  <li>
+                  <li [ngClass]="{ active : currentChatIndex == i}" *ngFor="let contact of (chatState | async).ongoing; let i = index;" (click)="changeCurrentChat(i)">
                     <div class="col-md-2">
                       <div class="chat-head row">
                         <img src="../../../../assets/img/avatar5.png" class="img-responsive">
@@ -28,151 +28,8 @@
                     </div>
                     <div class="col-md-10">
                       <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is sbv vb  dlkf mdfkgmnoidf dfn jndfgn dfing dfngidfnign dfiugid ufgnifdgiudufung iudfngiu dfniugnfdi gnidfng idfng fdn idfngiu fimply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>Corey Simmons <span>5 days</span></h3>
-                        <p>Lorem Ipsum is simply...</p>
+                        <h3>{{contact.status}} <span>5 days</span></h3>
+                        <p>Lorem Ipsum is simply...{{contact.room}}</p>
                       </div>
                     </div>
                   </li>
@@ -186,7 +43,7 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages">
                   <!-- Message. Default to the left -->
-                  <div class="direct-chat-msg">
+                  <div class="direct-chat-msg" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
                     <div class="direct-chat-info clearfix">
                       <span class="direct-chat-name pull-left">Alexander Pierce</span>
                       <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
@@ -196,115 +53,9 @@
                       Is thisdff d d gd dfg gdgf dff dfg gdgdf  df ggdg fdgfdf gd  gdffg f fd g dg dgfdf  gdgfdf  gdffg template really for free? That's unbelievable!
                     </div>
                   </div>
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" src="../../../../assets/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      You better believe it!
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                      <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      Is this template really for free? That's unbelievable!
-                    </div>
-                  </div>
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" src="../../../../assets/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      You better believe it!
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                      <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      Is this template really for free? That's unbelievable!
-                    </div>
-                  </div>
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" src="../../../../assets/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      You better believe it!
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                      <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      Is this template really for free? That's unbelievable!
-                    </div>
-                  </div>
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" src="../../../../assets/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      You better believe it!
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                      <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      Is this template really for free? That's unbelievable!
-                    </div>
-                  </div>
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" src="../../../../assets/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      You better believe it!
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                      <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      Is this template really for free? That's unbelievable!
-                    </div>
+                  <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">
+                    <button (click)="onAccept()" class="btn btn-primary">Accept</button>
+                    <button (click)="onDecline()" class="btn btn-danger">Reject</button>
                   </div>
                   <div class="direct-chat-msg right">
                     <div class="direct-chat-info clearfix">
@@ -322,30 +73,30 @@
                 <!--/.direct-chat-messages-->
 
                 <!-- Contacts are loaded here -->
-                <div class="direct-chat-contacts">
-                  <ul class="contacts-list">
-                    <li>
-                      <a href="#">
-                        <img class="contacts-list-img" src="../../../../assets/img/user1-128x128.jpg" alt="User Image">
+                <!--<div class="direct-chat-contacts">-->
+                  <!--<ul class="contacts-list">-->
+                    <!--<li>-->
+                      <!--<a href="#">-->
+                        <!--<img class="contacts-list-img" src="../../../../assets/img/user1-128x128.jpg" alt="User Image">-->
 
-                        <div class="contacts-list-info">
-                            <span class="contacts-list-name">
-                              Count Dracula
-                              <small class="contacts-list-date pull-right">2/28/2015</small>
-                            </span>
-                          <span class="contacts-list-msg">How have you been? I was...</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
-                    </li>
-                    <!-- End Contact Item -->
-                  </ul>
-                  <!-- /.contatcts-list -->
-                </div>
+                        <!--<div class="contacts-list-info">-->
+                            <!--<span class="contacts-list-name">-->
+                              <!--Count Dracula-->
+                              <!--<small class="contacts-list-date pull-right">2/28/2015</small>-->
+                            <!--</span>-->
+                          <!--<span class="contacts-list-msg">How have you been? I was...</span>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; /.contacts-list-info &ndash;&gt;-->
+                      <!--</a>-->
+                    <!--</li>-->
+                    <!--&lt;!&ndash; End Contact Item &ndash;&gt;-->
+                  <!--</ul>-->
+                  <!--&lt;!&ndash; /.contatcts-list &ndash;&gt;-->
+                <!--</div>-->
                 <!-- /.direct-chat-pane -->
               </div>
               <!-- /.box-body -->
-              <div class="box-footer">
+              <div class="box-footer" *ngIf="(chatState | async).ongoing[currentChatIndex]?.status != 1">
                 <form action="#" method="post">
                   <div class="input-group">
                     <input type="text" name="message" placeholder="Type Message ..." class="form-control">

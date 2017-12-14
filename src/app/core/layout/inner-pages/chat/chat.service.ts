@@ -6,19 +6,18 @@ import 'rxjs/add/operator/map';
 
 import * as fromAfterLogin from '../../store/after-login.reducers';
 import * as ChatActions from '../../store/chat/chat.actions';
+import 'rxjs/add/operator/take'
 
 @Injectable()
 export class ChatService {
 
   socket: any;
-  constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) { }
-
-  connect() {
+  constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
     this.socket = io('http://localhost:3000');
-    console.log(this.socket);
     this.store.select('auth')
       .map(data => data.userId)
       .distinctUntilChanged()
+      .take(1)
       .subscribe(
         (id) => {
           this.socket.on('connect', () => {
@@ -26,8 +25,8 @@ export class ChatService {
             this.socket.on('new-rooms-added', (data) => {
               console.log('Angular: New Room Added ', data);
               for (let i = 0, len = data.length; i < len; i++) {
-                console.log(data[i]);
                 if(data[i].agent_id == id) {
+                  console.log('Angular : Agent Added to room', JSON.stringify(data[i].rooms,null,4));
                   this.socket.emit('add-agent-to-rooms', data[i].rooms);
                   break;
                 }
@@ -35,15 +34,30 @@ export class ChatService {
 
             });
             this.socket.on('agent-added-to-room', (data) => {
-              console.log(data);
+              console.log('Agent Added To Room', data.name);
               this.store.dispatch(new ChatActions.AddToChatList(data));
             });
             this.socket.on('agent-removed-from-room', (data) => {
               console.log(data);
             });
+            this.socket.on('msg-of-acceptance', (data) => {
+              console.log(data);
+            });
+            this.socket.on('which-agent-accepted', (data) => {
+              console.log(data);
+            });
           });
         }
-      )
+      );
+  }
+
+  connect() {
+
+  }
+
+  accept(data: { agentId: number, roomNumber: string }) {
+    console.log(this.socket);
+    this.socket.emit('agent-accepts-msg', data);
   }
 
 }
