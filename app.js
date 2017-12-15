@@ -11,7 +11,7 @@ io.on('connection', function (socket) {
   socket.on('client-connected', function (data) {
     console.log('Node: Client Connected: ', data);
     /** Api call to create room for client and agents */
-    axios.post('http://3c.local/api/v1/add-chat-user', data)
+    axios.post('http://3c.local/api/v1/web-chat', data)
       .then(function (res) {
         if (res.data.status) {
           var resp = res.data.response;
@@ -57,7 +57,7 @@ io.on('connection', function (socket) {
     console.log('In Send Rooms Function');
 
     /** API calls to get data of all agent_id and rooms they are assigned to with status */
-    axios.get('http://3c.local/api/v1/get-agents')
+    axios.get('http://3c.local/api/v1/all-agents-chatrooms')
       .then(function (res) {
         if (res.data.status) {
           console.log('Node : New Rooms Added ', res.data.response);
@@ -76,7 +76,7 @@ io.on('connection', function (socket) {
         console.log('message sent');
          console.log(data);
         /**api call to add message to the database */
-        axios.post('http://3c.local/api/v1/add-messages', data)
+        axios.post('http://3c.local/api/v1/web-chat-message', data)
             .then(function (response) {
                 if(response.data.status) {
                     // Send message to everyone in that particular room
@@ -94,7 +94,7 @@ io.on('connection', function (socket) {
   socket.on('agent-accepts-msg', function (data) {
 
     /** Api call to accept msg for agent */
-    axios.post('http://3c.local/api/v1/accept-chat-request', data)
+    axios.post('http://3c.local/api/v1/agent-chat-action', data)
       .then(function (res) {
         if (res.data.status) {
           console.log('After Accept');

@@ -437,7 +437,7 @@ class ChatController extends Controller
                     if($responsesaveMessageLog != false ){
 
                         $updateMessageTrack = MessageTrack::where('id',$saveMessageTrack->id)->update(['message_id' =>$responsesaveMessageLog ]);
-                        $chatRoomId=$this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
+                        $chatRoomId = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
                         //call a funtion to fetch  all the agents with there corrosponding room id and status
                         return $chatRoomId;
                     }
@@ -491,31 +491,35 @@ class ChatController extends Controller
      * @param Request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function chatProcess(Request $request)
+    public function chatProcess($fromNumber, $widgetUuid)
     {
 
-        $fromNumber     = $request->fromNumber;
-        $widgetUuid     = $request->widgetUuid;
-        $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
+        //$fromNumber     = $request->fromNumber;
+        //$widgetUuid     = $request->widgetUuid;
+        if($fromNumber !="" && $widgetUuid != "") {
+            $checkMessageTrack = MessageTrack::where('widget_id', $widgetUuid)->where('from_phone_number', $fromNumber)->where('status', 1)->first();
 
-        if( count($checkMessageTrack) !=0 ){
-            $chatRoomId = $this->generateRandomString();
-            $checkMessageTrack->chat_room_id = $chatRoomId;
-            if($checkMessageTrack->update()){
-                $departmentId   = $checkMessageTrack->department_id;
-                $messageId      = $checkMessageTrack->message_id;
-                $countAgentDepartment = DepartmentAgentMap::where('department_id',$departmentId)->count();
-                $responsesaveMessageForwardCount = $this->saveMessageForwardCount($widgetUuid,$countAgentDepartment,$messageId);
-                if($responsesaveMessageForwardCount != false){
+            if (count($checkMessageTrack) != 0) {
+                $chatRoomId = $this->generateRandomString();
+                $checkMessageTrack->chat_room_id = $chatRoomId;
+                if ($checkMessageTrack->update()) {
+                    $departmentId = $checkMessageTrack->department_id;
+                    $messageId = $checkMessageTrack->message_id;
+                    $countAgentDepartment = DepartmentAgentMap::where('department_id', $departmentId)->count();
+                    $responsesaveMessageForwardCount = $this->saveMessageForwardCount($widgetUuid, $countAgentDepartment, $messageId);
+                    if ($responsesaveMessageForwardCount != false) {
 
-                    $this->saveMessageAgentTrack($responsesaveMessageForwardCount,$chatRoomId,$widgetUuid,$messageId,$departmentId);
+                        $this->saveMessageAgentTrack($responsesaveMessageForwardCount, $chatRoomId, $widgetUuid, $messageId, $departmentId);
+                    }
+                } else {
+                    //do something
                 }
+                return $chatRoomId;
             } else {
-                //do something
+                echo "no data found !";
             }
-            return $chatRoomId;
         } else {
-            echo "no data found !";
+            echo "Something Went Wrong !";
         }
     }
 
@@ -643,18 +647,21 @@ class ChatController extends Controller
         $toAgentId      = $request->toAgentId;
         $fromAgentId    = $request->fromAgentId;//change needed
 
-        $checkMessageAgentTrack = MessageAgentTrack::where('agent_id',$agentId)->where('message_id',$messageId)->where('chat_room_id',$chatRoomId)->first();
+        $checkMessageAgentTrack = MessageAgentTrack::where('agent_id',$agentId)->where('chat_room_id',$chatRoomId)->first();
 
         if( count($checkMessageAgentTrack)!=0 ){
             if($status == 2){   // Accept status Scenario
 
                 $responseAcceptChat = $this->acceptChat($checkMessageAgentTrack);
+                return $responseAcceptChat;
             }if($status == 3){  // Reject status Scenario
 
                 $responseRejectChat = $this->rejectChat($checkMessageAgentTrack);
+                return $responseRejectChat;
             }if($status == 4){  // Transfer Status Scenario
 
                 $responseTransferChat = $this->transferChat($checkMessageAgentTrack, $departmentId, $toAgentId, $fromAgentId);
+                return $responseTransferChat;
             }
 
         } else {
@@ -691,7 +698,7 @@ class ChatController extends Controller
 
         $updateMessageForwardCounter = MessageForwardCounter::where('id',$messageForwardCountId)->update(['status'=>$status]);
         //return agent_id and chat_room_id and status true
-        $response = ['agentId'=>$agentId,'chatRoomId'=>$chatRoomId,'status'=>true];
+        $response = ['agentId'=>$agentId,'chatRoomId'=>$chatRoomId,'status'=>$status];
         return  Response::json(array(
             'status'   => true,
             'code'     => 200,
@@ -727,20 +734,22 @@ class ChatController extends Controller
             $checkMessageForwardCounter->update();
             $this->inicateRejectNotificationToAgents($checkMessageForwardCounter->id,$widgetUuid);
             //return agent_id and chat room_id and status true
-            $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>true ];
+            $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,
                 'response' => $response,
-                'message'  => 'Agent and chatroom !'
+                'message'  => 'Agent and chatroom with Reject Status !'
             ));
 
         } else {
+            //send agent id and status true
+            $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
-                'status'   => false,
-                'code'     => 400,
-                'response' => [],
-                'message'  => 'Something went wrong !'
+                'status'   => true,
+                'code'     => 200,
+                'response' => $response,
+                'message'  => 'Agent and chatroom with Reject Status !'
             ));
         }
     }
@@ -845,10 +854,19 @@ class ChatController extends Controller
                     $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
                 }
                 foreach($room->allChat as $key=>$chat){
+
                     $agentRooms['chats'][$key]['message'] = $chat->chat_thread;
                     $agentRooms['chats'][$key]['direction'] = $chat->direction;
                     $agentRooms['chats'][$key]['roomNo'] = $room->chat_room_id;
-                    $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                    if($chat->direction == 1){
+                        if($room->clientInfo->clientName->name !="" ) {
+                            $agentRooms['chats'][$key]['user'] = $room->clientInfo->clientName->name;
+                        } else {
+                            $agentRooms['chats'][$key]['user'] = $room->clientInfo->clientName->phone;
+                        }
+                    }if($chat->direction == 2){
+                        $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                    }
                     $agentRooms['chats'][$key]['created_at'] = $chat->created_at;
                 }
                 $allRooms[]= $agentRooms;
