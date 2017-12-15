@@ -7,7 +7,7 @@
           <b> {{ connectMessage }} </b>
         </div>
         <div  v-for="update in updates"> {{update}} </div>
-    		<div class="formcontainer">
+        <div class="formcontainer">
           <div class="col-md-12 cust-pad">
             <div class="form-group">
               <div class="row">
@@ -17,13 +17,14 @@
             </div>
           </div>
         </div>
-    	</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+
 export default {
   name: 'chat',
   sockets:{
@@ -102,15 +103,15 @@ export default {
   methods : {
 
     /** to add sent chat message */   
-  	addMessage() {
+    addMessage() {
 
-  		console.log("sent");
+      console.log("sent");
       console.log(this.message);
       if(this.message) {
         this.$socket.emit('msg', { message: this.message, agent : false, user: this.client.name, roomNo: this.roomNo , fromNumber : this.client.from_number, widgetUuid : this.widgetId, widgetHost : this.widgetHost});
       }
       this.message = '';
-  	},
+    },
   }
 }
 </script>

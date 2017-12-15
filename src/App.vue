@@ -1,14 +1,17 @@
 <template>
   <div class="app">
-    <chat-window></chat-window>
+  	<router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
+	name: 'app',
+  
+ 
 }
 </script>
+
 
 <style>
 </style>

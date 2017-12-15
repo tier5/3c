@@ -1,29 +1,68 @@
 <template>
-  <div class="chat">
-    <div class="side-bar slideInRight animated">
-      <h1>Get In Touch With Us</h1>
-      <div class="formcontainer"> 
-        <div class="formcontainer"> 
-          <b> {{ connectMessage }} </b>
+  <div class="chat-template">
+    <div class="chat-window col-md-4 col-sm-6">
+      <div class="panel panel-default">
+        <div class="top-bar">
+
+          <div class="col-md-3 col-xs-3">
+            <div class="user-icon">
+              <img src="src/assets/images/user3.png" class="img-responsive" alt="user-img">
+            </div>
+          </div>
+          <div class="col-md-7 col-xs-5">
+            <div class="row">
+              <div class="detail">
+                {{ client.name }}
+                <p>Chat with Agent</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-1" v-if="!minimize">
+            <a @click="chatMinimize"> 
+              <icon name="window-minimize" aria-hidden="true"></icon> 
+            </a>
+          </div>
+          <div class="col-xs-1" v-if="minimize">
+            <a @click="chatMaximize"> 
+              <icon name="window-maximize" aria-hidden="true"></icon> 
+            </a>
+          </div>
         </div>
-        <div  v-for="update in updates"> {{update}} </div>
-    		<div class="formcontainer">
-          <div class="col-md-12 cust-pad">
-            <div class="form-group">
-              <div class="row">
-                <input  class="form-control" type="text" v-model="message" @keyup.enter="addMessage">
-                <button class="btn-primary" @click="addMessage">Button</button>
+        <div class="panel-body msg_container_base" v-if="!minimize">
+
+          <div class="row msg_container base_sent">
+            <b> {{ connectMessage }} </b>
+          </div>
+          <div v-for="update in updates">
+            <div class="row msg_container base_sent" v-if="update.direction==1">
+              <div class="messages msg_sent">
+                <p>{{ update.message }}</p>
+              </div>
+            </div>
+
+            <div class="row msg_container base_receive" v-if="update.direction==2">
+              <div class="messages msg_receive">
+                  <p>{{ update.message }}</p>
               </div>
             </div>
           </div>
         </div>
-    	</div>
+        <div class="panel-footer" v-if="!minimize">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm chat_input" placeholder="Write a question..." v-model="message" @keyup.enter="addMessage" />
+            <span class="input-group-btn">
+              <button class="btn" @click="addMessage">Send</button>
+            </span>
+          </div>                
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+import moment from 'moment';
 export default {
   name: 'chat',
   sockets:{
@@ -49,20 +88,20 @@ export default {
     updateRoom: function (data) {
       console.log(data);
       var update_message = data.name+' has joined the room';
-      this.updates.push(update_message);
-      
+      this.updates.push(data);
     },
 
     /** when the socket gets disconnected */ 
     disconnect: function() {
+      Vue.ls.remove('client');
+      console.log("disconnectss");
       window.location = window.location.href;
     },
     /** to update the chat room with the chat message */
     newmsg: function (data) {
       console.log("update");
-      var update_message = data.message+' sent by ' + data.user;
-      console.log(update_message);
-      this.updates.push(update_message);
+      console.log(data.message+' sent by ' + data.user);
+      this.updates.push(data);
     },
 
     connectedToRoom: function (msg) {
@@ -82,7 +121,30 @@ export default {
       widgetId: null,
       widgetHost: null,
       message : '',
-      connectMessage : ''
+      connectMessage : '',
+      minimize : false,
+      messages : [
+        {
+          message : 'Hi',
+          author  : 'Danny',
+          agent : true
+        },
+        {
+          message : 'Heyyyyy',
+          author  : 'John',
+          agent : false
+        },
+        {
+          message : 'Hey',
+          author  : 'John',
+          agent : false
+        },
+        {
+          message : 'Hey',
+          author  : 'John',
+          agent : true
+        },
+      ],
 
     }
   },
@@ -102,182 +164,162 @@ export default {
   methods : {
 
     /** to add sent chat message */   
-  	addMessage() {
+    addMessage() {
 
-  		console.log("sent");
+      console.log("sent");
       console.log(this.message);
       if(this.message) {
-        this.$socket.emit('msg', { message: this.message, agent : false, user: this.client.name, roomNo: this.roomNo , fromNumber : this.client.from_number, widgetUuid : this.widgetId, widgetHost : this.widgetHost});
+        this.$socket.emit('msg', { message: this.message, direction : 1, user: this.client.name, roomNo: this.roomNo , fromNumber : this.client.from_number, time : moment() });
       }
       this.message = '';
-  	},
+    },
+
+    chatMinimize () {
+      console.log("close");
+      this.minimize = true;
+      console.log(this.minimize);
+    },
+    chatMaximize () {
+      console.log("open");
+      this.minimize = false;
+      console.log(this.minimize);
+    }
   }
 }
 </script>
 
-<style>
+<style type="text/css">
 @import "~/node_modules/bootstrap/dist/css/bootstrap.css";
 
+  .chat-window{
+    bottom: 10px;
+    position: fixed;
+    right: 0;
+    z-index: 9;
+  }
+  .chat-window > div > .panel{
+    border-radius: 5px 5px 0 0;
+  }
+  .icon_minim{
+    padding:2px 10px;
+  }
+  .msg_container_base{
+    background: #F7F8FA;
+    margin: 0;
+    padding: 0 10px 10px;
+    max-height: 350px;
+    overflow-x: hidden;
+    overflow-y : auto;
+    height: 350px;
+  }
+  .top-bar {
+    background: #467FFD;
+    color: #fff;
+    padding: 15px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .msg_receive{
+    background: #eef5f9;
+    color: #333;
+  }
+  .msg_sent{
+    margin-right:0;
+    background: #467FFD;
+    color: #fff;
+  }
+  .messages {
+    padding: 14px;
+    border-radius: 2px;
+    max-width: 100%;
+    margin: 0 10px;
+    width: auto;
+  }
+  .messages > p {
+    margin: 0;
+  }
+  .messages > time {
+    font-size: 11px;
+    color: #ccc;
+  }
+  .msg_container {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+  }
+  .base_sent {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .msg_sent > time{
+    float: right;
+  }
+  .msg_container_base::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
 
-.side-bar {
-  position: fixed;
-  top: 0px;
-  bottom: 0px;
-  z-index: 9999;
-  background: rgb(240, 240, 240) none repeat scroll 0% 0%;
-  height: auto;
-  width: 393px;
-  padding: 10px 20px 20px;
-  box-shadow: rgb(178, 178, 178) 1px 0px 20px 1px;
-  color: rgb(51, 51, 51);
-  text-align: center;
-  overflow-y: auto;
-  right: 0px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  overflow-x: hidden ;
-}
-.side-bar h2 {
-  text-align: center;
-  text-transform: capitalize;
-  margin: 13px 0px 15px;
-  color: rgb(94, 94, 94);
-  font-weight: bold;
-  font-size: 36px;
-}
-.side-bar h3 {
-  padding-bottom: 8px;
-  font-size: 27px;
-  margin-bottom: 10px;
-  color: #5E5E5E;
-  text-align: left;
-  margin-top:0;
-}
+  .msg_container_base::-webkit-scrollbar
+  {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
 
-.chat-window{
-        bottom: 100px;
-        position: fixed;
-        right: 0;
-        z-index: 9;
-    }
-    .chat-window > div > .panel{
-        border-radius: 5px 5px 0 0;
-    }
-    .icon_minim{
-        padding:2px 10px;
-    }
-    .msg_container_base{
-        background: #F7F8FA;
-        margin: 0;
-        padding: 0 10px 10px;
-        max-height: 350px;
-        overflow-x: hidden;
-        height: 350px;
-    }
-    .top-bar {
-        background: #467FFD;
-        color: #fff;
-        padding: 15px 0;
-        position: relative;
-        overflow: hidden;
-    }
-    .msg_receive{
-        background: #eef5f9;
-        color: #333;
-    }
-    .msg_sent{
-        margin-right:0;
-        background: #467FFD;
-        color: #fff;
-    }
-    .messages {
-        padding: 14px;
-        border-radius: 2px;
-        max-width: 100%;
-        margin: 0 10px;
-        width: auto;
-    }
-    .messages > p {
-        margin: 0;
-    }
-    .messages > time {
-        font-size: 11px;
-        color: #ccc;
-    }
-    .msg_container {
-        padding: 10px;
-        overflow: hidden;
-        display: flex;
-    }
-    .base_sent {
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-    .msg_sent > time{
-        float: right;
-    }
-    .msg_container_base::-webkit-scrollbar-track
-    {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        background-color: #F5F5F5;
-    }
+  .msg_container_base::-webkit-scrollbar-thumb
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+  }
 
-    .msg_container_base::-webkit-scrollbar
-    {
-        width: 12px;
-        background-color: #F5F5F5;
-    }
+  .btn-group.dropup{
+    position:fixed;
+    left:0px;
+    bottom:0;
+  }
+  .detail{
+    font-weight: bold;
+  }
+  .detail p{
+    margin: 0;
+    font-weight: normal;
+    font-size: 12px;
+  }
+  .user-icon img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  .panel-footer{
+    background: #fff;
+    padding: 0;
+    border: none;
+  }
+  .panel-footer .form-control{
+    height: 60px;
+    border: none;
+    box-shadow: none;
+    font-size: 14px;
+    color: #333;
+  }
+  .panel-footer .input-group-btn button{
+    background: url('assets/images/chat-sent-icon.png') no-repeat center;
+    border: none;
+    outline: none;
+    height: 50px;
+    width: 50px;
+    font-size: 0;
+  }
+  .chat-close {
+    display: block;
+    text-align: right;
+    width: 50px;
+  }
+  .chat-minimise {
+    display: inline-block;
+    text-align: right;
+    width: 50px;
+  }
 
-    .msg_container_base::-webkit-scrollbar-thumb
-    {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-        background-color: #555;
-    }
-
-    .btn-group.dropup{
-        position:fixed;
-        left:0px;
-        bottom:0;
-    }
-    .detail{
-        font-weight: bold;
-    }
-    .detail p{
-        margin: 0;
-        font-weight: normal;
-        font-size: 12px;
-    }
-    .user-icon img{
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-    }
-    .panel-footer{
-        background: #fff;
-        padding: 0;
-        border: none;
-    }
-    .panel-footer .form-control{
-        height: 60px;
-        border: none;
-        box-shadow: none;
-        font-size: 14px;
-        color: #333;
-    }
-    .panel-footer .input-group-btn button{
-        
-        border: none;
-        outline: none;
-        height: 50px;
-        width: 50px;
-        font-size: 0;
-    }
-    .chat-close a{
-        display: block;
-        text-align: right;
-    }
-    .chat-close a img{
-        display: inline-block;
-        text-align: right;
-    }
 </style>
 

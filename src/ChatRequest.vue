@@ -138,7 +138,6 @@
             </div>        
           </div>
       </div>
-      <chat v-if="chat"> </chat>
     </div>
     
      
@@ -151,7 +150,7 @@ import Vue from 'vue';
 import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators';
 
 export default {
-  name: 'app',
+  name: 'chat-request',
   data () {
     return {
       messages : [
@@ -231,6 +230,10 @@ export default {
     }
   },
   created () {
+
+    if(Vue.ls.get('client')) {
+      Vue.ls.remove('client');
+    }
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
     this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
     this.$http.post(this.widgetHost + '/api/v1/widget-data', { widgetUuid: this.widgetId })
@@ -489,6 +492,7 @@ export default {
     Vue.ls.set('client', this.dataToSend);
     console.log(Vue.ls.get('client'));
     this.chat = true;
+    this.$router.push('/chat');
      
   },
   sendChatMessage(message) {
