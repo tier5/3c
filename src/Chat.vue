@@ -29,20 +29,21 @@
           </div>
         </div>
         <div class="panel-body msg_container_base" v-if="!minimize">
-
-          <div class="row msg_container base_sent">
-            <b> {{ connectMessage }} </b>
+          <div class="chat-notification">
+            <div class="row" v-for="msg in connectMessage">
+              <b> {{ msg }} </b>
+            </div>
           </div>
-          <div v-for="update in updates">
-            <div class="row msg_container base_sent" v-if="update.direction==1">
+          <div v-for="message in messages">
+            <div class="row msg_container base_sent" v-if="message.direction==1">
               <div class="messages msg_sent">
-                <p>{{ update.message }}</p>
+                <p>{{ message.message }}</p>
               </div>
             </div>
 
-            <div class="row msg_container base_receive" v-if="update.direction==2">
+            <div class="row msg_container base_receive" v-if="message.direction==2">
               <div class="messages msg_receive">
-                  <p>{{ update.message }}</p>
+                  <p>{{ message.message }}</p>
               </div>
             </div>
           </div>
@@ -87,8 +88,8 @@ export default {
     /** to update the room the client has joined */
     updateRoom: function (data) {
       console.log(data);
-      var update_message = data.name+' has joined the room';
-      this.updates.push(data);
+      var update_message = 'You have joined the chatroom';
+      this.connectMessage.push(update_message);
     },
 
     /** when the socket gets disconnected */ 
@@ -101,12 +102,12 @@ export default {
     newmsg: function (data) {
       console.log("update");
       console.log(data.message+' sent by ' + data.user);
-      this.updates.push(data);
+      this.messages.push(data);
     },
 
     connectedToRoom: function (msg) {
       console.log(msg);
-      this.connectMessage = msg;
+      this.connectMessage.push(msg);
     }
 
   },
@@ -114,37 +115,16 @@ export default {
     return {
       messages : [],
       id : '',
-      updates : [],
+      messages : [],
       room_name : '',
       roomNo : '',
       client : {},
       widgetId: null,
       widgetHost: null,
       message : '',
-      connectMessage : '',
+      connectMessage : [],
       minimize : false,
-      messages : [
-        {
-          message : 'Hi',
-          author  : 'Danny',
-          agent : true
-        },
-        {
-          message : 'Heyyyyy',
-          author  : 'John',
-          agent : false
-        },
-        {
-          message : 'Hey',
-          author  : 'John',
-          agent : false
-        },
-        {
-          message : 'Hey',
-          author  : 'John',
-          agent : true
-        },
-      ],
+      
 
     }
   },
@@ -177,12 +157,10 @@ export default {
     chatMinimize () {
       console.log("close");
       this.minimize = true;
-      console.log(this.minimize);
     },
     chatMaximize () {
       console.log("open");
       this.minimize = false;
-      console.log(this.minimize);
     }
   }
 }
@@ -215,7 +193,7 @@ export default {
   .top-bar {
     background: #467FFD;
     color: #fff;
-    padding: 15px 0;
+    padding: 5px 0;
     position: relative;
     overflow: hidden;
   }
@@ -319,6 +297,16 @@ export default {
     display: inline-block;
     text-align: right;
     width: 50px;
+  }
+  a {
+    color: #fff;
+  }
+  .chat-notification {
+    display: inline-block;
+    text-align: center;
+    margin-left: 80px;
+    padding : 15px;
+
   }
 
 </style>
