@@ -77,7 +77,7 @@ io.on('connection', function(socket) {
         // Send message to everyone in that particular room
 
         console.log('message sent');
-        // console.log(data);
+         console.log(data);
         /**api call to add message to the database */
         axios.post('http://3c.local/api/v1/add-messages', data)
             .then(function (response) {
