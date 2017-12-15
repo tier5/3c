@@ -27,10 +27,20 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ...state,
         ongoing: [...state.ongoing, { ...obj }]
       };
+    case (ChatActions.EDIT_FROM_CHAT_LIST):
+      const indexToEdit = state.ongoing.findIndex(chat => chat.room === action.payload.room_number);
+      const someChat = state.ongoing[indexToEdit];
+      const updatedChat = { ...someChat, status: action.payload.status };
+      const chats = [...state.ongoing];
+      chats[indexToEdit] = updatedChat;
+      return {
+        ...state,
+        ongoing: [...chats]
+      };
     case ChatActions.DELETE_FROM_CHAT_LIST:
-      const index = state.ongoing.indexOf(chat => chat.room === action.payload.name);
+      const indexToDelete = state.ongoing.findIndex(chat => chat.room === action.payload.name);
       const oldChats = { ...state.ongoing }
-      oldChats.splice(index, 1)
+      oldChats.splice(indexToDelete, 1);
       return {
         ...state,
         ongoing: [...oldChats]

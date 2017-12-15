@@ -12,6 +12,8 @@ import 'rxjs/add/operator/take'
 export class ChatService {
 
   socket: any;
+  loggedInAgentId: number;
+
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
     this.socket = io('http://localhost:3000');
     this.store.select('auth')
@@ -20,6 +22,7 @@ export class ChatService {
       .take(1)
       .subscribe(
         (id) => {
+          this.loggedInAgentId = id;
           this.socket.on('connect', () => {
             this.socket.emit('get-added-rooms');
             this.socket.on('new-rooms-added', (data) => {
@@ -44,7 +47,13 @@ export class ChatService {
               console.log(data);
             });
             this.socket.on('which-agent-accepted', (data) => {
-              console.log(data);
+              console.log('In which agent accepted');
+              if (data.agent_id == id) {
+                this.store.dispatch(new ChatActions.EditFromChatList({ status: data.status, room_number: data.room_number }));
+              } else {
+                this.socket.emit('remove-agent-from-room', { room_number: data.room_number });
+                this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.room_number }));
+              }
             });
           });
         }
@@ -56,7 +65,6 @@ export class ChatService {
   }
 
   accept(data: { agentId: number, roomNumber: string }) {
-    console.log(this.socket);
     this.socket.emit('agent-accepts-msg', data);
   }
 
