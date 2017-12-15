@@ -92,5 +92,17 @@ Route::post('reset-password','UserController@resetPassword');
 Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
 //test function route
 Route::post('widget-departments-list', 'ChatController@createSmsTemplate');
-//test Route
-Route::post('test-chat', 'ChatController@checkMessage');
+//Mobile chat Route
+Route::post('mobile-chat', 'ChatController@checkMessage');
+//web chat Route
+Route::post('web-chat', 'ChatController@checkWebMessage');
+//web chat message
+Route::post('web-chat-message', 'ChatController@CheckWebChatMessage');
+//chat process
+Route::post('chatProcess', 'ChatController@chatProcess');
+//Agent Action form frontend
+Route::post('agent-chat-action', 'ChatController@agentChatAction');
+//get all agents with the chatrooms
+Route::get('all-agents-chatrooms', 'ChatController@agentWithChatRooms');
+
+

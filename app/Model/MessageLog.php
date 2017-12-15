@@ -17,4 +17,8 @@ class MessageLog extends Model
      * @var null|string
      */
     protected $table = 'message_log';
+
+    public function clientName(){
+        return $this->hasOne('App\Model\ContactList','id','contact_list_id');
+    }
 }

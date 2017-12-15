@@ -17,4 +17,8 @@ class ChatThread extends Model
      * @var null|string
      */
     protected $table = 'chat_thread';
+
+    public function agentInfo(){
+        return $this->hasOne('App\Model\Users','id','user_id');
+    }
 }
