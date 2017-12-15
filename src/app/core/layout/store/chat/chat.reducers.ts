@@ -29,10 +29,11 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       };
     case (ChatActions.ADD_NEW_MSG_TO_CHAT_LIST):
         const indexOfChat = state.ongoing.findIndex(chat => chat.room === action.payload.roomNo);
-        const someChatList = state.ongoing[indexOfChat];
-        someChatList.chats = [...someChatList.chats, {...action.payload}];
         const oldChatList = [...state.ongoing];
-        oldChatList[indexOfChat] = someChatList;
+        const someChatList = {...oldChatList[indexOfChat]};
+        someChatList.chats = [...someChatList.chats, {...action.payload}];
+
+        oldChatList[indexOfChat] = {...someChatList};
         return {
           ...state,
           ongoing: [...oldChatList]
@@ -49,7 +50,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       };
     case ChatActions.DELETE_FROM_CHAT_LIST:
       const indexToDelete = state.ongoing.findIndex(chat => chat.room === action.payload.name);
-      const oldChats = { ...state.ongoing }
+      const oldChats = [...state.ongoing]
       oldChats.splice(indexToDelete, 1);
       return {
         ...state,
