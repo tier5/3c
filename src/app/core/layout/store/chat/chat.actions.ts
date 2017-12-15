@@ -3,6 +3,8 @@ import { Action } from '@ngrx/store';
 export const CONNECT_ATTEMPT = 'CONNECT_ATTEMPT';
 export const CONNECT_SUCCESS = "CONNECT_SUCCESS";
 
+
+export const ADD_NEW_MSG_TO_CHAT_LIST = "ADD_NEW_MSG_TO_CHAT_LIST";
 export const ADD_TO_CHAT_LIST = "ADD_TO_CHAT_LIST";
 export const EDIT_FROM_CHAT_LIST = "EDIT_FROM_CHAT_LIST";
 export const DELETE_FROM_CHAT_LIST = "DELETE_FROM_CHAT_LIST";
@@ -13,6 +15,11 @@ export class ConnectAttempt implements Action {
 
 export class ConnectSuccess implements Action {
   readonly type = CONNECT_SUCCESS;
+}
+
+export class AddNewMsgToChatList implements Action {
+  readonly type = ADD_NEW_MSG_TO_CHAT_LIST;
+  constructor(public payload: any) {}
 }
 
 export class AddToChatList implements Action {
@@ -30,5 +37,7 @@ export class DeleteFromChatList implements Action {
   constructor(public payload: any) {}
 }
 
-export type ChatActions = ConnectAttempt | ConnectSuccess |
-  AddToChatList | EditFromChatList | DeleteFromChatList;
+export type ChatActions =
+  ConnectAttempt | ConnectSuccess |
+  AddToChatList | AddNewMsgToChatList |
+  EditFromChatList | DeleteFromChatList;

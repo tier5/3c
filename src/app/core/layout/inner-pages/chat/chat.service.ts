@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store'
 import io from 'socket.io-client';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
+import * as moment from 'moment';
 
 import * as fromAfterLogin from '../../store/after-login.reducers';
 import * as ChatActions from '../../store/chat/chat.actions';
@@ -13,6 +14,7 @@ export class ChatService {
 
   socket: any;
   loggedInAgentId: number;
+  loggedInAgentName: string;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
     this.socket = io('http://localhost:3000');
@@ -40,9 +42,7 @@ export class ChatService {
               console.log('Agent Added To Room', data.name);
               this.store.dispatch(new ChatActions.AddToChatList(data));
             });
-            this.socket.on('agent-removed-from-room', (data) => {
-              console.log(data);
-            });
+
             this.socket.on('msg-of-acceptance', (data) => {
               console.log(data);
             });
@@ -55,7 +55,18 @@ export class ChatService {
                 this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.room_number }));
               }
             });
+            this.socket.on('newmsg', (data) => {
+              console.log(data);
+              this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
+            });
           });
+        }
+      );
+
+    this.store.select('auth')
+      .subscribe(
+        (data) => {
+          this.loggedInAgentName = data.name;
         }
       );
   }
@@ -64,8 +75,19 @@ export class ChatService {
 
   }
 
-  accept(data: { agentId: number, roomNumber: string }) {
+  accept(data: { agentId: number, status: number, roomNumber: string }) {
     this.socket.emit('agent-accepts-msg', data);
+  }
+
+  sendMsg(data: { message: string }) {
+    const obj = {
+      ...data,
+      user: this.loggedInAgentName,
+      direction: 2,
+      time : moment()
+    };
+    console.log(obj);
+    this.socket.emit('msg', obj);
   }
 
 }

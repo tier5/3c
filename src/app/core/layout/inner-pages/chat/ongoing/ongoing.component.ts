@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from '../chat.service';
+import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -48,7 +49,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   onAccept() {
-    this.chatService.accept({ agentId: this.agentId, roomNumber: this.currentChatRoom });
+    this.chatService.accept({ agentId: this.agentId, status: 2, roomNumber: this.currentChatRoom });
   }
 
   onDecline() {
@@ -63,6 +64,11 @@ export class OngoingComponent implements OnInit, OnDestroy {
             this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
           }
       });
+  }
+
+  sendMsg(form: NgForm) {
+    this.chatService.sendMsg({ ...form.value, roomNo: this.currentChatRoom });
+    form.reset();
   }
 
   ngOnDestroy() {
