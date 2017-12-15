@@ -88,22 +88,10 @@ io.on('connection', function (socket) {
       .catch(function (error) {
         console.log(error);
       });
-
-    // /**api call to get message to the database */
-    // axios.post('http://3c.local/api/v1/get-messages', { roomNumber : data.roomNo} )
-    //     .then(function (response) {
-    //         if(response.data.status) {
-    //             // Send message to everyone in that particular room
-    //             console.log(response.data.response);
-    //         }
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
   });
 
-  /** Agent Accepts msg */
-  socket.on('agent-accepts-msg', function(data) {
+  /** Agent accepts message */
+  socket.on('agent-accepts-msg', function (data) {
 
     /** Api call to accept msg for agent */
     axios.post('http://3c.local/api/v1/accept-chat-request', data)
@@ -111,7 +99,7 @@ io.on('connection', function (socket) {
         if (res.data.status) {
           console.log('After Accept');
           console.log(res.data);
-          socket.emit('which-agent-accepted', res,data.response)
+          io.sockets.in(data.roomNumber).emit('which-agent-accepted', res.data.response);
         } else {
           console.log(res);
         }
@@ -119,7 +107,12 @@ io.on('connection', function (socket) {
       .catch(function (err) {
         console.log(err);
       });
-  })
+  });
+
+  /** Removing agent from room */
+  socket.on('remove-agent-from-room', function (data) {
+    socket.leave(data.room_number);
+  });
 
 });
 
