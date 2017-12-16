@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-md-10">
                       <div class="chat-content">
-                        <h3>{{contact.status}} <span>5 days</span></h3>
+                        <h3>{{contact.client}} <span>5 days</span></h3>
                         <p>{{contact.room}}</p>
                       </div>
                     </div>
@@ -48,7 +48,7 @@
                       <span class="direct-chat-name" [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
                       <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'">23 Jan 2:00 pm</span>
                     </div>
-                    <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
+                    <img class="direct-chat-img" [src]="chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'" alt="Message User Image"><!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       {{chat.message}}
                     </div>

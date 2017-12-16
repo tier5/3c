@@ -20,6 +20,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
     case ChatActions.ADD_TO_CHAT_LIST:
       const obj = {
         room: action.payload.name,
+        client: action.payload.client_name,
         status: action.payload.status,
         chats: action.payload.chats
       };
