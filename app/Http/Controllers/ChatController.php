@@ -687,11 +687,11 @@ class ChatController extends Controller
                     $user = $getAgentInfo->agentInfo->first_name;
                 }
 
-            $response = ['message'=>$responseSaveChatThread->chat_thread,
-                       'direction'=>$responseSaveChatThread->direction,
-                       'roomNo'=>$messageId,
-                       'user'=>$user,
-                       'created_at' => $responseSaveChatThread->created_at];
+            $response = ['message'  =>      $responseSaveChatThread->chat_thread,
+                       'direction'  =>      $responseSaveChatThread->direction,
+                       'roomNo'     =>      $checkMessageTrack->chat_room_id,
+                       'user'       =>      $user,
+                       'created_at' =>      $responseSaveChatThread->created_at];
 
             return Response::json(array(
                 'status'   => true,
