@@ -31,7 +31,6 @@ export class ChatService {
               console.log('Angular: New Room Added ', data);
               for (let i = 0, len = data.length; i < len; i++) {
                 if(data[i].agent_id == id) {
-                  console.log('Angular : Agent Added to room', JSON.stringify(data[i].rooms,null,4));
                   this.socket.emit('add-agent-to-rooms', data[i].rooms);
                   break;
                 }
@@ -50,10 +49,8 @@ export class ChatService {
               console.log('In which agent accepted');
               console.log(data);
               if (data.agentId == id) {
-                console.log('true', data);
                 this.store.dispatch(new ChatActions.EditFromChatList({ status: data.status, room_number: data.chatRoomId }));
               } else {
-                console.log('false', data);
                 this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
                 this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.chatRoomId }));
               }
@@ -82,7 +79,7 @@ export class ChatService {
     this.socket.emit('agent-accepts-msg', data);
   }
 
-  sendMsg(data: { messageBody: string }) {
+  sendMsg(data: { messageBody: string, chatRoomId: string }) {
     const obj = {
       ...data,
       user: this.loggedInAgentName,

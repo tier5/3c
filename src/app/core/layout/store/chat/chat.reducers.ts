@@ -28,7 +28,10 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ongoing: [...state.ongoing, { ...obj }]
       };
     case (ChatActions.ADD_NEW_MSG_TO_CHAT_LIST):
-        const indexOfChat = state.ongoing.findIndex(chat => chat.room === action.payload.room);
+        console.log('Add New Msg');
+        console.log(action.payload);
+        const indexOfChat = state.ongoing.findIndex(chat => chat.room == action.payload.roomNo);
+        console.log(indexOfChat);
         const oldChatList = [...state.ongoing];
         const someChatList = {...oldChatList[indexOfChat]};
         someChatList.chats = [{...someChatList.chats}, {...action.payload}];

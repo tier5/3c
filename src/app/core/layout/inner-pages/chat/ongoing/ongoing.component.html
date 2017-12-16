@@ -43,10 +43,10 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages">
                   <!-- Message. Default to the left -->
-                  <div class="direct-chat-msg" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
+                  <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
                     <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">{{chat.user}}</span>
-                      <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+                      <span class="direct-chat-name" [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
+                      <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'">23 Jan 2:00 pm</span>
                     </div>
                     <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
@@ -57,18 +57,7 @@
                     <button (click)="onAccept()" class="btn btn-primary">Accept</button>
                     <button (click)="onDecline()" class="btn btn-danger">Reject</button>
                   </div>
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                      <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-info -->
-                    <img class="direct-chat-img" src="../../../../assets/img/user3-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      You better believe it!
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
+
                 </div>
                 <!--/.direct-chat-messages-->
 
