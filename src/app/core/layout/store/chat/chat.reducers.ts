@@ -34,7 +34,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         console.log(indexOfChat);
         const oldChatList = [...state.ongoing];
         const someChatList = {...oldChatList[indexOfChat]};
-        someChatList.chats = [{...someChatList.chats}, {...action.payload}];
+        someChatList.chats = [...someChatList.chats, {...action.payload}];
 
         oldChatList[indexOfChat] = {...someChatList};
         return {
