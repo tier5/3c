@@ -6,7 +6,7 @@
 
           <div class="col-md-3 col-xs-3">
             <div class="user-icon">
-              <img src="src/assets/images/user3.png" class="img-responsive" alt="user-img">
+              <img :src="apiHost + 'widget_script/user3.png'" class="img-responsive" alt="user-img">
             </div>
           </div>
           <div class="col-md-7 col-xs-5">
@@ -37,13 +37,13 @@
           <div v-for="message in messages">
             <div class="row msg_container base_sent" v-if="message.direction==1">
               <div class="messages msg_sent">
-                <p>{{ message.messageBody }}</p>
+                <p>{{ message.message }}</p>
               </div>
             </div>
 
             <div class="row msg_container base_receive" v-if="message.direction==2">
               <div class="messages msg_receive">
-                  <p>{{ message.messageBody }}</p>
+                  <p>{{ message.message }}</p>
               </div>
             </div>
           </div>
@@ -51,8 +51,9 @@
         <div class="panel-footer" v-if="!minimize">
           <div class="input-group">
             <input type="text" class="form-control input-sm chat_input" placeholder="Write a question..." v-model="message" @keyup.enter="addMessage" />
-            <span class="input-group-btn">
-              <button class="btn" @click="addMessage">Send</button>
+          
+            <span class="input-group-btn" @click="addMessage">
+              <img :src="apiHost +'widget_script/chat-sent-icon.png'" alt="img">
             </span>
           </div>                
         </div>
@@ -64,6 +65,8 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
+import { environment} from './environment/environment';
+
 
 export default {
   name: 'chat',
@@ -75,6 +78,7 @@ export default {
     /** to get the client room */
     clientAddedToRoom: function (data) {
       //this.client = data;
+      console.log(data);
       this.chatRoomId = data.chatRoomId;
       console.log("connected client");
   
@@ -102,7 +106,7 @@ export default {
     /** to update the chat room with the chat message */
     newmsg: function (data) {
       console.log(data);
-      console.log(data.messageBody+' sent by ' + data.user);
+      console.log(data.message+' sent by ' + data.user);
       this.messages.push(data);
     },
 
@@ -124,12 +128,16 @@ export default {
       message : '',
       connectMessage : [],
       minimize : false,
+      apiUrl : '',
+      apiHost : ''
       
 
     }
   },
   created() {
 
+    this.apiUrl = environment.API_BASE_URL;
+    this.apiHost = environment.API_HOST;
     console.log(Vue.ls.get('client'));
 
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
@@ -279,13 +287,15 @@ export default {
     font-size: 14px;
     color: #333;
   }
-  .panel-footer .input-group-btn button{
-    background: url('assets/images/chat-sent-icon.png') no-repeat center;
+  .panel-footer .input-group-btn img{
     border: none;
     outline: none;
     height: 50px;
     width: 50px;
     font-size: 0;
+    padding: 10px;
+    color: #B3B3B3;
+    cursor: pointer;
   }
   .chat-close {
     display: block;

@@ -3,7 +3,7 @@
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
     <div class="side-bar slideInRight animated" v-if="showSideBar && !chat">
       <span class="close-form hide1 cross" @click="closeSideBar">
-        <img :src="'src/assets/images/chat-close.png'" alt="img">
+        <img :src="apiHost +'widget_script/chat-close.png'" alt="img">
       </span>
       <h3 class="side-logo"><img :src="widgetLogo.src" alt=""></h3>
       <div v-if="!formSubmit">
@@ -18,7 +18,7 @@
           </div>
           <form @submit.prevent="validateBeforeSubmit">
             <div class="row" v-if="chatScheduleClicked">
-              <div class="col-sm-5 cust-pad">
+              <div class="col-sm-5">
                 <div class="form-group"  :class="{ 'has-error': errorSchedule }">
                   <select class="form-control" v-model="selectedDay">
                     <option :value="null">Select Date</option>
@@ -26,8 +26,8 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-2"><span class="at">at</span></div>
-              <div class="col-sm-5 cust-pad">
+              <div class="col-sm-1"><span class="at">at</span></div>
+              <div class="col-sm-5">
                 <div class="form-group" :class="{ 'has-error': errorSchedule }">
                   <select class="form-control" v-model="selectedTime" :disabled="selectedDay==null">
                     <option :value="null">Select Time</option>
@@ -35,7 +35,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-12 cust-pad" v-if="errorSchedule">
+              <div class="col-sm-12" v-if="errorSchedule">
                 <div class="has-error">
                   <span  class="help-block">
                     Please enter a valid schedule
@@ -44,7 +44,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12 cust-pad">
+              <div class="col-md-12">
                 <span class="timezone" v-if="chatScheduleClicked">*Time shown in {{ this.timezone }}</span>
               </div>
             </div>
@@ -100,7 +100,9 @@
       </div>
       <div v-if="formSubmit" id="department">
           <div class="container" v-if="!checkMobile">
-           <div class="side-arrow hide1" @click="closeSideBar"><img :src="apiHost + 'widgets/right-arrow.png'" alt="img"></div>
+              <div class="side-arrow hide1" @click="closeSideBar">
+                <icon name="chevron-right"></icon>
+            </div>
               <div class="col-md-8">
                 <div class="col-md-5" v-if="!departmentFormSubmit">
                   <div class="form-group">
@@ -137,9 +139,7 @@
             </div>
           </div>
           <div class="container" v-if="checkMobile">
-           <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/widgets/right-arrow.png'" alt="img"></div>
-              <chat-mobile v-on:messageSent="sendChatMessage"> </chat-mobile>
-            </div>        
+             
           </div>
       </div>
     </div>
@@ -258,13 +258,16 @@ export default {
               let requiredUrl = response.url;
               // Add Checking 'requiredUrl' will not match
               const currentUrl = location.protocol + '\/\/' + location.host;
-              requiredUrl = 'http://localhost:8080';
-              if(requiredUrl === currentUrl){
-                this.showWidget = true;
-                this.checkDevice();
-                this.showButton();
+              //requiredUrl = 'http://localhost:8080';
+              // if(requiredUrl === currentUrl){
+              //   this.showWidget = true;
+              //   this.checkDevice();
+              //   this.showButton();
                 
-              }
+              // }
+              this.showWidget = true;
+              this.checkDevice();
+              this.showButton();
             }
           }
         },
@@ -577,10 +580,9 @@ a {
   appearance:none !important;
   -webkit-appearance: none !important;
   -moz-appearance:none !important;
-  background: rgb(255, 255, 255) url("https://www.textinbulk.com/images/select-icon.png") no-repeat scroll 90% center;
 }
 .side-bar .form-control {
-  height: 45px; text-align: center;
+  height: 35px; text-align: center;
 }
 .side-bar .cust-pad {
   padding: 0 5px;
