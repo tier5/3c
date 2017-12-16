@@ -48,11 +48,14 @@ export class ChatService {
             });
             this.socket.on('which-agent-accepted', (data) => {
               console.log('In which agent accepted');
-              if (data.agent_id == id) {
-                this.store.dispatch(new ChatActions.EditFromChatList({ status: data.status, room_number: data.room_number }));
+              console.log(data);
+              if (data.agentId == id) {
+                console.log('true', data);
+                this.store.dispatch(new ChatActions.EditFromChatList({ status: data.status, room_number: data.chatRoomId }));
               } else {
-                this.socket.emit('remove-agent-from-room', { room_number: data.room_number });
-                this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.room_number }));
+                console.log('false', data);
+                this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
+                this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.chatRoomId }));
               }
             });
             this.socket.on('newmsg', (data) => {
@@ -75,11 +78,11 @@ export class ChatService {
 
   }
 
-  accept(data: { agentId: number, status: number, roomNumber: string }) {
+  accept(data: { agentId: number, status: number, chatRoomId: string }) {
     this.socket.emit('agent-accepts-msg', data);
   }
 
-  sendMsg(data: { message: string }) {
+  sendMsg(data: { messageBody: string }) {
     const obj = {
       ...data,
       user: this.loggedInAgentName,

@@ -49,7 +49,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   onAccept() {
-    this.chatService.accept({ agentId: this.agentId, status: 2, roomNumber: this.currentChatRoom });
+    this.chatService.accept({ agentId: this.agentId, status: 2, chatRoomId: this.currentChatRoom });
   }
 
   onDecline() {
@@ -67,7 +67,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   sendMsg(form: NgForm) {
-    this.chatService.sendMsg({ ...form.value, roomNo: this.currentChatRoom });
+    this.chatService.sendMsg({ ...form.value, chatRoomId: this.currentChatRoom });
     form.reset();
   }
 

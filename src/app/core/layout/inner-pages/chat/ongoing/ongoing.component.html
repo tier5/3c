@@ -45,12 +45,12 @@
                   <!-- Message. Default to the left -->
                   <div class="direct-chat-msg" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
                     <div class="direct-chat-info clearfix">
-                      <span class="direct-chat-name pull-left">Alexander Pierce</span>
+                      <span class="direct-chat-name pull-left">{{chat.user}}</span>
                       <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
                     </div>
                     <img class="direct-chat-img" src="../../../../assets/img/user1-128x128.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
-                      Is thisdff d d gd dfg gdgf dff dfg gdgdf  df ggdg fdgfdf gd  gdffg f fd g dg dgfdf  gdgfdf  gdffg template really for free? That's unbelievable!
+                      {{chat.message}}
                     </div>
                   </div>
                   <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">
@@ -78,7 +78,7 @@
                 <form #form="ngForm" (submit)="sendMsg(form)">
                   <div class="input-group">
                     <input type="text"
-                           name="message"
+                           name="messageBody"
                            placeholder="Type Message ..."
                            class="form-control"
                            ngModel

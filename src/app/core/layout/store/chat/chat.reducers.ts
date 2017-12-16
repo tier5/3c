@@ -21,17 +21,17 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       const obj = {
         room: action.payload.name,
         status: action.payload.status,
-        chats: []
+        chats: action.payload.chats
       };
       return {
         ...state,
         ongoing: [...state.ongoing, { ...obj }]
       };
     case (ChatActions.ADD_NEW_MSG_TO_CHAT_LIST):
-        const indexOfChat = state.ongoing.findIndex(chat => chat.room === action.payload.roomNo);
+        const indexOfChat = state.ongoing.findIndex(chat => chat.room === action.payload.room);
         const oldChatList = [...state.ongoing];
         const someChatList = {...oldChatList[indexOfChat]};
-        someChatList.chats = [...someChatList.chats, {...action.payload}];
+        someChatList.chats = [{...someChatList.chats}, {...action.payload}];
 
         oldChatList[indexOfChat] = {...someChatList};
         return {
@@ -39,17 +39,21 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
           ongoing: [...oldChatList]
         };
     case (ChatActions.EDIT_FROM_CHAT_LIST):
+      console.log('Action:', action.payload);
       const indexToEdit = state.ongoing.findIndex(chat => chat.room === action.payload.room_number);
-      const someChat = state.ongoing[indexToEdit];
-      const updatedChat = { ...someChat, status: action.payload.status };
+      console.log('index to edit', indexToEdit)
       const chats = [...state.ongoing];
+      const someChat = chats[indexToEdit];
+      console.log(someChat);
+      const updatedChat = { ...someChat, status: action.payload.status };
+      console.log(updatedChat);
       chats[indexToEdit] = updatedChat;
       return {
         ...state,
         ongoing: [...chats]
       };
     case ChatActions.DELETE_FROM_CHAT_LIST:
-      const indexToDelete = state.ongoing.findIndex(chat => chat.room === action.payload.name);
+      const indexToDelete = state.ongoing.findIndex(chat => chat.room === action.payload.room_number);
       const oldChats = [...state.ongoing]
       oldChats.splice(indexToDelete, 1);
       return {
