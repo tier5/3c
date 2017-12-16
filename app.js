@@ -84,8 +84,7 @@ io.on('connection', function (socket) {
         if(response.data.status) {
           // Send message to everyone in that particular room
           console.log(response.data.response);
-          io.sockets.in(data.chatRoomId)
-            .emit('newmsg',data);
+            io.sockets.in(data.chatRoomId).emit('newmsg',response.data.response);
         }
       })
       .catch(function (error) {
