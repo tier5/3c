@@ -3,7 +3,7 @@
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
     <div class="side-bar slideInRight animated" v-if="showSideBar && !chat">
       <span class="close-form hide1 cross" @click="closeSideBar">
-        <img :src="apiHost +'widget_script/chat-close.png'" alt="img">
+        <img :src="apiHost +'widgets/script/chat-close.png'" alt="img">
       </span>
       <h3 class="side-logo"><img :src="widgetLogo.src" alt=""></h3>
       <div v-if="!formSubmit">

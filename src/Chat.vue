@@ -6,7 +6,7 @@
 
           <div class="col-md-3 col-xs-3">
             <div class="user-icon">
-              <img :src="apiHost + 'widget_script/user3.png'" class="img-responsive" alt="user-img">
+              <img :src="apiHost + 'widgets/script/user3.png'" class="img-responsive" alt="user-img">
             </div>
           </div>
           <div class="col-md-7 col-xs-5">
@@ -53,7 +53,7 @@
             <input type="text" class="form-control input-sm chat_input" placeholder="Write a question..." v-model="message" @keyup.enter="addMessage" />
           
             <span class="input-group-btn" @click="addMessage">
-              <img :src="apiHost +'widget_script/chat-sent-icon.png'" alt="img">
+              <img :src="apiHost +'widget/script/chat-sent-icon.png'" alt="img">
             </span>
           </div>                
         </div>

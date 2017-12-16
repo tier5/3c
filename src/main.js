@@ -16,11 +16,9 @@ import 'vue-awesome/icons';
 import Icon from 'vue-awesome/components/Icon.vue'
 
 var node = document.createElement("div");
-
 node.id = 'dynamicId';
-
 document.body.appendChild(node);
-console.log(document.body);
+
 Vue.use(VueResource);
 Vue.use(VueMask);
 Vue.use(VueValidate);
