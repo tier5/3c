@@ -49,8 +49,9 @@ class WidgetController extends Controller
       $generateFileName = date("YmdHis");
       $widgetUuid = app(\App\Http\Controllers\UserController::class)
             ->generateRandomString();   //creating widget uuid
+      $widgetSrciptUrl ="<script src='".url('/').'/widgets/script/widget.min.js'."' id='tib-widget' data-uuid='".$widgetUuid."'></script>";
 
-      // Check file is in param
+        // Check file is in param
       if ($request->hasFile('image')) {
 
         $extension         = $request->image->extension();
@@ -101,6 +102,7 @@ class WidgetController extends Controller
           $widgets->schedule_timezone = $scheduleTimezone;
           $widgets->details           = $details;
           $widgets->widget_uuid       = $widgetUuid;
+          $widgets->widget_script     = $widgetSrciptUrl;
           $widgets->status            = 0;
 
           if ($imagePath != '') {
@@ -132,9 +134,13 @@ class WidgetController extends Controller
             // Get purchased twilio purchased phone numbers
             $twilioController  = new TwilioController;
             $purchasedResponse = $twilioController->getPurchasedPhoneNumber($widgets->id, $userId, $areaCode);
-            return $purchasedResponse;
 
-
+            return $response = json_encode(array(
+                        'code'      =>  200,
+                        'error'     =>  false,
+                        'response'  =>  $widgetSrciptUrl,
+                        'status'    =>  true,
+                        'message'   =>  'Widgets created Successfully !'));
           } else {
 
             return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets created failed !'));
@@ -819,4 +825,5 @@ class WidgetController extends Controller
         DB::commit();
     }
   }
+
 }
