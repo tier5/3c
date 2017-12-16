@@ -37,13 +37,13 @@
           <div v-for="message in messages">
             <div class="row msg_container base_sent" v-if="message.direction==1">
               <div class="messages msg_sent">
-                <p>{{ message.message }}</p>
+                <p>{{ message.messageBody }}</p>
               </div>
             </div>
 
             <div class="row msg_container base_receive" v-if="message.direction==2">
               <div class="messages msg_receive">
-                  <p>{{ message.message }}</p>
+                  <p>{{ message.messageBody }}</p>
               </div>
             </div>
           </div>
@@ -64,6 +64,7 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
+
 export default {
   name: 'chat',
   sockets:{
@@ -73,8 +74,8 @@ export default {
     },
     /** to get the client room */
     clientAddedToRoom: function (data) {
-      this.client = data;
-      this.roomNo = data.room_number;
+      //this.client = data;
+      this.chatRoomId = data.chatRoomId;
       console.log("connected client");
   
     },
@@ -95,13 +96,13 @@ export default {
     /** when the socket gets disconnected */ 
     disconnect: function() {
       Vue.ls.remove('client');
-      console.log("disconnectss");
-      window.location = window.location.href;
+      console.log("disconnected");
+      this.$router.push('/');
     },
     /** to update the chat room with the chat message */
     newmsg: function (data) {
-      console.log("update");
-      console.log(data.message+' sent by ' + data.user);
+      console.log(data);
+      console.log(data.messageBody+' sent by ' + data.user);
       this.messages.push(data);
     },
 
@@ -117,10 +118,9 @@ export default {
       id : '',
       messages : [],
       room_name : '',
-      roomNo : '',
+      chatRoomId : '',
       client : {},
       widgetId: null,
-      widgetHost: null,
       message : '',
       connectMessage : [],
       minimize : false,
@@ -133,8 +133,7 @@ export default {
     console.log(Vue.ls.get('client'));
 
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
-    this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
-
+    
     this.client = Vue.ls.get('client');
     console.log(this.client);
     
@@ -149,7 +148,7 @@ export default {
       console.log("sent");
       console.log(this.message);
       if(this.message) {
-        this.$socket.emit('msg', { message: this.message, direction : 1, user: this.client.name, roomNo: this.roomNo , fromNumber : this.client.from_number, time : moment() });
+        this.$socket.emit('msg', { messageBody: this.message, direction : 1, user: this.client.name, chatRoomId: this.chatRoomId , fromNumber : this.client.from_number, time : moment() });
       }
       this.message = '';
     },

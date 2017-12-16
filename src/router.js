@@ -1,6 +1,5 @@
 import Vue from 'vue';
 
-import App from './App.vue';
 import Chat from './Chat.vue';
 import ChatRequest from './ChatRequest.vue';
 import AuthGuard from './guard/auth_guard';

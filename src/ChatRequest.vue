@@ -2,16 +2,20 @@
   <div>
     <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
     <div class="side-bar slideInRight animated" v-if="showSideBar && !chat">
-      <span class="close-form hide1 cross" @click="closeSideBar">x</span>
+      <span class="close-form hide1 cross" @click="closeSideBar">
+        <img :src="'src/assets/images/chat-close.png'" alt="img">
+      </span>
       <h3 class="side-logo"><img :src="widgetLogo.src" alt=""></h3>
       <div v-if="!formSubmit">
-        <h1 v-if="isAvailable || !chatScheduleClicked">Get In Touch With Us</h1>
+        <h2 v-if="isAvailable || !chatScheduleClicked">Get In Touch With Us</h2>
         <div class="formcontainer" >
           <h3 v-if="chatScheduleClicked">
             <p v-if="!isAvailable">We are unable to chat with you now.</p>
             Schedule a time to chat!
           </h3>
-          <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/widgets/right-arrow.png'" alt="img"></div>
+          <div class="side-arrow hide1" @click="closeSideBar">
+            <icon name="chevron-right"></icon>
+          </div>
           <form @submit.prevent="validateBeforeSubmit">
             <div class="row" v-if="chatScheduleClicked">
               <div class="col-sm-5 cust-pad">
@@ -62,7 +66,7 @@
                 </div>
               </div>
               <div class="col-md-12 cust-pad">
-                <div class="form-group"  :class="{ 'has-error': $v.phoneField.$error  || errorPhoneField}">
+                <div class="form-group"   :class="{ 'has-error': $v.phoneField.$error  || errorPhoneField}">
                   <input class="form-control" type="text"  v-mask="'+1(###)-###-####'" v-model="phoneField" placeholder="Enter Your Phone Number" @blur="$v.phoneField.$touch()" >
                   <span v-if="($v.phoneField.$error )" class="help-block">
                     Your phone number is required!
@@ -96,7 +100,7 @@
       </div>
       <div v-if="formSubmit" id="department">
           <div class="container" v-if="!checkMobile">
-           <div class="side-arrow hide1" @click="closeSideBar"><img :src="widgetHost + '/widgets/right-arrow.png'" alt="img"></div>
+           <div class="side-arrow hide1" @click="closeSideBar"><img :src="apiHost + 'widgets/right-arrow.png'" alt="img"></div>
               <div class="col-md-8">
                 <div class="col-md-5" v-if="!departmentFormSubmit">
                   <div class="form-group">
@@ -148,6 +152,7 @@
 
 import Vue from 'vue';
 import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators';
+import { environment} from './environment/environment';
 
 export default {
   name: 'chat-request',
@@ -212,7 +217,9 @@ export default {
       departmentFormSubmit : false,
       dataToSend : {},
       checkEmail : false,
-      checkMobile : ''
+      checkMobile : '',
+      apiUrl : '',
+      apiHost : ''
     }
   },
 
@@ -234,9 +241,12 @@ export default {
     if(Vue.ls.get('client')) {
       Vue.ls.remove('client');
     }
+    this.apiUrl = environment.API_BASE_URL;
+    this.apiHost = environment.API_HOST;
+    console.log(this.apiUrl);
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
-    this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
-    this.$http.post(this.widgetHost + '/api/v1/widget-data', { widgetUuid: this.widgetId })
+    //this.widgetHost = document.getElementById('tib_widget').src.split(':')[0] + ':\/\/' + document.getElementById('tib_widget').src.split('/')[2];
+    this.$http.post(this.apiUrl + 'widget-data', { widgetUuid: this.widgetId })
       .then(
         (response) => {
           console.log(response);
@@ -340,8 +350,7 @@ export default {
     },
     configureView () {
       this.widgetButton.title = 'Chat with us';
-      //this.widgetButton.src = this.widgetHost + '/images/text-btn.png';
-      this.widgetButton.src = this.widgetHost +'/widgets/chat-btn.png'; 
+      this.widgetButton.src = this.apiHost +'widgets/chat-btn.png'; 
       this.widgetLogo.src = this.widget.image;
       this.btnProp.showChatSchedule = this.isAvailable;
       if(this.chatScheduleClicked) {
@@ -408,7 +417,7 @@ export default {
       this.formSubmit = true;
 
       /** api call to get the departments for the widget */
-      this.$http.post(this.widgetHost + '/api/v1/widget-departments', { widget_data: this.dataToSend })
+      this.$http.post(this.apiUrl + 'widget-departments', { widget_data: this.dataToSend })
       .then(
         (response) => {
           if(response.status) {
@@ -533,7 +542,7 @@ a {
 
 .side-bar {
   position: fixed;
-  top: 0px;
+  top: 100px;
   bottom: 0px;
   z-index: 9999;
   background: rgb(240, 240, 240) none repeat scroll 0% 0%;
@@ -554,7 +563,7 @@ a {
   margin: 13px 0px 15px;
   color: rgb(94, 94, 94);
   font-weight: bold;
-  font-size: 36px;
+  font-size: 20px;
 }
 .side-bar h3 {
   padding-bottom: 8px;
@@ -602,7 +611,7 @@ a {
 .cross {
   width: 30px;
   height: 30px;
-  border: 1px solid rgb(94, 94, 94);
+  //border: 1px solid rgb(94, 94, 94);
   border-radius: 50%;
   text-align: center;
   font-size: 19px;
@@ -616,7 +625,7 @@ h3.side-logo {
 
 .formcontainer {
   background: rgb(249, 249, 249) none repeat scroll 0% 0%;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
 }
 
@@ -629,12 +638,14 @@ h3.side-logo {
 
 .side-arrow {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 10px;
   display: block;
   margin: 15px auto 40px;
   transform: translate(-50%,-50%);
   cursor: pointer;
+  color: rgba(52, 100, 246, 1);
+  height:100px;
 }
 
 .powredby {
