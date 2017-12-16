@@ -517,7 +517,7 @@ class ChatController extends Controller
             $saveChatThread->chat_type      = $type;
             if($saveChatThread->save()){
 
-                return true;
+                return $saveChatThread;
             }else{
                 return false;
             }
@@ -604,7 +604,6 @@ class ChatController extends Controller
                         $updateMessageTrack = MessageTrack::where('id',$saveMessageTrack->id)->update(['message_id' =>$responsesaveMessageLog ]);
                         $chatRoomId = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
                         //call a funtion to fetch  all the agents with there corrosponding room id and status
-                        //return $chatRoomId;
                         $response['chatRoomId'] = $chatRoomId ;
                         $response['name'] = $name  ;
                         $response['email'] = $email  ;
@@ -667,19 +666,38 @@ class ChatController extends Controller
         $direction      = $request->direction;  // 1->Incoming 2-> outgoing
         if( $chatRoomId !="" ){
 
-            $checkMessageTrack = MessageTrack::where('chat_room_id', $chatRoomId)->where('status',1)->first();
+            $checkMessageTrack = MessageTrack::where('chat_room_id', $chatRoomId)->first();
             if(count($checkMessageTrack)!=0){
             $messageId  = $checkMessageTrack->message_id;
             $userId     = $checkMessageTrack->agent_id;
             $widgetUuid = $checkMessageTrack->widget_id;
             $type       = 2; //1->mobile 2->web
-            $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
+            $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
+            if($responseSaveChatThread->direction == 1){
+                //user contain client info
+                $getClientInfo = MessageLog::where('id',$responseSaveChatThread->message_log_id)->with('clientName')->first();
+                    if($getClientInfo->clientName->name !="" ) {
+                        $user = $getClientInfo->clientName->name;
+                    } else {
+                        $user = $getClientInfo->clientName->phone;
+                    }
+                }if($responseSaveChatThread->direction == 2){
+                    //user contain Agent info
+                    $getAgentInfo = ChatThread::where('id',$responseSaveChatThread->id)->with('agentInfo')->first();
+                    $user = $getAgentInfo->agentInfo->first_name;
+                }
+
+            $response = ['message'=>$responseSaveChatThread->chat_thread,
+                       'direction'=>$responseSaveChatThread->direction,
+                       'roomNo'=>$messageId,
+                       'user'=>$user,
+                       'created_at' => $responseSaveChatThread->created_at];
 
             return Response::json(array(
                 'status'   => true,
                 'code'     => 200,
                 'error'    => false,
-                'response' => [],
+                'response' => $response,
                 'message'  => 'Message sent !'
             ));
             } else {

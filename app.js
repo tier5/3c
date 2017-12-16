@@ -102,7 +102,7 @@ io.on('connection', function (socket) {
         if (res.data.status) {
           console.log('After Accept');
           console.log(res.data);
-          io.sockets.in(data.roomNumber).emit('which-agent-accepted', res.data.response);
+            io.sockets.in(res.data.response.chatRoomId).emit('which-agent-accepted', res.data.response);
         } else {
           console.log(res);
         }
