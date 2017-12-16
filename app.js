@@ -13,17 +13,19 @@ io.on('connection', function (socket) {
     /** Api call to create room for client and agents */
     axios.post('http://3c.local/api/v1/web-chat', data)
       .then(function (res) {
+        console.log("response ");
         if (res.data.status) {
           var resp = res.data.response;
           console.log('Emitting Event from to vue: clientAddedToRoom');
           socket.emit('clientAddedToRoom', resp);
-          socket.join(resp.room_number);
-          io.sockets.in(resp.room_number).emit('connectedToRoom', 'We are connecting you to an agent');
-          console.log(resp.name + 'is joined  to room : ', resp.room_number);
-          io.sockets.in(resp.room_number).emit('updateRoom', resp);
+          socket.join(resp.chatRoomId);
+          io.sockets.in(resp.chatRoomId).emit('connectedToRoom', 'We are connecting you to an agent');
+          console.log(resp.name + 'is joined  to room : ', resp.chatRoomId);
+          io.sockets.in(resp.chatRoomId).emit('updateRoom', resp);
           sendRooms();
         } else {
           console.log(res);
+          socket.emit('clientNotAddedToRoom');
         }
       })
       .catch(function (err) {
@@ -73,21 +75,22 @@ io.on('connection', function (socket) {
 
   /** Send message to everyone in a particular room */
   socket.on('msg', function (data) {
-        console.log('message sent');
-         console.log(data);
-        /**api call to add message to the database */
-        axios.post('http://3c.local/api/v1/web-chat-message', data)
-            .then(function (response) {
-                if(response.data.status) {
-                    // Send message to everyone in that particular room
-                    console.log(response.data.response);
-                    io.sockets.in(data.roomNo)
-                        .emit('newmsg',data);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    console.log('message sent');
+    console.log(data);
+    /**api call to add message to the database */
+    axios.post('http://3c.local/api/v1/web-chat-message', data)
+      .then(function (response) {
+        console.log(response.data);
+        if(response.data.status) {
+          // Send message to everyone in that particular room
+          console.log(response.data.response);
+          io.sockets.in(data.chatRoomId)
+            .emit('newmsg',data);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   });
 
   /** Agent accepts message */
@@ -113,6 +116,14 @@ io.on('connection', function (socket) {
   socket.on('remove-agent-from-room', function (data) {
     socket.leave(data.room_number);
   });
+
+  /** on socket disconnection */
+  socket.on('disconnect', function()  {
+    console.log(socket.id,'disconnected');
+        
+    io.sockets.in(socket.id).emit('disconnect');
+    socket.disconnect();
+  });   
 
 });
 
