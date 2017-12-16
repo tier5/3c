@@ -84,21 +84,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ForgotPasswordComponent = (function () {
+    /** Service injection */
     function ForgotPasswordComponent(store) {
         this.store = store;
     }
+    /** Function to be executed when component initializes */
     ForgotPasswordComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.signUpSubscription = this.store.select('auth')
+        /** SignIn subscription */
+        this.forgotPasswordSubscription = this.store.select('auth')
             .subscribe(function (state) {
             if (state.resetForgotPasswordForm) {
                 _this.form.reset();
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_auth_auth_actions__["f" /* ForgotPasswordSuccess */](false));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_auth_auth_actions__["i" /* ForgotPasswordSuccess */](false));
             }
         });
     };
+    /** Function to be called on forgot password form submission */
     ForgotPasswordComponent.prototype.onSubmit = function (form) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_auth_auth_actions__["e" /* ForgotPasswordAttempt */](form.value));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_auth_auth_actions__["h" /* ForgotPasswordAttempt */](form.value));
+    };
+    /** Un-subscribing from all custom made events when component is destroyed */
+    ForgotPasswordComponent.prototype.ngOnDestroy = function () {
+        this.forgotPasswordSubscription.unsubscribe();
     };
     return ForgotPasswordComponent;
 }());
@@ -150,7 +158,7 @@ var ForgotPasswordModule = (function () {
 ForgotPasswordModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_4__forgot_password_routing_module__["a" /* ForgotPasswordRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"]
         ],

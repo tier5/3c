@@ -66,11 +66,11 @@ module.exports = "<div class=\"hold-transition register-page\">\n  <div class=\"
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResetPasswordComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_auth_auth_actions__ = __webpack_require__("../../../../../src/app/core/store/auth/auth.actions.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_auth_auth_actions__ = __webpack_require__("../../../../../src/app/core/store/auth/auth.actions.ts");
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -117,26 +117,28 @@ var ResetPasswordComponent = (function () {
     }
     /** Function to be executed when component initializes */
     ResetPasswordComponent.prototype.ngOnInit = function () {
+        /** Getting id from url */
         this.id = this.activatedRoute.snapshot.params['id'];
+        /** Forgot Password form initialization */
         this.form = this.formBuilder.group({
-            'password': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].minLength(6)]),
-            'conf_pass': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required)
+            'password': new __WEBPACK_IMPORTED_MODULE_0__angular_forms__["FormControl"](null, [__WEBPACK_IMPORTED_MODULE_0__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_0__angular_forms__["Validators"].minLength(6)]),
+            'conf_pass': new __WEBPACK_IMPORTED_MODULE_0__angular_forms__["FormControl"](null, __WEBPACK_IMPORTED_MODULE_0__angular_forms__["Validators"].required)
         }, { validator: this.confirmPassword });
     };
-    /** Function call on submit */
+    /** Function call to submit the reset password form */
     ResetPasswordComponent.prototype.onResetPassword = function () {
         var obj = __assign({}, this.form.value, { id: this.id });
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_auth_auth_actions__["i" /* ResetPasswordAttempt */](obj));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_auth_auth_actions__["l" /* ResetPasswordAttempt */](obj));
     };
     return ResetPasswordComponent;
 }());
 ResetPasswordComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+    Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
         selector: 'app-reset-password',
         template: __webpack_require__("../../../../../src/app/core/auth/reset-password/reset-password.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/auth/reset-password/reset-password.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_forms__["FormBuilder"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_forms__["FormBuilder"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _c || Object])
 ], ResetPasswordComponent);
 
 var _a, _b, _c;
@@ -174,7 +176,7 @@ var ResetPasswordModule = (function () {
 ResetPasswordModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["ReactiveFormsModule"],
             __WEBPACK_IMPORTED_MODULE_4__reset_password_routing_module__["a" /* ResetPasswordRoutingModule */]
