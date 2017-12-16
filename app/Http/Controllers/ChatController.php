@@ -214,7 +214,7 @@ class ChatController extends Controller
     public function sendSms($smsBody, $fromNumber, $toNumber)
     {
         // send SMS with the details
-        echo "the last function to send messages !";
+        //echo "the last function to send messages !";
     }
 
     /**
@@ -439,7 +439,19 @@ class ChatController extends Controller
                         $updateMessageTrack = MessageTrack::where('id',$saveMessageTrack->id)->update(['message_id' =>$responsesaveMessageLog ]);
                         $chatRoomId = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
                         //call a funtion to fetch  all the agents with there corrosponding room id and status
-                        return $chatRoomId;
+                        //return $chatRoomId;
+                        $response['chatRoomId'] = $chatRoomId ;
+                        $response['name'] = $name  ;
+                        $response['email'] = $email  ;
+                        $response['name'] = $name  ;
+                        return Response::json(array(
+                            'status'   => true,
+                            'code'     => 400,
+                            'error'    => false,
+                            'response' => $response,
+                            'message'  => 'Chatroom No !'
+                        ));
+
                     }
 
                 } else {
@@ -477,6 +489,14 @@ class ChatController extends Controller
             $widgetUuid = $checkMessageTrack->widget_id;
             $type       = 2; //1->mobile 2->web
             $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
+
+            return Response::json(array(
+                'status'   => true,
+                'code'     => 400,
+                'error'    => false,
+                'response' => "Message sent",
+                'message'  => 'Message !'
+            ));
             } else {
                 //do something
             }
@@ -622,7 +642,7 @@ class ChatController extends Controller
             $getToNumber = Widgets::where('widget_uuid',$widgetUuId)->with('twilioNumbers')->first();
             $agentPhoneNumber = $getAgent->phone;
             $smsBody = "link to visit the page in the website http://3c.local/api/v1/chat-action";
-            echo $smsBody;
+            //echo $smsBody;
             $this->sendSms($smsBody ,$agentPhoneNumber ,$getToNumber->twilioNumbers->number );
 
         } else {

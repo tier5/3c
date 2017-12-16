@@ -754,7 +754,7 @@ class WidgetController extends Controller
       DB::beginTransaction();
 
       $widget = $request->widget_data;
-      $widgetUuid = $widget['widget_uuid'];
+      $widgetUuid = $widget['widgetUuid'];
       if( $widgetUuid != "" ){
 
         $widgetData = Widgets::where('widget_uuid',$widgetUuid)->with('userDetails','twilioNumbers','widgetDepartment.departmentDetails')->get();
