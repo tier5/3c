@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12 cust-pad">
+              <div class="col-md-10">
                 <div class="form-group" :class="{ 'has-error': $v.name.$error }">
                   <input class="form-control" type="text"  v-model="name" placeholder="Enter Your Name" @blur="$v.name.$touch()"  >
                   <span v-if="($v.name.$error  )  " class="help-block">
@@ -57,7 +57,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-12 cust-pad">
+              <div class="col-md-10">
                 <div class="form-group"  :class="{ 'has-error': $v.email.$error  }">
                   <input v-model="email" class="form-control" type="text" placeholder="Enter Your Email ID" @blur="$v.email.$touch()" >
                   <span v-if="($v.email.$error)" class="help-block">
@@ -65,7 +65,7 @@
                    </span>
                 </div>
               </div>
-              <div class="col-md-12 cust-pad">
+              <div class="col-md-10">
                 <div class="form-group"   :class="{ 'has-error': $v.phoneField.$error  || errorPhoneField}">
                   <input class="form-control" type="text"  v-mask="'+1(###)-###-####'" v-model="phoneField" placeholder="Enter Your Phone Number" @blur="$v.phoneField.$touch()" >
                   <span v-if="($v.phoneField.$error )" class="help-block">
@@ -78,7 +78,7 @@
               </div>
             </div><br>
             <div class="row" v-if="btnProp.showChatNow">
-              <div class="col-md-12">
+              <div class="col-md-10">
                 <div class="form-group">
                   <button class="btn btn-primary" type="submit"  :disabled="$v.$invalid">
                     Submit
@@ -87,7 +87,7 @@
               </div>
             </div>
             <div class="row" v-if="btnProp.showChatLater">
-              <div class="col-md-12">
+              <div class="col-md-10">
                 <div class="form-group">
                   <button class="btn btn-primary" type="submit" :disabled="$v.$invalid">Submit
                   </button>
@@ -567,7 +567,7 @@ a {
 }
 .side-bar h3 {
   padding-bottom: 8px;
-  font-size: 27px;
+  font-size: 20px;
   margin-bottom: 10px;
   color: #5E5E5E;
   text-align: left;
@@ -625,7 +625,9 @@ h3.side-logo {
 
 .formcontainer {
   background: rgb(249, 249, 249) none repeat scroll 0% 0%;
-  padding: 10px;
+  padding-left: 40px;
+  padding-top : 20px;
+  margin : 8px;
   border-radius: 10px;
 }
 
@@ -645,8 +647,9 @@ h3.side-logo {
   transform: translate(-50%,-50%);
   cursor: pointer;
   color: rgba(52, 100, 246, 1);
-  height:100px;
 }
+
+
 
 .powredby {
   text-align: center;
@@ -696,6 +699,7 @@ h3.side-logo {
 
 
 }
+
 
 </style>
 
