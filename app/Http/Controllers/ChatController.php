@@ -756,13 +756,7 @@ class ChatController extends Controller
                     ));
                 }
 
-                return Response::json(array(
-                    'status'   => true,
-                    'code'     => 200,
-                    'error'    => false,
-                    'response' => $chatRoomId,
-                    'message'  => 'Chat Room Id !'
-                ));
+                return $chatRoomId;
 
             } else {
 
