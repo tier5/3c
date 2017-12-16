@@ -1202,6 +1202,7 @@ class ChatController extends Controller
                 } else {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
                 }
+                $agentRooms['chats']=array();
                 foreach($room->allChat as $key=>$chat){
 
                     $agentRooms['chats'][$key]['message'] = $chat->chat_thread;
