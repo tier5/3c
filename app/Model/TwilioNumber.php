@@ -21,4 +21,8 @@ class TwilioNumber extends Model
   public function getWidgetDetails(){
       return $this->hasOne('App\Model\Widgets','id','widget_id');
   }
+
+  public function getTwilioCredentials(){
+      return $this->hasOne('App\Model\TwilioCredentials','user_id','user_id');
+  }
 }

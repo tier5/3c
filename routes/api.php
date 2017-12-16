@@ -104,5 +104,8 @@ Route::post('chatProcess', 'ChatController@chatProcess');
 Route::post('agent-chat-action', 'ChatController@agentChatAction');
 //get all agents with the chatrooms
 Route::get('all-agents-chatrooms', 'ChatController@agentWithChatRooms');
+//test route for sms
+Route::any('send-sms', 'ChatController@sendSms');
+
 
 

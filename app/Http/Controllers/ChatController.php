@@ -21,6 +21,7 @@ use App\Model\MessageCacheData;
 use App\Model\MessageForwardCounter;
 use App\Http\Controllers\TwilioController;
 use Helper;
+use Twilio\Rest\Client;                         /* Twilio REST client */
 use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use Illuminate\Database\QueryException;
@@ -37,8 +38,8 @@ class ChatController extends Controller
     public function checkMessage(Request $request)
     {
         //Variable Declaration
-        $fromNumber     = $request->fromNumber;
-        $toNumber       = $request->toNumber;
+        $fromNumber     = $request->fromNumber; //client Number
+        $toNumber       = $request->toNumber;   //widget Number
         $messageBody    = $request->messageBody;
 
         $checkTwilioNumbers = TwilioNumber::where('number',$toNumber)->with('getWidgetDetails')->first();
@@ -56,7 +57,13 @@ class ChatController extends Controller
                 }
             }else{
 
-                //do Something
+                return  Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'response' => [],
+                    'error'    => true,
+                    'message'  => 'Twilio Number Not Found !'
+                ));
             }
     }
 
@@ -77,7 +84,7 @@ class ChatController extends Controller
                 if($checkMessageCache->status == 1){
 
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
-                    //do Something
+
                 }else{
                     //$this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
@@ -85,24 +92,44 @@ class ChatController extends Controller
 
             }else{
 
-
                 $responseMessageCacheId = $this->saveMessageCache($fromNumber, $widgetUuid);
                 if($responseMessageCacheId != false){
+
                     $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $responseMessageCacheId );
                     if($responseMessageCacheData == true ){
+
                         $this->createSmsTemplate($fromNumber, $widgetUuid);
                     }else{
-                        //do something
+
+                        return  Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'response' => [],
+                            'error'    => true,
+                            'message'  => 'data Not Saved !'
+                        ));
                     }
 
                 }else{
-                    //do something
+
+                    return  Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'response' => [],
+                        'error'    => true,
+                        'message'  => 'data Not Saved !'
+                    ));
                 }
-
-
             }
         }else{
-            //do something
+
+            return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'error'    => true,
+                'message'  => 'please send require data !'
+            ));
         }
 
     }
@@ -146,13 +173,25 @@ class ChatController extends Controller
 
                         }
                      }else{
-                         //do something
+
+                         return  Response::json(array(
+                             'status'   => false,
+                             'code'     => 400,
+                             'response' => [],
+                             'error'    => true,
+                             'message'  => 'data Not Saved !'
+                         ));
                      }
-
                 }else{
-                    //do something
-                }
 
+                    return  Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'response' => [],
+                        'error'    => true,
+                        'message'  => 'department not found !'
+                    ));
+                }
             } else {
 
                 $checkMessageCache = MessageCache::where('from_phone_number',$fromNumber)->where('widget_uuid',$widgetUuid)->where('status',1)->first();
@@ -162,9 +201,24 @@ class ChatController extends Controller
 
                     $this->createSmsTemplate($fromNumber, $widgetUuid);
                 }else{
-                    //do something
+                    return  Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'response' => [],
+                        'error'    => true,
+                        'message'  => 'data Not Saved !'
+                    ));
                 }
             }
+        } else {
+
+            return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'error'    => true,
+                'message'  => 'Sorry !'
+            ));
         }
     }
 
@@ -179,6 +233,13 @@ class ChatController extends Controller
         return preg_match('/^-?[0-9]+$/', (string)$text) ? true : false;
     }
 
+    /**
+     * function to check Create sms template
+     *
+     * @param text
+     * @return binary(true or false)
+     */
+
     public function createSmsTemplate( $fromNumber,$widgetUuid )
     {
         if( $fromNumber != "" && $widgetUuid != "" ){
@@ -192,16 +253,28 @@ class ChatController extends Controller
                     $smsBody.= $data->departmentDetails->department_name;
                 }
                 $smsBody.="\n";
-                $smsBody.="Reply with the Number only";
-                print_r($smsBody); // Template
+                $smsBody.="Please Reply with the Number only.";
+                $smsBody.="\n";
+                $smsBody.="Thanks";
                 $this->sendSms( $smsBody, $fromNumber, $getWidgetData->twilioNumbers->number);
             }else{
 
-               //do something
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Data not found !'
+                ));
             }
         }else{
-
-            //do something
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -211,10 +284,52 @@ class ChatController extends Controller
      * @param smsBody, fromNumber, toNumber
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendSms($smsBody, $fromNumber, $toNumber)
+    public function sendSms($smsBody , $toNumber,$fromNumber)
     {
-        // send SMS with the details
-        //echo "the last function to send messages !";
+        if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
+            $keys = TwilioNumber::where('number', $fromNumber)->with('getTwilioCredentials')->first();
+            $fromNumber = $keys->prefix.$keys->number;
+            if ($keys) {
+                try {
+                        $sid = $keys->getTwilioCredentials->twilio_sid;
+                        $token = $keys->getTwilioCredentials->twilio_token;
+                        $clientsms = new Client($sid, $token);
+                        $message = $clientsms->messages->create(
+                            $toNumber,array(
+                                  "from" => $fromNumber,
+                                  "body" => $smsBody
+                        ));
+                        \Log::info('SMS Send !');
+                    } catch(\Exception $e) {
+                        \Log::info('SMS Not Send !'.$e->getMessage());
+                        return  Response::json(array(
+                            'error'   => true,
+                            'code'    => 400,
+                            'status'  => false,
+                            'response'=> [],
+                            'message' => $e->getMessage()
+                        ));
+                    }
+            } else {
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Sorry Data not found !'
+                ));
+            }
+        }else{
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
+        }
     }
 
     /**
@@ -235,7 +350,15 @@ class ChatController extends Controller
             }else{
                 return false;
             }
+        } else {
 
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -257,6 +380,14 @@ class ChatController extends Controller
             }else{
                 return false;
             }
+        }else{
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -280,7 +411,15 @@ class ChatController extends Controller
             }else{
                 return false;
             }
+        }else{
 
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -308,7 +447,14 @@ class ChatController extends Controller
             }
 
         }else{
-            //do something
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -338,10 +484,15 @@ class ChatController extends Controller
                 return $checkMessageLog->id;
 
             }
-
-
         }else{
-            //do something
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -399,10 +550,24 @@ class ChatController extends Controller
                     return false;
                 }
             }else{
-                //do something
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'No Data Found !'
+                ));
             }
         }else{
-            //do Something
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Sorry paramiters are not present in the request !'
+            ));
         }
     }
 
@@ -444,9 +609,10 @@ class ChatController extends Controller
                         $response['name'] = $name  ;
                         $response['email'] = $email  ;
                         $response['name'] = $name  ;
+
                         return Response::json(array(
                             'status'   => true,
-                            'code'     => 400,
+                            'code'     => 200,
                             'error'    => false,
                             'response' => $response,
                             'message'  => 'Chatroom No !'
@@ -455,15 +621,34 @@ class ChatController extends Controller
                     }
 
                 } else {
-                    // Do Something
+
+                    return Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'error'    => true,
+                        'response' => [],
+                        'message'  => 'Something Went wrong !'
+                    ));
                 }
 
             } else {
 
-                //do something
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Something Went wrong !'
+                ));
             }
         } else {
-            //do something
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'No Data Found !'
+            ));
         }
 
 
@@ -492,16 +677,30 @@ class ChatController extends Controller
 
             return Response::json(array(
                 'status'   => true,
-                'code'     => 400,
+                'code'     => 200,
                 'error'    => false,
-                'response' => "Message sent",
-                'message'  => 'Message !'
+                'response' => [],
+                'message'  => 'Message sent !'
             ));
             } else {
-                //do something
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Message Not send !'
+                ));
             }
         } else {
-            //do Something
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'No data found !'
+            ));
         }
     }
 
@@ -513,9 +712,6 @@ class ChatController extends Controller
      */
     public function chatProcess($fromNumber, $widgetUuid)
     {
-
-        //$fromNumber     = $request->fromNumber;
-        //$widgetUuid     = $request->widgetUuid;
         if($fromNumber !="" && $widgetUuid != "") {
             $checkMessageTrack = MessageTrack::where('widget_id', $widgetUuid)->where('from_phone_number', $fromNumber)->where('status', 1)->first();
 
@@ -532,14 +728,43 @@ class ChatController extends Controller
                         $this->saveMessageAgentTrack($responsesaveMessageForwardCount, $chatRoomId, $widgetUuid, $messageId, $departmentId);
                     }
                 } else {
-                    //do something
+
+                    return Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'error'    => true,
+                        'response' => [],
+                        'message'  => 'Something went wrong !'
+                    ));
                 }
-                return $chatRoomId;
+
+                return Response::json(array(
+                    'status'   => true,
+                    'code'     => 200,
+                    'error'    => false,
+                    'response' => $chatRoomId,
+                    'message'  => 'Chat Room Id !'
+                ));
+
             } else {
-                echo "no data found !";
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Something went wrong !'
+                ));
             }
         } else {
-            echo "Something Went Wrong !";
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Something went wrong !'
+            ));
         }
     }
 
@@ -588,7 +813,14 @@ class ChatController extends Controller
                 return false;
             }
         } else {
-            echo "something went wrong!";
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Something went wrong !'
+            ));
         }
 
     }
@@ -617,15 +849,36 @@ class ChatController extends Controller
 
                         $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id,$saveMessageAgentTrack->widget_id);
                     } else {
-                        echo "something went wrong!";
+
+                        return Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'error'    => true,
+                            'response' => [],
+                            'message'  => 'Something went wrong !'
+                        ));
                     }
 
                 }
             } else {
-                echo "something went wrong!";
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Something went wrong !'
+                ));
             }
         } else {
-            echo "something went wrong!";
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Something went wrong !'
+            ));
         }
     }
 
@@ -641,13 +894,18 @@ class ChatController extends Controller
             $getAgent = Users::where('id',$agentId)->first();
             $getToNumber = Widgets::where('widget_uuid',$widgetUuId)->with('twilioNumbers')->first();
             $agentPhoneNumber = $getAgent->phone;
-            $smsBody = "link to visit the page in the website http://3c.local/api/v1/chat-action";
-            //echo $smsBody;
+            $smsBody = "link to visit the page in the website http://3c.local/api/v1/chat-action (demo api url)";
             $this->sendSms($smsBody ,$agentPhoneNumber ,$getToNumber->twilioNumbers->number );
 
         } else {
 
-            echo "something went wrong !";
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'Message not Send,Something went wrong !'
+            ));
         }
     }
 
@@ -659,13 +917,10 @@ class ChatController extends Controller
      */
     public function agentChatAction(Request $request){
         $agentId        = $request->agentId;
-        $widgetUuid     = $request->widgetUuid; //X
         $chatRoomId     = $request->chatRoomId;
-        $messageId      = $request->messageId; // X
         $status         = $request->status; //status According to the action    1->iniciated 2->Accept 3->Reject 4->Transfer
-        $departmentId   = $request->departmentId;
-        $toAgentId      = $request->toAgentId;
-        $fromAgentId    = $request->fromAgentId;//change needed
+        $departmentId   = $request->departmentId;   // for transfer the the chat to a new department
+        $toAgentId      = $request->toAgentId;  // for transfer the the chat to a new department
 
         $checkMessageAgentTrack = MessageAgentTrack::where('agent_id',$agentId)->where('chat_room_id',$chatRoomId)->first();
 
@@ -682,10 +937,26 @@ class ChatController extends Controller
 
                 $responseTransferChat = $this->transferChat($checkMessageAgentTrack, $departmentId, $toAgentId, $fromAgentId);
                 return $responseTransferChat;
+            } else {
+
+                return Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'error'    => true,
+                    'response' => [],
+                    'message'  => 'Sorry wrong status,Something went wrong !'
+                ));
             }
 
         } else {
-            echo "no Data Found !";
+
+            return Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'error'    => true,
+                'response' => [],
+                'message'  => 'No data found !'
+            ));
         }
     }
 
@@ -714,14 +985,16 @@ class ChatController extends Controller
 
         $updateMessageTrack = MessageLog::where('id',$messageId)->update(['user_id'=>$agentId,'status'=>$status]);
 
-        //$updateChatThread   = ChatThread::where('message_log_id',$messageId)->where('widget_id',$widgetUuid)->update(['user_id' => $agentId,'status' => $status]);
+        //$updateChatThread   = ChatThread::where('message_log_id',$messageId)->where('widget_id',$widgetUuid)->update(['user_id' => $agentId,'status' => $status]);    //comment out
 
         $updateMessageForwardCounter = MessageForwardCounter::where('id',$messageForwardCountId)->update(['status'=>$status]);
-        //return agent_id and chat_room_id and status true
+
         $response = ['agentId'=>$agentId,'chatRoomId'=>$chatRoomId,'status'=>$status];
+
         return  Response::json(array(
             'status'   => true,
             'code'     => 200,
+            'error'    => true,
             'response' => $response,
             'message'  => 'Agent and chatroom !'
         ));
@@ -753,21 +1026,22 @@ class ChatController extends Controller
             $checkMessageForwardCounter->count_init = ($checkMessageForwardCounter->count_init +1);
             $checkMessageForwardCounter->update();
             $this->inicateRejectNotificationToAgents($checkMessageForwardCounter->id,$widgetUuid);
-            //return agent_id and chat room_id and status true
             $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,
+                'error'    => false,
                 'response' => $response,
                 'message'  => 'Agent and chatroom with Reject Status !'
             ));
 
         } else {
-            //send agent id and status true
+
             $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,
+                'error'    => false,
                 'response' => $response,
                 'message'  => 'Agent and chatroom with Reject Status !'
             ));
@@ -790,12 +1064,23 @@ class ChatController extends Controller
                 foreach($getAgents as $agent){
                     $this->sendNotificationToAgents($agent->agent_id,$widgetUuid);
                 }
+            } else {
+
+                return  Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'response' => [],
+                    'error'    => true,
+                    'message'  => 'Something went wrong !'
+                ));
             }
         }else{
+
             return  Response::json(array(
                 'status'   => false,
                 'code'     => 400,
                 'response' => [],
+                'error'    => true,
                 'message'  => 'Something went wrong !'
             ));
         }
@@ -809,10 +1094,10 @@ class ChatController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function transferChat($checkMessageAgentTrack, $departmentId = null, $toAgentId=null, $fromAgentId=null)
+    public function transferChat($checkMessageAgentTrack, $departmentId = null, $toAgentId=null )
     {
         $messageAgentTrackId    = $checkMessageAgentTrack->id;
-        $agentId                = $checkMessageAgentTrack->agent_id;
+        $fromAgentId            = $checkMessageAgentTrack->agent_id;
         $widgetUuid             = $checkMessageAgentTrack->widget_id;
         $chatRoomId             = $checkMessageAgentTrack->chat_room_id;
         $messageId              = $checkMessageAgentTrack->message_id;
@@ -838,25 +1123,57 @@ class ChatController extends Controller
 
                         $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id,$saveMessageAgentTrack->widget_id);
                     } else {
-                        echo "something went wrong!";
+
+                        return  Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'response' => [],
+                            'error'    => true,
+                            'message'  => 'Something went wrong !'
+                        ));
                     }
                 }
             }else{
-                echo "no department found !";
+
+                return  Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'response' => [],
+                    'error'    => true,
+                    'message'  => 'Department Not Found !'
+                ));
             }
         }elseif( $toAgentId != "" && $fromAgentId!="" ){
 
             $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id',$fromAgentId)->where('chat_room_id',$chatRoomId)->where('widget_id',$widgetUuid)->update(['agent_id'=>$toAgentId]);
             $this->sendNotificationToAgents($toAgentId,$widgetUuid);
-            echo "transfer to a new Agent";
+            $response = [ 'agentId' => $toAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
+            return  Response::json(array(
+                'status'   => true,
+                'code'     => 200,
+                'response' => $response,
+                'error'    => false,
+                'message'  => 'Transfer to a new Agent!'
+            ));
         }else{
-            echo "Sorry Department and Agent are not there";
+
+            return  Response::json(array(
+                'status'   => true,
+                'code'     => 400,
+                'response' => [],
+                'error'    => false,
+                'message'  => 'Sorry Department and Agent are not there !'
+            ));
         }
 
     }
 
-
-
+    /**
+     * function for getting all the agent list with all the chatrooms and existing chats
+     *
+     * @param Request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function agentWithChatRooms()
     {
         $agentsList = MessageAgentTrack::where('id','!=',"")->groupBy('agent_id')->get();
