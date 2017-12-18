@@ -1188,12 +1188,17 @@ class ChatController extends Controller
      */
     public function agentWithChatRooms()
     {
-        $agentsList = MessageAgentTrack::where('id','!=',"")->groupBy('agent_id')->get();
+        $agentsList = MessageAgentTrack::where('id','!=',"")->get();
+
+        $AgentCreateArray=array();
+        foreach ($agentsList as $agent){
+            $AgentCreateArray[$agent->agent_id]="agent";
+        }
         $allAgents = [];
-        foreach ($agentsList as $list) {
-            $rooms = MessageAgentTrack::where('agent_id', $list->agent_id)->with('clientInfo.clientName','allChat.agentInfo')->get();
+        foreach ($AgentCreateArray as $AgentId=>$list) {
+            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName','allChat.agentInfo')->get();
             $allRooms = [];
-            $agents['agent_id'] = $list->agent_id;
+            $agents['agent_id'] = $AgentId;
             foreach($rooms as $room) {
                 $agentRooms['name'] = $room->chat_room_id;
                 $agentRooms['status'] = $room->status;
