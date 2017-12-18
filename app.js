@@ -3,6 +3,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var axios = require('axios');
 
+// var API_URL = 'http://3c.local/api/v1/';
+var API_URL = 'http://138.197.215.68/api/v1/';
+
 /** Chat App */
 io.on('connection', function (socket) {
   console.log('User connected');
@@ -11,7 +14,7 @@ io.on('connection', function (socket) {
   socket.on('client-connected', function (data) {
     console.log('Node: Client Connected: ', data);
     /** Api call to create room for client and agents */
-    axios.post('http://138.197.215.68/api/v1/web-chat', data)
+    axios.post(API_URL + 'web-chat', data)
       .then(function (res) {
         console.log("response ");
         if (res.data.status) {
@@ -59,7 +62,7 @@ io.on('connection', function (socket) {
     console.log('In Send Rooms Function');
 
     /** API calls to get data of all agent_id and rooms they are assigned to with status */
-    axios.get('http://138.197.215.68/api/v1/all-agents-chatrooms')
+    axios.get(API_URL + 'all-agents-chatrooms')
       .then(function (res) {
         if (res.data.status) {
           console.log('Node : New Rooms Added ', res.data.response);
@@ -78,7 +81,7 @@ io.on('connection', function (socket) {
     console.log('message sent');
     console.log(data);
     /**api call to add message to the database */
-    axios.post('http://138.197.215.68/api/v1/web-chat-message', data)
+    axios.post(API_URL + 'web-chat-message', data)
       .then(function (response) {
         console.log(response.data);
         if(response.data.status) {
@@ -93,15 +96,20 @@ io.on('connection', function (socket) {
   });
 
   /** Agent accepts message */
-  socket.on('agent-accepts-msg', function (data) {
+  socket.on('agent-accepts-rejects-transfers-msg', function (data) {
 
     /** Api call to accept msg for agent */
-    axios.post('http://138.197.215.68/api/v1/agent-chat-action', data)
+    axios.post(API_URL + 'agent-chat-action', data)
       .then(function (res) {
         if (res.data.status) {
           console.log('After Accept');
           console.log(res.data);
+          console.log('Actions ', data);
+          if (data.status == 2) {
             io.sockets.in(res.data.response.chatRoomId).emit('which-agent-accepted', res.data.response);
+          } else if (data.status == 3) {
+            io.sockets.in(res.data.response.chatRoomId).emit('which-agent-rejected', res.data.response);
+          }
         } else {
           console.log(res);
         }
