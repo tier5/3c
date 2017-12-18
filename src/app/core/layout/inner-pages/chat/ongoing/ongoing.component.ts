@@ -48,12 +48,19 @@ export class OngoingComponent implements OnInit, OnDestroy {
     this.getChatRoom();
   }
 
-  onAccept() {
-    this.chatService.accept({ agentId: this.agentId, status: 2, chatRoomId: this.currentChatRoom });
-  }
-
-  onDecline() {
-    console.log();
+  onAcceptOrReject(status: number) {
+    console.log(status);
+    switch(status) {
+      case 2:
+        this.chatService.accept({ agentId: this.agentId, status: 2, chatRoomId: this.currentChatRoom });
+        break;
+      case 3:
+        this.chatService.decline({ agentId: this.agentId, status: 3, chatRoomId: this.currentChatRoom });
+        this.changeCurrentChat(0);
+        break;
+      default:
+        console.log(status);
+    }
   }
 
   getChatRoom() {

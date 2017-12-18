@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
+import { environment } from '../../../../../environments/environment'
 
 import * as fromAfterLogin from '../../store/after-login.reducers';
 import * as ChatActions from '../../store/chat/chat.actions';
@@ -17,7 +18,7 @@ export class ChatService {
   loggedInAgentName: string;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
-    this.socket = io('http://localhost:3000');
+    this.socket = io(environment.SOCKET_URL);
     this.store.select('auth')
       .map(data => data.userId)
       .distinctUntilChanged()
@@ -45,6 +46,7 @@ export class ChatService {
             this.socket.on('msg-of-acceptance', (data) => {
               console.log(data);
             });
+
             this.socket.on('which-agent-accepted', (data) => {
               console.log('In which agent accepted');
               console.log(data);
@@ -55,6 +57,16 @@ export class ChatService {
                 this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.chatRoomId }));
               }
             });
+
+            this.socket.on('which-agent-rejected', (data) => {
+              console.log('In which agent rejected');
+              console.log(data);
+              if (data.agentId == id) {
+                this.store.dispatch(new ChatActions.EditFromChatList({ status: data.status, room_number: data.chatRoomId }));
+                this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
+              }
+            });
+
             this.socket.on('newmsg', (data) => {
               console.log(data);
               this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
@@ -76,7 +88,11 @@ export class ChatService {
   }
 
   accept(data: { agentId: number, status: number, chatRoomId: string }) {
-    this.socket.emit('agent-accepts-msg', data);
+    this.socket.emit('agent-accepts-rejects-transfers-msg', data);
+  }
+
+  decline(data: { agentId: number, status: number, chatRoomId: string }) {
+    this.socket.emit('agent-accepts-rejects-transfers-msg', data);
   }
 
   sendMsg(data: { messageBody: string, chatRoomId: string }) {

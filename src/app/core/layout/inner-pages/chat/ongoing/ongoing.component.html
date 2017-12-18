@@ -20,19 +20,40 @@
             <div class="row">
               <div class="chat-list">
                 <ul>
-                  <li [ngClass]="{ active : currentChatIndex == i}" *ngFor="let contact of (chatState | async).ongoing; let i = index;" (click)="changeCurrentChat(i)">
-                    <div class="col-md-2">
-                      <div class="chat-head row">
-                        <img src="../../../../assets/img/avatar5.png" class="img-responsive">
-                      </div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="chat-content">
-                        <h3>{{contact.client}} <span>5 days</span></h3>
-                        <p>{{contact.room}}</p>
-                      </div>
-                    </div>
-                  </li>
+                  <ng-container *ngFor="let contact of (chatState | async).ongoing; let i = index;">
+                    <li [ngClass]="{ active : currentChatIndex == i}"
+                        *ngIf="contact.status != 3"
+                        (click)="changeCurrentChat(i)">
+                        <div class="col-md-2">
+                          <div class="chat-head row">
+                            <img src="../../../../assets/img/avatar5.png" class="img-responsive">
+                          </div>
+                        </div>
+                        <div class="col-md-10">
+                          <div class="chat-content">
+                            <h3>{{contact.client}} <span>5 days</span></h3>
+                            <p>{{contact.room}}</p>
+                          </div>
+                        </div>
+                    </li>
+                  </ng-container>
+                  <!--<li [ngClass]="{ active : currentChatIndex == i}"-->
+                      <!--*ngFor="let contact of (chatState | async).ongoing; let i = index;"-->
+                      <!--(click)="changeCurrentChat(i)">-->
+                    <!--<div *ngIf="contact.status != 3">-->
+                      <!--<div class="col-md-2">-->
+                        <!--<div class="chat-head row">-->
+                          <!--<img src="../../../../assets/img/avatar5.png" class="img-responsive">-->
+                        <!--</div>-->
+                      <!--</div>-->
+                      <!--<div class="col-md-10">-->
+                        <!--<div class="chat-content">-->
+                          <!--<h3>{{contact.client}} <span>5 days</span></h3>-->
+                          <!--<p>{{contact.room}}</p>-->
+                        <!--</div>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</li>-->
                 </ul>
               </div>
             </div>
@@ -54,8 +75,8 @@
                     </div>
                   </div>
                   <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">
-                    <button (click)="onAccept()" class="btn btn-primary">Accept</button>
-                    <button (click)="onDecline()" class="btn btn-danger">Reject</button>
+                    <button (click)="onAcceptOrReject(2)" class="btn btn-primary">Accept</button>
+                    <button (click)="onAcceptOrReject(3)" class="btn btn-danger">Reject</button>
                   </div>
 
                 </div>
