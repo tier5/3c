@@ -44,18 +44,23 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   changeCurrentChat(i: number) {
+    console.log('in change current chat');
+    console.log('Current Chat: ', this.currentChatIndex);
     this.currentChatIndex = i;
+
+    console.log('Current Chat: ', this.currentChatIndex);
     this.getChatRoom();
   }
 
-  onAcceptOrReject(status: number) {
+  onSomeMsgAction(status: number) {
     console.log(status);
     switch(status) {
       case 2:
-        this.chatService.accept({ agentId: this.agentId, status: 2, chatRoomId: this.currentChatRoom });
+        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         break;
       case 3:
-        this.chatService.decline({ agentId: this.agentId, status: 3, chatRoomId: this.currentChatRoom });
+      case 5:
+        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         this.changeCurrentChat(0);
         break;
       default:
@@ -64,6 +69,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   getChatRoom() {
+    console.log('in get chatroom');
     this.chatRoomSubscription = this.store.select('afterLogin')
       .subscribe(
         data => {
