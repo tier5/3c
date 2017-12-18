@@ -1331,7 +1331,7 @@ class UserController extends Controller
             $body .= '<br><br><br>Please Change your password !';
             // Send Mail to user email id with the created password
             Mail::send([],[], function($message) use ($body,$checkUser){
-                $message->from(getenv('MAIL_USERNAME'));
+            //    $message->from(getenv('MAIL_USERNAME'));
                 $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login')->setBody($body,'text/html');
             });
 

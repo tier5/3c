@@ -102,7 +102,7 @@ class WidgetController extends Controller
           $widgets->schedule_timezone = $scheduleTimezone;
           $widgets->details           = $details;
           $widgets->widget_uuid       = $widgetUuid;
-          $widgets->widget_script     = $widgetSrciptUrl;
+          $widgets->script_url     = $widgetSrciptUrl;
           $widgets->status            = 0;
 
           if ($imagePath != '') {
