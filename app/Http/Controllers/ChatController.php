@@ -949,6 +949,10 @@ class ChatController extends Controller
 
                 $responseTransferChat = $this->transferChat($checkMessageAgentTrack, $departmentId, $toAgentId, $fromAgentId);
                 return $responseTransferChat;
+            }if($status == 5){  // Resolve Status Scenario
+                $responseresolveChat = $this->resolveChat($checkMessageAgentTrack);
+                return $responseresolveChat;
+
             } else {
 
                 return Response::json(array(
@@ -1181,6 +1185,43 @@ class ChatController extends Controller
     }
 
     /**
+     * function to resolve chat from agent
+     *
+     * @param Request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resolveChat($checkMessageAgentTrack)
+    {
+        $messageAgentTrackId    = $checkMessageAgentTrack->id;
+        $agentId                = $checkMessageAgentTrack->agent_id;
+        $widgetUuid             = $checkMessageAgentTrack->widget_id;
+        $chatRoomId             = $checkMessageAgentTrack->chat_room_id;
+        $messageId              = $checkMessageAgentTrack->message_id;
+        $messageForwardCountId  = $checkMessageAgentTrack->message_forward_counter_id;
+        $status                 = 5;    //resolve Scenario
+
+        $updateMessageAgentTrack = MessageAgentTrack::where('id',$messageAgentTrackId)->update(['status' => $status]);
+
+        //$deleteOtherAgents  = MessageAgentTrack::where('agent_id','!=',$agentId)->where('widget_id',$widgetUuid)->where('message_id',$messageId)->where('chat_room_id',$chatRoomId)->delete();
+
+        $updateMessageTrack = MessageTrack::where('message_id',$messageId)->update(['agent_id'=>$agentId,'status'=>$status]);
+
+        $updateMessageTrack = MessageLog::where('id',$messageId)->update(['user_id'=>$agentId,'status'=>$status]);
+
+        $updateMessageForwardCounter = MessageForwardCounter::where('id',$messageForwardCountId)->update(['status'=>$status]);
+
+        $response = ['agentId'=>$agentId,'chatRoomId'=>$chatRoomId,'status'=>$status];
+
+        return  Response::json(array(
+            'status'   => true,
+            'code'     => 200,
+            'error'    => true,
+            'response' => $response,
+            'message'  => 'Agent and chatroom !'
+        ));
+    }
+
+    /**
      * function for getting all the agent list with all the chatrooms and existing chats
      *
      * @param Request
@@ -1196,7 +1237,7 @@ class ChatController extends Controller
         }
         $allAgents = [];
         foreach ($AgentCreateArray as $AgentId=>$list) {
-            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName','allChat.agentInfo')->get();
+            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName','allChat.agentInfo')->where('status','!=',5)->get();
             $allRooms = [];
             $agents['agent_id'] = $AgentId;
             foreach($rooms as $room) {
