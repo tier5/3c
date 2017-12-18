@@ -101,7 +101,6 @@ export default {
     disconnect: function() {
       Vue.ls.remove('client');
       console.log("disconnected");
-      this.$router.push('/');
     },
     /** to update the chat room with the chat message */
     newmsg: function (data) {

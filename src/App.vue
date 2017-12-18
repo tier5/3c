@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-  	<router-view></router-view>
+  	<chat-request> </chat-request>
   </div>
 </template>
 

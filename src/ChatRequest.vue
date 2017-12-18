@@ -1,6 +1,8 @@
 <template>
   <div>
-    <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title">
+    <div v-if="!chat">
+      <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title" >
+    </div>
     <div class="side-bar slideInRight animated" v-if="showSideBar && !chat">
       <span class="close-form hide1 cross" @click="closeSideBar">
         <img :src="apiHost +'widgets/script/chat-close.png'" alt="img">
@@ -144,7 +146,7 @@
       </div>
     </div>
     
-     
+    <chat v-if="chat"></chat> 
   </div>
 </template>
 
@@ -504,7 +506,6 @@ export default {
     Vue.ls.set('client', this.dataToSend);
     console.log(Vue.ls.get('client'));
     this.chat = true;
-    this.$router.push('/chat');
      
   },
   sendChatMessage(message) {

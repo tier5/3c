@@ -9,7 +9,6 @@ import ChatRequest from './ChatRequest.vue';
 import VueValidate from 'vuelidate';
 import VueSocketio from 'vue-socket.io';
 import VueLocalStorage from 'vue-ls';
-import router from './router';
 
 import 'vue-awesome/icons/flag';
 import 'vue-awesome/icons';
@@ -27,11 +26,11 @@ Vue.use(VueLocalStorage);
 
 Vue.directive('mask', VueMaskDirective);
 Vue.component('icon', Icon);
-
+Vue.component('chat-request', ChatRequest);
+Vue.component('chat', Chat);
 
 new Vue({
   el: '#dynamicId',
-  router,
   components : {App},
   render: h => h(App)
 })
