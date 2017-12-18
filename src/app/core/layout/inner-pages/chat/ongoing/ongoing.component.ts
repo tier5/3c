@@ -44,11 +44,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   changeCurrentChat(i: number) {
-    console.log('in change current chat');
-    console.log('Current Chat: ', this.currentChatIndex);
     this.currentChatIndex = i;
-
-    console.log('Current Chat: ', this.currentChatIndex);
     this.getChatRoom();
   }
 
@@ -69,7 +65,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   getChatRoom() {
-    console.log('in get chatroom');
     this.chatRoomSubscription = this.store.select('afterLogin')
       .subscribe(
         data => {

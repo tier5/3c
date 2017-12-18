@@ -6,12 +6,14 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { PendingComponent } from './pending/pending.component';
 import { OngoingComponent } from './ongoing/ongoing.component';
 import { RejectedComponent } from './rejected/rejected.component';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ChatRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   declarations: [
     PendingComponent,
