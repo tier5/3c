@@ -53,7 +53,7 @@
             <input type="text" class="form-control input-sm chat_input" placeholder="Write a question..." v-model="message" @keyup.enter="addMessage" />
           
             <span class="input-group-btn" @click="addMessage">
-              <img :src="apiHost +'widget/script/chat-sent-icon.png'" alt="img">
+              <img :src="apiHost +'widgets/script/chat-sent-icon.png'" alt="img">
             </span>
           </div>                
         </div>
@@ -65,7 +65,7 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
-import { environment} from './environment/environment';
+import { environment} from './environment/environment_prod';
 
 
 export default {

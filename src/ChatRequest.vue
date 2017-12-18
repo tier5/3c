@@ -152,7 +152,7 @@
 
 import Vue from 'vue';
 import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators';
-import { environment} from './environment/environment';
+import { environment} from './environment/environment_prod';
 
 export default {
   name: 'chat-request',
