@@ -100,8 +100,20 @@ h2{
     height: 650px;
 }
 
-/*.active {*/
-    /*background: #3c8dbc;*/
-    /*box-shadow: 1px 1px 1px 1px #666;*/
-    /*border-bottom: 1px solid #3c8dbc;*/
-/*}*/
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+}
+
+.show {
+    display: block;
+}
+
+a {
+    cursor: pointer;
+}

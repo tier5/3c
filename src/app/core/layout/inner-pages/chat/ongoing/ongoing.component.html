@@ -66,6 +66,44 @@
                           <button (click)="onSomeMsgAction(5)" class="btn btn-success">Resolve Chat</button>
                         </div>
 
+                        <div class="dropdown" [appDropdown]="'open'" [disable-hover]="true">
+                          <button class="btn btn-default dropdown-toggle"
+                                  type="button" data-toggle="dropdown">
+                            Transfer
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a tabindex="-1">HTML</a></li>
+                            <li><a tabindex="-1">CSS</a></li>
+                            <li class="dropdown-submenu">
+                              <a class="test" tabindex="-1">New dropdown <span class="caret"></span></a>
+                              <ul class="dropdown-menu" [appDropdown]="'show'" [disable-hover]="true">
+                                <li><a tabindex="-1">2nd level dropdown</a></li>
+                                <li><a tabindex="-1">2nd level dropdown</a></li>
+                                <li class="dropdown-submenu">
+                                  <a class="test">Another dropdown <span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+                                    <li><a>3rd level dropdown</a></li>
+                                    <li><a>3rd level dropdown</a></li>
+                                  </ul>
+                                </li>
+                              </ul>
+
+
+                              <div class="dropdown" [appDropdown]="'open'" [disable-hover]="false">
+
+                                <a class="test" tabindex="-1">New dropdown <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                  <li><a tabindex="-1">HTML</a></li>
+                                  <li><a tabindex="-1">CSS</a></li>
+                                </ul>
+                              </div>
+
+
+                            </li>
+                          </ul>
+                        </div>
+
                       </div>
                       <!--/.direct-chat-messages-->
 
