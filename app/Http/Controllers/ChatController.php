@@ -152,7 +152,8 @@ class ChatController extends Controller
                 $checkDepartment = WidgetDepartmentMapping::where('department_orders',$departmentId)->where('widget_id',$checkWidget->id)->first();
                 if(count($checkDepartment)!=0){
                      $updateMessageCache        = MessageCache::where('id',$checkMessageCacheId)->update(['department_id'=>$checkDepartment->department_id,'status'=>'0']);
-                     $responsesaveMessageTrack  = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid);
+                     $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
+                     $responsesaveMessageTrack  = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid, $messageType);
                      if( $responsesaveMessageTrack != false ){
                         $responseSaveContactList = $this->saveContactList($widgetUuid,$fromNumber);
                         if($responseSaveContactList != false ){
@@ -280,11 +281,11 @@ class ChatController extends Controller
 
     /**
      * function to send sms to the from number
-     *
+     * fromNumber -> widget phone number , toNumber -> client phone number
      * @param smsBody, fromNumber, toNumber
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendSms($smsBody , $toNumber,$fromNumber)
+    public function sendSms($smsBody , $toNumber, $fromNumber)
     {
         if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
             $keys = TwilioNumber::where('number', $fromNumber)->with('getTwilioCredentials')->first();
@@ -398,14 +399,15 @@ class ChatController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function saveMessageTrack($departmentId, $fromNumber, $widgetUuid)
+    public function saveMessageTrack($departmentId, $fromNumber, $widgetUuid, $messageType)
     {
         if($departmentId != "" && $fromNumber !="" && $widgetUuid !=""){
             $saveMessageTrack = new MessageTrack;
-            $saveMessageTrack->widget_id = $widgetUuid;
-            $saveMessageTrack->department_id = $departmentId;
-            $saveMessageTrack->from_phone_number = $fromNumber;
-            $saveMessageTrack->status = 1;
+            $saveMessageTrack->widget_id            = $widgetUuid;
+            $saveMessageTrack->department_id        = $departmentId;
+            $saveMessageTrack->from_phone_number    = $fromNumber;
+            $saveMessageTrack->message_type         = $messageType; // Message type 1 ->Mobile SMS 2->Web Chat Message
+            $saveMessageTrack->status               = 1;
             if($saveMessageTrack->save()){
                 return $saveMessageTrack;
             }else{
@@ -589,11 +591,12 @@ class ChatController extends Controller
 
         $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
         if(count($checkMessageTrack) == 0 ){
-            $saveMessageTrack  = new MessageTrack;
-            $saveMessageTrack->widget_id = $widgetUuid;
-            $saveMessageTrack->department_id = $departmentId;
-            $saveMessageTrack->from_phone_number = $fromNumber;
-            $saveMessageTrack->status = 1;
+            $saveMessageTrack                       = new MessageTrack;
+            $saveMessageTrack->widget_id            = $widgetUuid;
+            $saveMessageTrack->department_id        = $departmentId;
+            $saveMessageTrack->from_phone_number    = $fromNumber;
+            $saveMessageTrack->message_type         = 2; // Message type 1 ->Mobile SMS 2->Web Chat Message
+            $saveMessageTrack->status               = 1;
             if($saveMessageTrack->save()){
 
                 $responsesaveContactList = $this->saveContactList( $widgetUuid, $fromNumber, $name, $email );
@@ -668,6 +671,11 @@ class ChatController extends Controller
 
             $checkMessageTrack = MessageTrack::where('chat_room_id', $chatRoomId)->first();
             if(count($checkMessageTrack)!=0){
+                if( $checkMessageTrack->message_type == 1 ){
+                    $getWidgetPhoneNumber = Widgets::where('widget_uuid',$checkMessageTrack->widget_id)->with('twilioNumbers')->first();
+                    $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix.$getWidgetPhoneNumber->twilioNumbers->number;
+                    $this->sendSms($messageBody,$widgetPhoneNumber,$checkMessageTrack->from_phone_number);
+                }
             $messageId  = $checkMessageTrack->message_id;
             $userId     = $checkMessageTrack->agent_id;
             $widgetUuid = $checkMessageTrack->widget_id;
