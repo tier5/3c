@@ -342,10 +342,10 @@ class ChatController extends Controller
     public function saveMessageCache($fromNumber, $widgetUuid)
     {
         if($fromNumber !="" && $widgetUuid != ""){
-            $saveMessageCache = new MessageCache;
-            $saveMessageCache->widget_uuid = $widgetUuid;
+            $saveMessageCache                    = new MessageCache;
+            $saveMessageCache->widget_uuid       = $widgetUuid;
             $saveMessageCache->from_phone_number = $fromNumber;
-            $saveMessageCache->status = 1;
+            $saveMessageCache->status            = 1;
             if($saveMessageCache->save()){
                 return $saveMessageCache->id;
             }else{
@@ -372,10 +372,10 @@ class ChatController extends Controller
     public function saveMessageCacheData($messageBody, $responseMessageCacheId)
     {
         if($messageBody !="" && $responseMessageCacheId != ""){
-            $saveMessageCacheData = new MessageCacheData;
+            $saveMessageCacheData                   = new MessageCacheData;
             $saveMessageCacheData->message_cache_id = $responseMessageCacheId;
-            $saveMessageCacheData->message_body = $messageBody;
-            $saveMessageCacheData->status = 1;
+            $saveMessageCacheData->message_body     = $messageBody;
+            $saveMessageCacheData->status           = 1;
             if($saveMessageCacheData->save()){
                return true;
             }else{
@@ -402,7 +402,7 @@ class ChatController extends Controller
     public function saveMessageTrack($departmentId, $fromNumber, $widgetUuid, $messageType)
     {
         if($departmentId != "" && $fromNumber !="" && $widgetUuid !=""){
-            $saveMessageTrack = new MessageTrack;
+            $saveMessageTrack                       = new MessageTrack;
             $saveMessageTrack->widget_id            = $widgetUuid;
             $saveMessageTrack->department_id        = $departmentId;
             $saveMessageTrack->from_phone_number    = $fromNumber;
@@ -1051,6 +1051,7 @@ class ChatController extends Controller
             $checkMessageForwardCounter->update();
             $updateMessageTrack      = MessageTrack::where('message_id',$messageId)->update(['status'=>1]); //message track status will be 1 for again inicating the other messages
             $this->inicateRejectNotificationToAgents($checkMessageForwardCounter->id,$widgetUuid);
+
             $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
                 'status'   => true,
