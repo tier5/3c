@@ -244,6 +244,7 @@ export default {
     if(Vue.ls.get('client')) {
       Vue.ls.remove('client');
     }
+
     this.apiUrl = environment.API_BASE_URL;
     this.apiHost = environment.API_HOST;
     console.log(this.apiUrl);

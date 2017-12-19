@@ -3,7 +3,6 @@
     <div class="chat-window col-md-4 col-sm-6">
       <div class="panel panel-default">
         <div class="top-bar">
-
           <div class="col-md-3 col-xs-3">
             <div class="user-icon">
               <img :src="apiHost + 'widgets/script/user3.png'" class="img-responsive" alt="user-img">
@@ -28,10 +27,10 @@
             </a>
           </div>
         </div>
-        <div class="panel-body msg_container_base" v-if="!minimize" v-chat-scroll>
+        <div class="panel-body msg_container_base" v-if="!minimize && !chatResolved" v-chat-scroll>
           <div class="chat-notification">
-            <div class="row" v-for="msg in connectMessage">
-              <b> {{ msg }} </b>
+            <div class="row">
+              <b> {{ connectMessage }} </b>
             </div>
           </div>
           <div v-for="message in messages">
@@ -48,12 +47,48 @@
             </div>
           </div>
         </div>
-        <div class="panel-footer" v-if="!minimize">
-          <div class="input-group">
-            <input type="text" class="form-control input-sm chat_input" placeholder="Write a question..." v-model="message" @keyup.enter="addMessage" />
-          
+        <div class="panel-body msg_container_base" v-if="!minimize && chatResolved" v-chat-scroll>
+          <div class="chat-notification">
+            <div class="row">
+              <b> Thank you for chatting with us.</b>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel-body" v-if="!chat && !departmentSubmitted">
+                <div class="col-md-12 cust-pad">
+                  <button type="button" class="btn btn-primary" @click="startChat"> Click here to start chatting </button>
+                </div>
+              </div>  
+              <div class="panel-body" v-if="chat && !departmentSubmitted">
+                <div class="col-md-12 cust-pad">
+                  <div class="form-group">
+                    <label class="control-label">
+                      Choose a department
+                    </label>
+                  </div>
+                  <div>
+                    <div v-for="department in widgetDepartments"  class="list-group" >
+                      <a  class="list-group-item" @click="departmentSubmit(department.id)"> {{ department.department_name }} </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body" v-if="chat && departmentSubmitted">
+                <div class="col-md-12 cust-pad">
+                  <button type="button" class="btn btn-primary" @click="startChatAgain"> Chat Again </button>
+                </div>
+              </div>    
+            </div>
+          </div>
+
+          </div>
+        
+        </div>
+        <div class="panel-footer" v-if="!minimize && !chatResolved" >
+          <div class="input-group" v-if="sendMessage">
+            <input type="text" class="form-control input-sm chat_input" placeholder="Type a message..." v-model="message" @keyup.enter="addMessage" />
+            <span class="input-group-btn"> <icon name="paperclip"></icon> </span>
             <span class="input-group-btn" @click="addMessage">
-              <img :src="apiHost +'widgets/script/chat-sent-icon.png'" alt="img">
+              <icon name="paper-plane"></icon>
             </span>
           </div>                
         </div>
@@ -78,6 +113,8 @@ export default {
     /** to get the client room */
     clientAddedToRoom: function (data) {
       //this.client = data;
+      this.sendMessage = true;
+      //this.chatResolved = false;
       console.log(data);
       this.chatRoomId = data.chatRoomId;
       console.log("connected client");
@@ -86,7 +123,14 @@ export default {
     /**when the client does not get connected */ 
     clientNotAddedToRoom: function() {
 
+      this.sendMessage = false;
       console.log("Client join failed");
+      this.$socket.emit('disconnect');
+    },
+    /**when the agent resolves the chat */ 
+    clientChatResolved: function() {
+      this.chatResolved = true;
+      console.log("Chat resolved");
       this.$socket.emit('disconnect');
     },
 
@@ -94,13 +138,13 @@ export default {
     updateRoom: function (data) {
       console.log(data);
       var update_message = 'You have joined the chatroom';
-      this.connectMessage.push(update_message);
     },
 
     /** when the socket gets disconnected */ 
     disconnect: function() {
-      Vue.ls.remove('client');
+      //Vue.ls.remove('client');
       console.log("disconnected");
+      this.sendMessage = false;
     },
     /** to update the chat room with the chat message */
     newmsg: function (data) {
@@ -111,7 +155,7 @@ export default {
 
     connectedToRoom: function (msg) {
       console.log(msg);
-      this.connectMessage.push(msg);
+      this.connectMessage =msg;
     }
 
   },
@@ -125,10 +169,15 @@ export default {
       client : {},
       widgetId: null,
       message : '',
-      connectMessage : [],
+      connectMessage : '',
       minimize : false,
       apiUrl : '',
-      apiHost : ''
+      apiHost : '',
+      sendMessage : false,
+      chatResolved : false,
+      chat : false,
+      widgetDepartments : {},
+      departmentSubmitted : false
       
 
     }
@@ -137,7 +186,7 @@ export default {
 
     this.apiUrl = environment.API_BASE_URL;
     this.apiHost = environment.API_HOST;
-    console.log(Vue.ls.get('client'));
+    //console.log(Vue.ls.get('client'));
 
     this.widgetId = document.getElementById('tib-widget').getAttribute('data-uuid');
     
@@ -167,6 +216,40 @@ export default {
     chatMaximize () {
       console.log("open");
       this.minimize = false;
+    },
+    startChat() {
+      console.log("Start chat");
+      
+      /** api call to get the departments for the widget */
+      this.$http.post(this.apiUrl + 'widget-departments', { widget_data: this.client })
+      .then(
+        (response) => {
+          if(response.status) {
+            if(response.body.status) {
+              console.log(response);
+              this.widgetDepartments = response.body.departments;
+              this.chat = true;
+            }
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+
+    },
+    departmentSubmit(id) {
+      console.log("Submitted department");
+      this.client.departmentId = id;
+      
+      console.log(this.client);
+      
+      Vue.ls.set('client', this.client);
+      console.log(Vue.ls.get('client'));
+      this.departmentSubmitted = true;
+    },
+    startChatAgain() {
+      console.log("Started chat again");
     }
   }
 }
@@ -279,7 +362,7 @@ export default {
     border: none;
   }
   .panel-footer .form-control{
-    height: 60px;
+    height: 30px;
     border: none;
     box-shadow: none;
     font-size: 14px;
@@ -288,10 +371,10 @@ export default {
   .panel-footer .input-group-btn img{
     border: none;
     outline: none;
-    height: 50px;
+    height: 20px;
     width: 50px;
     font-size: 0;
-    padding: 10px;
+    padding: 5px;
     color: #B3B3B3;
     cursor: pointer;
   }
@@ -315,6 +398,14 @@ export default {
     padding : 15px;
 
   }
-
+  .input-group-btn .fa-icon {
+    fill : #467FFD;
+    border: none;
+    outline: none;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    cursor: pointer;
+  }
 </style>
 
