@@ -22,8 +22,8 @@ Vue.use(VueResource);
 Vue.use(VueMask);
 Vue.use(VueValidate);
 Vue.use(VueChatScroll);
-Vue.use(VueSocketio, 'http://localhost:3000');
-//Vue.use(VueSocketio, 'http://138.197.215.68:3000');
+//Vue.use(VueSocketio, 'http://localhost:3000');
+Vue.use(VueSocketio, 'http://138.197.215.68:3000');
 Vue.use(VueLocalStorage);
 
 Vue.directive('mask', VueMaskDirective);
