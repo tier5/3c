@@ -18,6 +18,7 @@ export class AutoScrollDirective implements AfterContentInit {
     console.log('scrollTop', this.nativeElement.scrollTop);
     console.log('clientHeight', this.nativeElement.clientHeight);
     console.log('scrollHeight', this.nativeElement.scrollHeight);
+    console.log(this.nativeElement);
     this.adjust();
   }
 

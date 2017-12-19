@@ -110,4 +110,8 @@ export class ChatService {
     this.socket.emit('msg', obj);
   }
 
+  sendResolveConfirmation(data) {
+    this.socket.emit('resolve-chat-request', data);
+  }
+
 }
