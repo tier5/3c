@@ -80,8 +80,6 @@
             </div>
           </div>
 
-          </div>
-        
         </div>
         <div class="panel-footer" v-if="!minimize && !chatResolved" >
           <div class="input-group" v-if="sendMessage">
@@ -91,6 +89,7 @@
               <icon name="paper-plane"></icon>
             </span>
           </div>                
+        </div>
         </div>
       </div>
     </div>
@@ -143,6 +142,7 @@ export default {
     /** when the socket gets disconnected */ 
     disconnect: function() {
       //Vue.ls.remove('client');
+      this.chatResolved = true;
       console.log("disconnected");
       this.sendMessage = false;
     },
@@ -192,7 +192,7 @@ export default {
     
     this.client = Vue.ls.get('client');
     console.log(this.client);
-    
+    this.connectMessage = 'Please wait...We are connecting !!';
     this.$socket.emit('client-connected', this.client);
 
   },
@@ -217,6 +217,7 @@ export default {
       console.log("open");
       this.minimize = false;
     },
+    /** to initiate the chat process */
     startChat() {
       console.log("Start chat");
       
@@ -248,8 +249,10 @@ export default {
       console.log(Vue.ls.get('client'));
       this.departmentSubmitted = true;
     },
+    /** to start the chatting */
     startChatAgain() {
       console.log("Started chat again");
+      this.$socket.emit('client-connected', this.client);
     }
   }
 }
@@ -272,7 +275,7 @@ export default {
   .msg_container_base{
     background: #F7F8FA;
     margin: 0;
-    padding: 0 10px 10px;
+    padding: 0 10px 0px;
     max-height: 350px;
     overflow-x: hidden;
     overflow-y : auto;
@@ -362,7 +365,7 @@ export default {
     border: none;
   }
   .panel-footer .form-control{
-    height: 30px;
+    height: 50px;
     border: none;
     box-shadow: none;
     font-size: 14px;
@@ -371,7 +374,7 @@ export default {
   .panel-footer .input-group-btn img{
     border: none;
     outline: none;
-    height: 20px;
+    height: 40px;
     width: 50px;
     font-size: 0;
     padding: 5px;
