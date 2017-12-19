@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var API_URL = 'http://3c.local/api/v1/';
 // var API_URL = 'http://138.197.215.68/api/v1/';
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended:false}));
+// parse application/json
 app.use(bodyParser.json());
 
 /** Chat App */
@@ -19,17 +21,18 @@ io.on('connection', function (socket) {
         console.log('In post');
         sendRooms();
         res.status(200).json({
-            message: 'Event Emitted'
+            status: true
         });
     });
 
     /** Rest api */
     app.post('/mobile-chat', function (req, res) {
-        console.log('In mobile chat post');
+        console.log('In mobile chat post edited');
         console.log(req.body);
-        //  newMsg();
+        newMsg(req.body);
         res.status(200).json({
-            message: req.body
+            status: true,
+            req: req.body
         });
     });
 
