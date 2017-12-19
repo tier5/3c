@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-template">
+  <div class="chat">
     <div class="chat-window col-md-4 col-sm-6">
       <div class="panel panel-default">
         <div class="top-bar">
@@ -28,7 +28,7 @@
             </a>
           </div>
         </div>
-        <div class="panel-body msg_container_base" v-if="!minimize">
+        <div class="panel-body msg_container_base" v-if="!minimize" v-chat-scroll>
           <div class="chat-notification">
             <div class="row" v-for="msg in connectMessage">
               <b> {{ msg }} </b>
@@ -65,8 +65,8 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
-import { environment} from './environment/environment_prod';
-
+import { environment} from './environment/environment';
+import "bootstrap/dist/css/bootstrap.css";
 
 export default {
   name: 'chat',
@@ -173,7 +173,6 @@ export default {
 </script>
 
 <style type="text/css">
-@import "~/node_modules/bootstrap/dist/css/bootstrap.css";
 
   .chat-window{
     bottom: 10px;

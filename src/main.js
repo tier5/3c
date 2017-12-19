@@ -9,10 +9,10 @@ import ChatRequest from './ChatRequest.vue';
 import VueValidate from 'vuelidate';
 import VueSocketio from 'vue-socket.io';
 import VueLocalStorage from 'vue-ls';
-
 import 'vue-awesome/icons/flag';
 import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon.vue'
+import Icon from 'vue-awesome/components/Icon.vue';
+import VueChatScroll from 'vue-chat-scroll';
 
 var node = document.createElement("div");
 node.id = 'dynamicId';
@@ -21,7 +21,9 @@ document.body.appendChild(node);
 Vue.use(VueResource);
 Vue.use(VueMask);
 Vue.use(VueValidate);
-Vue.use(VueSocketio, 'http://138.197.215.68:3000');
+Vue.use(VueChatScroll);
+Vue.use(VueSocketio, 'http://localhost:3000');
+//Vue.use(VueSocketio, 'http://138.197.215.68:3000');
 Vue.use(VueLocalStorage);
 
 Vue.directive('mask', VueMaskDirective);

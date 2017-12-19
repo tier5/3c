@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chat-request">
     <div v-if="!chat">
       <img class="common-icon" id="show" v-if="showWidget" @click="openSideBar" :src="widgetButton.src" :title="widgetButton.title" :alt="widgetButton.title" >
     </div>
@@ -11,10 +11,12 @@
       <div v-if="!formSubmit">
         <h2 v-if="isAvailable || !chatScheduleClicked">Get In Touch With Us</h2>
         <div class="formcontainer" >
-          <h3 v-if="chatScheduleClicked">
-            <p v-if="!isAvailable">We are unable to chat with you now.</p>
-            Schedule a time to chat!
-          </h3>
+          <div class="col-lg-12">
+            <h3 v-if="chatScheduleClicked">
+              <p v-if="!isAvailable">We are unable to chat with you now.</p>
+              <p >Schedule a time to chat!</p>
+            </h3>
+          </div>
           <div class="side-arrow hide1" @click="closeSideBar">
             <icon name="chevron-right"></icon>
           </div>
@@ -28,7 +30,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-1"><span class="at">at</span></div>
+              <div class="col-xs-1"><span class="at">at</span></div>
               <div class="col-sm-5">
                 <div class="form-group" :class="{ 'has-error': errorSchedule }">
                   <select class="form-control" v-model="selectedTime" :disabled="selectedDay==null">
@@ -120,19 +122,17 @@
                 </div>
                 <div class="col-md-5" v-if="departmentFormSubmit">
                   <div class="panel-body">
-                    <div class="formcontainer">
-                      <div v-if="chatScheduleClicked">
-                        <p>
-                          Thank you for showing interest in our platform .One of our agents will chat with you at the specified time.
-                        </p>
-                      </div>
-                      <div v-if="!chatScheduleClicked">
-                        <p>
-                          Thank you for showing interest in our platform . To start chatting click the button given below.
-                        </p>
-                        <button type="button" class="btn btn-primary" @click="startChat"> Start Chat </button>
-                      </div>  
+                    <div v-if="chatScheduleClicked">
+                      <p>
+                        Thank you for showing interest in our platform .One of our agents will chat with you at the specified time.
+                      </p>
                     </div>
+                    <div v-if="!chatScheduleClicked">
+                      <p>
+                        Thank you for showing interest in our platform . To start chatting click the button given below.
+                      </p>
+                      <button type="button" class="btn btn-primary" @click="startChat"> Start Chat </button>
+                    </div>  
                     <div class="col-md-12 cust-pad">
                       <!-- <span style='display: block;text-decoration: underline; cursor: pointer;' id='again'>Chat again</span> -->
                     </div>
@@ -154,7 +154,8 @@
 
 import Vue from 'vue';
 import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators';
-import { environment} from './environment/environment_prod';
+import { environment} from './environment/environment';
+import "bootstrap/dist/css/bootstrap.css";
 
 export default {
   name: 'chat-request',
@@ -517,7 +518,7 @@ export default {
 </script>
 
 <style>
-@import "~/node_modules/bootstrap/dist/css/bootstrap.css";
+
 
 a {
   cursor: pointer;
@@ -528,7 +529,7 @@ a {
   float: left;
   width: 10%;
   height: 45px;
-  margin: 20px 0 0;
+  margin: 0px;
   line-height: 40px;
   color: #999;
 }
@@ -677,7 +678,7 @@ h3.side-logo {
 }
 .timezone {
   display: inline-block;
-  margin: 0px 0px 15px;
+  margin: 0px 0px 10px;
   color: rgb(255, 87, 34);
   font-size: 12px;
 }

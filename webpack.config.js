@@ -24,13 +24,21 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
+      { 
+        test: /(\.css$)/,
+        loaders: ['style-loader', 'css-loader']
+      }, 
+      { 
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
+        loader: 'file-loader'
+      },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
     ]
   },
   resolve: {
@@ -55,7 +63,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"production"',
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
