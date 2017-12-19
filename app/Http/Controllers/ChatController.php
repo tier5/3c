@@ -1041,6 +1041,7 @@ class ChatController extends Controller
 
             $checkMessageForwardCounter->count_init = ($checkMessageForwardCounter->count_init +1);
             $checkMessageForwardCounter->update();
+            $updateMessageTrack      = MessageTrack::where('message_id',$messageId)->update(['status'=>1]); //message track status will be 1 for again inicating the other messages
             $this->inicateRejectNotificationToAgents($checkMessageForwardCounter->id,$widgetUuid);
             $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
