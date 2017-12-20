@@ -115,3 +115,5 @@ Route::post('agent-department-list', 'ChatListController@agentDepartmentList');
 //route for creating superadmin
 Route::post('add-super-admin', 'UserController@addSuperadmin');
 
+
+
