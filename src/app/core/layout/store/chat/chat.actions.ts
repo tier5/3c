@@ -9,6 +9,12 @@ export const ADD_TO_CHAT_LIST = "ADD_TO_CHAT_LIST";
 export const EDIT_FROM_CHAT_LIST = "EDIT_FROM_CHAT_LIST";
 export const DELETE_FROM_CHAT_LIST = "DELETE_FROM_CHAT_LIST";
 
+export const GET_AGENT_LIST_ATTEMPT = 'GET_AGENT_LIST_ATTEMPT';
+export const GET_AGENT_LIST_SUCCESS = 'GET_AGENT_LIST_SUCCESS';
+
+export const GET_CHAT_LIST_ATTEMPT = 'GET_CHAT_LIST_ATTEMPT';
+export const GET_CHAT_LIST_SUCCESS = 'GET_CHAT_LIST_SUCCESS';
+
 export class ConnectAttempt implements Action {
   readonly type = CONNECT_ATTEMPT;
 }
@@ -37,7 +43,29 @@ export class DeleteFromChatList implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetAgentListAttempt implements Action {
+  readonly type = GET_AGENT_LIST_ATTEMPT;
+}
+
+export class GetAgentListSuccess implements Action {
+  readonly type = GET_AGENT_LIST_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+export class GetChatListAttempt implements Action {
+  readonly type = GET_CHAT_LIST_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class GetChatListSuccess implements Action {
+  readonly type = GET_CHAT_LIST_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+
 export type ChatActions =
   ConnectAttempt | ConnectSuccess |
   AddToChatList | AddNewMsgToChatList |
-  EditFromChatList | DeleteFromChatList;
+  EditFromChatList | DeleteFromChatList |
+  GetAgentListAttempt | GetAgentListSuccess |
+  GetChatListAttempt | GetChatListSuccess;

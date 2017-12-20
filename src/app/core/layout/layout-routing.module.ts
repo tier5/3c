@@ -14,7 +14,8 @@ const routes: Routes = [
     { path: 'agent', canActivate: [ IsAdminOrSuperAdminGuard ], canActivateChild: [ IsAdminOrSuperAdminGuard ], loadChildren: './inner-pages/agent/agent.module#AgentModule' },
     { path: 'widget', canActivate: [ IsAdminOrSuperAdminGuard ], canActivateChild: [ IsAdminOrSuperAdminGuard ], loadChildren: './inner-pages/widget/widget.module#WidgetModule' },
     { path: 'department', canActivate: [ IsAdminOrSuperAdminGuard ], canActivateChild: [ IsAdminOrSuperAdminGuard ], loadChildren: './inner-pages/department/department.module#DepartmentModule' },
-    { path: 'chat', canActivate: [ IsAgentGuard ], canActivateChild: [ IsAgentGuard ], loadChildren: './inner-pages/chat/chat.module#ChatModule' }
+    { path: 'chat', canActivate: [ IsAgentGuard ], canActivateChild: [ IsAgentGuard ], loadChildren: './inner-pages/chat/chat.module#ChatModule' },
+    { path: 'chats', canActivate: [ IsAdminOrSuperAdminGuard ], canActivateChild: [ IsAdminOrSuperAdminGuard ], loadChildren: './inner-pages/chats/chats.module#ChatsModule' },
   ] }
 ];
 
