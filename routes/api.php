@@ -106,6 +106,13 @@ Route::post('agent-chat-action', 'ChatController@agentChatAction');
 Route::get('all-agents-chatrooms', 'ChatController@agentWithChatRooms');
 //test route for sms
 Route::any('send-sms', 'ChatController@sendSms');
+//route for the contact list
+Route::post('contact-list', 'ChatListController@getContactList');
+//route for the agent with all client name and client chat
+Route::post('client-chat', 'ChatListController@agentWithAllChats');
+
+
+
 
 
 

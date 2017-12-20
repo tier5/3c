@@ -169,7 +169,20 @@ class ChatController extends Controller
                                         $this->saveChatThread($responsesaveMessageLog,$widgetUuid,$data->message_body,$type,$direction,$userId);
                                     }
                                 }
-                                $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
+                                $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
+
+                                //call to node API
+                                $time = date("Y-m-d H:i:s");
+                                $url = url('/').':3000/mobile-chat';
+                                $ch = curl_init();
+                                curl_setopt($ch, CURLOPT_URL,$url);
+                                curl_setopt($ch, CURLOPT_POST, 1);
+                                curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                    "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time");
+
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                $server_output = curl_exec ($ch);
+                                curl_close ($ch);
                             }
 
                         }
@@ -763,7 +776,6 @@ class ChatController extends Controller
                         'message'  => 'Something went wrong !'
                     ));
                 }
-
                 return $chatRoomId;
 
             } else {
@@ -1052,6 +1064,16 @@ class ChatController extends Controller
             $updateMessageTrack      = MessageTrack::where('message_id',$messageId)->update(['status'=>1]); //message track status will be 1 for again inicating the other messages
             $this->inicateRejectNotificationToAgents($checkMessageForwardCounter->id,$widgetUuid);
 
+            //call to node API
+            $url = url('/').':3000/send-rooms';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+
             $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
                 'status'   => true,
@@ -1062,6 +1084,15 @@ class ChatController extends Controller
             ));
 
         } else {
+            //call to node API
+            $url = url('/').':3000/send-rooms';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
 
             $response = [ 'agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
             return  Response::json(array(
