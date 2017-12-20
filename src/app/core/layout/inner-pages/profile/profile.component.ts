@@ -33,7 +33,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       'userId': new FormControl(null, Validators.required),
       'firstName': new FormControl(null, Validators.required),
       'lastName': new FormControl(null, Validators.required),
-      'userName': new FormControl(null, Validators.required),
       'phone': new FormControl(null, [Validators.required, Validators.minLength(14)]),
       'email': new FormControl({value: null, disabled: true}, [Validators.required, Validators.email])
     });

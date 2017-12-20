@@ -38,20 +38,7 @@
           </div>
         </div>
 
-        <!-- User Name -->
-        <div class="form-group has-feedback">
-          <input type="text"
-                 class="form-control"
-                 placeholder="Username"
-                 formControlName="userName"
-          >
-          <span class="glyphicon glyphicon-user form-control-feedback"></span>
-        </div>
-        <div *ngIf="form.get('userName').invalid && form.get('userName').touched">
-          <div class="alert alert-danger" *ngIf="form.get('userName').hasError('required')">
-            Your Username is Required!
-          </div>
-        </div>
+
 
         <!-- Phone -->
         <div class="form-group has-feedback">
@@ -147,7 +134,7 @@
                     class="btn btn-primary btn-block btn-flat"
                     [disabled]="form.invalid"
             >
-              Register
+              Submit
             </button>
           </div>
           <!-- /.col -->

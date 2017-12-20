@@ -74,22 +74,35 @@
                     <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required" class="help-block">Your Email Address is Required!</span>
                   </div>
                 </div>
+                <!--<div class="col-md-6">-->
+                  <!--<div class="form-group" [ngClass]="(userName.invalid && userName.touched) ? 'has-error': ''">-->
+                    <!--<label class="control-label" for="userName">Username-->
+                      <!--<i *ngIf="userName.invalid && userName.touched" class="fa fa-times-circle-o"></i>-->
+                    <!--</label>-->
+                    <!--<input type="text"-->
+                           <!--class="form-control"-->
+                           <!--id="userName"-->
+                           <!--placeholder="Username"-->
+                           <!--[ngModel]="admin.userName"-->
+                           <!--name="userName"-->
+                           <!--required-->
+                           <!--ngModel-->
+                           <!--#userName="ngModel"-->
+                    <!--&gt;-->
+                    <!--<span *ngIf="userName.invalid && userName.touched" class="help-block">Your Username is Required !</span>-->
+                  <!--</div>-->
+                <!--</div>-->
                 <div class="col-md-6">
-                  <div class="form-group" [ngClass]="(userName.invalid && userName.touched) ? 'has-error': ''">
-                    <label class="control-label" for="userName">Username
-                      <i *ngIf="userName.invalid && userName.touched" class="fa fa-times-circle-o"></i>
-                    </label>
+                  <div class="form-group">
+                    <label>Company</label>
                     <input type="text"
                            class="form-control"
-                           id="userName"
-                           placeholder="Username"
-                           [ngModel]="admin.userName"
-                           name="userName"
-                           required
+                           placeholder="Company"
+                           [ngModel]="admin.company"
+                           name="company"
                            ngModel
-                           #userName="ngModel"
+                           #company="ngModel"
                     >
-                    <span *ngIf="userName.invalid && userName.touched" class="help-block">Your Username is Required !</span>
                   </div>
                 </div>
               </div>
@@ -113,19 +126,19 @@
                     <span *ngIf="phone.invalid && phone.touched" class="help-block">Your Phone Number is Required !</span>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Company</label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="Company"
-                           [ngModel]="admin.company"
-                           name="company"
-                           ngModel
-                           #company="ngModel"
-                    >
-                  </div>
-                </div>
+                <!--<div class="col-md-6">-->
+                  <!--<div class="form-group">-->
+                    <!--<label>Company</label>-->
+                    <!--<input type="text"-->
+                           <!--class="form-control"-->
+                           <!--placeholder="Company"-->
+                           <!--[ngModel]="admin.company"-->
+                           <!--name="company"-->
+                           <!--ngModel-->
+                           <!--#company="ngModel"-->
+                    <!--&gt;-->
+                  <!--</div>-->
+                <!--</div>-->
               </div>
               <div class="col-md-12">
                 <div class="box-footer">
