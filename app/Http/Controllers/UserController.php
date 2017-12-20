@@ -1322,12 +1322,10 @@ class UserController extends Controller
       if(count($checkUser)!=0) {
 
             $body       = 'Thanks for signup up with 3c.<br><br>
-	                         Your login ID is your email/username you used during your sign up process.<br><br>
+	                         Your login ID is your email you used during your sign up process.<br><br>
 	                         Your password is : ';
             $body .= $password;
             $body .= '<br><br>';
-            $body .= 'Your Username is : ';
-            $body .= $checkUser->username;
             $body .= '<br><br><br>Please Change your password !';
             // Send Mail to user email id with the created password
             Mail::send([],[], function($message) use ($body,$checkUser){
