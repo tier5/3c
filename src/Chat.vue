@@ -99,7 +99,7 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
-import { environment} from './environment/environment_prod';
+import { environment} from './environment/environment';
 import "bootstrap/dist/css/bootstrap.css";
 
 export default {

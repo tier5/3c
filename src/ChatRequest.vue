@@ -154,7 +154,7 @@
 
 import Vue from 'vue';
 import { required, email, minLength, requiredIf,numeric } from 'vuelidate/lib/validators';
-import { environment} from './environment/environment_prod';
+import { environment} from './environment/environment';
 import "bootstrap/dist/css/bootstrap.css";
 
 export default {
@@ -244,6 +244,7 @@ export default {
     if(Vue.ls.get('client')) {
       Vue.ls.remove('client');
     }
+
 
     this.apiUrl = environment.API_BASE_URL;
     this.apiHost = environment.API_HOST;

@@ -64,6 +64,10 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
+        API_URL : '"http://138.197.215.68/api/v1/"',
+        API_HOST : '"http://138.197.215.68/"',
+        SOCKET_URL : '"http://138.197.215.68:3000"'
+
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -76,4 +80,17 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
+} else {
+  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"',
+        API_URL : '"http://3c.local/api/v1/"',
+        API_HOST : '"http://3c.local/"',
+        SOCKET_URL : '"http://localhost:3000"'
+      }
+    }),
+  ])
 }
+
