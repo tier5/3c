@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Data ,Router} from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs/Subscription';
 
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
+import * as fromChat from '../../../store/chat/chat.reducers';
+
 
 @Component({
   selector: 'app-chats-list-agent',
@@ -14,22 +17,40 @@ import * as ChatActions from '../../../store/chat/chat.actions';
 export class ListAgentComponent implements OnInit {
 
   /** Variable declaration */
-  afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  chatState: Observable<fromChat.ChatState>;
+  chatMode: boolean = false;
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
+              private activatedRoute: ActivatedRoute,
               private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
-    this.store.dispatch(new ChatActions.GetAgentListAttempt());
-    this.afterLoginState = this.store.select('afterLogin');
+    this.chatState = this.store.select('afterLogin')
+        .map(data => data.chat);
+
+    this.activatedRoute.data
+        .subscribe(
+            (data: Data) => {
+              this.chatMode = data['chatMode'];
+              console.log(this.chatMode);
+              this.store.dispatch(new ChatActions.GetAgentListAttempt());
+            }
+        );
+
+
   }
 
-  /** Function to Edit Agent */
+  /** Function to View Chats of Agent */
   onViewChat(id: number) {
-    console.log(id);
     this.router.navigate([ 'chats/list-chat/', id ]);
+  }
+
+  /** Function to View Contact List of Agent */
+  onViewContact(id: number) {
+    console.log(id);
+    this.router.navigate([ 'chats/contact-list/', id ]);
   }
 
 

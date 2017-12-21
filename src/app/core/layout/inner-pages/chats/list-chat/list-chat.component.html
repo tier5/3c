@@ -20,7 +20,7 @@
                 <div class="row">
                   <div class="chat-list">
                     <ul>
-                      <ng-container *ngFor="let contact of (chatState | async).list; let i = index;">
+                      <ng-container *ngFor="let contact of (chatState | async).chatList; let i = index;">
                         <li [ngClass]="{ active : currentChatIndex == i}"
                             *ngIf="contact.status != 3 && contact.status != 5"
                             (click)="changeCurrentChat(i)">
@@ -48,7 +48,7 @@
                       <!-- Conversations are loaded here -->
                       <div class="direct-chat-messages">
                         <!-- Message. Default to the left -->
-                        <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).list[currentChatIndex]?.chats">
+                        <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).chatList[currentChatIndex]?.chats">
                           <div class="direct-chat-info clearfix">
                             <span class="direct-chat-name" [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
                             <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'">23 Jan 2:00 pm</span>

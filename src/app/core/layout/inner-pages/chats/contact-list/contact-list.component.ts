@@ -8,39 +8,42 @@ import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
 
+
 @Component({
-  selector: 'app-list-chat',
-  templateUrl: './list-chat.component.html',
-  styleUrls: ['./list-chat.component.css']
+  selector: 'app-chats-contact-list',
+  templateUrl: './contact-list.component.html',
+  styleUrls: ['./contact-list.component.css']
 })
-export class ListChatComponent implements OnInit {
+export class ContactListComponent implements OnInit {
 
   /** Variable declaration */
-  agentId : number;
-  currentChatIndex: number = 0;
   chatState: Observable<fromChat.ChatState>;
-
+  agentId : number;
+  
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private activatedRoute: ActivatedRoute,private router: Router) { }
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
-
+  /** Function to be executed when component initializes */
   ngOnInit() {
     this.chatState = this.store.select('afterLogin')
-          .map(data => data.chat);
+        .map(data => data.chat);
 
     this.activatedRoute.params
         .subscribe(
             (id: any) => {
               this.agentId = this.activatedRoute.snapshot.params['id'];
-              this.store.dispatch(new ChatActions.GetChatListAttempt({ agentId : id}));
+              this.store.dispatch(new ChatActions.GetContactListAttempt({ agentId : id}));
             }
         );
 
   }
 
-  changeCurrentChat(i: number) {
-    this.currentChatIndex = i;
+  /** Function to Edit Agent */
+  onViewChat(id: number) {
+    this.router.navigate([ 'chats/list-chat/', id ]);
   }
+
 
 }

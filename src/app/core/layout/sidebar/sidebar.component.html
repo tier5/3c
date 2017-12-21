@@ -206,6 +206,31 @@
             </li>
           </ul>
         </li>
+
+        <!-- Previous Chats of Agents -->
+        <li class="treeview"
+            *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+            routerLinkActive="active"
+            [disable-hover]="true"
+            [appDropdown]="'menu-open'"
+        >
+          <a>
+            <i class="fa fa-address-book"></i> <span> Contact List</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a routerLink="/chats/list-agents-contacts">
+                <i class="fa fa-address-book"></i> <span>List</span>
+                <span class="pull-right-container">
+                  <small class="label pull-right bg-yellow">x</small>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

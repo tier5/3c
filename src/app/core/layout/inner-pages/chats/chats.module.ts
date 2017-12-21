@@ -6,6 +6,7 @@ import { ChatsRoutingModule } from './chats-routing.module';
 import { ListChatComponent } from './list-chat/list-chat.component';
 import { RejectedComponent } from './rejected/rejected.component';
 import { ListAgentComponent } from './list-agent/list-agent.component';
+import { ContactListComponent } from './contact-list/contact-list.component';
 import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SharedModule } from '../../../shared/shared.module';
   declarations: [
     ListChatComponent,
     RejectedComponent,
-    ListAgentComponent
+    ListAgentComponent,
+    ContactListComponent
   ]
 })
 export class ChatsModule { }

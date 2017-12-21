@@ -3,13 +3,17 @@ import * as ChatActions from './chat.actions';
 export interface ChatState {
   ongoing: any,
   connected: boolean,
-  list : any
+  chatList : any,
+  agentList : any,
+  contactList : any
 }
 
 const initialState: ChatState = {
   ongoing: [],
   connected: false,
-  list : []
+  chatList : [],
+  agentList : [],
+  contactList : []
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
@@ -61,12 +65,17 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
     case (ChatActions.GET_AGENT_LIST_SUCCESS):
       return {
         ...state,
-        list: action.payload
+        agentList: action.payload
       };
     case (ChatActions.GET_CHAT_LIST_SUCCESS):
       return {
         ...state,
-        list: action.payload
+        chatList: action.payload
+      };
+    case (ChatActions.GET_CONTACT_LIST_SUCCESS):
+      return {
+        ...state,
+        contactList: action.payload
       };
     default:
       return state;
