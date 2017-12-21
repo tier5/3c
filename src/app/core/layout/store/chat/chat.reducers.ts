@@ -2,12 +2,18 @@ import * as ChatActions from './chat.actions';
 
 export interface ChatState {
   ongoing: any,
-  connected: boolean
+  connected: boolean,
+  chatList : any,
+  agentList : any,
+  contactList : any
 }
 
 const initialState: ChatState = {
   ongoing: [],
-  connected: false
+  connected: false,
+  chatList : [],
+  agentList : [],
+  contactList : []
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
@@ -55,6 +61,21 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       return {
         ...state,
         ongoing: [...oldChats]
+      };
+    case (ChatActions.GET_AGENT_LIST_SUCCESS):
+      return {
+        ...state,
+        agentList: action.payload
+      };
+    case (ChatActions.GET_CHAT_LIST_SUCCESS):
+      return {
+        ...state,
+        chatList: action.payload
+      };
+    case (ChatActions.GET_CONTACT_LIST_SUCCESS):
+      return {
+        ...state,
+        contactList: action.payload
       };
     default:
       return state;

@@ -33,4 +33,119 @@ export class ChatEffects {
     .do(() => {
       this.chatService.connect();
     });
+
+
+    @Effect()
+    getAgentList = this.actions$
+        .ofType(ChatActions.GET_AGENT_LIST_ATTEMPT)
+        .switchMap((action: ChatActions.GetAgentListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'listofAgent'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+            return this.httpClient.post(apiUrl, config)
+                .map((res: any) => {
+                    if (res.status) {
+                        return {
+                            type: ChatActions.GET_AGENT_LIST_SUCCESS,
+                            payload: res.response
+                        }
+                    } else {
+                        return {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: res.message, type: 'danger'}
+                        }
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+        })
+
+
+    @Effect()
+    getChatList = this.actions$
+        .ofType(ChatActions.GET_CHAT_LIST_ATTEMPT)
+        .switchMap((action: ChatActions.GetChatListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'client-chat'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+
+            return this.httpClient.post(apiUrl,action.payload, config)
+                .map((res: any) => {
+                    if (res.status) {
+                        return {
+                            type: ChatActions.GET_CHAT_LIST_SUCCESS,
+                            payload: res.response
+                        }
+                    } else {
+                        return {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: res.message, type: 'danger'}
+                        }
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+        })
+
+
+    @Effect()
+    getContactList = this.actions$
+        .ofType(ChatActions.GET_CONTACT_LIST_ATTEMPT)
+        .switchMap((action: ChatActions.GetContactListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'contact-list'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+
+            return this.httpClient.post(apiUrl,action.payload, config)
+                .mergeMap((res: any) => {
+                    if (res.status) {
+                        return [
+                            {
+                                type: ChatActions.GET_CONTACT_LIST_SUCCESS,
+                                payload: res.response
+                            }
+                        ]
+                    } else {
+                        return [
+                            {
+                                type: AlertActions.ALERT_SHOW,
+                                payload: {message: res.message, type: 'danger'},
+                            },
+                            {
+                                type: ChatActions.GET_CONTACT_LIST_SUCCESS,
+                                payload: []
+                            }
+                        ]
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+        })
 }

@@ -30,5 +30,5 @@ export const reducers: ActionReducerMap<FeatureState> = {
   admin: fromAdmin.adminReducer,
   agent: fromAgent.agentReducer,
   widget: fromWidget.widgetReducer,
-  chat: fromChat.chatReducer
+  chat: fromChat.chatReducer,
 };
