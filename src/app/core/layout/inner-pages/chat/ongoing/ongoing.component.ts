@@ -23,6 +23,8 @@ export class OngoingComponent implements OnInit, OnDestroy {
   currentChatRoom: string;
   chatRoomSubscription: Subscription;
   agentId: number;
+  agentList : any;
+  toAgentId : number;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService) { }
@@ -40,12 +42,50 @@ export class OngoingComponent implements OnInit, OnDestroy {
         (id) => {
           this.agentId = id;
         }
-      )
+      );
+    this.agentList = [
+      {
+        "department": 9,
+        "agents": [
+          {
+            'agent_id' : 1
+          },
+          {
+            'agent_id' : 2
+          },
+          {
+            'agent_id' : 3
+          }
+        ]
+      },
+      {
+        "department": 10,
+        "agents": [
+          {
+            'agent_id' : 4
+          },
+          {
+            'agent_id' : 11
+          },
+          {
+            'agent_id' : 12
+          }
+        ]
+      }
+    ];
+    console.log(this.agentList);
+
   }
 
   changeCurrentChat(i: number) {
     this.currentChatIndex = i;
     this.getChatRoom();
+  }
+
+  transferCurrentChat(i: number) {
+    this.toAgentId = i;
+    console.log(this.toAgentId);
+    this.onSomeMsgAction(4);
   }
 
   onSomeMsgAction(status: number) {
@@ -55,6 +95,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         break;
       case 3:
+      case 4:
+        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom , toAgentId : this.toAgentId});
+        this.changeCurrentChat(0);
+        break;
       case 5:
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         this.changeCurrentChat(0);

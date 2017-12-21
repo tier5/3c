@@ -75,6 +75,16 @@ export class ChatService {
               }
             });
 
+            this.socket.on('which-agent-transferred', (data) => {
+              console.log('In which agent transferred');
+              console.log(data);
+              console.log(id);
+              if (data.agentId == id) {
+                this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
+                this.store.dispatch(new ChatActions.DeleteFromChatList({ room_number: data.chatRoomId }));
+              }
+            });
+
             this.socket.on('newmsg', (data) => {
               console.log(data);
               this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
@@ -95,7 +105,8 @@ export class ChatService {
 
   }
 
-  takeAction(data: { agentId: number, status: number, chatRoomId: string }) {
+  takeAction(data: any) {
+    console.log(data);
     this.socket.emit('agent-performed-some-action', data);
   }
 
