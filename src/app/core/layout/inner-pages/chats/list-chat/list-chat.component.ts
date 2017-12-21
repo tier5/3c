@@ -16,10 +16,8 @@ import * as fromChat from '../../../store/chat/chat.reducers';
 export class ListChatComponent implements OnInit {
 
   /** Variable declaration */
-
-
   agentId : number;
-    currentChatIndex : number;
+  currentChatIndex: number = 0;
   chatState: Observable<fromChat.ChatState>;
 
   /** Service injection */
@@ -35,15 +33,14 @@ export class ListChatComponent implements OnInit {
         .subscribe(
             (id: any) => {
               this.agentId = this.activatedRoute.snapshot.params['id'];
-                console.log(this.chatState);
               this.store.dispatch(new ChatActions.GetChatListAttempt({ agentId : id}));
             }
         );
 
   }
-    changeCurrentChat(i: number) {
-        this.currentChatIndex = i;
-;
-    }
+
+  changeCurrentChat(i: number) {
+    this.currentChatIndex = i;
+  }
 
 }
