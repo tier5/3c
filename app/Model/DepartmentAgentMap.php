@@ -21,9 +21,17 @@ class DepartmentAgentMap extends Model
     /**
      * One-to-One relationship with Department table
      */
+
     public function departmentDetails(){
 
       return $this->hasOne('App\Model\Department','id','department_id');
 
     }
+
+    public function agentDetails(){
+
+        return $this->hasMany('App\Model\Users','id','user_id');
+
+    }
+
 }

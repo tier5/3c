@@ -26,4 +26,10 @@ class WidgetDepartmentMapping extends Model
       return $this->hasOne('App\Model\Department','id','department_id');
 
     }
+
+    public function departmentAgents(){
+
+        return $this->hasMany('App\Model\DepartmentAgentMap','department_id','department_id');
+
+    }
 }

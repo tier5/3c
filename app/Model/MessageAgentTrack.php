@@ -26,6 +26,14 @@ class MessageAgentTrack extends Model
         return $this->hasMany('App\Model\ChatThread','message_log_id','message_id');
     }
 
+    public function getWidget(){
+        return $this->hasOne('App\Model\Widgets','widget_uuid','widget_id');
+    }
+
+    public function getUserInfo(){
+        return $this->hasOne('App\Model\Users','id','agent_id');
+    }
+
 }
 
 

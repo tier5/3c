@@ -53,4 +53,9 @@ class Widgets extends Model
             ->select('id','parent_id','first_name','last_name','email','username','phone','type','company');
     }
 
+    public function agentDetails(){
+        return $this->hasMany('App\Model\Users','parent_id','user_id')
+            ->select('id','parent_id','first_name','last_name','email','phone','type','company');
+    }
+
 }
