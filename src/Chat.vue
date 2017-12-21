@@ -45,6 +45,14 @@
                   <p>{{ message.message }}</p>
               </div>
             </div>
+
+            <div class="chat-notification" v-if="message.direction==3">
+              <div class="row">
+                <b> {{ message.message }} </b>
+              </div>
+            </div>
+
+
           </div>
         </div>
         <div class="panel-body msg_container_base" v-if="!minimize && chatResolved" v-chat-scroll>
@@ -132,6 +140,12 @@ export default {
       console.log("Chat resolved");
       this.$socket.emit('disconnect');
     },
+    /**when the agent transfers the chat */ 
+    clientChatTransferred: function(msg) {
+      var notification = { message: msg, direction : 3 };
+      console.log("Chat transferred");
+      this.messages.push(notification);;
+    },
 
     /** to update the room the client has joined */
     updateRoom: function (data) {
@@ -203,6 +217,7 @@ export default {
 
       console.log("sent");
       console.log(this.message);
+      console.log(this.messages);
       if(this.message) {
         this.$socket.emit('msg', { messageBody: this.message, direction : 1, user: this.client.name, chatRoomId: this.chatRoomId , fromNumber : this.client.from_number, time : moment() });
       }
