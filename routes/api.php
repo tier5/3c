@@ -110,6 +110,8 @@ Route::any('send-sms', 'ChatController@sendSms');
 Route::post('contact-list', 'ChatListController@getContactList');
 //route for the agent with all client name and client chat
 Route::post('client-chat', 'ChatListController@agentWithAllChats');
+//route for agent department list
+Route::post('agent-department-list', 'ChatListController@agentDepartmentList');
 
 
 

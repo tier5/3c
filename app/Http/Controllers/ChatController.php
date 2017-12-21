@@ -951,8 +951,6 @@ class ChatController extends Controller
         $agentId        = $request->agentId;
         $chatRoomId     = $request->chatRoomId;
         $status         = $request->status; //status According to the action    1->iniciated 2->Accept 3->Reject 4->Transfer
-        $departmentId   = $request->departmentId;   // for transfer the the chat to a new department
-        $toAgentId      = $request->toAgentId;  // for transfer the the chat to a new department
 
         $checkMessageAgentTrack = MessageAgentTrack::where('agent_id',$agentId)->where('chat_room_id',$chatRoomId)->first();
 
@@ -967,7 +965,9 @@ class ChatController extends Controller
                 return $responseRejectChat;
             }if($status == 4){  // Transfer Status Scenario
 
-                $responseTransferChat = $this->transferChat($checkMessageAgentTrack, $departmentId, $toAgentId, $fromAgentId);
+                $departmentId   = $request->departmentId;   // for transfer the the chat to a new department
+                $toAgentId      = $request->toAgentId;  // for transfer the the chat to a new department
+                $responseTransferChat = $this->transferChat($checkMessageAgentTrack, $departmentId, $toAgentId);
                 return $responseTransferChat;
             }if($status == 5){  // Resolve Status Scenario
                 $responseresolveChat = $this->resolveChat($checkMessageAgentTrack);
@@ -1069,7 +1069,7 @@ class ChatController extends Controller
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,"");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
             curl_close ($ch);
@@ -1089,7 +1089,7 @@ class ChatController extends Controller
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,"");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
             curl_close ($ch);
@@ -1162,13 +1162,16 @@ class ChatController extends Controller
 
         if( $departmentId != "" ){  //transfer to a department
 
-            $checkDepartment = DepartmentAgentMap::where('id',$departmentId)->select('user_id')->get();
+            $checkDepartment = DepartmentAgentMap::where('department_id',$departmentId)->select('user_id')->get();
             if(count($checkDepartment) != 0){
                 $dpartmentAgentCount = count($checkDepartment);
-                $updateMessageTrack = MessageTrack::where('message_id',$messageId)->update(['department_id'=>$departmentId,'status'=>$status]);
-                $updateMessageForwardCounter = MessageForwardCounter::where('widget_id',$widgetUuid)->where('message_id',$messageId)->update(['agent_count' => $dpartmentAgentCount,'status' => $status]);
+                $updateMessageTrack = MessageTrack::where('message_id',$messageId)->update(['department_id'=>$departmentId,'status'=>$status,'agent_id'=>null]);
+                $updateMessageForwardCounter = MessageForwardCounter::where('widget_id',$widgetUuid)->where('message_id',$messageId)->first();
+                $updateMessageForwardCounter->agent_count = $dpartmentAgentCount;
+                $updateMessageForwardCounter->status = $status;
+                $updateMessageForwardCounter->update();
                 $deleteMessageAgentTrack = MessageAgentTrack::where('message_forward_counter_id',$updateMessageForwardCounter->id)->delete();
-                foreach($checkDepartment as $agent){
+                foreach($checkDepartment as $agent) {
                     $saveMessageAgentTrack = new MessageAgentTrack;
                     $saveMessageAgentTrack->agent_id = $agent->user_id;
                     $saveMessageAgentTrack->message_id = $messageId;
@@ -1176,20 +1179,27 @@ class ChatController extends Controller
                     $saveMessageAgentTrack->widget_id = $widgetUuid;
                     $saveMessageAgentTrack->message_forward_counter_id = $updateMessageForwardCounter->id;
                     $saveMessageAgentTrack->status = 1;
-                    if($saveMessageAgentTrack->save()){
-
-                        $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id,$saveMessageAgentTrack->widget_id);
-                    } else {
-
-                        return  Response::json(array(
-                            'status'   => false,
-                            'code'     => 400,
-                            'response' => [],
-                            'error'    => true,
-                            'message'  => 'Something went wrong !'
-                        ));
-                    }
+                    $saveMessageAgentTrack->save();
+                    $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id, $saveMessageAgentTrack->widget_id);
                 }
+                        //call to node API
+                        $url = url('/').':3000/send-rooms';
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL,$url);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $server_output = curl_exec ($ch);
+                        curl_close ($ch);
+
+                        $response = [ 'agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
+                        return  Response::json(array(
+                            'status'   => true,
+                            'code'     => 200,
+                            'response' => $response,
+                            'error'    => false,
+                            'message'  => 'Transfer to a new Agent!'
+                        ));
             }else{
 
                 return  Response::json(array(
@@ -1202,9 +1212,20 @@ class ChatController extends Controller
             }
         }elseif( $toAgentId != "" && $fromAgentId!="" ){
 
-            $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id',$fromAgentId)->where('chat_room_id',$chatRoomId)->where('widget_id',$widgetUuid)->update(['agent_id'=>$toAgentId]);
+            $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id',$fromAgentId)->where('chat_room_id',$chatRoomId)->where('widget_id',$widgetUuid)->update(['agent_id'=>$toAgentId,'status'=>1]);
             $this->sendNotificationToAgents($toAgentId,$widgetUuid);
             $response = [ 'agentId' => $toAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
+
+            //call to node API
+            $url = url('/').':3000/send-rooms';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+
             return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,

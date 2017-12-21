@@ -26,4 +26,10 @@ class Department extends Model
     return $this->hasOne('App\Model\Users','id','user_id');
 
 	}
+
+    public function departmentAgents(){
+
+        return $this->hasMany('App\Model\DepartmentAgentMap','department_id','id');
+
+    }
 }
