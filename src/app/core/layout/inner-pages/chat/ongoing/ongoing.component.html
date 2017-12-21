@@ -75,7 +75,8 @@
                                 <div class="dropdown" [appDropdown]="'open'" [disable-hover]="false">
                                   <a class="test" tabindex="-1">{{ department.department }}  <span class="caret"></span></a>
                                   <ul class="dropdown-menu">
-                                    <li *ngFor="let agent of department.agents"><a tabindex="-1" (click)="transferCurrentChat(agent.agent_id)">{{ agent.agent_id }}</a></li>
+                                    <li><a tabindex="-1" (click)="transferChatToDepartment(department.department)">Transfer to dept </a></li>
+                                    <li *ngFor="let agent of department.agents"><a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)">{{ agent.agent_id }}</a></li>
                                   </ul>
                                 </div>
                               </li>
