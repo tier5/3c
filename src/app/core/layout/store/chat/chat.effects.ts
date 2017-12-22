@@ -148,4 +148,48 @@ export class ChatEffects {
                     )
                 })
         })
+
+    @Effect()
+    getTransferAgentList = this.actions$
+        .ofType(ChatActions.GET_TRANSFER_AGENT_LIST_ATTEMPT)
+        .switchMap((action: ChatActions.GetTransferAgentListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'agent-department-list'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+
+            return this.httpClient.post(apiUrl,action.payload, config)
+                .mergeMap((res: any) => {
+                    if (res.status) {
+                        return [
+                            {
+                                type: ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS,
+                                payload: res.response
+                            }
+                        ]
+                    } else {
+                        return [
+                            {
+                                type: AlertActions.ALERT_SHOW,
+                                payload: {message: res.message, type: 'danger'},
+                            },
+                            {
+                                type: ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS,
+                                payload: []
+                            }
+                        ]
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+
+        })
 }

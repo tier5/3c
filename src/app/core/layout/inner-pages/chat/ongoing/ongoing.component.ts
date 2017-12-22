@@ -82,6 +82,8 @@ export class OngoingComponent implements OnInit, OnDestroy {
   changeCurrentChat(i: number) {
     this.currentChatIndex = i;
     this.getChatRoom();
+    this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
+
   }
 
   transferChatToAgent(i: number) {

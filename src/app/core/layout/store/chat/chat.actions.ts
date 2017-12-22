@@ -18,6 +18,9 @@ export const GET_CHAT_LIST_SUCCESS = 'GET_CHAT_LIST_SUCCESS';
 export const GET_CONTACT_LIST_ATTEMPT = 'GET_CONTACT_LIST_ATTEMPT';
 export const GET_CONTACT_LIST_SUCCESS = 'GET_CONTACT_LIST_SUCCESS';
 
+export const GET_TRANSFER_AGENT_LIST_ATTEMPT = 'GET_TRANSFER_AGENT_LIST_ATTEMPT';
+export const GET_TRANSFER_AGENT_LIST_SUCCESS = 'GET_TRANSFER_AGENT_LIST_SUCCESS';
+
 export class ConnectAttempt implements Action {
   readonly type = CONNECT_ATTEMPT;
 }
@@ -75,10 +78,21 @@ export class GetContactListSuccess implements Action {
   constructor(public payload: any) { }
 }
 
+export class GetTransferAgentListAttempt implements Action {
+  readonly type = GET_TRANSFER_AGENT_LIST_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class GetTransferAgentListSuccess implements Action {
+  readonly type = GET_TRANSFER_AGENT_LIST_SUCCESS;
+  constructor(public payload: any) { }
+}
+
 export type ChatActions =
   ConnectAttempt | ConnectSuccess |
   AddToChatList | AddNewMsgToChatList |
   EditFromChatList | DeleteFromChatList |
   GetAgentListAttempt | GetAgentListSuccess |
   GetChatListAttempt | GetChatListSuccess |
-  GetContactListAttempt | GetContactListSuccess ;
+  GetContactListAttempt | GetContactListSuccess |
+  GetTransferAgentListAttempt | GetTransferAgentListSuccess ;

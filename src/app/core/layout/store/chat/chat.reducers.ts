@@ -77,6 +77,11 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ...state,
         contactList: action.payload
       };
+    case (ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS):
+      return {
+        ...state,
+        agentList: action.payload
+      };
     default:
       return state;
   }

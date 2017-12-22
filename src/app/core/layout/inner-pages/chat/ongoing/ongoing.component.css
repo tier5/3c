@@ -102,14 +102,40 @@ h2{
 
 .dropdown-submenu {
     position: relative;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding: 5px;
+}
+.dropdown-submenu:last-child {
+    border: none;
+}
+
+.chat-btn{
+    margin: 10px 20px 20px;
+}
+
+.chat-btn .target-drop{
+    display: inline-block;
+}
+.dropdown-submenu a{
+    color: #666;
+}
+.open>.dropdown-menu {
+    display: block;
 }
 
 .dropdown-submenu .dropdown-menu {
     top: 0;
     left: 100%;
     margin-top: -1px;
+    text-align: center;
 }
-
+.dropdown-submenu .dropdown-menu li {
+    border-bottom: 1px solid #eee;
+}
+.dropdown-submenu .dropdown-menu li:last-child {
+    border: none;
+}
 .show {
     display: block;
 }
