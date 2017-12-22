@@ -89,10 +89,10 @@ export class GetTransferAgentListSuccess implements Action {
 }
 
 export type ChatActions =
-  ConnectAttempt | ConnectSuccess |
-  AddToChatList | AddNewMsgToChatList |
-  EditFromChatList | DeleteFromChatList |
-  GetAgentListAttempt | GetAgentListSuccess |
-  GetChatListAttempt | GetChatListSuccess |
-  GetContactListAttempt | GetContactListSuccess |
-  GetTransferAgentListAttempt | GetTransferAgentListSuccess ;
+    ConnectAttempt | ConnectSuccess |
+        AddToChatList | AddNewMsgToChatList |
+        EditFromChatList | DeleteFromChatList |
+        GetAgentListAttempt | GetAgentListSuccess |
+        GetChatListAttempt | GetChatListSuccess |
+        GetContactListAttempt | GetContactListSuccess |
+        GetTransferAgentListAttempt | GetTransferAgentListSuccess ;
