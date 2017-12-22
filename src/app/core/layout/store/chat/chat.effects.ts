@@ -16,23 +16,23 @@ import { ChatService } from '../../inner-pages/chat/chat.service'
 @Injectable()
 export class ChatEffects {
 
-  constructor (private actions$: Actions,
-               private chatService: ChatService,
-               private httpClient: HttpClient) {}
+    constructor (private actions$: Actions,
+                 private chatService: ChatService,
+                 private httpClient: HttpClient) {}
 
-  @Effect()
-  connect = this.actions$
-    .ofType(ChatActions.CONNECT_ATTEMPT)
-    .switchMap((action: ChatActions.ConnectAttempt) => {
-      return of(
-        {
-          type: ChatActions.CONNECT_SUCCESS
-        }
-      );
-    })
-    .do(() => {
-      this.chatService.connect();
-    });
+    @Effect()
+    connect = this.actions$
+        .ofType(ChatActions.CONNECT_ATTEMPT)
+        .switchMap((action: ChatActions.ConnectAttempt) => {
+            return of(
+                {
+                    type: ChatActions.CONNECT_SUCCESS
+                }
+            );
+        })
+        .do(() => {
+            this.chatService.connect();
+        });
 
 
     @Effect()
@@ -45,17 +45,21 @@ export class ChatEffects {
                 headers: headers
             }
             return this.httpClient.post(apiUrl, config)
-                .map((res: any) => {
+                .mergeMap((res: any) => {
                     if (res.status) {
-                        return {
-                            type: ChatActions.GET_AGENT_LIST_SUCCESS,
-                            payload: res.response
-                        }
+                        return [
+                            {
+                                type: ChatActions.GET_AGENT_LIST_SUCCESS,
+                                payload: res.response
+                            }
+                        ]
                     } else {
-                        return {
-                            type: AlertActions.ALERT_SHOW,
-                            payload: {message: res.message, type: 'danger'}
-                        }
+                        return [
+                            {
+                                type: ChatActions.GET_AGENT_LIST_SUCCESS,
+                                payload: []
+                            }
+                        ]
                     }
 
                 })
@@ -67,6 +71,7 @@ export class ChatEffects {
                         }
                     )
                 })
+            
         })
 
 
@@ -147,5 +152,45 @@ export class ChatEffects {
                         }
                     )
                 })
+        })
+
+    @Effect()
+    getTransferAgentList = this.actions$
+        .ofType(ChatActions.GET_TRANSFER_AGENT_LIST_ATTEMPT)
+        .switchMap((action: ChatActions.GetTransferAgentListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'agent-department-list'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+
+            return this.httpClient.post(apiUrl,action.payload, config)
+                .mergeMap((res: any) => {
+                    if (res.status) {
+                        return [
+                            {
+                                type: ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS,
+                                payload: res.response
+                            }
+                        ]
+                    } else {
+                        return [
+                            {
+                                type: ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS,
+                                payload: []
+                            }
+                        ]
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+
         })
 }

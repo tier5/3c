@@ -35,15 +35,15 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ongoing: [...state.ongoing, { ...obj }]
       };
     case (ChatActions.ADD_NEW_MSG_TO_CHAT_LIST):
-        const indexOfChat = state.ongoing.findIndex(chat => chat.room == action.payload.roomNo);
-        const oldChatList = [...state.ongoing];
-        const someChatList = {...oldChatList[indexOfChat]};
-        someChatList.chats = [...someChatList.chats, {...action.payload}];
-        oldChatList[indexOfChat] = {...someChatList};
-        return {
-          ...state,
-          ongoing: [...oldChatList]
-        };
+      const indexOfChat = state.ongoing.findIndex(chat => chat.room == action.payload.roomNo);
+      const oldChatList = [...state.ongoing];
+      const someChatList = {...oldChatList[indexOfChat]};
+      someChatList.chats = [...someChatList.chats, {...action.payload}];
+      oldChatList[indexOfChat] = {...someChatList};
+      return {
+        ...state,
+        ongoing: [...oldChatList]
+      };
     case (ChatActions.EDIT_FROM_CHAT_LIST):
       const indexToEdit = state.ongoing.findIndex(chat => chat.room === action.payload.room_number);
       const chats = [...state.ongoing];
@@ -76,6 +76,11 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       return {
         ...state,
         contactList: action.payload
+      };
+    case (ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS):
+      return {
+        ...state,
+        agentList: action.payload
       };
     default:
       return state;

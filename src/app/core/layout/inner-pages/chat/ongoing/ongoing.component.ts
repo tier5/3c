@@ -20,7 +20,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   chatState: Observable<fromChat.ChatState>;
   currentChatIndex: number = 0;
-  currentChatRoom: string;
+  currentChatRoom: string = '';
   chatRoomSubscription: Subscription;
   agentId: number;
   agentList : any;
@@ -33,18 +33,19 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.chatState = this.store.select('afterLogin')
-      .map(data => data.chat);
+        .map(data => data.chat);
     this.getChatRoom();
 
+    this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
     this.store.select('auth')
-      .take(1)
-      .map(data => data.userId)
-      .distinctUntilChanged()
-      .subscribe(
-        (id) => {
-          this.agentId = id;
-        }
-      );
+        .take(1)
+        .map(data => data.userId)
+        .distinctUntilChanged()
+        .subscribe(
+            (id) => {
+              this.agentId = id;
+            }
+        );
     this.agentList = [
       {
         "department": 9,
@@ -82,6 +83,8 @@ export class OngoingComponent implements OnInit, OnDestroy {
   changeCurrentChat(i: number) {
     this.currentChatIndex = i;
     this.getChatRoom();
+    this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
+
   }
 
   transferChatToAgent(i: number) {
@@ -124,12 +127,13 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   getChatRoom() {
     this.chatRoomSubscription = this.store.select('afterLogin')
-      .subscribe(
-        data => {
-          if (data.chat.ongoing[this.currentChatIndex] && !data.chat.ongoing[this.currentChatIndex].length) {
-            this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
-          }
-      });
+        .subscribe(
+            data => {
+              if (data.chat.ongoing[this.currentChatIndex] && !data.chat.ongoing[this.currentChatIndex].length) {
+                this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
+                console.log(this.currentChatRoom);
+              }
+            });
   }
 
   sendMsg(form: NgForm) {
