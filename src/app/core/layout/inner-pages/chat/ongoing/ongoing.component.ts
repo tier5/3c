@@ -103,6 +103,22 @@ export class OngoingComponent implements OnInit, OnDestroy {
     this.onSomeMsgAction(4);
   }
 
+  transferChatToAgent(i: number) {
+    this.toAgentId = i;
+    console.log(this.toAgentId);
+    this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , toAgentId : this.toAgentId};
+    console.log(this.transferData);
+    this.onSomeMsgAction(4);
+  }
+
+  transferChatToDepartment(i: number) {
+    this.departmentId = i;
+    console.log(this.departmentId);
+    this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , departmentId : this.departmentId};
+    console.log(this.transferData);
+    this.onSomeMsgAction(4);
+  }
+
   onSomeMsgAction(status: number) {
     console.log(status);
     switch(status) {

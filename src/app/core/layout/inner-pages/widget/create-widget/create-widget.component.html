@@ -26,7 +26,7 @@
                             <div class="row">
 
                                 <!-- Admin for Widget -->
-                                <div class="col-md-6">
+                                <div class="col-md-6" [hidden]="(authState | async).isAdmin">
                                     <div class="form-group">
                                         <label class="control-label" for="admin">
                                             Admin for Widget
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Web Site Details -->
+                                <!-- Widget Details -->
                                 <div class="col-md-6">
                                     <div class="form-group"
                                          [ngClass]="(details.invalid && details.touched) ? 'has-error': ''">
