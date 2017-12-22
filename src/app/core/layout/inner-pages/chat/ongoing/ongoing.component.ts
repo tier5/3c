@@ -23,6 +23,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
   currentChatRoom: string;
   chatRoomSubscription: Subscription;
   agentId: number;
+  agentList : any;
+  toAgentId : number;
+  departmentId : number;
+  transferData : any;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService) { }
@@ -40,12 +44,60 @@ export class OngoingComponent implements OnInit, OnDestroy {
         (id) => {
           this.agentId = id;
         }
-      )
+      );
+    this.agentList = [
+      {
+        "department": 9,
+        "agents": [
+          {
+            'agent_id' : 1
+          },
+          {
+            'agent_id' : 2
+          },
+          {
+            'agent_id' : 3
+          }
+        ]
+      },
+      {
+        "department": 5,
+        "agents": [
+          {
+            'agent_id' : 5
+          },
+          {
+            'agent_id' : 11
+          },
+          {
+            'agent_id' : 12
+          }
+        ]
+      }
+    ];
+    console.log(this.agentList);
+
   }
 
   changeCurrentChat(i: number) {
     this.currentChatIndex = i;
     this.getChatRoom();
+  }
+
+  transferChatToAgent(i: number) {
+    this.toAgentId = i;
+    console.log(this.toAgentId);
+    this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , toAgentId : this.toAgentId};
+    console.log(this.transferData);
+    this.onSomeMsgAction(4);
+  }
+
+  transferChatToDepartment(i: number) {
+    this.departmentId = i;
+    console.log(this.departmentId);
+    this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , departmentId : this.departmentId};
+    console.log(this.transferData);
+    this.onSomeMsgAction(4);
   }
 
   onSomeMsgAction(status: number) {
@@ -55,6 +107,12 @@ export class OngoingComponent implements OnInit, OnDestroy {
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         break;
       case 3:
+        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
+        break;
+      case 4:
+        this.chatService.takeAction(this.transferData);
+        this.changeCurrentChat(0);
+        break;
       case 5:
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         this.changeCurrentChat(0);
