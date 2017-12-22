@@ -33,33 +33,23 @@ class ChatListController extends Controller
         $chatRoomId = $request->chatRoomId;
         if($chatRoomId != "" ){
             $getDepartmentDetails = MessageAgentTrack::where('chat_room_id',$chatRoomId)->with('getWidget.widgetDepartment.departmentDetails.departmentAgents.agentDetails')->first();
-            $getOtherAgents = Widgets::where('widget_uuid',$getDepartmentDetails->widget_id)->with('agentDetails')->get();
 
             $agentDepartmentData = [];
             $agentArr = [];
             if(count($getDepartmentDetails) != 0){
                 foreach($getDepartmentDetails->getWidget->widgetDepartment as $key=>$data){
-                    $agentDepartmentData[$key]['department_id']=$data->departmentDetails->id;
-                    $agentDepartmentData[$key]['department_name']=$data->departmentDetails->department_name;
+                    $agentDepartmentData[$key]['department_id']     = $data->departmentDetails->id;
+                    $agentDepartmentData[$key]['department_name']   = $data->departmentDetails->department_name;
                     foreach($data->departmentDetails->departmentAgents as $newData){
+                        $agentArr = [];
                         foreach($newData->agentDetails as $agentDetail){
-                            $agentDepartmentData[$key]['agent_id']=$agentDetail->id;
-                            $agentDepartmentData[$key]['first_name']=$agentDetail->first_name;
-                            $agentDepartmentData[$key]['last_name']=$agentDetail->last_name;
-                        }
-
-                    }
-                }
-                if(count($getOtherAgents) !=0 ){
-                foreach($getOtherAgents as $key=>$data){
-                        foreach($data->agentDetails as $agentData){
-                            $agentArr[$key]['agent_id']=$agentData->id;
-                            $agentArr[$key]['first_name']=$agentData->first_name;
-                            $agentArr[$key]['last_name']=$agentData->last_name;
+                            $agentArr[$key]['agent_id']     = $agentDetail->id;
+                            $agentArr[$key]['first_name']   = $agentDetail->first_name;
+                            $agentArr[$key]['last_name']    = $agentDetail->last_name;
                         }
                     }
+                    $agentDepartmentData[$key]['agent'] = $agentArr;
                 }
-                $agentDepartmentData['agents']=$agentArr;
                 $response = array('code'=>200,'error'=>false,'response'=>$agentDepartmentData,'status'=>true,'message'=>'Agent Department List !');
             }else{
                 $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Data Found !');

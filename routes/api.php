@@ -113,6 +113,3 @@ Route::post('client-chat', 'ChatListController@agentWithAllChats');
 //route for agent department list
 Route::post('agent-department-list', 'ChatListController@agentDepartmentList');
 
-
-
-
