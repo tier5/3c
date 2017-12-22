@@ -1214,7 +1214,7 @@ class ChatController extends Controller
 
             $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id',$fromAgentId)->where('chat_room_id',$chatRoomId)->where('widget_id',$widgetUuid)->update(['agent_id'=>$toAgentId,'status'=>1]);
             $this->sendNotificationToAgents($toAgentId,$widgetUuid);
-            $response = [ 'agentId' => $toAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
+            $response = [ 'agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
 
             //call to node API
             $url = url('/').':3000/send-rooms';

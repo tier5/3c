@@ -4,8 +4,8 @@ var io = require('socket.io')(http);
 var axios = require('axios');
 var bodyParser = require('body-parser');
 
-//var API_URL = 'http://3c.local/api/v1/';
-var API_URL = 'http://138.197.215.68/api/v1/';
+var API_URL = 'http://3c.local/api/v1/';
+//var API_URL = 'http://138.197.215.68/api/v1/';
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended:false}));
@@ -140,6 +140,9 @@ io.on('connection', function (socket) {
                         io.sockets.in(res.data.response.chatRoomId).emit('which-agent-accepted', res.data.response);
                     } else if (data.status == 3) {
                         io.sockets.in(res.data.response.chatRoomId).emit('which-agent-rejected', res.data.response);
+                    } else if (data.status == 4) {
+                        io.sockets.in(res.data.response.chatRoomId).emit('which-agent-transferred', res.data.response);
+                        io.sockets.in(res.data.response.chatRoomId).emit('clientChatTransferred', 'Your chat has been transferred!');
                     } else if (data.status == 5) {
                         io.sockets.in(res.data.response.chatRoomId).emit('which-agent-resolved', res.data.response);
                         io.sockets.in(res.data.response.chatRoomId).emit('clientChatResolved', 'Thank You For Connecting With Us!');
