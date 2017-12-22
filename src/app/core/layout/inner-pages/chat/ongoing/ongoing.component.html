@@ -60,7 +60,14 @@
                                   <a class="test" tabindex="-1">{{ department.department_name }}  <span class="caret"></span></a>
                                   <ul class="dropdown-menu">
                                     <li><a tabindex="-1" (click)="transferChatToDepartment(department.department_id)">Transfer to department </a></li>
-                                    <li *ngFor="let agent of department.agent"><a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)">{{ agent.agent_id }}</a></li>
+                                    <li class="dropdown-submenu">
+                                      <a tabindex="-1" >Transfer to agent </a>
+                                      <ul class="super-sub">
+                                        <li *ngFor="let agent of department.agent">
+                                          <a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)"> {{ agent.first_name }}  </a>
+                                        </li>
+                                      </ul>
+                                    </li>
                                   </ul>
                                 </div>
                               </li>
