@@ -35,20 +35,23 @@ class ChatListController extends Controller
             $getDepartmentDetails = MessageAgentTrack::where('chat_room_id',$chatRoomId)->with('getWidget.widgetDepartment.departmentDetails.departmentAgents.agentDetails')->first();
 
             $agentDepartmentData = [];
-            $agentArr = [];
+            
             if(count($getDepartmentDetails) != 0){
                 foreach($getDepartmentDetails->getWidget->widgetDepartment as $key=>$data){
                     $agentDepartmentData[$key]['department_id']     = $data->departmentDetails->id;
                     $agentDepartmentData[$key]['department_name']   = $data->departmentDetails->department_name;
+                    $agentArray = [];
                     foreach($data->departmentDetails->departmentAgents as $newData){
                         $agentArr = [];
-                        foreach($newData->agentDetails as $agentDetail){
-                            $agentArr[$key]['agent_id']     = $agentDetail->id;
-                            $agentArr[$key]['first_name']   = $agentDetail->first_name;
-                            $agentArr[$key]['last_name']    = $agentDetail->last_name;
+                        foreach($newData->agentDetails as $agent_key=>$agentDetail){
+                            $agentArr['agent_id']     = $agentDetail->id;
+                            $agentArr['first_name']   = $agentDetail->first_name;
+                            $agentArr['last_name']    = $agentDetail->last_name;
+                            $agentArray[] = $agentArr;
                         }
+
                     }
-                    $agentDepartmentData[$key]['agent'] = $agentArr;
+                    $agentDepartmentData[$key]['agent'] = $agentArray;
                 }
                 $response = array('code'=>200,'error'=>false,'response'=>$agentDepartmentData,'status'=>true,'message'=>'Agent Department List !');
             }else{
