@@ -120,14 +120,14 @@ class ChatListController extends Controller
                 $allRooms[]= $agentRooms;
 
             }
-            $agents['rooms'] = $allRooms;
-            $allAgents[] = $agents;
+            //$agents['rooms'] = $allRooms;
+            //$allAgents[] = $agents;
 
         return Response::json(array(
             'status'   => true,
             'error'    => false,
             'code'     => 200,
-            'response' => $allAgents,
+            'response' => $allRooms,
             'message'  => 'Agents with chatrooms !'
         ));
     }
