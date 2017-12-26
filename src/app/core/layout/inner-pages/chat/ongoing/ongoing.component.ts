@@ -23,7 +23,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   currentChatRoom: string = '';
   chatRoomSubscription: Subscription;
   agentId: number;
-  agentList : any;
   toAgentId : number;
   departmentId : number;
   transferData : any;
@@ -46,37 +45,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
-    this.agentList = [
-      {
-        "department": 9,
-        "agents": [
-          {
-            'agent_id' : 1
-          },
-          {
-            'agent_id' : 2
-          },
-          {
-            'agent_id' : 3
-          }
-        ]
-      },
-      {
-        "department": 5,
-        "agents": [
-          {
-            'agent_id' : 5
-          },
-          {
-            'agent_id' : 11
-          },
-          {
-            'agent_id' : 12
-          }
-        ]
-      }
-    ];
-    console.log(this.agentList);
+
 
   }
 
@@ -89,7 +58,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   transferChatToAgent(i: number) {
     this.toAgentId = i;
-    console.log(this.toAgentId);
     this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , toAgentId : this.toAgentId};
     console.log(this.transferData);
     this.onSomeMsgAction(4);
@@ -97,7 +65,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   transferChatToDepartment(i: number) {
     this.departmentId = i;
-    console.log(this.departmentId);
     this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , departmentId : this.departmentId};
     console.log(this.transferData);
     this.onSomeMsgAction(4);
@@ -131,7 +98,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
             data => {
               if (data.chat.ongoing[this.currentChatIndex] && !data.chat.ongoing[this.currentChatIndex].length) {
                 this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
-                console.log(this.currentChatRoom);
               }
             });
   }

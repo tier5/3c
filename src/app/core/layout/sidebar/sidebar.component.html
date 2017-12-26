@@ -189,22 +189,11 @@
             [disable-hover]="true"
             [appDropdown]="'menu-open'"
         >
-          <a>
-            <i class="fa fa-comments"></i> <span> Chats</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li>
-              <a routerLink="/chats/list-agent">
-                <i class="fa fa-circle-o"></i> <span>Chats List</span>
+          <a routerLink="/chats/list-agent">
+            <i class="fa fa-comments"></i> <span>Chats</span>
                 <span class="pull-right-container">
-                  <small class="label pull-right bg-yellow">x</small>
                 </span>
-              </a>
-            </li>
-          </ul>
+          </a>
         </li>
 
         <!-- Previous Chats of Agents -->
@@ -214,22 +203,11 @@
             [disable-hover]="true"
             [appDropdown]="'menu-open'"
         >
-          <a>
-            <i class="fa fa-address-book"></i> <span> Contact List</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li>
-              <a routerLink="/chats/list-agents-contacts">
-                <i class="fa fa-address-book"></i> <span>List</span>
+          <a routerLink="/chats/list-agents-contacts">
+            <i class="fa fa-address-book"></i> <span>Contact List</span>
                 <span class="pull-right-container">
-                  <small class="label pull-right bg-yellow">x</small>
                 </span>
-              </a>
-            </li>
-          </ul>
+          </a>
         </li>
       </ul>
     </section>
