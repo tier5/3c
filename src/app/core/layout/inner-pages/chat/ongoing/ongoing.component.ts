@@ -43,6 +43,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
         .subscribe(
             (id) => {
               this.agentId = id;
+              this.chatService.connect();
             }
         );
 
