@@ -51,7 +51,7 @@
                         <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).chatList[currentChatIndex]?.chats">
                           <div class="direct-chat-info clearfix">
                             <span class="direct-chat-name" [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
-                            <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'">23 Jan 2:00 pm</span>
+                            <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'"> {{chat.created_at.date  | amFromUtc | amLocal | amDateFormat:'MMMM Do YYYY, h:mm:ss a'}} </span>
                           </div>
                           <img class="direct-chat-img" [src]="chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'" alt="Message User Image"><!-- /.direct-chat-img -->
                           <div class="direct-chat-text">

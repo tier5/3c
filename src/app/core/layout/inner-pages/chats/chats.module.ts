@@ -8,13 +8,15 @@ import { RejectedComponent } from './rejected/rejected.component';
 import { ListAgentComponent } from './list-agent/list-agent.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   imports: [
     CommonModule,
     ChatsRoutingModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    MomentModule
   ],
   declarations: [
     ListChatComponent,

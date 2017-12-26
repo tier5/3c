@@ -8,6 +8,7 @@ import { PendingComponent } from './pending/pending.component';
 import { OngoingComponent } from './ongoing/ongoing.component';
 import { RejectedComponent } from './rejected/rejected.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { SharedModule } from '../../../shared/shared.module';
     ChatRoutingModule,
     FormsModule,
     SharedModule,
-
+    MomentModule
+      
   ],
   declarations: [
     PendingComponent,

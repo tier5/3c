@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+import { MomentModule } from 'angular2-moment';
 
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
@@ -23,6 +24,7 @@ import { ChatService } from './inner-pages/chat/chat.service'
     CommonModule,
     LayoutRoutingModule,
     SharedModule,
+    MomentModule,
     StoreModule.forFeature('afterLogin', reducers),
     EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects, ChatEffects])
   ],
