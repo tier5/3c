@@ -15,7 +15,8 @@
             <div class="row">
               <h2>Messages</h2>
             </div>
-            <div class="row">
+
+            <div class="row" *ngIf="!!(showChats() | async).length">
               <div class="col-md-3 col-sm-3">
                 <div class="row">
                   <div class="chat-list">
@@ -131,6 +132,19 @@
                 </div>
               </div>
             </div>
+
+            <!--<div class="row" *ngIf="!(chatState | async).ongoing.length">-->
+              <!--<h2>No Ongoing Chats at this Moment!</h2>-->
+            <!--</div>-->
+
+            <div class="row">
+              <div class="box box-primary">
+                <div class="box-body" *ngIf="!(showChats() | async).length">
+                  <h4>No Ongoing Chats at this Moment!</h4>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         <!-- /.box -->

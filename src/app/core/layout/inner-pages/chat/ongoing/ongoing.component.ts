@@ -45,8 +45,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
-
-
   }
 
   changeCurrentChat(i: number) {
@@ -105,6 +103,13 @@ export class OngoingComponent implements OnInit, OnDestroy {
   sendMsg(form: NgForm) {
     this.chatService.sendMsg({ ...form.value, chatRoomId: this.currentChatRoom });
     form.reset();
+  }
+
+  /** Show chats id status is not 3 or 5 */
+  showChats() {
+    return this.store.select('afterLogin')
+      .map(data => data.chat)
+      .map(chats => chats.ongoing.filter(chat => chat.status != 3 && chat.status != 5 ));
   }
 
   ngOnDestroy() {
