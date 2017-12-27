@@ -37,10 +37,10 @@ class ChatController extends Controller
 
     public function checkMessage(Request $request)
     {
-        //Variable Declaration
-        $fromNumber     = $request->fromNumber; //client Number
-        $toNumber       = $request->toNumber;   //widget Number
-        $messageBody    = $request->messageBody;
+        //Variable Declaration ( data recive from twilio sms webhook )
+        $fromNumber = $request->From;                   //client Number
+        $toNumber = substr($request->To, -10);      //widget Number
+        $messageBody = $request->Body;                      //message body
 
         $checkTwilioNumbers = TwilioNumber::where('number',$toNumber)->with('getWidgetDetails')->first();
         if(count($checkTwilioNumbers) != 0 ){
@@ -53,7 +53,8 @@ class ChatController extends Controller
 
                     $type ='1';
                     $direction ='1';
-                    $this->saveOtherChat($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody,$type, $direction);
+                    $userId = null;
+                    $this->saveOtherChat($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody,$type, $direction,$userId);
                 }
             }else{
 
@@ -86,8 +87,14 @@ class ChatController extends Controller
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
                 }else{
-                    //$this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
-
+                    // checking the message accepted then save to the chat thread
+                    $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->where('status',2)->first();
+                    if( count($checkMessageTrack) != 0 ){
+                        $type ='1';
+                        $direction ='1';
+                        $userId = $checkMessageTrack->agent_id;
+                        $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
+                    }
                 }
 
             }else{
@@ -159,6 +166,8 @@ class ChatController extends Controller
                         if($responseSaveContactList != false ){
                             $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList,$widgetUuid);
                             if($responsesaveMessageLog!=false){
+                                //run a update query to update the Message_Track tables from
+                                $updateMessageTrack = MessageTrack::where('id',$responsesaveMessageTrack->id)->update([ 'message_id' => $responsesaveMessageLog->id ]);
                                 $type = '1'; // 1-> Mobile 2-> Web
                                 $direction = '1'; // 1->Incoming 2-> outgoing
                                 $userId = $responsesaveMessageTrack->agent_id;
@@ -259,8 +268,10 @@ class ChatController extends Controller
         if( $fromNumber != "" && $widgetUuid != "" ){
             $getWidgetData = Widgets::where('widget_uuid',$widgetUuid)->with('twilioNumbers','widgetDepartment.departmentDetails')->first();
             if( count($getWidgetData->widgetDepartment)!=0 ){
+                $toNumber = $getWidgetData->twilioNumbers->prefix.$getWidgetData->twilioNumbers->number;
                 $smsBody = "Please Choose a Department from the list ...";
                 foreach($getWidgetData->widgetDepartment as $data){
+                    $smsBody.="\n";
                     $smsBody.="\n";
                     $smsBody.= $data->department_orders;
                     $smsBody.=" - ";
@@ -270,7 +281,7 @@ class ChatController extends Controller
                 $smsBody.="Please Reply with the Number only.";
                 $smsBody.="\n";
                 $smsBody.="Thanks";
-                $this->sendSms( $smsBody, $fromNumber, $getWidgetData->twilioNumbers->number);
+                $this->sendSms( $smsBody, $fromNumber, $toNumber );
             }else{
 
                 return Response::json(array(
@@ -301,15 +312,16 @@ class ChatController extends Controller
     public function sendSms($smsBody , $toNumber, $fromNumber)
     {
         if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
+            $fromNumberNew = substr($fromNumber, -10);//add a filter
             $keys = TwilioNumber::where('number', $fromNumber)->with('getTwilioCredentials')->first();
-            $fromNumber = $keys->prefix.$keys->number;
             if ($keys) {
                 try {
+                        $fromNumber = $keys->prefix.$keys->number;
                         $sid = $keys->getTwilioCredentials->twilio_sid;
                         $token = $keys->getTwilioCredentials->twilio_token;
                         $clientsms = new Client($sid, $token);
                         $message = $clientsms->messages->create(
-                            $toNumber,array(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $toNumber,array(
                                   "from" => $fromNumber,
                                   "body" => $smsBody
                         ));
@@ -455,9 +467,15 @@ class ChatController extends Controller
                 $saveContactList->widget_id =   $widgetUuid;
                 $saveContactList->name      =   $name;
                 $saveContactList->email     =   $email;
-                $saveContactList->save();
-                return $saveContactList->id;
+                if($saveContactList->save()){
+
+                    return $saveContactList->id;
+                }else{
+
+                    return false;
+                }
             }else{
+
                 return $checkContactList->id;
             }
 
@@ -545,7 +563,7 @@ class ChatController extends Controller
      * @param responseSaveContactList,widgetUuid,messageBody,type,direction,userId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function saveOtherChat( $fromNumber, $widget_uuid, $messageBody, $type, $direction)
+    public function saveOtherChat( $fromNumber, $widget_uuid, $messageBody, $type, $direction, $userId = null)
     {
         if( $fromNumber !="" && $widget_uuid!="" ){
             $getContactListId = ContactList::where('widget_id',$widget_uuid)->where('phone',$fromNumber)->select('id')->with('messageLogDetails')->first();
@@ -556,12 +574,14 @@ class ChatController extends Controller
                 $saveChatThread->widget_id      = $widget_uuid;
                 $saveChatThread->chat_thread    = $messageBody;
                 $saveChatThread->type           = $type;
+                $saveChatThread->agent_id       = $userId;
                 $saveChatThread->direction      = $direction;
                 $saveChatThread->chat_type      = $type;
                 if($saveChatThread->save()){
-
+                    \Log::info('Chat message saved !');
                     return true;
                 }else{
+                    \Log::info('Chat message not saved !');
                     return false;
                 }
             }else{
@@ -687,7 +707,8 @@ class ChatController extends Controller
                 if( $checkMessageTrack->message_type == 1 ){
                     $getWidgetPhoneNumber = Widgets::where('widget_uuid',$checkMessageTrack->widget_id)->with('twilioNumbers')->first();
                     $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix.$getWidgetPhoneNumber->twilioNumbers->number;
-                    $this->sendSms($messageBody,$widgetPhoneNumber,$checkMessageTrack->from_phone_number);
+                        //modify this part
+                    $this->sendSms($messageBody,$checkMessageTrack->from_phone_number,$widgetPhoneNumber);
                 }
             $messageId  = $checkMessageTrack->message_id;
             $userId     = $checkMessageTrack->agent_id;
@@ -809,7 +830,7 @@ class ChatController extends Controller
     function generateRandomString()
     {
         $length           = 4;
-        $characters       = '0123456789';
+        $characters       = '123456789';
         $charactersLength = strlen($characters);
         $randomString     = '';
 
@@ -924,10 +945,19 @@ class ChatController extends Controller
     {
         if( $agentId !="" && $widgetUuId !="" ){
             $getAgent = Users::where('id',$agentId)->first();
+            if( count($getAgent) != 0 ){
+                $agentPhoneNumber = $getAgent->phone;
+            } else{
+                $agentPhoneNumber ="";
+            }
             $getToNumber = Widgets::where('widget_uuid',$widgetUuId)->with('twilioNumbers')->first();
-            $agentPhoneNumber = $getAgent->phone;
-            $smsBody = "link to visit the page in the website http://3c.local/api/v1/chat-action (demo api url)";
-            $this->sendSms($smsBody ,$agentPhoneNumber ,$getToNumber->twilioNumbers->number );
+            if( count($getToNumber) != 0 ){
+                $toNumber = $getToNumber->twilioNumbers->prefix.$getToNumber->twilioNumbers->number;
+            }else{
+                $toNumber = "";
+            }
+            $smsBody = "link to visit the page in the website http://138.197.215.68/chat/ongoing (demo api url)";
+            $this->sendSms( $smsBody, $agentPhoneNumber, $toNumber );
 
         } else {
 
@@ -1062,7 +1092,7 @@ class ChatController extends Controller
             $checkMessageForwardCounter->count_init = ($checkMessageForwardCounter->count_init +1);
             $checkMessageForwardCounter->update();
             $updateMessageTrack      = MessageTrack::where('message_id',$messageId)->update(['status'=>1]); //message track status will be 1 for again inicating the other messages
-            $updateMessageAgentTrack = MessageAgentTrack::where('message_forward_counter_id',$checkMessageForwardCounter->id)->update(['status' => 1]); //
+            $updateMessageAgentTrack = MessageAgentTrack::where('message_forward_counter_id',$checkMessageForwardCounter->id)->update(['status' => 1]); //update this table for reinicate the chat request to agents
             $this->inicateRejectNotificationToAgents($checkMessageForwardCounter->id,$widgetUuid);
 
             //call to node API

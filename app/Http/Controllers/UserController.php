@@ -84,7 +84,7 @@ class UserController extends Controller
             'code'    => 400,
             'error'   => true,
             'response'=> [],
-            'message' => 'Invalid username or password!'
+            'message' => 'Invalid email or password!'
         ));
 
     }
@@ -397,7 +397,6 @@ class UserController extends Controller
     $firstName    = $request->firstName;
     $lastName     = $request->lastName;
     $email        = trim($request->email);
-    $userName     = trim($request->userName);
     $phone        = $request->phone;
     $company      = $request->company;
 
@@ -431,29 +430,6 @@ class UserController extends Controller
 
                 }
             }
-
-            // Check username is unique or not
-            if ($userName!="") {
-
-                $checkUserWithUserName = Users::where('id','!=',$userId)->where('username',$userName)->first();
-
-                if (count($checkUserWithUserName) == 0) {
-
-                    $checkUser->username = $userName;
-
-                } else {
-
-                    return Response()->json([
-                        'code'    => 400,
-                        'error'   => true,
-                        'status'  => false,
-                        'response'=> [],
-                        'message' => 'UserName already exists !'
-                    ]);
-
-                }
-            }
-
             $checkUser->phone = $phone;
             $checkUser->company = $company;
 
@@ -493,7 +469,6 @@ class UserController extends Controller
     $firstName = $request->firstName;
     $lastName  = $request->lastName;
     $email     = trim($request->email);
-    $userName  = trim($request->userName);
     $phone     = $request->phone;
     $company   = $request->company;
 
@@ -530,11 +505,7 @@ class UserController extends Controller
         $type     = 2;
 
     }
-    if($email!="" && $userName!= ""){
-
-      $checkUserNameExist = Users::where('username', $userName)->first();  //Check username exist
-
-      if (count($checkUserNameExist)==0) {
+    if( $email!="" ){
 
           $checkEmailExist = Users::where('email',$email)->orWhere('username', $userName)->first(); //Check email exist
 
@@ -544,7 +515,6 @@ class UserController extends Controller
               $saveUser->first_name     = $firstName;
               $saveUser->last_name      = $lastName;
               $saveUser->email          = $email;
-              $saveUser->username       = $userName;
               $saveUser->phone          = $phone;
               $saveUser->password       = Hash::make($password);
               $saveUser->type           = $type; //Depands on the User Creation type by default 2
@@ -610,18 +580,6 @@ class UserController extends Controller
               ]);
 
           }
-      } else {
-
-          return Response()->json([
-             'code'    => 400,
-             'error'   => true,
-             'success' => false,
-             'status'  => false,
-             'response'=> [],
-             'message' => 'Username exist,please choose new username !'
-          ]);
-
-      }
     } else {
 
       return Response()->json([
@@ -984,20 +942,15 @@ class UserController extends Controller
     $firstName  = $request->firstName;
     $lastName   = $request->lastName;
     $email      = trim($request->email);
-    $userName   = trim($request->userName);
     $phone      = $request->phone;
     $password   = $this->generateRandomString(); //generate Random Password for the agent
     $parentId   = $request->parentId; //admin ID
     $departmentId = $request->departmentId; //department id
     $type       = 3;  //Agent User
 
-    if($email!="" && $userName!= ""){
+    if( $email!="" ){
 
-      $checkUserNameExist = Users::where('username', $userName)->first();  // Check username is unique
-
-      if (count($checkUserNameExist)==0) {
-
-          $checkEmailExist = Users::where('email',$email)->orWhere('username', $userName)->first(); // Check email is unique
+          $checkEmailExist = Users::where('email',$email)->first(); // Check email is unique
 
           if(count($checkEmailExist)==0){
 
@@ -1005,7 +958,6 @@ class UserController extends Controller
               $saveUser->first_name     = $firstName;
               $saveUser->last_name      = $lastName;
               $saveUser->email          = $email;
-              $saveUser->username       = $userName;
               $saveUser->phone          = $phone;
               $saveUser->password       = Hash::make($password);
               $saveUser->type           = $type; // Depands on the User Creation type by default 2
@@ -1053,18 +1005,6 @@ class UserController extends Controller
               ]);
 
           }
-      } else {
-
-          return Response()->json([
-             'code'=> 400,
-             'error' => true,
-             'success' => false,
-             'status' => false,
-             'response'=> [],
-             'message' => 'Username exist,please choose new username !'
-          ]);
-
-      }
     } else {
 
         return Response()->json([
@@ -1132,54 +1072,25 @@ class UserController extends Controller
     $firstName  = $request->firstName;
     $lastName   = $request->lastName;
     $email      = trim($request->email);
-    $userName   = trim($request->userName);
     $phone      = $request->phone;
-    //$password   = $request->password;
-    // $parentId   = $request->parentId;
-    // $department = $request->departmentId;
-
     if ($userId!='') {
 
-      $checkUser = Users::where('id',$userId)->first(); // Check user is in record
+        $checkUser = Users::where('id',$userId)->first(); // Check user is in record
+        if (count($checkUser) != 0) {
+            $checkUser->first_name = $firstName;
+            $checkUser->last_name  = $lastName;
+            $checkUser->phone      = $phone;
+            if ($checkUser->save()){ // Save user data
 
-      if (count($checkUser) != 0) {
-
-          if ($userName!="") {
-
-              $checkUserWithUserName = Users::where('id','!=',$userId)->where('username',$userName)->first(); // Check username is unique
-
-              if (count($checkUserWithUserName) == 0) {
-
-                  $checkUser->username   = $userName;
-                  $checkUser->first_name = $firstName;
-                  $checkUser->last_name  = $lastName;
-                  $checkUser->phone      = $phone;
-                  // $checkUser->parent_id  = $parentId;
-
-                if ($checkUser->save()){ // Save user data
-
-                    $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>true,'message'=>'Agent Updated!');
-
+                   $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>true,'message'=>'Agent Updated!');
                 } else {
 
                     $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent not updated !');
-
                 }
-              } else {
-
-                  $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Username exist. Please give another !');
-
-              }
-          } else {
-
-              $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Please give an unique username !');
-
-          }
-      } else {
+        } else {
 
           $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent ID not Found !');
-
-      }
+        }
     } else {
 
         $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent ID not Found !');
@@ -1267,12 +1178,11 @@ class UserController extends Controller
         $agentArray['phone']               = $agent->phone;
         $agentArray['profile_status']      = $agent->profile_status;
         $agentArray['type']                = $agent->type;
-        $agentArray['username']            = $agent->username;
         $agentArray['department_id']       = $agent->departmentAgentMapping->department_id;
         $agentArray['department_name']     = $agent->departmentAgentMapping->departmentDetails->department_name;
         $agentArray['department_details']  = $agent->departmentAgentMapping->departmentDetails->department_details;
         $agentArray['admin_first_name']    = $agent->departmentAgentMapping->departmentDetails->userDetails->first_name;
-        $agentArray['admin_username']      = $agent->departmentAgentMapping->departmentDetails->userDetails->username;
+        $agentArray['admin_username']      = "";
         $agentArray['admin_last_name']     = $agent->departmentAgentMapping->departmentDetails->userDetails->last_name;
 
 

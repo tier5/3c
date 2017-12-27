@@ -484,9 +484,10 @@ class WidgetController extends Controller
       // Save Departments of Widget
       foreach ($widgetDepartment as $key => $value) {
 
-        $departmentMapping                = new WidgetDepartmentMapping;
-        $departmentMapping->widget_id     = $widgetId;
-        $departmentMapping->department_id = $value;
+        $departmentMapping                      = new WidgetDepartmentMapping;
+        $departmentMapping->widget_id           = $widgetId;
+        $departmentMapping->department_id       = $value;
+        $departmentMapping->department_orders   = $key;
         $departmentMapping->save();
 
       }
