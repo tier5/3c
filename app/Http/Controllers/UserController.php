@@ -507,7 +507,7 @@ class UserController extends Controller
     }
     if( $email!="" ){
 
-          $checkEmailExist = Users::where('email',$email)->orWhere('username', $userName)->first(); //Check email exist
+          $checkEmailExist = Users::where('email',$email)->first(); //Check email exist
 
           if(count($checkEmailExist)==0){
 
