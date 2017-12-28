@@ -17,7 +17,6 @@ import { ChatService } from '../../inner-pages/chat/chat.service'
 export class ChatEffects {
 
     constructor (private actions$: Actions,
-                 private chatService: ChatService,
                  private httpClient: HttpClient) {}
 
     @Effect()
@@ -31,7 +30,7 @@ export class ChatEffects {
             );
         })
         .do(() => {
-            this.chatService.connect();
+            //this.chatService.connect();
         });
 
 

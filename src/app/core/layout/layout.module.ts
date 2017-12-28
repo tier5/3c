@@ -33,6 +33,6 @@ import { ChatService } from './inner-pages/chat/chat.service'
     HeaderComponent,
     SidebarComponent
   ],
-  providers: [ChatService]
+  providers: []
 })
 export class LayoutModule { }
