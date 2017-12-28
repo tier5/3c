@@ -22,9 +22,12 @@
                     <div class="box-body box-profile">
                         <img class="profile-user-img img-responsive img-circle" src="../../../../../assets/img/avatar5.png" alt="User profile picture">
 
-                        <h3 class="profile-username text-center">Jon Vaughn</h3>
+                        <h3 class="profile-username text-center"> {{(authState | async).name}}</h3>
 
-                        <p class="text-muted text-center">Super Admin</p>
+                        <p class="text-muted text-center" *ngIf="(authState | async).isSuperAdmin">Super Admin</p>
+                        <p class="text-muted text-center" *ngIf="(authState | async).isAdmin">Admin</p>
+                        <p class="text-muted text-center" *ngIf="(authState | async).isAgent">Agent</p>
+
 
                         <!--<ul class="list-group list-group-unbordered">-->
                             <!--<li class="list-group-item">-->
