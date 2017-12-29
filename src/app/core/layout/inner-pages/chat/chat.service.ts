@@ -31,79 +31,82 @@ export class ChatService implements OnInit, OnDestroy {
         .subscribe(
             (id) => {
               console.log(id);
-              this.loggedInAgentId = id;
-              // To get all the agents and the rooms they are assigned to
-              this.socket.emit('get-added-rooms');
+              if(id!=null) {
 
-              // On getting the list of rooms all the agents are assigned to
-              this.socket.on('new-rooms-added', (data) => {
-                console.log('new-rooms-added: ', data);
-                for (let i = 0, len = data.length; i < len; i++) {
-                  if (data[i].agent_id == this.loggedInAgentId) {
-                    // To add current agent to room
-                    this.socket.emit('add-agent-to-rooms', data[i].rooms)
-                    break
-                  }
-                }
-              });
+                  this.loggedInAgentId = id;
+                  // To get all the agents and the rooms they are assigned to
+                  this.socket.emit('get-added-rooms');
 
-              // When agent added to any room
-              this.socket.on('agent-added-to-room', (data) => {
-                console.log('agent-added-to-room', data.name)
-                this.store.dispatch(new ChatActions.AddToChatList(data))
-              });
+                  // On getting the list of rooms all the agents are assigned to
+                  this.socket.on('new-rooms-added', (data) => {
+                      console.log('new-rooms-added: ', data);
+                      for (let i = 0, len = data.length; i < len; i++) {
+                          if (data[i].agent_id == this.loggedInAgentId) {
+                              // To add current agent to room
+                              this.socket.emit('add-agent-to-rooms', data[i].rooms);
+                              break;
+                          }
+                      }
+                  });
 
-              this.socket.on('msg-of-acceptance', (data) => {
-                console.log(data)
-              });
+                  // When agent added to any room
+                  this.socket.on('agent-added-to-room', (data) => {
+                      console.log('agent-added-to-room', data.name);
+                      this.store.dispatch(new ChatActions.AddToChatList(data));
+                  });
 
-              // Which agent accepted
-              this.socket.on('which-agent-accepted', (data) => {
-                console.log('which-agent-accepted: ', data);
-                if (data.agentId == this.loggedInAgentId) {
-                  this.store.dispatch(new ChatActions.EditFromChatList({
-                    status: data.status,
-                    room_number: data.chatRoomId
-                  }))
-                } else {
-                  this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
-                  this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
-                }
-              });
+                  this.socket.on('msg-of-acceptance', (data) => {
+                      console.log(data);
+                  });
 
-              // Which agent rejected
-              this.socket.on('which-agent-rejected', (data) => {
-                console.log('which-agent-rejected: ', data);
-                if (data.agentId == this.loggedInAgentId) {
-                  this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
-                  this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
-                }
-              });
+                  // Which agent accepted
+                  this.socket.on('which-agent-accepted', (data) => {
+                      console.log('which-agent-accepted: ', data);
+                      if (data.agentId == this.loggedInAgentId) {
+                          this.store.dispatch(new ChatActions.EditFromChatList({
+                              status: data.status,
+                              room_number: data.chatRoomId
+                          }))
+                      } else {
+                          this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
+                          this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
+                      }
+                  });
 
-              this.socket.on('which-agent-resolved', (data) => {
-                console.log('In which agent resolved')
-                console.log(data)
-                if (data.agentId == this.loggedInAgentId) {
-                  this.store.dispatch(new ChatActions.EditFromChatList({
-                    status: data.status,
-                    room_number: data.chatRoomId
-                  }))
-                  this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
-                }
-              })
+                  // Which agent rejected
+                  this.socket.on('which-agent-rejected', (data) => {
+                      console.log('which-agent-rejected: ', data);
+                      if (data.agentId == this.loggedInAgentId) {
+                          this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
+                          this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
+                      }
+                  });
 
-              this.socket.on('which-agent-transferred', (data) => {
-                console.log('which-agent-transferred: ', data);
-                console.log(this.loggedInAgentId)
-                if (data.agentId == this.loggedInAgentId) {
-                  this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
-                  this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
-                }
-              })
+                  this.socket.on('which-agent-resolved', (data) => {
+                      console.log('In which agent resolved');
+                      console.log(data);
+                      if (data.agentId == this.loggedInAgentId) {
+                          this.store.dispatch(new ChatActions.EditFromChatList({
+                              status: data.status,
+                              room_number: data.chatRoomId
+                          }))
+                          this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
+                      }
+                  })
 
-              this.socket.on('newmsg', (data) => {
-                this.store.dispatch(new ChatActions.AddNewMsgToChatList(data))
-              })
+                  this.socket.on('which-agent-transferred', (data) => {
+                      console.log('which-agent-transferred: ', data);
+                      if (data.agentId == this.loggedInAgentId) {
+                          this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
+                          this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
+                      }
+                  })
+
+                  this.socket.on('newmsg', (data) => {
+                      this.store.dispatch(new ChatActions.AddNewMsgToChatList(data))
+                  })
+
+              }
 
             }
         )
@@ -121,7 +124,7 @@ export class ChatService implements OnInit, OnDestroy {
   }
   
   takeAction (data: any) {
-    console.log(data)
+    console.log(data);
     this.socket.emit('agent-performed-some-action', data);
   }
 
@@ -148,7 +151,10 @@ export class ChatService implements OnInit, OnDestroy {
 
   socketDisconnect() {
     console.log("disconnecting");
-    this.socket.emit('agent-disconnected');
+     if(this.socket) {
+        this.socket.emit('agent-disconnected');
+     }
+
   }
  ngOnDestroy() {
    console.log("chat destroy");

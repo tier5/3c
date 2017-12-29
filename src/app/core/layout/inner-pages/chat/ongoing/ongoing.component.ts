@@ -48,7 +48,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
-        console.log('init',this.agentId,this.currentChatRoom);
   }
 
   changeCurrentChat(i: number) {
@@ -121,7 +120,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("ongoing destroyed");
     this.chatRoomSubscription.unsubscribe();
 
   }

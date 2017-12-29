@@ -43,4 +43,10 @@ export class ListChatComponent implements OnInit {
     this.currentChatIndex = i;
   }
 
+  showChats() {
+    return this.store.select('afterLogin')
+        .map(data => data.chat)
+        .map(chats => chats.chatList);
+  }
+
 }
