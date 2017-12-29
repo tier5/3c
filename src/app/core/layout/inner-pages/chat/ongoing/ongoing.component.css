@@ -167,7 +167,11 @@ ul.super-sub li a{display: block;}
 ul.super-sub li:hover{background: #e1e3e9;}
 
 
-
+.btn-disabled,.btn-disabled[disabled] {
+    opacity: .4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
 
 

@@ -16,18 +16,14 @@ export class ChatService implements OnInit, OnDestroy {
   socket: any
   loggedInAgentId: number
   loggedInAgentName: string
-  i:number = 1;
+
   constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
     console.log('IN SERVICE');
-    console.log(this.i++);
-    //this.socket = io(environment.SOCKET_URL);
-
   }
-  
-  
+    
 
   connect () {
-      this.socket = io(environment.SOCKET_URL);
+    this.socket = io(environment.SOCKET_URL);
     console.log('connect chat service',this.store);
     this.store.select('auth')
         .map(authData => authData.userId)
@@ -79,10 +75,7 @@ export class ChatService implements OnInit, OnDestroy {
               this.socket.on('which-agent-rejected', (data) => {
                 console.log('which-agent-rejected: ', data);
                 if (data.agentId == this.loggedInAgentId) {
-                  this.store.dispatch(new ChatActions.EditFromChatList({
-                    status: data.status,
-                    room_number: data.chatRoomId
-                  }));
+                  this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
                   this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
                 }
               });

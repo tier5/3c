@@ -15,7 +15,6 @@
             <div class="row">
               <h2>Messages</h2>
             </div>
-            {{ getLoggedInAgentDetails() | json}} {{'306500'}}
             <div class="row" *ngIf="!!(showChats() | async).length">
               <div class="col-md-3 col-sm-3">
                 <div class="row">
@@ -65,7 +64,7 @@
                                       <a tabindex="-1" >Transfer to agent </a>
                                       <ul class="super-sub">
                                         <li *ngFor="let agent of department.agent">
-                                          <a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)"> {{ agent.first_name }}  </a>
+                                          <a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)" [ngClass]="(agent.agent_id === agentId)? 'btn-disabled' : ''"> {{ agent.first_name }}  </a>
                                         </li>
                                       </ul>
                                     </li>
