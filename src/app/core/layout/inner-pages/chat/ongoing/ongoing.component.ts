@@ -26,11 +26,13 @@ export class OngoingComponent implements OnInit, OnDestroy {
   toAgentId : number;
   departmentId : number;
   transferData : any;
-
+  
+  
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService) { }
-
+  
   ngOnInit() {
+    
     this.chatService.connect();
     this.chatState = this.store.select('afterLogin')
         .map(data => data.chat);
@@ -46,6 +48,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
+        console.log('init',this.agentId,this.currentChatRoom);
   }
 
   changeCurrentChat(i: number) {

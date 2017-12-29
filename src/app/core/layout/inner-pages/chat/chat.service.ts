@@ -1,4 +1,4 @@
-import {Injectable, Component, NgModule, OnDestroy} from '@angular/core'
+import {Injectable, Component, NgModule, OnInit,OnDestroy} from '@angular/core'
 import { Store } from '@ngrx/store'
 import io from 'socket.io-client'
 import 'rxjs/add/operator/distinctUntilChanged'
@@ -11,7 +11,7 @@ import * as ChatActions from '../../store/chat/chat.actions'
 import 'rxjs/add/operator/take'
 
 @Injectable()
-export class ChatService implements  OnDestroy {
+export class ChatService implements OnInit, OnDestroy {
 
   socket: any
   loggedInAgentId: number
@@ -117,12 +117,16 @@ export class ChatService implements  OnDestroy {
             }
         )
   }
+  
+  
 
   connect () {
-
-
+    console.log('connect chat service',this.store);
   }
-
+  ngOnInit() {
+    
+  }
+  
   takeAction (data: any) {
     console.log(data)
     this.socket.emit('agent-performed-some-action', data);
