@@ -234,7 +234,7 @@ class DepartmentController extends Controller
           if( count($checkUser) != 0 ) {
 
               if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
-                  $department = Department::get();
+                  $department = Department::with('userDetails')->get();
 
                   if(count($department) != 0){
 
@@ -259,7 +259,7 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
 
-                  $department = Department::where('user_id',$userId)->get();
+                  $department = Department::where('user_id',$userId)->with('userDetails')->get();
 
                   if(count($department) != 0){
 
@@ -284,7 +284,7 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
-                  $department = Department::where('user_id',$checkUser->userInfo->id)->get();
+                  $department = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->get();
 
                   if( count($department) != 0 ) {
 
@@ -319,7 +319,7 @@ class DepartmentController extends Controller
       } elseif ( $userId != ""){
             \Log::info('this is hit !!!!!!!!!!');
           //fetching the list of department for a specific user/admin
-          $department = Department::where('user_id',$userId)->get();
+          $department = Department::where('user_id',$userId)->with('userDetails')->get();
 
           if( count($department) != 0 ) {
 

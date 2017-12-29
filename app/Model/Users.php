@@ -32,4 +32,9 @@ class Users extends Model
   {
     return $this->hasOne('App\Model\DepartmentAgentMap','user_id','id');
   }
+
+  public function getCompany()
+  {
+      return $this->hasOne('App\Model\Users','id','parent_id');
+  }
 }

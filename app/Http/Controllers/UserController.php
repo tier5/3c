@@ -1034,10 +1034,10 @@ class UserController extends Controller
         $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
         if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
 
-            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails')->get();
+            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
         } else {  // Get all agents
 
-            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails')->get();
+            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
 
         }
 
