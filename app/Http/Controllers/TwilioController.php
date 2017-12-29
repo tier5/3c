@@ -86,8 +86,12 @@ class TwilioController extends Controller
         $getUser = UserToken::where('token',$userToken)->with('userInfo')->first();
 
         if(count($getUser) != 0 ){
+            if($getUser->userInfo->type == 1){
+                $getTwilioCredentials = TwilioCredentials::where('type',1)->first();
+            }else{
+                $getTwilioCredentials = TwilioCredentials::where('user_id',$getUser->userInfo->id)->first();
+            }
 
-          $getTwilioCredentials = TwilioCredentials::where('user_id',$getUser->userInfo->id)->first();
 
             if(count($getTwilioCredentials)!=0){
 
