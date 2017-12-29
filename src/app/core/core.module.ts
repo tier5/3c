@@ -21,6 +21,7 @@ import { reducers } from './store/core.reducers';
 import { SharedModule } from './shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import {ChatService} from "./layout/inner-pages/chat/chat.service";
+import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import {ChatService} from "./layout/inner-pages/chat/chat.service";
     SharedModule,
     LayoutModule,
     MomentModule,
+    Ng2FilterPipeModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []

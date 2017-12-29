@@ -15,6 +15,7 @@ export class ListAdminComponent implements OnInit {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  companyFilter: any = '';
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,

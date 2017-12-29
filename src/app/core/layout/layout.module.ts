@@ -17,7 +17,8 @@ import { AdminEffects } from './store/admin/admin.effect';
 import { AgentEffects } from './store/agent/agent.effect';
 import { WidgetEffects } from './store/widget/widget.effect';
 import { ChatEffects } from './store/chat/chat.effects'
-import { ChatService } from './inner-pages/chat/chat.service'
+import { ChatService } from './inner-pages/chat/chat.service';
+import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { ChatService } from './inner-pages/chat/chat.service'
     LayoutRoutingModule,
     SharedModule,
     MomentModule,
+    Ng2FilterPipeModule,
     StoreModule.forFeature('afterLogin', reducers),
     EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects, ChatEffects])
   ],
