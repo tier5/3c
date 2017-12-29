@@ -14,6 +14,8 @@ export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const CHECK_TOKEN = 'CHECK_TOKEN';
 export const CHECK_TWILIO_ACTIVE_ATTEMPT = 'CHECK_TWILIO_ACTIVE_ATTEMPT';
 export const CHECK_TWILIO_ACTIVE_SUCCESS = 'CHECK_TWILIO_ACTIVE_SUCCESS';
+export const UPDATE_ATTEMPT = 'UPDATE_ATTEMPT';
+
 
 export class SignUpAttempt implements Action {
   readonly type = SIGNUP_ATTEMPT;
@@ -76,10 +78,16 @@ export class CheckTwilioActiveSuccess implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class UpdateAttempt implements Action {
+  readonly type = UPDATE_ATTEMPT;
+  constructor(public payload: any) {}
+}
+
 export type AuthActions = CheckToken |
   SignUpAttempt | SignUpSuccess |
   SignInAttempt | SignInSuccess |
   SignOutAttempt | SignOutSuccess |
   ForgotPasswordAttempt | ForgotPasswordSuccess |
   ResetPasswordAttempt | ResetPasswordSuccess |
-  CheckTwilioActiveAttempt | CheckTwilioActiveSuccess;
+  CheckTwilioActiveAttempt | CheckTwilioActiveSuccess |
+  UpdateAttempt ;

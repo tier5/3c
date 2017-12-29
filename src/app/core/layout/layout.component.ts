@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
+import { ChatService } from './inner-pages/chat/chat.service';
 
 import * as fromAfterLogin from './store/after-login.reducers';
 import * as fromChat from './store/chat/chat.reducers';
@@ -12,14 +13,14 @@ import * as ChatActions from './store/chat/chat.actions';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
   hovered: boolean = false;
   mobileViewClicked: boolean = false;
   chatState: Observable<fromChat.ChatState>;
 
-  constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>) { }
+  constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,private chatService: ChatService) { }
 
   ngOnInit() {
     this.store.select('auth')
@@ -50,6 +51,10 @@ export class LayoutComponent implements OnInit {
     if ($event.type == 'click') {
       this.mobileViewClicked = !this.mobileViewClicked;
     }
+  }
+
+  ngOnDestroy() {
+    console.log("layout destroy");
   }
 
 }

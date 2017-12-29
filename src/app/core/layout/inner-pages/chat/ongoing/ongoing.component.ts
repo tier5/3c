@@ -26,11 +26,14 @@ export class OngoingComponent implements OnInit, OnDestroy {
   toAgentId : number;
   departmentId : number;
   transferData : any;
-
+  
+  
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService) { }
-
+  
   ngOnInit() {
+    
+    this.chatService.connect();
     this.chatState = this.store.select('afterLogin')
         .map(data => data.chat);
     this.getChatRoom();
@@ -45,6 +48,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
+        console.log('init',this.agentId,this.currentChatRoom);
   }
 
   changeCurrentChat(i: number) {
@@ -112,7 +116,13 @@ export class OngoingComponent implements OnInit, OnDestroy {
       .map(chats => chats.ongoing.filter(chat => chat.status != 3 && chat.status != 5 ));
   }
 
+  getLoggedInAgentDetails() {
+    return this.chatService.getLoggedInAgentDetails();
+  }
+
   ngOnDestroy() {
+    console.log("ongoing destroyed");
     this.chatRoomSubscription.unsubscribe();
+
   }
 }

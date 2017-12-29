@@ -21,6 +21,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
     case ChatActions.CONNECT_SUCCESS:
       return {
         ...state,
+        ongoing : [],
         connected: true
       };
     case ChatActions.ADD_TO_CHAT_LIST:

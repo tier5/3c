@@ -91,6 +91,22 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         ...state,
         twilioIsActive: action.payload
       }
+    case (AuthActions.UPDATE_ATTEMPT):
+      const data = JSON.parse(localStorage.getItem('data'));
+      const obj = {
+        email : data.email,
+        firstName : action.payload.firstName,
+        lastName : action.payload.lastName,
+        userId : data.userId,
+        userToken : data.userToken,
+        userType : data.userType
+      };
+      localStorage.removeItem('data');
+      localStorage.setItem('data', JSON.stringify(obj));
+      return {
+        ...state,
+        name: action.payload.firstName + ' ' + action.payload.lastName,
+      }
     default:
       return state;
   }
