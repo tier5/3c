@@ -48,7 +48,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
-        console.log('init',this.agentId,this.currentChatRoom);
   }
 
   changeCurrentChat(i: number) {

@@ -15,7 +15,7 @@
             <div class="row">
               <h2>Messages</h2>
             </div>
-            {{ getLoggedInAgentDetails() | json}} {{'306500'}}
+
             <div class="row" *ngIf="!!(showChats() | async).length">
               <div class="col-md-3 col-sm-3">
                 <div class="row">
@@ -65,7 +65,7 @@
                                       <a tabindex="-1" >Transfer to agent </a>
                                       <ul class="super-sub">
                                         <li *ngFor="let agent of department.agent">
-                                          <a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)"> {{ agent.first_name }}  </a>
+                                          <a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)" [ngClass]="(agent.agent_id === agentId)? 'btn-disabled' : ''"> {{ agent.first_name }}  </a>
                                         </li>
                                       </ul>
                                     </li>
@@ -81,7 +81,7 @@
                           <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
                             <div class="direct-chat-info clearfix">
                               <span class="direct-chat-name" [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
-                              <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'"> {{chat.created_at.date | amFromUtc | amLocal | amTimeAgo:true }} </span>
+                              <span class="direct-chat-timestamp" [ngClass]="chat.direction == 1 ? 'pull-right' : 'pull-left'"> {{chat.created_at.date | amFromUtc | amLocal | amTimeAgo }} </span>
                             </div>
                             <img class="direct-chat-img" [src]="chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'" alt="Message User Image"><!-- /.direct-chat-img -->
                             <div class="direct-chat-text">

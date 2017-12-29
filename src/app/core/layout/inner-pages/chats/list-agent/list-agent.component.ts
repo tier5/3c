@@ -34,7 +34,6 @@ export class ListAgentComponent implements OnInit {
         .subscribe(
             (data: Data) => {
               this.chatMode = data['chatMode'];
-              console.log(this.chatMode);
               this.store.dispatch(new ChatActions.GetAgentListAttempt());
             }
         );
@@ -49,7 +48,6 @@ export class ListAgentComponent implements OnInit {
 
   /** Function to View Contact List of Agent */
   onViewContact(id: number) {
-    console.log(id);
     this.router.navigate([ 'chats/contact-list/', id ]);
   }
 

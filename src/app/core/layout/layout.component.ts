@@ -19,6 +19,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   hovered: boolean = false;
   mobileViewClicked: boolean = false;
   chatState: Observable<fromChat.ChatState>;
+  isAgent : boolean = false;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,private chatService: ChatService) { }
 
@@ -29,6 +30,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if (data) {
+            this.isAgent = true;
             this.chatState = this.store.select('afterLogin')
               .map(data => data.chat);
             this.store.dispatch(new ChatActions.ConnectAttempt());
@@ -55,6 +57,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log("layout destroy");
+    if(this.isAgent) {
+      this.chatService.socketDisconnect();
+    }
   }
 
 }
