@@ -71,7 +71,7 @@ io.on('connection', function (socket) {
 
     /** Event emitted by agents when they want to get added to some rooms */
     socket.on('add-agent-to-rooms', function (rooms) {
-        console.log('Node: Add Agent To Rooms ', rooms);
+        console.log('Node: Add Agent To Rooms ');
         for (var i = 0, len = rooms.length; i < len; i++) {
             if (!(rooms[i].name in socket.rooms)) {
                 socket.join(rooms[i].name);
@@ -159,6 +159,11 @@ io.on('connection', function (socket) {
     /** Removing agent from room */
     socket.on('remove-agent-from-room', function (data) {
         socket.leave(data.room_number);
+    });
+    
+    /** Removing agent from room */
+    socket.on('agent-disconnected', function () {
+        socket.disconnect();
     });
 
     /** on socket disconnection */
