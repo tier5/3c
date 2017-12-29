@@ -24,10 +24,10 @@
                       <label class="control-label" for="admin">
                         Admin for Agent
                       </label>
-                      <select class="form-control"
+                      <select
                               id="admin"
                               name="parentId"
-                              [disabled]="editMode || (authState | async).isAdmin"
+                              [ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "
                               #selectedAdmin
                               [ngModel]="agent.parentId"
                               (change)="adminChanged(selectedAdmin.value)"
@@ -40,6 +40,7 @@
                           {{item.first_name}} {{item.last_name}}
                         </option>
                       </select>
+
                     </div>
                 </div>
 

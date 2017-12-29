@@ -27,6 +27,7 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting" rowspan="1" colspan="1" >#</th>
+                                            <th class="sorting" rowspan="1" colspan="1" >Company</th>
                                             <th class="sorting" rowspan="1" colspan="1" >Department Name</th>
                                             <th class="sorting" rowspan="1" colspan="1" >Department Description</th>
                                             <th class="sorting" rowspan="1" colspan="1" >Actions</th>
@@ -35,6 +36,7 @@
                                         <tbody>
                                         <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).department.list; let i = index">
                                             <td>{{i+1}}</td>
+                                            <td>{{item.user_details.company}}</td>
                                             <td>{{item.department_name}}</td>
                                             <td>{{item.department_details}}</td>
                                             <td>
@@ -56,6 +58,7 @@
                                         <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">#</th>
+                                            <th rowspan="1" colspan="1" >Company</th>
                                             <th rowspan="1" colspan="1">Department Name</th>
                                             <th rowspan="1" colspan="1">Department Description</th>
                                             <th rowspan="1" colspan="1">Actions</th>

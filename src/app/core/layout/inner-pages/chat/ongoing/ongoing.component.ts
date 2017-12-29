@@ -120,6 +120,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("ongoing destroyed");
     this.chatRoomSubscription.unsubscribe();
 
   }

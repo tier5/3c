@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
   /** Function call to sign out */
   onSignOut() {
     this.store.dispatch(new AuthActions.SignOutAttempt());
-   
+
   }
 
 }
