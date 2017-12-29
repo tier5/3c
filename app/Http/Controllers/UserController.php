@@ -84,7 +84,7 @@ class UserController extends Controller
             'code'    => 400,
             'error'   => true,
             'response'=> [],
-            'message' => 'Invalid username or password!'
+            'message' => 'Invalid email or password!'
         ));
 
     }
@@ -234,7 +234,7 @@ class UserController extends Controller
 
             // Send Mail to user email id
             Mail::send([],[], function($message) use ($body,$forget_check){
-                $message->from(getenv('MAIL_USERNAME'),"Password");
+                //$message->from(getenv('MAIL_USERNAME'),"Password");
                 $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password')->setBody($body,'text/html');
             });
 
@@ -397,7 +397,6 @@ class UserController extends Controller
     $firstName    = $request->firstName;
     $lastName     = $request->lastName;
     $email        = trim($request->email);
-    $userName     = trim($request->userName);
     $phone        = $request->phone;
     $company      = $request->company;
 
@@ -431,29 +430,6 @@ class UserController extends Controller
 
                 }
             }
-
-            // Check username is unique or not
-            if ($userName!="") {
-
-                $checkUserWithUserName = Users::where('id','!=',$userId)->where('username',$userName)->first();
-
-                if (count($checkUserWithUserName) == 0) {
-
-                    $checkUser->username = $userName;
-
-                } else {
-
-                    return Response()->json([
-                        'code'    => 400,
-                        'error'   => true,
-                        'status'  => false,
-                        'response'=> [],
-                        'message' => 'UserName already exists !'
-                    ]);
-
-                }
-            }
-
             $checkUser->phone = $phone;
             $checkUser->company = $company;
 
@@ -493,7 +469,6 @@ class UserController extends Controller
     $firstName = $request->firstName;
     $lastName  = $request->lastName;
     $email     = trim($request->email);
-    $userName  = trim($request->userName);
     $phone     = $request->phone;
     $company   = $request->company;
 
@@ -530,13 +505,9 @@ class UserController extends Controller
         $type     = 2;
 
     }
-    if($email!="" && $userName!= ""){
+    if( $email!="" ){
 
-      $checkUserNameExist = Users::where('username', $userName)->first();  //Check username exist
-
-      if (count($checkUserNameExist)==0) {
-
-          $checkEmailExist = Users::where('email',$email)->orWhere('username', $userName)->first(); //Check email exist
+          $checkEmailExist = Users::where('email',$email)->first(); //Check email exist
 
           if(count($checkEmailExist)==0){
 
@@ -544,7 +515,6 @@ class UserController extends Controller
               $saveUser->first_name     = $firstName;
               $saveUser->last_name      = $lastName;
               $saveUser->email          = $email;
-              $saveUser->username       = $userName;
               $saveUser->phone          = $phone;
               $saveUser->password       = Hash::make($password);
               $saveUser->type           = $type; //Depands on the User Creation type by default 2
@@ -610,18 +580,6 @@ class UserController extends Controller
               ]);
 
           }
-      } else {
-
-          return Response()->json([
-             'code'    => 400,
-             'error'   => true,
-             'success' => false,
-             'status'  => false,
-             'response'=> [],
-             'message' => 'Username exist,please choose new username !'
-          ]);
-
-      }
     } else {
 
       return Response()->json([
@@ -984,20 +942,15 @@ class UserController extends Controller
     $firstName  = $request->firstName;
     $lastName   = $request->lastName;
     $email      = trim($request->email);
-    $userName   = trim($request->userName);
     $phone      = $request->phone;
     $password   = $this->generateRandomString(); //generate Random Password for the agent
     $parentId   = $request->parentId; //admin ID
     $departmentId = $request->departmentId; //department id
     $type       = 3;  //Agent User
 
-    if($email!="" && $userName!= ""){
+    if( $email!="" ){
 
-      $checkUserNameExist = Users::where('username', $userName)->first();  // Check username is unique
-
-      if (count($checkUserNameExist)==0) {
-
-          $checkEmailExist = Users::where('email',$email)->orWhere('username', $userName)->first(); // Check email is unique
+          $checkEmailExist = Users::where('email',$email)->first(); // Check email is unique
 
           if(count($checkEmailExist)==0){
 
@@ -1005,7 +958,6 @@ class UserController extends Controller
               $saveUser->first_name     = $firstName;
               $saveUser->last_name      = $lastName;
               $saveUser->email          = $email;
-              $saveUser->username       = $userName;
               $saveUser->phone          = $phone;
               $saveUser->password       = Hash::make($password);
               $saveUser->type           = $type; // Depands on the User Creation type by default 2
@@ -1053,18 +1005,6 @@ class UserController extends Controller
               ]);
 
           }
-      } else {
-
-          return Response()->json([
-             'code'=> 400,
-             'error' => true,
-             'success' => false,
-             'status' => false,
-             'response'=> [],
-             'message' => 'Username exist,please choose new username !'
-          ]);
-
-      }
     } else {
 
         return Response()->json([
@@ -1094,10 +1034,10 @@ class UserController extends Controller
         $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
         if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
 
-            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails')->get();
+            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
         } else {  // Get all agents
 
-            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails')->get();
+            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
 
         }
 
@@ -1132,54 +1072,25 @@ class UserController extends Controller
     $firstName  = $request->firstName;
     $lastName   = $request->lastName;
     $email      = trim($request->email);
-    $userName   = trim($request->userName);
     $phone      = $request->phone;
-    //$password   = $request->password;
-    // $parentId   = $request->parentId;
-    // $department = $request->departmentId;
-
     if ($userId!='') {
 
-      $checkUser = Users::where('id',$userId)->first(); // Check user is in record
+        $checkUser = Users::where('id',$userId)->first(); // Check user is in record
+        if (count($checkUser) != 0) {
+            $checkUser->first_name = $firstName;
+            $checkUser->last_name  = $lastName;
+            $checkUser->phone      = $phone;
+            if ($checkUser->save()){ // Save user data
 
-      if (count($checkUser) != 0) {
-
-          if ($userName!="") {
-
-              $checkUserWithUserName = Users::where('id','!=',$userId)->where('username',$userName)->first(); // Check username is unique
-
-              if (count($checkUserWithUserName) == 0) {
-
-                  $checkUser->username   = $userName;
-                  $checkUser->first_name = $firstName;
-                  $checkUser->last_name  = $lastName;
-                  $checkUser->phone      = $phone;
-                  // $checkUser->parent_id  = $parentId;
-
-                if ($checkUser->save()){ // Save user data
-
-                    $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>true,'message'=>'Agent Updated!');
-
+                   $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>true,'message'=>'Agent Updated!');
                 } else {
 
                     $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent not updated !');
-
                 }
-              } else {
-
-                  $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Username exist. Please give another !');
-
-              }
-          } else {
-
-              $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Please give an unique username !');
-
-          }
-      } else {
+        } else {
 
           $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent ID not Found !');
-
-      }
+        }
     } else {
 
         $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Agent ID not Found !');
@@ -1267,12 +1178,11 @@ class UserController extends Controller
         $agentArray['phone']               = $agent->phone;
         $agentArray['profile_status']      = $agent->profile_status;
         $agentArray['type']                = $agent->type;
-        $agentArray['username']            = $agent->username;
         $agentArray['department_id']       = $agent->departmentAgentMapping->department_id;
         $agentArray['department_name']     = $agent->departmentAgentMapping->departmentDetails->department_name;
         $agentArray['department_details']  = $agent->departmentAgentMapping->departmentDetails->department_details;
         $agentArray['admin_first_name']    = $agent->departmentAgentMapping->departmentDetails->userDetails->first_name;
-        $agentArray['admin_username']      = $agent->departmentAgentMapping->departmentDetails->userDetails->username;
+        $agentArray['admin_username']      = "";
         $agentArray['admin_last_name']     = $agent->departmentAgentMapping->departmentDetails->userDetails->last_name;
 
 
@@ -1322,16 +1232,14 @@ class UserController extends Controller
       if(count($checkUser)!=0) {
 
             $body       = 'Thanks for signup up with 3c.<br><br>
-	                         Your login ID is your email/username you used during your sign up process.<br><br>
+	                         Your login ID is your email you used during your sign up process.<br><br>
 	                         Your password is : ';
             $body .= $password;
             $body .= '<br><br>';
-            $body .= 'Your Username is : ';
-            $body .= $checkUser->username;
             $body .= '<br><br><br>Please Change your password !';
             // Send Mail to user email id with the created password
             Mail::send([],[], function($message) use ($body,$checkUser){
-                $message->from(getenv('MAIL_USERNAME'));
+            //    $message->from(getenv('MAIL_USERNAME'));
                 $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login')->setBody($body,'text/html');
             });
 
@@ -1388,62 +1296,61 @@ class UserController extends Controller
    */
   public function createUserTwilioSid(Request $request)
   {
-   $userId = $request->userId;
+    $userId = $request->userId;
 
-   if($userId != ""){
+    if($userId != ""){
 
-     $checkUser = Users::where('id',$userId)->first();
-     if( count($checkUser)!=0 ){
+      $checkUser = Users::where('id',$userId)->first();
+      if( count($checkUser)!=0 ){
 
-       $UserData                          = new Request;
-       $UserData->userId                  = $checkUser->id; //admin ID
-       $UserData->email                   = $checkUser->email; //admin Email ID Used as the Firendly Name in Twilio Account
-       //send to TwilioController for creating twilio subacount
-       $saveAdminTwilioCredential         =  app(\App\Http\Controllers\TwilioController::class)
-       ->createTwilioSubacount($UserData);   // Create Twilio sub-account
-       $saveAdminTwilioCredentialResponse = json_decode($saveAdminTwilioCredential->content(), true);
+        $UserData                          = new Request;
+        $UserData->userId                  = $checkUser->id; //admin ID
+        $UserData->email                   = $checkUser->email; //admin Email ID Used as the Firendly Name in Twilio Account
+        //send to TwilioController for creating twilio subacount
+        $saveAdminTwilioCredential         =  app(\App\Http\Controllers\TwilioController::class)
+         ->createTwilioSubacount($UserData);   // Create Twilio sub-account
+        $saveAdminTwilioCredentialResponse = json_decode($saveAdminTwilioCredential->content(), true);
 
-         if($saveAdminTwilioCredentialResponse['code'] == 200){
-            $checkUser = Users::where('id',$userId)->with('twilioInfo')->first();
-           \Log::info($saveAdminTwilioCredentialResponse['message']);
-           return Response()->json([
-               'code'    => 200,
-               'error'   => false,
-               'status'  => true,
-               'response'=> $checkUser,
-               'message' => $saveAdminTwilioCredentialResponse['message']
-           ]);
-
-         }
-
-         if($saveAdminTwilioCredentialResponse['code'] == 400){
-
-           \Log::info($saveAdminTwilioCredentialResponse['message']);
-           return Response()->json([
-               'code'    => 400,
-               'error'   => true,
-               'status'  => false,
-               'response'=> [],
-               'message' => $saveAdminTwilioCredentialResponse['message']
-           ]);
-
-         }
-      } else {
-         return Response()->json([
-               'code'    => 400,
-               'error'   => true,
-               'status'  => false,
-               'response'=> [],
-               'message' => 'user not found !'
+        if($saveAdminTwilioCredentialResponse['code'] == 200){
+          $checkUser = Users::where('id',$userId)->with('twilioInfo')->first();
+          \Log::info($saveAdminTwilioCredentialResponse['message']);
+          return Response()->json([
+            'code'    => 200,
+            'error'   => false,
+            'status'  => true,
+            'response'=> $checkUser,
+            'message' => $saveAdminTwilioCredentialResponse['message']
           ]);
+        }
+
+        if($saveAdminTwilioCredentialResponse['code'] == 400){
+
+          \Log::info($saveAdminTwilioCredentialResponse['message']);
+          return Response()->json([
+            'code'    => 400,
+            'error'   => true,
+            'status'  => false,
+            'response'=> [],
+            'message' => $saveAdminTwilioCredentialResponse['message']
+          ]);
+
+        }
+      } else {
+        return Response()->json([
+          'code'    => 400,
+          'error'   => true,
+          'status'  => false,
+          'response'=> [],
+          'message' => 'user not found !'
+        ]);
       }
     } else {
       return Response()->json([
-         'code'    => 400,
-         'error'   => true,
-         'status'  => false,
-         'response'=> [],
-         'message' => 'Not a valid User Id !'
+        'code'    => 400,
+        'error'   => true,
+        'status'  => false,
+        'response'=> [],
+        'message' => 'Not a valid User Id !'
       ]);
     }
   }
@@ -1515,5 +1422,84 @@ class UserController extends Controller
     }
   }
 
+  public function addSuperadmin(Request $request)
+  {
+      $firstName    = $request->firstName;
+      $lastName     = $request->lastName;
+      $email        = $request->email;
+
+      if( $request->password !="" ){
+
+          $password = $request->password; //take user inputed password
+
+      } else {
+
+          $password = $this->generateRandomString(); //generate Random Password for the admin
+
+      }
+
+      if( $email!="" ){
+
+          $checkEmailExist = Users::where('email',$email)->first(); //Check email exist
+
+          if(count($checkEmailExist)==0){
+
+              $saveUser                 = new Users;
+              $saveUser->first_name     = $firstName;
+              $saveUser->last_name      = $lastName;
+              $saveUser->email          = $email;
+              $saveUser->password       = Hash::make($password);
+              $saveUser->type           = 1; //Depands on the User Creation type by default 2
+              $saveUser->profile_status = 1; //Profile set to Active
+
+              if($saveUser->save()){
+
+                  $this->sendRegistrationEmail($email,$password); //send email and password to the register admin user
+                  return Response()->json([
+                      'code'    => 200,
+                      'success' => true,
+                      'error'   => false,
+                      'status'  => true,
+                      'response'=> $saveUser,
+                      'message' => 'Superadmin created !'
+                  ]);
+
+              } else {
+
+                  return Response()->json([
+                      'code'    => 400,
+                      'success' => false,
+                      'error'   => true,
+                      'status'  => false,
+                      'response'=> [],
+                      'message' => 'Superadmin not created,please try again in a while !'
+                  ]);
+
+              }
+          } else {
+
+              return Response()->json([
+                  'code'    => 400,
+                  'error'   => true,
+                  'success' => false,
+                  'status'  => false,
+                  'response'=> [],
+                  'message' => 'Email ID exist,please choose new email id !'
+              ]);
+
+          }
+      } else {
+
+          return Response()->json([
+              'code'    => 400,
+              'error'   => true,
+              'success' => false,
+              'status'  => false,
+              'response'=> [],
+              'message' => 'Please provide valid data !'
+          ]);
+
+      }
+  }
 
 }

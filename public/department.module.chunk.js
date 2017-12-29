@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/department/create-department/create-department.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n    <section class=\"content-header\">\n        <h1>Department Section</h1>\n        <ol class=\"breadcrumb\">\n            <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n            <li><a href=\"#\">Tables</a></li>\n            <li class=\"active\">Data tables</li>\n        </ol>\n    </section>\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <!-- /.box-header -->\n                    <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n                        <form #form=\"ngForm\" (submit)=\"onCreateDep(form)\">\n                            <!-- text input -->\n                            <div class=\"box-header with-border\">\n                                <h3 class=\"box-title\">Create Department Credentials</h3>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        <div class=\"form-group\">\n                                            <label class=\"control-label\" for=\"admin\">\n                                                Admin for Department\n                                            </label>\n                                            <select class=\"form-control\"\n                                                    id=\"admin\"\n                                                    name=\"userId\"\n                                                    [disabled]=\"editMode\"\n                                                    #selected\n                                                    [ngModel]=\"dep.userId\"\n                                            >\n                                                <option selected value=\"0\">Choose...</option>\n                                                <option [value]=\"item.id\"\n                                                        *ngFor=\"let item of (afterLoginState | async).admin.list; let i = index\"\n                                                >\n                                                    {{item.first_name}} {{item.last_name}}\n                                                </option>\n                                            </select>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"col-md-6\" *ngIf=\"selected.value > 0\">\n                                <div class=\"form-group\" [ngClass]=\"(dName.invalid && dName.touched) ? 'has-error': ''\">\n                                    <label class=\"control-label\" for=\"name\">\n                                        <i *ngIf=\"dName.invalid && dName.touched\" class=\"fa fa-times-circle-o\"></i>\n                                        Department Name\n                                    </label>\n                                    <input type=\"text\"\n                                           class=\"form-control\"\n                                           id=\"name\"\n                                           name=\"departmentName\"\n                                           [ngModel]=\"dep.departmentName\"\n                                           #dName=\"ngModel\"\n                                           required\n                                           placeholder=\"Enter ...\"\n                                    >\n                                    <span *ngIf=\"dName.invalid && dName.touched\" class=\"help-block\">Your Department Name is Required!</span>\n                                </div>\n                            </div>\n                            <div class=\"col-md-6\" *ngIf=\"selected.value > 0\">\n                                <div class=\"form-group\" [ngClass]=\"{ 'has-error': dDes.invalid && dDes.touched }\">\n                                    <label class=\"control-label\" for=\"detail\">\n                                        <i *ngIf=\"dDes.invalid && dDes.touched\" class=\"fa fa-times-circle-o\"></i>\n                                        Department Description\n                                    </label>\n                                    <input type=\"text\"\n                                           class=\"form-control\"\n                                           id=\"detail\"\n                                           name=\"departmentDetails\"\n                                           ngModel\n                                           [ngModel]=\"dep.departmentDetails\"\n                                           #dDes=\"ngModel\"\n                                           required\n                                           placeholder=\"Enter ...\"\n                                    >\n                                    <span *ngIf=\"dDes.invalid && dDes.touched\" class=\"help-block\">Your Department Description is Required!</span>\n                                </div>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"box-footer\">\n                                    <button type=\"submit\"\n                                            [disabled]=\"form.invalid || selected.value <= 0\"\n                                            class=\"btn btn-primary pull-right\"\n                                    >\n                                        Submit\n                                    </button>\n                                </div>\n                            </div>\n                        </form>\n                    </div>\n                    <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n    <section class=\"content-header\">\n        <h1>Department Section</h1>\n        <ol class=\"breadcrumb\">\n            <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n            <li><a href=\"#\">Tables</a></li>\n            <li class=\"active\">Data tables</li>\n        </ol>\n    </section>\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <!-- /.box-header -->\n                    <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n                        <form #form=\"ngForm\" (submit)=\"onCreateDep(form)\">\n                            <!-- text input -->\n                            <div class=\"box-header with-border\">\n                                <h3 class=\"box-title\">{{ editMode ? 'Edit' : 'Create' }} Department</h3>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"row\">\n                                    <div class=\"col-md-6\">\n                                        <div class=\"form-group\">\n                                            <label class=\"control-label\" for=\"admin\">\n                                                Admin for Department\n                                            </label>\n                                            <select class=\"form-control\"\n                                                    id=\"admin\"\n                                                    name=\"userId\"\n                                                    [disabled]=\"editMode || (authState | async).isAdmin\"\n                                                    #selected\n                                                    [(ngModel)]=\"dep.userId\">\n                                                <option selected value=\"0\">Choose...</option>\n                                                <option [value]=\"item.id\"\n                                                        *ngFor=\"let item of (afterLoginState | async).admin.list; let i = index\"\n                                                >\n                                                    {{item.first_name}} {{item.last_name}}\n                                                </option>\n                                            </select>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"col-md-6\" *ngIf=\"selected.value > 0\">\n                                <div class=\"form-group\" [ngClass]=\"(dName.invalid && dName.touched) ? 'has-error': ''\">\n                                    <label class=\"control-label\" for=\"name\">\n                                        <i *ngIf=\"dName.invalid && dName.touched\" class=\"fa fa-times-circle-o\"></i>\n                                        Department Name\n                                    </label>\n                                    <input type=\"text\"\n                                           class=\"form-control\"\n                                           id=\"name\"\n                                           name=\"departmentName\"\n                                           [ngModel]=\"dep.departmentName\"\n                                           #dName=\"ngModel\"\n                                           required\n                                           placeholder=\"Enter ...\"\n                                    >\n                                    <span *ngIf=\"dName.invalid && dName.touched\" class=\"help-block\">Your Department Name is Required!</span>\n                                </div>\n                            </div>\n                            <div class=\"col-md-6\" *ngIf=\"selected.value > 0\">\n                                <div class=\"form-group\" [ngClass]=\"{ 'has-error': dDes.invalid && dDes.touched }\">\n                                    <label class=\"control-label\" for=\"detail\">\n                                        <i *ngIf=\"dDes.invalid && dDes.touched\" class=\"fa fa-times-circle-o\"></i>\n                                        Department Description\n                                    </label>\n                                    <input type=\"text\"\n                                           class=\"form-control\"\n                                           id=\"detail\"\n                                           name=\"departmentDetails\"\n                                           ngModel\n                                           [ngModel]=\"dep.departmentDetails\"\n                                           #dDes=\"ngModel\"\n                                           required\n                                           placeholder=\"Enter ...\"\n                                    >\n                                    <span *ngIf=\"dDes.invalid && dDes.touched\" class=\"help-block\">Your Department Description is Required!</span>\n                                </div>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"box-footer\">\n                                    <button type=\"submit\"\n                                            [disabled]=\"form.invalid || selected.value <= 0\"\n                                            class=\"btn btn-primary pull-right\"\n                                    >\n                                        Submit\n                                    </button>\n                                </div>\n                            </div>\n                        </form>\n                    </div>\n                    <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
 
 /***/ }),
 
@@ -34,8 +34,10 @@ module.exports = "<div class=\"content-wrapper\">\n    <section class=\"content-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_admin_admin_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/admin/admin.actions.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/admin/admin.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.actions.ts");
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -59,11 +61,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CreateDepartmentComponent = (function () {
-    /** Service injetion */
-    function CreateDepartmentComponent(store, activatedRoute) {
+    /** Service injection */
+    function CreateDepartmentComponent(store, activatedRoute, cdr) {
         this.store = store;
         this.activatedRoute = activatedRoute;
+        this.cdr = cdr;
         this.editMode = false;
         this.dep = {
             userId: 0,
@@ -74,45 +78,67 @@ var CreateDepartmentComponent = (function () {
     /** Function to be executed when component initializes */
     CreateDepartmentComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_admin_admin_actions__["o" /* GetAdminListAttempt */]());
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["q" /* GetAdminListAttempt */]());
         this.authState = this.store.select('auth');
         this.afterLoginState = this.store.select('afterLogin');
-        this.store.select('afterLogin')
+        this.authSubscription = this.store.select('auth')
+            .subscribe(function (data) {
+            if (data.isAdmin) {
+                _this.dep.userId = data.userId;
+                _this.loggedInAdminId = data.userId;
+            }
+        });
+        this.afterLoginSubscription = this.store.select('afterLogin')
             .map(function (data) { return data.department.resetDepartmentForm; })
             .subscribe(function (data) {
             if (data) {
                 _this.form.reset();
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["k" /* ResetDepartmentForm */]());
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["n" /* ResetDepartmentForm */]());
+                if (!!_this.loggedInAdminId) {
+                    _this.form.form.patchValue({ userId: _this.loggedInAdminId });
+                }
             }
         });
-        this.activatedRoute.data.subscribe(function (data) {
+        this.activatedRoute.data
+            .subscribe(function (data) {
             _this.editMode = data['editMode'];
             /** Perform operation is present mode is edit mode */
             if (_this.editMode) {
                 /** Checking route params to get id of department to edit */
                 _this.depId = _this.activatedRoute.snapshot.params['id'];
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["l" /* GetToEditDepartmentAttempt */]({ departmentId: _this.depId }));
                 _this.updateDep = _this.store.select('afterLogin')
-                    .map(function (data) { return data.department.list; })
-                    .subscribe(function (list) {
-                    list.filter(function (data) {
-                        if (data.id == _this.depId) {
-                            _this.dep.userId = data.user_id;
-                            _this.dep.departmentName = data.department_name;
-                            _this.dep.departmentDetails = data.department_details;
-                        }
-                    });
+                    .map(function (data) { return data.department.toEdit; })
+                    .distinctUntilChanged()
+                    .subscribe(function (dep) {
+                    if (dep) {
+                        //setTimeout(() => {
+                        _this.dep.userId = dep.user_id;
+                        _this.dep.departmentName = dep.department_name;
+                        _this.dep.departmentDetails = dep.department_details;
+                        //}, 0)
+                    }
                 });
             }
         });
+    };
+    /** Your code to update the model */
+    CreateDepartmentComponent.prototype.ngAfterViewChecked = function () {
+        this.cdr.detectChanges();
+    };
+    /** Un-subscribe from all subscription when component destroys */
+    CreateDepartmentComponent.prototype.ngOnDestroy = function () {
+        this.authSubscription.unsubscribe();
+        this.afterLoginSubscription.unsubscribe();
     };
     /** Function call to create a new department */
     CreateDepartmentComponent.prototype.onCreateDep = function (form) {
         if (this.editMode) {
             var data = __assign({}, form.value, { departmentId: this.depId });
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["f" /* EditDepartmentAttempt */](__assign({}, data)));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["f" /* EditDepartmentAttempt */](__assign({}, data)));
         }
         else {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["c" /* AddDepartmentAttempt */](form.value));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["c" /* AddDepartmentAttempt */](form.value));
         }
     };
     return CreateDepartmentComponent;
@@ -127,10 +153,10 @@ CreateDepartmentComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/department/create-department/create-department.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/department/create-department/create-department.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object])
 ], CreateDepartmentComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=create-department.component.js.map
 
 /***/ }),
@@ -209,7 +235,7 @@ var DepartmentModule = (function () {
 DepartmentModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_5__department_routing_module__["a" /* DepartmentRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"]
         ],
@@ -278,12 +304,24 @@ var ListDepartmentComponent = (function () {
     }
     /** Function to be executed when component initializes */
     ListDepartmentComponent.prototype.ngOnInit = function () {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["i" /* GetDepartmentListAttempt */]());
+        var _this = this;
+        this.authSubscription = this.store.select('auth')
+            .subscribe(function (data) {
+            if (data.isAdmin) {
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["k" /* GetDepartmentListAttempt */]({ userId: data.userId }));
+            }
+            else {
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["k" /* GetDepartmentListAttempt */]({}));
+            }
+        });
         this.afterLoginState = this.store.select('afterLogin');
     };
     /** Function call to start editing a department */
     ListDepartmentComponent.prototype.onEdit = function (depId) {
         this.router.navigate(['department/edit/', depId]);
+    };
+    ListDepartmentComponent.prototype.ngOnDestroy = function () {
+        this.authSubscription.unsubscribe();
     };
     return ListDepartmentComponent;
 }());

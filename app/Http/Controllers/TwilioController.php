@@ -86,8 +86,12 @@ class TwilioController extends Controller
         $getUser = UserToken::where('token',$userToken)->with('userInfo')->first();
 
         if(count($getUser) != 0 ){
+            if($getUser->userInfo->type == 1){
+                $getTwilioCredentials = TwilioCredentials::where('type',1)->first();
+            }else{
+                $getTwilioCredentials = TwilioCredentials::where('user_id',$getUser->userInfo->id)->first();
+            }
 
-          $getTwilioCredentials = TwilioCredentials::where('user_id',$getUser->userInfo->id)->first();
 
             if(count($getTwilioCredentials)!=0){
 
@@ -473,9 +477,6 @@ class TwilioController extends Controller
 
           );
         }
-
-
-
         try {
 
           $selectedNumber  = $numbers[0]->phoneNumber;
@@ -505,7 +506,14 @@ class TwilioController extends Controller
         // Update widgets active
         $checkWidgets->status = 1;
         $checkWidgets->update();
-
+        //update twilio webhook
+        $updateNumber   = new Client($sid, $token);
+        $updateNumber->incomingPhoneNumbers($purchasedNumber->sid)->update(
+                array(
+                    "smsUrl" => url('/') . '/api/v1/mobile-chat',
+                    "smsMethod" => 'POST'
+                )
+            );
         if ($twilioNumber->save()) {
 
           return $response = json_encode(array('code'=>200,'error'=>false,'response'=>[],'status'=>true,'message'=>'Widget updated and Twilio purchased saved !'));

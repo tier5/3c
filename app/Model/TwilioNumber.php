@@ -17,4 +17,12 @@ class TwilioNumber extends Model
   * @var null|string
   */
   protected $table = 'twilio_numbers';
+
+  public function getWidgetDetails(){
+      return $this->hasOne('App\Model\Widgets','id','widget_id');
+  }
+
+  public function getTwilioCredentials(){
+      return $this->hasOne('App\Model\TwilioCredentials','user_id','user_id');
+  }
 }

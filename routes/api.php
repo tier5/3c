@@ -70,8 +70,7 @@ Route::get('getPurchasedPhoneNumber/{widgetId}/{userId}/{areaCode}', 'TwilioCont
 // create Widgets
 Route::post('createWidgets', 'WidgetController@createWidgets');
 // Get list of Widgets
-Route::get('listWidgets', 'WidgetController@listWidgets');
-
+Route::post('listWidgets', 'WidgetController@listWidgets');
 //Create Twilio SID for Admin User
 Route::post('create-user-twilio-sid','UserController@createUserTwilioSid');
 
@@ -91,4 +90,28 @@ Route::post('widget-data', 'WidgetController@getWidgetData');
 Route::post('reset-password','UserController@resetPassword');
 //get widget departments
 Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
+//test function route
+Route::post('widget-departments-list', 'ChatController@createSmsTemplate');
+//Mobile chat Route
+Route::post('mobile-chat', 'ChatController@checkMessage');
+//web chat Route
+Route::post('web-chat', 'ChatController@checkWebMessage');
+//web chat message
+Route::post('web-chat-message', 'ChatController@CheckWebChatMessage');
+//chat process
+Route::post('chatProcess', 'ChatController@chatProcess');
+//Agent Action form frontend
+Route::post('agent-chat-action', 'ChatController@agentChatAction');
+//get all agents with the chatrooms
+Route::get('all-agents-chatrooms', 'ChatController@agentWithChatRooms');
+//test route for sms
+Route::any('send-sms', 'ChatController@sendSms');
+//route for the contact list
+Route::post('contact-list', 'ChatListController@getContactList');
+//route for the agent with all client name and client chat
+Route::post('client-chat', 'ChatListController@agentWithAllChats');
+//route for agent department list
+Route::post('agent-department-list', 'ChatListController@agentDepartmentList');
+//route for creating superadmin
+Route::post('add-super-admin', 'UserController@addSuperadmin');
 
