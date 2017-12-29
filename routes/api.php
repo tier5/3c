@@ -112,4 +112,6 @@ Route::post('contact-list', 'ChatListController@getContactList');
 Route::post('client-chat', 'ChatListController@agentWithAllChats');
 //route for agent department list
 Route::post('agent-department-list', 'ChatListController@agentDepartmentList');
+//route for creating superadmin
+Route::post('add-super-admin', 'UserController@addSuperadmin');
 

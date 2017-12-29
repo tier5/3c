@@ -349,17 +349,17 @@ class WidgetController extends Controller
         // Check file is in param
         if ($request->hasFile('image')) {
           $extension = $request->image->extension();
-
+            \Log::info('Have File images');
           if (in_array($extension, $supportedFormat)) {
 
-            if($checkWidget->image!='') {
-              // Delete previous image
-              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
-              unlink($deleteImage);
-            }
-            
-
+//            if($checkWidget->image!='') {
+//                \Log::info('deleting images');
+//              // Delete previous image
+//              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
+//              unlink($deleteImage);
+//            }
             // Save new image
+
             $imageName   = $generateFileName.'.'.$extension;
             $request->image->move(public_path('/widgets'), $imageName);
             $imagePath   = asset('widgets/'.$imageName);
@@ -382,10 +382,11 @@ class WidgetController extends Controller
           $checkWidget->image           = $imagePath;
 
         } else {
-          
-          $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
-          $checkWidget->image = '';
-          unlink($deleteImage);
+          if($checkWidget->image!="") {
+              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image, 'widgets'));
+              $checkWidget->image = '';
+              unlink($deleteImage);
+          }
         }
 
         if ($checkWidget->save()) {

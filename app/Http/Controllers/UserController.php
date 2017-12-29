@@ -1422,5 +1422,84 @@ class UserController extends Controller
     }
   }
 
+  public function addSuperadmin(Request $request)
+  {
+      $firstName    = $request->firstName;
+      $lastName     = $request->lastName;
+      $email        = $request->email;
+
+      if( $request->password !="" ){
+
+          $password = $request->password; //take user inputed password
+
+      } else {
+
+          $password = $this->generateRandomString(); //generate Random Password for the admin
+
+      }
+
+      if( $email!="" ){
+
+          $checkEmailExist = Users::where('email',$email)->first(); //Check email exist
+
+          if(count($checkEmailExist)==0){
+
+              $saveUser                 = new Users;
+              $saveUser->first_name     = $firstName;
+              $saveUser->last_name      = $lastName;
+              $saveUser->email          = $email;
+              $saveUser->password       = Hash::make($password);
+              $saveUser->type           = 1; //Depands on the User Creation type by default 2
+              $saveUser->profile_status = 1; //Profile set to Active
+
+              if($saveUser->save()){
+
+                  $this->sendRegistrationEmail($email,$password); //send email and password to the register admin user
+                  return Response()->json([
+                      'code'    => 200,
+                      'success' => true,
+                      'error'   => false,
+                      'status'  => true,
+                      'response'=> $saveUser,
+                      'message' => 'Superadmin created !'
+                  ]);
+
+              } else {
+
+                  return Response()->json([
+                      'code'    => 400,
+                      'success' => false,
+                      'error'   => true,
+                      'status'  => false,
+                      'response'=> [],
+                      'message' => 'Superadmin not created,please try again in a while !'
+                  ]);
+
+              }
+          } else {
+
+              return Response()->json([
+                  'code'    => 400,
+                  'error'   => true,
+                  'success' => false,
+                  'status'  => false,
+                  'response'=> [],
+                  'message' => 'Email ID exist,please choose new email id !'
+              ]);
+
+          }
+      } else {
+
+          return Response()->json([
+              'code'    => 400,
+              'error'   => true,
+              'success' => false,
+              'status'  => false,
+              'response'=> [],
+              'message' => 'Please provide valid data !'
+          ]);
+
+      }
+  }
 
 }
