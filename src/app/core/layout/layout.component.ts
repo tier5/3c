@@ -31,6 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
           if (data) {
             this.chatState = this.store.select('afterLogin')
               .map(data => data.chat);
+            console.log('init layout');
             this.store.dispatch(new ChatActions.ConnectAttempt());
           }
         }
@@ -55,6 +56,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log("layout destroy");
+    this.chatService.socketDisconnect();
   }
 
 }

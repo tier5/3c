@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   authState: Observable<fromAuth.State>;
 
   /** Service injection */
-  constructor(private store: Store<fromApp.AppState>, private chatService: ChatService) { }
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.authState = this.store.select('auth');
@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
   /** Function call to sign out */
   onSignOut() {
     this.store.dispatch(new AuthActions.SignOutAttempt());
-    this.chatService.socketDisconnect();
+   
   }
 
 }
