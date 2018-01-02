@@ -1327,6 +1327,33 @@ class ChatController extends Controller
             $agents['agent_id'] = $AgentId;
             foreach($rooms as $room) {
                 $agentRooms['name'] = $room->chat_room_id;
+
+                /** to get agents list */
+                $getDepartmentDetails = MessageAgentTrack::where('chat_room_id',$room->chat_room_id)->with('getWidget.widgetDepartment.departmentDetails.departmentAgents.agentDetails')->first();
+
+                $agentDepartmentData = [];
+            
+                if(count($getDepartmentDetails) != 0){
+                    foreach($getDepartmentDetails->getWidget->widgetDepartment as $key=>$data){
+                        $agentDepartmentData[$key]['department_id']     = $data->departmentDetails->id;
+                        $agentDepartmentData[$key]['department_name']   = $data->departmentDetails->department_name;
+                        $agentArray = [];
+                        foreach($data->departmentDetails->departmentAgents as $newData){
+                            $agentArr = [];
+                            foreach($newData->agentDetails as $agent_key=>$agentDetail){
+                                $agentArr['agent_id']     = $agentDetail->id;
+                                $agentArr['first_name']   = $agentDetail->first_name;
+                                $agentArr['last_name']    = $agentDetail->last_name;
+                                $agentArray[] = $agentArr;
+                            }
+
+                        }
+                        $agentDepartmentData[$key]['agent'] = $agentArray;
+                    }
+                    
+                }
+                $agentRooms['agent_list'] = $agentDepartmentData;
+
                 $agentRooms['status'] = $room->status;
                 if($room->clientInfo->clientName->name !="" ) {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->name;
