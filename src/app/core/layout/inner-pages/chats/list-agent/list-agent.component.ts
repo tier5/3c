@@ -19,7 +19,8 @@ export class ListAgentComponent implements OnInit {
   /** Variable declaration */
   chatState: Observable<fromChat.ChatState>;
   chatMode: boolean = false;
-
+  p: number = 1;
+  
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,

@@ -7,6 +7,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { ListAdminComponent } from './list-admin/list-admin.component';
 import { SharedModule } from '../../../shared/shared.module';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { SharedModule } from '../../../shared/shared.module';
     FormsModule,
     SharedModule,
     AdminRoutingModule,
-    TextMaskModule
+    TextMaskModule,
+    NgxPaginationModule
   ],
   declarations: [
     CreateAdminComponent,

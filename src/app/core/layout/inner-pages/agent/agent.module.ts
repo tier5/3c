@@ -7,6 +7,7 @@ import { AgentRoutingModule } from './agent-routing.module';
 import { CreateAgentComponent } from './create-agent/create-agent.component';
 import { ListAgentComponent } from './list-agent/list-agent.component';
 import { SharedModule } from '../../../shared/shared.module';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { SharedModule } from '../../../shared/shared.module';
     AgentRoutingModule,
     FormsModule,
     TextMaskModule,
-    SharedModule
+    SharedModule,
+    NgxPaginationModule
   ],
   declarations: [
     CreateAgentComponent,

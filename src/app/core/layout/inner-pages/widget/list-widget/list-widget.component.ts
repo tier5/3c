@@ -15,8 +15,9 @@ import { Subscription } from 'rxjs/Subscription'
 export class ListWidgetComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
-  afterLoginState: Observable<fromAfterLogin.FeatureState>
-  authSubscription: Subscription
+  afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  authSubscription: Subscription;
+  p: number = 1;
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,

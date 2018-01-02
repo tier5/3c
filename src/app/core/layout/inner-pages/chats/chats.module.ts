@@ -8,6 +8,7 @@ import { ListAgentComponent } from './list-agent/list-agent.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MomentModule } from 'angular2-moment';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { MomentModule } from 'angular2-moment';
     ChatsRoutingModule,
     FormsModule,
     SharedModule,
-    MomentModule
+    MomentModule,
+    NgxPaginationModule
   ],
   declarations: [
     ListChatComponent,

@@ -8,6 +8,8 @@ import { WidgetRoutingModule } from './widget-routing.module';
 import { ListWidgetComponent } from './list-widget/list-widget.component';
 import { CreateWidgetComponent } from './create-widget/create-widget.component';
 import { SharedModule } from '../../../shared/shared.module';
+import {NgxPaginationModule} from 'ngx-pagination';
+
 
 @NgModule({
   imports: [
@@ -16,7 +18,8 @@ import { SharedModule } from '../../../shared/shared.module';
       WidgetRoutingModule,
       FormsModule,
       TextMaskModule,
-      SharedModule
+      SharedModule,
+      NgxPaginationModule
   ],
   declarations: [
     CreateWidgetComponent,

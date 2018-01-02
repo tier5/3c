@@ -21,6 +21,7 @@ import { reducers } from './store/core.reducers';
 import { SharedModule } from './shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import {ChatService} from "./layout/inner-pages/chat/chat.service";
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {ChatService} from "./layout/inner-pages/chat/chat.service";
     MomentModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
+    NgxPaginationModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [

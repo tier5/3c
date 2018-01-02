@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { CreateTwilioComponent } from './create-twilio/create-twilio.component';
 import { ListTwilioComponent } from './list-twilio/list-twilio.component';
 import { TwilioRoutingModule } from './twilio-routing.module';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    TwilioRoutingModule
+    TwilioRoutingModule,
+    NgxPaginationModule
   ],
   declarations: [
     CreateTwilioComponent,
