@@ -47,6 +47,35 @@
                   <div class="box box-primary direct-chat direct-chat-primary">
                     <div class="box-body">
                       <div class="chat-btn">
+                        <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">
+                          <button (click)="onSomeMsgAction(2)" class="btn btn-primary">Accept</button>
+                          <button (click)="onSomeMsgAction(3)" class="btn btn-danger">Reject</button>
+                          <div class="dropdown target-drop" [appDropdown]="'open'" [disable-hover]="true" >
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button" data-toggle="dropdown">
+                              Transfer
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li class="dropdown-submenu" *ngFor="let department of (chatState | async).ongoing[currentChatIndex]?.agentList; let i = index;">
+                                <div class="dropdown" [appDropdown]="'open'" [disable-hover]="false">
+                                  <a class="test" tabindex="-1">{{ department.department_name }}  <span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" (click)="transferChatToDepartment(department.department_id)">Transfer to department </a></li>
+                                    <li class="dropdown-submenu">
+                                      <a tabindex="-1" >Transfer to agent </a>
+                                      <ul class="super-sub">
+                                        <li *ngFor="let agent of department.agent">
+                                          <a tabindex="-1" (click)="transferChatToAgent(agent.agent_id)" [ngClass]="(agent.agent_id === agentId)? 'btn-disabled' : ''"> {{ agent.first_name }}  </a>
+                                        </li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                         <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 2">
                           <button (click)="onSomeMsgAction(5)" class="btn btn-success">Resolve Chat</button>
                           <div class="dropdown target-drop" [appDropdown]="'open'" [disable-hover]="true" >
@@ -56,7 +85,7 @@
                               <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                              <li class="dropdown-submenu" *ngFor="let department of (chatState | async).agentList; let i = index;">
+                              <li class="dropdown-submenu" *ngFor="let department of (chatState | async).ongoing[currentChatIndex]?.agentList; let i = index;">
                                 <div class="dropdown" [appDropdown]="'open'" [disable-hover]="false">
                                   <a class="test" tabindex="-1">{{ department.department_name }}  <span class="caret"></span></a>
                                   <ul class="dropdown-menu">
@@ -88,10 +117,7 @@
                               {{chat.message}}
                             </div>
                           </div>
-                          <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">
-                            <button (click)="onSomeMsgAction(2)" class="btn btn-primary">Accept</button>
-                            <button (click)="onSomeMsgAction(3)" class="btn btn-danger">Reject</button>
-                          </div>
+
 
 
                         </div>

@@ -29,7 +29,8 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         room: action.payload.name,
         client: action.payload.client_name,
         status: action.payload.status,
-        chats: action.payload.chats
+        chats: action.payload.chats,
+        agentList : action.payload.agent_list
       };
       return {
         ...state,
@@ -77,11 +78,6 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       return {
         ...state,
         contactList: action.payload
-      };
-    case (ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS):
-      return {
-        ...state,
-        agentList: action.payload
       };
     default:
       return state;

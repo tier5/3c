@@ -37,8 +37,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
     this.chatState = this.store.select('afterLogin')
         .map(data => data.chat);
     this.getChatRoom();
-
-    this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
     this.store.select('auth')
         .take(1)
         .map(data => data.userId)
@@ -53,7 +51,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   changeCurrentChat(i: number) {
     this.currentChatIndex = i;
     this.getChatRoom();
-    this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
 
   }
 
