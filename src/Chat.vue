@@ -27,7 +27,19 @@
             </a>
           </div>
         </div>
-        <div class="panel-body msg_container_base" v-if="!minimize && !chatResolved" v-chat-scroll>
+
+        <div class="panel-body msg_container_base" v-if="!minimize && chatFailed" >
+          <div class="chat-notification">
+            <div class="row">
+              <b> We are unable to connect now.</b>
+            </div>
+            <div class="row">
+              <b> Try again later!!!!</b>
+            </div>
+          </div>
+        </div> 
+
+        <div class="panel-body msg_container_base" v-if="!minimize && !chatResolved && !chatFailed" v-chat-scroll>
           <div class="chat-notification">
             <div class="row">
               <b> {{ connectMessage }} </b>
@@ -55,7 +67,8 @@
 
           </div>
         </div>
-        <div class="panel-body msg_container_base" v-if="!minimize && chatResolved" v-chat-scroll>
+
+        <div class="panel-body msg_container_base" v-if="!minimize && chatResolved && !chatFailed" v-chat-scroll>
           <div class="chat-notification">
             <div class="row">
               <b> Thank you for chatting with us.</b>
@@ -131,6 +144,7 @@ export default {
     clientNotAddedToRoom: function() {
 
       this.sendMessage = false;
+      this.chatFailed = true;
       console.log("Client join failed");
       this.$socket.emit('disconnect');
     },
@@ -163,13 +177,17 @@ export default {
     /** to update the chat room with the chat message */
     newmsg: function (data) {
       console.log(data);
-      console.log(data.message+' sent by ' + data.user);
       this.messages.push(data);
     },
 
     connectedToRoom: function (msg) {
       console.log(msg);
       this.connectMessage =msg;
+      this.chatResolved = false;
+      this.departmentSubmitted = false;
+      this.chat = false;
+      this.messages = [];
+      this.chatFailed = false;
     }
 
   },
@@ -191,7 +209,8 @@ export default {
       chatResolved : false,
       chat : false,
       widgetDepartments : {},
-      departmentSubmitted : false
+      departmentSubmitted : false,
+      chatFailed : false
       
 
     }
@@ -216,8 +235,6 @@ export default {
     addMessage() {
 
       console.log("sent");
-      console.log(this.message);
-      console.log(this.messages);
       if(this.message) {
         this.$socket.emit('msg', { messageBody: this.message, direction : 1, user: this.client.name, chatRoomId: this.chatRoomId , fromNumber : this.client.from_number, time : moment() });
       }
