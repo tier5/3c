@@ -167,7 +167,7 @@ class ChatController extends Controller
                             $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList,$widgetUuid);
                             if($responsesaveMessageLog!=false){
                                 //run a update query to update the Message_Track tables from
-                                $updateMessageTrack = MessageTrack::where('id',$responsesaveMessageTrack->id)->update([ 'message_id' => $responsesaveMessageLog->id ]);
+                                $updateMessageTrack = MessageTrack::where('id',$responsesaveMessageTrack->id)->update([ 'message_id' => $responsesaveMessageLog ]);
                                 $type = '1'; // 1-> Mobile 2-> Web
                                 $direction = '1'; // 1->Incoming 2-> outgoing
                                 $userId = $responsesaveMessageTrack->agent_id;
@@ -313,7 +313,7 @@ class ChatController extends Controller
     {
         if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
             $fromNumberNew = substr($fromNumber, -10);//add a filter
-            $keys = TwilioNumber::where('number', $fromNumber)->with('getTwilioCredentials')->first();
+            $keys = TwilioNumber::where('number', $fromNumberNew)->with('getTwilioCredentials')->first();
             if ($keys) {
                 try {
                         $fromNumber = $keys->prefix.$keys->number;
@@ -574,7 +574,7 @@ class ChatController extends Controller
                 $saveChatThread->widget_id      = $widget_uuid;
                 $saveChatThread->chat_thread    = $messageBody;
                 $saveChatThread->type           = $type;
-                $saveChatThread->agent_id       = $userId;
+                $saveChatThread->user_id        = $userId;
                 $saveChatThread->direction      = $direction;
                 $saveChatThread->chat_type      = $type;
                 if($saveChatThread->save()){
