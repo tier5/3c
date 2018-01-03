@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NgForm } from '@angular/forms';
 
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AgentActions from '../../../store/agent/agent.actions';
@@ -29,6 +30,15 @@ export class ListAgentComponent implements OnInit {
   /** Function to Edit Agent */
   onEditAgent(id: number) {
     this.router.navigate([ 'agent/edit/', id ]);
+  }
+
+  onSubmit(form: NgForm) {
+    if(form.value.filter == '') {
+      this.store.dispatch(new AgentActions.GetAgentListAttempt());
+    } else {
+      this.store.dispatch(new AgentActions.GetAgentListFilterAttempt(form.value));
+    }
+
   }
 
 }

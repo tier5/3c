@@ -47,6 +47,11 @@ export function agentReducer (state = initialState, action: AgentActions.AgentAc
         ...state,
         resetAgentForm: false
       };
+    case (AgentActions.GET_AGENT_LIST_FILTER_SUCCESS):
+      return {
+        ...state,
+        list: action.payload
+      };
     default:
       return state
   }

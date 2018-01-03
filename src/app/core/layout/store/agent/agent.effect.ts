@@ -161,4 +161,46 @@ export class AgentEffects {
         })
     })
 
+   @Effect()
+   getAgentListFilter = this.actions$
+    .ofType(AgentActions.GET_AGENT_LIST_FILTER_ATTEMPT)
+    .switchMap((action: AgentActions.GetAgentListFilterAttempt) => {
+        const apiUrl = environment.API_BASE_URL + 'agent-list-filter';
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const config = {
+            headers: headers
+        }
+        return this.httpClient.post(apiUrl,action.payload, config)
+            .mergeMap((res: any) => {
+                if (res.status) {
+                    return [
+                        {
+                            type: AgentActions.GET_AGENT_LIST_FILTER_SUCCESS,
+                             payload: res.response
+                        }
+                     ]
+                } else {
+                    return [
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                                payload: {message: res.message, type: 'danger'},
+                        },
+                        {
+                            type: AgentActions.GET_AGENT_LIST_FILTER_SUCCESS,
+                            payload: []
+                        }
+                    ]
+                }
+
+            })
+            .catch((err: HttpErrorResponse) => {
+                return of(
+                    {
+                        type: AlertActions.ALERT_SHOW,
+                        payload: { message: err.error, type: 'danger' }
+                    }
+                )
+            })
+        });
+
 }

@@ -47,12 +47,7 @@ export class ListAdminComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if(form.value.filter == '') {
-      this.store.dispatch(new AdminActions.GetAdminListAttempt());
-    } else {
-      this.store.dispatch(new AdminActions.GetAdminListFilterAttempt(form.value));
-    }
-
+    this.store.dispatch(new AdminActions.GetAdminListFilterAttempt(form.value));
   }
 
 }
