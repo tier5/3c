@@ -34,6 +34,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             this.chatState = this.store.select('afterLogin')
               .map(data => data.chat);
             this.store.dispatch(new ChatActions.ConnectAttempt());
+            this.chatService.connect();
           }
         }
       );

@@ -173,6 +173,9 @@ ul.super-sub li:hover{background: #e1e3e9;}
     pointer-events: none;
 }
 
+.direct-chat-text {
+    word-break: break-all;
+}
 
 
 

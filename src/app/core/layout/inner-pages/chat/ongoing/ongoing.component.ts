@@ -33,7 +33,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     
-    this.chatService.connect();
+    
     this.chatState = this.store.select('afterLogin')
         .map(data => data.chat);
     this.getChatRoom();

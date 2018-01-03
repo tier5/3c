@@ -46,7 +46,15 @@
                   <div class="box box-primary direct-chat direct-chat-primary">
                     <div class="box-body">
                       <!-- Conversations are loaded here -->
-                      <div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">
+                      <div class="no-chat" *ngIf="!((chatState | async).chatList[currentChatIndex]?.chats.length)">
+                        <div class="col-md-9 col-sm-9" >
+                          <div class="col-md-5 col-sm-5">
+                            <h4>No chats found at the moment!</h4>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight" *ngIf="((chatState | async).chatList[currentChatIndex]?.chats.length)">
                         <!-- Message. Default to the left -->
                         <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).chatList[currentChatIndex]?.chats">
                           <div class="direct-chat-info clearfix">

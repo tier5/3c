@@ -99,3 +99,11 @@ h2{
 .direct-chat-messages {
     height: 500px;
 }
+.no-chat {
+    height: 100px;
+    padding-top: 20px;
+}
+
+.direct-chat-text {
+    word-break: break-all;
+}
