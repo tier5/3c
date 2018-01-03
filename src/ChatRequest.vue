@@ -685,26 +685,6 @@ h3.side-logo {
   font-size: 12px;
 }
 
-@media screen and (max-width: 1300px) {
-
-  .powredby {
-    position: relative;
-    padding: 15px 0;
-  }
-
-}
-
-@media screen and (max-width: 469px) {
-
-  .side-bar {
-    width: 100%;
-  }
-  .powredby {
-    position: relative; padding: 15px 0;
-  }
-
-
-}
 
 
 </style>

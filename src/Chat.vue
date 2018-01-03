@@ -49,7 +49,7 @@
 
             
             <div class="row msg_container base_sent" v-if="message.direction==1">
-              <div class="col-md-3 pull-left ">
+              <div class="col-md-3 pull-left">
                 <span class="time-left" > <icon name="clock-o"></icon>{{ moment(message.created_at.date) }} 
                   
                 </span>
@@ -108,7 +108,8 @@
               </div>
               <div class="panel-body" v-if="chat && departmentSubmitted">
                 <div class="col-md-12 cust-pad">
-                  <button type="button" class="btn btn-primary" @click="startChatAgain"> Chat Again </button>
+                  <button type="button" class="btn btn-primary" @click="startChatAgain" v-if="!chatClicked"> Chat Again </button>
+                  <p v-if="chatClicked"> Please wait.... </p>
                 </div>
               </div>    
             </div>
@@ -201,6 +202,7 @@ export default {
       this.chat = false;
       this.messages = [];
       this.chatFailed = false;
+      this.chatClicked = false;
     }
 
   },
@@ -223,7 +225,8 @@ export default {
       chat : false,
       widgetDepartments : {},
       departmentSubmitted : false,
-      chatFailed : false
+      chatFailed : false,
+      chatClicked : false
       
 
     }
@@ -296,6 +299,7 @@ export default {
     },
     /** to start the chatting */
     startChatAgain() {
+      this.chatClicked = true;
       console.log("Started chat again");
       this.$socket.emit('client-connected', this.client);
     },
@@ -476,7 +480,8 @@ export default {
   }
   .time-left .fa-icon {
     margin-left:0;
-    height : 12px;
+    height : 10px;
+    margin-right : 5px;
   }
 
   .msg_sent > p {
@@ -496,5 +501,12 @@ export default {
 
   }
 
+  .pull-left {
+    padding : 0px;
+  }
+
+  .pull-right {
+    padding : 5px;
+  }
 </style>
 
