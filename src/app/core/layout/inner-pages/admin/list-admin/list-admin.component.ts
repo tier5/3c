@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NgForm } from '@angular/forms';
 
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AdminActions from '../../../store/admin/admin.actions';
@@ -14,6 +15,7 @@ import * as AdminActions from '../../../store/admin/admin.actions';
 export class ListAdminComponent implements OnInit {
 
   /** Variable declaration */
+
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
   p: number = 1;
 
@@ -42,6 +44,15 @@ export class ListAdminComponent implements OnInit {
   /** Function for block a admin user account*/
   UnblockUser(userId: number){
     this.store.dispatch(new AdminActions.UnblockAdminUserAttempt({userId}));
+  }
+
+  onSubmit(form: NgForm) {
+    if(form.value.filter == '') {
+      this.store.dispatch(new AdminActions.GetAdminListAttempt());
+    } else {
+      this.store.dispatch(new AdminActions.GetAdminListFilterAttempt(form.value));
+    }
+
   }
 
 }

@@ -26,6 +26,9 @@ export const UNBLOCK_ADMIN_USER_SUCCESS = 'UNBLOCK_ADMIN_USER_SUCCESS';
 export const GET_TO_EDIT_ADMIN_ATTEMPT = 'GET_TO_EDIT_ADMIN_ATTEMPT';
 export const GET_TO_EDIT_ADMIN_SUCCESS = 'GET_TO_EDIT_ADMIN_SUCCESS';
 
+export const GET_ADMIN_LIST_FILTER_ATTEMPT = 'GET_ADMIN_LIST_FILTER_ATTEMPT';
+export const GET_ADMIN_LIST_FILTER_SUCCESS = 'GET_ADMIN_LIST_FILTER_SUCCESS';
+
 
 export class GetAdminAttempt implements Action {
   readonly type = GET_ADMIN_ATTEMPT;
@@ -109,6 +112,16 @@ export class GetToEditAdminSuccess implements Action {
   constructor(public payload: any) { }
 }
 
+export class GetAdminListFilterAttempt implements Action {
+  readonly type = GET_ADMIN_LIST_FILTER_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class GetAdminListFilterSuccess implements Action {
+  readonly type = GET_ADMIN_LIST_FILTER_SUCCESS;
+  constructor(public payload: any) { }
+}
+
 export type AdminActions = ResetAdminForm |
   GetAdminAttempt | GetAdminSuccess |
   AddAdminAttempt | AddAdminSuccess |
@@ -117,4 +130,5 @@ export type AdminActions = ResetAdminForm |
   CreateTwilioSidAttempt | CreateTwilioSidSuccess |
   BlockAdminUserAttempt | BlockAdminUserSuccess |
   UnblockAdminUserAttempt | UnblockAdminUserSuccess |
-  GetToEditAdminAttempt | GetToEditAdminSuccess;
+  GetToEditAdminAttempt | GetToEditAdminSuccess |
+    GetAdminListFilterAttempt | GetAdminListFilterSuccess  ;
