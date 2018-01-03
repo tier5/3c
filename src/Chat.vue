@@ -46,15 +46,28 @@
             </div>
           </div>
           <div v-for="message in messages">
+
+            
             <div class="row msg_container base_sent" v-if="message.direction==1">
-              <div class="messages msg_sent">
-                <p>{{ message.message }}</p>
+              <div class="col-md-3 pull-left ">
+                <span class="time-left" > <icon name="clock-o"></icon>{{ moment(message.created_at.date) }} 
+                  
+                </span>
               </div>
+              <div class="messages msg_sent">
+                <p class="pull-right">{{ message.message }}</p>
+              </div>
+
             </div>
+            
 
             <div class="row msg_container base_receive" v-if="message.direction==2">
               <div class="messages msg_receive">
-                  <p>{{ message.message }}</p>
+                  <p class="pull-left">{{ message.message }}</p>
+              </div>
+              <div class="col-md-3 pull-right">
+                <span class="time-right" >{{ moment(message.created_at.date) }} 
+                </span>
               </div>
             </div>
 
@@ -285,6 +298,9 @@ export default {
     startChatAgain() {
       console.log("Started chat again");
       this.$socket.emit('client-connected', this.client);
+    },
+    moment(date) {
+      return moment.utc(date).local().format('h:mm:ss a');
     }
   }
 }
@@ -321,20 +337,21 @@ export default {
     overflow: hidden;
   }
   .msg_receive{
-    background: #eef5f9;
+    background: #F7F8FA;
     color: #333;
   }
   .msg_sent{
-    margin-right:0;
-    background: #467FFD;
+    margin:0;
+    background: #F7F8FA;
     color: #fff;
   }
   .messages {
-    padding: 14px;
+    padding: 2px;
     border-radius: 2px;
     max-width: 100%;
     margin: 0 10px;
-    width: auto;
+    width:70%;
+    word-break:break-all;
   }
   .messages > p {
     margin: 0;
@@ -442,5 +459,42 @@ export default {
     padding: 5px;
     cursor: pointer;
   }
+
+  /* Style time text */
+  .time-right {
+    float: right;
+    color: #999;
+    margin-right:0;
+    font-size : 12px;
+  }
+
+  /* Style time text */
+  .time-left {
+    float: left;
+    color: #999;
+    font-size : 12px;
+  }
+  .time-left .fa-icon {
+    margin-left:0;
+    height : 12px;
+  }
+
+  .msg_sent > p {
+    margin: 0;
+    padding : 10px;
+    background: #467FFD;
+    color: #fff;
+    font-size : 15px;
+
+  }
+  .msg_receive > p {
+    margin: 0;
+    padding : 10px;
+    background: #eef5f9;
+    color: #333;
+    font-size : 15px;
+
+  }
+
 </style>
 
