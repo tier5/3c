@@ -31,7 +31,7 @@ Route::post('get-twilio-information','TwilioController@getTwilioInformation');
 //Admin Registration
 Route::post('admin-registration','UserController@adminRegistration');
 //Admin List
-Route::get('admin-list','UserController@adminList');
+Route::post('admin-list','UserController@adminList');
 //View Admin
 Route::post('view-admin','UserController@viewAdmin');
 //Emulate User

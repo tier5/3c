@@ -600,9 +600,31 @@ class UserController extends Controller
    * @param Request $request
    * @return \Illuminate\Http\JsonResponse
    */
-  public function adminList()
+  
+  public function adminList(Request $request)
   {
-    $adminList = Users::where('type',2)->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')->with('twilioInfo')->get();
+
+    $filter = '';
+
+    if($request->has('filter')) {
+      $filter = $request->filter;
+    }
+
+    $adminList = Users::where('type',2)
+                      ->where(function($query) use ($filter)
+                      {
+                        $query->where('first_name', 'like', '%'.$filter.'%')
+                              ->orWhere('last_name', 'like', '%'.$filter.'%')
+                              ->orWhere('email', 'like', '%'.$filter.'%')
+                              ->orWhere('phone', 'like', '%'.$filter.'%')
+                              ->orWhere('company', 'like', '%'.$filter.'%');
+                      })
+                      ->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')
+                      ->with('twilioInfo')
+                      ->orWhereHas('twilioInfo', function ($query) use ($filter) {
+                        $query->where('twilio_sid', 'like', '%' . $filter . '%');
+                      })
+                      ->get();
 
     if(count($adminList)!=0){
 
@@ -1028,16 +1050,49 @@ class UserController extends Controller
   public function listofAgent(Request $request)
   {
     $userToken = $request->token;
+    $filter    = '';
+    if($request->has('filter')) {
+      $filter = $request->filter;
+    }
 
     if ($userToken!='') { //Get agent list of an admin
 
         $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
         if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
 
-            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
+            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)
+                              ->with('departmentAgentMapping.departmentDetails','getCompany')
+                              ->where(function($query) use ($filter)
+                              {
+                                $query->where('first_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('last_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('email', 'like', '%'.$filter.'%')
+                                      ->orWhere('phone', 'like', '%'.$filter.'%')
+                                      ->orWhere('company', 'like', '%'.$filter.'%');
+
+                              })
+                              ->orWhereHas('getCompany', function ($query) use ($filter) {
+                                $query->where('company', 'like', '%' . $filter . '%');
+                              })
+                              ->get();
+
         } else {  // Get all agents
 
-            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
+            $getAgents = Users::where('type',3)
+                              ->with('departmentAgentMapping.departmentDetails','getCompany')
+                              ->where(function($query) use ($filter)
+                              {
+                                $query->where('first_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('last_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('email', 'like', '%'.$filter.'%')
+                                      ->orWhere('phone', 'like', '%'.$filter.'%')
+                                      ->orWhere('company', 'like', '%'.$filter.'%');
+                                      //->orWhere('get_company.company', 'like', '%'.$filter.'%');
+                              })
+                              ->orWhereHas('getCompany', function ($query) use ($filter) {
+                                $query->where('company', 'like', '%' . $filter . '%');
+                              })
+                              ->get();
 
         }
 
