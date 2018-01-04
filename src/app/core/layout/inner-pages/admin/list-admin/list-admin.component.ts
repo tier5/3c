@@ -25,7 +25,7 @@ export class ListAdminComponent implements OnInit {
 
   /** Function to be executed when component initializes */
   ngOnInit() {
-    this.store.dispatch(new AdminActions.GetAdminListAttempt());
+    this.store.dispatch(new AdminActions.GetAdminListAttempt({}));
     this.afterLoginState = this.store.select('afterLogin');
   }
 
@@ -47,7 +47,7 @@ export class ListAdminComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.store.dispatch(new AdminActions.GetAdminListFilterAttempt(form.value));
+    this.store.dispatch(new AdminActions.GetAdminListAttempt(form.value));
   }
 
 }

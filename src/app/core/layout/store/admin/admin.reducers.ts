@@ -77,11 +77,7 @@ export function adminReducer(state = initialState, action: AdminActions.AdminAct
         ...state,
         toEdit: { ...action.payload }
       };
-    case (AdminActions.GET_ADMIN_LIST_FILTER_SUCCESS):
-      return {
-        ...state,
-        list: action.payload
-      };
+    
     default:
       return state;
   }

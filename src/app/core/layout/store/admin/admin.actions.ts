@@ -61,6 +61,7 @@ export class EditAdminSuccess implements Action {
 
 export class GetAdminListAttempt implements Action {
   readonly type = GET_ADMIN_LIST_ATTEMPT;
+  constructor(public payload: any) { }
 }
 
 export class GetAdminListSuccess implements Action {
@@ -112,15 +113,7 @@ export class GetToEditAdminSuccess implements Action {
   constructor(public payload: any) { }
 }
 
-export class GetAdminListFilterAttempt implements Action {
-  readonly type = GET_ADMIN_LIST_FILTER_ATTEMPT;
-  constructor(public payload: any) { }
-}
 
-export class GetAdminListFilterSuccess implements Action {
-  readonly type = GET_ADMIN_LIST_FILTER_SUCCESS;
-  constructor(public payload: any) { }
-}
 
 export type AdminActions = ResetAdminForm |
   GetAdminAttempt | GetAdminSuccess |
@@ -130,5 +123,4 @@ export type AdminActions = ResetAdminForm |
   CreateTwilioSidAttempt | CreateTwilioSidSuccess |
   BlockAdminUserAttempt | BlockAdminUserSuccess |
   UnblockAdminUserAttempt | UnblockAdminUserSuccess |
-  GetToEditAdminAttempt | GetToEditAdminSuccess |
-    GetAdminListFilterAttempt | GetAdminListFilterSuccess  ;
+  GetToEditAdminAttempt | GetToEditAdminSuccess   ;

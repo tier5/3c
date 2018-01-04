@@ -69,7 +69,7 @@ export class AdminEffects {
       const config = {
         headers: headers
       }
-      return this.httpClient.get(apiUrl, config)
+      return this.httpClient.post(apiUrl, action.payload,config)
         .map((res: any) => {
           if(res.status) {
             return {
@@ -283,47 +283,6 @@ export class AdminEffects {
           )
         })
     });
-
-  @Effect()
-  getAdminListFilter = this.actions$
-    .ofType(AdminActions.GET_ADMIN_LIST_FILTER_ATTEMPT)
-    .switchMap((action: AdminActions.GetAdminListFilterAttempt) => {
-        const apiUrl = environment.API_BASE_URL + 'admin-list-filter';
-        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
-        const config = {
-             headers: headers
-        }
-        return this.httpClient.post(apiUrl,action.payload, config)
-            .mergeMap((res: any) => {
-                if (res.status) {
-                    return [
-                        {
-                            type: AdminActions.GET_ADMIN_LIST_FILTER_SUCCESS,
-                            payload: res.response
-                        }
-                    ]
-                } else {
-                    return [
-                        {
-                            type: AlertActions.ALERT_SHOW,
-                            payload: {message: res.message, type: 'danger'},
-                        },
-                        {
-                            type: AdminActions.GET_ADMIN_LIST_FILTER_SUCCESS,
-                            payload: []
-                        }
-                    ]
-                }
-
-            })
-            .catch((err: HttpErrorResponse) => {
-                return of(
-                    {
-                        type: AlertActions.ALERT_SHOW,
-                        payload: { message: err.error, type: 'danger' }
-                    }
-                 )
-            })
-        });
+    
 
 }
