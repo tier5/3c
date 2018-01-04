@@ -23,7 +23,7 @@ export class ListAgentComponent implements OnInit {
               private router: Router) { }
   /** Function to be executed when component initializes */
   ngOnInit() {
-    this.store.dispatch(new AgentActions.GetAgentListAttempt());
+    this.store.dispatch(new AgentActions.GetAgentListAttempt({}));
     this.afterLoginState = this.store.select('afterLogin');
   }
 
@@ -33,12 +33,7 @@ export class ListAgentComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if(form.value.filter == '') {
-      this.store.dispatch(new AgentActions.GetAgentListAttempt());
-    } else {
-      this.store.dispatch(new AgentActions.GetAgentListFilterAttempt(form.value));
-    }
-
+    this.store.dispatch(new AgentActions.GetAgentListAttempt(form.value));
   }
 
 }

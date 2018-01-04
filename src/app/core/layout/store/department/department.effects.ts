@@ -111,11 +111,27 @@ export class DepartmentEffects {
         headers: headers
       }
       return this.httpClient.post(apiUrl, action.payload, config)
-        .map((res: any) => {
-          return {
-            type: DepartmentActions.GET_DEPARTMENT_LIST_SUCCESS,
-            payload: res.response
-          }
+        .mergeMap((res: any) => {
+            if (res.status) {
+                return [
+                    {
+                        type: DepartmentActions.GET_DEPARTMENT_LIST_SUCCESS,
+                        payload: res.response
+                    }
+                ]
+            } else {
+                return [
+                    {
+                        type: AlertActions.ALERT_SHOW,
+                        payload: {message: res.message, type: 'danger'},
+                    },
+                    {
+                        type: DepartmentActions.GET_DEPARTMENT_LIST_SUCCESS,
+                        payload: []
+                    }
+                ]
+            }
+
         })
         .catch((err: HttpErrorResponse) => {
           return of(

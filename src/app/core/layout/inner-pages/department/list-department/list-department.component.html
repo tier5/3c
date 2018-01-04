@@ -13,6 +13,23 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">List of all Departments</h3>
+                        <div class="pull-right">
+                            <form #form="ngForm" (submit)="onSubmit(form)">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Search"
+                                               name="filter"
+                                               required
+                                               ngModel
+                                               ng-keyup="onSubmit(form)"
+                                        >
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">

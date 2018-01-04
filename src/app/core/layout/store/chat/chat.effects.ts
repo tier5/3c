@@ -43,7 +43,7 @@ export class ChatEffects {
             const config = {
                 headers: headers
             }
-            return this.httpClient.post(apiUrl, config)
+            return this.httpClient.post(apiUrl, action.payload,config)
                 .mergeMap((res: any) => {
                     if (res.status) {
                         return [

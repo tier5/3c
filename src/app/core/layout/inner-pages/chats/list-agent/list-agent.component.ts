@@ -35,7 +35,7 @@ export class ListAgentComponent implements OnInit {
         .subscribe(
             (data: Data) => {
               this.chatMode = data['chatMode'];
-              this.store.dispatch(new ChatActions.GetAgentListAttempt());
+              this.store.dispatch(new ChatActions.GetAgentListAttempt({}));
             }
         );
 

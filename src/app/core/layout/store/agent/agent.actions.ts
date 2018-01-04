@@ -51,6 +51,7 @@ export class EditAgentSuccess implements Action {
 
 export class GetAgentListAttempt implements Action {
   readonly type = GET_AGENT_LIST_ATTEMPT;
+  constructor(public payload: any) { }
 }
 
 export class GetAgentListSuccess implements Action {
@@ -72,20 +73,11 @@ export class GetToEditAgentSuccess implements Action {
   constructor(public payload: any) { }
 }
 
-export class GetAgentListFilterAttempt implements Action {
-  readonly type = GET_AGENT_LIST_FILTER_ATTEMPT;
-  constructor(public payload: any) { }
-}
 
-export class GetAgentListFilterSuccess implements Action {
-  readonly type = GET_AGENT_LIST_FILTER_SUCCESS;
-  constructor(public payload: any) { }
-}
 
 export type AgentActions = ResetAgentForm |
   GetAgentAttempt | GetAgentSuccess |
   AddAgentAttempt | AddAgentSuccess |
   EditAgentAttempt | EditAgentSuccess |
   GetAgentListAttempt | GetAgentListSuccess |
-  GetToEditAgentAttempt | GetToEditAgentSuccess |
-  GetAgentListFilterAttempt | GetAgentListFilterSuccess;
+  GetToEditAgentAttempt | GetToEditAgentSuccess ;

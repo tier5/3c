@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
+import { NgForm } from '@angular/forms';
 
 import * as fromAfterLogin from '../../../store/after-login.reducers'
 import { Observable } from 'rxjs/Observable'
@@ -41,6 +42,10 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   /** Function call to start editing a department */
   onEdit(depId: number) {
     this.router.navigate([ 'department/edit/', depId ])
+  }
+
+  onSubmit(form: NgForm) {
+    this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt(form.value));
   }
 
   ngOnDestroy (): void {

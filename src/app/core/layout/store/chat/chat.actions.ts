@@ -49,6 +49,7 @@ export class DeleteFromChatList implements Action {
 
 export class GetAgentListAttempt implements Action {
   readonly type = GET_AGENT_LIST_ATTEMPT;
+  constructor(public payload: any) { }
 }
 
 export class GetAgentListSuccess implements Action {
