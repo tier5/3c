@@ -229,8 +229,12 @@ class DepartmentController extends Controller
       $userToken = $request->token; //user Token
       $userId    = $request->userId; //user ID
       $filter    = '';
+      $company   = '';
       if($request->has('filter')) {
         $filter = $request->filter;
+      }
+      if($request->has('company')) {
+        $company = $request->company;
       }
       if( $userToken != "" ) {
           $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
@@ -238,16 +242,34 @@ class DepartmentController extends Controller
           if( count($checkUser) != 0 ) {
 
               if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
-                  $department = Department::with('userDetails')
+                  if($company!='' && $filter!='') {
+                    $department = Department::with('userDetails')
                                           ->where(function($query) use ($filter)
                                           {
                                             $query->where('department_name', 'like', '%'.$filter.'%')
                                                   ->orWhere('department_details', 'like', '%'.$filter.'%');
                                           })
-                                          ->orWhereHas('userDetails', function ($query) use ($filter) {
-                                            $query->where('company', 'like', '%' . $filter . '%');
+                                          ->whereHas('userDetails', function ($query) use ($company) {
+                                            $query->where('company', 'like', '%' . $company . '%');
                                           })
                                           ->get();
+                  } else if($company!= '' && $filter=='') {
+                    $department = Department::with('userDetails')
+                                          ->whereHas('userDetails', function ($query) use ($company) {
+                                            $query->where('company', 'like', '%' . $company . '%');
+                                          })
+                                          ->get();
+
+                  } else {
+                    $department = Department::with('userDetails')
+                                          ->where(function($query) use ($filter)
+                                          {
+                                            $query->where('department_name', 'like', '%'.$filter.'%')
+                                                  ->orWhere('department_details', 'like', '%'.$filter.'%');
+                                          })
+                                          ->get();
+                  }
+                  
 
                   //dd($department);                        
                   if(count($department) != 0){
@@ -273,7 +295,9 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
 
-                  $department = Department::where('user_id',$userId)
+                  if($company!='' && $filter!='') {
+
+                    $department = Department::where('user_id',$userId)
                                           ->with('userDetails')
                                           ->where(function($query) use ($filter)
                                           {
@@ -281,10 +305,32 @@ class DepartmentController extends Controller
                                                   ->orWhere('department_details', 'like', '%'.$filter.'%');
 
                                           })
-                                          ->orWhereHas('userDetails', function ($query) use ($filter) {
-                                            $query->where('company', 'like', '%' . $filter . '%');
+                                          ->whereHas('userDetails', function ($query) use ($company) {
+                                            $query->where('company', 'like', '%' . $company . '%');
                                           })
                                           ->get();
+                    
+                  } else if($company!='' && $filter=='') {
+                    $department = Department::where('user_id',$userId)
+                                          ->with('userDetails')
+                                          ->whereHas('userDetails', function ($query) use ($company) {
+                                            $query->where('company', 'like', '%' . $company . '%');
+                                          })
+                                          ->get();
+                  } else {
+
+                    $department = Department::where('user_id',$userId)
+                                          ->with('userDetails')
+                                          ->where(function($query) use ($filter)
+                                          {
+                                            $query->where('department_name', 'like', '%'.$filter.'%')
+                                                  ->orWhere('department_details', 'like', '%'.$filter.'%');
+
+                                          })
+                                          ->get();
+                  }
+                  
+
 
                   if(count($department) != 0){
 
@@ -309,18 +355,41 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
-                  $department = Department::where('user_id',$checkUser->userInfo->id)
-                                           ->where(function($query) use ($filter)
-                                          {
-                                            $query->where('department_name', 'like', '%'.$filter.'%')
-                                                  ->orWhere('department_details', 'like', '%'.$filter.'%');
+                  if($company!='' && $filter!='') {
+                    $department = Department::where('user_id',$checkUser->userInfo->id)
+                                            ->where(function($query) use ($filter)
+                                            {
+                                              $query->where('department_name', 'like', '%'.$filter.'%')
+                                                    ->orWhere('department_details', 'like', '%'.$filter.'%');
 
-                                          })
-                                          ->with('userDetails')
-                                          ->orWhereHas('userDetails', function ($query) use ($filter) {
-                                            $query->where('company', 'like', '%' . $filter . '%');
-                                          })
-                                          ->get();
+                                            })
+                                            ->with('userDetails')
+                                            ->whereHas('userDetails', function ($query) use ($company) {
+                                              $query->where('company', 'like', '%' . $company . '%');
+                                            })
+                                            ->get();
+                    
+                  
+                  } else if($company!='' && $filter=='') {
+                    $department = Department::where('user_id',$checkUser->userInfo->id)
+                                            ->with('userDetails')
+                                            ->whereHas('userDetails', function ($query) use ($company) {
+                                              $query->where('company', 'like', '%' . $company . '%');
+                                            })
+                                            ->get();
+
+                  } else {
+
+                    $department = Department::where('user_id',$checkUser->userInfo->id)
+                                            ->where(function($query) use ($filter)
+                                            {
+                                              $query->where('department_name', 'like', '%'.$filter.'%')
+                                                    ->orWhere('department_details', 'like', '%'.$filter.'%');
+                                            })
+                                            ->with('userDetails')
+                                            ->get();
+
+                  }
 
                   if( count($department) != 0 ) {
 
@@ -352,10 +421,13 @@ class DepartmentController extends Controller
             ));
 
           }
-      } elseif ( $userId != ""){
+      } elseif ( $userId != "") {
             \Log::info('this is hit !!!!!!!!!!');
           //fetching the list of department for a specific user/admin
-          $department = Department::where('user_id',$userId)
+
+          if($company!='' && $filter!='') {
+
+            $department = Department::where('user_id',$userId)
                                   ->where(function($query) use ($filter)
                                   {
                                     $query->where('department_name', 'like', '%'.$filter.'%')
@@ -363,10 +435,33 @@ class DepartmentController extends Controller
 
                                   })
                                   ->with('userDetails')
-                                  ->orWhereHas('userDetails', function ($query) use ($filter) {
-                                    $query->where('company', 'like', '%' . $filter . '%');
+                                  ->whereHas('userDetails', function ($query) use ($company) {
+                                    $query->where('company', 'like', '%' . $company . '%');
                                   })
                                   ->get();
+            
+                                                        
+          } else if($company!='' && $filter=='') {
+
+
+            $department = Department::where('user_id',$userId)
+                                  ->with('userDetails')
+                                  ->whereHas('userDetails', function ($query) use ($company) {
+                                    $query->where('company', 'like', '%' . $company . '%');
+                                  })
+                                  ->get();
+          } else {
+
+            $department = Department::where('user_id',$userId)
+                                  ->where(function($query) use ($filter)
+                                  {
+                                    $query->where('department_name', 'like', '%'.$filter.'%')
+                                          ->orWhere('department_details', 'like', '%'.$filter.'%');
+
+                                  })
+                                  ->with('userDetails')
+                                  ->get();
+          }
 
           if( count($department) != 0 ) {
 
