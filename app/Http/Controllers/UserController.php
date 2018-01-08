@@ -605,12 +605,44 @@ class UserController extends Controller
   {
 
     $filter = '';
+    $company = '';
 
     if($request->has('filter')) {
       $filter = $request->filter;
     }
 
-    $adminList = Users::where('type',2)
+    if($request->has('company')) {
+      $company = $request->company;
+    }
+
+    if($company!='' && $filter!='') {
+
+      $adminList = Users::where('type',2)
+                      ->where(function($query) use ($filter)
+                      {
+                        $query->where('first_name', 'like', '%'.$filter.'%')
+                              ->orWhere('last_name', 'like', '%'.$filter.'%')
+                              ->orWhere('email', 'like', '%'.$filter.'%')
+                              ->orWhere('phone', 'like', '%'.$filter.'%');
+                      })
+                      ->where('company', 'like', '%'.$company.'%')
+                      ->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')
+                      ->with('twilioInfo')
+                      ->get();
+
+
+      
+
+    } else if($company!='' && $filter=='') {
+
+      $adminList = Users::where('type',2)
+                      ->where('company', 'like', '%'.$company.'%')
+                      ->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')
+                      ->with('twilioInfo')
+                      ->get();
+    }else {
+
+      $adminList = Users::where('type',2)
                       ->where(function($query) use ($filter)
                       {
                         $query->where('first_name', 'like', '%'.$filter.'%')
@@ -621,11 +653,10 @@ class UserController extends Controller
                       })
                       ->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')
                       ->with('twilioInfo')
-                      ->orWhereHas('twilioInfo', function ($query) use ($filter) {
-                        $query->where('twilio_sid', 'like', '%' . $filter . '%');
-                      })
                       ->get();
 
+    }
+    
     if(count($adminList)!=0){
 
         return Response()->json([
@@ -651,48 +682,6 @@ class UserController extends Controller
     }
   }
 
-  public function adminListFilter(Request $request)
-  {
-
-    $filter = $request->filter;
-
-    $adminList = Users::where('type',2)
-                      ->where(function($query) use ($filter)
-                      {
-                        $query->where('first_name', 'like', '%'.$filter.'%')
-                              ->orWhere('last_name', 'like', '%'.$filter.'%')
-                              ->orWhere('email', 'like', '%'.$filter.'%')
-                              ->orWhere('phone', 'like', '%'.$filter.'%')
-                              ->orWhere('company', 'like', '%'.$filter.'%');
-                      })
-                      ->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')
-                      ->with('twilioInfo')
-                      ->get();
-
-    if(count($adminList)!=0){
-
-        return Response()->json([
-            'code'     => 200,
-            'success'  => true,
-            'error'    => false,
-            'status'   => true,
-            'response' => $adminList,
-            'message'  => 'List of Admins !'
-        ]);
-
-    } else {
-
-        return Response()->json([
-            'code'     => 400,
-            'success'  => false,
-            'error'    => true,
-            'response' => [],
-            'status'   => false,
-            'message'  => 'No Admin Found !'
-        ]);
-
-    }
-  }
 
   /**
    * Get Admin Details
@@ -1094,16 +1083,23 @@ class UserController extends Controller
   {
     $userToken = $request->token;
     $filter    = '';
+
+    $company   = '';
     if($request->has('filter')) {
       $filter = $request->filter;
     }
+    if($request->has('company')) {
+      $company = $request->company;
+    }
 
     if ($userToken!='') { //Get agent list of an admin
 
         $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
         if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
 
-            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)
+            if($company!='' && $filter!='') {
+
+              $getAgents = Users::where('parent_id',$checkToken->userInfo->id)
                               ->with('departmentAgentMapping.departmentDetails','getCompany')
                               ->where(function($query) use ($filter)
                               {
@@ -1114,14 +1110,43 @@ class UserController extends Controller
                                       ->orWhere('company', 'like', '%'.$filter.'%');
 
                               })
-                              ->orWhereHas('getCompany', function ($query) use ($filter) {
-                                $query->where('company', 'like', '%' . $filter . '%');
+                              ->whereHas('getCompany', function($query) use ($company){
+                                $query->where('company', 'like', '%' . $company . '%');
                               })
                               ->get();
+
+            } else if($company!='' && $filter=='') {
+
+
+              $getAgents = Users::where('parent_id',$checkToken->userInfo->id)
+                              ->with('departmentAgentMapping.departmentDetails','getCompany')
+                              ->whereHas('getCompany', function($query) use ($company){
+                                $query->where('company', 'like', '%' . $company . '%');
+                              })
+                              ->get();
+
+            } else {
+
+              $getAgents = Users::where('parent_id',$checkToken->userInfo->id)
+                              ->with('departmentAgentMapping.departmentDetails','getCompany')
+                              ->where(function($query) use ($filter)
+                              {
+                                $query->where('first_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('last_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('email', 'like', '%'.$filter.'%')
+                                      ->orWhere('phone', 'like', '%'.$filter.'%')
+                                      ->orWhere('company', 'like', '%'.$filter.'%');
+
+                              })
+                              ->get();
+
+            }
+            
 
         } else {  // Get all agents
 
-            $getAgents = Users::where('type',3)
+            if($company!='' && $filter!='' ) {
+              $getAgents = Users::where('type',3)
                               ->with('departmentAgentMapping.departmentDetails','getCompany')
                               ->where(function($query) use ($filter)
                               {
@@ -1130,12 +1155,36 @@ class UserController extends Controller
                                       ->orWhere('email', 'like', '%'.$filter.'%')
                                       ->orWhere('phone', 'like', '%'.$filter.'%')
                                       ->orWhere('company', 'like', '%'.$filter.'%');
-                                      //->orWhere('get_company.company', 'like', '%'.$filter.'%');
                               })
-                              ->orWhereHas('getCompany', function ($query) use ($filter) {
-                                $query->where('company', 'like', '%' . $filter . '%');
+                              ->whereHas('getCompany', function($query) use ($company){
+                                $query->where('company', 'like', '%' . $company . '%');
                               })
                               ->get();
+              
+            } else if($company!='' && $filter=='' ){
+
+
+              $getAgents = Users::where('type',3)
+                              ->with('departmentAgentMapping.departmentDetails','getCompany')
+                              ->whereHas('getCompany', function($query) use ($company){
+                                $query->where('company', 'like', '%' . $company . '%');
+                              })
+                              ->get();
+      
+            } else {
+              $getAgents = Users::where('type',3)
+                              ->with('departmentAgentMapping.departmentDetails','getCompany')
+                              ->where(function($query) use ($filter)
+                              {
+                                $query->where('first_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('last_name', 'like', '%'.$filter.'%')
+                                      ->orWhere('email', 'like', '%'.$filter.'%')
+                                      ->orWhere('phone', 'like', '%'.$filter.'%')
+                                      ->orWhere('company', 'like', '%'.$filter.'%');
+                              })
+                              ->get();
+
+            }
 
         }
 
@@ -1158,69 +1207,7 @@ class UserController extends Controller
     return Response()->json($response);
   }
 
-  /**
-   * Get List of Agents By Filtering
-   *
-   * @param Request $request
-   * @return \Illuminate\Http\JsonResponse
-   */
-  public function listofAgentFilter(Request $request)
-  {
-    $userToken = $request->token;
-    $filter = $request->filter;
-
-    if ($userToken!='') { //Get agent list of an admin
-
-        $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
-        if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
-
-            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)
-                              ->with('departmentAgentMapping.departmentDetails','getCompany')
-                              ->where(function($query) use ($filter)
-                              {
-                                $query->where('first_name', 'like', '%'.$filter.'%')
-                                      ->orWhere('last_name', 'like', '%'.$filter.'%')
-                                      ->orWhere('email', 'like', '%'.$filter.'%')
-                                      ->orWhere('phone', 'like', '%'.$filter.'%')
-                                      ->orWhere('company', 'like', '%'.$filter.'%');
-                              })
-                              ->get();
-        } else {  // Get all agents
-
-            $getAgents = Users::where('type',3)
-                              ->with('departmentAgentMapping.departmentDetails','getCompany')
-                              ->where(function($query) use ($filter)
-                              {
-                                $query->where('first_name', 'like', '%'.$filter.'%')
-                                      ->orWhere('last_name', 'like', '%'.$filter.'%')
-                                      ->orWhere('email', 'like', '%'.$filter.'%')
-                                      ->orWhere('phone', 'like', '%'.$filter.'%')
-                                      ->orWhere('company', 'like', '%'.$filter.'%');
-                                      //->orWhere('get_company.company', 'like', '%'.$filter.'%');
-                              })
-                              ->get();
-
-        }
-
-        if (count($getAgents)!=0) {
-
-            $response = array('code'=>200,'error'=>false,'response'=>$getAgents,'status'=>true,'message'=>'List of Agents !');
-
-        } else{
-
-            $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Agent Found !');
-
-        }
-
-    }else{
-
-        $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Invalid Token !');
-
-    }
-
-    return Response()->json($response);
-  }
-
+  
   /**
    * Update Agent Profile
    *
