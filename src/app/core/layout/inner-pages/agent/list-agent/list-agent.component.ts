@@ -33,6 +33,7 @@ export class ListAgentComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    console.log(form.value);
     this.store.dispatch(new AgentActions.GetAgentListAttempt(form.value));
   }
 

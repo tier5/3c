@@ -54,7 +54,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Function to be executed when component initializes */
     ngOnInit() {
-      this.store.dispatch(new AdminActions.GetAdminListAttempt());
+      this.store.dispatch(new AdminActions.GetAdminListAttempt({}));
       this.authState = this.store.select('auth');
       this.afterLoginState = this.store.select('afterLogin');
 

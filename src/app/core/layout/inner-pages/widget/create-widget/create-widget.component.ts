@@ -110,7 +110,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
   /** Function call when component initializes */
   ngOnInit () {
-    this.store.dispatch(new AdminActions.GetAdminListAttempt())
+    this.store.dispatch(new AdminActions.GetAdminListAttempt({}))
     this.store.dispatch(new WidgetActions.GetTimeZoneListAttempt())
     this.authState = this.store.select('auth')
     this.afterLoginState = this.store.select('afterLogin')

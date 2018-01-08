@@ -70,17 +70,25 @@ export class AdminEffects {
         headers: headers
       }
       return this.httpClient.post(apiUrl, action.payload,config)
-        .map((res: any) => {
+        .mergeMap((res: any) => {
           if(res.status) {
-            return {
-              type: AdminActions.GET_ADMIN_LIST_SUCCESS,
-              payload: res.response
-            }
+            return [
+                {
+                  type: AdminActions.GET_ADMIN_LIST_SUCCESS,
+                  payload: res.response
+                }
+             ]
           } else {
-            return {
-              type: AlertActions.ALERT_SHOW,
-              payload: { message: res.message, type: 'danger' }
-            }
+            return [
+                {
+                    type: AlertActions.ALERT_SHOW,
+                    payload: {message: res.message, type: 'danger'},
+                },
+                {
+                    type: AdminActions.GET_ADMIN_LIST_SUCCESS,
+                    payload: []
+                }
+            ]
           }
 
         })

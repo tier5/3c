@@ -47,6 +47,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt(form.value));
   }
+  
 
   ngOnDestroy (): void {
     this.authSubscription.unsubscribe();

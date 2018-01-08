@@ -47,6 +47,7 @@ export class ListAdminComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    console.log(form.value);
     this.store.dispatch(new AdminActions.GetAdminListAttempt(form.value));
   }
 
