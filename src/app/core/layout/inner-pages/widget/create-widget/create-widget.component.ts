@@ -6,7 +6,7 @@ import {
 import { NgForm } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs/Observable'
-import { IDatePickerConfig } from 'ng2-date-picker'
+// import { DpDatePickerModule, IDatePickerConfig } from 'ng2-date-picker';
 import { Subscription } from 'rxjs/Subscription'
 import { Moment } from 'moment'
 
@@ -59,39 +59,39 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     image: ''
   };
 
-  config: IDatePickerConfig = {
-    firstDayOfWeek: 'su',
-    monthFormat: 'MMM, YYYY',
-    disableKeypress: true,
-    allowMultiSelect: false,
-    closeOnSelect: undefined,
-    closeOnSelectDelay: 100,
-    onOpenDelay: 0,
-    weekDayFormat: 'ddd',
-    appendTo: document.body,
-    drops: 'down',
-    opens: 'right',
-    showNearMonthDays: false,
-    showWeekNumbers: false,
-    enableMonthSelector: true,
-    yearFormat: 'YYYY',
-    showGoToCurrent: true,
-    dayBtnFormat: 'DD',
-    monthBtnFormat: 'MMM',
-    hours12Format: 'hh',
-    hours24Format: 'HH',
-    meridiemFormat: 'A',
-    minutesFormat: 'mm',
-    minutesInterval: 1,
-    secondsFormat: 'ss',
-    secondsInterval: 1,
-    showSeconds: false,
-    showTwentyFourHours: false,
-    timeSeparator: ':',
-    multipleYearsNavigateBy: 10,
-    showMultipleYearsNavigation: false,
-    locale: 'en'
-  };
+  // config: IDatePickerConfig = {
+  //   firstDayOfWeek: 'su',
+  //   monthFormat: 'MMM, YYYY',
+  //   disableKeypress: true,
+  //   allowMultiSelect: false,
+  //   closeOnSelect: undefined,
+  //   closeOnSelectDelay: 100,
+  //   onOpenDelay: 0,
+  //   weekDayFormat: 'ddd',
+  //   appendTo: document.body,
+  //   drops: 'down',
+  //   opens: 'right',
+  //   showNearMonthDays: false,
+  //   showWeekNumbers: false,
+  //   enableMonthSelector: true,
+  //   yearFormat: 'YYYY',
+  //   showGoToCurrent: true,
+  //   dayBtnFormat: 'DD',
+  //   monthBtnFormat: 'MMM',
+  //   hours12Format: 'hh',
+  //   hours24Format: 'HH',
+  //   meridiemFormat: 'A',
+  //   minutesFormat: 'mm',
+  //   minutesInterval: 1,
+  //   secondsFormat: 'ss',
+  //   secondsInterval: 1,
+  //   showSeconds: false,
+  //   showTwentyFourHours: false,
+  //   timeSeparator: ':',
+  //   multipleYearsNavigateBy: 10,
+  //   showMultipleYearsNavigation: false,
+  //   locale: 'en'
+  // };
   validationMinTime: Moment;
   loggedInAdminId: number;
 
