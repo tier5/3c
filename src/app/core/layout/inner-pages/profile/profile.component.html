@@ -5,9 +5,8 @@
             User Profile
         </h1>
         <ol class="breadcrumb">
-            <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a >Examples</a></li>
-            <li class="active">User profile</li>
+            <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Profile</li>
         </ol>
     </section>
 
@@ -140,7 +139,7 @@
                                                formControlName="phone"
                                                placeholder="PhoneNo"
                                         >
-                                        <span *ngIf="profileForm.get('phone').invalid && profileForm.get('phone').touched && profileForm.get('phone').hasError('required')" class="help-block">Your Password is Required!</span>
+                                        <span *ngIf="profileForm.get('phone').invalid && profileForm.get('phone').touched && profileForm.get('phone').hasError('required')" class="help-block">Your Phone Number is Required!</span>
                                         <span *ngIf="profileForm.get('phone').invalid && profileForm.get('phone').touched && profileForm.get('phone').hasError('minlength')" class="help-block">Your Phone Number should be at least 10 Digits Long!</span>
                                     </div>
                                 </div>

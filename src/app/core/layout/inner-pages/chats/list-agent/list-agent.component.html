@@ -3,8 +3,9 @@
     <h1>Agent List</h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Tables</a></li>
-      <li class="active">Data tables</li>
+      <li *ngIf="chatMode"><a href="javascript:void(0)">Chats</a></li>
+      <li *ngIf="!chatMode"><a href="javascript:void(0)">Contact</a></li>
+      <li class="active"><a href="javascript:void(0)">List</a></li>
     </ol>
   </section>
   <section class="content">
@@ -103,9 +104,9 @@
           <!-- /.box-body -->
         </div>
         <!-- /.box -->
-        <div class="msg-popup">
-          <p>This is a success msg!</p>
-        </div>
+        <!--<div class="msg-popup">-->
+          <!--<p>This is a success msg!</p>-->
+        <!--</div>-->
       </div>
       <!-- /.col -->
     </div>

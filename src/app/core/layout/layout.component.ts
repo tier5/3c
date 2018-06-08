@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   mobileViewClicked: boolean = false;
   chatState: Observable<fromChat.ChatState>;
   isAgent : boolean = false;
+  currentYear : any;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,private chatService: ChatService) { }
 
@@ -37,6 +38,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
           }
         }
       );
+      this.getYear();
   }
 
   /** Function to toggle sidebar in desktop view */
@@ -60,6 +62,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
     if(this.isAgent) {
       this.chatService.socketDisconnect();
     }
+  }
+
+  /** function get the current year for the footer*/
+  getYear(){
+      this.currentYear = new Date().getFullYear();
   }
 
 }
