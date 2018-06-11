@@ -1,5 +1,4 @@
 import { ActionReducerMap } from '@ngrx/store';
-
 import * as fromApp from '../../store/core.reducers';
 import * as fromProfile from './profile/profile.reducers';
 import * as fromTwilio from './twilio/twilio.reducers';
@@ -8,6 +7,7 @@ import * as fromAdmin from './admin/admin.reducers';
 import * as fromAgent from './agent/agent.reducers';
 import * as fromWidget from './widget/widget.reducers';
 import * as fromChat from './chat/chat.reducers';
+import * as fromDashboard from './dashboard/dashboard.reducers';
 
 export interface AfterLoginFeatureState extends fromApp.AppState {
   afterLogin: FeatureState
@@ -21,6 +21,8 @@ export interface FeatureState {
   agent: fromAgent.AgentState,
   widget: fromWidget.WidgetState,
   chat: fromChat.ChatState,
+  dashboard: fromDashboard.DashboardState,
+
 };
 
 export const reducers: ActionReducerMap<FeatureState> = {
@@ -31,4 +33,5 @@ export const reducers: ActionReducerMap<FeatureState> = {
   agent: fromAgent.agentReducer,
   widget: fromWidget.widgetReducer,
   chat: fromChat.chatReducer,
+  dashboard: fromDashboard.dashboardReducer,
 };

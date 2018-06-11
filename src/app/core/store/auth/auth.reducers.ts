@@ -66,7 +66,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         isSuperAdmin: false,
         isAdmin: false,
         isAgent: false,
-        isAuthenticated: false
+        isAuthenticated: false,
       };
     case (AuthActions.CHECK_TOKEN):
       if(localStorage.getItem('data') !== null && localStorage.getItem('data') !== undefined) {

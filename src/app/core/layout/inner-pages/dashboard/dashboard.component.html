@@ -15,9 +15,9 @@
   <!-- Main content -->
   <section class="content">
     <!-- Small boxes (Stat box) -->
-    <div class="row"  *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
+    <div class="row">
       <!-- Only for Admin and Superadmin-->
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-3 col-xs-6"   *ngIf="(authState | async).isSuperAdmin">
         <!-- small box -->
         <div class="small-box bg-yellow">
           <div class="inner">
@@ -31,11 +31,11 @@
         </div>
       </div>
       <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
         <!-- small box -->
         <div class="small-box bg-red">
           <div class="inner">
-            <h3>65</h3>
+            <h3>{{agent}}</h3>
             <p>Agents</p>
           </div>
           <div class="icon">
@@ -46,11 +46,11 @@
       </div>
       <!-- ./col -->
       <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-3 col-xs-6" *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
         <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
-            <h3>65</h3>
+            <h3>{{depertment}}</h3>
             <p>Departments</p>
           </div>
           <div class="icon">
@@ -61,11 +61,11 @@
       </div>
       <!-- ./col -->
       <!-- ./col -->
-      <div class="col-lg-3 col-xs-6">
+      <div class="col-lg-3 col-xs-6" *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin">
         <!-- small box -->
         <div class="small-box bg-blue">
           <div class="inner">
-            <h3>65</h3>
+            <h3>{{widgets}}</h3>
             <p>Widgets</p>
           </div>
           <div class="icon">

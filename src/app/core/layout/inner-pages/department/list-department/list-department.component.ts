@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-
 import * as fromAfterLogin from '../../../store/after-login.reducers'
 import { Observable } from 'rxjs/Observable'
 import * as DepartmentActions from '../../../store/department/department.actions'

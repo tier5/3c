@@ -18,6 +18,7 @@ import { AgentEffects } from './store/agent/agent.effect';
 import { WidgetEffects } from './store/widget/widget.effect';
 import { ChatEffects } from './store/chat/chat.effects'
 import { ChatService } from './inner-pages/chat/chat.service'
+import { DashboardEffects} from "./store/dashboard/dashboard.effects";
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { ChatService } from './inner-pages/chat/chat.service'
     SharedModule,
     MomentModule,
     StoreModule.forFeature('afterLogin', reducers),
-    EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects, ChatEffects])
+    EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects, ChatEffects, DashboardEffects])
   ],
   declarations: [
     LayoutComponent,
