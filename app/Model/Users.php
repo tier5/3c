@@ -37,4 +37,19 @@ class Users extends Model
   {
       return $this->hasOne('App\Model\Users','id','parent_id');
   }
+
+  public function agentCount()
+  {
+      return $this->hasMany('App\Model\Users','parent_id','id');
+  }
+
+  public function departmentCount()
+  {
+      return $this->hasMany('App\Model\Department','user_id','id');
+  }
+
+    public function widgetCount()
+    {
+        return $this->hasMany('App\Model\Widgets','user_id','id');
+    }
 }

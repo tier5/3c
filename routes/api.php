@@ -114,4 +114,6 @@ Route::post('client-chat', 'ChatListController@agentWithAllChats');
 Route::post('agent-department-list', 'ChatListController@agentDepartmentList');
 //route for creating superadmin
 Route::post('add-super-admin', 'UserController@addSuperadmin');
+// route for dashboard item count
+Route::post('get-dashboard-count', 'DashboardController@getDashboardCount');
 
