@@ -602,7 +602,7 @@ class UserController extends Controller
    */
   public function adminList()
   {
-    $adminList = Users::where('type',2)->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')->with('twilioInfo')->get();
+    $adminList = Users::where('type',2)->select('id','parent_id','first_name','last_name','email','username','type','phone','company','profile_status','created_at','updated_at')->with('twilioInfo')->orderBy('created_at','desc')->get();
 
     if(count($adminList)!=0){
 
@@ -1034,10 +1034,10 @@ class UserController extends Controller
         $checkToken = UserToken::where('token',$userToken)->with('userInfo')->first();
         if(count($checkToken) != "" && $checkToken->userInfo->type == 2){
 
-            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
+            $getAgents = Users::where('parent_id',$checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails','getCompany')->orderBy('created_at','desc')->get();
         } else {  // Get all agents
 
-            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails','getCompany')->get();
+            $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails','getCompany')->orderBy('created_at','desc')->get();
 
         }
 

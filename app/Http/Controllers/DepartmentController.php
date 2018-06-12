@@ -234,7 +234,8 @@ class DepartmentController extends Controller
           if( count($checkUser) != 0 ) {
 
               if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
-                  $department = Department::with('userDetails')->get();
+
+                  $department = Department::with('userDetails')->orderBy('created_at','desc')->get();
 
                   if(count($department) != 0){
 
@@ -259,7 +260,7 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
 
-                  $department = Department::where('user_id',$userId)->with('userDetails')->get();
+                  $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
                   if(count($department) != 0){
 
@@ -284,7 +285,7 @@ class DepartmentController extends Controller
 
               if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
-                  $department = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->get();
+                  $department = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->orderBy('created_at','desc')->get();
 
                   if( count($department) != 0 ) {
 
@@ -319,7 +320,7 @@ class DepartmentController extends Controller
       } elseif ( $userId != ""){
             \Log::info('this is hit !!!!!!!!!!');
           //fetching the list of department for a specific user/admin
-          $department = Department::where('user_id',$userId)->with('userDetails')->get();
+          $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
           if( count($department) != 0 ) {
 
