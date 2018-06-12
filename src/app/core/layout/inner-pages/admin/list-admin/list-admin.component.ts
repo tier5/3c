@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AdminActions from '../../../store/admin/admin.actions';
+declare var $;
 
 @Component({
   selector: 'app-list-admin',
@@ -18,7 +19,11 @@ export class ListAdminComponent implements OnInit {
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) { }
+              private router: Router) {
+      $(document).ready( function () {
+          $('#adminListTable').DataTable();
+      });
+  }
 
   /** Function to be executed when component initializes */
   ngOnInit() {

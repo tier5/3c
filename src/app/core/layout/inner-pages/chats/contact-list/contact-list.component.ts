@@ -3,11 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Data ,Router} from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
-
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
-
+declare var $;
 
 @Component({
   selector: 'app-chats-contact-list',
@@ -23,7 +22,11 @@ export class ContactListComponent implements OnInit {
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+      $( function () {
+          $('#contactListTable').DataTable();
+      });
+  }
 
   /** Function to be executed when component initializes */
   ngOnInit() {

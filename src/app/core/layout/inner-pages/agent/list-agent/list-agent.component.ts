@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AgentActions from '../../../store/agent/agent.actions';
-
+declare var $;
 @Component({
   selector: 'app-list-agent',
   templateUrl: './list-agent.component.html',
@@ -18,7 +17,11 @@ export class ListAgentComponent implements OnInit {
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) { }
+              private router: Router) {
+    $(document).ready( function () {
+      $('#agentListTable').DataTable();
+    });
+  }
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.store.dispatch(new AgentActions.GetAgentListAttempt());

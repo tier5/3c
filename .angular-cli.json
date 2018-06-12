@@ -25,9 +25,10 @@
         "../node_modules/ionicons/dist/css/ionicons.min.css",
         "all-skins.min.css",
         "AdminLTE.css",
-        "styles.css"
+        "styles.css",
+        "assets/DataTables/datatables.min.css"
       ],
-      "scripts": [],
+      "scripts": [ "assets/DataTables/jquery-3.3.1.min.js", "assets/DataTables/datatables.min.js" ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

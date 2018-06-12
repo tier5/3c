@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable'
 import * as DepartmentActions from '../../../store/department/department.actions'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs/Subscription'
-
+declare var $;
 @Component({
   selector: 'app-list-department',
   templateUrl: './list-department.component.html',
@@ -18,7 +18,12 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   authSubscription: Subscription
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) { }
+              private router: Router) {
+      $( function () {
+          $('#departmentListTable').DataTable();
+      });
+
+  }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
