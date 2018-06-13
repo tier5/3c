@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable'
 import * as DepartmentActions from '../../../store/department/department.actions'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs/Subscription'
-declare var $;
+import { OrderPipe } from 'ngx-order-pipe';
+
 @Component({
   selector: 'app-list-department',
   templateUrl: './list-department.component.html',
@@ -16,18 +17,20 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>
   authSubscription: Subscription
-
+    order: string = 'info.name';
+    reverse: boolean = false;
+    sortedCollection: any[];
+    page: number;
+    term: any;
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) {
-      $( function () {
-          $('#departmentListTable').DataTable();
-      });
-
+              private router: Router, private orderPipe: OrderPipe) {
+      this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
   }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
-    this.authSubscription = this.store.select('auth')
+      this.page = 1;
+      this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
           if(data.isAdmin) {
@@ -49,5 +52,16 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   ngOnDestroy (): void {
     this.authSubscription.unsubscribe();
   }
+
+    /**
+     * Function for ordering the table
+     * @param {string} value
+     */
+    setOrder(value: string) {
+        if (this.order === value) {
+            this.reverse = !this.reverse;
+        }
+        this.order = value;
+    }
 
 }

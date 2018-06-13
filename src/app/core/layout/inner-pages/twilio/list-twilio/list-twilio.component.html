@@ -18,7 +18,7 @@
           <div class="box-body">
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row">
-                <div class="col-sm-6"></div>
+                <div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="keyword"> </div>
                 <div class="col-sm-6"></div>
               </div>
               <div class="row">
@@ -26,17 +26,17 @@
                   <table id="twilioTable" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
               <thead>
               <tr role="row">
-                <th class="sorting" rowspan="1" colspan="1" >#</th>
-                <th class="sorting" rowspan="1" colspan="1" >User</th>
+                <th rowspan="1" colspan="1" >#</th>
+                <th rowspan="1" colspan="1" [class.active]="order === 'twilio.first_name'" (click)="setOrder('twilio.first_name')" class="mdl-data-table__cell--non-numeric">User <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
                 <!--<th class="sorting" rowspan="1" colspan="1" >User Name</th>-->
-                <th class="sorting" rowspan="1" colspan="1" >Email Address</th>
-                <th class="sorting" rowspan="1" colspan="1" >Twilio SID</th>
-                <th class="sorting" rowspan="1" colspan="1" >Twilio Account Type</th>
-                <th class="sorting" rowspan="1" colspan="1" >Status</th>
+                <th rowspan="1" colspan="1" >Email Address</th>
+                <th rowspan="1" colspan="1" >Twilio SID</th>
+                <th rowspan="1" colspan="1" >Twilio Account Type</th>
+                <th rowspan="1" colspan="1" >Status</th>
               </tr>
               </thead>
               <tbody>
-                <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).twilio.list; let i = index">
+                <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).twilio.list | filter : term | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                   <td>{{i+1}}</td>
                   <td>{{item.user_info.first_name}} {{item.user_info.last_name}}</td>
                   <!--<td>{{item.user_info.username}}</td>-->
@@ -47,6 +47,19 @@
                 </tr>
               </tbody>
             </table>
+                  <div class="row">
+                    <pagination-controls class="older_post_text"
+                                         (pageChange)="page=$event"
+                                         maxSize="9"
+                                         directionLinks="true"
+                                         autoHide="true"
+                                         previousLabel=""
+                                         nextLabel=""
+                                         screenReaderPaginationLabel=""
+                                         screenReaderPageLabel="page"
+                                         screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                  </div>
             </div>
             </div>
             </div>

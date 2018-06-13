@@ -17,21 +17,26 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="keyword"> </div>
+                <div class="col-sm-6"></div>
+              </div>
+              <div class="row"><div class="col-sm-12">
               <table id="chatList" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
               <thead>
               <tr role="row">
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">#</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending">First Name</th>
-                <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" aria-sort="descending">Last Name</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Email</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Phone</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Department</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Action</th>
+                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">#</th>
+                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" [class.active]="order === 'agentList.first_name'" (click)="setOrder('agentList.first_name')" class="mdl-data-table__cell--non-numeric">First Name <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
+                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" [class.active]="order === 'agentList.last_name'" (click)="setOrder('agentList.last_name')" class="mdl-data-table__cell--non-numeric" >Last Name <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
+                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Email</th>
+                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Phone</th>
+                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" [class.active]="order === 'agentList.department_name'" (click)="setOrder('agentList.department_name')" class="mdl-data-table__cell--non-numeric">Department <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
+                <th  tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Action</th>
               </tr>
               </thead>
               <tbody>
-                <tr role="row" class="odd" *ngFor="let item of (chatState | async).agentList; let i = index">
+                <tr role="row" class="odd" *ngFor="let item of (chatState | async).agentList | filter : term | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                 <td>{{i+1}}</td>
                 <td>{{item.first_name}}</td>
                 <td>{{item.last_name}}</td>
@@ -52,6 +57,19 @@
               </tr>
               </tbody>
             </table>
+                <div class="row">
+                  <pagination-controls class="older_post_text"
+                                       (pageChange)="page=$event"
+                                       maxSize="9"
+                                       directionLinks="true"
+                                       autoHide="true"
+                                       previousLabel=""
+                                       nextLabel=""
+                                       screenReaderPaginationLabel=""
+                                       screenReaderPageLabel="page"
+                                       screenReaderCurrentLabel="You're on page">
+                  </pagination-controls>
+                </div>
             </div>
             </div>
 

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
-declare var $;
+import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-chats-contact-list',
@@ -18,18 +18,21 @@ export class ContactListComponent implements OnInit {
   /** Variable declaration */
   chatState: Observable<fromChat.ChatState>;
   agentId : number;
-  
+    order: string = 'info.name';
+    reverse: boolean = false;
+    sortedCollection: any[];
+    page: number;
+    term:any;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
-      $( function () {
-          $('#contactListTable').DataTable();
-      });
+              private router: Router, private orderPipe: OrderPipe) {
+      this.sortedCollection = orderPipe.transform(this.chatState, 'info.name');
   }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
+    this.page = 1;
     this.chatState = this.store.select('afterLogin')
         .map(data => data.chat);
 
@@ -47,6 +50,17 @@ export class ContactListComponent implements OnInit {
   onViewChat(id: number) {
     this.router.navigate([ 'chats/list-chat/', id ]);
   }
+
+    /**
+     * Function for ordering the table
+     * @param {string} value
+     */
+    setOrder(value: string) {
+        if (this.order === value) {
+            this.reverse = !this.reverse;
+        }
+        this.order = value;
+    }
 
 
 }

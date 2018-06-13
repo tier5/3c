@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AdminActions from '../../../store/admin/admin.actions';
-declare var $;
+import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-list-admin',
@@ -16,21 +15,35 @@ export class ListAdminComponent implements OnInit {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
-
-  /** Service injection */
+  order: string = 'info.name';
+  reverse: boolean = false;
+  sortedCollection: any[];
+  page: number;
+  term:any;
+    /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) {
-      $(document).ready( function () {
-          $('#adminListTable').DataTable();
-      });
+              private router: Router, private orderPipe: OrderPipe) {
+      this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
   }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.store.dispatch(new AdminActions.GetAdminListAttempt());
+    this.page = 1;
     this.afterLoginState = this.store.select('afterLogin');
   }
 
+    /**
+     * Function for ordering the table
+     * @param {string} value
+     */
+    setOrder(value: string) {
+        if (this.order === value) {
+            this.reverse = !this.reverse;
+        }
+            this.order = value;
+    }
+    
   /** Function call to start editing an admin*/
   onEdit(adminId: number) {
     this.router.navigate([ 'admin/edit/', adminId ]);
