@@ -147,7 +147,7 @@
                                 <!-- Submit -->
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger" [disabled]="profileForm.invalid">Submit</button>
+                                        <button type="submit" class="btn btn-danger" [disabled]="profileForm.invalid"><i *ngIf="loader1" class="fa fa-spinner fa-spin"></i> Submit</button>
                                     </div>
                                 </div>
 
@@ -193,7 +193,7 @@
                                 <!-- Submit -->
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger" [disabled]="passwordForm.invalid">Submit</button>
+                                        <button type="submit" class="btn btn-danger" [disabled]="passwordForm.invalid"> <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i> Submit</button>
                                     </div>
                                 </div>
 

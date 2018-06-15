@@ -1,4 +1,4 @@
-import { ActivatedRoute, Data } from '@angular/router';
+import { Router, ActivatedRoute, Data } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -34,10 +34,10 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
     phone: '',
     company: '',
   };
-
+  loader: boolean = false;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute, private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -74,6 +74,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if(data) {
+            this.loader = false;
             this.form.reset();
             this.store.dispatch(new AdminActions.ResetAdminForm());
           }
@@ -83,10 +84,14 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
 
   /** Function call to create or edit a admin */
   onSubmit(form: NgForm) {
-    if(this.editMode) {
+    this.loader = true;
+    if (this.editMode) {
+        /** Edit admin */
       const data = { ...form.value, userId: this.userId };
       this.store.dispatch(new AdminActions.EditAdminAttempt({...data}));
+      this.router.navigate(['/admin/list']);
     } else {
+      /** Create admin */
       this.store.dispatch(new AdminActions.AddAdminAttempt(form.value));
     }
   }

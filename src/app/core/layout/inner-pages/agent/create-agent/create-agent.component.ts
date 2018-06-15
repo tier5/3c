@@ -1,4 +1,4 @@
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -45,12 +45,12 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     };
 
     departments : any;
-
+    loader: boolean = false;
 
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
-                private cdr: ChangeDetectorRef) { }
+                private cdr: ChangeDetectorRef, private router: Router) { }
 
     /** Function to be executed when component initializes */
     ngOnInit() {
@@ -104,6 +104,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
           .subscribe(
             (data) => {
               if(data) {
+                this.loader = false;
                 this.form.reset();
                 this.selectDept = false;
                 this.store.dispatch(new AgentActions.ResetAgentForm());
@@ -121,10 +122,13 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Function call to create or edit a admin */
     onSubmit(form: NgForm) {
+        this.loader = true;
       if(this.editMode) {
         const data = { ...form.value, userId: this.userId };
         this.store.dispatch(new AgentActions.EditAgentAttempt({...data}));
+          this.router.navigate(['/agent/list']);
       } else {
+          /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
       }
     }

@@ -1,4 +1,4 @@
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -33,11 +33,11 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     departmentName: '',
     departmentDetails: ''
   };
-
+  loader: boolean = false;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
-              private cdr: ChangeDetectorRef) { }
+              private cdr: ChangeDetectorRef, private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -60,6 +60,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       .subscribe(
         (data) => {
           if(data) {
+            this.loader = false;
             this.form.reset();
             this.store.dispatch(new DepartmentActions.ResetDepartmentForm());
             if(!!this.loggedInAdminId) {
@@ -112,9 +113,11 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
 
   /** Function call to create a new department */
   onCreateDep(form: NgForm) {
+    this.loader = true;
     if(this.editMode) {
       const data = { ...form.value, departmentId: this.depId };
       this.store.dispatch(new DepartmentActions.EditDepartmentAttempt({...data}));
+      this.router.navigate(['/department/list']);
     } else {
       this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
     }

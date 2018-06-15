@@ -25,6 +25,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   mask: Array<string | RegExp> = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   selectedTab: boolean = true;
   authState: Observable<fromAuth.State>;
+  loader: boolean = false;
+  loader1: boolean = false;
+  valueChange: any;
 
   /** Service injection */
   constructor(private formBuilder: FormBuilder,
@@ -94,20 +97,36 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (pass.value === cnfPass.value) {
       return null
     } else {
-      control.get('confPassword').setErrors({confirmPassword: true})
-      return {confirmPassword: true}
+      control.get('confPassword').setErrors({confirmPassword: true })
+      return {confirmPassword: true }
     }
   }
 
   /** Function call to update info */
   onUpdateInfo() {
+    this.loader1 = true;
     this.store.dispatch(new ProfileActions.EditProfileAttempt(this.profileForm.value));
+    this.store.select('afterLogin', 'profile', 'data').subscribe(
+      (value) => {
+        console.log(value);
+        if (value) {
+          this.loader1 = false;
+        }
+      }, (error) => { console.error(error); this.loader1 = false; }, () => { this.loader1 = false; });
     this.store.dispatch(new AuthActions.UpdateAttempt(this.profileForm.value));
+
   }
 
   /** Function call to update password */
   onUpdatePassword() {
+    this.loader = true;
     this.store.dispatch(new ProfileActions.EditProfileChangePasswordAttempt(this.passwordForm.value));
+    this.store.select( 'afterLogin', 'profile', 'resetChangePasswordForm').subscribe(
+      (value) => {
+        if (value) {
+          this.loader = false;
+        }
+      }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
   }
 
   /** Function call to highlight the selected tab */
