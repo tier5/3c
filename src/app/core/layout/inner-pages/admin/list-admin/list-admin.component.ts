@@ -23,7 +23,7 @@ export class ListAdminComponent implements OnInit {
     /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router, private orderPipe: OrderPipe) {
-      this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
+      // this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
   }
 
   /** Function to be executed when component initializes */

@@ -27,7 +27,7 @@
               <thead>
               <tr role="row">
                 <th rowspan="1" colspan="1" >#</th>
-                <th rowspan="1" colspan="1" [class.active]="order === 'twilio.first_name'" (click)="setOrder('twilio.first_name')" class="mdl-data-table__cell--non-numeric">User <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
+                <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">User </th>
                 <!--<th class="sorting" rowspan="1" colspan="1" >User Name</th>-->
                 <th rowspan="1" colspan="1" >Email Address</th>
                 <th rowspan="1" colspan="1" >Twilio SID</th>
@@ -36,7 +36,7 @@
               </tr>
               </thead>
               <tbody>
-                <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).twilio.list | filter : term | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).twilio.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                   <td>{{i+1}}</td>
                   <td>{{item.user_info.first_name}} {{item.user_info.last_name}}</td>
                   <!--<td>{{item.user_info.username}}</td>-->

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
 import { Router } from '@angular/router'
 import { Store } from '@ngrx/store'
-
 import * as fromAfterLogin from '../../../store/after-login.reducers'
 import * as WidgetActions from '../../../store/widget/widget.actions'
 import { Subscription } from 'rxjs/Subscription'
@@ -27,7 +26,6 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
       .subscribe(
         (data) => {
           if(data.isAdmin) {
-            console.log('here');
             this.store.dispatch(new WidgetActions.GetWidgetListAttempt({userId: data.userId}))
           } else {
             this.store.dispatch(new WidgetActions.GetWidgetListAttempt({}))

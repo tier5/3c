@@ -27,15 +27,15 @@
                                         <thead>
                                         <tr role="row">
                                             <th rowspan="1" colspan="1" >#</th>
-                                            <th rowspan="1" colspan="1" [class.active]="order === 'department.list.department_name'" (click)="setOrder('department.list.department_name')" class="mdl-data-table__cell--non-numeric">Department Name <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">Department Name </th>
                                             <th rowspan="1" colspan="1" >Department Description</th>
-                                            <th rowspan="1" colspan="1" [class.active]="order === 'department.list.company'" (click)="setOrder('department.list.company')" class="mdl-data-table__cell--non-numeric">Company <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
-                                            <th rowspan="1" colspan="1"  [class.active]="order === 'department.list.created_at'" (click)="setOrder('department.list.created_at')" class="mdl-data-table__cell--non-numeric">Created Date <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span></th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">Company </th>
+                                            <th rowspan="1" colspan="1" class="mdl-data-table__cell--non-numeric">Created Date</th>
                                             <th rowspan="1" colspan="1" >Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).department.list | filter : term | orderBy: order:reverse:'case-insensitive' | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                                        <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).department.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                                             <td>{{i+1}}</td>
                                             <td>{{item.department_name}}</td>
                                             <td>{{item.department_details}}</td>
