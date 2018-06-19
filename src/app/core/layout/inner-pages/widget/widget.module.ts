@@ -8,16 +8,27 @@ import { WidgetRoutingModule } from './widget-routing.module';
 import { ListWidgetComponent } from './list-widget/list-widget.component';
 import { CreateWidgetComponent } from './create-widget/create-widget.component';
 import { SharedModule } from '../../../shared/shared.module';
+// import { TimePickerModule } from 'ng2-simple-timepicker';
+
+// import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+
+// export const MY_NATIVE_FORMATS = {
+//     timePickerInput: {hour: 'numeric', minute: 'numeric'},
+// };
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 
 @NgModule({
   imports: [
       CommonModule,
-
       WidgetRoutingModule,
       FormsModule,
       TextMaskModule,
-      SharedModule
+      SharedModule, AmazingTimePickerModule
+
   ],
+    providers: [
+        // {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
+    ],
   declarations: [
     CreateWidgetComponent,
     ListWidgetComponent,

@@ -106,14 +106,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   onUpdateInfo() {
     this.loader1 = true;
     this.store.dispatch(new ProfileActions.EditProfileAttempt(this.profileForm.value));
-    this.store.select('afterLogin', 'profile', 'data').subscribe(
-      (value) => {
-        console.log(value);
-        if (value) {
-          this.loader1 = false;
-        }
-      }, (error) => { console.error(error); this.loader1 = false; }, () => { this.loader1 = false; });
     this.store.dispatch(new AuthActions.UpdateAttempt(this.profileForm.value));
+      setTimeout(() => {
+              this.loader1 = false;
+          }
+          , 700);
 
   }
 

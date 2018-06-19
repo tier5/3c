@@ -126,10 +126,17 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       if(this.editMode) {
         const data = { ...form.value, userId: this.userId };
         this.store.dispatch(new AgentActions.EditAgentAttempt({...data}));
-          this.router.navigate(['/agent/list']);
+          setTimeout(() => {
+                  this.router.navigate(['/agent/list']);
+              }
+              , 2290);
       } else {
           /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
+          setTimeout(() => {
+                  this.router.navigate(['/agent/list']);
+              }
+              , 10000);
       }
     }
 

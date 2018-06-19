@@ -6,10 +6,8 @@ import {
 import { NgForm } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs/Observable'
-// import { DpDatePickerModule, IDatePickerConfig } from 'ng2-date-picker';
 import { Subscription } from 'rxjs/Subscription'
 import { Moment } from 'moment'
-
 import * as AdminActions from '../../../store/admin/admin.actions'
 import * as DepartmentActions from '../../../store/department/department.actions'
 import * as WidgetActions from '../../../store/widget/widget.actions'
@@ -23,7 +21,6 @@ interface FileReaderEventTarget extends EventTarget {
 
 interface FileReaderEvent extends Event {
   target: FileReaderEventTarget;
-
   getMessage(): string;
 }
 
@@ -44,6 +41,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   widgetId: number;
   id: number;
   updateWidget: any;
+  // startTime:any;
   widget = {
     id: 0,
     userId: 0,
@@ -58,6 +56,11 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     endTime: '',
     image: ''
   };
+
+
+    public startTime = [
+        new Date(2018, 1, 12, 10, 30)
+    ];
 
   // config: IDatePickerConfig = {
   //   firstDayOfWeek: 'su',
@@ -97,6 +100,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
   imgSrc: any;
   departments: any;
+  loader: boolean = false;
 
   /** Initializing variables */
   postedImage: File
@@ -106,7 +110,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                private activatedRoute: ActivatedRoute,
                private cdr: ChangeDetectorRef,
-               private element: ElementRef) { }
+               private element: ElementRef) {
+  }
 
   /** Function call when component initializes */
   ngOnInit () {
@@ -198,7 +203,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       formDataEdit.append('daysArray', form.value.daysArray);
       formDataEdit.append('startTime', form.value.startTime);
       formDataEdit.append('endTime', form.value.endTime);
-
       this.store.dispatch(new WidgetActions.EditWidgetAttempt(formDataEdit));
     } else {
       const formData = new FormData();

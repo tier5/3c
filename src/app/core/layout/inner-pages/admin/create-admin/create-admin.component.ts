@@ -84,15 +84,22 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
 
   /** Function call to create or edit a admin */
   onSubmit(form: NgForm) {
-    this.loader = true;
+     this.loader = true;
     if (this.editMode) {
         /** Edit admin */
       const data = { ...form.value, userId: this.userId };
       this.store.dispatch(new AdminActions.EditAdminAttempt({...data}));
-      this.router.navigate(['/admin/list']);
+        setTimeout(() => {
+                this.router.navigate(['/admin/list']);
+            }
+            , 2290);
     } else {
       /** Create admin */
       this.store.dispatch(new AdminActions.AddAdminAttempt(form.value));
+        setTimeout(() => {
+                this.router.navigate(['/admin/list']);
+            }
+            , 10000);
     }
   }
 

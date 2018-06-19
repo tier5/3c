@@ -2,9 +2,9 @@
     <section class="content-header">
         <h1><span>Widget Section</span></h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Tables</a></li>
-            <li class="active">Data tables</li>
+            <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a routerLink="/widget/list"> Widget</a></li>
+            <li class="active"><a  href="javascript:void(0)"> {{ editMode ? 'Edit' : 'Create' }} </a></li>
         </ol>
     </section>
     <section class="content">
@@ -241,7 +241,13 @@
                                                <!--[theme]="'dp-material dp-main'"-->
                                         <!--/>-->
                                         <!--<span *ngIf="timeDirectivePickerModel1.invalid && timeDirectivePickerModel1.touched && timeDirectivePickerModel1.errors?.required" class="help-block">Start Time is Required!</span>-->
-                                        <input type="text" class="form-control timepicker">
+                                        <input atp-time-picker [ngModel]="widget.startTime" [value]="widget.startTime" name="startTime"/>
+                                        <!--<input [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" [(ngModel)]="startTime" name="startTime">-->
+                                        <!--<owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>-->
+                                        <!--<owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>-->
+                                        <!--<input type="text" [ngModel]="widget.startTime" name="startTime"-->
+                                               <!--class="form-control" [ngClass]="custom-cls"-->
+                                               <!--[ng2-simple-timepicker]="{disableTextInput: false,'timeFormat':'HH:mm',showDuration:false}"/>-->
                                     </div>
                                 </div>
 
@@ -272,7 +278,13 @@
 
                                             <!--<span *ngIf="timeDirectivePickerModel2.invalid && timeDirectivePickerModel2.touched && timeDirectivePickerModel2.errors?.required" class="help-block">End Time is Required</span>-->
                                             <!--<span *ngIf="timeDirectivePickerModel2.invalid && timeDirectivePickerModel2.touched && timeDirectivePickerModel2.errors?.minTime" class="help-block">End Time Should before Start Time</span>-->
-
+                                        <!--<input [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" [ngModel]="widget.endTime" name="endTime" [required]="'required'">-->
+                                        <!--<owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>-->
+                                        <!--<input type="text" [ngModel]="widget.endTime" name="endTime"-->
+                                               <!--class="form-control" [ngClass]="custom-cls"-->
+                                               <!--[ng2-simple-timepicker]="{disableTextInput: false,'timeFormat':'HH:mm',showDuration:false}"/>-->
+                                        <!--<input type="text" [ngModel]="widget.endTime" [value]="widget.endTime" name="endTime" class="timepicker">-->
+                                        <input atp-time-picker [ngModel]="widget.endTime" [value]="widget.endTime" name="endTime"/>
                                     </div>
                                 </div>
                             </div>
