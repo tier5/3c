@@ -2,9 +2,9 @@
   <section class="content-header">
     <h1>Widget Section</h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Tables</a></li>
-      <li class="active">Data tables</li>
+      <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="/widget/list"> Widget</a></li>
+      <li class="active">List</li>
     </ol>
   </section>
   <section class="content">
@@ -16,7 +16,7 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6">  Search : <input [(ngModel)]="term" placeholder="keyword"> </div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
               <thead>
               <tr role="row">
                 <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">#</th>
@@ -32,7 +32,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list; let i = index">
+              <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                 <td>{{i+1}}</td>
                 <td>{{item.website}}</td>
                 <td>{{item.twilio_numbers?.number}}</td>
@@ -40,7 +40,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{item.created_at}}</td>
+                <td>{{item.created_at | date }}</td>
                 <td>{{item.script_url}}</td>
                 <td>
                   <!-- Single button -->
@@ -59,9 +59,19 @@
             </div>
             </div>
                 <!-- Pagination -->
-              <div class="row">
-                <!-- Pagination hare -->
-              </div>
+                <div class="row">
+                    <pagination-controls class="older_post_text"
+                                         (pageChange)="page=$event"
+                                         maxSize="9"
+                                         directionLinks="true"
+                                         autoHide="true"
+                                         previousLabel=""
+                                         nextLabel=""
+                                         screenReaderPaginationLabel=""
+                                         screenReaderPageLabel="page"
+                                         screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                </div>
             </div>
           </div>
           <!-- /.box-body -->

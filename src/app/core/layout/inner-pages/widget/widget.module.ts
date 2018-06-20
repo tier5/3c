@@ -16,6 +16,8 @@ import { SharedModule } from '../../../shared/shared.module';
 //     timePickerInput: {hour: 'numeric', minute: 'numeric'},
 // };
 import { AmazingTimePickerModule } from 'amazing-time-picker';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -23,7 +25,7 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
       WidgetRoutingModule,
       FormsModule,
       TextMaskModule,
-      SharedModule, AmazingTimePickerModule
+      SharedModule, AmazingTimePickerModule,    Ng2SearchPipeModule,    NgxPaginationModule
 
   ],
     providers: [

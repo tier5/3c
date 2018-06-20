@@ -14,6 +14,7 @@ import * as WidgetActions from '../../../store/widget/widget.actions'
 import * as fromAuth from '../../../../store/auth/auth.reducers'
 import * as fromAfterLogin from '../../../store/after-login.reducers'
 import 'rxjs/add/operator/distinctUntilChanged'
+import {AmazingTimePickerService} from "amazing-time-picker";
 
 interface FileReaderEventTarget extends EventTarget {
   result: string
@@ -58,10 +59,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   };
 
 
-    public startTime = [
-        new Date(2018, 1, 12, 10, 30)
-    ];
-
   // config: IDatePickerConfig = {
   //   firstDayOfWeek: 'su',
   //   monthFormat: 'MMM, YYYY',
@@ -101,16 +98,17 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   imgSrc: any;
   departments: any;
   loader: boolean = false;
-
   /** Initializing variables */
   postedImage: File
   hideUploadedImage: boolean = true
+  validationMaxTime: Moment;
+  timePikerError:boolean = false;
 
   /** Service injection */
   constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                private activatedRoute: ActivatedRoute,
                private cdr: ChangeDetectorRef,
-               private element: ElementRef) {
+               private element: ElementRef, private atp: AmazingTimePickerService) {
   }
 
   /** Function call when component initializes */
@@ -188,9 +186,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
   /** Function call to create or edit a admin */
   onSubmit (form: NgForm) {
+      this.loader = true;
     if (this.editMode) {
-    //  const data = {...form.value, id: this.widget.id };
-      console.log(this.loggedInAdminId);
       const formDataEdit = new FormData();
       formDataEdit.append('id', <string><any>this.widget.id);
       formDataEdit.append('image', this.postedImage);
@@ -204,6 +201,10 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       formDataEdit.append('startTime', form.value.startTime);
       formDataEdit.append('endTime', form.value.endTime);
       this.store.dispatch(new WidgetActions.EditWidgetAttempt(formDataEdit));
+        setTimeout(() => {
+                this.loader = false;
+            }
+            , 400);
     } else {
       const formData = new FormData();
       formData.append('image', this.postedImage);
@@ -216,8 +217,11 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       formData.append('daysArray', form.value.daysArray);
       formData.append('startTime', form.value.startTime);
       formData.append('endTime', form.value.endTime);
-
       this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
+        setTimeout(() => {
+                this.loader = false;
+            }
+            , 800);
     }
   }
 
@@ -263,20 +267,62 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     this.imgSrc = '';
   }
 
-  /** Function call on change of 'from' date */
-  log1(event) {
-    if(event) {
-      this.validationMinTime = this.form.value.startTime;
-      this.cdr.detectChanges();
-      const date = new Date(event);
-    }
-  }
+  // /** Function call on change of 'from' date */
+  // log1(event) {
+  //     console.log('current'+event);
+  //   if(event) {
+  //     this.validationMinTime = event;
+  //     // console.log(this.validationMinTime);
+  //     // this.cdr.detectChanges();
+  //     // const date = new Date(event);
+  //     // console.log(date);
+  //   }else{
+  //       this.validationMinTime = this.form.value.startTime;
+  //   }
+  // }
+  //   ngOnChanges(event) {
+  //     console.log('this');
+  //       this.log2(event)
+  //   }
 
   /** Function call on change of 'to' date */
   log2(event) {
+      this.timePikerError = false;
     if(event) {
-      const date = new Date(event);
+        this.validationMinTime = this.form.value.startTime;
+        this.validationMaxTime = event;
+        console.log(this.validationMaxTime);
+        if(this.validationMinTime > this.validationMaxTime) {
+            this.timePikerError = true;
+            this.form.controls['endTime'].setErrors({'incorrect': true});
+        }
     }
   }
+
+
+    openTimer() {
+        const amazingTimePicker = this.atp.open();
+        amazingTimePicker.afterClose().subscribe(time => {
+            this.widget.startTime = time;
+        });
+    }
+
+    // openEndTimer() {
+    //     const amazingTimePicker = this.atp.open();
+    //     amazingTimePicker.afterClose().subscribe(time => {
+    //         this.widget.endTime = time;
+    //        //  this.validationMaxTime = time;
+    //        // this.validationMaxTime = this.widget.endTime;
+    //     });
+    //     this.validationMinTime = this.form.value.startTime;
+    //     // this.validationMaxTime = this.widget.endTime;
+    //     console.log(this.validationMaxTime);
+    //     if(this.validationMinTime > this.validationMaxTime) {
+    //         this.timePikerError = true;
+    //         this.form.controls['endTime'].setErrors({'incorrect': true});
+    //     }
+    //     // this.log2(event);
+    // }
+
 
 }
