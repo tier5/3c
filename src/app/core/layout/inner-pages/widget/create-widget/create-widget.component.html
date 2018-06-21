@@ -227,19 +227,6 @@
                                             </i>
                                              From Time
                                         </label>
-                                        <!--<div class="col-md-10">-->
-                                        <!--<input [ngModel]="widget.startTime" name="startTime" class="form-control" #startTime="ngModel" required id="startTime"/>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-md-2">-->
-                                        <!--<button type="button" (click)="openTimer()">Time</button>-->
-                                        <!--</div>-->
-                                        <!--<span *ngIf="startTime.invalid && startTime.touched && startTime.errors?.required" class="help-block">Start Time is Required!</span>-->
-                                        <!--<div class="input-group mb-3">-->
-                                            <!--<input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">-->
-                                            <!--<div class="input-group-append">-->
-                                                <!--<span class="input-group-text" id="basic-addon2">@example.com</span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
                                         <div class="input-group">
                                             <input [ngModel]="widget.startTime" name="startTime" class="form-control" #startTime="ngModel" required id="startTime"/>
                                             <span class="input-group-addon" (click)="openTimer()"><i class="glyphicon glyphicon-time"></i></span>
@@ -256,12 +243,10 @@
                                             <i *ngIf="(endTime.invalid && endTime.touched) || timePikerError" class="fa fa-times-circle-o"> </i>
                                              To Time
                                         </label>
-                                        <input atp-time-picker [ngModel]="widget.endTime" name="endTime" #endTime="ngModel" class="form-control" (ngModelChange)="log2($event)" required type="text" id="endTime"/>
-                                        <!--<div class="input-group">-->
-                                            <!--&lt;!&ndash;<input [ngModel]="widget.endTime" name="endTime" class="form-control" #endTime="ngModel" required id="endTime"  (ngDoCheck)="log2($event)" />&ndash;&gt;-->
-                                            <!--<input [ngModel]="widget.endTime" name="endTime" #endTime="ngModel" class="form-control"  [required]="'required'" type="text" id="endTime" (ngModelChange)="log2($event)"/>-->
-                                            <!--<span class="input-group-addon" (click)="openEndTimer()"><i class="glyphicon glyphicon-time"></i></span>-->
-                                        <!--</div>-->
+                                        <div class="input-group">
+                                            <input [ngModel]="widget.endTime" name="endTime" #endTime="ngModel" class="form-control"  [required]="'required'" type="text" id="endTime" (ngModelChange)="log2($event)"/>
+                                            <span class="input-group-addon" (click)="openEndTimer()"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
                                         <span *ngIf="timePikerError" class="help-block">End Time Should before Start Time</span>
                                         <span *ngIf="endTime.invalid && endTime.touched && endTime.errors?.required" class="help-block">End Time is Required</span>
 

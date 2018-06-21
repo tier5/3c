@@ -94,7 +94,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   // };
   validationMinTime: Moment;
   loggedInAdminId: number;
-
+    endTime:any;
   imgSrc: any;
   departments: any;
   loader: boolean = false;
@@ -233,7 +233,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
   /** Function call to upload image or video */
   fileUploaded (event) {
-
     if (event.target.files.length > 0) {
       this.hideUploadedImage = false
       this.postedImage = event.target.files[0]
@@ -244,7 +243,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         this.imgSrc = fre.target.result
     //    image.src = src
       }
-
       reader.readAsDataURL(event.target.files[0])
     } else {
       this.hideUploadedImage = true
@@ -267,24 +265,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     this.imgSrc = '';
   }
 
-  // /** Function call on change of 'from' date */
-  // log1(event) {
-  //     console.log('current'+event);
-  //   if(event) {
-  //     this.validationMinTime = event;
-  //     // console.log(this.validationMinTime);
-  //     // this.cdr.detectChanges();
-  //     // const date = new Date(event);
-  //     // console.log(date);
-  //   }else{
-  //       this.validationMinTime = this.form.value.startTime;
-  //   }
-  // }
-  //   ngOnChanges(event) {
-  //     console.log('this');
-  //       this.log2(event)
-  //   }
-
   /** Function call on change of 'to' date */
   log2(event) {
       this.timePikerError = false;
@@ -299,7 +279,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     }
   }
 
-
+    /** function to open time in the Start Time */
     openTimer() {
         const amazingTimePicker = this.atp.open();
         amazingTimePicker.afterClose().subscribe(time => {
@@ -307,22 +287,14 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         });
     }
 
-    // openEndTimer() {
-    //     const amazingTimePicker = this.atp.open();
-    //     amazingTimePicker.afterClose().subscribe(time => {
-    //         this.widget.endTime = time;
-    //        //  this.validationMaxTime = time;
-    //        // this.validationMaxTime = this.widget.endTime;
-    //     });
-    //     this.validationMinTime = this.form.value.startTime;
-    //     // this.validationMaxTime = this.widget.endTime;
-    //     console.log(this.validationMaxTime);
-    //     if(this.validationMinTime > this.validationMaxTime) {
-    //         this.timePikerError = true;
-    //         this.form.controls['endTime'].setErrors({'incorrect': true});
-    //     }
-    //     // this.log2(event);
-    // }
+    /** function to open time in the End Time */
+    openEndTimer() {
+        const amazingTimePicker = this.atp.open();
+        amazingTimePicker.afterClose().subscribe(time => {
+            this.widget.endTime = time;
+            this.log2(time);
+        });
+    }
 
 
 }
