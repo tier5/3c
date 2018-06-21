@@ -57,7 +57,6 @@ class WidgetController extends Controller
         $extension         = $request->image->extension();
 
         if (in_array($extension, $supportedFormat)) {
-
           // Save new image
           $imageName = $generateFileName.'.'.$extension;
           $request->image->move(public_path('/widgets'), $imageName);
