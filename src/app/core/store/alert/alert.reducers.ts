@@ -4,12 +4,14 @@ export interface AlertState {
   message: string;
   show: boolean;
   type: string;
+  loaderStatus : boolean;
 }
 
 const initialState: AlertState = {
   message: '',
   show: false,
-  type:''
+  type:'',
+  loaderStatus : false
 };
 
 export function alertReducer (state = initialState, actions:AlertActions.AlertActions) {

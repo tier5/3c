@@ -126,17 +126,37 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       if(this.editMode) {
         const data = { ...form.value, userId: this.userId };
         this.store.dispatch(new AgentActions.EditAgentAttempt({...data}));
-          setTimeout(() => {
-                  this.router.navigate(['/agent/list']);
-              }
-              , 2290);
+          /** Loader Show/Hide */
+          this.store.select('alert')
+              .map(data => data)
+              .subscribe(
+                  (data) => {
+                      if(data.show && data.type === 'danger') {
+                          this.loader = false;
+                      }if(data.show && data.type === 'success') {
+                          setTimeout(() => {
+                                  this.router.navigate(['/agent/list']);
+                              }
+                              , 500);
+                      }
+                  }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
       } else {
           /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
-          setTimeout(() => {
-                  this.router.navigate(['/agent/list']);
-              }
-              , 10000);
+          /** Loader Show/Hide */
+          this.store.select('alert')
+              .map(data => data)
+              .subscribe(
+                  (data) => {
+                      if(data.show && data.type === 'danger') {
+                          this.loader = false;
+                      }if(data.show && data.type === 'success') {
+                          setTimeout(() => {
+                                  this.router.navigate(['/agent/list']);
+                              }
+                              , 500);
+                      }
+                  }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
       }
     }
 

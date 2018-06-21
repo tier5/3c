@@ -1,4 +1,4 @@
-import { Router, ActivatedRoute, Data } from '@angular/router';
+import { Router, ActivatedRoute, Data, NavigationStart, NavigationCancel, NavigationEnd } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -89,18 +89,38 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
         /** Edit admin */
       const data = { ...form.value, userId: this.userId };
       this.store.dispatch(new AdminActions.EditAdminAttempt({...data}));
-        setTimeout(() => {
-                this.router.navigate(['/admin/list']);
-            }
-            , 2290);
+        /** Loader Show/Hide */
+        this.store.select('alert')
+            .map(data => data)
+            .subscribe(
+                (data) => {
+                    if(data.show && data.type === 'danger') {
+                        this.loader = false;
+                    }if(data.show && data.type === 'success') {
+                        setTimeout(() => {
+                                this.router.navigate(['/admin/list']);
+                            }
+                            , 500);
+                    }
+                }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     } else {
       /** Create admin */
       this.store.dispatch(new AdminActions.AddAdminAttempt(form.value));
-        setTimeout(() => {
-                this.router.navigate(['/admin/list']);
-            }
-            , 10000);
-    }
+      /** Loader Show/Hide */
+            this.store.select('alert')
+                .map(data => data)
+                .subscribe(
+                    (data) => {
+                        if(data.show && data.type === 'danger') {
+                            this.loader = false;
+                        }if(data.show && data.type === 'success') {
+                            setTimeout(() => {
+                                    this.router.navigate(['/admin/list']);
+                                }
+                                , 500);
+                        }
+                    }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
+     }
   }
 
   /** Un-subscribing from all custom made events when component is destroyed */

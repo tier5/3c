@@ -2,13 +2,11 @@ import * as ProfileActions from './profile.actions';
 
 export interface ProfileState {
   data: any;
-  formLoader: boolean;
   resetChangePasswordForm: boolean;
 }
 
 const initialState: ProfileState = {
   data: null,
-  formLoader: false,
   resetChangePasswordForm: false
 };
 
@@ -22,8 +20,7 @@ export function profileReducer(state = initialState, action: ProfileActions.Prof
     case (ProfileActions.EDIT_PROFILE_SUCCESS):
       return {
         ...state,
-        data: { ...action.payload },
-        formLoader: true,
+        data: { ...action.payload }
       };
     case (ProfileActions.EDIT_PROFILE_CHANGE_PASSWORD_SUCCESS):
       return {

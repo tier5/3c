@@ -201,10 +201,17 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       formDataEdit.append('startTime', form.value.startTime);
       formDataEdit.append('endTime', form.value.endTime);
       this.store.dispatch(new WidgetActions.EditWidgetAttempt(formDataEdit));
-        setTimeout(() => {
-                this.loader = false;
-            }
-            , 400);
+        /** Loader Show/Hide */
+        this.store.select('alert')
+            .map(data => data)
+            .subscribe(
+                (data) => {
+                    if(data.show && data.type === 'danger') {
+                        this.loader = false;
+                    }if(data.show && data.type === 'success') {
+                        this.loader = false;
+                    }
+                }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     } else {
       const formData = new FormData();
       formData.append('image', this.postedImage);
@@ -218,10 +225,17 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       formData.append('startTime', form.value.startTime);
       formData.append('endTime', form.value.endTime);
       this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
-        setTimeout(() => {
-                this.loader = false;
-            }
-            , 800);
+        /** Loader Show/Hide */
+        this.store.select('alert')
+            .map(data => data)
+            .subscribe(
+                (data) => {
+                    if(data.show && data.type === 'danger') {
+                        this.loader = false;
+                    }if(data.show && data.type === 'success') {
+                        this.loader = false;
+                    }
+                }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     }
   }
 

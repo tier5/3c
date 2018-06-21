@@ -4,18 +4,18 @@ export interface AdminState {
   info: any,
   list: any,
   toEdit: any,
-  resetAdminForm: boolean
+  resetAdminForm: boolean,
 }
 
 const initialState: AdminState = {
   info: null,
   list: [],
   toEdit: {},
-  resetAdminForm: false
+  resetAdminForm: false,
 };
 
 export function adminReducer(state = initialState, action: AdminActions.AdminActions) {
-  switch (action.type) {
+    switch (action.type) {
     case (AdminActions.ADD_ADMIN_SUCCESS):
       return {
         ...state,
