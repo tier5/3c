@@ -313,7 +313,7 @@ class ChatController extends Controller
     {
         if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
             $fromNumberNew = substr($fromNumber, -10);//add a filter
-            $keys = TwilioNumber::where('number', $fromNumber)->with('getTwilioCredentials')->first();
+            $keys = TwilioNumber::where('number', $fromNumberNew)->with('getTwilioCredentials')->first();
             if ($keys) {
                 try {
                         $fromNumber = $keys->prefix.$keys->number;
