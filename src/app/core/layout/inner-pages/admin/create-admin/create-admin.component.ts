@@ -1,4 +1,4 @@
-import { Router, ActivatedRoute, Data, NavigationStart, NavigationCancel, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, Data } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -96,11 +96,8 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
                 (data) => {
                     if(data.show && data.type === 'danger') {
                         this.loader = false;
-                    }if(data.show && data.type === 'success') {
-                        setTimeout(() => {
+                    } else if(data.show && data.type === 'success') {
                                 this.router.navigate(['/admin/list']);
-                            }
-                            , 500);
                     }
                 }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     } else {
@@ -113,11 +110,8 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
                     (data) => {
                         if(data.show && data.type === 'danger') {
                             this.loader = false;
-                        }if(data.show && data.type === 'success') {
-                            setTimeout(() => {
+                        } else if(data.show && data.type === 'success') {
                                     this.router.navigate(['/admin/list']);
-                                }
-                                , 500);
                         }
                     }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
      }

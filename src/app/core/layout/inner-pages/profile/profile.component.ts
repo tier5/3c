@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-
 import * as fromAfterLogin from '../../store/after-login.reducers';
 import * as ProfileActions from '../../store/profile/profile.actions';
 import * as fromAuth from '../../../store/auth/auth.reducers';
 import * as fromApp from '../../../store/core.reducers';
 import * as AuthActions from '../../../store/auth/auth.actions';
+import { Router, ActivatedRoute, Data } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   /** Service injection */
   constructor(private formBuilder: FormBuilder,
               private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private storeAuth: Store<fromApp.AppState>) { }
+              private storeAuth: Store<fromApp.AppState>, private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit () {
@@ -107,17 +107,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.loader1 = true;
     this.store.dispatch(new ProfileActions.EditProfileAttempt(this.profileForm.value));
     this.store.dispatch(new AuthActions.UpdateAttempt(this.profileForm.value));
-      setTimeout(() => {
-              this.loader1 = false;
-          }
-          , 700);
-
+      /** Loader Show/Hide */
+      this.store.select('alert')
+          .map(data => data)
+          .subscribe(
+              (data) => {
+                  if(data.show && data.type === 'danger') {
+                      this.loader1 = false;
+                  } else if(data.show && data.type === 'success') {
+                      this.loader1 = false;
+                  }
+              }, (error) => { console.error(error); this.loader1 = false; } , () => {this.loader1 = false; });
   }
 
   /** Function call to update password */
   onUpdatePassword() {
     this.loader = true;
     this.store.dispatch(new ProfileActions.EditProfileChangePasswordAttempt(this.passwordForm.value));
+      /** Loader Show/Hide */
     this.store.select( 'afterLogin', 'profile', 'resetChangePasswordForm').subscribe(
       (value) => {
         if (value) {

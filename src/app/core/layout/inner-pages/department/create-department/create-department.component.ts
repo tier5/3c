@@ -117,10 +117,17 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     if(this.editMode) {
       const data = { ...form.value, departmentId: this.depId };
       this.store.dispatch(new DepartmentActions.EditDepartmentAttempt({...data}));
-        setTimeout(() => {
-                this.router.navigate(['/department/list']);
-            }
-            , 800);
+        /** Loader Show/Hide */
+        this.store.select('alert')
+            .map(data => data)
+            .subscribe(
+                (data) => {
+                    if(data.show && data.type === 'danger') {
+                        this.loader = false;
+                    } else if(data.show && data.type === 'success') {
+                        this.router.navigate(['/department/list']);
+                    }
+                }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     } else {
       this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
     }

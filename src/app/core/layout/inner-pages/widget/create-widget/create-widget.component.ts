@@ -58,40 +58,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     image: ''
   };
 
-
-  // config: IDatePickerConfig = {
-  //   firstDayOfWeek: 'su',
-  //   monthFormat: 'MMM, YYYY',
-  //   disableKeypress: true,
-  //   allowMultiSelect: false,
-  //   closeOnSelect: undefined,
-  //   closeOnSelectDelay: 100,
-  //   onOpenDelay: 0,
-  //   weekDayFormat: 'ddd',
-  //   appendTo: document.body,
-  //   drops: 'down',
-  //   opens: 'right',
-  //   showNearMonthDays: false,
-  //   showWeekNumbers: false,
-  //   enableMonthSelector: true,
-  //   yearFormat: 'YYYY',
-  //   showGoToCurrent: true,
-  //   dayBtnFormat: 'DD',
-  //   monthBtnFormat: 'MMM',
-  //   hours12Format: 'hh',
-  //   hours24Format: 'HH',
-  //   meridiemFormat: 'A',
-  //   minutesFormat: 'mm',
-  //   minutesInterval: 1,
-  //   secondsFormat: 'ss',
-  //   secondsInterval: 1,
-  //   showSeconds: false,
-  //   showTwentyFourHours: false,
-  //   timeSeparator: ':',
-  //   multipleYearsNavigateBy: 10,
-  //   showMultipleYearsNavigation: false,
-  //   locale: 'en'
-  // };
   validationMinTime: Moment;
   loggedInAdminId: number;
     endTime:any;
@@ -247,15 +213,21 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
   /** Function call to upload image or video */
   fileUploaded (event) {
+      // console.log(event);
     if (event.target.files.length > 0) {
       this.hideUploadedImage = false
       this.postedImage = event.target.files[0]
+        // const ImageSize = size
+        if(this.postedImage.size > 2000000){
+          alert('The specified file could not be uploaded.The file is exceeding the maximum file upload size of 2MB.');
+          return false;
+        }
     //  const image = this.element.nativeElement.querySelector('.uploaded-image')
       const reader = new FileReader()
-
       reader.onload = (fre: FileReaderEvent) => {
         this.imgSrc = fre.target.result
     //    image.src = src
+          // if(event.target.files[0] > 2000000)
       }
       reader.readAsDataURL(event.target.files[0])
     } else {

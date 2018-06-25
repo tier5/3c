@@ -13,7 +13,7 @@
                 <div class="box box-primary">
                     <!-- /.box-header -->
                     <div class="box-body" *ngIf="(authState | async).twilioIsActive">
-                        <form #form="ngForm" (submit)="onSubmit(form)" ngNativeValidate>
+                        <form #form="ngForm">
 
                             <div class="box-header with-border">
                                 <h3 class="box-title">
@@ -256,7 +256,7 @@
 
                             <div class="col-md-12">
                                 <div class="box-footer">
-                                    <button type="submit" [disabled]="timePikerError || form.invalid" class="btn btn-primary pull-right">
+                                    <button type="button" [disabled]="timePikerError || form.invalid" class="btn btn-primary pull-right" (click)="onSubmit(form)">
                                         <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i>
                                         Submit
                                     </button>

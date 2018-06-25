@@ -133,11 +133,8 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                   (data) => {
                       if(data.show && data.type === 'danger') {
                           this.loader = false;
-                      }if(data.show && data.type === 'success') {
-                          setTimeout(() => {
+                      } else if (data.show && data.type === 'success') {
                                   this.router.navigate(['/agent/list']);
-                              }
-                              , 500);
                       }
                   }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
       } else {
@@ -150,11 +147,8 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                   (data) => {
                       if(data.show && data.type === 'danger') {
                           this.loader = false;
-                      }if(data.show && data.type === 'success') {
-                          setTimeout(() => {
+                      }else if(data.show && data.type === 'success') {
                                   this.router.navigate(['/agent/list']);
-                              }
-                              , 500);
                       }
                   }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
       }
