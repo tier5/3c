@@ -1,4 +1,4 @@
-import { ActivatedRoute, Data } from '@angular/router'
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import {
   Component, OnDestroy, OnInit, ViewChild, ElementRef, ChangeDetectorRef,
   AfterViewChecked
@@ -74,7 +74,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                private activatedRoute: ActivatedRoute,
                private cdr: ChangeDetectorRef,
-               private element: ElementRef, private atp: AmazingTimePickerService) {
+               private element: ElementRef, private atp: AmazingTimePickerService, private router: Router) {
   }
 
   /** Function call when component initializes */
@@ -176,6 +176,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                         this.loader = false;
                     }if(data.show && data.type === 'success') {
                         this.loader = false;
+                        this.router.navigate(['/widget/edit',this.widget.id]);
                     }
                 }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     } else {
@@ -200,6 +201,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                         this.loader = false;
                     }if(data.show && data.type === 'success') {
                         this.loader = false;
+                        this.router.navigate(['widget/create']);
                     }
                 }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     }
@@ -218,7 +220,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       this.hideUploadedImage = false
       this.postedImage = event.target.files[0]
         // const ImageSize = size
-        if(this.postedImage.size > 2000000){
+        if ( this.postedImage.size > 2000000 )   {
           alert('The specified file could not be uploaded.The file is exceeding the maximum file upload size of 2MB.');
           return false;
         }
