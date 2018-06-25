@@ -324,7 +324,7 @@ class WidgetController extends Controller
 
       $imagePath              = '';
       $supportedFormat        = array('jpeg','jpg','png','gif','tif');
-      $generateFileName       = date("YmdHis");
+      $generateFileName       = date("YmdHi");
 
       // If userId is not present
       if ($userId == '') {
@@ -347,18 +347,9 @@ class WidgetController extends Controller
       if (count($checkWidget) == 1) {
         // Check file is in param
         if ($request->hasFile('image')) {
-          $extension = $request->image->extension();
             \Log::info('Have File images');
+          $extension = $request->image->extension();
           if (in_array($extension, $supportedFormat)) {
-
-//            if($checkWidget->image!='') {
-//                \Log::info('deleting images');
-//              // Delete previous image
-//              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image,'widgets'));
-//              unlink($deleteImage);
-//            }
-            // Save new image
-
             $imageName   = $generateFileName.'.'.$extension;
             $request->image->move(public_path('/widgets'), $imageName);
             $imagePath   = asset('widgets/'.$imageName);
@@ -377,17 +368,15 @@ class WidgetController extends Controller
         $checkWidget->details           = $widgetDetails;
 
         if ($imagePath != '') {
-
           $checkWidget->image           = $imagePath;
-
         } else {
-          if($checkWidget->image!="") {
-              $deleteImage = substr($checkWidget->image, strpos($checkWidget->image, 'widgets'));
-              $checkWidget->image = '';
-              unlink($deleteImage);
+
+          if ($checkWidget->image != "") {
+               // $deleteImage = substr($checkWidget->image, strpos($checkWidget->image, 'widgets'));
+               // unlink($deleteImage);
+              $checkWidget->image = $checkWidget->image;
           }
         }
-
         if ($checkWidget->save()) {
 
           // Save Widget Schdule Time
@@ -415,6 +404,7 @@ class WidgetController extends Controller
           return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets updated failed !'));
 
         }
+
       } else {
 
         return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets not found !'));
