@@ -45,27 +45,27 @@ class ChatController extends Controller
         $checkTwilioNumbers = TwilioNumber::where('number',$toNumber)->with('getWidgetDetails')->first();
         if(count($checkTwilioNumbers) != 0 ){
 
-                $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
-                if( count($checkMessageTrack) == 0 ){
+            $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
+            if( count($checkMessageTrack) == 0 ){
 
-                    $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
-                } else {
+                $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
+            } else {
 
-                    $type ='1';
-                    $direction ='1';
-                    $userId = null;
-                    $this->saveOtherChat($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody,$type, $direction,$userId);
-                }
-            }else{
-
-                return  Response::json(array(
-                    'status'   => false,
-                    'code'     => 400,
-                    'response' => [],
-                    'error'    => true,
-                    'message'  => 'Twilio Number Not Found !'
-                ));
+                $type ='1';
+                $direction ='1';
+                $userId = null;
+                $this->saveOtherChat($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody,$type, $direction,$userId);
             }
+        }else{
+
+            return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'error'    => true,
+                'message'  => 'Twilio Number Not Found !'
+            ));
+        }
     }
 
     /**
@@ -158,16 +158,16 @@ class ChatController extends Controller
 
                 $checkDepartment = WidgetDepartmentMapping::where('department_orders',$departmentId)->where('widget_id',$checkWidget->id)->first();
                 if(count($checkDepartment)!=0){
-                     $updateMessageCache        = MessageCache::where('id',$checkMessageCacheId)->update(['department_id'=>$checkDepartment->department_id,'status'=>'0']);
-                     $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
-                     $responsesaveMessageTrack  = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid, $messageType);
-                     if( $responsesaveMessageTrack != false ){
+                    $updateMessageCache        = MessageCache::where('id',$checkMessageCacheId)->update(['department_id'=>$checkDepartment->department_id,'status'=>'0']);
+                    $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
+                    $responsesaveMessageTrack  = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid, $messageType);
+                    if( $responsesaveMessageTrack != false ){
                         $responseSaveContactList = $this->saveContactList($widgetUuid,$fromNumber);
                         if($responseSaveContactList != false ){
                             $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList,$widgetUuid);
                             if($responsesaveMessageLog!=false){
                                 //run a update query to update the Message_Track tables from
-                                $updateMessageTrack = MessageTrack::where('id',$responsesaveMessageTrack->id)->update([ 'message_id' => $responsesaveMessageLog->id ]);
+                                $updateMessageTrack = MessageTrack::where('id',$responsesaveMessageTrack->id)->update([ 'message_id' => $responsesaveMessageLog]);
                                 $type = '1'; // 1-> Mobile 2-> Web
                                 $direction = '1'; // 1->Incoming 2-> outgoing
                                 $userId = $responsesaveMessageTrack->agent_id;
@@ -195,16 +195,16 @@ class ChatController extends Controller
                             }
 
                         }
-                     }else{
+                    }else{
 
-                         return  Response::json(array(
-                             'status'   => false,
-                             'code'     => 400,
-                             'response' => [],
-                             'error'    => true,
-                             'message'  => 'data Not Saved !'
-                         ));
-                     }
+                        return  Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'response' => [],
+                            'error'    => true,
+                            'message'  => 'data Not Saved !'
+                        ));
+                    }
                 }else{
 
                     return  Response::json(array(
@@ -316,26 +316,26 @@ class ChatController extends Controller
             $keys = TwilioNumber::where('number', $fromNumberNew)->with('getTwilioCredentials')->first();
             if ($keys) {
                 try {
-                        $fromNumber = $keys->prefix.$keys->number;
-                        $sid = $keys->getTwilioCredentials->twilio_sid;
-                        $token = $keys->getTwilioCredentials->twilio_token;
-                        $clientsms = new Client($sid, $token);
-                        $message = $clientsms->messages->create(
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $toNumber,array(
-                                  "from" => $fromNumber,
-                                  "body" => $smsBody
-                        ));
-                        \Log::info('SMS Send !');
-                    } catch(\Exception $e) {
-                        \Log::info('SMS Not Send !'.$e->getMessage());
-                        return  Response::json(array(
-                            'error'   => true,
-                            'code'    => 400,
-                            'status'  => false,
-                            'response'=> [],
-                            'message' => $e->getMessage()
-                        ));
-                    }
+                    $fromNumber = $keys->prefix.$keys->number;
+                    $sid = $keys->getTwilioCredentials->twilio_sid;
+                    $token = $keys->getTwilioCredentials->twilio_token;
+                    $clientsms = new Client($sid, $token);
+                    $message = $clientsms->messages->create(
+                        $toNumber,array(
+                        "from" => $fromNumber,
+                        "body" => $smsBody
+                    ));
+                    \Log::info('SMS Send !');
+                } catch(\Exception $e) {
+                    \Log::info('SMS Not Send !'.$e->getMessage());
+                    return  Response::json(array(
+                        'error'   => true,
+                        'code'    => 400,
+                        'status'  => false,
+                        'response'=> [],
+                        'message' => $e->getMessage()
+                    ));
+                }
             } else {
 
                 return Response::json(array(
@@ -402,7 +402,7 @@ class ChatController extends Controller
             $saveMessageCacheData->message_body     = $messageBody;
             $saveMessageCacheData->status           = 1;
             if($saveMessageCacheData->save()){
-               return true;
+                return true;
             }else{
                 return false;
             }
@@ -574,7 +574,7 @@ class ChatController extends Controller
                 $saveChatThread->widget_id      = $widget_uuid;
                 $saveChatThread->chat_thread    = $messageBody;
                 $saveChatThread->type           = $type;
-                $saveChatThread->agent_id       = $userId;
+                $saveChatThread->user_id        = $userId;
                 $saveChatThread->direction      = $direction;
                 $saveChatThread->chat_type      = $type;
                 if($saveChatThread->save()){
@@ -707,17 +707,17 @@ class ChatController extends Controller
                 if( $checkMessageTrack->message_type == 1 ){
                     $getWidgetPhoneNumber = Widgets::where('widget_uuid',$checkMessageTrack->widget_id)->with('twilioNumbers')->first();
                     $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix.$getWidgetPhoneNumber->twilioNumbers->number;
-                        //modify this part
+                    //modify this part
                     $this->sendSms($messageBody,$checkMessageTrack->from_phone_number,$widgetPhoneNumber);
                 }
-            $messageId  = $checkMessageTrack->message_id;
-            $userId     = $checkMessageTrack->agent_id;
-            $widgetUuid = $checkMessageTrack->widget_id;
-            $type       = 2; //1->mobile 2->web
-            $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
-            if($responseSaveChatThread->direction == 1){
-                //user contain client info
-                $getClientInfo = MessageLog::where('id',$responseSaveChatThread->message_log_id)->with('clientName')->first();
+                $messageId  = $checkMessageTrack->message_id;
+                $userId     = $checkMessageTrack->agent_id;
+                $widgetUuid = $checkMessageTrack->widget_id;
+                $type       = 2; //1->mobile 2->web
+                $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
+                if($responseSaveChatThread->direction == 1){
+                    //user contain client info
+                    $getClientInfo = MessageLog::where('id',$responseSaveChatThread->message_log_id)->with('clientName')->first();
                     if($getClientInfo->clientName->name !="" ) {
                         $user = $getClientInfo->clientName->name;
                     } else {
@@ -729,19 +729,19 @@ class ChatController extends Controller
                     $user = $getAgentInfo->agentInfo->first_name;
                 }
 
-            $response = ['message'  =>      $responseSaveChatThread->chat_thread,
-                       'direction'  =>      $responseSaveChatThread->direction,
-                       'roomNo'     =>      $checkMessageTrack->chat_room_id,
-                       'user'       =>      $user,
-                       'created_at' =>      $responseSaveChatThread->created_at];
+                $response = ['message'  =>      $responseSaveChatThread->chat_thread,
+                    'direction'  =>      $responseSaveChatThread->direction,
+                    'roomNo'     =>      $checkMessageTrack->chat_room_id,
+                    'user'       =>      $user,
+                    'created_at' =>      $responseSaveChatThread->created_at];
 
-            return Response::json(array(
-                'status'   => true,
-                'code'     => 200,
-                'error'    => false,
-                'response' => $response,
-                'message'  => 'Message sent !'
-            ));
+                return Response::json(array(
+                    'status'   => true,
+                    'code'     => 200,
+                    'error'    => false,
+                    'response' => $response,
+                    'message'  => 'Message sent !'
+                ));
             } else {
 
                 return Response::json(array(
@@ -1213,24 +1213,24 @@ class ChatController extends Controller
                     $saveMessageAgentTrack->save();
                     $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id, $saveMessageAgentTrack->widget_id);
                 }
-                        //call to node API
-                        $url = url('/').':3000/send-rooms';
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL,$url);
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, '');
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        $server_output = curl_exec ($ch);
-                        curl_close ($ch);
+                //call to node API
+                $url = url('/').':3000/send-rooms';
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $server_output = curl_exec ($ch);
+                curl_close ($ch);
 
-                        $response = [ 'agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
-                        return  Response::json(array(
-                            'status'   => true,
-                            'code'     => 200,
-                            'response' => $response,
-                            'error'    => false,
-                            'message'  => 'Transfer to a new Agent!'
-                        ));
+                $response = [ 'agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status'=>$status ];
+                return  Response::json(array(
+                    'status'   => true,
+                    'code'     => 200,
+                    'response' => $response,
+                    'error'    => false,
+                    'message'  => 'Transfer to a new Agent!'
+                ));
             }else{
 
                 return  Response::json(array(
