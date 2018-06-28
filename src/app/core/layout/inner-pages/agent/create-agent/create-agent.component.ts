@@ -1,5 +1,5 @@
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -11,11 +11,13 @@ import * as AgentActions from '../../../store/agent/agent.actions';
 import * as DepartmentActions from '../../../store/department/department.actions';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-create-agent',
   templateUrl: './create-agent.component.html',
-  styleUrls: ['./create-agent.component.css']
+  styleUrls: ['./create-agent.component.css'],
 })
 export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy {
 
@@ -46,11 +48,14 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     departments : any;
     loader: boolean = false;
+    bsModalRef: BsModalRef;             /** bootstrap modal */
+    dep:any;                            /** initialize the department object */
+    adminUserId:number;                 /** admin user id from admin selection droupdown */
 
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
-                private cdr: ChangeDetectorRef, private router: Router) { }
+                private cdr: ChangeDetectorRef, private router: Router, private modalService: BsModalService) { }
 
     /** Function to be executed when component initializes */
     ngOnInit() {
@@ -114,6 +119,12 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
               }
             }
           );
+
+        this.dep = {
+            userId:'',
+            departmentName: '',
+            departmentDetails: ''
+        };
     }
 
     ngAfterViewChecked() {
@@ -163,13 +174,25 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     /** Function to fetch department list with respect to adminId/userId */
     adminChanged(id: number) {
       if (!!id) {
+        this.adminUserId = id;
         this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: id}));
       }
     }
 
     /** Function to check if valid department is selected */
-    deptChanged(id: number) {
+    deptChanged(id: any) {
       this.selectDept = id > 0;
+    }
+
+    /** Function to create a department from the create agent page */
+    createDepartment( template :  TemplateRef<any> ) {
+        this.dep.userId = this.adminUserId;
+        this.bsModalRef = this.modalService.show(template);
+    }
+    /** function to create a department */
+    onCreateDep(form){
+        this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
+        this.bsModalRef.hide();
     }
 
 }
