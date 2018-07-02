@@ -951,7 +951,11 @@ class ChatController extends Controller
                 $agentPhoneNumber ="";
             }
             $getToNumber = Widgets::where('widget_uuid',$widgetUuId)->with('twilioNumbers')->first();
-            if( count($getToNumber) != 0 ){
+            $toNumber = '';
+            if( count($getToNumber) != 0 
+                && null !== $getToNumber->twilioNumbers
+                &&  null !== $getToNumber->twilioNumbers->prefix.$getToNumber
+                && null !== $getToNumber->twilioNumbers->prefix.$getToNumber->twilioNumbers){
                 $toNumber = $getToNumber->twilioNumbers->prefix.$getToNumber->twilioNumbers->number;
             }else{
                 $toNumber = "";
