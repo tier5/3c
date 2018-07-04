@@ -3,8 +3,8 @@
     <h1>Ongoing Chats</h1>
     <ol class="breadcrumb">
       <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Tables</a></li>
-      <li class="active">Data tables</li>
+      <li><a href="#">Ongoing Chats</a></li>
+      <li class="active">Chat</li>
     </ol>
   </section>
   <section class="content">
@@ -32,7 +32,7 @@
                           </div>
                           <div class="col-md-10">
                             <div class="chat-content">
-                              <h3>{{contact.client}} <span>5 days</span></h3>
+                              <h3>{{contact.client}} <span>{{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}}</span></h3>
                               <p>{{contact.room}}</p>
                             </div>
                           </div>
