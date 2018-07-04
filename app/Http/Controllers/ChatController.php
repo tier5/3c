@@ -1340,6 +1340,7 @@ class ChatController extends Controller
             foreach($rooms as $room) {
                 $agentRooms['name'] = $room->chat_room_id;
                 $agentRooms['status'] = $room->status;
+                $agentRooms['chat_time'] = $room->created_at;
                 if($room->clientInfo->clientName->name !="" ) {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->name;
                 } else {
