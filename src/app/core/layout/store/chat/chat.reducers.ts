@@ -11,13 +11,14 @@ export interface ChatState {
 const initialState: ChatState = {
   ongoing: [],
   connected: false,
-  chatList : [],
+  chatList : [] ,
   agentList : [],
   contactList : []
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
-  switch (action.type) {
+
+    switch (action.type) {
     case ChatActions.CONNECT_SUCCESS:
       return {
         ...state,
@@ -28,6 +29,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       const obj = {
         room: action.payload.name,
         client: action.payload.client_name,
+        chatTime: action.payload.chat_time,
         status: action.payload.status,
         chats: action.payload.chats
       };
@@ -66,13 +68,14 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
     case (ChatActions.GET_AGENT_LIST_SUCCESS):
       return {
         ...state,
-        agentList: action.payload
+        agentList: action.payload,
+        chatList: action.payload
       };
-    case (ChatActions.GET_CHAT_LIST_SUCCESS):
+    /*case (ChatActions.GET_CHAT_LIST_SUCCESS):
       return {
         ...state,
         chatList: action.payload
-      };
+      };*/
     case (ChatActions.GET_CONTACT_LIST_SUCCESS):
       return {
         ...state,

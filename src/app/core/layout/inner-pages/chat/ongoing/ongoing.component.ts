@@ -32,12 +32,13 @@ export class OngoingComponent implements OnInit, OnDestroy {
               private chatService: ChatService) { }
   
   ngOnInit() {
-    
-    this.chatService.connect();
-    this.chatState = this.store.select('afterLogin')
-        .map(data => data.chat);
-    this.getChatRoom();
 
+    this.chatService.connect();
+    this.chatState = this.store.select('afterLogin').map(data => data.chat);
+    // this.chatState.subscribe((value) => {
+    //     console.log('hhooo --- >> chatstate',value);
+    // })
+    this.getChatRoom();
     this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
     this.store.select('auth')
         .take(1)
@@ -72,7 +73,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   onSomeMsgAction(status: number) {
-    console.log(status);
     switch(status) {
       case 2:
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
@@ -101,6 +101,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
                 this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
               }
             });
+    // console.log(this.chatRoomSubscription);
   }
 
   sendMsg(form: NgForm) {
@@ -120,8 +121,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("ongoing destroyed");
+    // console.log("ongoing destroyed");
     this.chatRoomSubscription.unsubscribe();
+    // this.chatState();
+
 
   }
 }
