@@ -71,11 +71,11 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         agentList: action.payload,
         chatList: action.payload
       };
-    /*case (ChatActions.GET_CHAT_LIST_SUCCESS):
+    case (ChatActions.GET_CHAT_LIST_SUCCESS):
       return {
         ...state,
         chatList: action.payload
-      };*/
+      };
     case (ChatActions.GET_CONTACT_LIST_SUCCESS):
       return {
         ...state,
