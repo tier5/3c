@@ -89,7 +89,7 @@ class ChatListController extends Controller
         $agentId = $request->agentId;
         $allAgents = [];
 
-            $rooms = MessageAgentTrack::where('agent_id', $agentId)->with('clientInfo.clientName','allChat.agentInfo')->where('status','!=',5)->get();
+            $rooms = MessageAgentTrack::where('agent_id', $agentId)->with('clientInfo.clientName','allChat.agentInfo')->orderBy('id','desc')->get();
             $allRooms = [];
             $agents['agent_id'] = $agentId;
             foreach($rooms as $room) {
@@ -100,6 +100,7 @@ class ChatListController extends Controller
                 } else {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
                 }
+                $agentRooms['chat_time'] = $room->created_at;
                 $agentRooms['chats']=array();
                 foreach($room->allChat as $key=>$chat){
 
