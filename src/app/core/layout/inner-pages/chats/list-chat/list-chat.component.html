@@ -22,7 +22,6 @@
                     <ul>
                       <ng-container *ngFor="let contact of (chatState | async).chatList; let i = index;">
                         <li [ngClass]="{ active : currentChatIndex == i}"
-                            *ngIf="contact.status != 3 && contact.status != 5"
                             (click)="changeCurrentChat(i)">
                           <div class="col-md-2">
                             <div class="chat-head row">
