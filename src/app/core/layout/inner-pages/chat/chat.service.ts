@@ -5,7 +5,6 @@ import 'rxjs/add/operator/distinctUntilChanged'
 import 'rxjs/add/operator/map'
 import * as moment from 'moment'
 import { environment } from '../../../../../environments/environment'
-
 import * as fromAfterLogin from '../../store/after-login.reducers'
 import * as ChatActions from '../../store/chat/chat.actions'
 import 'rxjs/add/operator/take'
@@ -18,7 +17,7 @@ export class ChatService implements OnInit, OnDestroy {
     loggedInAgentName: string
 
     constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
-        console.log('IN SERVICE');
+        //  console.log('IN SERVICE');
     }
 
 

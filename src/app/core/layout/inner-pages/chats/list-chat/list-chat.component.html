@@ -31,7 +31,7 @@
                           </div>
                           <div class="col-md-10">
                             <div class="chat-content">
-                              <h3>{{contact.client_name}} </h3>
+                              <h3>{{contact.client_name}} <span>{{contact.chat_time?.date | amFromUtc | amLocal | amTimeAgo}}</span> </h3>
                               <p>{{contact.name}}</p>
                             </div>
                           </div>
@@ -46,7 +46,7 @@
                   <div class="box box-primary direct-chat direct-chat-primary">
                     <div class="box-body">
                       <!-- Conversations are loaded here -->
-                      <div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">
+                      <div class="direct-chat-messages">
                         <!-- Message. Default to the left -->
                         <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).chatList[currentChatIndex]?.chats">
                           <div class="direct-chat-info clearfix">

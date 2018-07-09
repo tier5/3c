@@ -19,7 +19,6 @@ const initialState: ChatState = {
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
-    console.log(action.type);
     switch (action.type) {
     case ChatActions.CONNECT_SUCCESS:
       return {

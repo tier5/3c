@@ -15,6 +15,7 @@ import * as fromChat from '../../../store/chat/chat.reducers';
   templateUrl: './ongoing.component.html',
   styleUrls: ['./ongoing.component.css']
 })
+
 export class OngoingComponent implements OnInit, OnDestroy {
 
   chatState: Observable<fromChat.ChatState>;
