@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ChatService } from '../chat.service';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -12,11 +11,12 @@ import * as fromChat from '../../../store/chat/chat.reducers';
 import {OngoingComponent} from "../ongoing/ongoing.component";
 
 @Component({
-  selector: 'app-pending',
-  templateUrl: './pending.component.html',
-  styleUrls: ['./pending.component.css']
+    selector: 'app-resolve',
+    templateUrl: './resolve.component.html',
+    styleUrls: ['./resolve.component.css']
 })
-export class PendingComponent implements OnInit, OnDestroy {
+
+    export class ResolveComponent implements OnInit, OnDestroy {
 
     chatState: Observable<fromChat.ChatState>;
     currentChatIndex: number = 0;
@@ -29,7 +29,7 @@ export class PendingComponent implements OnInit, OnDestroy {
 
 
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-                private chatService: ChatService,   private activatedRoute: ActivatedRoute, private router: Router) { }
+                private chatService: ChatService) { }
 
     ngOnInit() {
         this.chatService.connect();
@@ -70,7 +70,6 @@ export class PendingComponent implements OnInit, OnDestroy {
         switch(status) {
             case 2:
                 this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
-                this.router.navigate(['/chat/ongoing']);
                 break;
             case 3:
                 this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
@@ -107,7 +106,7 @@ export class PendingComponent implements OnInit, OnDestroy {
     showChats() {
         return this.store.select('afterLogin')
             .map(data => data.chat)
-            .map(chats => chats.ongoing.filter(chat => chat.status == 1 ));
+            .map(chats => chats.ongoing.filter(chat => chat.status == 5 ));
     }
 
     getLoggedInAgentDetails() {
@@ -117,5 +116,4 @@ export class PendingComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.chatRoomSubscription.unsubscribe();
     }
-
 }

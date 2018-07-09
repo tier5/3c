@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ChatService } from '../chat.service';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
-
-
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
@@ -29,15 +28,11 @@ export class OngoingComponent implements OnInit, OnDestroy {
   
   
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private chatService: ChatService) { }
+              private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) { }
   
   ngOnInit() {
-
     this.chatService.connect();
     this.chatState = this.store.select('afterLogin').map(data => data.chat);
-    // this.chatState.subscribe((value) => {
-    //     console.log('hhooo --- >> chatstate',value);
-    // })
     this.getChatRoom();
     this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
     this.store.select('auth')
@@ -61,14 +56,12 @@ export class OngoingComponent implements OnInit, OnDestroy {
   transferChatToAgent(i: number) {
     this.toAgentId = i;
     this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , toAgentId : this.toAgentId};
-    console.log(this.transferData);
     this.onSomeMsgAction(4);
   }
 
   transferChatToDepartment(i: number) {
     this.departmentId = i;
     this.transferData = { agentId: this.agentId, status: 4, chatRoomId: this.currentChatRoom , departmentId : this.departmentId};
-    console.log(this.transferData);
     this.onSomeMsgAction(4);
   }
 
@@ -87,6 +80,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
       case 5:
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         this.changeCurrentChat(0);
+          this.router.navigate(['/chat/resolve']);
         break;
       default:
         console.log(status);
@@ -101,7 +95,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
                 this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
               }
             });
-    // console.log(this.chatRoomSubscription);
   }
 
   sendMsg(form: NgForm) {
@@ -121,10 +114,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // console.log("ongoing destroyed");
     this.chatRoomSubscription.unsubscribe();
-    // this.chatState();
-
-
   }
 }

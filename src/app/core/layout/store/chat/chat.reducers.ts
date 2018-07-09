@@ -2,6 +2,7 @@ import * as ChatActions from './chat.actions';
 
 export interface ChatState {
   ongoing: any,
+  resolve: any,
   connected: boolean,
   chatList : any,
   agentList : any,
@@ -10,6 +11,7 @@ export interface ChatState {
 
 const initialState: ChatState = {
   ongoing: [],
+  resolve: [],
   connected: false,
   chatList : [] ,
   agentList : [],
@@ -17,13 +19,14 @@ const initialState: ChatState = {
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
-
+    console.log(action.type);
     switch (action.type) {
     case ChatActions.CONNECT_SUCCESS:
       return {
         ...state,
         ongoing : [],
-        connected: true
+        resolve : [],
+        connected   : true
       };
     case ChatActions.ADD_TO_CHAT_LIST:
       const obj = {

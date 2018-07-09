@@ -23,7 +23,7 @@
                     <ul>
                       <ng-container *ngFor="let contact of (chatState | async).ongoing; let i = index;">
                         <li [ngClass]="{ active : currentChatIndex == i}"
-                            *ngIf="contact.status != 3 && contact.status != 5"
+                            *ngIf="contact.status != 3 && contact.status != 5   && contact.status == 2"
                             (click)="changeCurrentChat(i)">
                           <div class="col-md-2">
                             <div class="chat-head row">
@@ -88,10 +88,10 @@
                               {{chat.message}}
                             </div>
                           </div>
-                          <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">
-                            <button (click)="onSomeMsgAction(2)" class="btn btn-primary">Accept</button>
-                            <button (click)="onSomeMsgAction(3)" class="btn btn-danger">Reject</button>
-                          </div>
+                          <!--<div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">-->
+                            <!--<button (click)="onSomeMsgAction(2)" class="btn btn-primary">Accept</button>-->
+                            <!--<button (click)="onSomeMsgAction(3)" class="btn btn-danger">Reject</button>-->
+                          <!--</div>-->
 
 
                         </div>
