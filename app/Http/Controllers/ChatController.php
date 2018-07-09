@@ -19,6 +19,7 @@ use App\Model\ChatThread;
 use App\Model\MessageCache;
 use App\Model\MessageCacheData;
 use App\Model\MessageForwardCounter;
+use App\Model\UserToken;
 use App\Http\Controllers\TwilioController;
 use Helper;
 use Twilio\Rest\Client;                         /* Twilio REST client */
@@ -1090,7 +1091,6 @@ class ChatController extends Controller
         $countRejectedChat       = MessageAgentTrack::where('message_id',$messageId)->where('chat_room_id',$chatRoomId)->where('status',$status)->count();
         //$updateMessageTrack      = MessageTrack::where('message_id',$messageId)->update(['agent_id'=>$agentId,'status'=>$status]);
         $checkMessageForwardCounter = MessageForwardCounter::where('id',$messageForwardCountId)->first();
-
         if($checkMessageForwardCounter->agent_count == $countRejectedChat){
 
             $checkMessageForwardCounter->count_init = ($checkMessageForwardCounter->count_init +1);
@@ -1320,7 +1320,7 @@ class ChatController extends Controller
 
     /**
      * function for getting all the agent list with all the chatrooms and existing chats
-     *
+     * chat Status 1=>  initiate 2=>Accept 3=>Reject  4=>Transfer  5=>Resolve
      * @param Request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -1329,12 +1329,13 @@ class ChatController extends Controller
         $agentsList = MessageAgentTrack::where('id','!=',"")->get();
 
         $AgentCreateArray=array();
-        foreach ($agentsList as $agent){
+        foreach ($agentsList as $agent) {
             $AgentCreateArray[$agent->agent_id]="agent";
         }
         $allAgents = [];
         foreach ($AgentCreateArray as $AgentId=>$list) {
-            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName','allChat.agentInfo')->where('status','!=',5)->get();
+
+            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName','allChat.agentInfo')->orderBy('id','desc')->get();          /** get chat of all agents*/
             $allRooms = [];
             $agents['agent_id'] = $AgentId;
             foreach($rooms as $room) {
