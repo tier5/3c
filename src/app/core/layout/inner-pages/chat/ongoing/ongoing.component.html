@@ -76,7 +76,8 @@
                           </div>
                         </div>
                         <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">
+                        <!--<div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">-->
+                        <div class="direct-chat-messages">
                           <!-- Message. Default to the left -->
                           <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
                             <div class="direct-chat-info clearfix">
@@ -88,15 +89,7 @@
                               {{chat.message}}
                             </div>
                           </div>
-                          <!--<div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 1">-->
-                            <!--<button (click)="onSomeMsgAction(2)" class="btn btn-primary">Accept</button>-->
-                            <!--<button (click)="onSomeMsgAction(3)" class="btn btn-danger">Reject</button>-->
-                          <!--</div>-->
-
-
                         </div>
-
-
                       </div>
                       <!--/.direct-chat-messages-->
 

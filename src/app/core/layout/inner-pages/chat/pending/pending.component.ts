@@ -9,7 +9,6 @@ import 'rxjs/add/operator/take';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
-import {OngoingComponent} from "../ongoing/ongoing.component";
 
 @Component({
   selector: 'app-pending',

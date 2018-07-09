@@ -75,7 +75,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Conversations are loaded here -->
-                                                <div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">
+                                                <div class="direct-chat-messages">
                                                     <!-- Message. Default to the left -->
                                                     <div class="direct-chat-msg" [ngClass]="{ right: chat.direction == 2 }" *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
                                                         <div class="direct-chat-info clearfix">
@@ -139,7 +139,7 @@
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-body" *ngIf="!(showChats() | async).length">
-                                    <h4>No Ongoing Chats at this Moment!</h4>
+                                    <h4>No Resolve Chats at this Moment!</h4>
                                 </div>
                             </div>
                         </div>
