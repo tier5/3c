@@ -57,11 +57,9 @@
                                                 id="department"
                                                 name="departmentIdArray"
                                                 #selectedDepartment="ngModel"
-                                                [ngModel]="widget.departmentIdArray" multiple
-                                        >
+                                                [ngModel]="widget.departmentIdArray" multiple>
                                             <option [value]="item.id"
-                                                    *ngFor="let item of (afterLoginState | async).department.list"
-                                            >
+                                                    *ngFor="let item of (afterLoginState | async).department.list">
                                                 {{item.department_name}}
                                             </option>
                                         </select>
@@ -142,7 +140,6 @@
                                                 {{item.timezone_name}}
                                             </option>
                                         </select>
-
                                     </div>
                                 </div>
 
@@ -253,7 +250,16 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="row" *ngIf="widget.script_url">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label class="control-label" for="startTime">
+                                          Script URL
+                                      </label>
+                                  </div>
+                                {{widget.script_url}}
+                              </div>
+                            </div>
                             <div class="col-md-12">
                                 <div class="box-footer">
                                     <button type="button" [disabled]="timePikerError || form.invalid" class="btn btn-primary pull-right" (click)="onSubmit(form)">

@@ -182,6 +182,10 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     /** Function to check if valid department is selected */
     deptChanged(id: any) {
       this.selectDept = id > 0;
+        if( id == '99999991999999' ){
+            let element: HTMLElement = document.getElementById('createDepartment') as HTMLElement;          /** open modal on click */
+            element.click();
+        }
     }
 
     /** Function to create a department from the create agent page */

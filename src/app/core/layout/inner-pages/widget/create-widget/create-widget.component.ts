@@ -55,12 +55,13 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     daysArray: '',
     startTime: '',
     endTime: '',
-    image: ''
+    image: '',
+    script_url:'',
   };
 
   validationMinTime: Moment;
   loggedInAdminId: number;
-    endTime:any;
+  endTime:any;
   imgSrc: any;
   departments: any;
   loader: boolean = false;
@@ -116,6 +117,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                   this.widget.details = widget.details;
                   this.widget.scheduleTimezone = widget.schedule_timezone;
                   this.widget.areaCode = widget.area_code;
+                  this.widget.script_url = widget.script_url;
                   this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
                   this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
                   this.widget.daysArray = widget.widget_schedule ? (widget.widget_schedule.day).split(',') : '';
