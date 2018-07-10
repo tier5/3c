@@ -175,7 +175,7 @@ class WidgetController extends Controller
 
           if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Widget List
 
-            $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->orderBy('created_at','desc')->get(); //Get Widgets with Twilio numbers
+            $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')->get(); //Get Widgets with Twilio numbers
 
 
             if(count($listsWidgets) != 0){
@@ -202,7 +202,7 @@ class WidgetController extends Controller
           if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Widgets List
 
             $listsWidgets = Widgets::where('user_id',$userId)
-                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->orderBy('created_at','desc')
+                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')
                                    ->get(); //Get Widgets with Twilio numbers
 
             if(count($listsWidgets) != 0){
@@ -229,7 +229,7 @@ class WidgetController extends Controller
           if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
             $listsWidgets = Widgets::where('user_id',$checkUser->userInfo->id)
-                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->orderBy('created_at','desc')
+                                   ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')
                                    ->get(); //Get Widgets with Twilio numbers
 
 
@@ -269,7 +269,7 @@ class WidgetController extends Controller
           //fetching the list of widgets for a specific user/admin
 
           $listsWidgets = Widgets::where('user_id',$userId)
-                                 ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')
+                                 ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')
                                  ->get(); //Get Widgets with Twilio numbers
 
           if( count($listsWidgets) != 0 ) {
@@ -589,6 +589,7 @@ class WidgetController extends Controller
         $widgetArray['widget_department']  = $viewWidget->widgetDepartment;
         $widgetArray['twilio_numbers']     = $viewWidget->twilioNumbers;
         $widgetArray['widget_schedule']    = $viewWidget->widgetSchedule;
+        $widgetArray['script_url']         = $viewWidget->script_url;
         $widgetArray['departments']        = $departmentArray;
 
 
