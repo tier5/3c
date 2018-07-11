@@ -87,7 +87,6 @@
                                                [ngModel]="widget.website"
                                                #website="ngModel"
                                                placeholder="Website URL"
-                                               required
                                         >
                                         <span *ngIf="website.invalid && website.touched" class="help-block">Website URL is Required !</span>
                                     </div>
@@ -110,7 +109,6 @@
                                                [ngModel]="widget.details"
                                                #details="ngModel"
                                                placeholder="Details about the widget ...."
-                                               required
                                         >
                                         <span *ngIf="details.invalid && details.touched" class="help-block">Widget details is Required !</span>
                                     </div>
