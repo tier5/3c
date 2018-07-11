@@ -69,7 +69,7 @@ class WidgetController extends Controller
         }
       }
 
-      if($website!= "") {
+      // if($userId) {
 
         // Get User Id from token in case of userId is not provided
         if ($userId == '' || $userId=="undefined") {
@@ -151,11 +151,7 @@ class WidgetController extends Controller
           return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets exist !'));
 
         }
-      } else {
-
-        return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Please provide some data !'));
-
-      }
+      // }
     }
 
     /**
