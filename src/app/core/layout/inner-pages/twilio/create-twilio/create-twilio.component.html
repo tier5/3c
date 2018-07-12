@@ -29,7 +29,6 @@
                          id="tSid"
                          name="twilio_sid"
                          [ngModel]="twilio.twilio_sid"
-                         [disabled]="(authState | async).twilioIsActive"
                          #sid="ngModel"
                          required
                          placeholder="Enter ..."
@@ -48,7 +47,6 @@
                          id="tToken"
                          name="twilio_token"
                          [ngModel]="twilio.twilio_token"
-                         [disabled]="(authState | async).twilioIsActive"
                          #token="ngModel"
                          required
                          placeholder="Enter ..."
@@ -56,14 +54,9 @@
                   <span *ngIf="token.invalid && token.touched" class="help-block">Your Twilio Token is Required!</span>
                 </div>
               </div>
-              <div class="col-md-12" *ngIf="!(authState | async).twilioIsActive">
+              <div class="col-md-12">
                 <div class="box-footer">
-                  <button type="submit"
-                          [disabled]="form.invalid"
-                          class="btn btn-primary pull-right"
-                  >
-                    Submit
-                  </button>
+                  <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right"> Submit</button>
                 </div>
               </div>
             </form>

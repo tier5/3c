@@ -102,7 +102,7 @@ export class RejectedComponent implements OnInit, OnDestroy {
         form.reset();
     }
 
-    /** Show chats id status is 5 */
+    /** Show chats id status is 3 */
     showChats() {
         return this.store.select('afterLogin')
             .map(data => data.chat)
