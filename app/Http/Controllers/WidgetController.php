@@ -80,7 +80,7 @@ class WidgetController extends Controller
         }
 
         $checkUser    = Users::where('id',$userId)->first();
-        $checkWidgets = Widgets::where('website',$website)->first();
+        //  $checkWidgets = Widgets::where('website',$website)->first();
 
 
         // Check user is valid or not
@@ -91,7 +91,7 @@ class WidgetController extends Controller
         }
 
         // Check Widget for a website is already there or not
-        if (count($checkWidgets) == 0) {
+        //  if (count($checkWidgets) == 0) {
 
           // Save Widgets
           $widgets                    = new Widgets;
@@ -146,11 +146,12 @@ class WidgetController extends Controller
 
           }
 
-        } else {
-
-          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets exist !'));
-
-        }
+        //  }
+//        else {
+//
+//          return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets exist !'));
+//
+//        }
       // }
     }
 
