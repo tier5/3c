@@ -21,15 +21,16 @@ class TwilioController extends Controller
 {
 
   /**
-  * Store Twilio Information of an user
+  * create / update Twilio Information of a Superadmin
   * @param Request $request
   * @return \Illuminate\Http\JsonResponse
   */
+
   public function storeTwilioInformation(Request $request)
   {
-    $userToken = $request->token; //userToken generated in login Time
-    $sid       = $request->twilio_sid; //twilio_sid
-    $token     = $request->twilio_token; //twilio_token
+    $userToken = $request->token; /**  userToken generated in login Time */
+    $sid       = $request->twilio_sid; /** twilio_sid */
+    $token     = $request->twilio_token; /** twilio_token */
     $getUser   = UserToken::where('token',$userToken)->with('userInfo')->first();
 
     if(count($getUser) != 0 ){
@@ -38,25 +39,65 @@ class TwilioController extends Controller
         $account = $client->api->accounts($sid)->fetch();
 
         if(count($account)!=0){
+            /** check for existing account */
+            $checkTwilioAccount = TwilioCredentials::where('user_id',$getUser->profile_user_id)->first();
+            if($checkTwilioAccount){
+                /** update twilio information */
+                $checkTwilioAccount->user_id              = $getUser->profile_user_id;
+                $checkTwilioAccount->twilio_friendly_name = $account->friendlyName;
+                $checkTwilioAccount->twilio_sid           = $sid;
+                $checkTwilioAccount->twilio_token         = $token;
+                $checkTwilioAccount->status               = $account->status;
+                $checkTwilioAccount->type                 = $getUser->userInfo->type;
 
-            $saveTwilioCredential                       = new TwilioCredentials;
-            $saveTwilioCredential->user_id              = $getUser->profile_user_id;
-            $saveTwilioCredential->twilio_friendly_name = $account->friendlyName;
-            $saveTwilioCredential->twilio_sid           = $sid;
-            $saveTwilioCredential->twilio_token         = $token;
-            $saveTwilioCredential->status               = $account->status;
-            $saveTwilioCredential->type                 = $getUser->userInfo->type;
+                if($checkTwilioAccount->save()){
 
-            if($saveTwilioCredential->save()){
+                    return  Response::json(array(
+                        'error'   => false,
+                        'status'  => true,
+                        'code'    => 200,
+                        'response'=> $checkTwilioAccount,
+                        'message' => 'Twilio Credentials Updated !'
+                    ));
 
-              return  Response::json(array(
-                  'error'   => false,
-                  'status'  => true,
-                  'code'    => 200,
-                  'response'=> $saveTwilioCredential,
-                  'message' => 'Twilio Credentials Save !'
-              ));
+                } else {
+                    return  Response::json(array(
+                        'error'   => true,
+                        'status'  => false,
+                        'code'    => 400,
+                        'response'=> [],
+                        'message' => 'Sorry,Twilio Credentials not Updated try again later !'
+                    ));
+                }
+            }else{
+                /** create new twilio credential */
+                $saveTwilioCredential                       = new TwilioCredentials;
+                $saveTwilioCredential->user_id              = $getUser->profile_user_id;
+                $saveTwilioCredential->twilio_friendly_name = $account->friendlyName;
+                $saveTwilioCredential->twilio_sid           = $sid;
+                $saveTwilioCredential->twilio_token         = $token;
+                $saveTwilioCredential->status               = $account->status;
+                $saveTwilioCredential->type                 = $getUser->userInfo->type;
 
+                if($saveTwilioCredential->save()){
+
+                    return  Response::json(array(
+                        'error'   => false,
+                        'status'  => true,
+                        'code'    => 200,
+                        'response'=> $saveTwilioCredential,
+                        'message' => 'Twilio Credentials Save !'
+                    ));
+
+                } else {
+                    return  Response::json(array(
+                        'error'   => true,
+                        'status'  => false,
+                        'code'    => 400,
+                        'response'=> [],
+                        'message' => 'Sorry,Twilio Credentials not Saved try again later !'
+                    ));
+                }
             }
         }
       } else {
@@ -468,7 +509,7 @@ class TwilioController extends Controller
         // Get Available Phone Numbers
         if ($areaCode == null) {
 
-          $numbers = $client->availablePhoneNumbers('US')->local->read(); //area_code is null
+          $numbers = $client->availablePhoneNumbers('US')->local->read();                       /**    area_code is null */
 
         } else {
           $numbers = $client->availablePhoneNumbers('US')->local->read(
