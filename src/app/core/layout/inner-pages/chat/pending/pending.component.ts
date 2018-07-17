@@ -69,7 +69,8 @@ export class PendingComponent implements OnInit, OnDestroy {
         switch(status) {
             case 2:
                 this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
-                this.router.navigate(['/chat/ongoing']);
+                /** redirect to the ongoing chat page */
+                location.href = '/chat/ongoing';
                 break;
             case 3:
                 this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
