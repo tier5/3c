@@ -6,23 +6,23 @@ webpackJsonp(["main"],{
 var map = {
 	"./auth/forgot-password/forgot-password.module": [
 		"../../../../../src/app/core/auth/forgot-password/forgot-password.module.ts",
-		"forgot-password.module",
-		"common"
+		"common",
+		"forgot-password.module"
 	],
 	"./auth/reset-password/reset-password.module": [
 		"../../../../../src/app/core/auth/reset-password/reset-password.module.ts",
-		"reset-password.module",
-		"common"
+		"common",
+		"reset-password.module"
 	],
 	"./auth/sign-in/sign-in.module": [
 		"../../../../../src/app/core/auth/sign-in/sign-in.module.ts",
-		"sign-in.module",
-		"common"
+		"common",
+		"sign-in.module"
 	],
 	"./auth/sign-up/sign-up.module": [
 		"../../../../../src/app/core/auth/sign-up/sign-up.module.ts",
-		"sign-up.module",
-		"common"
+		"common",
+		"sign-up.module"
 	],
 	"./inner-pages/admin/admin.module": [
 		"../../../../../src/app/core/layout/inner-pages/admin/admin.module.ts",
@@ -39,6 +39,11 @@ var map = {
 		"chat.module",
 		"common"
 	],
+	"./inner-pages/chats/chats.module": [
+		"../../../../../src/app/core/layout/inner-pages/chats/chats.module.ts",
+		"chats.module",
+		"common"
+	],
 	"./inner-pages/dashboard/dashboard.module": [
 		"../../../../../src/app/core/layout/inner-pages/dashboard/dashboard.module.ts",
 		"dashboard.module"
@@ -50,8 +55,8 @@ var map = {
 	],
 	"./inner-pages/profile/profile.module": [
 		"../../../../../src/app/core/layout/inner-pages/profile/profile.module.ts",
-		"profile.module",
-		"common"
+		"common",
+		"profile.module"
 	],
 	"./inner-pages/twilio/twilio.module": [
 		"../../../../../src/app/core/layout/inner-pages/twilio/twilio.module.ts",
@@ -141,12 +146,14 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_core_module__ = __webpack_require__("../../../../../src/app/core/core.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/@angular/platform-browser/animations.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -163,7 +170,7 @@ AppModule = __decorate([
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_3__core_core_module__["a" /* CoreModule */]
+            __WEBPACK_IMPORTED_MODULE_3__core_core_module__["a" /* CoreModule */], __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */]
         ],
         providers: [],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
@@ -324,7 +331,7 @@ var AuthGuard = (function () {
 }());
 AuthGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _b || Object])
 ], AuthGuard);
 
 var _a, _b;
@@ -437,7 +444,7 @@ var IsAdminOrSuperAdminGuard = (function () {
 }());
 IsAdminOrSuperAdminGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _b || Object])
 ], IsAdminOrSuperAdminGuard);
 
 var _a, _b;
@@ -497,7 +504,7 @@ var IsAgentGuard = (function () {
 }());
 IsAgentGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _b || Object])
 ], IsAgentGuard);
 
 var _a, _b;
@@ -557,7 +564,7 @@ var IsSuperAdminGuard = (function () {
 }());
 IsSuperAdminGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _b || Object])
 ], IsSuperAdminGuard);
 
 var _a, _b;
@@ -611,7 +618,7 @@ var NotAuthGuard = (function () {
 }());
 NotAuthGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _b || Object])
 ], NotAuthGuard);
 
 var _a, _b;
@@ -656,8 +663,8 @@ var CoreRoutingModule = (function () {
 }());
 CoreRoutingModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forRoot(routes, { preloadingStrategy: __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* PreloadAllModules */], enableTracing: false })],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forRoot(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
     })
 ], CoreRoutingModule);
 
@@ -760,12 +767,17 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__auth_not_auth_guard__ = __webpack_require__("../../../../../src/app/core/auth/not-auth.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__store_core_reducers__ = __webpack_require__("../../../../../src/app/core/store/core.reducers.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__shared_shared_module__ = __webpack_require__("../../../../../src/app/core/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20_angular2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -794,11 +806,12 @@ var CoreModule = (function () {
 CoreModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_11__core_routing_module__["a" /* CoreRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["c" /* HttpClientModule */],
             __WEBPACK_IMPORTED_MODULE_19__shared_shared_module__["a" /* SharedModule */],
             __WEBPACK_IMPORTED_MODULE_16__layout_layout_module__["LayoutModule"],
+            __WEBPACK_IMPORTED_MODULE_20_angular2_moment__["MomentModule"],
             __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["i" /* StoreModule */].forRoot(__WEBPACK_IMPORTED_MODULE_18__store_core_reducers__["a" /* reducers */]),
             __WEBPACK_IMPORTED_MODULE_1__ngrx_effects__["c" /* EffectsModule */].forRoot([__WEBPACK_IMPORTED_MODULE_7__store_auth_auth_effects__["a" /* AuthEffects */]]),
             !__WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_4__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : []
@@ -814,6 +827,7 @@ CoreModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_14__auth_is_agent_guard__["a" /* IsAgentGuard */],
             __WEBPACK_IMPORTED_MODULE_15__auth_is_super_admin_guard__["a" /* IsSuperAdminGuard */],
             __WEBPACK_IMPORTED_MODULE_17__auth_not_auth_guard__["a" /* NotAuthGuard */],
+            __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__["a" /* ChatService */],
             { provide: __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_9__auth_auth_interceptor__["a" /* AuthInterceptor */], multi: true }
         ]
     })
@@ -844,7 +858,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"main-header\">\n  <!-- Logo -->\n  <a href=\"../../index2.html\" class=\"logo\">\n    <!-- mini logo for sidebar mini 50x50 pixels -->\n    <span class=\"logo-mini\"><b>3</b>C</span>\n    <!-- logo for regular state and mobile devices -->\n    <span class=\"logo-lg\"><b>TM</b>SMS</span>\n  </a>\n  <!-- Header Navbar: style can be found in header.less -->\n  <nav class=\"navbar navbar-static-top\">\n    <!-- Sidebar toggle button-->\n    <a class=\"sidebar-toggle\" (click)=\"toggleLeftSidebar()\" data-toggle=\"push-menu\" role=\"button\">\n      <span class=\"sr-only\">Toggle navigation</span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n    </a>\n\n    <div class=\"navbar-custom-menu\">\n      <ul class=\"nav navbar-nav\">\n        <!-- Messages: style can be found in dropdown.less-->\n        <li class=\"dropdown messages-menu\" [appDropdown]=\"'open'\">\n          <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <i class=\"fa fa-envelope-o\"></i>\n            <span class=\"label label-success\">4</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li class=\"header\">You have 4 messages</li>\n            <li>\n              <!-- inner menu: contains the actual data -->\n              <ul class=\"menu\">\n                <li><!-- start message -->\n                  <a>\n                    <div class=\"pull-left\">\n                      <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n                    </div>\n                    <h4>\n                      Support Team\n                      <small><i class=\"fa fa-clock-o\"></i> 5 mins</small>\n                    </h4>\n                    <p>Why not buy a new awesome theme?</p>\n                  </a>\n                </li>\n                <!-- end message -->\n              </ul>\n            </li>\n            <li class=\"footer\"><a>See All Messages</a></li>\n          </ul>\n        </li>\n\n        <!-- Notifications: style can be found in dropdown.less -->\n        <li class=\"dropdown notifications-menu\" [appDropdown]=\"'open'\">\n          <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <i class=\"fa fa-bell-o\"></i>\n            <span class=\"label label-warning\">10</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li class=\"header\">You have 10 notifications</li>\n            <li>\n              <!-- inner menu: contains the actual data -->\n              <ul class=\"menu\">\n                <li>\n                  <a>\n                    <i class=\"fa fa-users text-aqua\"></i> 5 new members joined today\n                  </a>\n                </li>\n              </ul>\n            </li>\n            <li class=\"footer\"><a>View all</a></li>\n          </ul>\n        </li>\n\n        <!-- Tasks: style can be found in dropdown.less -->\n        <li class=\"dropdown tasks-menu\" [appDropdown]=\"'open'\">\n          <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <i class=\"fa fa-flag-o\"></i>\n            <span class=\"label label-danger\">9</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <li class=\"header\">You have 9 tasks</li>\n            <li>\n              <!-- inner menu: contains the actual data -->\n              <ul class=\"menu\">\n                <li><!-- Task item -->\n                  <a>\n                    <h3>\n                      Design some buttons\n                      <small class=\"pull-right\">20%</small>\n                    </h3>\n                    <div class=\"progress xs\">\n                      <div class=\"progress-bar progress-bar-aqua\" style=\"width: 20%\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n                        <span class=\"sr-only\">20% Complete</span>\n                      </div>\n                    </div>\n                  </a>\n                </li>\n                <!-- end task item -->\n              </ul>\n            </li>\n            <li class=\"footer\">\n              <a>View all tasks</a>\n            </li>\n          </ul>\n        </li>\n\n        <!-- User Account: style can be found in dropdown.less -->\n        <li class=\"dropdown user user-menu\" [appDropdown]=\"'open'\">\n          <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <img src=\"../../../../assets/img/avatar5.png\" class=\"user-image\" alt=\"User Image\">\n            <span class=\"hidden-xs\">{{(authState | async).name}}</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <!-- User image -->\n            <li class=\"user-header\">\n              <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n\n              <p>\n                {{(authState | async).name}} - {{(authState | async).isSuperAdmin ? 'Super Admin': ''}}{{(authState | async).isAdmin ? 'Admin': ''}}{{(authState | async).isAgent ? 'Agent': ''}}\n                <small>Member since Nov. 1999</small>\n              </p>\n            </li>\n            <!-- Menu Body -->\n            <!--<li class=\"user-body\">-->\n              <!--<div class=\"row\">-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Followers</a>-->\n                <!--</div>-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Sales</a>-->\n                <!--</div>-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Friends</a>-->\n                <!--</div>-->\n              <!--</div>-->\n            <!--</li>-->\n            <!-- Menu Footer-->\n            <li class=\"user-footer\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-default btn-flat\" routerLink=\"/profile\"> Profile</a>\n              </div>\n              <div class=\"pull-right\">\n                <a class=\"btn btn-default btn-flat\" (click)=\"onSignOut()\">Sign out</a>\n              </div>\n            </li>\n          </ul>\n        </li>\n\n        <!-- Control Sidebar Toggle Button -->\n        <li>\n          <a data-toggle=\"control-sidebar\"><i class=\"fa fa-gears\"></i></a>\n        </li>\n      </ul>\n    </div>\n  </nav>\n</header>"
+module.exports = "<header class=\"main-header\">\n  <!-- Logo -->\n  <a href=\"../../index2.html\" class=\"logo\">\n    <!-- mini logo for sidebar mini 50x50 pixels -->\n    <span class=\"logo-mini\"><b>3</b>C</span>\n    <!-- logo for regular state and mobile devices -->\n    <span class=\"logo-lg\"><b>TM</b>SMS</span>\n  </a>\n  <!-- Header Navbar: style can be found in header.less -->\n  <nav class=\"navbar navbar-static-top\">\n    <!-- Sidebar toggle button-->\n    <a class=\"sidebar-toggle\" (click)=\"toggleLeftSidebar()\" data-toggle=\"push-menu\" role=\"button\">\n      <span class=\"sr-only\">Toggle navigation</span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n    </a>\n\n    <div class=\"navbar-custom-menu\">\n      <ul class=\"nav navbar-nav\">\n        <!-- Messages: style can be found in dropdown.less-->\n        <!--<li class=\"dropdown messages-menu\" [appDropdown]=\"'open'\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\">-->\n            <!--<i class=\"fa fa-envelope-o\"></i>-->\n            <!--<span class=\"label label-success\">4</span>-->\n          <!--</a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li class=\"header\">You have 4 messages</li>-->\n            <!--<li>-->\n              <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->\n              <!--<ul class=\"menu\">-->\n                <!--<li>&lt;!&ndash; start message &ndash;&gt;-->\n                  <!--<a>-->\n                    <!--<div class=\"pull-left\">-->\n                      <!--<img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">-->\n                    <!--</div>-->\n                    <!--<h4>-->\n                      <!--Support Team-->\n                      <!--<small><i class=\"fa fa-clock-o\"></i> 5 mins</small>-->\n                    <!--</h4>-->\n                    <!--<p>Why not buy a new awesome theme?</p>-->\n                  <!--</a>-->\n                <!--</li>-->\n                <!--&lt;!&ndash; end message &ndash;&gt;-->\n              <!--</ul>-->\n            <!--</li>-->\n            <!--<li class=\"footer\"><a>See All Messages</a></li>-->\n          <!--</ul>-->\n        <!--</li> Dont Need this now -->\n\n        <!-- Notifications: style can be found in dropdown.less -->\n        <!--<li class=\"dropdown notifications-menu\" [appDropdown]=\"'open'\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\">-->\n            <!--<i class=\"fa fa-bell-o\"></i>-->\n            <!--<span class=\"label label-warning\">10</span>-->\n          <!--</a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li class=\"header\">You have 10 notifications</li>-->\n            <!--<li>-->\n              <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->\n              <!--<ul class=\"menu\">-->\n                <!--<li>-->\n                  <!--<a>-->\n                    <!--<i class=\"fa fa-users text-aqua\"></i> 5 new members joined today-->\n                  <!--</a>-->\n                <!--</li>-->\n              <!--</ul>-->\n            <!--</li>-->\n            <!--<li class=\"footer\"><a>View all</a></li>-->\n          <!--</ul>-->\n        <!--</li> Dont need this now -->\n\n        <!-- Tasks: style can be found in dropdown.less -->\n        <!--<li class=\"dropdown tasks-menu\" [appDropdown]=\"'open'\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\">-->\n            <!--<i class=\"fa fa-flag-o\"></i>-->\n            <!--<span class=\"label label-danger\">9</span>-->\n          <!--</a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li class=\"header\">You have 9 tasks</li>-->\n            <!--<li>-->\n              <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->\n              <!--<ul class=\"menu\">-->\n                <!--<li>&lt;!&ndash; Task item &ndash;&gt;-->\n                  <!--<a>-->\n                    <!--<h3>-->\n                      <!--Design some buttons-->\n                      <!--<small class=\"pull-right\">20%</small>-->\n                    <!--</h3>-->\n                    <!--<div class=\"progress xs\">-->\n                      <!--<div class=\"progress-bar progress-bar-aqua\" style=\"width: 20%\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\">-->\n                        <!--<span class=\"sr-only\">20% Complete</span>-->\n                      <!--</div>-->\n                    <!--</div>-->\n                  <!--</a>-->\n                <!--</li>-->\n                <!--&lt;!&ndash; end task item &ndash;&gt;-->\n              <!--</ul>-->\n            <!--</li>-->\n            <!--<li class=\"footer\">-->\n              <!--<a>View all tasks</a>-->\n            <!--</li>-->\n          <!--</ul>-->\n        <!--</li> Dont Need This Now -->\n\n        <!-- User Account: style can be found in dropdown.less -->\n        <li class=\"dropdown user user-menu\" [appDropdown]=\"'open'\">\n          <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <img src=\"../../../../assets/img/avatar5.png\" class=\"user-image\" alt=\"User Image\">\n            <span class=\"hidden-xs\">{{(authState | async).name}}</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <!-- User image -->\n            <li class=\"user-header\">\n              <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n\n              <p>\n                {{(authState | async).name}} - {{(authState | async).isSuperAdmin ? 'Super Admin': ''}}{{(authState | async).isAdmin ? 'Admin': ''}}{{(authState | async).isAgent ? 'Agent': ''}}\n                <small></small>\n              </p>\n            </li>\n            <!-- Menu Body -->\n            <!--<li class=\"user-body\">-->\n              <!--<div class=\"row\">-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Followers</a>-->\n                <!--</div>-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Sales</a>-->\n                <!--</div>-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Friends</a>-->\n                <!--</div>-->\n              <!--</div>-->\n            <!--</li>-->\n            <!-- Menu Footer-->\n            <li class=\"user-footer\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-default btn-flat\" routerLink=\"/profile\"> Profile</a>\n              </div>\n              <div class=\"pull-right\">\n                <a class=\"btn btn-default btn-flat\" (click)=\"onSignOut()\">Sign out</a>\n              </div>\n            </li>\n          </ul>\n        </li>\n\n        <!-- Control Sidebar Toggle Button -->\n        <!--<li>-->\n          <!--<a data-toggle=\"control-sidebar\"><i class=\"fa fa-gears\"></i></a>-->\n        <!--</li> Dont need this now -->\n      </ul>\n    </div>\n  </nav>\n</header>"
 
 /***/ }),
 
@@ -931,9 +945,10 @@ var _a, _b, _c;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__("../../../../moment/moment.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_take__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__);
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -959,66 +974,121 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChatService = (function () {
     function ChatService(store) {
-        var _this = this;
         this.store = store;
-        this.socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default()('http://localhost:3000');
+        //  console.log('IN SERVICE');
+    }
+    ChatService.prototype.connect = function () {
+        var _this = this;
+        this.socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default()(__WEBPACK_IMPORTED_MODULE_6__environments_environment__["a" /* environment */].SOCKET_URL);
         this.store.select('auth')
-            .map(function (data) { return data.userId; })
+            .map(function (authData) { return authData.userId; })
             .distinctUntilChanged()
-            .take(1)
             .subscribe(function (id) {
-            _this.loggedInAgentId = id;
-            _this.socket.on('connect', function () {
+            console.log(id);
+            if (id != null) {
+                _this.loggedInAgentId = id;
+                // To get all the agents and the rooms they are assigned to
                 _this.socket.emit('get-added-rooms');
+                // On getting the list of rooms all the agents are assigned to
                 _this.socket.on('new-rooms-added', function (data) {
-                    console.log('Angular: New Room Added ', data);
+                    console.log('new-rooms-added: ', data);
                     for (var i = 0, len = data.length; i < len; i++) {
-                        if (data[i].agent_id == id) {
+                        if (data[i].agent_id == _this.loggedInAgentId) {
+                            // To add current agent to room
                             _this.socket.emit('add-agent-to-rooms', data[i].rooms);
                             break;
                         }
                     }
                 });
+                // When agent added to any room
                 _this.socket.on('agent-added-to-room', function (data) {
-                    console.log('Agent Added To Room', data.name);
-                    _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_chat_chat_actions__["d" /* AddToChatList */](data));
+                    console.log('agent-added-to-room', data.name);
+                    _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["d" /* AddToChatList */](data));
                 });
                 _this.socket.on('msg-of-acceptance', function (data) {
                     console.log(data);
                 });
+                // Which agent accepted
                 _this.socket.on('which-agent-accepted', function (data) {
-                    console.log('In which agent accepted');
-                    console.log(data);
-                    if (data.agentId == id) {
-                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_chat_chat_actions__["k" /* EditFromChatList */]({ status: data.status, room_number: data.chatRoomId }));
+                    console.log('which-agent-accepted: ', data);
+                    if (data.agentId == _this.loggedInAgentId) {
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["k" /* EditFromChatList */]({
+                            status: data.status,
+                            room_number: data.chatRoomId
+                        }));
                     }
                     else {
                         _this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
-                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_chat_chat_actions__["i" /* DeleteFromChatList */]({ room_number: data.chatRoomId }));
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["i" /* DeleteFromChatList */]({ room_number: data.chatRoomId }));
+                    }
+                });
+                // Which agent rejected
+                _this.socket.on('which-agent-rejected', function (data) {
+                    console.log('which-agent-rejected: ', data);
+                    if (data.agentId == _this.loggedInAgentId) {
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["i" /* DeleteFromChatList */]({ room_number: data.chatRoomId }));
+                        _this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
+                    }
+                });
+                _this.socket.on('which-agent-resolved', function (data) {
+                    console.log('In which agent resolved');
+                    console.log(data);
+                    if (data.agentId == _this.loggedInAgentId) {
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["k" /* EditFromChatList */]({
+                            status: data.status,
+                            room_number: data.chatRoomId
+                        }));
+                        _this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
+                    }
+                });
+                _this.socket.on('which-agent-transferred', function (data) {
+                    console.log('which-agent-transferred: ', data);
+                    if (data.agentId == _this.loggedInAgentId) {
+                        _this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["i" /* DeleteFromChatList */]({ room_number: data.chatRoomId }));
                     }
                 });
                 _this.socket.on('newmsg', function (data) {
-                    console.log(data);
-                    _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_chat_chat_actions__["c" /* AddNewMsgToChatList */](data));
+                    _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["c" /* AddNewMsgToChatList */](data));
                 });
-            });
+            }
         });
         this.store.select('auth')
             .subscribe(function (data) {
             _this.loggedInAgentName = data.name;
+            _this.loggedInAgentId = data.userId;
         });
-    }
-    ChatService.prototype.connect = function () {
     };
-    ChatService.prototype.accept = function (data) {
-        this.socket.emit('agent-accepts-msg', data);
+    ChatService.prototype.ngOnInit = function () {
+    };
+    ChatService.prototype.takeAction = function (data) {
+        console.log(data);
+        this.socket.emit('agent-performed-some-action', data);
     };
     ChatService.prototype.sendMsg = function (data) {
         var obj = __assign({}, data, { user: this.loggedInAgentName, direction: 2, time: __WEBPACK_IMPORTED_MODULE_5_moment__() });
-        console.log(obj);
         this.socket.emit('msg', obj);
+    };
+    ChatService.prototype.sendResolveConfirmation = function (data) {
+        this.socket.emit('resolve-chat-request', data);
+    };
+    ChatService.prototype.getLoggedInAgentDetails = function () {
+        return {
+            loggedInAgentId: this.loggedInAgentId,
+            loggedInAgentName: this.loggedInAgentName
+        };
+    };
+    ChatService.prototype.socketDisconnect = function () {
+        console.log("disconnecting");
+        if (this.socket) {
+            this.socket.emit('agent-disconnected');
+        }
+    };
+    ChatService.prototype.ngOnDestroy = function () {
+        console.log("chat destroy");
     };
     return ChatService;
 }());
@@ -1062,7 +1132,8 @@ var routes = [
             { path: 'agent', canActivate: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], loadChildren: './inner-pages/agent/agent.module#AgentModule' },
             { path: 'widget', canActivate: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], loadChildren: './inner-pages/widget/widget.module#WidgetModule' },
             { path: 'department', canActivate: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], loadChildren: './inner-pages/department/department.module#DepartmentModule' },
-            { path: 'chat', canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_is_agent_guard__["a" /* IsAgentGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_4__auth_is_agent_guard__["a" /* IsAgentGuard */]], loadChildren: './inner-pages/chat/chat.module#ChatModule' }
+            { path: 'chat', canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_is_agent_guard__["a" /* IsAgentGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_4__auth_is_agent_guard__["a" /* IsAgentGuard */]], loadChildren: './inner-pages/chat/chat.module#ChatModule' },
+            { path: 'chats', canActivate: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_3__auth_is_admin_or_super_admin_guard__["a" /* IsAdminOrSuperAdminGuard */]], loadChildren: './inner-pages/chats/chats.module#ChatsModule' },
         ] }
 ];
 var LayoutRoutingModule = (function () {
@@ -1072,8 +1143,8 @@ var LayoutRoutingModule = (function () {
 }());
 LayoutRoutingModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
     })
 ], LayoutRoutingModule);
 
@@ -1102,7 +1173,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/layout.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"skin-blue fixed sidebar-mini sidebar-mini-expand-feature\"\n     [ngClass]=\"{\n                  'sidebar-expanded-on-hover': hovered,\n                  'sidebar-collapse': !hovered,\n                  'sidebar-open': mobileViewClicked\n                }\"\n>\n<!-- Site wrapper -->\n<div class=\"wrapper\">\n\n  <app-header (mtls)=\"toggleLeftSidebarMobile($event)\"\n              (tls)=\"toggleLeftSidebar($event)\"\n  ></app-header>\n  <!-- =============================================== -->\n\n  <!-- Left side column. contains the sidebar -->\n\n  <app-sidebar (mouseover)=\"toggleLeftSidebar($event)\"\n               (mouseout)=\"toggleLeftSidebar($event)\"\n  ></app-sidebar>\n  <!-- =============================================== -->\n\n  <router-outlet></router-outlet>\n\n  <footer class=\"main-footer\">\n    <div class=\"pull-right hidden-xs\">\n      <b>Version</b> 5.0.0\n    </div>\n    <strong>Copyright &copy; 2017 <a href=\"#\">TM SMS | 3C</a>.</strong> All rights\n    reserved.\n  </footer>\n\n  <!-- Control Sidebar -->\n  <aside class=\"control-sidebar control-sidebar-dark\">\n    <!-- Create the tabs -->\n    <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n      <li><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n      <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n    </ul>\n    <!-- Tab panes -->\n    <div class=\"tab-content\">\n      <!-- Home tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-home-tab\">\n        <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n\n                <p>Will be 23 on April 24th</p>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-user bg-yellow\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Frodo Updated His Profile</h4>\n\n                <p>New phone +1(800)555-1234</p>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-envelope-o bg-light-blue\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Nora Joined Mailing List</h4>\n\n                <p>nora@example.com</p>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-file-code-o bg-green\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Cron Job 254 Executed</h4>\n\n                <p>Execution time 5 seconds</p>\n              </div>\n            </a>\n          </li>\n        </ul>\n        <!-- /.control-sidebar-menu -->\n\n        <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Custom Template Design\n                <span class=\"label label-danger pull-right\">70%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Update Resume\n                <span class=\"label label-success pull-right\">95%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-success\" style=\"width: 95%\"></div>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Laravel Integration\n                <span class=\"label label-warning pull-right\">50%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-warning\" style=\"width: 50%\"></div>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Back End Framework\n                <span class=\"label label-primary pull-right\">68%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-primary\" style=\"width: 68%\"></div>\n              </div>\n            </a>\n          </li>\n        </ul>\n        <!-- /.control-sidebar-menu -->\n\n      </div>\n      <!-- /.tab-pane -->\n      <!-- Stats tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div>\n      <!-- /.tab-pane -->\n      <!-- Settings tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n        <form method=\"post\">\n          <h3 class=\"control-sidebar-heading\">General Settings</h3>\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Report panel usage\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n\n            <p>\n              Some information about this general settings option\n            </p>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Allow mail redirect\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n\n            <p>\n              Other sets of options are available\n            </p>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Expose author name in posts\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n\n            <p>\n              Allow the user to show his name in blog posts\n            </p>\n          </div>\n          <!-- /.form-group -->\n\n          <h3 class=\"control-sidebar-heading\">Chat Settings</h3>\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Show me as online\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Turn off notifications\n              <input type=\"checkbox\" class=\"pull-right\">\n            </label>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Delete chat history\n              <a href=\"javascript:void(0)\" class=\"text-red pull-right\"><i class=\"fa fa-trash-o\"></i></a>\n            </label>\n          </div>\n          <!-- /.form-group -->\n        </form>\n      </div>\n      <!-- /.tab-pane -->\n    </div>\n  </aside>\n  <!-- /.control-sidebar -->\n  <!-- Add the sidebar's background. This div must be placed\n       immediately after the control sidebar -->\n  <div class=\"control-sidebar-bg\"></div>\n</div>\n<!-- ./wrapper -->\n</div>\n\n"
+module.exports = "<div class=\"skin-blue fixed sidebar-mini sidebar-mini-expand-feature\"\n     [ngClass]=\"{\n                  'sidebar-expanded-on-hover': hovered,\n                  'sidebar-collapse': !hovered,\n                  'sidebar-open': mobileViewClicked\n                }\"\n>\n<!-- Site wrapper -->\n<div class=\"wrapper\">\n\n  <app-header (mtls)=\"toggleLeftSidebarMobile($event)\"\n              (tls)=\"toggleLeftSidebar($event)\"\n  ></app-header>\n  <!-- =============================================== -->\n\n  <!-- Left side column. contains the sidebar -->\n\n  <app-sidebar (mouseover)=\"toggleLeftSidebar($event)\"\n               (mouseout)=\"toggleLeftSidebar($event)\"\n  ></app-sidebar>\n  <!-- =============================================== -->\n\n  <router-outlet></router-outlet>\n\n  <footer class=\"main-footer\">\n    <div class=\"pull-right hidden-xs\">\n      <!--<b>Version</b> 7.0.0-->\n    </div>\n    <strong>Copyright &copy; {{ currentYear }} <a href=\"#\">TM SMS | 3C</a>.</strong> All rights\n    reserved.\n  </footer>\n\n  <!-- Control Sidebar -->\n  <aside class=\"control-sidebar control-sidebar-dark\">\n    <!-- Create the tabs -->\n    <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n      <li><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n      <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n    </ul>\n    <!-- Tab panes -->\n    <div class=\"tab-content\">\n      <!-- Home tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-home-tab\">\n        <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n\n                <p>Will be 23 on April 24th</p>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-user bg-yellow\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Frodo Updated His Profile</h4>\n\n                <p>New phone +1(800)555-1234</p>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-envelope-o bg-light-blue\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Nora Joined Mailing List</h4>\n\n                <p>nora@example.com</p>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <i class=\"menu-icon fa fa-file-code-o bg-green\"></i>\n\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Cron Job 254 Executed</h4>\n\n                <p>Execution time 5 seconds</p>\n              </div>\n            </a>\n          </li>\n        </ul>\n        <!-- /.control-sidebar-menu -->\n\n        <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Custom Template Design\n                <span class=\"label label-danger pull-right\">70%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Update Resume\n                <span class=\"label label-success pull-right\">95%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-success\" style=\"width: 95%\"></div>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Laravel Integration\n                <span class=\"label label-warning pull-right\">50%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-warning\" style=\"width: 50%\"></div>\n              </div>\n            </a>\n          </li>\n          <li>\n            <a href=\"javascript:void(0)\">\n              <h4 class=\"control-sidebar-subheading\">\n                Back End Framework\n                <span class=\"label label-primary pull-right\">68%</span>\n              </h4>\n\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-primary\" style=\"width: 68%\"></div>\n              </div>\n            </a>\n          </li>\n        </ul>\n        <!-- /.control-sidebar-menu -->\n\n      </div>\n      <!-- /.tab-pane -->\n      <!-- Stats tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div>\n      <!-- /.tab-pane -->\n      <!-- Settings tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n        <form method=\"post\">\n          <h3 class=\"control-sidebar-heading\">General Settings</h3>\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Report panel usage\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n\n            <p>\n              Some information about this general settings option\n            </p>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Allow mail redirect\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n\n            <p>\n              Other sets of options are available\n            </p>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Expose author name in posts\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n\n            <p>\n              Allow the user to show his name in blog posts\n            </p>\n          </div>\n          <!-- /.form-group -->\n\n          <h3 class=\"control-sidebar-heading\">Chat Settings</h3>\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Show me as online\n              <input type=\"checkbox\" class=\"pull-right\" checked>\n            </label>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Turn off notifications\n              <input type=\"checkbox\" class=\"pull-right\">\n            </label>\n          </div>\n          <!-- /.form-group -->\n\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Delete chat history\n              <a href=\"javascript:void(0)\" class=\"text-red pull-right\"><i class=\"fa fa-trash-o\"></i></a>\n            </label>\n          </div>\n          <!-- /.form-group -->\n        </form>\n      </div>\n      <!-- /.tab-pane -->\n    </div>\n  </aside>\n  <!-- /.control-sidebar -->\n  <!-- Add the sidebar's background. This div must be placed\n       immediately after the control sidebar -->\n  <div class=\"control-sidebar-bg\"></div>\n</div>\n<!-- ./wrapper -->\n</div>\n\n"
 
 /***/ }),
 
@@ -1115,7 +1186,8 @@ module.exports = "<div class=\"skin-blue fixed sidebar-mini sidebar-mini-expand-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_take__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1129,12 +1201,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LayoutComponent = (function () {
-    function LayoutComponent(store) {
+    function LayoutComponent(store, chatService) {
         this.store = store;
+        this.chatService = chatService;
         /** Variable declaration */
         this.hovered = false;
         this.mobileViewClicked = false;
+        this.isAgent = false;
     }
     LayoutComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1143,11 +1218,13 @@ var LayoutComponent = (function () {
             .map(function (data) { return data.isAgent; })
             .subscribe(function (data) {
             if (data) {
+                _this.isAgent = true;
                 _this.chatState = _this.store.select('afterLogin')
                     .map(function (data) { return data.chat; });
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["g" /* ConnectAttempt */]());
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_chat_chat_actions__["g" /* ConnectAttempt */]());
             }
         });
+        this.getYear();
     };
     /** Function to toggle sidebar in desktop view */
     LayoutComponent.prototype.toggleLeftSidebar = function ($event) {
@@ -1164,6 +1241,16 @@ var LayoutComponent = (function () {
             this.mobileViewClicked = !this.mobileViewClicked;
         }
     };
+    LayoutComponent.prototype.ngOnDestroy = function () {
+        console.log("layout destroy");
+        if (this.isAgent) {
+            this.chatService.socketDisconnect();
+        }
+    };
+    /** function get the current year for the footer*/
+    LayoutComponent.prototype.getYear = function () {
+        this.currentYear = new Date().getFullYear();
+    };
     return LayoutComponent;
 }());
 LayoutComponent = __decorate([
@@ -1172,10 +1259,10 @@ LayoutComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/layout.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/layout.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__inner_pages_chat_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__inner_pages_chat_chat_service__["a" /* ChatService */]) === "function" && _b || Object])
 ], LayoutComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=layout.component.js.map
 
 /***/ }),
@@ -1190,26 +1277,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngrx_effects__ = __webpack_require__("../../../../@ngrx/effects/@ngrx/effects.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_header_component__ = __webpack_require__("../../../../../src/app/core/layout/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__layout_component__ = __webpack_require__("../../../../../src/app/core/layout/layout.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__layout_routing_module__ = __webpack_require__("../../../../../src/app/core/layout/layout-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__sidebar_sidebar_component__ = __webpack_require__("../../../../../src/app/core/layout/sidebar/sidebar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_shared_module__ = __webpack_require__("../../../../../src/app/core/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__store_profile_profile_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/profile/profile.effect.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_after_login_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/after-login.reducers.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__store_twilio_twilio_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/twilio/twilio.effect.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__store_department_department_effects__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.effects.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__store_admin_admin_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/admin/admin.effect.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__store_agent_agent_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.effect.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__store_widget_widget_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.effect.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__store_chat_chat_effects__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.effects.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_angular2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__header_header_component__ = __webpack_require__("../../../../../src/app/core/layout/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__layout_component__ = __webpack_require__("../../../../../src/app/core/layout/layout.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__layout_routing_module__ = __webpack_require__("../../../../../src/app/core/layout/layout-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__sidebar_sidebar_component__ = __webpack_require__("../../../../../src/app/core/layout/sidebar/sidebar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_shared_module__ = __webpack_require__("../../../../../src/app/core/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_profile_profile_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/profile/profile.effect.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__store_after_login_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/after-login.reducers.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__store_twilio_twilio_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/twilio/twilio.effect.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__store_department_department_effects__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.effects.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__store_admin_admin_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/admin/admin.effect.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__store_agent_agent_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.effect.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__store_widget_widget_effect__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.effect.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__store_chat_chat_effects__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.effects.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__store_dashboard_dashboard_effects__ = __webpack_require__("../../../../../src/app/core/layout/store/dashboard/dashboard.effects.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1236,18 +1326,19 @@ var LayoutModule = (function () {
 LayoutModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_6__layout_routing_module__["a" /* LayoutRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_8__shared_shared_module__["a" /* SharedModule */],
-            __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["i" /* StoreModule */].forFeature('afterLogin', __WEBPACK_IMPORTED_MODULE_10__store_after_login_reducers__["a" /* reducers */]),
-            __WEBPACK_IMPORTED_MODULE_1__ngrx_effects__["c" /* EffectsModule */].forFeature([__WEBPACK_IMPORTED_MODULE_9__store_profile_profile_effect__["a" /* ProfileEffects */], __WEBPACK_IMPORTED_MODULE_11__store_twilio_twilio_effect__["a" /* TwilioEffects */], __WEBPACK_IMPORTED_MODULE_12__store_department_department_effects__["a" /* DepartmentEffects */], __WEBPACK_IMPORTED_MODULE_13__store_admin_admin_effect__["a" /* AdminEffects */], __WEBPACK_IMPORTED_MODULE_14__store_agent_agent_effect__["a" /* AgentEffects */], __WEBPACK_IMPORTED_MODULE_15__store_widget_widget_effect__["a" /* WidgetEffects */], __WEBPACK_IMPORTED_MODULE_16__store_chat_chat_effects__["a" /* ChatEffects */]])
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_7__layout_routing_module__["a" /* LayoutRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_9__shared_shared_module__["a" /* SharedModule */],
+            __WEBPACK_IMPORTED_MODULE_4_angular2_moment__["MomentModule"],
+            __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["i" /* StoreModule */].forFeature('afterLogin', __WEBPACK_IMPORTED_MODULE_11__store_after_login_reducers__["a" /* reducers */]),
+            __WEBPACK_IMPORTED_MODULE_1__ngrx_effects__["c" /* EffectsModule */].forFeature([__WEBPACK_IMPORTED_MODULE_10__store_profile_profile_effect__["a" /* ProfileEffects */], __WEBPACK_IMPORTED_MODULE_12__store_twilio_twilio_effect__["a" /* TwilioEffects */], __WEBPACK_IMPORTED_MODULE_13__store_department_department_effects__["a" /* DepartmentEffects */], __WEBPACK_IMPORTED_MODULE_14__store_admin_admin_effect__["a" /* AdminEffects */], __WEBPACK_IMPORTED_MODULE_15__store_agent_agent_effect__["a" /* AgentEffects */], __WEBPACK_IMPORTED_MODULE_16__store_widget_widget_effect__["a" /* WidgetEffects */], __WEBPACK_IMPORTED_MODULE_17__store_chat_chat_effects__["a" /* ChatEffects */], __WEBPACK_IMPORTED_MODULE_18__store_dashboard_dashboard_effects__["a" /* DashboardEffects */]])
         ],
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_5__layout_component__["a" /* LayoutComponent */],
-            __WEBPACK_IMPORTED_MODULE_4__header_header_component__["a" /* HeaderComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__sidebar_sidebar_component__["a" /* SidebarComponent */]
+            __WEBPACK_IMPORTED_MODULE_6__layout_component__["a" /* LayoutComponent */],
+            __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */],
+            __WEBPACK_IMPORTED_MODULE_8__sidebar_sidebar_component__["a" /* SidebarComponent */]
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_17__inner_pages_chat_chat_service__["a" /* ChatService */]]
+        providers: []
     })
 ], LayoutModule);
 
@@ -1276,7 +1367,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/sidebar/sidebar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside class=\"main-sidebar\">\n  <div class=\"slimScrollDiv\">\n    <!-- sidebar: style can be found in sidebar.less -->\n    <section class=\"sidebar\">\n      <!-- Sidebar user panel -->\n      <div class=\"user-panel\">\n        <div class=\"pull-left image\">\n          <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n        </div>\n        <div class=\"pull-left info\">\n          <p>Jon Vaughn</p>\n          <a><i class=\"fa fa-circle text-success\"></i> Online</a>\n        </div>\n      </div>\n      <!-- search form -->\n      <!--<form class=\"sidebar-form\">-->\n        <!--<div class=\"input-group\">-->\n          <!--<input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">-->\n          <!--<span class=\"input-group-btn\">-->\n            <!--<button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i>-->\n            <!--</button>-->\n          <!--</span>-->\n        <!--</div>-->\n      <!--</form>-->\n      <!-- /.search form -->\n      <!-- sidebar menu: : style can be found in sidebar.less -->\n      <ul class=\"sidebar-menu\" data-widget=\"tree\">\n        <li class=\"header\">MAIN NAVIGATIONS</li>\n\n        <!-- Dashboard -->\n        <li class=\"treeview\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a routerLink=\"/dashboard\">\n            <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span>\n          </a>\n        </li>\n\n        <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin\">CREDENTIALS</li>\n\n        <!-- Twilio Accounts -->\n        <li class=\"treeview\"\n            *ngIf=\"(authState | async).isSuperAdmin\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a>\n            <i class=\"fa fa-compress\"></i> <span> Twilio Accounts</span>\n            <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li><a routerLink=\"/twilio/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n            <li><a routerLink=\"/twilio/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n          </ul>\n        </li>\n\n        <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">OTHER USERS</li>\n\n        <!-- Admins -->\n        <li class=\"treeview\"\n            *ngIf=\"(authState | async).isSuperAdmin\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a>\n            <i class=\"fa fa-unlock-alt\"></i> <span> Admins</span>\n            <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li><a routerLink=\"/admin/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n            <li><a routerLink=\"/admin/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n          </ul>\n        </li>\n\n        <!-- Agents -->\n        <li class=\"treeview\"\n            *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a>\n            <i class=\"fa fa-lock\"></i> <span> Agents</span>\n            <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li><a routerLink=\"/agent/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n            <li><a routerLink=\"/agent/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n          </ul>\n        </li>\n\n        <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">ACCOUNTS</li>\n\n        <!-- Departments -->\n        <li class=\"treeview\"\n            *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a>\n            <i class=\"fa fa-puzzle-piece\"></i> <span> Departments</span>\n            <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li><a routerLink=\"/department/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n            <li><a routerLink=\"/department/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n          </ul>\n        </li>\n\n        <!-- Widgets -->\n        <li class=\"treeview\"\n            *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a>\n            <i class=\"fa fa-th\"></i> <span>Widgets</span>\n            <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li><a routerLink=\"/widget/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n            <li><a routerLink=\"/widget/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n          </ul>\n        </li>\n\n        <li class=\"header\" *ngIf=\"(authState | async).isAgent\">COMMUNICATIONS</li>\n\n        <!-- Chat Rooms -->\n        <li class=\"treeview\"\n            *ngIf=\"(authState | async).isAgent\"\n            routerLinkActive=\"active\"\n            [disable-hover]=\"true\"\n            [appDropdown]=\"'menu-open'\"\n        >\n          <a>\n            <i class=\"fa fa-comments\"></i> <span>Chat Rooms</span>\n            <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li>\n              <a routerLink=\"/chat/pending\">\n                <i class=\"fa fa-circle-o\"></i> <span>Pending Chats</span>\n                <span class=\"pull-right-container\">\n                  <small class=\"label pull-right bg-yellow\">2</small>\n                </span>\n              </a>\n            </li>\n            <li>\n              <a routerLink=\"/chat/ongoing\">\n                <i class=\"fa fa-circle-o\"></i> <span>Ongoing Chats</span>\n                <span class=\"pull-right-container\">\n                  <small class=\"label pull-right bg-green\">8</small>\n                </span>\n              </a>\n            </li>\n            <li>\n              <a routerLink=\"/chat/rejected\">\n                <i class=\"fa fa-circle-o\"></i> <span>Rejected Chats</span>\n                <span class=\"pull-right-container\">\n                  <small class=\"label pull-right bg-red\">5</small>\n                </span>\n              </a>\n            </li>\n          </ul>\n        </li>\n      </ul>\n    </section>\n    <!-- /.sidebar -->\n  </div>\n</aside>\n"
+module.exports = "<aside class=\"main-sidebar\">\n    <div class=\"slimScrollDiv\">\n        <!-- sidebar: style can be found in sidebar.less -->\n        <section class=\"sidebar\">\n            <!-- Sidebar user panel -->\n            <div class=\"user-panel\">\n                <div class=\"pull-left image\">\n                    <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n                </div>\n                <div class=\"pull-left info\">\n                    <p> {{(authState | async).name}} </p>\n                    <a><i class=\"fa fa-circle text-success\"></i> Online</a>\n                </div>\n            </div>\n            <!-- search form -->\n            <!--<form class=\"sidebar-form\">-->\n            <!--<div class=\"input-group\">-->\n            <!--<input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">-->\n            <!--<span class=\"input-group-btn\">-->\n            <!--<button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i>-->\n            <!--</button>-->\n            <!--</span>-->\n            <!--</div>-->\n            <!--</form>-->\n            <!-- /.search form -->\n            <!-- sidebar menu: : style can be found in sidebar.less -->\n            <ul class=\"sidebar-menu\" data-widget=\"tree\">\n                <li class=\"header\">MAIN NAVIGATIONS</li>\n\n                <!-- Dashboard -->\n                <li class=\"treeview\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/dashboard\">\n                        <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span>\n                    </a>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">USER\n                    ACCOUNTS\n                </li>\n\n                <!-- Admins -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-unlock-alt\"></i> <span> Admins</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/admin/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/admin/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <!-- Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-lock\"></i> <span> Agents</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/agent/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/agent/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">\n                    ORGANIZATION\n                </li>\n\n                <!-- Departments -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-puzzle-piece\"></i> <span> Departments</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/department/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/department/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <!-- Widgets -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-th\"></i> <span>Widgets</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/widget/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/widget/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isAgent\">COMMUNICATIONS</li>\n\n                <!-- Chat Rooms -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isAgent\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-comments\"></i> <span>Chat Rooms</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li>\n                            <a href=\"/chat/pending\">\n                                <i class=\"fa fa-comment\"></i> <span>Pending Chats</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/ongoing\">\n                                <i class=\"fa fa-comment\"></i> <span>Ongoing Chats</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/rejected\">\n                                <i class=\"fa fa-comment\"></i> <span>Rejected Chats</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/resolve\">\n                                <i class=\"fa fa-comment\"></i> <span>Resolve Chats</span>\n                            </a>\n                        </li>\n                    </ul>\n                </li>\n\n                <!-- Previous Chats of Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/chats/list-agent\">\n                        <i class=\"fa fa-comments\"></i> <span>Chats</span>\n                        <span class=\"pull-right-container\">\n                </span>\n                    </a>\n                </li>\n\n                <!-- Previous Chats of Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/chats/list-agents-contacts\">\n                        <i class=\"fa fa-address-book\"></i> <span>Contact List</span>\n                        <span class=\"pull-right-container\">\n                </span>\n                    </a>\n                </li>\n                <!-- Twilio Accounts -->\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin\">CREDENTIALS</li>\n\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-compress\"></i> <span> Twilio Accounts</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/twilio/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/twilio/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n                <!-- Twilio Accounts -->\n            </ul>\n        </section>\n        <!-- /.sidebar -->\n    </div>\n</aside>\n"
 
 /***/ }),
 
@@ -1864,7 +1955,7 @@ var initialState = {
     info: null,
     list: [],
     toEdit: {},
-    resetAdminForm: false
+    resetAdminForm: false,
 };
 function adminReducer(state, action) {
     if (state === void 0) { state = initialState; }
@@ -1925,6 +2016,8 @@ function adminReducer(state, action) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__agent_agent_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.reducers.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__widget_widget_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.reducers.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__chat_chat_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.reducers.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__dashboard_dashboard_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/dashboard/dashboard.reducers.ts");
+
 
 
 
@@ -1940,7 +2033,8 @@ var reducers = {
     admin: __WEBPACK_IMPORTED_MODULE_3__admin_admin_reducers__["a" /* adminReducer */],
     agent: __WEBPACK_IMPORTED_MODULE_4__agent_agent_reducers__["a" /* agentReducer */],
     widget: __WEBPACK_IMPORTED_MODULE_5__widget_widget_reducers__["a" /* widgetReducer */],
-    chat: __WEBPACK_IMPORTED_MODULE_6__chat_chat_reducers__["a" /* chatReducer */]
+    chat: __WEBPACK_IMPORTED_MODULE_6__chat_chat_reducers__["a" /* chatReducer */],
+    dashboard: __WEBPACK_IMPORTED_MODULE_7__dashboard_dashboard_reducers__["a" /* dashboardReducer */],
 };
 //# sourceMappingURL=after-login.reducers.js.map
 
@@ -2335,18 +2429,42 @@ function agentReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_TO_CHAT_LIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_FROM_CHAT_LIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DELETE_FROM_CHAT_LIST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_CHAT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_CHAT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_CONTACT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_CONTACT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_TRANSFER_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_TRANSFER_AGENT_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ConnectAttempt; });
 /* unused harmony export ConnectSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddNewMsgToChatList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return AddToChatList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EditFromChatList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return DeleteFromChatList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetAgentListAttempt; });
+/* unused harmony export GetAgentListSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GetChatListAttempt; });
+/* unused harmony export GetChatListSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GetContactListAttempt; });
+/* unused harmony export GetContactListSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetTransferAgentListAttempt; });
+/* unused harmony export GetTransferAgentListSuccess */
 var CONNECT_ATTEMPT = 'CONNECT_ATTEMPT';
 var CONNECT_SUCCESS = "CONNECT_SUCCESS";
 var ADD_NEW_MSG_TO_CHAT_LIST = "ADD_NEW_MSG_TO_CHAT_LIST";
 var ADD_TO_CHAT_LIST = "ADD_TO_CHAT_LIST";
 var EDIT_FROM_CHAT_LIST = "EDIT_FROM_CHAT_LIST";
 var DELETE_FROM_CHAT_LIST = "DELETE_FROM_CHAT_LIST";
+var GET_AGENT_LIST_ATTEMPT = 'GET_AGENT_LIST_ATTEMPT';
+var GET_AGENT_LIST_SUCCESS = 'GET_AGENT_LIST_SUCCESS';
+var GET_CHAT_LIST_ATTEMPT = 'GET_CHAT_LIST_ATTEMPT';
+var GET_CHAT_LIST_SUCCESS = 'GET_CHAT_LIST_SUCCESS';
+var GET_CONTACT_LIST_ATTEMPT = 'GET_CONTACT_LIST_ATTEMPT';
+var GET_CONTACT_LIST_SUCCESS = 'GET_CONTACT_LIST_SUCCESS';
+var GET_TRANSFER_AGENT_LIST_ATTEMPT = 'GET_TRANSFER_AGENT_LIST_ATTEMPT';
+var GET_TRANSFER_AGENT_LIST_SUCCESS = 'GET_TRANSFER_AGENT_LIST_SUCCESS';
 var ConnectAttempt = (function () {
     function ConnectAttempt() {
         this.type = CONNECT_ATTEMPT;
@@ -2393,6 +2511,69 @@ var DeleteFromChatList = (function () {
     return DeleteFromChatList;
 }());
 
+var GetAgentListAttempt = (function () {
+    function GetAgentListAttempt() {
+        this.type = GET_AGENT_LIST_ATTEMPT;
+    }
+    return GetAgentListAttempt;
+}());
+
+var GetAgentListSuccess = (function () {
+    function GetAgentListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_LIST_SUCCESS;
+    }
+    return GetAgentListSuccess;
+}());
+
+var GetChatListAttempt = (function () {
+    function GetChatListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_CHAT_LIST_ATTEMPT;
+    }
+    return GetChatListAttempt;
+}());
+
+var GetChatListSuccess = (function () {
+    function GetChatListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_CHAT_LIST_SUCCESS;
+    }
+    return GetChatListSuccess;
+}());
+
+var GetContactListAttempt = (function () {
+    function GetContactListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_CONTACT_LIST_ATTEMPT;
+    }
+    return GetContactListAttempt;
+}());
+
+var GetContactListSuccess = (function () {
+    function GetContactListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_CONTACT_LIST_SUCCESS;
+    }
+    return GetContactListSuccess;
+}());
+
+var GetTransferAgentListAttempt = (function () {
+    function GetTransferAgentListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_TRANSFER_AGENT_LIST_ATTEMPT;
+    }
+    return GetTransferAgentListAttempt;
+}());
+
+var GetTransferAgentListSuccess = (function () {
+    function GetTransferAgentListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_TRANSFER_AGENT_LIST_SUCCESS;
+    }
+    return GetTransferAgentListSuccess;
+}());
+
 //# sourceMappingURL=chat.actions.js.map
 
 /***/ }),
@@ -2418,7 +2599,8 @@ var DeleteFromChatList = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_switchMap__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2439,11 +2621,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChatEffects = (function () {
-    function ChatEffects(actions$, chatService, httpClient) {
+    function ChatEffects(actions$, httpClient) {
         var _this = this;
         this.actions$ = actions$;
-        this.chatService = chatService;
         this.httpClient = httpClient;
         this.connect = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["e" /* CONNECT_ATTEMPT */])
@@ -2453,7 +2635,144 @@ var ChatEffects = (function () {
             });
         })
             .do(function () {
-            _this.chatService.connect();
+            //this.chatService.connect();
+        });
+        this.getAgentList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["l" /* GET_AGENT_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["m" /* GET_AGENT_LIST_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["m" /* GET_AGENT_LIST_SUCCESS */],
+                            payload: []
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getChatList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["n" /* GET_CHAT_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'client-chat';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .map(function (res) {
+                if (res.status) {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["o" /* GET_CHAT_LIST_SUCCESS */],
+                        payload: res.response
+                    };
+                }
+                else {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                        payload: { message: res.message, type: 'danger' }
+                    };
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getContactList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["p" /* GET_CONTACT_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'contact-list';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["q" /* GET_CONTACT_LIST_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' },
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["q" /* GET_CONTACT_LIST_SUCCESS */],
+                            payload: []
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getTransferAgentList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["r" /* GET_TRANSFER_AGENT_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-department-list';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    console.log(res.response);
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
+                            payload: []
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
         });
     }
     return ChatEffects;
@@ -2462,12 +2781,28 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], ChatEffects.prototype, "connect", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], ChatEffects.prototype, "getAgentList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], ChatEffects.prototype, "getChatList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], ChatEffects.prototype, "getContactList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], ChatEffects.prototype, "getTransferAgentList", void 0);
 ChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_10__inner_pages_chat_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__inner_pages_chat_chat_service__["a" /* ChatService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
 ], ChatEffects);
 
-var _a, _b, _c;
+var _a, _b;
 //# sourceMappingURL=chat.effects.js.map
 
 /***/ }),
@@ -2489,40 +2824,38 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 
 var initialState = {
     ongoing: [],
-    connected: false
+    resolve: [],
+    connected: false,
+    chatList: [],
+    agentList: [],
+    contactList: []
 };
 function chatReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["f" /* CONNECT_SUCCESS */]:
-            return __assign({}, state, { connected: true });
+            return __assign({}, state, { ongoing: [], resolve: [], connected: true });
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["b" /* ADD_TO_CHAT_LIST */]:
             var obj = {
                 room: action.payload.name,
                 client: action.payload.client_name,
+                chatTime: action.payload.chat_time,
                 status: action.payload.status,
                 chats: action.payload.chats
             };
             return __assign({}, state, { ongoing: state.ongoing.concat([__assign({}, obj)]) });
         case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["a" /* ADD_NEW_MSG_TO_CHAT_LIST */]):
-            console.log('Add New Msg');
-            console.log(action.payload);
             var indexOfChat = state.ongoing.findIndex(function (chat) { return chat.room == action.payload.roomNo; });
-            console.log(indexOfChat);
             var oldChatList = state.ongoing.slice();
             var someChatList = __assign({}, oldChatList[indexOfChat]);
             someChatList.chats = someChatList.chats.concat([__assign({}, action.payload)]);
             oldChatList[indexOfChat] = __assign({}, someChatList);
             return __assign({}, state, { ongoing: oldChatList.slice() });
         case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["j" /* EDIT_FROM_CHAT_LIST */]):
-            console.log('Action:', action.payload);
             var indexToEdit = state.ongoing.findIndex(function (chat) { return chat.room === action.payload.room_number; });
-            console.log('index to edit', indexToEdit);
             var chats = state.ongoing.slice();
             var someChat = chats[indexToEdit];
-            console.log(someChat);
             var updatedChat = __assign({}, someChat, { status: action.payload.status });
-            console.log(updatedChat);
             chats[indexToEdit] = updatedChat;
             return __assign({}, state, { ongoing: chats.slice() });
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["h" /* DELETE_FROM_CHAT_LIST */]:
@@ -2530,11 +2863,180 @@ function chatReducer(state, action) {
             var oldChats = state.ongoing.slice();
             oldChats.splice(indexToDelete, 1);
             return __assign({}, state, { ongoing: oldChats.slice() });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["m" /* GET_AGENT_LIST_SUCCESS */]):
+            return __assign({}, state, { agentList: action.payload, chatList: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["o" /* GET_CHAT_LIST_SUCCESS */]):
+            return __assign({}, state, { chatList: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["q" /* GET_CONTACT_LIST_SUCCESS */]):
+            return __assign({}, state, { contactList: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */]):
+            return __assign({}, state, { agentList: action.payload });
         default:
             return state;
     }
 }
 //# sourceMappingURL=chat.reducers.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/layout/store/dashboard/dashboard.actions.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GET_DASHBOARD_ITEMS_COUNT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_DASHBOARD_ITEMS_COUNT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GetDashboardItemsCountAttempt; });
+/* unused harmony export GetDashboardItemsCountSuccess */
+var GET_DASHBOARD_ITEMS_COUNT_ATTEMPT = 'GET_DASHBOARD_ITEMS_COUNT_ATTEMPT';
+var GET_DASHBOARD_ITEMS_COUNT_SUCCESS = 'GET_DASHBOARD_ITEMS_COUNT_SUCCESS';
+var GetDashboardItemsCountAttempt = (function () {
+    function GetDashboardItemsCountAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_DASHBOARD_ITEMS_COUNT_ATTEMPT;
+    }
+    return GetDashboardItemsCountAttempt;
+}());
+
+var GetDashboardItemsCountSuccess = (function () {
+    function GetDashboardItemsCountSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_DASHBOARD_ITEMS_COUNT_SUCCESS;
+    }
+    return GetDashboardItemsCountSuccess;
+}());
+
+//# sourceMappingURL=dashboard.actions.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/layout/store/dashboard/dashboard.effects.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardEffects; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__ = __webpack_require__("../../../../@ngrx/effects/@ngrx/effects.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__ = __webpack_require__("../../../../rxjs/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_do__ = __webpack_require__("../../../../rxjs/add/operator/do.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_do__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_mergeMap__ = __webpack_require__("../../../../rxjs/add/operator/mergeMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_mergeMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_mergeMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_switchMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__dashboard_dashboard_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/dashboard/dashboard.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+var DashboardEffects = (function () {
+    function DashboardEffects(actions$, httpClient) {
+        var _this = this;
+        this.actions$ = actions$;
+        this.httpClient = httpClient;
+        this.getDashboardItemsCount = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__dashboard_dashboard_actions__["a" /* GET_DASHBOARD_ITEMS_COUNT_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-dashboard-count';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__dashboard_dashboard_actions__["b" /* GET_DASHBOARD_ITEMS_COUNT_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.message, type: 'danger' }
+                });
+            });
+        });
+    }
+    return DashboardEffects;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], DashboardEffects.prototype, "getDashboardItemsCount", void 0);
+DashboardEffects = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+], DashboardEffects);
+
+var _a, _b;
+//# sourceMappingURL=dashboard.effects.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/layout/store/dashboard/dashboard.reducers.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = dashboardReducer;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dashboard_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/dashboard/dashboard.actions.ts");
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+
+var initialState = {
+    list: []
+};
+function dashboardReducer(state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case (__WEBPACK_IMPORTED_MODULE_0__dashboard_actions__["b" /* GET_DASHBOARD_ITEMS_COUNT_SUCCESS */]):
+            return __assign({}, state, { list: [action.payload] });
+        default:
+            return state;
+    }
+}
+//# sourceMappingURL=dashboard.reducers.js.map
 
 /***/ }),
 
@@ -3160,7 +3662,7 @@ __decorate([
 ], ProfileEffects.prototype, "editProfileChangePassword", void 0);
 ProfileEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
 ], ProfileEffects);
 
 var _a, _b, _c, _d;
@@ -3937,6 +4439,77 @@ function widgetReducer(state, action) {
 
 /***/ }),
 
+/***/ "../../../../../src/app/core/shared/auto-scroll.directive.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AutoScrollDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var AutoScrollDirective = (function () {
+    function AutoScrollDirective(el, renderer) {
+        this.el = el;
+        this.renderer = renderer;
+        this.scrollDown = true;
+        this.nativeElement = el.nativeElement;
+    }
+    AutoScrollDirective.prototype.ngAfterContentInit = function () {
+        console.log('scrollTop', this.nativeElement.scrollTop);
+        console.log('clientHeight', this.nativeElement.clientHeight);
+        console.log('scrollHeight', this.nativeElement.scrollHeight);
+        console.log(this.nativeElement);
+        this.adjust();
+    };
+    AutoScrollDirective.prototype.adjust = function () {
+        if (this.scrollDown) {
+            this.nativeElement.scrollTop = this.nativeElement.scrollHeight - this.nativeElement.clientHeight;
+        }
+        else {
+            if (this.nativeElement.scrollTop + this.nativeElement.clientHeight > this.nativeElement.scrollHeight) {
+                console.log('true');
+                //this.renderer.
+                this.nativeElement.scrollTop = this.nativeElement.scrollHeight;
+            }
+        }
+    };
+    AutoScrollDirective.prototype.scrollEvent = function () {
+        console.log('scrollTop', this.nativeElement.scrollTop);
+        console.log('clientHeight', this.nativeElement.clientHeight);
+        console.log('scrollHeight', this.nativeElement.scrollHeight);
+    };
+    return AutoScrollDirective;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("scrollDown"),
+    __metadata("design:type", Boolean)
+], AutoScrollDirective.prototype, "scrollDown", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])('window:scroll'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AutoScrollDirective.prototype, "scrollEvent", null);
+AutoScrollDirective = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        selector: '[appAutoScroll]'
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _b || Object])
+], AutoScrollDirective);
+
+var _a, _b;
+//# sourceMappingURL=auto-scroll.directive.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/core/shared/dropdown.directive.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4034,13 +4607,15 @@ var _a, _b;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SharedModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dropdown_directive__ = __webpack_require__("../../../../../src/app/core/shared/dropdown.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auto_scroll_directive__ = __webpack_require__("../../../../../src/app/core/shared/auto-scroll.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dropdown_directive__ = __webpack_require__("../../../../../src/app/core/shared/dropdown.directive.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -4052,13 +4627,15 @@ var SharedModule = (function () {
 SharedModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
         ],
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__dropdown_directive__["a" /* DropdownDirective */]
+            __WEBPACK_IMPORTED_MODULE_3__dropdown_directive__["a" /* DropdownDirective */],
+            __WEBPACK_IMPORTED_MODULE_2__auto_scroll_directive__["a" /* AutoScrollDirective */]
         ],
         exports: [
-            __WEBPACK_IMPORTED_MODULE_2__dropdown_directive__["a" /* DropdownDirective */]
+            __WEBPACK_IMPORTED_MODULE_3__dropdown_directive__["a" /* DropdownDirective */],
+            __WEBPACK_IMPORTED_MODULE_2__auto_scroll_directive__["a" /* AutoScrollDirective */]
         ]
     })
 ], SharedModule);
@@ -4114,7 +4691,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 var initialState = {
     message: '',
     show: false,
-    type: ''
+    type: '',
+    loaderStatus: false
 };
 function alertReducer(state, actions) {
     if (state === void 0) { state = initialState; }
@@ -4149,6 +4727,7 @@ function alertReducer(state, actions) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CHECK_TOKEN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CHECK_TWILIO_ACTIVE_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CHECK_TWILIO_ACTIVE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return UPDATE_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return SignUpAttempt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return SignUpSuccess; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return SignInAttempt; });
@@ -4162,6 +4741,7 @@ function alertReducer(state, actions) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return CheckToken; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return CheckTwilioActiveAttempt; });
 /* unused harmony export CheckTwilioActiveSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return UpdateAttempt; });
 var SIGNUP_ATTEMPT = 'SIGNUP_ATTEMPT';
 var SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 var SIGNUP_FAILED = 'SIGNUP_FAILED';
@@ -4176,6 +4756,7 @@ var RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 var CHECK_TOKEN = 'CHECK_TOKEN';
 var CHECK_TWILIO_ACTIVE_ATTEMPT = 'CHECK_TWILIO_ACTIVE_ATTEMPT';
 var CHECK_TWILIO_ACTIVE_SUCCESS = 'CHECK_TWILIO_ACTIVE_SUCCESS';
+var UPDATE_ATTEMPT = 'UPDATE_ATTEMPT';
 var SignUpAttempt = (function () {
     function SignUpAttempt(payload) {
         this.payload = payload;
@@ -4274,6 +4855,14 @@ var CheckTwilioActiveSuccess = (function () {
         this.type = CHECK_TWILIO_ACTIVE_SUCCESS;
     }
     return CheckTwilioActiveSuccess;
+}());
+
+var UpdateAttempt = (function () {
+    function UpdateAttempt(payload) {
+        this.payload = payload;
+        this.type = UPDATE_ATTEMPT;
+    }
+    return UpdateAttempt;
 }());
 
 //# sourceMappingURL=auth.actions.js.map
@@ -4571,7 +5160,7 @@ __decorate([
 ], AuthEffects.prototype, "twilioActive", void 0);
 AuthEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
 ], AuthEffects);
 
 var _a, _b, _c, _d;
@@ -4623,14 +5212,27 @@ function authReducer(state, action) {
             return __assign({}, state, { token: null, userId: null, userType: null, isSuperAdmin: false, isAdmin: false, isAgent: false, isAuthenticated: false });
         case (__WEBPACK_IMPORTED_MODULE_0__auth_actions__["a" /* CHECK_TOKEN */]):
             if (localStorage.getItem('data') !== null && localStorage.getItem('data') !== undefined) {
-                var data = JSON.parse(localStorage.getItem('data'));
-                return __assign({}, state, { isAuthenticated: true, token: data.userToken, userId: data.userId, userType: data.userType, isSuperAdmin: data.userType == 1, isAdmin: data.userType == 2, isAgent: data.userType == 3, name: data.firstName + ' ' + data.lastName, email: data.email });
+                var data_1 = JSON.parse(localStorage.getItem('data'));
+                return __assign({}, state, { isAuthenticated: true, token: data_1.userToken, userId: data_1.userId, userType: data_1.userType, isSuperAdmin: data_1.userType == 1, isAdmin: data_1.userType == 2, isAgent: data_1.userType == 3, name: data_1.firstName + ' ' + data_1.lastName, email: data_1.email });
             }
             else {
                 return state;
             }
         case (__WEBPACK_IMPORTED_MODULE_0__auth_actions__["c" /* CHECK_TWILIO_ACTIVE_SUCCESS */]):
             return __assign({}, state, { twilioIsActive: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__auth_actions__["x" /* UPDATE_ATTEMPT */]):
+            var data = JSON.parse(localStorage.getItem('data'));
+            var obj = {
+                email: data.email,
+                firstName: action.payload.firstName,
+                lastName: action.payload.lastName,
+                userId: data.userId,
+                userToken: data.userToken,
+                userType: data.userType
+            };
+            localStorage.removeItem('data');
+            localStorage.setItem('data', JSON.stringify(obj));
+            return __assign({}, state, { name: action.payload.firstName + ' ' + action.payload.lastName });
         default:
             return state;
     }
@@ -4668,7 +5270,8 @@ var reducers = {
 // The file contents for the current environment will overwrite these during build.
 var environment = {
     production: false,
-    API_BASE_URL: 'http://3c.local/api/v1/'
+    API_BASE_URL: 'http://localhost:8000/api/v1/',
+    SOCKET_URL: 'http://localhost:3000'
 };
 //# sourceMappingURL=environment.js.map
 
@@ -4760,6 +5363,8 @@ var map = {
 	"./en-gb.js": "../../../../moment/locale/en-gb.js",
 	"./en-ie": "../../../../moment/locale/en-ie.js",
 	"./en-ie.js": "../../../../moment/locale/en-ie.js",
+	"./en-il": "../../../../moment/locale/en-il.js",
+	"./en-il.js": "../../../../moment/locale/en-il.js",
 	"./en-nz": "../../../../moment/locale/en-nz.js",
 	"./en-nz.js": "../../../../moment/locale/en-nz.js",
 	"./eo": "../../../../moment/locale/eo.js",
@@ -4844,12 +5449,16 @@ var map = {
 	"./mk.js": "../../../../moment/locale/mk.js",
 	"./ml": "../../../../moment/locale/ml.js",
 	"./ml.js": "../../../../moment/locale/ml.js",
+	"./mn": "../../../../moment/locale/mn.js",
+	"./mn.js": "../../../../moment/locale/mn.js",
 	"./mr": "../../../../moment/locale/mr.js",
 	"./mr.js": "../../../../moment/locale/mr.js",
 	"./ms": "../../../../moment/locale/ms.js",
 	"./ms-my": "../../../../moment/locale/ms-my.js",
 	"./ms-my.js": "../../../../moment/locale/ms-my.js",
 	"./ms.js": "../../../../moment/locale/ms.js",
+	"./mt": "../../../../moment/locale/mt.js",
+	"./mt.js": "../../../../moment/locale/mt.js",
 	"./my": "../../../../moment/locale/my.js",
 	"./my.js": "../../../../moment/locale/my.js",
 	"./nb": "../../../../moment/locale/nb.js",
@@ -4902,6 +5511,8 @@ var map = {
 	"./te.js": "../../../../moment/locale/te.js",
 	"./tet": "../../../../moment/locale/tet.js",
 	"./tet.js": "../../../../moment/locale/tet.js",
+	"./tg": "../../../../moment/locale/tg.js",
+	"./tg.js": "../../../../moment/locale/tg.js",
 	"./th": "../../../../moment/locale/th.js",
 	"./th.js": "../../../../moment/locale/th.js",
 	"./tl-ph": "../../../../moment/locale/tl-ph.js",
@@ -4916,6 +5527,8 @@ var map = {
 	"./tzm-latn": "../../../../moment/locale/tzm-latn.js",
 	"./tzm-latn.js": "../../../../moment/locale/tzm-latn.js",
 	"./tzm.js": "../../../../moment/locale/tzm.js",
+	"./ug-cn": "../../../../moment/locale/ug-cn.js",
+	"./ug-cn.js": "../../../../moment/locale/ug-cn.js",
 	"./uk": "../../../../moment/locale/uk.js",
 	"./uk.js": "../../../../moment/locale/uk.js",
 	"./ur": "../../../../moment/locale/ur.js",

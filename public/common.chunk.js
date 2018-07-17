@@ -66,17 +66,13 @@ var MaskedInputDirective = (function () {
             this.textMaskInputElement.update(value);
             // get the updated value
             value = this.inputElement.value;
-            // check against the last value to prevent firing ngModelChange despite no changes
-            if (this.lastValue !== value) {
-                this.lastValue = value;
-                this._onChange(value);
-            }
+            this._onChange(value);
         }
     };
     MaskedInputDirective.prototype.setupMask = function (create) {
         if (create === void 0) { create = false; }
         if (!this.inputElement) {
-            if (this.element.nativeElement.tagName === 'INPUT') {
+            if (this.element.nativeElement.tagName.toUpperCase() === 'INPUT') {
                 // `textMask` directive is used directly on an input element
                 this.inputElement = this.element.nativeElement;
             }
@@ -124,6 +120,857 @@ exports.TextMaskModule = TextMaskModule;
 var textMaskCore_2 = __webpack_require__("../../../../text-mask-core/dist/textMaskCore.js");
 exports.conformToMask = textMaskCore_2.conformToMask;
 //# sourceMappingURL=angular2TextMask.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-search-filter/ng2-search-filter.es5.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Ng2SearchPipeModule; });
+/* unused harmony export Ng2SearchPipe */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var Ng2SearchPipe = /** @class */ (function () {
+    function Ng2SearchPipe() {
+    }
+    /**
+     * @param {?} items object from array
+     * @param {?} term term's search
+     * @return {?}
+     */
+    Ng2SearchPipe.prototype.transform = function (items, term) {
+        if (!term || !items)
+            return items;
+        return Ng2SearchPipe.filter(items, term);
+    };
+    /**
+     *
+     * @param {?} items List of items to filter
+     * @param {?} term  a string term to compare with every property of the list
+     *
+     * @return {?}
+     */
+    Ng2SearchPipe.filter = function (items, term) {
+        var /** @type {?} */ toCompare = term.toLowerCase();
+        return items.filter(function (item) {
+            for (var /** @type {?} */ property in item) {
+                if (item[property] === null) {
+                    continue;
+                }
+                if (item[property].toString().toLowerCase().includes(toCompare)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    };
+    return Ng2SearchPipe;
+}());
+Ng2SearchPipe.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"], args: [{
+                name: 'filter',
+                pure: false
+            },] },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+];
+/**
+ * @nocollapse
+ */
+Ng2SearchPipe.ctorParameters = function () { return []; };
+var Ng2SearchPipeModule = /** @class */ (function () {
+    function Ng2SearchPipeModule() {
+    }
+    return Ng2SearchPipeModule;
+}());
+Ng2SearchPipeModule.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
+                declarations: [Ng2SearchPipe],
+                exports: [Ng2SearchPipe]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+Ng2SearchPipeModule.ctorParameters = function () { return []; };
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+//# sourceMappingURL=ng2-search-filter.es5.js.map
+
+
+/***/ }),
+
+/***/ "../../../../ngx-order-pipe/ngx-order-pipe.es5.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return OrderPipe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrderModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var OrderPipe = /** @class */ (function () {
+    function OrderPipe() {
+    }
+    /**
+     * Check if a value is a string
+     *
+     * @param {?} value
+     * @return {?}
+     */
+    OrderPipe.isString = function (value) {
+        return typeof value === 'string' || value instanceof String;
+    };
+    /**
+     * Sorts values ignoring the case
+     *
+     * @param {?} a
+     * @param {?} b
+     * @return {?}
+     */
+    OrderPipe.caseInsensitiveSort = function (a, b) {
+        if (OrderPipe.isString(a) && OrderPipe.isString(b)) {
+            return a.localeCompare(b);
+        }
+        return OrderPipe.defaultCompare(a, b);
+    };
+    /**
+     * Default compare method
+     *
+     * @param {?} a
+     * @param {?} b
+     * @return {?}
+     */
+    OrderPipe.defaultCompare = function (a, b) {
+        if (a === b) {
+            return 0;
+        }
+        if (a == null) {
+            return 1;
+        }
+        if (b == null) {
+            return -1;
+        }
+        return a > b ? 1 : -1;
+    };
+    /**
+     * Parse expression, split into items
+     * @param {?} expression
+     * @return {?}
+     */
+    OrderPipe.parseExpression = function (expression) {
+        expression = expression.replace(/\[(\w+)\]/g, '.$1');
+        expression = expression.replace(/^\./, '');
+        return expression.split('.');
+    };
+    /**
+     * Get value by expression
+     *
+     * @param {?} object
+     * @param {?} expression
+     * @return {?}
+     */
+    OrderPipe.getValue = function (object, expression) {
+        for (var /** @type {?} */ i = 0, /** @type {?} */ n = expression.length; i < n; ++i) {
+            var /** @type {?} */ k = expression[i];
+            if (!(k in object)) {
+                return;
+            }
+            object = object[k];
+        }
+        return object;
+    };
+    /**
+     * Set value by expression
+     *
+     * @param {?} object
+     * @param {?} value
+     * @param {?} expression
+     * @return {?}
+     */
+    OrderPipe.setValue = function (object, value, expression) {
+        var /** @type {?} */ i;
+        for (i = 0; i < expression.length - 1; i++) {
+            object = object[expression[i]];
+        }
+        object[expression[i]] = value;
+    };
+    /**
+     * @param {?} value
+     * @param {?=} expression
+     * @param {?=} reverse
+     * @param {?=} isCaseInsensitive
+     * @param {?=} comparator
+     * @return {?}
+     */
+    OrderPipe.prototype.transform = function (value, expression, reverse, isCaseInsensitive, comparator) {
+        if (isCaseInsensitive === void 0) { isCaseInsensitive = false; }
+        if (!value) {
+            return value;
+        }
+        if (Array.isArray(expression)) {
+            return this.multiExpressionTransform(value, expression, reverse, isCaseInsensitive, comparator);
+        }
+        if (Array.isArray(value)) {
+            return this.sortArray(value.slice(), expression, reverse, isCaseInsensitive, comparator);
+        }
+        if (typeof value === 'object') {
+            return this.transformObject(Object.assign({}, value), expression, reverse, isCaseInsensitive, comparator);
+        }
+        return value;
+    };
+    /**
+     * Sort array
+     *
+     * @param {?} value
+     * @param {?=} expression
+     * @param {?=} reverse
+     * @param {?=} isCaseInsensitive
+     * @param {?=} comparator
+     * @return {?}
+     */
+    OrderPipe.prototype.sortArray = function (value, expression, reverse, isCaseInsensitive, comparator) {
+        var /** @type {?} */ isDeepLink = expression && expression.indexOf('.') !== -1;
+        if (isDeepLink) {
+            expression = OrderPipe.parseExpression(expression);
+        }
+        var /** @type {?} */ compareFn;
+        if (comparator && typeof comparator === 'function') {
+            compareFn = comparator;
+        }
+        else {
+            compareFn = isCaseInsensitive ? OrderPipe.caseInsensitiveSort : OrderPipe.defaultCompare;
+        }
+        var /** @type {?} */ array = value.sort(function (a, b) {
+            if (!expression) {
+                return compareFn(a, b);
+            }
+            if (!isDeepLink) {
+                if (a && b) {
+                    return compareFn(a[expression], b[expression]);
+                }
+                return compareFn(a, b);
+            }
+            return compareFn(OrderPipe.getValue(a, expression), OrderPipe.getValue(b, expression));
+        });
+        if (reverse) {
+            return array.reverse();
+        }
+        return array;
+    };
+    /**
+     * Transform Object
+     *
+     * @param {?} value
+     * @param {?=} expression
+     * @param {?=} reverse
+     * @param {?=} isCaseInsensitive
+     * @param {?=} comparator
+     * @return {?}
+     */
+    OrderPipe.prototype.transformObject = function (value, expression, reverse, isCaseInsensitive, comparator) {
+        var /** @type {?} */ parsedExpression = OrderPipe.parseExpression(expression);
+        var /** @type {?} */ lastPredicate = parsedExpression.pop();
+        var /** @type {?} */ oldValue = OrderPipe.getValue(value, parsedExpression);
+        if (!Array.isArray(oldValue)) {
+            parsedExpression.push(lastPredicate);
+            lastPredicate = null;
+            oldValue = OrderPipe.getValue(value, parsedExpression);
+        }
+        if (!oldValue) {
+            return value;
+        }
+        OrderPipe.setValue(value, this.transform(oldValue, lastPredicate, reverse, isCaseInsensitive), parsedExpression);
+        return value;
+    };
+    /**
+     * Apply multiple expressions
+     *
+     * @param {?} value
+     * @param {?} expressions
+     * @param {?} reverse
+     * @param {?=} isCaseInsensitive
+     * @param {?=} comparator
+     * @return {?}
+     */
+    OrderPipe.prototype.multiExpressionTransform = function (value, expressions, reverse, isCaseInsensitive, comparator) {
+        var _this = this;
+        if (isCaseInsensitive === void 0) { isCaseInsensitive = false; }
+        return expressions.reverse().reduce(function (result, expression) {
+            return _this.transform(result, expression, reverse, isCaseInsensitive, comparator);
+        }, value);
+    };
+    return OrderPipe;
+}());
+OrderPipe.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"], args: [{
+                name: 'orderBy',
+                pure: false
+            },] },
+];
+/**
+ * @nocollapse
+ */
+OrderPipe.ctorParameters = function () { return []; };
+/**
+ * Created by vadimdez on 20/01/2017.
+ */
+var OrderModule = /** @class */ (function () {
+    function OrderModule() {
+    }
+    return OrderModule;
+}());
+OrderModule.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
+                declarations: [OrderPipe],
+                exports: [OrderPipe],
+                providers: [OrderPipe]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+OrderModule.ctorParameters = function () { return []; };
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+//# sourceMappingURL=ngx-order-pipe.es5.js.map
+
+
+/***/ }),
+
+/***/ "../../../../ngx-pagination/dist/ngx-pagination.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export ɵb */
+/* unused harmony export ɵa */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgxPaginationModule; });
+/* unused harmony export PaginationService */
+/* unused harmony export PaginationControlsComponent */
+/* unused harmony export PaginationControlsDirective */
+/* unused harmony export PaginatePipe */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+
+
+
+var PaginationService = (function () {
+    function PaginationService() {
+        this.change = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.instances = {};
+        this.DEFAULT_ID = 'DEFAULT_PAGINATION_ID';
+    }
+    PaginationService.prototype.defaultId = function () { return this.DEFAULT_ID; };
+    PaginationService.prototype.register = function (instance) {
+        if (!instance.id) {
+            instance.id = this.DEFAULT_ID;
+        }
+        if (!this.instances[instance.id]) {
+            this.instances[instance.id] = instance;
+            this.change.emit(instance.id);
+        }
+        else {
+            var changed = this.updateInstance(instance);
+            if (changed) {
+                this.change.emit(instance.id);
+            }
+        }
+    };
+    /**
+     * Check each property of the instance and update any that have changed. Return
+     * true if any changes were made, else return false.
+     */
+    PaginationService.prototype.updateInstance = function (instance) {
+        var changed = false;
+        for (var prop in this.instances[instance.id]) {
+            if (instance[prop] !== this.instances[instance.id][prop]) {
+                this.instances[instance.id][prop] = instance[prop];
+                changed = true;
+            }
+        }
+        return changed;
+    };
+    /**
+     * Returns the current page number.
+     */
+    PaginationService.prototype.getCurrentPage = function (id) {
+        if (this.instances[id]) {
+            return this.instances[id].currentPage;
+        }
+    };
+    /**
+     * Sets the current page number.
+     */
+    PaginationService.prototype.setCurrentPage = function (id, page) {
+        if (this.instances[id]) {
+            var instance = this.instances[id];
+            var maxPage = Math.ceil(instance.totalItems / instance.itemsPerPage);
+            if (page <= maxPage && 1 <= page) {
+                this.instances[id].currentPage = page;
+                this.change.emit(id);
+            }
+        }
+    };
+    /**
+     * Sets the value of instance.totalItems
+     */
+    PaginationService.prototype.setTotalItems = function (id, totalItems) {
+        if (this.instances[id] && 0 <= totalItems) {
+            this.instances[id].totalItems = totalItems;
+            this.change.emit(id);
+        }
+    };
+    /**
+     * Sets the value of instance.itemsPerPage.
+     */
+    PaginationService.prototype.setItemsPerPage = function (id, itemsPerPage) {
+        if (this.instances[id]) {
+            this.instances[id].itemsPerPage = itemsPerPage;
+            this.change.emit(id);
+        }
+    };
+    /**
+     * Returns a clone of the pagination instance object matching the id. If no
+     * id specified, returns the instance corresponding to the default id.
+     */
+    PaginationService.prototype.getInstance = function (id) {
+        if (id === void 0) { id = this.DEFAULT_ID; }
+        if (this.instances[id]) {
+            return this.clone(this.instances[id]);
+        }
+        return {};
+    };
+    /**
+     * Perform a shallow clone of an object.
+     */
+    PaginationService.prototype.clone = function (obj) {
+        var target = {};
+        for (var i in obj) {
+            if (obj.hasOwnProperty(i)) {
+                target[i] = obj[i];
+            }
+        }
+        return target;
+    };
+    return PaginationService;
+}());
+
+var LARGE_NUMBER = Number.MAX_SAFE_INTEGER;
+var PaginatePipe = (function () {
+    function PaginatePipe(service) {
+        this.service = service;
+        // store the values from the last time the pipe was invoked
+        this.state = {};
+    }
+    PaginatePipe.prototype.transform = function (collection, args) {
+        // When an observable is passed through the AsyncPipe, it will output
+        // `null` until the subscription resolves. In this case, we want to
+        // use the cached data from the `state` object to prevent the NgFor
+        // from flashing empty until the real values arrive.
+        if (args instanceof Array) {
+            // compatible with angular2 before beta16
+            args = args[0];
+        }
+        if (!(collection instanceof Array)) {
+            var _id = args.id || this.service.defaultId;
+            if (this.state[_id]) {
+                return this.state[_id].slice;
+            }
+            else {
+                return collection;
+            }
+        }
+        var serverSideMode = args.totalItems && args.totalItems !== collection.length;
+        var instance = this.createInstance(collection, args);
+        var id = instance.id;
+        var start, end;
+        var perPage = instance.itemsPerPage;
+        this.service.register(instance);
+        if (!serverSideMode && collection instanceof Array) {
+            perPage = +perPage || LARGE_NUMBER;
+            start = (instance.currentPage - 1) * perPage;
+            end = start + perPage;
+            var isIdentical = this.stateIsIdentical(id, collection, start, end);
+            if (isIdentical) {
+                return this.state[id].slice;
+            }
+            else {
+                var slice = collection.slice(start, end);
+                this.saveState(id, collection, slice, start, end);
+                this.service.change.emit(id);
+                return slice;
+            }
+        }
+        // save the state for server-side collection to avoid null
+        // flash as new data loads.
+        this.saveState(id, collection, collection, start, end);
+        return collection;
+    };
+    /**
+     * Create an PaginationInstance object, using defaults for any optional properties not supplied.
+     */
+    PaginatePipe.prototype.createInstance = function (collection, args) {
+        var config = args;
+        this.checkConfig(config);
+        return {
+            id: config.id || this.service.defaultId(),
+            itemsPerPage: +config.itemsPerPage || 0,
+            currentPage: +config.currentPage || 1,
+            totalItems: +config.totalItems || collection.length
+        };
+    };
+    /**
+     * Ensure the argument passed to the filter contains the required properties.
+     */
+    PaginatePipe.prototype.checkConfig = function (config) {
+        var required = ['itemsPerPage', 'currentPage'];
+        var missing = required.filter(function (prop) { return !(prop in config); });
+        if (0 < missing.length) {
+            throw new Error("PaginatePipe: Argument is missing the following required properties: " + missing.join(', '));
+        }
+    };
+    /**
+     * To avoid returning a brand new array each time the pipe is run, we store the state of the sliced
+     * array for a given id. This means that the next time the pipe is run on this collection & id, we just
+     * need to check that the collection, start and end points are all identical, and if so, return the
+     * last sliced array.
+     */
+    PaginatePipe.prototype.saveState = function (id, collection, slice, start, end) {
+        this.state[id] = {
+            collection: collection,
+            size: collection.length,
+            slice: slice,
+            start: start,
+            end: end
+        };
+    };
+    /**
+     * For a given id, returns true if the collection, size, start and end values are identical.
+     */
+    PaginatePipe.prototype.stateIsIdentical = function (id, collection, start, end) {
+        var state = this.state[id];
+        if (!state) {
+            return false;
+        }
+        var isMetaDataIdentical = state.size === collection.length &&
+            state.start === start &&
+            state.end === end;
+        if (!isMetaDataIdentical) {
+            return false;
+        }
+        return state.slice.every(function (element, index) { return element === collection[start + index]; });
+    };
+    PaginatePipe.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"], args: [{
+                    name: 'paginate',
+                    pure: false
+                },] },
+    ];
+    /** @nocollapse */
+    PaginatePipe.ctorParameters = function () { return [
+        { type: PaginationService, },
+    ]; };
+    return PaginatePipe;
+}());
+
+/**
+ * The default template and styles for the pagination links are borrowed directly
+ * from Zurb Foundation 6: http://foundation.zurb.com/sites/docs/pagination.html
+ */
+var DEFAULT_TEMPLATE = "\n    <pagination-template  #p=\"paginationApi\"\n                         [id]=\"id\"\n                         [maxSize]=\"maxSize\"\n                         (pageChange)=\"pageChange.emit($event)\">\n    <ul class=\"ngx-pagination\" \n        role=\"navigation\" \n        [attr.aria-label]=\"screenReaderPaginationLabel\" \n        *ngIf=\"!(autoHide && p.pages.length <= 1)\">\n\n        <li class=\"pagination-previous\" [class.disabled]=\"p.isFirstPage()\" *ngIf=\"directionLinks\"> \n            <a tabindex=\"0\" *ngIf=\"1 < p.getCurrent()\" (keyup.enter)=\"p.previous()\" (click)=\"p.previous()\" [attr.aria-label]=\"previousLabel + ' ' + screenReaderPageLabel\">\n                {{ previousLabel }} <span class=\"show-for-sr\">{{ screenReaderPageLabel }}</span>\n            </a>\n            <span *ngIf=\"p.isFirstPage()\">\n                {{ previousLabel }} <span class=\"show-for-sr\">{{ screenReaderPageLabel }}</span>\n            </span>\n        </li>\n\n        <li [class.current]=\"p.getCurrent() === page.value\" *ngFor=\"let page of p.pages\">\n            <a tabindex=\"0\" (keyup.enter)=\"p.setCurrent(page.value)\" (click)=\"p.setCurrent(page.value)\" *ngIf=\"p.getCurrent() !== page.value\">\n                <span class=\"show-for-sr\">{{ screenReaderPageLabel }} </span>\n                <span>{{ page.label }}</span>\n            </a>\n            <ng-container *ngIf=\"p.getCurrent() === page.value\">\n                <span class=\"show-for-sr\">{{ screenReaderCurrentLabel }} </span>\n                <span>{{ page.label }}</span> \n            </ng-container>\n        </li>\n\n        <li class=\"pagination-next\" [class.disabled]=\"p.isLastPage()\" *ngIf=\"directionLinks\">\n            <a tabindex=\"0\" *ngIf=\"!p.isLastPage()\" (keyup.enter)=\"p.next()\" (click)=\"p.next()\" [attr.aria-label]=\"nextLabel + ' ' + screenReaderPageLabel\">\n                 {{ nextLabel }} <span class=\"show-for-sr\">{{ screenReaderPageLabel }}</span>\n            </a>\n            <span *ngIf=\"p.isLastPage()\">\n                 {{ nextLabel }} <span class=\"show-for-sr\">{{ screenReaderPageLabel }}</span>\n            </span>\n        </li>\n\n    </ul>\n    </pagination-template>\n    ";
+var DEFAULT_STYLES = "\n.ngx-pagination {\n  margin-left: 0;\n  margin-bottom: 1rem; }\n  .ngx-pagination::before, .ngx-pagination::after {\n    content: ' ';\n    display: table; }\n  .ngx-pagination::after {\n    clear: both; }\n  .ngx-pagination li {\n    -moz-user-select: none;\n    -webkit-user-select: none;\n    -ms-user-select: none;\n    margin-right: 0.0625rem;\n    border-radius: 0; }\n  .ngx-pagination li {\n    display: inline-block; }\n  .ngx-pagination a,\n  .ngx-pagination button {\n    color: #0a0a0a; \n    display: block;\n    padding: 0.1875rem 0.625rem;\n    border-radius: 0; }\n    .ngx-pagination a:hover,\n    .ngx-pagination button:hover {\n      background: #e6e6e6; }\n  .ngx-pagination .current {\n    padding: 0.1875rem 0.625rem;\n    background: #2199e8;\n    color: #fefefe;\n    cursor: default; }\n  .ngx-pagination .disabled {\n    padding: 0.1875rem 0.625rem;\n    color: #cacaca;\n    cursor: default; } \n    .ngx-pagination .disabled:hover {\n      background: transparent; }\n  .ngx-pagination .ellipsis::after {\n    content: '\u2026';\n    padding: 0.1875rem 0.625rem;\n    color: #0a0a0a; }\n  .ngx-pagination a, .ngx-pagination button {\n    cursor: pointer; }\n\n.ngx-pagination .pagination-previous a::before,\n.ngx-pagination .pagination-previous.disabled::before { \n  content: '\u00AB';\n  display: inline-block;\n  margin-right: 0.5rem; }\n\n.ngx-pagination .pagination-next a::after,\n.ngx-pagination .pagination-next.disabled::after {\n  content: '\u00BB';\n  display: inline-block;\n  margin-left: 0.5rem; }\n\n.ngx-pagination .show-for-sr {\n  position: absolute !important;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0); }";
+
+/**
+ * The default pagination controls component. Actually just a default implementation of a custom template.
+ */
+var PaginationControlsComponent = (function () {
+    function PaginationControlsComponent() {
+        this.maxSize = 7;
+        this.previousLabel = 'Previous';
+        this.nextLabel = 'Next';
+        this.screenReaderPaginationLabel = 'Pagination';
+        this.screenReaderPageLabel = 'page';
+        this.screenReaderCurrentLabel = "You're on page";
+        this.pageChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this._directionLinks = true;
+        this._autoHide = false;
+    }
+    Object.defineProperty(PaginationControlsComponent.prototype, "directionLinks", {
+        get: function () {
+            return this._directionLinks;
+        },
+        set: function (value) {
+            this._directionLinks = !!value && value !== 'false';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PaginationControlsComponent.prototype, "autoHide", {
+        get: function () {
+            return this._autoHide;
+        },
+        set: function (value) {
+            this._autoHide = !!value && value !== 'false';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    PaginationControlsComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
+                    selector: 'pagination-controls',
+                    template: DEFAULT_TEMPLATE,
+                    styles: [DEFAULT_STYLES],
+                    changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
+                    encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None
+                },] },
+    ];
+    /** @nocollapse */
+    PaginationControlsComponent.ctorParameters = function () { return []; };
+    PaginationControlsComponent.propDecorators = {
+        'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'maxSize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'directionLinks': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'autoHide': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'previousLabel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'nextLabel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'screenReaderPaginationLabel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'screenReaderPageLabel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'screenReaderCurrentLabel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'pageChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
+    };
+    return PaginationControlsComponent;
+}());
+
+/**
+ * This directive is what powers all pagination controls components, including the default one.
+ * It exposes an API which is hooked up to the PaginationService to keep the PaginatePipe in sync
+ * with the pagination controls.
+ */
+var PaginationControlsDirective = (function () {
+    function PaginationControlsDirective(service, changeDetectorRef) {
+        var _this = this;
+        this.service = service;
+        this.changeDetectorRef = changeDetectorRef;
+        this.maxSize = 7;
+        this.pageChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.pages = [];
+        this.changeSub = this.service.change
+            .subscribe(function (id) {
+            if (_this.id === id) {
+                _this.updatePageLinks();
+                _this.changeDetectorRef.markForCheck();
+                _this.changeDetectorRef.detectChanges();
+            }
+        });
+    }
+    PaginationControlsDirective.prototype.ngOnInit = function () {
+        if (this.id === undefined) {
+            this.id = this.service.defaultId();
+        }
+        this.updatePageLinks();
+    };
+    PaginationControlsDirective.prototype.ngOnChanges = function (changes) {
+        this.updatePageLinks();
+    };
+    PaginationControlsDirective.prototype.ngOnDestroy = function () {
+        this.changeSub.unsubscribe();
+    };
+    /**
+     * Go to the previous page
+     */
+    PaginationControlsDirective.prototype.previous = function () {
+        this.checkValidId();
+        this.setCurrent(this.getCurrent() - 1);
+    };
+    /**
+     * Go to the next page
+     */
+    PaginationControlsDirective.prototype.next = function () {
+        this.checkValidId();
+        this.setCurrent(this.getCurrent() + 1);
+    };
+    /**
+     * Returns true if current page is first page
+     */
+    PaginationControlsDirective.prototype.isFirstPage = function () {
+        return this.getCurrent() === 1;
+    };
+    /**
+     * Returns true if current page is last page
+     */
+    PaginationControlsDirective.prototype.isLastPage = function () {
+        return this.getLastPage() === this.getCurrent();
+    };
+    /**
+     * Set the current page number.
+     */
+    PaginationControlsDirective.prototype.setCurrent = function (page) {
+        this.pageChange.emit(page);
+    };
+    /**
+     * Get the current page number.
+     */
+    PaginationControlsDirective.prototype.getCurrent = function () {
+        return this.service.getCurrentPage(this.id);
+    };
+    /**
+     * Returns the last page number
+     */
+    PaginationControlsDirective.prototype.getLastPage = function () {
+        var inst = this.service.getInstance(this.id);
+        if (inst.totalItems < 1) {
+            // when there are 0 or fewer (an error case) items, there are no "pages" as such,
+            // but it makes sense to consider a single, empty page as the last page.
+            return 1;
+        }
+        return Math.ceil(inst.totalItems / inst.itemsPerPage);
+    };
+    PaginationControlsDirective.prototype.checkValidId = function () {
+        if (!this.service.getInstance(this.id).id) {
+            console.warn("PaginationControlsDirective: the specified id \"" + this.id + "\" does not match any registered PaginationInstance");
+        }
+    };
+    /**
+     * Updates the page links and checks that the current page is valid. Should run whenever the
+     * PaginationService.change stream emits a value matching the current ID, or when any of the
+     * input values changes.
+     */
+    PaginationControlsDirective.prototype.updatePageLinks = function () {
+        var _this = this;
+        var inst = this.service.getInstance(this.id);
+        var correctedCurrentPage = this.outOfBoundCorrection(inst);
+        if (correctedCurrentPage !== inst.currentPage) {
+            setTimeout(function () {
+                _this.setCurrent(correctedCurrentPage);
+                _this.pages = _this.createPageArray(inst.currentPage, inst.itemsPerPage, inst.totalItems, _this.maxSize);
+            });
+        }
+        else {
+            this.pages = this.createPageArray(inst.currentPage, inst.itemsPerPage, inst.totalItems, this.maxSize);
+        }
+    };
+    /**
+     * Checks that the instance.currentPage property is within bounds for the current page range.
+     * If not, return a correct value for currentPage, or the current value if OK.
+     */
+    PaginationControlsDirective.prototype.outOfBoundCorrection = function (instance) {
+        var totalPages = Math.ceil(instance.totalItems / instance.itemsPerPage);
+        if (totalPages < instance.currentPage && 0 < totalPages) {
+            return totalPages;
+        }
+        else if (instance.currentPage < 1) {
+            return 1;
+        }
+        return instance.currentPage;
+    };
+    /**
+     * Returns an array of Page objects to use in the pagination controls.
+     */
+    PaginationControlsDirective.prototype.createPageArray = function (currentPage, itemsPerPage, totalItems, paginationRange) {
+        // paginationRange could be a string if passed from attribute, so cast to number.
+        paginationRange = +paginationRange;
+        var pages = [];
+        var totalPages = Math.ceil(totalItems / itemsPerPage);
+        var halfWay = Math.ceil(paginationRange / 2);
+        var isStart = currentPage <= halfWay;
+        var isEnd = totalPages - halfWay < currentPage;
+        var isMiddle = !isStart && !isEnd;
+        var ellipsesNeeded = paginationRange < totalPages;
+        var i = 1;
+        while (i <= totalPages && i <= paginationRange) {
+            var label = void 0;
+            var pageNumber = this.calculatePageNumber(i, currentPage, paginationRange, totalPages);
+            var openingEllipsesNeeded = (i === 2 && (isMiddle || isEnd));
+            var closingEllipsesNeeded = (i === paginationRange - 1 && (isMiddle || isStart));
+            if (ellipsesNeeded && (openingEllipsesNeeded || closingEllipsesNeeded)) {
+                label = '...';
+            }
+            else {
+                label = pageNumber;
+            }
+            pages.push({
+                label: label,
+                value: pageNumber
+            });
+            i++;
+        }
+        return pages;
+    };
+    /**
+     * Given the position in the sequence of pagination links [i],
+     * figure out what page number corresponds to that position.
+     */
+    PaginationControlsDirective.prototype.calculatePageNumber = function (i, currentPage, paginationRange, totalPages) {
+        var halfWay = Math.ceil(paginationRange / 2);
+        if (i === paginationRange) {
+            return totalPages;
+        }
+        else if (i === 1) {
+            return i;
+        }
+        else if (paginationRange < totalPages) {
+            if (totalPages - halfWay < currentPage) {
+                return totalPages - paginationRange + i;
+            }
+            else if (halfWay < currentPage) {
+                return currentPage - halfWay + i;
+            }
+            else {
+                return i;
+            }
+        }
+        else {
+            return i;
+        }
+    };
+    PaginationControlsDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
+                    selector: 'pagination-template,[pagination-template]',
+                    exportAs: 'paginationApi'
+                },] },
+    ];
+    /** @nocollapse */
+    PaginationControlsDirective.ctorParameters = function () { return [
+        { type: PaginationService, },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"], },
+    ]; };
+    PaginationControlsDirective.propDecorators = {
+        'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'maxSize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+        'pageChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
+    };
+    return PaginationControlsDirective;
+}());
+
+var NgxPaginationModule = (function () {
+    function NgxPaginationModule() {
+    }
+    NgxPaginationModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
+                    imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
+                    declarations: [
+                        PaginatePipe,
+                        PaginationControlsComponent,
+                        PaginationControlsDirective
+                    ],
+                    providers: [PaginationService],
+                    exports: [PaginatePipe, PaginationControlsComponent, PaginationControlsDirective]
+                },] },
+    ];
+    /** @nocollapse */
+    NgxPaginationModule.ctorParameters = function () { return []; };
+    return NgxPaginationModule;
+}());
+
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+
+
 
 /***/ }),
 
@@ -274,7 +1121,7 @@ var ForkJoinObservable = (function (_super) {
         }
         return new ForkJoinObservable(sources, resultSelector);
     };
-    ForkJoinObservable.prototype._subscribe = function (subscriber) {
+    /** @deprecated internal use only */ ForkJoinObservable.prototype._subscribe = function (subscriber) {
         return new ForkJoinSubscriber(subscriber, this.sources, this.resultSelector);
     };
     return ForkJoinObservable;
@@ -350,7 +1197,7 @@ exports.forkJoin = ForkJoinObservable_1.ForkJoinObservable.create;
 /***/ "../../../../text-mask-core/dist/textMaskCore.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(e,r){ true?module.exports=r():"function"==typeof define&&define.amd?define([],r):"object"==typeof exports?exports.textMaskCore=r():e.textMaskCore=r()}(this,function(){return function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,r),o.loaded=!0,o.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(r,"__esModule",{value:!0});var o=t(3);Object.defineProperty(r,"conformToMask",{enumerable:!0,get:function(){return n(o).default}});var i=t(2);Object.defineProperty(r,"adjustCaretPosition",{enumerable:!0,get:function(){return n(i).default}});var a=t(5);Object.defineProperty(r,"createTextMaskInputElement",{enumerable:!0,get:function(){return n(a).default}})},function(e,r){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),r.placeholderChar="_"},function(e,r){"use strict";function t(e){var r=e.previousConformedValue,t=void 0===r?o:r,i=e.previousPlaceholder,a=void 0===i?o:i,u=e.currentCaretPosition,l=void 0===u?0:u,s=e.conformedValue,f=e.rawValue,d=e.placeholderChar,c=e.placeholder,v=e.indexesOfPipedChars,p=void 0===v?n:v,h=e.caretTrapIndexes,g=void 0===h?n:h;if(0===l)return 0;var m=f.length,y=t.length,b=c.length,C=s.length,P=m-y,x=P>0,O=0===y,k=P>1&&!x&&!O;if(k)return l;var j=x&&(t===s||s===c),M=0,T=void 0,w=void 0;if(j)M=l-P;else{var _=s.toLowerCase(),V=f.toLowerCase(),S=V.substr(0,l).split(o),N=S.filter(function(e){return _.indexOf(e)!==-1});w=N[N.length-1];var E=a.substr(0,N.length).split(o).filter(function(e){return e!==d}).length,A=c.substr(0,N.length).split(o).filter(function(e){return e!==d}).length,R=A!==E,I=void 0!==a[N.length-1]&&void 0!==c[N.length-2]&&a[N.length-1]!==d&&a[N.length-1]!==c[N.length-1]&&a[N.length-1]===c[N.length-2];!x&&(R||I)&&E>0&&c.indexOf(w)>-1&&void 0!==f[l]&&(T=!0,w=f[l]);for(var J=p.map(function(e){return _[e]}),q=J.filter(function(e){return e===w}).length,F=N.filter(function(e){return e===w}).length,L=c.substr(0,c.indexOf(d)).split(o).filter(function(e,r){return e===w&&f[r]!==e}).length,W=L+F+q+(T?1:0),z=0,B=0;B<C;B++){var D=_[B];if(M=B+1,D===w&&z++,z>=W)break}}if(x){for(var G=M,H=M;H<=b;H++)if(c[H]===d&&(G=H),c[H]===d||g.indexOf(H)!==-1||H===b)return G}else if(T){for(var K=M-1;K>=0;K--)if(s[K]===w||g.indexOf(K)!==-1||0===K)return K}else for(var Q=M;Q>=0;Q--)if(c[Q-1]===d||g.indexOf(Q)!==-1||0===Q)return Q}Object.defineProperty(r,"__esModule",{value:!0}),r.default=t;var n=[],o=""},function(e,r,t){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:a,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:a,t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},n=t.guide,u=void 0===n||n,l=t.previousConformedValue,s=void 0===l?a:l,f=t.placeholderChar,d=void 0===f?i.placeholderChar:f,c=t.placeholder,v=void 0===c?(0,o.convertMaskToPlaceholder)(r,d):c,p=t.currentCaretPosition,h=t.keepCharPositions,g=u===!1&&void 0!==s,m=e.length,y=s.length,b=v.length,C=r.length,P=m-y,x=P>0,O=p+(x?-P:0),k=O+Math.abs(P);if(h===!0&&!x){for(var j=a,M=O;M<k;M++)v[M]===d&&(j+=d);e=e.slice(0,O)+j+e.slice(O,m)}for(var T=e.split(a).map(function(e,r){return{char:e,isNew:r>=O&&r<k}}),w=m-1;w>=0;w--){var _=T[w].char;if(_!==d){var V=w>=O&&y===C;_===v[V?w-P:w]&&T.splice(w,1)}}var S=a,N=!1;e:for(var E=0;E<b;E++){var A=v[E];if(A===d){if(T.length>0)for(;T.length>0;){var R=T.shift(),I=R.char,J=R.isNew;if(I===d&&g!==!0){S+=d;continue e}if(r[E].test(I)){if(h===!0&&J!==!1&&s!==a&&u!==!1&&x){for(var q=T.length,F=null,L=0;L<q;L++){var W=T[L];if(W.char!==d&&W.isNew===!1)break;if(W.char===d){F=L;break}}null!==F?(S+=I,T.splice(F,1)):E--}else S+=I;continue e}N=!0}g===!1&&(S+=v.substr(E,b));break}S+=A}if(g&&x===!1){for(var z=null,B=0;B<S.length;B++)v[B]===d&&(z=B);S=null!==z?S.substr(0,z+1):a}return{conformedValue:S,meta:{someCharsRejected:N}}}Object.defineProperty(r,"__esModule",{value:!0}),r.default=n;var o=t(4),i=t(1),a=""},function(e,r,t){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:l,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:u.placeholderChar;if(e.indexOf(r)!==-1)throw new Error("Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n"+("The placeholder character that was received is: "+JSON.stringify(r)+"\n\n")+("The mask that was received is: "+JSON.stringify(e)));return e.map(function(e){return e instanceof RegExp?r:e}).join("")}function o(e){return"string"==typeof e||e instanceof String}function i(e){return"number"==typeof e&&void 0===e.length&&!isNaN(e)}function a(e){for(var r=[],t=void 0;t=e.indexOf(s),t!==-1;)r.push(t),e.splice(t,1);return{maskWithoutCaretTraps:e,indexes:r}}Object.defineProperty(r,"__esModule",{value:!0}),r.convertMaskToPlaceholder=n,r.isString=o,r.isNumber=i,r.processCaretTraps=a;var u=t(1),l=[],s="[]"},function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function o(e){var r={previousConformedValue:void 0,previousPlaceholder:void 0};return{state:r,update:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:e,o=n.inputElement,s=n.mask,d=n.guide,m=n.pipe,b=n.placeholderChar,C=void 0===b?p.placeholderChar:b,P=n.keepCharPositions,x=void 0!==P&&P,O=n.showMask,k=void 0!==O&&O;if("undefined"==typeof t&&(t=o.value),t!==r.previousConformedValue){("undefined"==typeof s?"undefined":l(s))===y&&void 0!==s.pipe&&void 0!==s.mask&&(m=s.pipe,s=s.mask);var j=void 0,M=void 0;if(s instanceof Array&&(j=(0,v.convertMaskToPlaceholder)(s,C)),s!==!1){var T=a(t),w=o.selectionEnd,_=r.previousConformedValue,V=r.previousPlaceholder,S=void 0;if(("undefined"==typeof s?"undefined":l(s))===h){if(M=s(T,{currentCaretPosition:w,previousConformedValue:_,placeholderChar:C}),M===!1)return;var N=(0,v.processCaretTraps)(M),E=N.maskWithoutCaretTraps,A=N.indexes;M=E,S=A,j=(0,v.convertMaskToPlaceholder)(M,C)}else M=s;var R={previousConformedValue:_,guide:d,placeholderChar:C,pipe:m,placeholder:j,currentCaretPosition:w,keepCharPositions:x},I=(0,c.default)(T,M,R),J=I.conformedValue,q=("undefined"==typeof m?"undefined":l(m))===h,F={};q&&(F=m(J,u({rawValue:T},R)),F===!1?F={value:_,rejected:!0}:(0,v.isString)(F)&&(F={value:F}));var L=q?F.value:J,W=(0,f.default)({previousConformedValue:_,previousPlaceholder:V,conformedValue:L,placeholder:j,rawValue:T,currentCaretPosition:w,placeholderChar:C,indexesOfPipedChars:F.indexesOfPipedChars,caretTrapIndexes:S}),z=L===j&&0===W,B=k?j:g,D=z?B:L;r.previousConformedValue=D,r.previousPlaceholder=j,o.value!==D&&(o.value=D,i(o,W))}}}}}function i(e,r){document.activeElement===e&&(b?C(function(){return e.setSelectionRange(r,r,m)},0):e.setSelectionRange(r,r,m))}function a(e){if((0,v.isString)(e))return e;if((0,v.isNumber)(e))return String(e);if(void 0===e||null===e)return g;throw new Error("The 'value' provided to Text Mask needs to be a string or a number. The value received was:\n\n "+JSON.stringify(e))}Object.defineProperty(r,"__esModule",{value:!0});var u=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e},l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};r.default=o;var s=t(2),f=n(s),d=t(3),c=n(d),v=t(4),p=t(1),h="function",g="",m="none",y="object",b="undefined"!=typeof navigator&&/Android/i.test(navigator.userAgent),C="undefined"!=typeof requestAnimationFrame?requestAnimationFrame:setTimeout}])});
+!function(e,r){ true?module.exports=r():"function"==typeof define&&define.amd?define([],r):"object"==typeof exports?exports.textMaskCore=r():e.textMaskCore=r()}(this,function(){return function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,r),o.loaded=!0,o.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(r,"__esModule",{value:!0});var o=t(3);Object.defineProperty(r,"conformToMask",{enumerable:!0,get:function(){return n(o).default}});var i=t(2);Object.defineProperty(r,"adjustCaretPosition",{enumerable:!0,get:function(){return n(i).default}});var a=t(5);Object.defineProperty(r,"createTextMaskInputElement",{enumerable:!0,get:function(){return n(a).default}})},function(e,r){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),r.placeholderChar="_",r.strFunction="function"},function(e,r){"use strict";function t(e){var r=e.previousConformedValue,t=void 0===r?o:r,i=e.previousPlaceholder,a=void 0===i?o:i,u=e.currentCaretPosition,l=void 0===u?0:u,s=e.conformedValue,f=e.rawValue,d=e.placeholderChar,c=e.placeholder,p=e.indexesOfPipedChars,v=void 0===p?n:p,h=e.caretTrapIndexes,m=void 0===h?n:h;if(0===l||!f.length)return 0;var y=f.length,g=t.length,b=c.length,C=s.length,P=y-g,k=P>0,x=0===g,O=P>1&&!k&&!x;if(O)return l;var T=k&&(t===s||s===c),w=0,M=void 0,S=void 0;if(T)w=l-P;else{var j=s.toLowerCase(),_=f.toLowerCase(),V=_.substr(0,l).split(o),A=V.filter(function(e){return j.indexOf(e)!==-1});S=A[A.length-1];var N=a.substr(0,A.length).split(o).filter(function(e){return e!==d}).length,E=c.substr(0,A.length).split(o).filter(function(e){return e!==d}).length,F=E!==N,R=void 0!==a[A.length-1]&&void 0!==c[A.length-2]&&a[A.length-1]!==d&&a[A.length-1]!==c[A.length-1]&&a[A.length-1]===c[A.length-2];!k&&(F||R)&&N>0&&c.indexOf(S)>-1&&void 0!==f[l]&&(M=!0,S=f[l]);for(var I=v.map(function(e){return j[e]}),J=I.filter(function(e){return e===S}).length,W=A.filter(function(e){return e===S}).length,q=c.substr(0,c.indexOf(d)).split(o).filter(function(e,r){return e===S&&f[r]!==e}).length,L=q+W+J+(M?1:0),z=0,B=0;B<C;B++){var D=j[B];if(w=B+1,D===S&&z++,z>=L)break}}if(k){for(var G=w,H=w;H<=b;H++)if(c[H]===d&&(G=H),c[H]===d||m.indexOf(H)!==-1||H===b)return G}else if(M){for(var K=w-1;K>=0;K--)if(s[K]===S||m.indexOf(K)!==-1||0===K)return K}else for(var Q=w;Q>=0;Q--)if(c[Q-1]===d||m.indexOf(Q)!==-1||0===Q)return Q}Object.defineProperty(r,"__esModule",{value:!0}),r.default=t;var n=[],o=""},function(e,r,t){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:l,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:u,t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};if(!(0,i.isArray)(r)){if(("undefined"==typeof r?"undefined":o(r))!==a.strFunction)throw new Error("Text-mask:conformToMask; The mask property must be an array.");r=r(e,t),r=(0,i.processCaretTraps)(r).maskWithoutCaretTraps}var n=t.guide,s=void 0===n||n,f=t.previousConformedValue,d=void 0===f?l:f,c=t.placeholderChar,p=void 0===c?a.placeholderChar:c,v=t.placeholder,h=void 0===v?(0,i.convertMaskToPlaceholder)(r,p):v,m=t.currentCaretPosition,y=t.keepCharPositions,g=s===!1&&void 0!==d,b=e.length,C=d.length,P=h.length,k=r.length,x=b-C,O=x>0,T=m+(O?-x:0),w=T+Math.abs(x);if(y===!0&&!O){for(var M=l,S=T;S<w;S++)h[S]===p&&(M+=p);e=e.slice(0,T)+M+e.slice(T,b)}for(var j=e.split(l).map(function(e,r){return{char:e,isNew:r>=T&&r<w}}),_=b-1;_>=0;_--){var V=j[_].char;if(V!==p){var A=_>=T&&C===k;V===h[A?_-x:_]&&j.splice(_,1)}}var N=l,E=!1;e:for(var F=0;F<P;F++){var R=h[F];if(R===p){if(j.length>0)for(;j.length>0;){var I=j.shift(),J=I.char,W=I.isNew;if(J===p&&g!==!0){N+=p;continue e}if(r[F].test(J)){if(y===!0&&W!==!1&&d!==l&&s!==!1&&O){for(var q=j.length,L=null,z=0;z<q;z++){var B=j[z];if(B.char!==p&&B.isNew===!1)break;if(B.char===p){L=z;break}}null!==L?(N+=J,j.splice(L,1)):F--}else N+=J;continue e}E=!0}g===!1&&(N+=h.substr(F,P));break}N+=R}if(g&&O===!1){for(var D=null,G=0;G<N.length;G++)h[G]===p&&(D=G);N=null!==D?N.substr(0,D+1):l}return{conformedValue:N,meta:{someCharsRejected:E}}}Object.defineProperty(r,"__esModule",{value:!0});var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};r.default=n;var i=t(4),a=t(1),u=[],l=""},function(e,r,t){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:s,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:l.placeholderChar;if(!o(e))throw new Error("Text-mask:convertMaskToPlaceholder; The mask property must be an array.");if(e.indexOf(r)!==-1)throw new Error("Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n"+("The placeholder character that was received is: "+JSON.stringify(r)+"\n\n")+("The mask that was received is: "+JSON.stringify(e)));return e.map(function(e){return e instanceof RegExp?r:e}).join("")}function o(e){return Array.isArray&&Array.isArray(e)||e instanceof Array}function i(e){return"string"==typeof e||e instanceof String}function a(e){return"number"==typeof e&&void 0===e.length&&!isNaN(e)}function u(e){for(var r=[],t=void 0;t=e.indexOf(f),t!==-1;)r.push(t),e.splice(t,1);return{maskWithoutCaretTraps:e,indexes:r}}Object.defineProperty(r,"__esModule",{value:!0}),r.convertMaskToPlaceholder=n,r.isArray=o,r.isString=i,r.isNumber=a,r.processCaretTraps=u;var l=t(1),s=[],f="[]"},function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function o(e){var r={previousConformedValue:void 0,previousPlaceholder:void 0};return{state:r,update:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:e,o=n.inputElement,s=n.mask,d=n.guide,m=n.pipe,g=n.placeholderChar,b=void 0===g?v.placeholderChar:g,C=n.keepCharPositions,P=void 0!==C&&C,k=n.showMask,x=void 0!==k&&k;if("undefined"==typeof t&&(t=o.value),t!==r.previousConformedValue){("undefined"==typeof s?"undefined":l(s))===y&&void 0!==s.pipe&&void 0!==s.mask&&(m=s.pipe,s=s.mask);var O=void 0,T=void 0;if(s instanceof Array&&(O=(0,p.convertMaskToPlaceholder)(s,b)),s!==!1){var w=a(t),M=o.selectionEnd,S=r.previousConformedValue,j=r.previousPlaceholder,_=void 0;if(("undefined"==typeof s?"undefined":l(s))===v.strFunction){if(T=s(w,{currentCaretPosition:M,previousConformedValue:S,placeholderChar:b}),T===!1)return;var V=(0,p.processCaretTraps)(T),A=V.maskWithoutCaretTraps,N=V.indexes;T=A,_=N,O=(0,p.convertMaskToPlaceholder)(T,b)}else T=s;var E={previousConformedValue:S,guide:d,placeholderChar:b,pipe:m,placeholder:O,currentCaretPosition:M,keepCharPositions:P},F=(0,c.default)(w,T,E),R=F.conformedValue,I=("undefined"==typeof m?"undefined":l(m))===v.strFunction,J={};I&&(J=m(R,u({rawValue:w},E)),J===!1?J={value:S,rejected:!0}:(0,p.isString)(J)&&(J={value:J}));var W=I?J.value:R,q=(0,f.default)({previousConformedValue:S,previousPlaceholder:j,conformedValue:W,placeholder:O,rawValue:w,currentCaretPosition:M,placeholderChar:b,indexesOfPipedChars:J.indexesOfPipedChars,caretTrapIndexes:_}),L=W===O&&0===q,z=x?O:h,B=L?z:W;r.previousConformedValue=B,r.previousPlaceholder=O,o.value!==B&&(o.value=B,i(o,q))}}}}}function i(e,r){document.activeElement===e&&(g?b(function(){return e.setSelectionRange(r,r,m)},0):e.setSelectionRange(r,r,m))}function a(e){if((0,p.isString)(e))return e;if((0,p.isNumber)(e))return String(e);if(void 0===e||null===e)return h;throw new Error("The 'value' provided to Text Mask needs to be a string or a number. The value received was:\n\n "+JSON.stringify(e))}Object.defineProperty(r,"__esModule",{value:!0});var u=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e},l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};r.default=o;var s=t(2),f=n(s),d=t(3),c=n(d),p=t(4),v=t(1),h="",m="none",y="object",g="undefined"!=typeof navigator&&/Android/i.test(navigator.userAgent),b="undefined"!=typeof requestAnimationFrame?requestAnimationFrame:setTimeout}])});
 
 /***/ }),
 
@@ -441,7 +1288,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 
 /**
- * @license Angular v4.4.6
+ * @license Angular v4.4.7
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1069,7 +1916,7 @@ var DEFAULT_VALUE_ACCESSOR = {
  * @return {?}
  */
 function _isAndroid() {
-    var /** @type {?} */ userAgent = Object(__WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["c" /* ɵgetDOM */])() ? Object(__WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["c" /* ɵgetDOM */])().getUserAgent() : '';
+    var /** @type {?} */ userAgent = Object(__WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["e" /* ɵgetDOM */])() ? Object(__WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__["e" /* ɵgetDOM */])().getUserAgent() : '';
     return /android (\d+)/.test(userAgent.toLowerCase());
 }
 /**
@@ -6373,7 +7220,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["Version"]('4.4.6');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["Version"]('4.4.7');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.

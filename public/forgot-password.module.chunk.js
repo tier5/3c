@@ -27,8 +27,8 @@ var ForgotPasswordRoutingModule = (function () {
 }());
 ForgotPasswordRoutingModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(forgotPasswordRoutes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forChild(forgotPasswordRoutes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
     })
 ], ForgotPasswordRoutingModule);
 
@@ -158,7 +158,7 @@ var ForgotPasswordModule = (function () {
 ForgotPasswordModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_4__forgot_password_routing_module__["a" /* ForgotPasswordRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"]
         ],

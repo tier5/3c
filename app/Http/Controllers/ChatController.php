@@ -39,9 +39,9 @@ class ChatController extends Controller
     public function checkMessage(Request $request)
     {
         //Variable Declaration ( data recive from twilio sms webhook )
-        $fromNumber = $request->From;                   //client Number
-        $toNumber = substr($request->To, -10);      //widget Number
-        $messageBody = $request->Body;                      //message body
+        $fromNumber = $request->From;                           //client Number
+        $toNumber = substr($request->To, -10);            //widget Number
+        $messageBody = $request->Body;                          //message body
 
         $checkTwilioNumbers = TwilioNumber::where('number',$toNumber)->with('getWidgetDetails')->first();
         if(count($checkTwilioNumbers) != 0 ){
@@ -282,7 +282,7 @@ class ChatController extends Controller
                 $smsBody.="Please Reply with the Number only.";
                 $smsBody.="\n";
                 $smsBody.="Thanks";
-                $this->sendSms( $smsBody, $fromNumber, $toNumber );
+                    $this->sendSms( $smsBody, $fromNumber, $toNumber );
             }else{
 
                 return Response::json(array(
@@ -313,7 +313,7 @@ class ChatController extends Controller
     public function sendSms($smsBody , $toNumber, $fromNumber)
     {
         if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
-            $fromNumberNew = substr($fromNumber, -10);//add a filter
+            $fromNumberNew = substr($fromNumber, -10);          //add a filter
             $keys = TwilioNumber::where('number', $fromNumberNew)->with('getTwilioCredentials')->first();
             if ($keys) {
                 try {
@@ -326,6 +326,7 @@ class ChatController extends Controller
                         "from" => $fromNumber,
                         "body" => $smsBody
                     ));
+                    \Log::info("from =>".$fromNumber. "body =>".$smsBody ."To--> ".$toNumber);
                     \Log::info('SMS Send !');
                 } catch(\Exception $e) {
                     \Log::info('SMS Not Send !'.$e->getMessage());
@@ -579,6 +580,22 @@ class ChatController extends Controller
                 $saveChatThread->direction      = $direction;
                 $saveChatThread->chat_type      = $type;
                 if($saveChatThread->save()){
+                    //call to node API
+                    $getChatInfo = MessageTrack::where('message_id',$getContactListId->messageLogDetails->id)->select('agent_id','chat_room_id','status')->first();
+                    if($type == 1 && $getChatInfo){
+                        /** call to node API for sending this message to the frontend chat secticon */
+                        $time = date("Y-m-d H:i:s");
+                        $url = url('/').':3000/mobile-chat';
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL,$url);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time");
+
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $server_output = curl_exec ($ch);
+                        curl_close ($ch);
+                    }
                     \Log::info('Chat message saved !');
                     return true;
                 }else{
@@ -947,7 +964,8 @@ class ChatController extends Controller
         if( $agentId !="" && $widgetUuId !="" ){
             $getAgent = Users::where('id',$agentId)->first();
             if( count($getAgent) != 0 ){
-                $agentPhoneNumber = $getAgent->phone;
+                //   $agentPhoneNumber = $getAgent->phone;
+                $agentPhoneNumber = '+1'.preg_replace('/\D+/', '', $getAgent->phone);          /** filter for the phone number */
             } else{
                 $agentPhoneNumber ="";
             }
@@ -962,6 +980,8 @@ class ChatController extends Controller
                 $toNumber = "";
             }
             $smsBody = "link to visit the page in the website http://138.197.215.68/chat/ongoing (demo api url)";
+            /** Try to send sms */
+            \Log::info('$smsBody-->'.$smsBody.'$agentPhoneNumber-->'.$agentPhoneNumber.'$toNumber-->'.$toNumber);
             $this->sendSms( $smsBody, $agentPhoneNumber, $toNumber );
 
         } else {
