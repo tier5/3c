@@ -28,7 +28,7 @@
               </thead>
               <tbody>
                 <tr role="row" class="odd" *ngFor="let item of (chatState | async).contactList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
-                <td>{{i}}</td>
+                <td>{{i+1}}</td>
                 <td>{{item.client_info.client_name.name}}</td>
                 <td>{{item.client_info.client_name.email}}</td>
                 <td>{{item.client_info.client_name.phone}}</td>
@@ -56,9 +56,6 @@
           <!-- /.box-body -->
         </div>
         <!-- /.box -->
-        <!--<div class="msg-popup">-->
-          <!--<p>This is a success msg!</p>-->
-        <!--</div>-->
       </div>
       <!-- /.col -->
     </div>
