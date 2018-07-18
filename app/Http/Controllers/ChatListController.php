@@ -68,7 +68,7 @@ class ChatListController extends Controller
         $agentId = $request->agentId;
         if($agentId != ""){
 
-            $clientNames = MessageAgentTrack::where('agent_id', $agentId)->with('clientInfo.clientName')->where('status','!=',5)->get();
+            $clientNames = MessageAgentTrack::where('agent_id', $agentId)->with('clientInfo.clientName')->where('status','!=',3)->get();
             if(count($clientNames) != 0 ){
 
                 $response = array('code'=>200,'error'=>false,'response'=>$clientNames,'status'=>true,'message'=>'List of client names !');
