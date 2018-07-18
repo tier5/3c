@@ -1,84 +1,105 @@
 <div class="content-wrapper">
-  <section class="content-header">
-    <h1>Widget Section</h1>
-    <ol class="breadcrumb">
-      <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a routerLink="/widget/list"> Widget</a></li>
-      <li class="active">List</li>
-    </ol>
-  </section>
-  <section class="content">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">List of all Widgets</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6">  Search : <input [(ngModel)]="term" placeholder="keyword"> </div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
-              <thead>
-              <tr role="row">
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">#</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Fristname</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Lastname</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Number</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Department</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">No. of Message</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">On Going Chat</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Resolve Chat</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Created At</th>
-                <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Action</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
-                <td>{{i+1}}</td>
-                <td>{{item.user_details?.first_name}}</td>
-                <td>{{item.user_details?.last_name}}</td>
-                <td>{{item.twilio_numbers?.number}}</td>
-                <td><span *ngFor="let dep of item.widget_department, let j=index">{{dep.department_details?.department_name}}{{j === item.widget_department.length - 1 ? '' : ', '}}</span></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{item.created_at | date }}</td>
-                <td>
-                  <!-- Single button -->
-                  <div class="btn-group" [appDropdown]="'open'" disable-hover="true">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Action <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li> <a (click)="onEditWidget(item.id)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a> </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            </div>
-            </div>
-                <!-- Pagination -->
-                <div class="row">
-                    <pagination-controls class="older_post_text"
-                                         (pageChange)="page=$event"
-                                         maxSize="9"
-                                         directionLinks="true"
-                                         autoHide="true"
-                                         previousLabel=""
-                                         nextLabel=""
-                                         screenReaderPaginationLabel=""
-                                         screenReaderPageLabel="page"
-                                         screenReaderCurrentLabel="You're on page">
-                    </pagination-controls>
+    <section class="content-header">
+        <h1>Widget Section</h1>
+        <ol class="breadcrumb">
+            <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a routerLink="/widget/list"> Widget</a></li>
+            <li class="active">List</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">List of all Widgets</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="keyword"></div>
+                                <div class="col-sm-6"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                           aria-describedby="example2_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">#</th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                Fristname
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Lastname
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Number
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                Department
+                                            </th>
+                                            <!--<th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">On Going Chat</th>-->
+                                            <!--<th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Resolve Chat</th>-->
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Created
+                                                At
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Action
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr role="row" class="odd"
+                                            *ngFor="let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item.user_details?.first_name}}</td>
+                                            <td>{{item.user_details?.last_name}}</td>
+                                            <td>{{item.twilio_numbers?.number}}</td>
+                                            <td><span *ngFor="let dep of item.widget_department, let j=index">{{dep.department_details?.department_name}}{{j === item.widget_department.length - 1 ? '' : ', '}}</span>
+                                            </td>
+                                            <!--<td></td>-->
+                                            <!--<td></td>-->
+                                            <td>{{item.created_at | date }}</td>
+                                            <td>
+                                                <!-- Single button -->
+                                                <div class="btn-group" [appDropdown]="'open'" disable-hover="true">
+                                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                        Action <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a (click)="onEditWidget(item.id)"><i class="fa fa-pencil"
+                                                                                                  aria-hidden="true"></i>Edit</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Pagination -->
+                            <div class="row">
+                                <pagination-controls class="older_post_text"
+                                                     (pageChange)="page=$event"
+                                                     maxSize="9"
+                                                     directionLinks="true"
+                                                     autoHide="true"
+                                                     previousLabel=""
+                                                     nextLabel=""
+                                                     screenReaderPaginationLabel=""
+                                                     screenReaderPageLabel="page"
+                                                     screenReaderCurrentLabel="You're on page">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
             </div>
-          </div>
-          <!-- /.box-body -->
+            <!-- /.col -->
         </div>
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
-  </section>
+        <!-- /.row -->
+    </section>
 </div>

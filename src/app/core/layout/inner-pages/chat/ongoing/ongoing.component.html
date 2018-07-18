@@ -92,7 +92,7 @@
                                                 </div>
                                                 <!-- Conversations are loaded here -->
                                                 <!--<div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">-->
-                                                <div class="direct-chat-messages">
+                                                <div class="direct-chat-messages" *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 2">
                                                     <!-- Message. Default to the left -->
                                                     <div class="direct-chat-msg"
                                                          [ngClass]="{ right: chat.direction == 2 }"
