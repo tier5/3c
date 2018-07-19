@@ -1231,16 +1231,16 @@ class UserController extends Controller
 
       if(count($checkUser)!=0) {
 
-            $body       = 'Thanks for signup up with 3c.<br><br>
-	                         Your login ID is your email you used during your sign up process.<br><br>
-	                         Your password is : ';
-            $body .= $password;
-            $body .= '<br><br>';
-            $body .= '<br><br><br>Please Change your password !';
+//            $body       = 'Thanks for signup up with 3c.<br><br>
+//	                         Your login ID is your email you used during your sign up process.<br><br>
+//	                         Your password is : ';
+//            $body .= $password;
+//            $body .= '<br><br>';
+//            $body .= '<br><br><br>Please Change your password !';
             // Send Mail to user email id with the created password
-            Mail::send([],[], function($message) use ($body,$checkUser){
-            //    $message->from(getenv('MAIL_USERNAME'));
-                $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login')->setBody($body,'text/html');
+
+            Mail::send('emails.agent-register',['password'=>$password], function($message) use ($checkUser){
+                $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login');
             });
 
             if (Mail::failures()) {
