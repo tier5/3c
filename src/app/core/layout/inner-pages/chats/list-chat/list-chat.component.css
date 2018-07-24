@@ -100,3 +100,12 @@ h2{
 .direct-chat-messages {
     height: 500px;
 }
+
+@media screen and (max-width:768px){
+    .direct-chat-messages {
+        height: 300px;
+    }
+    .chat-list ul{
+        max-height: 200px;
+    }
+}
