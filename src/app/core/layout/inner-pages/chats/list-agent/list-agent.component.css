@@ -1,5 +1,5 @@
-@media screen and (max-width:520px){
+@media screen and (max-width:1024px){
     .box{
-      overflow-x: scroll;
-  }  
-  }
+        overflow-x: scroll;
+    }
+}

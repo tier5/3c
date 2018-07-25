@@ -108,4 +108,10 @@ h2{
     .chat-list ul{
         max-height: 200px;
     }
+
+@media screen and (max-width:1024px){
+    .box{
+        overflow-x: scroll;
+    }
+}
 }
