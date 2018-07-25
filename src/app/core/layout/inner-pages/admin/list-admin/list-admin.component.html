@@ -57,7 +57,7 @@
                                             <td>{{item.email}}</td>
                                             <td>{{item.phone}}</td>
                                             <td>{{item.twilio_info?.twilio_sid}}</td>
-                                            <td>{{ item.created_at }}</td>
+                                            <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
 
                                             <td>
                                                 <!-- Single button -->

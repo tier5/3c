@@ -46,7 +46,7 @@
                                             <td>{{item.user_info.email}}</td>
                                             <td>{{item.twilio_sid}}</td>
                                             <td>{{ item.user_info.type == '1' ? 'Main Account' : 'Subaccount' }}</td>
-                                            <td>{{item.created_at  | date }}</td>
+                                            <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY'}}</td>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -58,7 +58,7 @@
                                             </td>
                                             <!--<td></td>-->
                                             <!--<td></td>-->
-                                            <td>{{item.created_at | date }}</td>
+                                            <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                                             <td>
                                                 <!-- Single button -->
                                                 <div class="btn-group" [appDropdown]="'open'" disable-hover="true">

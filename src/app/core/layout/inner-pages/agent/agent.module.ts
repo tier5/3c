@@ -10,6 +10,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
         OrderModule,
         NgxPaginationModule,
         ModalModule.forRoot(),
+        MomentModule
     ],
     declarations: [
         CreateAgentComponent,

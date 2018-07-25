@@ -18,6 +18,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   imports: [
@@ -25,7 +26,11 @@ import {NgxPaginationModule} from 'ngx-pagination';
       WidgetRoutingModule,
       FormsModule,
       TextMaskModule,
-      SharedModule, AmazingTimePickerModule,    Ng2SearchPipeModule,    NgxPaginationModule
+      SharedModule,
+      AmazingTimePickerModule,
+      Ng2SearchPipeModule,
+      NgxPaginationModule,
+      MomentModule
 
   ],
     providers: [

@@ -7,6 +7,7 @@ import {TwilioRoutingModule} from './twilio-routing.module';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
         TwilioRoutingModule,
         Ng2SearchPipeModule,
         OrderModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        MomentModule
     ],
     declarations: [
         CreateTwilioComponent,

@@ -40,7 +40,7 @@
                                             <td>{{item.department_name}}</td>
                                             <td>{{item.department_details}}</td>
                                             <td>{{item.user_details?.company}}</td>
-                                            <td>{{item.created_at | date}}</td>
+                                            <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                                             <td>
                                                 <!--<button type="button" class="btn btn-primary btn-xs">-->
                                                     <!--<i class="fa fa-search" aria-hidden="true"></i>-->
