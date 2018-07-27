@@ -92,11 +92,13 @@
                                                 </div>
                                                 <!-- Conversations are loaded here -->
                                                 <!--<div class="direct-chat-messages" #scrollChat [scrollTop]="scrollChat.scrollHeight">-->
-                                                <div class="direct-chat-messages" *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 2">
+                                                <div class="direct-chat-messages" *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 2"  #scrollChat [scrollTop]="scrollChat.scrollTo(0, 1000000)">
                                                     <!-- Message. Default to the left -->
+                                                    <div>
                                                     <div class="direct-chat-msg"
                                                          [ngClass]="{ right: chat.direction == 2 }"
                                                          *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
+
                                                         <div class="direct-chat-info clearfix">
                                                             <span class="direct-chat-name"
                                                                   [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
@@ -108,6 +110,7 @@
                                                              alt="Message User Image"><!-- /.direct-chat-img -->
                                                         <div class="direct-chat-text">
                                                             {{chat.message}}
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -128,11 +131,11 @@
                                                            required
                                                     >
                                                     <span class="input-group-btn">
-                        <button type="button"
-                                [disabled]="!form.invalid"
-                                class="btn btn-default btn-flat">
-                          <i class="fa fa-paperclip" aria-hidden="true"></i>
-                        </button>
+                        <!--<button type="button"-->
+                                <!--[disabled]="!form.invalid"-->
+                                <!--class="btn btn-default btn-flat">-->
+                          <!--<i class="fa fa-paperclip" aria-hidden="true"></i>-->
+                        <!--</button>-->
                         <button type="submit"
                                 [disabled]="form.invalid"
                                 class="btn btn-primary btn-flat">

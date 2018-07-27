@@ -167,7 +167,7 @@ export class ChatEffects {
             return this.httpClient.post(apiUrl,action.payload, config)
                 .mergeMap((res: any) => {
                     if (res.status) {
-                         console.log(res.response);
+                         // console.log(res.response);
                         return [
                             {
                                 type: ChatActions.GET_TRANSFER_AGENT_LIST_SUCCESS,

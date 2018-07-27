@@ -28,7 +28,7 @@ export class ChatService implements OnInit, OnDestroy {
             .distinctUntilChanged()
             .subscribe(
                 (id) => {
-                    console.log(id);
+                    // console.log(id);
                     if(id!=null) {
 
                         this.loggedInAgentId = id;
@@ -37,7 +37,7 @@ export class ChatService implements OnInit, OnDestroy {
 
                         // On getting the list of rooms all the agents are assigned to
                         this.socket.on('new-rooms-added', (data) => {
-                            console.log('new-rooms-added: ', data);
+                            // console.log('new-rooms-added: ', data);
                             for (let i = 0, len = data.length; i < len; i++) {
                                 if (data[i].agent_id == this.loggedInAgentId) {
                                     // To add current agent to room
@@ -49,17 +49,17 @@ export class ChatService implements OnInit, OnDestroy {
 
                         // When agent added to any room
                         this.socket.on('agent-added-to-room', (data) => {
-                            console.log('agent-added-to-room', data.name);
+                            // console.log('agent-added-to-room', data.name);
                             this.store.dispatch(new ChatActions.AddToChatList(data));
                         });
 
                         this.socket.on('msg-of-acceptance', (data) => {
-                            console.log(data);
+                            // console.log(data);
                         });
 
                         // Which agent accepted
                         this.socket.on('which-agent-accepted', (data) => {
-                            console.log('which-agent-accepted: ', data);
+                            // console.log('which-agent-accepted: ', data);
                             if (data.agentId == this.loggedInAgentId) {
                                 this.store.dispatch(new ChatActions.EditFromChatList({
                                     status: data.status,
@@ -73,7 +73,7 @@ export class ChatService implements OnInit, OnDestroy {
 
                         // Which agent rejected
                         this.socket.on('which-agent-rejected', (data) => {
-                            console.log('which-agent-rejected: ', data);
+                            // console.log('which-agent-rejected: ', data);
                             if (data.agentId == this.loggedInAgentId) {
                                 this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
                                 this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
@@ -81,8 +81,8 @@ export class ChatService implements OnInit, OnDestroy {
                         });
 
                         this.socket.on('which-agent-resolved', (data) => {
-                            console.log('In which agent resolved');
-                            console.log(data);
+                            // console.log('In which agent resolved');
+                            // console.log(data);
                             if (data.agentId == this.loggedInAgentId) {
                                 this.store.dispatch(new ChatActions.EditFromChatList({
                                     status: data.status,
@@ -93,7 +93,7 @@ export class ChatService implements OnInit, OnDestroy {
                         })
 
                         this.socket.on('which-agent-transferred', (data) => {
-                            console.log('which-agent-transferred: ', data);
+                            // console.log('which-agent-transferred: ', data);
                             if (data.agentId == this.loggedInAgentId) {
                                 this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
                                 this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
@@ -148,13 +148,13 @@ export class ChatService implements OnInit, OnDestroy {
     }
 
     socketDisconnect() {
-        console.log("disconnecting");
+        // console.log("disconnecting");
         if(this.socket) {
             this.socket.emit('agent-disconnected');
         }
 
     }
     ngOnDestroy() {
-        console.log("chat destroy");
+        // console.log("chat destroy");
     }
 }

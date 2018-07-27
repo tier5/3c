@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ChatService } from '../chat.service';
 import { NgForm } from '@angular/forms';
@@ -26,7 +26,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   toAgentId : number;
   departmentId : number;
   transferData : any;
-  
   
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) { }
@@ -100,6 +99,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   sendMsg(form: NgForm) {
     this.chatService.sendMsg({ ...form.value, chatRoomId: this.currentChatRoom });
+
     form.reset();
   }
 
