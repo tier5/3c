@@ -40,6 +40,24 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-6" *ngIf="selected.value > 0">
+                                        <div class="form-group">
+                                            <label class="control-label" for="agents">
+                                                Select Agents
+                                            </label>
+                                            <select class="form-control"
+                                                    id="agents"
+                                                    name="agentIds"
+                                                    [(ngModel)]="dep.agents"
+                                                    multiple>
+                                                <option [value]="item.id"
+                                                        *ngFor="let item of (afterLoginState | async).agent.list; let i = index"
+                                                >
+                                                    {{item.first_name}} {{item.last_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6" *ngIf="selected.value > 0">

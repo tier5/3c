@@ -10,6 +10,7 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as DepartmentActions from '../../../store/department/department.actions';
 import { Subscription } from 'rxjs/Subscription'
+import * as AgentActions from '../../../store/agent/agent.actions';
 
 @Component({
   selector: 'app-create-department',
@@ -31,7 +32,8 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   dep = {
     userId: 0,
     departmentName: '',
-    departmentDetails: ''
+    departmentDetails: '',
+    agents: []
   };
   loader: boolean = false;
   /** Service injection */
@@ -42,6 +44,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.store.dispatch(new AdminActions.GetAdminListAttempt());
+    this.store.dispatch(new AgentActions.GetAgentListAttempt());
     this.authState = this.store.select('auth');
     this.afterLoginState = this.store.select('afterLogin');
 
@@ -86,11 +89,14 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
             .subscribe(
               (dep) => {
                 if(dep) {
-                  //setTimeout(() => {
-                    this.dep.userId = dep.user_id;
-                    this.dep.departmentName = dep.department_name;
-                    this.dep.departmentDetails = dep.department_details;
-                  //}, 0)
+                    if (dep.department != undefined) {
+                        //setTimeout(() => {
+                        this.dep.userId = dep.department.user_id;
+                        this.dep.departmentName = dep.department.department_name;
+                        this.dep.departmentDetails = dep.department.department_details;
+                        this.dep.agents = dep.agents;
+                        //}, 0)
+                    }
                 }
               }
             );
