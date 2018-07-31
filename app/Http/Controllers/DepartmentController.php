@@ -1,10 +1,11 @@
 <?php
 /**
-* DepartmentController to manage CRUD operation of Department of admin & agents.
-* @param Request $request
-*/
+ * DepartmentController to manage CRUD operation of Department of admin & agents.
+ * @param Request $request
+ */
 namespace App\Http\Controllers;
 
+use App\Model\DepartmentAgentMap;
 use Illuminate\Http\Request;
 use Auth,Mail,Hash;
 use Response;
@@ -26,7 +27,7 @@ class DepartmentController extends Controller
         $userId            = $request->userId;
         $departmentName    = $request->departmentName;
         $departmentDetails = $request->departmentDetails;
-
+        $agentIds          = $request->agentIds;
         if( $userId != "" ) {
 
             $saveDepartment                     = new Department;
@@ -36,21 +37,28 @@ class DepartmentController extends Controller
             $saveDepartment->status             = 1;
 
             if( $saveDepartment->save() ) {
-
+                if (count($agentIds) > 0) {
+                    foreach ($agentIds as $agentId) {
+                        $departmentAgents = new DepartmentAgentMap();
+                        $departmentAgents->department_id = $saveDepartment->id;
+                        $departmentAgents->user_id = $agentId;
+                        $departmentAgents->save();
+                    }
+                }
                 return Response::json(array(
-                  'status'  => true,
-                  'code'    => 200,
-                  'response'=> $saveDepartment,
-                  'message' => 'Department saved !'
+                    'status'  => true,
+                    'code'    => 200,
+                    'response'=> $saveDepartment,
+                    'message' => 'Department saved !'
                 ));
 
             } else {
 
                 return Response::json(array(
-                  'status'  => false,
-                  'code'    => 400,
-                  'response'=> [],
-                  'message' => 'Department Not saved  !'
+                    'status'  => false,
+                    'code'    => 400,
+                    'response'=> [],
+                    'message' => 'Department Not saved  !'
                 ));
 
             }
@@ -58,58 +66,58 @@ class DepartmentController extends Controller
 
             $getUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
 
-                if( count($getUser) != 0 ) {
+            if( count($getUser) != 0 ) {
 
-                    $userId   = $getUser->profile_user_id;
-                    $userType = $getUser->userInfo->type;
+                $userId   = $getUser->profile_user_id;
+                $userType = $getUser->userInfo->type;
 
-                    if ($userType == 2) {
+                if ($userType == 2) {
 
-                        $saveDepartment                     = new Department;
-                        $saveDepartment->department_name    = $departmentName;
-                        $saveDepartment->department_details = $departmentDetails;
-                        $saveDepartment->user_id            = $userId;
-                        $saveDepartment->status             = 1;
+                    $saveDepartment                     = new Department;
+                    $saveDepartment->department_name    = $departmentName;
+                    $saveDepartment->department_details = $departmentDetails;
+                    $saveDepartment->user_id            = $userId;
+                    $saveDepartment->status             = 1;
 
-                        if( $saveDepartment->save() ) {
+                    if( $saveDepartment->save() ) {
 
-                            return  Response::json(array(
-                                'status'  => true,
-                                'code'    => 200,
-                                'response'=> $saveDepartment,
-                                'message' => 'Department saved !'
-                            ));
+                        return  Response::json(array(
+                            'status'  => true,
+                            'code'    => 200,
+                            'response'=> $saveDepartment,
+                            'message' => 'Department saved !'
+                        ));
 
-                        } else {
-
-                            return  Response::json(array(
-                                'status'  => false,
-                                'code'    => 400,
-                                'response'=> [],
-                                'message' => 'Department Not saved  !'
-                            ));
-
-                        }
                     } else {
 
-                        return Response::json(array(
+                        return  Response::json(array(
                             'status'  => false,
                             'code'    => 400,
                             'response'=> [],
-                            'message' => 'Bad Request !'
+                            'message' => 'Department Not saved  !'
                         ));
 
                     }
                 } else {
 
-                    return  Response::json(array(
+                    return Response::json(array(
                         'status'  => false,
                         'code'    => 400,
                         'response'=> [],
-                        'message' => 'Invalid token !'
+                        'message' => 'Bad Request !'
                     ));
 
                 }
+            } else {
+
+                return  Response::json(array(
+                    'status'  => false,
+                    'code'    => 400,
+                    'response'=> [],
+                    'message' => 'Invalid token !'
+                ));
+
+            }
         } else {
 
             return Response::json(array(
@@ -131,45 +139,54 @@ class DepartmentController extends Controller
     public function editDepartment(Request $request)
     {
 
-      $departmentId      = $request->departmentId;  //department id
-      $departmentName    = $request->departmentName;  //department Name
-      $departmentDetails = $request->departmentDetails; //Department Details
-      $updateDepartment  = Department::find($departmentId);  //query for find department
+        $departmentId      = $request->departmentId;  //department id
+        $departmentName    = $request->departmentName;  //department Name
+        $departmentDetails = $request->departmentDetails; //Department Details
+        $updateDepartment  = Department::find($departmentId);  //query for find department
+        $agentIds = $request->agentIds;
+        if( count($updateDepartment) !=0 ) {
 
-      if( count($updateDepartment) !=0 ) {
+            $updateDepartment->department_name    = $departmentName;
+            $updateDepartment->department_details = $departmentDetails;
 
-          $updateDepartment->department_name    = $departmentName;
-          $updateDepartment->department_details = $departmentDetails;
+            if( $updateDepartment->save() ) {
+                $deleteAgentDepartment = DepartmentAgentMap::where('department_id',$updateDepartment->id)->delete();
+                if (count($agentIds) > 0) {
+                    foreach ($agentIds as $agentId) {
+                        $departmentAgents = new DepartmentAgentMap();
+                        $departmentAgents->department_id = $updateDepartment->id;
+                        $departmentAgents->user_id = $agentId;
+                        $departmentAgents->save();
+                    }
+                }
 
-          if( $updateDepartment->save() ) {
+                return  Response::json(array(
+                    'status'  => true,
+                    'code'    => 200,
+                    'response'=> $updateDepartment,
+                    'message' => 'Department Updated !'
+                ));
 
-              return  Response::json(array(
-                  'status'  => true,
-                  'code'    => 200,
-                  'response'=> $updateDepartment,
-                  'message' => 'Department Updated !'
-              ));
+            } else {
 
-          } else {
+                return  Response::json(array(
+                    'status'  => false,
+                    'code'    => 400,
+                    'response'=> [],
+                    'message' => 'Department not Updated !'
+                ));
 
-              return  Response::json(array(
-                  'status'  => false,
-                  'code'    => 400,
-                  'response'=> [],
-                  'message' => 'Department not Updated !'
-              ));
+            }
+        } else {
 
-          }
-      } else {
+            return  Response::json(array(
+                'status'  => false,
+                'code'    => 400,
+                'response'=> [],
+                'message' => 'Sorry Department not found !'
+            ));
 
-          return  Response::json(array(
-              'status'  => false,
-              'code'    => 400,
-              'response'=> [],
-              'message' => 'Sorry Department not found !'
-          ));
-
-      }
+        }
     }
 
     /**
@@ -181,40 +198,40 @@ class DepartmentController extends Controller
     public function viewDepartment(Request $request)
     {
 
-      $departmentId = $request->departmentId;
+        $departmentId = $request->departmentId;
 
-      if( $departmentId != "" ){
+        if( $departmentId != "" ){
 
-          $department = Department::where('id',$departmentId)->first();
+            $department = Department::where('id',$departmentId)->first();
+            if( count($department) != 0 ) {
+                $data['department'] = $department;
+                $data['agents'] = $department->departmentAgents->pluck('user_id');
+                return  Response::json(array(
+                    'status'   => true,
+                    'code'     => 200,
+                    'response' => $data,
+                    'message'  => 'Department Updated !'
+                ));
+            } else {
 
-          if( count($department) != 0 ) {
+                return  Response::json(array(
+                    'status'  => false,
+                    'code'    => 400,
+                    'response'=> [],
+                    'message' => 'Sorry Department not found !'
+                ));
 
-              return  Response::json(array(
-                  'status'   => true,
-                  'code'     => 200,
-                  'response' => $department,
-                  'message'  => 'Department Updated !'
-              ));
-          } else {
+            }
+        } else {
 
-              return  Response::json(array(
-                  'status'  => false,
-                  'code'    => 400,
-                  'response'=> [],
-                  'message' => 'Sorry Department not found !'
-              ));
+            return  Response::json(array(
+                'status'  => false,
+                'code'    => 400,
+                'response'=> [],
+                'message' => 'Please select a department !'
+            ));
 
-          }
-      } else {
-
-          return  Response::json(array(
-              'status'  => false,
-              'code'    => 400,
-              'response'=> [],
-              'message' => 'Please select a department !'
-          ));
-
-      }
+        }
     }
 
     /**
@@ -226,130 +243,130 @@ class DepartmentController extends Controller
     public function departmentList(Request $request)
     {
 
-      $userToken = $request->token; //user Token
-      $userId    = $request->userId; //user ID
-      if( $userToken != "" ) {
-          $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
+        $userToken = $request->token; //user Token
+        $userId    = $request->userId; //user ID
+        if( $userToken != "" ) {
+            $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
 
-          if( count($checkUser) != 0 ) {
+            if( count($checkUser) != 0 ) {
 
-              if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
+                if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
 
-                  $department = Department::with('userDetails')->orderBy('created_at','desc')->get();
+                    $department = Department::with('userDetails')->orderBy('created_at','desc')->get();
 
-                  if(count($department) != 0){
+                    if(count($department) != 0){
 
-                      return  Response::json(array(
-                          'status'   => true,
-                          'code'     => 200,
-                          'response' => $department,
-                          'message'  => 'Department List!'
-                      ));
+                        return  Response::json(array(
+                            'status'   => true,
+                            'code'     => 200,
+                            'response' => $department,
+                            'message'  => 'Department List!'
+                        ));
 
-                  } else {
+                    } else {
 
-                    return  Response::json(array(
-                        'status'   => false,
-                        'code'     => 400,
-                        'response' => [],
-                        'message'  => 'Sorry Department not found !'
-                    ));
+                        return  Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'response' => [],
+                            'message'  => 'Sorry Department not found !'
+                        ));
 
-                  }
-              }
+                    }
+                }
 
-              if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
+                if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
 
-                  $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
+                    $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
-                  if(count($department) != 0){
+                    if(count($department) != 0){
 
-                      return  Response::json(array(
-                          'status'   => true,
-                          'code'     => 200,
-                          'response' => $department,
-                          'message'  => 'Department List!'
-                      ));
+                        return  Response::json(array(
+                            'status'   => true,
+                            'code'     => 200,
+                            'response' => $department,
+                            'message'  => 'Department List!'
+                        ));
 
-                  } else {
+                    } else {
 
-                      return  Response::json(array(
-                          'status'   => false,
-                          'code'     => 400,
-                          'response' => [],
-                          'message'  => 'Sorry Department not found !'
-                      ));
+                        return  Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'response' => [],
+                            'message'  => 'Sorry Department not found !'
+                        ));
 
-                  }
-              }
+                    }
+                }
 
-              if( $checkUser->userInfo->type == 2 ) { //Admin Department List
+                if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
-                  $department = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->orderBy('created_at','desc')->get();
+                    $department = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->orderBy('created_at','desc')->get();
 
-                  if( count($department) != 0 ) {
+                    if( count($department) != 0 ) {
 
-                    return  Response::json(array(
-                        'status'   => true,
-                        'code'     => 200,
-                        'response' => $department,
-                        'message'  => 'Department List!'
-                    ));
+                        return  Response::json(array(
+                            'status'   => true,
+                            'code'     => 200,
+                            'response' => $department,
+                            'message'  => 'Department List!'
+                        ));
 
-                  } else {
+                    } else {
 
-                    return  Response::json(array(
-                        'status'   => false,
-                        'code'     => 400,
-                        'response' => [],
-                        'message'  => 'Sorry Department not found !'
-                    ));
+                        return  Response::json(array(
+                            'status'   => false,
+                            'code'     => 400,
+                            'response' => [],
+                            'message'  => 'Sorry Department not found !'
+                        ));
 
-                  }
-              }
-          } else {
+                    }
+                }
+            } else {
 
-            return  Response::json(array(
-                'status'   => false,
-                'code'     => 400,
-                'response' => [],
-                'message'  => 'Invalid Token !'
-            ));
+                return  Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'response' => [],
+                    'message'  => 'Invalid Token !'
+                ));
 
-          }
-      } elseif ( $userId != ""){
+            }
+        } elseif ( $userId != ""){
             \Log::info('this is hit !!!!!!!!!!');
-          //fetching the list of department for a specific user/admin
-          $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
+            //fetching the list of department for a specific user/admin
+            $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
-          if( count($department) != 0 ) {
+            if( count($department) != 0 ) {
+
+                return  Response::json(array(
+                    'status'   => true,
+                    'code'     => 200,
+                    'response' => $department,
+                    'message'  => 'Department List!'
+                ));
+
+            } else {
+
+                return  Response::json(array(
+                    'status'   => false,
+                    'code'     => 400,
+                    'response' => [],
+                    'message'  => 'Sorry Department not found !'
+                ));
+
+            }
+        } else {
 
             return  Response::json(array(
-                'status'   => true,
-                'code'     => 200,
-                'response' => $department,
-                'message'  => 'Department List!'
-            ));
-
-          } else {
-
-            return  Response::json(array(
-                'status'   => false,
-                'code'     => 400,
+                'status'  => false,
+                'code'    => 400,
                 'response' => [],
-                'message'  => 'Sorry Department not found !'
+                'message' => 'sorry no data found !'
             ));
 
-          }
-      } else {
-
-        return  Response::json(array(
-          'status'  => false,
-          'code'    => 400,
-          'response' => [],
-          'message' => 'sorry no data found !'
-        ));
-
-      }
+        }
     }
 }
