@@ -9,6 +9,7 @@ import * as AdminActions from '../../../store/admin/admin.actions';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as DepartmentActions from '../../../store/department/department.actions';
+import * as DepartmentReducer from '../../../store/department/department.reducers';
 import { Subscription } from 'rxjs/Subscription'
 import * as AgentActions from '../../../store/agent/agent.actions';
 
@@ -36,15 +37,18 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     agents: []
   };
   loader: boolean = false;
+  adminUserId:number;                 /** admin user id from admin selection droupdown */
+  adminId:number;
+  changedDepFlag: boolean = false;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
-              private cdr: ChangeDetectorRef, private router: Router) { }
+              private cdr: ChangeDetectorRef, private router: Router,
+            private deptStore : Store<DepartmentReducer.DepartmentState>) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.store.dispatch(new AdminActions.GetAdminListAttempt());
-    this.store.dispatch(new AgentActions.GetAgentListAttempt());
     this.authState = this.store.select('auth');
     this.afterLoginState = this.store.select('afterLogin');
 
@@ -57,6 +61,9 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
           }
         }
       );
+    if(this.dep.userId !== 0 ){
+        this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
+    }
 
     this.afterLoginSubscription = this.store.select('afterLogin')
       .map(data => data.department.resetDepartmentForm)
@@ -77,33 +84,35 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       .subscribe(
       (data: Data) => {
         this.editMode = data['editMode'];
-
         /** Perform operation is present mode is edit mode */
-        if(this.editMode) {
-          /** Checking route params to get id of department to edit */
+         if(this.editMode) {
+             /** Checking route params to get id of department to edit */
           this.depId = this.activatedRoute.snapshot.params['id'];
-          this.store.dispatch(new DepartmentActions.GetToEditDepartmentAttempt({departmentId: this.depId}));
-          this.updateDep = this.store.select('afterLogin')
-            .map(data => data.department.toEdit)
-            .distinctUntilChanged()
-            .subscribe(
-              (dep) => {
-                if(dep) {
-                    if (dep.department != undefined) {
-                        //setTimeout(() => {
-                        this.dep.userId = dep.department.user_id;
-                        this.dep.departmentName = dep.department.department_name;
-                        this.dep.departmentDetails = dep.department.department_details;
-                        this.dep.agents = dep.agents;
-                        //}, 0)
+             this.store.dispatch(new DepartmentActions.GetToEditDepartmentAttempt({departmentId: this.depId}));
+             // console.log(this.deptStore.select('toEdit'))
+             this.updateDep = this.store.select('department')
+                 .distinctUntilChanged()
+                .subscribe(
+                  (dep) => {
+                    if(dep) {
+                        // console.log('dipertment Info',dep);
+                        // console.log('DEP --- > ',dep.toEdit.department);
+                        if (dep.toEdit.department !== undefined) {
+                                this.changedDepFlag = true;
+                                this.dep.userId = dep.toEdit.department.user_id;
+                                this.dep.departmentName = dep.toEdit.department.department_name;
+                                this.dep.departmentDetails = dep.toEdit.department.department_details;
+                                this.dep.agents = dep.toEdit.agents;
+                             // if(dep.toEdit.department.id === this.depId){
+                                this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
+                            // }
+                        }
                     }
-                }
-              }
-            );
+                  }
+                );
         }
       }
     );
-
   }
 
   /** Your code to update the model */
@@ -115,6 +124,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   ngOnDestroy(){
     this.authSubscription.unsubscribe();
     this.afterLoginSubscription.unsubscribe();
+    //this.store.dispatch(new DepartmentActions.ResetEditDepartment({}));
   }
 
   /** Function call to create a new department */
@@ -137,6 +147,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     } else {
       this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
     }
+  }
+
+  /** Function to get agent list depending on the selected admin */
+  adminChanged(id: number) {
+      if (!!id) {
+          this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: id }));
+      }
   }
 
 }

@@ -161,4 +161,38 @@ export class AgentEffects {
         })
     })
 
+    @Effect()
+    getAdminAgentList = this.actions$
+        .ofType(AgentActions.GET_ADMIN_AGENT_LIST_ATTEMPT)
+        .switchMap((action: AgentActions.GetAdminAgentListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'get-admin-agents'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+            return this.httpClient.post(apiUrl, action.payload, config)
+                .map((res: any) => {
+                    if (res.status) {
+                        return {
+                            type: AgentActions.GET_ADMIN_AGENT_LIST_SUCCESS,
+                            payload: res.response
+                        }
+                    } else {
+                        return {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: { message: res.message, type: 'danger'}
+                        }
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+        })
+
 }

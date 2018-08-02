@@ -30,7 +30,7 @@
                                                     name="userId"
                                                     [disabled]="editMode || (authState | async).isAdmin"
                                                     #selected
-                                                    [(ngModel)]="dep.userId">
+                                                    [(ngModel)]="dep.userId" (click)="adminChanged(dep.userId)">
                                                 <option selected value="0">Choose...</option>
                                                 <option [value]="item.id"
                                                         *ngFor="let item of (afterLoginState | async).admin.list; let i = index"
@@ -50,9 +50,7 @@
                                                     name="agentIds"
                                                     [(ngModel)]="dep.agents"
                                                     multiple>
-                                                <option [value]="item.id"
-                                                        *ngFor="let item of (afterLoginState | async).agent.list; let i = index"
-                                                >
+                                                <option [value]="item.id" *ngFor="let item of (afterLoginState | async).agent.list; let i = index">
                                                     {{item.first_name}} {{item.last_name}}
                                                 </option>
                                             </select>

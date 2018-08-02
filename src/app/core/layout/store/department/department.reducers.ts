@@ -41,10 +41,16 @@ export function departmentReducer(state = initialState, action: DepartmentAction
         resetDepartmentForm: false
       };
     case (DepartmentActions.GET_TO_EDIT_DEPARTMENT_SUCCESS):
+      // console.log(action.payload);
       return {
         ...state,
         toEdit: { ...action.payload }
       };
+      case (DepartmentActions.RESET_EDIT_DEPARTMENT):
+        return {
+            ...state,
+            toEdit : {}
+        }
     default:
       return state;
   }

@@ -16,7 +16,7 @@ export const GET_DEPARTMENT_LIST_SUCCESS = 'GET_DEPARTMENT_LIST_SUCCESS';
 
 export const GET_TO_EDIT_DEPARTMENT_ATTEMPT = 'GET_TO_EDIT_DEPARTMENT_ATTEMPT';
 export const GET_TO_EDIT_DEPARTMENT_SUCCESS = 'GET_TO_EDIT_DEPARTMENT_SUCCESS';
-
+export const RESET_EDIT_DEPARTMENT = 'RESET_EDIT_DEPARTMENT';
 export class ResetDepartmentForm implements Action {
   readonly type = RESET_DEPARTMENT_FORM;
 }
@@ -69,10 +69,14 @@ export class GetToEditDepartmentSuccess implements Action {
   readonly type = GET_TO_EDIT_DEPARTMENT_SUCCESS;
   constructor(public payload: any) { }
 }
+export class ResetEditDepartment implements Action {
+  readonly type = RESET_EDIT_DEPARTMENT;
+  constructor(public payload: any){ }
+}
 
 export type DepartmentActions = ResetDepartmentForm |
   GetDepartmentAttempt | GetDepartmentSuccess |
   AddDepartmentAttempt | AddDepartmentSuccess |
   EditDepartmentAttempt | EditDepartmentSuccess |
   GetDepartmentListAttempt | GetDepartmentListSuccess |
-  GetToEditDepartmentAttempt | GetToEditDepartmentSuccess;
+  GetToEditDepartmentAttempt | GetToEditDepartmentSuccess | ResetEditDepartment;
