@@ -80,6 +80,14 @@ class DepartmentController extends Controller
                     $saveDepartment->status             = 1;
 
                     if( $saveDepartment->save() ) {
+                        if (count($agentIds) > 0) {
+                            foreach ($agentIds as $agentId) {
+                                $departmentAgents = new DepartmentAgentMap();
+                                $departmentAgents->department_id = $saveDepartment->id;
+                                $departmentAgents->user_id = $agentId;
+                                $departmentAgents->save();
+                            }
+                        }
 
                         return  Response::json(array(
                             'status'  => true,

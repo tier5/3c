@@ -1502,4 +1502,37 @@ class UserController extends Controller
       }
   }
 
+    /**
+     *  This function returns a List of Agent on basis of admin id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+  public function getAdminAgents(Request $request){
+
+      if($request->userId){
+
+          $checkForUser = Users::where('id',$request->userId)->count();
+          if($checkForUser){
+
+              $getAgents = Users::where('parent_id',$request->userId)->orderBy('first_name','asc')->get();
+
+              if($getAgents){
+
+                    $response = array('code'=>200,'error'=>false,'response'=>$getAgents,'status'=>true,'message'=>'List of Agents !');
+              }else{
+
+                  $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Agent Found for this admin !');
+              }
+          }else{
+
+              $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Admin Found !');
+          }
+      }else{
+
+          $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Admin id Found in the request !');
+      }
+
+      return Response()->json($response);
+  }
+
 }
