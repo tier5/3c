@@ -3,3 +3,29 @@
     cursor: not-allowed;
     pointer-events: none;
 }
+.autoListArea{
+    position: relative;
+}
+.autoList{
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #fff;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: scroll;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+    border: 1px solid #e2e2e2;
+    z-index: 99;
+    padding: 0;
+}
+.autoList li{
+    list-style: none;
+    padding: 5px 15px;
+}
+.autoList li span{
+    display: block;
+}
+.autoList li:hover{
+    background: #e2e2e2;
+}

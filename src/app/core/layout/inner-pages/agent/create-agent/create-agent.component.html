@@ -20,29 +20,67 @@
               </div>
               <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group autoListArea">
                       <label class="control-label" for="admin">
                         Admin for Agent
                       </label>
-                      <select
-                              id="admin"
-                              name="parentId"
-                              [ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "
-                              #selectedAdmin
-                              [ngModel]="agent.parentId"
-                              (change)="adminChanged(selectedAdmin.value)"
-                              required
-                      >
-                        <option selected value="0">Choose...</option>
-                        <option [value]="item.id"
-                                *ngFor="let item of (afterLoginState | async).admin.list; let i = index"
-                        >
-                          {{item.first_name}} {{item.last_name}}
-                        </option>
-                      </select>
+                        <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName">
+                        </div>
 
+                        <ng-template #thenTemplateName>
+                            <input type="text" class="form-control"
+                                    name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
+                        </ng-template>
+
+                        <ng-template #elseTemplateName>
+                            <input type="text" (keyup)="checkAdminname($event.target.value)"
+                                   [ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "
+                                   [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)" autocomplete="off">
+                            <ul *ngIf="showThis" class="autoList">
+                                <li *ngFor="let item of updatedlistOfAdmins; let i = index"> <span (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span></li>
+                            </ul>
+                        </ng-template>
+                        <input type="hidden"  [ngModel]="agent.parentId" id="admin" name="parentId" #selectedAdmin>
                     </div>
                 </div>
+                      <!--<select-->
+                              <!--id="admin"-->
+                              <!--name="parentId"-->
+                              <!--[ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "-->
+                              <!--#selectedAdmin-->
+                              <!--[ngModel]="agent.parentId"-->
+                              <!--(change)="adminChanged(selectedAdmin.value)"-->
+                              <!--required style="opacity: 1 !important;"-->
+                      <!--&gt;-->
+                        <!--<option selected value="0">Choose...</option>-->
+                        <!--<option [value]="item.first_name"-->
+                                <!--*ngFor="let item of listOfAdmins; let i = index"-->
+                        <!--&gt;-->
+                          <!--{{item.first_name}} {{item.last_name}}-->
+                        <!--</option>-->
+                      <!--</select>-->
+                        <!--<mat-form-field [ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' " id="admin">
+                            <input type="text" aria-label="Number" matInput [matAutocomplete]="auto" #selectedAdmin (click)="adminChanged(selectedAdmin.value)" [ngModel]="agent.parentId" name="parentId">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let item of (afterLoginState | async).admin.list; let i = index" [value]="item.id">
+                                    {{item.first_name}} {{item.last_name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>-->
+
+                        <!--<input list="admin" name="parentId"-->
+                               <!--[ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "-->
+                               <!--#selectedAdmin-->
+                               <!--[ngModel]="agent.parentId"-->
+                               <!--(change)="adminChanged(selectedAdmin.value)"-->
+                               <!--parentId="ngModel"-->
+                               <!--required>-->
+                        <!--<datalist id="admin">-->
+                            <!--<option selected value="0">Choose...</option>-->
+                            <!--<option [value]="item.id" *ngFor="let item of (afterLoginState | async).admin.list; let i = index">-->
+                                <!--{{item.first_name}} {{item.last_name}}-->
+                            <!--</option>-->
+                        <!--</datalist>-->
 
                 <div class="col-md-6" *ngIf="selectedAdmin.value > 0">
 

@@ -11,6 +11,9 @@ import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatRippleModule} from '@angular/material';
+
 
 @NgModule({
     imports: [
@@ -23,7 +26,8 @@ import { MomentModule } from 'angular2-moment';
         OrderModule,
         NgxPaginationModule,
         ModalModule.forRoot(),
-        MomentModule
+        MomentModule,
+        MatAutocompleteModule, MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatRippleModule
     ],
     declarations: [
         CreateAgentComponent,

@@ -13,6 +13,9 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map';
+
 
 @Component({
   selector: 'app-create-agent',
@@ -25,6 +28,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     @ViewChild('form') form: NgForm;
     authState: Observable<fromAuth.State>;
     afterLoginState: Observable<fromAfterLogin.FeatureState>;
+    adminList: Subscription;
     afterLoginSubscription: Subscription;
     authSubscription: Subscription;
     editMode: boolean = false;
@@ -51,6 +55,11 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     bsModalRef: BsModalRef;             /** bootstrap modal */
     dep:any;                            /** initialize the department object */
     adminUserId:number;                 /** admin user id from admin selection droupdown */
+    filteredOptions: Observable<string[]>;
+    listOfAdmins = [];
+    updatedlistOfAdmins = [];
+    adminName:any;
+    showThis: boolean = true;
 
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
@@ -62,7 +71,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       this.store.dispatch(new AdminActions.GetAdminListAttempt());
       this.authState = this.store.select('auth');
       this.afterLoginState = this.store.select('afterLogin');
-
       this.authSubscription = this.store.select('auth')
         .subscribe(
           (data) => {
@@ -125,6 +133,37 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
             departmentName: '',
             departmentDetails: ''
         };
+
+        // this.filteredOptions = this.agent.parentId.valueChanges
+        //     .pipe(
+        //         startWith(''),
+        //         map(val => this.filter(val))
+        //     );
+            // console.log('something--->',this.listOfAdmins);
+        this.adminList = this.store.select('afterLogin').map(data => data)
+            .subscribe(
+                (data) => {
+                    if(data.admin.list) {
+                        this.listOfAdmins = data.admin.list;
+                        // console.log('something--->',this.listOfAdmins)
+                    }
+                }
+            );
+    }
+
+
+    checkAdminname($event){
+       // console.log(this);
+         // console.log(this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1));
+        this.showThis = true;
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
+    }
+
+    assignValue(id,first_name,last_name){
+        this.agent.parentId = id;
+        this.adminName = first_name+' '+last_name;
+        this.showThis = false;
+        this.adminChanged(id);
     }
 
     ngAfterViewChecked() {
