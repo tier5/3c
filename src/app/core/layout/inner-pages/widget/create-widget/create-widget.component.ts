@@ -38,6 +38,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
   afterLoginSubscription: Subscription;
   authSubscription: Subscription;
+  adminList: Subscription;
   editMode: boolean = false;
   widgetId: number;
   id: number;
@@ -70,6 +71,11 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   hideUploadedImage: boolean = true
   validationMaxTime: Moment;
   timePikerError:boolean = false;
+
+    listOfAdmins = [];
+    updatedlistOfAdmins = [];
+    adminName:any;
+    showThis: boolean = true;
 
   /** Service injection */
   constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>,
@@ -124,6 +130,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                   this.widget.departmentIdArray = widget.departments;
                   this.hideUploadedImage = false;
                   this.imgSrc = widget.image;
+                  this.adminName = widget.first_name+' '+widget.last_name;
                 //  const image = this.element.nativeElement.querySelector('.uploaded-image');
                 //  image.src = widget.image;
                 }
@@ -145,6 +152,15 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
           }
         }
       );
+
+      this.adminList = this.store.select('afterLogin').map(data => data)
+          .subscribe(
+              (data) => {
+                  if(data.admin.list) {
+                      this.listOfAdmins = data.admin.list;
+                  }
+              }
+          );
   }
 
   /** Function to detect changes */
@@ -285,6 +301,27 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.log2(time);
         });
     }
+
+    checkAdminname($event){
+        this.showThis = true;
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
+    }
+
+    /** function to assign value to the models */
+    assignValue(id,first_name,last_name){
+        this.widget.userId = id;
+        // this.agent.parentId = id;
+        this.adminName = first_name+' '+last_name;
+        this.showThis = false;
+        this.adminChanged(id);
+    }
+
+    resetList(){
+        this.adminName = "";
+        this.showThis = true;
+        this.widget.userId = 0;
+    }
+
 
 
 }

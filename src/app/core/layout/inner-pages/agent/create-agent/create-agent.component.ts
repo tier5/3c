@@ -26,6 +26,8 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Variable Declaration */
     @ViewChild('form') form: NgForm;
+    @ViewChild('selectOption') selectOption;
+    @ViewChild('selectedAdmin') selectedAdmin;
     authState: Observable<fromAuth.State>;
     afterLoginState: Observable<fromAfterLogin.FeatureState>;
     adminList: Subscription;
@@ -59,7 +61,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     listOfAdmins = [];
     updatedlistOfAdmins = [];
     adminName:any;
-    showThis: boolean = true;
+    showThis: boolean = false;
 
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
@@ -135,18 +137,11 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
             departmentDetails: ''
         };
 
-        // this.filteredOptions = this.agent.parentId.valueChanges
-        //     .pipe(
-        //         startWith(''),
-        //         map(val => this.filter(val))
-        //     );
-            // console.log('something--->',this.listOfAdmins);
         this.adminList = this.store.select('afterLogin').map(data => data)
             .subscribe(
                 (data) => {
                     if(data.admin.list) {
                         this.listOfAdmins = data.admin.list;
-                        // console.log('something--->',this.listOfAdmins)
                     }
                 }
             );
@@ -154,8 +149,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
 
     checkAdminname($event){
-       // console.log(this);
-         // console.log(this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1));
         this.showThis = true;
         return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
     }
@@ -165,6 +158,12 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         this.adminName = first_name+' '+last_name;
         this.showThis = false;
         this.adminChanged(id);
+    }
+
+    resetList(){
+        this.adminName = "";
+        this.showThis = true;
+        this.agent.parentId = 0;
     }
 
     ngAfterViewChecked() {

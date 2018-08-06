@@ -24,8 +24,7 @@
                       <label class="control-label" for="admin">
                         Admin for Agent
                       </label>
-                        <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName">
-                        </div>
+                        <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName"></div>
 
                         <ng-template #thenTemplateName>
                             <input type="text" class="form-control"
@@ -33,12 +32,14 @@
                         </ng-template>
 
                         <ng-template #elseTemplateName>
+
                             <input type="text" (keyup)="checkAdminname($event.target.value)"
 
                                    [ngClass]="editMode ?  'form-control' : 'form-control' "
-                                   [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)" autocomplete="off" [readonly]="editMode">
-                            <ul *ngIf="showThis" class="autoList">
-                                <li *ngFor="let item of updatedlistOfAdmins; let i = index"> <span (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span></li>
+                                   [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)" autocomplete="off" [readonly]="editMode" class="listBox" #selectOption>
+                            <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i class="fa fa-close"></i> </span>
+                            <ul *ngIf="showThis" class="autoList" id="autoList" >
+                                <li *ngFor="let item of updatedlistOfAdmins; let i = index"> <span (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span> </li>
                             </ul>
                         </ng-template>
                         <input type="hidden"  [ngModel]="agent.parentId" id="admin" name="parentId" #selectedAdmin>
@@ -60,6 +61,7 @@
                           <!--{{item.first_name}} {{item.last_name}}-->
                         <!--</option>-->
                       <!--</select> OLD SELECT -->
+
                 <div class="col-md-6" *ngIf="selectedAdmin.value > 0">
 
                     <div class="form-group">
