@@ -262,9 +262,7 @@ class WidgetController extends Controller
 
         }
       } elseif ( $userId != ""){
-            \Log::info('this is hit !!!!!!!!!!');
           //fetching the list of widgets for a specific user/admin
-
           $listsWidgets = Widgets::where('user_id',$userId)
                                  ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')
                                  ->get(); //Get Widgets with Twilio numbers
@@ -562,7 +560,7 @@ class WidgetController extends Controller
 
       } else {
 
-        $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails')->first();
+        $viewWidget = Widgets::where('id',$widgetId)->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->first();
         
         /** to get all the widget departments */
         $departmentArray = [];
@@ -588,6 +586,8 @@ class WidgetController extends Controller
         $widgetArray['widget_schedule']    = $viewWidget->widgetSchedule;
         $widgetArray['script_url']         = $viewWidget->script_url;
         $widgetArray['departments']        = $departmentArray;
+        $widgetArray['first_name']         = $viewWidget->userDetails->first_name;
+        $widgetArray['last_name']          = $viewWidget->userDetails->last_name;
 
 
         return $response = json_encode(array('code'=>200,'error'=>false,'response'=>$widgetArray,'status'=>true,'message'=>'Widget Details !'));
