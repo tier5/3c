@@ -21,11 +21,10 @@ class Department extends Model
 	/**
     * one to one relationship with users table
     */
-  	public function userDetails() {
-
-    return $this->hasOne('App\Model\Users','id','user_id');
-
-	}
+    public function userDetails(){
+        return $this->hasOne('App\Model\Users','id','user_id')
+            ->select('id','parent_id','first_name','last_name','email','username','phone','type','company');
+    }
 
     public function departmentAgents(){
 

@@ -210,7 +210,7 @@ class DepartmentController extends Controller
 
         if( $departmentId != "" ){
 
-            $department = Department::where('id',$departmentId)->first();
+            $department = Department::where('id',$departmentId)->with('userDetails')->first();
             if( count($department) != 0 ) {
                 $data['department'] = $department;
                 $data['agents'] = $department->departmentAgents->pluck('user_id');
