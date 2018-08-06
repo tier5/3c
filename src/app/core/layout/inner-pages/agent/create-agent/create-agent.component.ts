@@ -105,6 +105,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                         this.agent.email = agent.email;
                         this.agent.phone = agent.phone;
                         this.agent.departmentId = agent.department_id;
+                        this.adminName = agent.admin_first_name+' '+agent.admin_last_name;
                       }
                     }
                   );
