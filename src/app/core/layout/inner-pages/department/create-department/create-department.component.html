@@ -25,19 +25,40 @@
                                             <label class="control-label" for="admin">
                                                 Admin for Department
                                             </label>
-                                            <select class="form-control"
-                                                    id="admin"
-                                                    name="userId"
-                                                    [disabled]="editMode || (authState | async).isAdmin"
-                                                    #selected
-                                                    [(ngModel)]="dep.userId" (click)="adminChanged(dep.userId)">
-                                                <option selected value="0">Choose...</option>
-                                                <option [value]="item.id"
-                                                        *ngFor="let item of (afterLoginState | async).admin.list; let i = index"
-                                                >
-                                                    {{item.first_name}} {{item.last_name}}
-                                                </option>
-                                            </select>
+                                            <!--<select class="form-control"-->
+                                                    <!--id="admin"-->
+                                                    <!--name="userId"-->
+                                                    <!--[disabled]="editMode || (authState | async).isAdmin"-->
+                                                    <!--#selected-->
+                                                    <!--[(ngModel)]="dep.userId" (click)="adminChanged(dep.userId)">-->
+                                                <!--<option selected value="0">Choose...</option>-->
+                                                <!--<option [value]="item.id"-->
+                                                        <!--*ngFor="let item of (afterLoginState | async).admin.list; let i = index"-->
+                                                <!--&gt;-->
+                                                    <!--{{item.first_name}} {{item.last_name}}-->
+                                                <!--</option>-->
+                                            <!--</select>-->
+
+                                            <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName"></div>
+
+                                            <ng-template #thenTemplateName>
+                                                <input type="text" class="form-control"
+                                                       name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
+                                            </ng-template>
+
+                                            <ng-template #elseTemplateName>
+
+                                                <input type="text" (keyup)="checkAdminname($event.target.value)"
+
+                                                       [ngClass]="editMode ?  'form-control' : 'form-control' "
+                                                       [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)" autocomplete="off" [readonly]="editMode" class="listBox" #selectOption>
+                                                <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i class="fa fa-close"></i> </span>
+                                                <ul *ngIf="showThis" class="autoList" id="autoList" >
+                                                    <li *ngFor="let item of updatedlistOfAdmins; let i = index"> <span (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span> </li>
+                                                </ul>
+                                            </ng-template>
+                                            <input type="hidden"  [ngModel]="dep.userId" id="admin" name="userId" #selected>
+
                                         </div>
                                     </div>
                                     <div class="col-md-6" *ngIf="selected.value > 0">

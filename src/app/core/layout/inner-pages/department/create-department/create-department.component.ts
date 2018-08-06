@@ -40,6 +40,11 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   adminUserId:number;                 /** admin user id from admin selection droupdown */
   adminId:number;
   changedDepFlag: boolean = false;
+    adminList: Subscription;
+    listOfAdmins = [];
+    updatedlistOfAdmins = [];
+    adminName:any;
+    showThis: boolean = false;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
@@ -103,9 +108,9 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                                 this.dep.departmentName = dep.toEdit.department.department_name;
                                 this.dep.departmentDetails = dep.toEdit.department.department_details;
                                 this.dep.agents = dep.toEdit.agents;
-                             // if(dep.toEdit.department.id === this.depId){
                                 this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
-                            // }
+                                this.adminName = dep.toEdit.department.user_details.first_name+' '+dep.toEdit.department.user_details.last_name;
+
                         }
                     }
                   }
@@ -113,6 +118,15 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         }
       }
     );
+
+      this.adminList = this.store.select('afterLogin').map(data => data)
+          .subscribe(
+              (data) => {
+                  if(data.admin.list) {
+                      this.listOfAdmins = data.admin.list;
+                  }
+              }
+          );
   }
 
   /** Your code to update the model */
@@ -155,5 +169,23 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
           this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: id }));
       }
   }
+
+    checkAdminname($event){
+        this.showThis = true;
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
+    }
+
+    assignValue(id,first_name,last_name){
+        this.dep.userId = id;
+        this.adminName = first_name+' '+last_name;
+        this.showThis = false;
+        this.adminChanged(id);
+    }
+
+    resetList(){
+        this.adminName = "";
+        this.showThis = true;
+        this.dep.userId = 0;
+    }
 
 }

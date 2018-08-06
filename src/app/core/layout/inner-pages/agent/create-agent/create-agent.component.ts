@@ -26,8 +26,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Variable Declaration */
     @ViewChild('form') form: NgForm;
-    @ViewChild('selectOption') selectOption;
-    @ViewChild('selectedAdmin') selectedAdmin;
     authState: Observable<fromAuth.State>;
     afterLoginState: Observable<fromAfterLogin.FeatureState>;
     adminList: Subscription;
@@ -57,7 +55,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     bsModalRef: BsModalRef;             /** bootstrap modal */
     dep:any;                            /** initialize the department object */
     adminUserId:number;                 /** admin user id from admin selection droupdown */
-    filteredOptions: Observable<string[]>;
     listOfAdmins = [];
     updatedlistOfAdmins = [];
     adminName:any;
@@ -146,7 +143,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                 }
             );
     }
-
 
     checkAdminname($event){
         this.showThis = true;
