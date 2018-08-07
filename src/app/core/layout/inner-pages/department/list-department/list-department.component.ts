@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable'
 import * as DepartmentActions from '../../../store/department/department.actions'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs/Subscription'
-import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-list-department',
@@ -18,14 +17,11 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   afterLoginState: Observable<fromAfterLogin.FeatureState>
   authSubscription: Subscription
     order: string = 'info.name';
-    reverse: boolean = false;
     sortedCollection: any[];
     page: number;
     term: any;
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router, private orderPipe: OrderPipe) {
-      this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
-  }
+              private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -52,16 +48,5 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
   ngOnDestroy (): void {
     this.authSubscription.unsubscribe();
   }
-
-    /**
-     * Function for ordering the table
-     * @param {string} value
-     */
-    setOrder(value: string) {
-        if (this.order === value) {
-            this.reverse = !this.reverse;
-        }
-        this.order = value;
-    }
 
 }

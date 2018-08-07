@@ -38,8 +38,9 @@
                                         <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).department.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                                             <td>{{i+1}}</td>
                                             <td>{{item.department_name}}</td>
-                                            <td>{{item.department_details}}</td>
-                                            <td>{{item.user_details?.company}}</td>
+                                            <td>{{item.department_details | slice:0:120 }}</td>
+                                            <!--<td>{{item.user_details?.company}}</td>-->
+                                            <td>{{item.company_name}}</td>
                                             <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                                             <td>
                                                 <!--<button type="button" class="btn btn-primary btn-xs">-->

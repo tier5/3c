@@ -146,7 +146,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     checkAdminname($event){
         this.showThis = true;
-        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.toLowerCase().indexOf($event) !== -1);
     }
 
     assignValue(id,first_name,last_name){

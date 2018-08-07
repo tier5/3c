@@ -277,7 +277,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     if(event) {
         this.validationMinTime = this.form.value.startTime;
         this.validationMaxTime = event;
-        console.log(this.validationMaxTime);
+        // console.log(this.validationMaxTime);
         if(this.validationMinTime > this.validationMaxTime) {
             this.timePikerError = true;
             this.form.controls['endTime'].setErrors({'incorrect': true});
@@ -302,20 +302,21 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         });
     }
 
+    /** Function to check filter admin name */
     checkAdminname($event){
         this.showThis = true;
-        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.toLowerCase().indexOf($event) !== -1);
     }
 
     /** function to assign value to the models */
     assignValue(id,first_name,last_name){
         this.widget.userId = id;
-        // this.agent.parentId = id;
         this.adminName = first_name+' '+last_name;
         this.showThis = false;
         this.adminChanged(id);
     }
 
+    /** function to reset the droupdown when click on close*/
     resetList(){
         this.adminName = "";
         this.showThis = true;

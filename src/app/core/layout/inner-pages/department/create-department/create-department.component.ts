@@ -49,7 +49,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
               private cdr: ChangeDetectorRef, private router: Router,
-            private deptStore : Store<DepartmentReducer.DepartmentState>) { }
+              private deptStore : Store<DepartmentReducer.DepartmentState>) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -100,8 +100,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                 .subscribe(
                   (dep) => {
                     if(dep) {
-                        // console.log('dipertment Info',dep);
-                        // console.log('DEP --- > ',dep.toEdit.department);
                         if (dep.toEdit.department !== undefined) {
                                 this.changedDepFlag = true;
                                 this.dep.userId = dep.toEdit.department.user_id;
@@ -138,7 +136,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   ngOnDestroy(){
     this.authSubscription.unsubscribe();
     this.afterLoginSubscription.unsubscribe();
-    //this.store.dispatch(new DepartmentActions.ResetEditDepartment({}));
   }
 
   /** Function call to create a new department */
@@ -170,11 +167,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       }
   }
 
+  /** Function to filter by admin names */
     checkAdminname($event){
         this.showThis = true;
-        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.indexOf($event) !== -1);
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.toLowerCase().indexOf($event) !== -1);
     }
 
+    /** function to assign value to the hidden field */
     assignValue(id,first_name,last_name){
         this.dep.userId = id;
         this.adminName = first_name+' '+last_name;
@@ -182,6 +181,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         this.adminChanged(id);
     }
 
+    /** Function to reset the admin list when click on close */
     resetList(){
         this.adminName = "";
         this.showThis = true;
