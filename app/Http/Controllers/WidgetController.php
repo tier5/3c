@@ -172,10 +172,28 @@ class WidgetController extends Controller
 
           if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Widget List
 
-            $listsWidgets = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')->get(); //Get Widgets with Twilio numbers
+              $allListsWidgetsData = Widgets::with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')->get(); //Get Widgets with Twilio numbers
 
-
-            if(count($listsWidgets) != 0){
+            if(count($allListsWidgetsData) != 0){
+                $listsWidgets = [];
+                foreach($allListsWidgetsData as $key=>$data){
+                    $listsWidgets[$key]['id'] = $data->id;
+                    $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
+                    $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
+                    $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                    if($data->widgetDepartment != null){
+                        $departmentNames = array();
+                        foreach($data->widgetDepartment as $newKey=>$depData){
+                             $departmentNames[$newKey] = $depData->departmentDetails->department_name;
+                        }
+                    }
+                    $listsWidgets[$key]['widget_department'] = $departmentNames;
+                    if($data->twilioNumbers != null){
+                        $listsWidgets[$key]['twilio_numbers'] = $data->twilioNumbers->number;
+                    }else{
+                        $listsWidgets[$key]['twilio_numbers'] = '';
+                    }
+                }
 
               return  Response::json(array(
                 'status'   => true,
@@ -198,12 +216,30 @@ class WidgetController extends Controller
 
           if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Widgets List
 
-            $listsWidgets = Widgets::where('user_id',$userId)
+              $allListsWidgetsData = Widgets::where('user_id',$userId)
                                    ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')
                                    ->get(); //Get Widgets with Twilio numbers
 
-            if(count($listsWidgets) != 0){
-
+            if(count($allListsWidgetsData) != 0){
+                $listsWidgets = [];
+                foreach($allListsWidgetsData as $key=>$data){
+                    $listsWidgets[$key]['id'] = $data->id;
+                    $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
+                    $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
+                    $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                    if($data->widgetDepartment != null){
+                        $departmentNames = array();
+                        foreach($data->widgetDepartment as $newKey=>$depData){
+                            $departmentNames[$newKey] = $depData->departmentDetails->department_name;
+                        }
+                    }
+                    $listsWidgets[$key]['widget_department'] = $departmentNames;
+                    if($data->twilioNumbers != null){
+                        $listsWidgets[$key]['twilio_numbers'] = $data->twilioNumbers->number;
+                    }else{
+                        $listsWidgets[$key]['twilio_numbers'] = '';
+                    }
+                }
               return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,
@@ -225,13 +261,31 @@ class WidgetController extends Controller
 
           if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
-            $listsWidgets = Widgets::where('user_id',$checkUser->userInfo->id)
+              $allListsWidgetsData = Widgets::where('user_id',$checkUser->userInfo->id)
                                    ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')->orderBy('created_at','desc')
                                    ->get(); //Get Widgets with Twilio numbers
 
 
-            if( count($listsWidgets) != 0 ) {
-
+            if( count($allListsWidgetsData) != 0 ) {
+                $listsWidgets = [];
+                foreach($allListsWidgetsData as $key=>$data){
+                    $listsWidgets[$key]['id'] = $data->id;
+                    $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
+                    $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
+                    $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                    if($data->widgetDepartment != null){
+                        $departmentNames = array();
+                        foreach($data->widgetDepartment as $newKey=>$depData){
+                            $departmentNames[$newKey] = $depData->departmentDetails->department_name;
+                        }
+                    }
+                    $listsWidgets[$key]['widget_department'] = $departmentNames;
+                    if($data->twilioNumbers != null){
+                        $listsWidgets[$key]['twilio_numbers'] = $data->twilioNumbers->number;
+                    }else{
+                        $listsWidgets[$key]['twilio_numbers'] = '';
+                    }
+                }
               return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,
@@ -263,12 +317,30 @@ class WidgetController extends Controller
         }
       } elseif ( $userId != ""){
           //fetching the list of widgets for a specific user/admin
-          $listsWidgets = Widgets::where('user_id',$userId)
+          $allListsWidgetsData = Widgets::where('user_id',$userId)
                                  ->with('twilioNumbers','widgetSchedule','widgetDepartment.departmentDetails','userDetails')
                                  ->get(); //Get Widgets with Twilio numbers
 
-          if( count($listsWidgets) != 0 ) {
-
+          if( count($allListsWidgetsData) != 0 ) {
+              $listsWidgets = [];
+              foreach($allListsWidgetsData as $key=>$data){
+                  $listsWidgets[$key]['id'] = $data->id;
+                  $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
+                  $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
+                  $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                  if($data->widgetDepartment != null){
+                      $departmentNames = array();
+                      foreach($data->widgetDepartment as $newKey=>$depData){
+                          $departmentNames[$newKey] = $depData->departmentDetails->department_name;
+                      }
+                  }
+                  $listsWidgets[$key]['widget_department'] = $departmentNames;
+                  if($data->twilioNumbers != null){
+                      $listsWidgets[$key]['twilio_numbers'] = $data->twilioNumbers->number;
+                  }else{
+                      $listsWidgets[$key]['twilio_numbers'] = '';
+                  }
+              }
             return  Response::json(array(
                 'status'   => true,
                 'code'     => 200,

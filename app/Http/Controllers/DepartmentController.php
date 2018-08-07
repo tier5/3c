@@ -260,10 +260,20 @@ class DepartmentController extends Controller
 
                 if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
 
-                    $department = Department::with('userDetails')->orderBy('created_at','desc')->get();
-
-                    if(count($department) != 0){
-
+                    $allDepartment = Department::with('userDetails')->orderBy('created_at','desc')->get();
+                    if(count($allDepartment) != 0){
+                        $department = array();
+                        foreach($allDepartment as $key=>$value){
+                            $department[$key]['id'] = $value->id;
+                            $department[$key]['department_name'] = $value->department_name;
+                            $department[$key]['department_details'] = $value->department_details;
+                            if($value->userDetails != null && $value->userDetails->company != null ){
+                                $department[$key]['company_name'] = $value->userDetails->company;
+                            }else{
+                                $department[$key]['company_name'] = '';
+                            }
+                            $department[$key]['created_at'] = $value->created_at->format('Y-m-d H:i:s');
+                        }
                         return  Response::json(array(
                             'status'   => true,
                             'code'     => 200,
@@ -285,10 +295,21 @@ class DepartmentController extends Controller
 
                 if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
 
-                    $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
+                    $allDepartment = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
-                    if(count($department) != 0){
-
+                    if(count($allDepartment) != 0){
+                        $department = array();
+                        foreach($allDepartment as $key=>$value){
+                            $department[$key]['id'] = $value->id;
+                            $department[$key]['department_name'] = $value->department_name;
+                            $department[$key]['department_details'] = $value->department_details;
+                            if($value->userDetails != null && $value->userDetails->company != null ){
+                                $department[$key]['company_name'] = $value->userDetails->company;
+                            }else{
+                                $department[$key]['company_name'] = '';
+                            }
+                            $department[$key]['created_at'] = $value->created_at->format('Y-m-d H:i:s');
+                        }
                         return  Response::json(array(
                             'status'   => true,
                             'code'     => 200,
@@ -310,10 +331,21 @@ class DepartmentController extends Controller
 
                 if( $checkUser->userInfo->type == 2 ) { //Admin Department List
 
-                    $department = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->orderBy('created_at','desc')->get();
+                    $allDepartment = Department::where('user_id',$checkUser->userInfo->id)->with('userDetails')->orderBy('created_at','desc')->get();
 
-                    if( count($department) != 0 ) {
-
+                    if( count($allDepartment) != 0 ) {
+                        $department = array();
+                        foreach($allDepartment as $key=>$value){
+                            $department[$key]['id'] = $value->id;
+                            $department[$key]['department_name'] = $value->department_name;
+                            $department[$key]['department_details'] = $value->department_details;
+                            if($value->userDetails != null && $value->userDetails->company != null ){
+                                $department[$key]['company_name'] = $value->userDetails->company;
+                            }else{
+                                $department[$key]['company_name'] = '';
+                            }
+                            $department[$key]['created_at'] = $value->created_at->format('Y-m-d H:i:s');
+                        }
                         return  Response::json(array(
                             'status'   => true,
                             'code'     => 200,
@@ -343,12 +375,22 @@ class DepartmentController extends Controller
 
             }
         } elseif ( $userId != ""){
-            \Log::info('this is hit !!!!!!!!!!');
             //fetching the list of department for a specific user/admin
-            $department = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
+            $allDepartment = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
-            if( count($department) != 0 ) {
-
+            if( count($allDepartment) != 0 ) {
+                $department = array();
+                foreach($allDepartment as $key=>$value){
+                    $department[$key]['id'] = $value->id;
+                    $department[$key]['department_name'] = $value->department_name;
+                    $department[$key]['department_details'] = $value->department_details;
+                    if($value->userDetails != null && $value->userDetails->company != null ){
+                        $department[$key]['company_name'] = $value->userDetails->company;
+                    }else{
+                        $department[$key]['company_name'] = '';
+                    }
+                    $department[$key]['created_at'] = $value->created_at->format('Y-m-d H:i:s');
+                }
                 return  Response::json(array(
                     'status'   => true,
                     'code'     => 200,
