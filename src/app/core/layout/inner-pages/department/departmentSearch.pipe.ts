@@ -16,19 +16,19 @@ export class DepartmentSearchPipe implements PipeTransform {
     return items.filter(function (el: any) {
       const termLower = term.toLowerCase().trim();
       // check for department name
-      if (el.department_name.toLowerCase().indexOf(termLower) > -1) {
+      if (el.department_name != null && el.department_name.toLowerCase().indexOf(termLower) > -1) {
         return el.department_name.toLowerCase().indexOf(termLower) > -1;
       } else {
         // check for department details
-        if (el.department_details.toLowerCase().indexOf(termLower) > -1) {
+        if (el.department_details != null && el.department_details.toLowerCase().indexOf(termLower) > -1) {
           return el.department_details.toLowerCase().indexOf(termLower) > -1;
         } else {
           // search for company name
-          if (el.company_name.toLowerCase().indexOf(termLower) > -1) {
+          if (el.company_name != null && el.company_name.toLowerCase().indexOf(termLower) > -1) {
             return el.company_name.toLowerCase().indexOf(termLower) > -1;
           } else {
             // check with date field
-            if (moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+            if (el.created_at != null && moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
               return moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
             }
           }
