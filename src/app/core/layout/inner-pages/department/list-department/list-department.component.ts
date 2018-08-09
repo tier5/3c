@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
-import { Store } from '@ngrx/store'
-import * as fromAfterLogin from '../../../store/after-login.reducers'
-import { Observable } from 'rxjs/Observable'
-import * as DepartmentActions from '../../../store/department/department.actions'
-import { Router } from '@angular/router'
-import { Subscription } from 'rxjs/Subscription'
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromAfterLogin from '../../../store/after-login.reducers';
+import { Observable } from 'rxjs/Observable';
+import * as DepartmentActions from '../../../store/department/department.actions';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-list-department',
@@ -14,9 +14,9 @@ import { Subscription } from 'rxjs/Subscription'
 export class ListDepartmentComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
-  afterLoginState: Observable<fromAfterLogin.FeatureState>
-  authSubscription: Subscription
-    order: string = 'info.name';
+  afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  authSubscription: Subscription;
+    order = 'info.name';
     sortedCollection: any[];
     page: number;
     term: any;
@@ -29,7 +29,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
       this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
-          if(data.isAdmin) {
+          if (data.isAdmin) {
             this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: data.userId}));
           } else {
             this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({}));
@@ -42,7 +42,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
 
   /** Function call to start editing a department */
   onEdit(depId: number) {
-    this.router.navigate([ 'department/edit/', depId ])
+    this.router.navigate([ 'department/edit/', depId ]);
   }
 
   ngOnDestroy (): void {

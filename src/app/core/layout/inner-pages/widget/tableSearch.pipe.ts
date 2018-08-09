@@ -1,18 +1,44 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {moment} from '../../../../../../node_modules/ngx-bootstrap/chronos/test/chain';
+
 @Pipe({
-    name: 'searchTable'
+  name: 'filter'
 })
-export class SearchPipe implements PipeTransform {
 
-    transform(value: any, args?: any): any {
-        if (!args) {
-            return value;
-        }
-        return value.filter((val) => {
-            let rVal = (val.first_name.toLocaleLowerCase().includes(args)) || (val.last_name.toLocaleLowerCase().includes(args)) || (val.twilio_numbers.toLocaleLowerCase().includes(args)) || (val.widget_department.includes(args));
-            return rVal;
-        })
-
+export class TableSearchPipe implements PipeTransform {
+  transform(items: any[], term: any): any[] {
+    if (!items) {
+      return [];
     }
-
+    if (!term) {
+      return items;
+    }
+    return items.filter(function (el: any) {
+      // check for first name
+      const termLower = term.toLowerCase();
+      if (el.first_name.toLowerCase().indexOf(termLower) > -1) {
+        return el.first_name.toLowerCase().indexOf(termLower) > -1;
+      } else {
+        // check for last name
+        if (el.last_name.toLowerCase().indexOf(termLower) > -1) {
+          return el.last_name.toLowerCase().indexOf(termLower) > -1;
+        } else {
+          // search for phone
+          if (el.twilio_numbers.replace(/\D+/g, '').indexOf(termLower) > -1) {
+            return el.twilio_numbers.replace(/\D+/g, '').indexOf(termLower) > -1;
+          } else {
+            // search for date
+            if (moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+              return moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+            } else {
+              // search for department
+              if (el.widget_department.toString().toLowerCase().indexOf(termLower) > -1) {
+                return el.widget_department.toString().toLowerCase().indexOf(termLower) > -1;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
 }

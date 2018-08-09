@@ -40,7 +40,7 @@
                                         </thead>
                                         <tbody>
                                         <!--<tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">-->
-                                        <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | searchTable : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                                        <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                                             <td>{{i+1}}</td>
                                             <td>{{item.first_name}}</td>
                                             <td>{{item.last_name}}</td>

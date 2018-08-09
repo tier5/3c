@@ -11,6 +11,7 @@ import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment';
+import { AgentSearchPipe } from './agentSearch.pipe';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { MomentModule } from 'angular2-moment';
     ],
     declarations: [
         CreateAgentComponent,
-        ListAgentComponent
+        ListAgentComponent,
+        AgentSearchPipe
     ]
 })
 export class AgentModule {
