@@ -5,7 +5,7 @@ import {moment} from '../../../../../../node_modules/ngx-bootstrap/chronos/test/
   name: 'filter'
 })
 
-export class AgentSearchPipe implements PipeTransform {
+export class AdminSearchPipe implements PipeTransform {
   transform(items: any[], term: any): any[] {
     if (!items) {
       return [];
@@ -24,8 +24,8 @@ export class AgentSearchPipe implements PipeTransform {
           return el.last_name.toLowerCase().indexOf(termLower) > -1;
         } else {
           // search for company
-          if (el.get_company.company.toLowerCase().indexOf(termLower) > -1) {
-            return el.get_company.company.toLowerCase().indexOf(termLower) > -1;
+          if (el.company.toLowerCase().indexOf(termLower) > -1) {
+            return el.company.toLowerCase().indexOf(termLower) > -1;
           } else {
             // search for email
             if (el.email.toLowerCase().indexOf(termLower) > -1) {
@@ -38,6 +38,11 @@ export class AgentSearchPipe implements PipeTransform {
                 // search for date
                 if (moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
                   return moment(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                } else {
+                  // search by twillio sid
+                  if (el.twilio_info.twilio_sid.toLowerCase().indexOf(termLower) > -1) {
+                    return el.twilio_info.twilio_sid.toLowerCase().indexOf(termLower) > -1;
+                  }
                 }
               }
             }

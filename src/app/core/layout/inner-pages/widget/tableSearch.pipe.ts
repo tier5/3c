@@ -15,7 +15,7 @@ export class TableSearchPipe implements PipeTransform {
     }
     return items.filter(function (el: any) {
       // check for first name
-      const termLower = term.toLowerCase();
+      const termLower = term.toLowerCase().trim();
       if (el.first_name.toLowerCase().indexOf(termLower) > -1) {
         return el.first_name.toLowerCase().indexOf(termLower) > -1;
       } else {

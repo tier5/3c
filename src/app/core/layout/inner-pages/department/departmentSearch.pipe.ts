@@ -14,7 +14,7 @@ export class DepartmentSearchPipe implements PipeTransform {
       return items;
     }
     return items.filter(function (el: any) {
-      const termLower = term.toLowerCase();
+      const termLower = term.toLowerCase().trim();
       // check for department name
       if (el.department_name.toLowerCase().indexOf(termLower) > -1) {
         return el.department_name.toLowerCase().indexOf(termLower) > -1;
