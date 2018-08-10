@@ -6,6 +6,7 @@ use App\Model\DepartmentAgentMap;
 use App\Model\MessageAgentTrack;
 use App\Model\TwilioNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Response;
 use App\Model\Widgets;
 use App\Model\Users;
@@ -38,6 +39,7 @@ class ChatController extends Controller
 
     public function checkMessage(Request $request)
     {
+        Log::info('1 ===> in check message');
         //Variable Declaration ( data recive from twilio sms webhook )
         $fromNumber = $request->From;                           //client Number
         $toNumber = substr($request->To, -10);            //widget Number
@@ -48,10 +50,10 @@ class ChatController extends Controller
 
             $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
             if( count($checkMessageTrack) == 0 ){
-
+                Log::info('1 ===> check message If');
                 $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
             } else {
-
+                Log::info('1 ===> check message else');
                 $type ='1';
                 $direction ='1';
                 $userId = null;
@@ -82,17 +84,17 @@ class ChatController extends Controller
 
             $checkMessageCache = MessageCache::where('from_phone_number',$fromNumber)->where('widget_uuid',$widgetUuid)->first();
             if(count($checkMessageCache) != 0 ){
-
+                Log::info('2 ===> check message if');
                 if($checkMessageCache->status == 1){
-
+                    Log::info('1 ===> check message status 1');
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
-                } elseif($checkMessageCache->status == 5){
-                    $this->createSmsTemplate($fromNumber, $widgetUuid);
                 } else{
+                    Log::info('1 ===> check message status else');
                     // checking the message accepted then save to the chat thread
                     $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->where('status',2)->first();
                     if( count($checkMessageTrack) != 0 ){
+                        Log::info('1 ===> check message track if');
                         $type ='1';
                         $direction ='1';
                         $userId = $checkMessageTrack->agent_id;
@@ -101,7 +103,7 @@ class ChatController extends Controller
                 }
 
             }  else{
-
+                Log::info('1 ===> check message else');
                 $responseMessageCacheId = $this->saveMessageCache($fromNumber, $widgetUuid);
                 if($responseMessageCacheId != false){
 
