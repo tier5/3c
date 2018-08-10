@@ -1073,6 +1073,7 @@ class UserController extends Controller
     $lastName   = $request->lastName;
     $email      = trim($request->email);
     $phone      = $request->phone;
+    $departmentId = $request->departmentId;
     if ($userId!='') {
 
         $checkUser = Users::where('id',$userId)->first(); // Check user is in record
@@ -1081,7 +1082,9 @@ class UserController extends Controller
             $checkUser->last_name  = $lastName;
             $checkUser->phone      = $phone;
             if ($checkUser->save()){ // Save user data
-
+                    $checkUserDeptMap = DepartmentAgentMap::where('user_id',$checkUser->id)->first();
+                    $checkUserDeptMap->department_id = $departmentId;
+                    $checkUserDeptMap->update();
                    $response = array('code'=>200,'error'=>false,'response'=>$checkUser,'status'=>true,'message'=>'Agent Updated!');
                 } else {
 
