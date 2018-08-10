@@ -87,7 +87,9 @@ class ChatController extends Controller
 
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
-                }else{
+                } elseif($checkMessageCache->status == 5){
+                    $this->createSmsTemplate($fromNumber, $widgetUuid);
+                } else{
                     // checking the message accepted then save to the chat thread
                     $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->where('status',2)->first();
                     if( count($checkMessageTrack) != 0 ){
@@ -98,7 +100,7 @@ class ChatController extends Controller
                     }
                 }
 
-            }else{
+            }  else{
 
                 $responseMessageCacheId = $this->saveMessageCache($fromNumber, $widgetUuid);
                 if($responseMessageCacheId != false){
