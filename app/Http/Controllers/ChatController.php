@@ -89,6 +89,10 @@ class ChatController extends Controller
                     Log::info('2 ===> check message status 1');
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
+                } elseif ($checkMessageCache->status == 5) {
+                    Log::info('2 ===> check message status 2');
+                    $this->createSmsTemplate($fromNumber, $widgetUuid);
+                    $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
                 } else{
                     Log::info('2 ===> check message status else');
                     // checking the message accepted then save to the chat thread
@@ -101,7 +105,6 @@ class ChatController extends Controller
                         $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
                     } else {
                         Log::info('2 ===> check message track else');
-                        $this->createSmsTemplate($fromNumber, $widgetUuid);
                     }
                 }
 
