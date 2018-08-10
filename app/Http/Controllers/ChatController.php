@@ -86,26 +86,27 @@ class ChatController extends Controller
             if(count($checkMessageCache) != 0 ){
                 Log::info('2 ===> check message if');
                 if($checkMessageCache->status == 1){
-                    Log::info('1 ===> check message status 1');
+                    Log::info('2 ===> check message status 1');
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
                 } else{
-                    Log::info('1 ===> check message status else');
+                    Log::info('2 ===> check message status else');
                     // checking the message accepted then save to the chat thread
                     $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->where('status',2)->first();
                     if( count($checkMessageTrack) != 0 ){
-                        Log::info('1 ===> check message track if');
+                        Log::info('2 ===> check message track if');
                         $type ='1';
                         $direction ='1';
                         $userId = $checkMessageTrack->agent_id;
                         $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
                     } else {
-                        Log::info('here');
+                        Log::info('2 ===> check message track else');
+                        $this->createSmsTemplate($fromNumber, $widgetUuid);
                     }
                 }
 
             }  else{
-                Log::info('1 ===> check message else');
+                Log::info('2 ===> check message else');
                 $responseMessageCacheId = $this->saveMessageCache($fromNumber, $widgetUuid);
                 if($responseMessageCacheId != false){
 
@@ -272,9 +273,11 @@ class ChatController extends Controller
 
     public function createSmsTemplate( $fromNumber,$widgetUuid )
     {
+        Log::info('3 ==> sms template');
         if( $fromNumber != "" && $widgetUuid != "" ){
             $getWidgetData = Widgets::where('widget_uuid',$widgetUuid)->with('twilioNumbers','widgetDepartment.departmentDetails')->first();
             if( count($getWidgetData->widgetDepartment)!=0 ){
+                Log::info('3 ==> if');
                 $toNumber = $getWidgetData->twilioNumbers->prefix.$getWidgetData->twilioNumbers->number;
                 $smsBody = "Please Choose a Department from the list ...";
                 foreach($getWidgetData->widgetDepartment as $data){
@@ -290,7 +293,7 @@ class ChatController extends Controller
                 $smsBody.="Thanks";
                     $this->sendSms( $smsBody, $fromNumber, $toNumber );
             }else{
-
+                Log::info('3 ==> else');
                 return Response::json(array(
                     'status'   => false,
                     'code'     => 400,
@@ -318,6 +321,7 @@ class ChatController extends Controller
      */
     public function sendSms($smsBody , $toNumber, $fromNumber)
     {
+        Log::info('4 ==> send sms');
         if($smsBody !="" && $toNumber!="" && $fromNumber !="") {
             $fromNumberNew = substr($fromNumber, -10);          //add a filter
             $keys = TwilioNumber::where('number', $fromNumberNew)->with('getTwilioCredentials')->first();
