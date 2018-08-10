@@ -100,10 +100,14 @@ class ChatController extends Controller
                             $direction ='1';
                             $userId = $checkMessageTrack->agent_id;
                             $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
-                        } else {
+                        } elseif($checkMessageTrack->status == 5){
                             Log::info('2 ===> check message status 5');
                             $this->createSmsTemplate($fromNumber, $widgetUuid);
-                            $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
+                            $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update([ 'status' => 2]);
+                        } else {
+                            Log::info('2 ===> check message status 5x');
+                            //$this->createSmsTemplate($fromNumber, $widgetUuid);
+                            //$this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
                         }
                     } else {
                         Log::info('2 ===> check message track else');
