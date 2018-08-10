@@ -99,6 +99,8 @@ class ChatController extends Controller
                         $direction ='1';
                         $userId = $checkMessageTrack->agent_id;
                         $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
+                    } else {
+                        Log::info('here');
                     }
                 }
 
