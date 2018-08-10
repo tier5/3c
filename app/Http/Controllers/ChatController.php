@@ -103,7 +103,7 @@ class ChatController extends Controller
                         } elseif($checkMessageTrack->status == 5){
                             Log::info('2 ===> check message status 5');
                             $this->createSmsTemplate($fromNumber, $widgetUuid);
-                            $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update([ 'status' => 2]);
+                            $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update([ 'status' => 1]);
                         } else {
                             Log::info('2 ===> check message status 5x');
                             //$this->createSmsTemplate($fromNumber, $widgetUuid);
