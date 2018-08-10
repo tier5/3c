@@ -10,7 +10,7 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as DepartmentActions from '../../../store/department/department.actions';
 import * as DepartmentReducer from '../../../store/department/department.reducers';
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription } from 'rxjs/Subscription';
 import * as AgentActions from '../../../store/agent/agent.actions';
 
 @Component({

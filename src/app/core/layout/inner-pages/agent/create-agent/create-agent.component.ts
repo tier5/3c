@@ -13,9 +13,7 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
-
+import * as DepartmentReducer from '../../../store/department/department.reducers';
 
 @Component({
   selector: 'app-create-agent',
@@ -31,6 +29,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     adminList: Subscription;
     afterLoginSubscription: Subscription;
     authSubscription: Subscription;
+    newDeptID: Subscription;
     editMode: boolean = false;
     userId: number;
     updateAgent: any;
@@ -60,10 +59,11 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     adminName:any;
     showThis: boolean = false;
 
-    /** Service injection */
+  /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
-                private cdr: ChangeDetectorRef, private router: Router, private modalService: BsModalService) { }
+                private cdr: ChangeDetectorRef, private router: Router, private modalService: BsModalService,
+                private deptStore : Store<DepartmentReducer.DepartmentState>) { }
 
     /** Function to be executed when component initializes */
     ngOnInit() {
@@ -96,6 +96,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                   .subscribe(
                   (agent) => {
                       if (agent) {
+                        this.adminUserId = agent.parent_id;
                         this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: agent.parent_id}));
                         this.agent.parentId = agent.parent_id;
                         this.agent.firstName = agent.first_name;
@@ -229,9 +230,20 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         this.bsModalRef = this.modalService.show(template);
     }
     /** function to create a department */
-    onCreateDep(form){
-        this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
-        this.bsModalRef.hide();
+    onCreateDep(form) {
+      this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
+
+      this.afterLoginSubscription = this.store.select('afterLogin')
+        .map(data => data.department.newDepartmentId)
+        .subscribe(
+          (data) => {
+            if(data) {
+              this.agent.departmentId = data;
+            }
+          }
+        );
+
+      this.bsModalRef.hide();
     }
 
 }

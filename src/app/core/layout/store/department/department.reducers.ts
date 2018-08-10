@@ -3,13 +3,15 @@ import * as DepartmentActions from './department.actions';
 export interface DepartmentState {
   list: any,
   toEdit: any,
-  resetDepartmentForm: boolean
+  resetDepartmentForm: boolean,
+  newDepartmentId: number,
 }
 
 const initialState: DepartmentState = {
   list: [],
   toEdit: {},
-  resetDepartmentForm: false
+  resetDepartmentForm: false,
+  newDepartmentId: 0,
 };
 
 export function departmentReducer(state = initialState, action: DepartmentActions.DepartmentActions) {
@@ -18,10 +20,11 @@ export function departmentReducer(state = initialState, action: DepartmentAction
       return {
         ...state,
         list: [ ...state.list, action.payload ],
+        newDepartmentId: action.payload.id,
         resetDepartmentForm: true
       };
     case (DepartmentActions.EDIT_DEPARTMENT_SUCCESS):
-      const index = state.list.indexOf(dep => dep.id === action.payload.id);      
+      const index = state.list.indexOf(dep => dep.id === action.payload.id);
       const someDep = state.list[index];
       const updatedDep = { ...someDep, ...action.payload };
       const deps = [...state.list];
