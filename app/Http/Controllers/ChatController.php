@@ -50,19 +50,14 @@ class ChatController extends Controller
 
             $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)
                 ->where('from_phone_number',$fromNumber)
-                ->whereIn('status',[1,6])->first();
+                ->whereIn('status',1)->first();
 
             if( count($checkMessageTrack) == 0 ){
                 Log::info('1 ===> process Messages');
                 $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
             } else {
-                if ($checkMessageTrack->status == 1) {
-                    Log::info('1 ===> incited Messages messages');
-                    $type ='1';
-                } else {
-                    $type ='0';
-                    Log::info('1 ===> rejected messages');
-                }
+                Log::info('1 ===> saveOtherChat');
+                $type ='1';
                 $direction ='1';
                 $userId = null;
                 $this->saveOtherChat($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody,$type, $direction,$userId);
@@ -115,7 +110,7 @@ class ChatController extends Controller
                             $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
                         } elseif($checkMessageTrack->status == 5){
                             Log::info('2 ===> check message status 5');
-                            $this->createSmsTemplate($fromNumber, $widgetUuid);
+                            //$this->createSmsTemplate($fromNumber, $widgetUuid);
                             $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)
                                 ->where('from_phone_number',$fromNumber)->update([ 'status' => 6]);
                             $updateMessageCache = MessageCache::where('from_phone_number',$fromNumber)
