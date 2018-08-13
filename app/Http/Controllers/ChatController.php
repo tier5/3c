@@ -36,10 +36,10 @@ class ChatController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-
+//from twilio to TMSMS Platform
     public function checkMessage(Request $request)
     {
-        Log::info('1 ===> in check message');
+        Log::info('1 ===> message comming from twilio');
         //Variable Declaration ( data recive from twilio sms webhook )
         $fromNumber = $request->From;                           //client Number
         $toNumber = substr($request->To, -10);            //widget Number
@@ -50,7 +50,7 @@ class ChatController extends Controller
 
             $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
             if( count($checkMessageTrack) == 0 ){
-                Log::info('1 ===> check message If');
+                Log::info('1 ===> message/nomber not present in message track');
                 $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
             } else {
                 Log::info('1 ===> check message else');
@@ -90,7 +90,7 @@ class ChatController extends Controller
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
                 } else{
-                    Log::info('2 ===> check message status else');
+                    Log::info('2 ===> number not found in MessageCache table');
                     // checking the message accepted then save to the chat thread
                     $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->whereIn('status',[2,5])->first();
                     if( count($checkMessageTrack) != 0 ){
@@ -105,7 +105,7 @@ class ChatController extends Controller
                             $this->createSmsTemplate($fromNumber, $widgetUuid);
                             $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update([ 'status' => 1]);
                         } else {
-                            Log::info('2 ===> check message status 5x');
+                            Log::info('2 ===> ');
                             //$this->createSmsTemplate($fromNumber, $widgetUuid);
                             //$this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
                         }
@@ -115,7 +115,7 @@ class ChatController extends Controller
                 }
 
             }  else{
-                Log::info('2 ===> check message else');
+                Log::info('2 ===> number not found in MessageTrack table');
                 $responseMessageCacheId = $this->saveMessageCache($fromNumber, $widgetUuid);
                 if($responseMessageCacheId != false){
 
@@ -393,6 +393,7 @@ class ChatController extends Controller
             $saveMessageCache->from_phone_number = $fromNumber;
             $saveMessageCache->status            = 1;
             if($saveMessageCache->save()){
+                \Log::info('9 : Message save in MessageCache');
                 return $saveMessageCache->id;
             }else{
                 return false;
@@ -423,6 +424,7 @@ class ChatController extends Controller
             $saveMessageCacheData->message_body     = $messageBody;
             $saveMessageCacheData->status           = 1;
             if($saveMessageCacheData->save()){
+                \Log::info('9 : Message save in MessageCacheData');
                 return true;
             }else{
                 return false;
