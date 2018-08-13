@@ -53,7 +53,7 @@ class ChatController extends Controller
                 Log::info('1 ===> message/nomber not present in message track');
                 $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
             } else {
-                Log::info('1 ===> check message else');
+                Log::info('1 ===> check else from message track');
                 $type ='1';
                 $direction ='1';
                 $userId = null;
@@ -85,7 +85,7 @@ class ChatController extends Controller
             $checkMessageCache = MessageCache::where('from_phone_number',$fromNumber)->where('widget_uuid',$widgetUuid)->first();
             if(count($checkMessageCache) != 0 ){
                 Log::info('2 ===> check message if');
-                if($checkMessageCache->status == 1){
+                if($checkMessageCache->status == 1 && $checkMessageCache->status == 5 ){
                     Log::info('2 ===> check message status 1');
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
 
@@ -450,17 +450,26 @@ class ChatController extends Controller
     public function saveMessageTrack($departmentId, $fromNumber, $widgetUuid, $messageType)
     {
         if($departmentId != "" && $fromNumber !="" && $widgetUuid !=""){
-            $saveMessageTrack                       = new MessageTrack;
-            $saveMessageTrack->widget_id            = $widgetUuid;
-            $saveMessageTrack->department_id        = $departmentId;
-            $saveMessageTrack->from_phone_number    = $fromNumber;
-            $saveMessageTrack->message_type         = $messageType; // Message type 1 ->Mobile SMS 2->Web Chat Message
-            $saveMessageTrack->status               = 1;
-            if($saveMessageTrack->save()){
-                return $saveMessageTrack;
-            }else{
-                return false;
+
+            $checkMessageTrack=MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->count();
+            if($checkMessageTrack!=0){
+                $UpdateMessageTrack=MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update(['department_id'=>$departmentId,'status'=>'1']);
+                return $UpdateMessageTrack;
             }
+            else{
+                $saveMessageTrack                       = new MessageTrack;
+                $saveMessageTrack->widget_id            = $widgetUuid;
+                $saveMessageTrack->department_id        = $departmentId;
+                $saveMessageTrack->from_phone_number    = $fromNumber;
+                $saveMessageTrack->message_type         = $messageType; // Message type 1 ->Mobile SMS 2->Web Chat Message
+                $saveMessageTrack->status               = 1;
+                if($saveMessageTrack->save()){
+                    return $saveMessageTrack;
+                }else{
+                    return false;
+                }
+            }
+            
         }else{
 
             return Response::json(array(
