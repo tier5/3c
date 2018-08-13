@@ -205,8 +205,9 @@ class ChatController extends Controller
                                     foreach($fetchMessageBodyFromMessageCacheData as $data){
                                         if ($data->status == 1) {
                                             $this->saveChatThread($responsesaveMessageLog,$widgetUuid,$data->message_body,$type,$direction,$userId);
-                                            $data->status = 6;
-                                            $data->update();
+                                            $updateMessageCacheData = MessageCacheData::find($data->id);
+                                            $updateMessageCacheData->status = 6;
+                                            $updateMessageCacheData->update();
                                         }
                                     }
                                 }
@@ -306,8 +307,9 @@ class ChatController extends Controller
                                 foreach($fetchMessageBodyFromMessageCacheData as $data){
                                     if ($data->status == 1) {
                                         $this->saveChatThread($responsesaveMessageLog,$widgetUuid,$data->message_body,$type,$direction,$userId);
-                                        $data->status = 6;
-                                        $data->update();
+                                        $updateMessageCacheData = MessageCacheData::find($data->id);
+                                        $updateMessageCacheData->status = 6;
+                                        $updateMessageCacheData->update();
                                     }
                                 }
                             }
@@ -918,6 +920,7 @@ class ChatController extends Controller
      */
     public function chatProcess($fromNumber, $widgetUuid)
     {
+        Log::info('Inside chat Progress table');
         if($fromNumber !="" && $widgetUuid != "") {
             $checkMessageTrack = MessageTrack::where('widget_id', $widgetUuid)->where('from_phone_number', $fromNumber)->where('status', 1)->first();
 
@@ -1032,6 +1035,7 @@ class ChatController extends Controller
      */
     public function saveMessageAgentTrack($responsesaveMessageForwardCount,$chatRoomId,$widgetUuid,$messageId,$departmentId)
     {
+        Log::info('Inside saveMessageAgentTrack');
         if($responsesaveMessageForwardCount!="" && $chatRoomId!="" && $widgetUuid !="" && $messageId!="" &&$departmentId!=""){
 
             $getAllAgentId = DepartmentAgentMap::where('department_id',$departmentId)->select('user_id')->get();
