@@ -114,7 +114,9 @@ class ChatController extends Controller
                             $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)
                                 ->where('from_phone_number',$fromNumber)->update([ 'status' => 1]);
                             $updateMessageCache = MessageCache::where('from_phone_number',$fromNumber)
-                                ->where('widget_uuid',$widgetUuid)->update(['status',6]);
+                                ->where('widget_uuid',$widgetUuid)->first();
+                            $updateMessageCache->status = 6;
+                            $updateMessageCache->update();
                         } else {
                             Log::info('2 ===> ');
                             //$this->createSmsTemplate($fromNumber, $widgetUuid);
