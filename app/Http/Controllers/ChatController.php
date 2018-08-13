@@ -39,7 +39,7 @@ class ChatController extends Controller
 //from twilio to TMSMS Platform
     public function checkMessage(Request $request)
     {
-        Log::info('1 ===> message comming from twilio');
+        Log::info('1 ===> message received');
         //Variable Declaration ( data recive from twilio sms webhook )
         $fromNumber = $request->From;                           //client Number
         $toNumber = substr($request->To, -10);            //widget Number
@@ -48,19 +48,21 @@ class ChatController extends Controller
         $checkTwilioNumbers = TwilioNumber::where('number',$toNumber)->with('getWidgetDetails')->first();
         if(count($checkTwilioNumbers) != 0 ){
 
-            $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)->where('from_phone_number',$fromNumber)->where('status',1)->first();
+            $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)
+                ->where('from_phone_number',$fromNumber)
+                ->where('status',1)->first();
+
             if( count($checkMessageTrack) == 0 ){
-                Log::info('1 ===> message/nomber not present in message track');
+                Log::info('1 ===> process Messages');
                 $this->checkMessageCache($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody);
             } else {
-                Log::info('1 ===> check else from message track');
+                Log::info('1 ===> incited Messages or rejected messages');
                 $type ='1';
                 $direction ='1';
                 $userId = null;
                 $this->saveOtherChat($fromNumber,$checkTwilioNumbers->getWidgetDetails->widget_uuid,$messageBody,$type, $direction,$userId);
             }
         }else{
-
             return  Response::json(array(
                 'status'   => false,
                 'code'     => 400,
@@ -81,18 +83,24 @@ class ChatController extends Controller
     public function checkMessageCache($fromNumber,$widgetUuid,$messageBody)
     {
         if($fromNumber != "" && $widgetUuid !=""){
+            Log::info('2 ===> Process for mobile message');
+            $checkMessageCache = MessageCache::where('from_phone_number',$fromNumber)
+                ->where('widget_uuid',$widgetUuid)->first();
 
-            $checkMessageCache = MessageCache::where('from_phone_number',$fromNumber)->where('widget_uuid',$widgetUuid)->first();
             if(count($checkMessageCache) != 0 ){
-                Log::info('2 ===> check message if');
-                if($checkMessageCache->status == 1 && $checkMessageCache->status == 5 ){
+                Log::info('2 ===> Got a data in Message cache table for the from number');
+                if($checkMessageCache->status == 1){
                     Log::info('2 ===> check message status 1');
                     $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
-
+                } elseif ($checkMessageCache->status == 6) {
+                    Log::info('2 ===> check for resolved messages');
+                    $this->checkResolvedMessageCache($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
                 } else{
-                    Log::info('2 ===> number not found in MessageCache table');
-                    // checking the message accepted then save to the chat thread
-                    $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->whereIn('status',[2,5])->first();
+                    Log::info('2 ===> checking the message accepted and not resolved then save to the chat thread');
+                    $checkMessageTrack = MessageTrack::where('widget_id',$widgetUuid)
+                        ->where('from_phone_number',$fromNumber)
+                        ->whereIn('status',[2,5])->first();
+
                     if( count($checkMessageTrack) != 0 ){
                         if ($checkMessageTrack->status == 2) {
                             Log::info('2 ===> check message status 2');
@@ -103,7 +111,10 @@ class ChatController extends Controller
                         } elseif($checkMessageTrack->status == 5){
                             Log::info('2 ===> check message status 5');
                             $this->createSmsTemplate($fromNumber, $widgetUuid);
-                            $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update([ 'status' => 1]);
+                            $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)
+                                ->where('from_phone_number',$fromNumber)->update([ 'status' => 1]);
+                            $updateMessageCache = MessageCache::where('from_phone_number',$fromNumber)
+                                ->where('widget_uuid',$widgetUuid)->update(['status',6]);
                         } else {
                             Log::info('2 ===> ');
                             //$this->createSmsTemplate($fromNumber, $widgetUuid);
@@ -192,7 +203,11 @@ class ChatController extends Controller
                                 if(count($fetchMessageBodyFromMessageCacheData) != 0 ){
 
                                     foreach($fetchMessageBodyFromMessageCacheData as $data){
-                                        $this->saveChatThread($responsesaveMessageLog,$widgetUuid,$data->message_body,$type,$direction,$userId);
+                                        if ($data->status == 1) {
+                                            $this->saveChatThread($responsesaveMessageLog,$widgetUuid,$data->message_body,$type,$direction,$userId);
+                                            $data->status = 6;
+                                            $data->update();
+                                        }
                                     }
                                 }
                                 $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
@@ -221,6 +236,97 @@ class ChatController extends Controller
                             'error'    => true,
                             'message'  => 'data Not Saved !'
                         ));
+                    }
+                }else{
+
+                    return  Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'response' => [],
+                        'error'    => true,
+                        'message'  => 'department not found !'
+                    ));
+                }
+            } else {
+
+                $checkMessageCache = MessageCache::where('from_phone_number',$fromNumber)->where('widget_uuid',$widgetUuid)->where('status',1)->first();
+                $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $checkMessageCache->id );
+
+                if($responseMessageCacheData == true ){
+
+                    $this->createSmsTemplate($fromNumber, $widgetUuid);
+                }else{
+                    return  Response::json(array(
+                        'status'   => false,
+                        'code'     => 400,
+                        'response' => [],
+                        'error'    => true,
+                        'message'  => 'data Not Saved !'
+                    ));
+                }
+            }
+        } else {
+
+            return  Response::json(array(
+                'status'   => false,
+                'code'     => 400,
+                'response' => [],
+                'error'    => true,
+                'message'  => 'Sorry !'
+            ));
+        }
+    }
+
+    public function checkResolvedMessageCache($messageBody,$fromNumber,$widgetUuid,$checkMessageCacheId)
+    {
+        Log::info('checked resolved message block');
+        if( $messageBody != "" && $fromNumber !="" && $widgetUuid !="" ){
+            $checkWidget = Widgets::where('widget_uuid',$widgetUuid)->first();
+            $messageResponse = $this->ctype_int($messageBody);
+            if( $messageResponse == 'true' ){
+                $departmentId = $messageBody;
+
+                $checkDepartment = WidgetDepartmentMapping::where('department_orders',$departmentId)->where('widget_id',$checkWidget->id)->first();
+                if(count($checkDepartment)!=0){
+                    $updateMessageCache        = MessageCache::where('id',$checkMessageCacheId)->update(['department_id'=>$checkDepartment->department_id,'status'=>'0']);
+                    $responseSaveContactList = $this->saveContactList($widgetUuid,$fromNumber);
+                    if($responseSaveContactList != false ){
+                        $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList,$widgetUuid);
+                        if($responsesaveMessageLog!=false){
+                            //run a update query to update the Message_Track tables from
+                            $responsesaveMessageTrack = MessageTrack::where('widget_id',$widgetUuid)
+                                ->where('from_phone_number',$fromNumber)->first();
+                            $updateMessageTrack = MessageTrack::where('id',$responsesaveMessageTrack->id)->update([ 'message_id' => $responsesaveMessageLog]);
+                            $type = '1'; // 1-> Mobile 2-> Web
+                            $direction = '1'; // 1->Incoming 2-> outgoing
+                            $userId = $responsesaveMessageTrack->agent_id;
+                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id',$checkMessageCacheId)->select('message_body')->get();
+                            if(count($fetchMessageBodyFromMessageCacheData) != 0 ){
+
+                                foreach($fetchMessageBodyFromMessageCacheData as $data){
+                                    if ($data->status == 1) {
+                                        $this->saveChatThread($responsesaveMessageLog,$widgetUuid,$data->message_body,$type,$direction,$userId);
+                                        $data->status = 6;
+                                        $data->update();
+                                    }
+                                }
+                            }
+                            $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
+
+                            //call to node API
+                            $time = date("Y-m-d H:i:s");
+                            $url = url('/').':3000/mobile-chat';
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL,$url);
+                            curl_setopt($ch, CURLOPT_POST, 1);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time");
+
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            $server_output = curl_exec ($ch);
+                            curl_close ($ch);
+                        }
+
                     }
                 }else{
 
@@ -450,24 +556,16 @@ class ChatController extends Controller
     public function saveMessageTrack($departmentId, $fromNumber, $widgetUuid, $messageType)
     {
         if($departmentId != "" && $fromNumber !="" && $widgetUuid !=""){
-
-            $checkMessageTrack=MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->count();
-            if($checkMessageTrack!=0){
-                $UpdateMessageTrack=MessageTrack::where('widget_id',$widgetUuid)->where('from_phone_number',$fromNumber)->update(['department_id'=>$departmentId,'status'=>'1']);
-                return $UpdateMessageTrack;
-            }
-            else{
-                $saveMessageTrack                       = new MessageTrack;
-                $saveMessageTrack->widget_id            = $widgetUuid;
-                $saveMessageTrack->department_id        = $departmentId;
-                $saveMessageTrack->from_phone_number    = $fromNumber;
-                $saveMessageTrack->message_type         = $messageType; // Message type 1 ->Mobile SMS 2->Web Chat Message
-                $saveMessageTrack->status               = 1;
-                if($saveMessageTrack->save()){
-                    return $saveMessageTrack;
-                }else{
-                    return false;
-                }
+            $saveMessageTrack                       = new MessageTrack;
+            $saveMessageTrack->widget_id            = $widgetUuid;
+            $saveMessageTrack->department_id        = $departmentId;
+            $saveMessageTrack->from_phone_number    = $fromNumber;
+            $saveMessageTrack->message_type         = $messageType; // Message type 1 ->Mobile SMS 2->Web Chat Message
+            $saveMessageTrack->status               = 1;
+            if($saveMessageTrack->save()){
+                return $saveMessageTrack;
+            }else{
+                return false;
             }
             
         }else{
