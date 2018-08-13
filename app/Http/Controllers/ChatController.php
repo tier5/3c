@@ -50,7 +50,7 @@ class ChatController extends Controller
 
             $checkMessageTrack = MessageTrack::where('widget_id',$checkTwilioNumbers->getWidgetDetails->widget_uuid)
                 ->where('from_phone_number',$fromNumber)
-                ->whereIn('status',1)->first();
+                ->where('status',1)->first();
 
             if( count($checkMessageTrack) == 0 ){
                 Log::info('1 ===> process Messages');
