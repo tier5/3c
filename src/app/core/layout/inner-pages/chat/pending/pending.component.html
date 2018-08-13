@@ -24,7 +24,7 @@
                                             <ng-container
                                                     *ngFor="let contact of (chatState | async).ongoing; let i = index;">
                                                 <li [ngClass]="{ active : currentChatIndex == i}"
-                                                    (click)="changeCurrentChat(i)" *ngIf="contact.status == 1">
+                                                    (click)="changeCurrentChat(i)" *ngIf="contact.status == 1 || contact.status == 6">
                                                     <div class="col-md-2">
                                                         <div class="chat-head row">
                                                             <img src="../../../../assets/img/avatar5.png"
