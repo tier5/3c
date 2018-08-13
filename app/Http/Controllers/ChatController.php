@@ -634,6 +634,7 @@ class ChatController extends Controller
      */
     public function saveMessageLog($saveContactListId,$widgetUuid)
     {
+        Log::info('Inside saveMessageLog');
         if( $saveContactListId != "" && $widgetUuid != "" ){
             $checkMessageLog = MessageLog::where('widget_id',$widgetUuid)->where('contact_list_id',$saveContactListId)->where('status' , 3 )->first();
             if(count($checkMessageLog) == 0){
@@ -925,7 +926,7 @@ class ChatController extends Controller
     {
         Log::info('Inside chat Progress table');
         if($fromNumber !="" && $widgetUuid != "") {
-            $checkMessageTrack = MessageTrack::where('widget_id', $widgetUuid)->where('from_phone_number', $fromNumber)->where('status', 1)->first();
+            $checkMessageTrack = MessageTrack::where('widget_id', $widgetUuid)->where('from_phone_number', $fromNumber)->whereIn('status', [1,6])->first();
 
             if (count($checkMessageTrack) != 0) {
                 $chatRoomId = $this->generateRandomString();
