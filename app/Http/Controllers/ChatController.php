@@ -117,6 +117,7 @@ class ChatController extends Controller
                                 ->where('widget_uuid',$widgetUuid)->first();
                             $updateMessageCache->status = 6;
                             $updateMessageCache->update();
+                            $this->checkResolvedMessageCache($messageBody,$fromNumber,$widgetUuid,$updateMessageCache->id);
                         } else {
                             Log::info('2 ===> ');
                             //$this->createSmsTemplate($fromNumber, $widgetUuid);
