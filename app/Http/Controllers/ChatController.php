@@ -165,7 +165,7 @@ class ChatController extends Controller
                         'code' => 400,
                         'response' => [],
                         'error' => true,
-                        'message' => 'data Not Saved !'
+                        'mcheckMessageContainessage' => 'data Not Saved !'
                     ));
                 }
             }
@@ -398,7 +398,7 @@ class ChatController extends Controller
             if ($checkWidget != null) {
                 $checkDepartment = WidgetDepartmentMapping::where('department_orders', 0)->where('widget_id', $checkWidget->id)->first();
                 if (count($checkDepartment) != 0) {
-                    $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->where('status', 1)->first();
+                    $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->first();
                     if ($checkMessageCache != null) {
                         $updateMessageCache = MessageCache::where('id', $checkMessageCache->id)->update(['department_id' => $checkDepartment->department_id, 'status' => '0']);
                         $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
