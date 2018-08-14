@@ -110,7 +110,12 @@ class ChatController extends Controller
                             $this->saveOtherChat( $fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId );
                         } elseif($checkMessageTrack->status == 5){
                             Log::info('2 ===> check message status 5');
-                            $this->createSmsTemplate($fromNumber, $widgetUuid);
+                            $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
+                            if (count($getWidgetData->widgetDepartment) > 1) {
+                                $this->createSmsTemplate($fromNumber, $widgetUuid);
+                            } else {
+                                $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$checkMessageCache->id);
+                            }
                             $updateMessageTrack= MessageTrack::where('widget_id',$widgetUuid)
                                 ->where('from_phone_number',$fromNumber)->update([ 'status' => 6]);
                             $updateMessageCache = MessageCache::where('from_phone_number',$fromNumber)
@@ -134,9 +139,13 @@ class ChatController extends Controller
                 if($responseMessageCacheId != false){
 
                     $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $responseMessageCacheId );
-                    if($responseMessageCacheData == true ){
-
-                        $this->createSmsTemplate($fromNumber, $widgetUuid);
+                    if($responseMessageCacheData == true ) {
+                        $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
+                        if (count($getWidgetData->widgetDepartment) > 1) {
+                            $this->createSmsTemplate($fromNumber, $widgetUuid);
+                        } else {
+                            $this->checkMessageContain($messageBody,$fromNumber,$widgetUuid,$responseMessageCacheId);
+                        }
                     }else{
 
                         return  Response::json(array(
@@ -257,8 +266,10 @@ class ChatController extends Controller
                 $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $checkMessageCache->id );
 
                 if($responseMessageCacheData == true ){
-
-                    $this->createSmsTemplate($fromNumber, $widgetUuid);
+                    $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
+                    if (count($getWidgetData->widgetDepartment) > 1) {
+                        $this->createSmsTemplate($fromNumber, $widgetUuid);
+                    }
                 }else{
                     return  Response::json(array(
                         'status'   => false,
@@ -396,7 +407,7 @@ class ChatController extends Controller
         Log::info('3 ==> sms template');
         if( $fromNumber != "" && $widgetUuid != "" ){
             $getWidgetData = Widgets::where('widget_uuid',$widgetUuid)->with('twilioNumbers','widgetDepartment.departmentDetails')->first();
-            if( count($getWidgetData->widgetDepartment)!=0 ){
+            if( count($getWidgetData->widgetDepartment) > 1){
                 Log::info('3 ==> if');
                 $toNumber = $getWidgetData->twilioNumbers->prefix.$getWidgetData->twilioNumbers->number;
                 $smsBody = "Please Choose a Department from the list ...";
