@@ -359,12 +359,16 @@ class ChatController extends Controller
                 }
             } else {
 
-                $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->where('status', 1)->first();
+                $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->first();
                 $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $checkMessageCache->id);
 
                 if ($responseMessageCacheData == true) {
-
-                    $this->createSmsTemplate($fromNumber, $widgetUuid);
+                    $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
+                    if (count($getWidgetData->widgetDepartment) > 1) {
+                        $this->createSmsTemplate($fromNumber, $widgetUuid);
+                    } else {
+                        $this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
+                    }
                 } else {
                     return Response::json(array(
                         'status' => false,
