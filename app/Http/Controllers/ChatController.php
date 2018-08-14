@@ -195,7 +195,7 @@ class ChatController extends Controller
             $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->first();
             $messageResponse = $this->ctype_int($messageBody);
             if ($messageResponse == 'true') {
-                $departmentId = $messageBody;
+                $departmentId = $messageBody - 1;
 
                 $checkDepartment = WidgetDepartmentMapping::where('department_orders', $departmentId)->where('widget_id', $checkWidget->id)->first();
                 if (count($checkDepartment) != 0) {
@@ -302,7 +302,7 @@ class ChatController extends Controller
             $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->first();
             $messageResponse = $this->ctype_int($messageBody);
             if ($messageResponse == 'true') {
-                $departmentId = $messageBody;
+                $departmentId = $messageBody - 1;
 
                 $checkDepartment = WidgetDepartmentMapping::where('department_orders', $departmentId)->where('widget_id', $checkWidget->id)->first();
                 if (count($checkDepartment) != 0) {
@@ -507,7 +507,7 @@ class ChatController extends Controller
                 foreach ($getWidgetData->widgetDepartment as $data) {
                     $smsBody .= "\n";
                     $smsBody .= "\n";
-                    $smsBody .= $data->department_orders;
+                    $smsBody .= $data->department_orders + 1;
                     $smsBody .= " - ";
                     $smsBody .= $data->departmentDetails->department_name;
                 }
