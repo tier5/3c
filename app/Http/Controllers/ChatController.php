@@ -23,6 +23,7 @@ use App\Model\MessageForwardCounter;
 use App\Model\UserToken;
 use App\Http\Controllers\TwilioController;
 use Helper;
+use SebastianBergmann\Environment\Console;
 use Twilio\Rest\Client;                         /* Twilio REST client */
 
 use App\Exceptions\EntityConflictException;
@@ -37,7 +38,7 @@ class ChatController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-//from twilio to TMSMS Platform
+    //from twilio to TMSMS Platform
     public function checkMessage(Request $request)
     {
         Log::info('1 ===> message received');
@@ -957,6 +958,7 @@ class ChatController extends Controller
      */
     public function CheckWebChatMessage(Request $request)
     {
+        Log::info('15 => check web chat');
         $chatRoomId = $request->chatRoomId;
         $messageBody = $request->messageBody;
         $direction = $request->direction;  // 1->Incoming 2-> outgoing
@@ -968,12 +970,14 @@ class ChatController extends Controller
                     $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
                     $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
                     //modify this part
+                    Log::info('15 => send sms');
                     $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber);
                 }
                 $messageId = $checkMessageTrack->message_id;
                 $userId = $checkMessageTrack->agent_id;
                 $widgetUuid = $checkMessageTrack->widget_id;
                 $type = 2; //1->mobile 2->web
+                Log::info('15 => save chat thread');
                 $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
                 if ($responseSaveChatThread->direction == 1) {
                     //user contain client info
