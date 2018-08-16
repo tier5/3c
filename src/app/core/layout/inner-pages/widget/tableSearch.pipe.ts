@@ -12,7 +12,7 @@ export class TableSearchPipe implements PipeTransform {
     }
     return items.filter(function (el: any) {
       // check for first name
-      if (companySearch && companySearch !== undefined) {
+      if (companySearch && companySearch !== '') {
         const companyLower = companySearch.toLowerCase().trim();
         if (el.company !== null && el.company.toLowerCase() === companyLower) {
           if (term && term !== undefined) {
@@ -44,7 +44,7 @@ export class TableSearchPipe implements PipeTransform {
             return el.company.toLowerCase() === companyLower;
           }
         }
-      } else if (companySearch === undefined && term !== undefined) {
+      } else if (companySearch === '' && term !== undefined) {
         const termLower = term.toLowerCase().trim();
         if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
           return el.first_name.toLowerCase().indexOf(termLower) > -1;
