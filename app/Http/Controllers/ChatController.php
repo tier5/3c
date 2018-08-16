@@ -971,42 +971,50 @@ class ChatController extends Controller
                     $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
                     //modify this part
                     Log::info('15 => send sms');
-                    $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber);
-                }
-                $messageId = $checkMessageTrack->message_id;
-                $userId = $checkMessageTrack->agent_id;
-                $widgetUuid = $checkMessageTrack->widget_id;
-                $type = 2; //1->mobile 2->web
-                Log::info('15 => save chat thread');
-                $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
-                if ($responseSaveChatThread->direction == 1) {
-                    //user contain client info
-                    $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
-                    if ($getClientInfo->clientName->name != "") {
-                        $user = $getClientInfo->clientName->name;
-                    } else {
-                        $user = $getClientInfo->clientName->phone;
+                   // $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber);
+                    return Response::json(array(
+                        'status' => false,
+                        'code' => 400,
+                        'error' => true,
+                        'response' => [],
+                        'message' => 'SMS Not send !'
+                    ));
+                } else {
+                    $messageId = $checkMessageTrack->message_id;
+                    $userId = $checkMessageTrack->agent_id;
+                    $widgetUuid = $checkMessageTrack->widget_id;
+                    $type = 2; //1->mobile 2->web
+                    Log::info('15 => save chat thread');
+                    $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
+                    if ($responseSaveChatThread->direction == 1) {
+                        //user contain client info
+                        $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
+                        if ($getClientInfo->clientName->name != "") {
+                            $user = $getClientInfo->clientName->name;
+                        } else {
+                            $user = $getClientInfo->clientName->phone;
+                        }
                     }
-                }
-                if ($responseSaveChatThread->direction == 2) {
-                    //user contain Agent info
-                    $getAgentInfo = ChatThread::where('id', $responseSaveChatThread->id)->with('agentInfo')->first();
-                    $user = $getAgentInfo->agentInfo->first_name;
-                }
+                    if ($responseSaveChatThread->direction == 2) {
+                        //user contain Agent info
+                        $getAgentInfo = ChatThread::where('id', $responseSaveChatThread->id)->with('agentInfo')->first();
+                        $user = $getAgentInfo->agentInfo->first_name;
+                    }
 
-                $response = ['message' => $responseSaveChatThread->chat_thread,
-                    'direction' => $responseSaveChatThread->direction,
-                    'roomNo' => $checkMessageTrack->chat_room_id,
-                    'user' => $user,
-                    'created_at' => $responseSaveChatThread->created_at];
+                    $response = ['message' => $responseSaveChatThread->chat_thread,
+                        'direction' => $responseSaveChatThread->direction,
+                        'roomNo' => $checkMessageTrack->chat_room_id,
+                        'user' => $user,
+                        'created_at' => $responseSaveChatThread->created_at];
 
-                return Response::json(array(
-                    'status' => true,
-                    'code' => 200,
-                    'error' => false,
-                    'response' => $response,
-                    'message' => 'Message sent !'
-                ));
+                    return Response::json(array(
+                        'status' => true,
+                        'code' => 200,
+                        'error' => false,
+                        'response' => $response,
+                        'message' => 'Message sent !'
+                    ));
+                }
             } else {
 
                 return Response::json(array(
