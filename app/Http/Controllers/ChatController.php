@@ -124,7 +124,7 @@ class ChatController extends Controller
                                 ->where('widget_uuid', $widgetUuid)->first();
                             $updateMessageCache->status = 6;
                             $updateMessageCache->update();
-                            $this->checkResolvedMessageCache($messageBody,$fromNumber,$widgetUuid,$updateMessageCache->id);
+                            $this->checkResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
                         } else {
                             Log::info('2 ===> ');
                             //$this->createSmsTemplate($fromNumber, $widgetUuid);
@@ -234,7 +234,7 @@ class ChatController extends Controller
                                 curl_setopt($ch, CURLOPT_URL, $url);
                                 curl_setopt($ch, CURLOPT_POST, 1);
                                 curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                    "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time");
+                                    "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf");
 
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                 $server_output = curl_exec($ch);
@@ -340,7 +340,7 @@ class ChatController extends Controller
                             curl_setopt($ch, CURLOPT_URL, $url);
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time");
+                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf");
 
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             $server_output = curl_exec($ch);
@@ -433,7 +433,7 @@ class ChatController extends Controller
                                     curl_setopt($ch, CURLOPT_URL, $url);
                                     curl_setopt($ch, CURLOPT_POST, 1);
                                     curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                        "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time");
+                                        "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf");
 
                                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                     $server_output = curl_exec($ch);
@@ -441,24 +441,24 @@ class ChatController extends Controller
                                 }
                             }
                         }
-                    } else{
+                    } else {
                         Log::info('3 ==> else');
                         return Response::json(array(
-                            'status'   => false,
-                            'code'     => 400,
-                            'error'    => true,
+                            'status' => false,
+                            'code' => 400,
+                            'error' => true,
                             'response' => [],
-                            'message'  => 'Message cache not found !'
+                            'message' => 'Message cache not found !'
                         ));
                     }
-                } else{
+                } else {
                     Log::info('3 ==> else');
                     return Response::json(array(
-                        'status'   => false,
-                        'code'     => 400,
-                        'error'    => true,
+                        'status' => false,
+                        'code' => 400,
+                        'error' => true,
                         'response' => [],
-                        'message'  => 'department not found !'
+                        'message' => 'department not found !'
                     ));
                 }
             } else {
@@ -833,7 +833,7 @@ class ChatController extends Controller
                         curl_setopt($ch, CURLOPT_URL, $url);
                         curl_setopt($ch, CURLOPT_POST, 1);
                         curl_setopt($ch, CURLOPT_POSTFIELDS,
-                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time");
+                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf");
 
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         $server_output = curl_exec($ch);
@@ -963,28 +963,27 @@ class ChatController extends Controller
         $messageBody = $request->messageBody;
         $direction = $request->direction;  // 1->Incoming 2-> outgoing
         if ($chatRoomId != "") {
-
             $checkMessageTrack = MessageTrack::where('chat_room_id', $chatRoomId)->first();
             if (count($checkMessageTrack) != 0) {
-                if ($checkMessageTrack->message_type == 1) {
-                    $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
-                    $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
-                    //modify this part
-                    Log::info('15 => send sms');
-                   // $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber);
-                    return Response::json(array(
-                        'status' => false,
-                        'code' => 400,
-                        'error' => true,
-                        'response' => [],
-                        'message' => 'SMS Not send !'
-                    ));
+                if (isset($request->callFrom) && $request->callFrom != null && $request->callFrom == 'shelf') {
+                    $response = ['message' => $messageBody,
+                        'direction' => $direction,
+                        'roomNo' => $chatRoomId,
+                        'user' => $request->user,
+                        'created_at' => $request->time];
                 } else {
+                    if ($checkMessageTrack->message_type == 1) {
+                        $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
+                        $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
+                        //modify this part
+                        Log::info('15 => send sms');
+                        $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber);
+                    }
                     $messageId = $checkMessageTrack->message_id;
                     $userId = $checkMessageTrack->agent_id;
                     $widgetUuid = $checkMessageTrack->widget_id;
                     $type = 2; //1->mobile 2->web
-                    Log::info('15 => save chat thread');
+                    Log::info('15 => save chat sms');
                     $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId);
                     if ($responseSaveChatThread->direction == 1) {
                         //user contain client info
@@ -1007,14 +1006,14 @@ class ChatController extends Controller
                         'user' => $user,
                         'created_at' => $responseSaveChatThread->created_at];
 
-                    return Response::json(array(
-                        'status' => true,
-                        'code' => 200,
-                        'error' => false,
-                        'response' => $response,
-                        'message' => 'Message sent !'
-                    ));
                 }
+                return Response::json(array(
+                    'status' => true,
+                    'code' => 200,
+                    'error' => false,
+                    'response' => $response,
+                    'message' => 'Message sent !'
+                ));
             } else {
 
                 return Response::json(array(
