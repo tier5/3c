@@ -20,6 +20,7 @@ export class ListAgentComponent implements OnInit {
     sortedCollection: any[];
     page: number;
     term: any;
+    companySearch: any;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router, private orderPipe: OrderPipe) {

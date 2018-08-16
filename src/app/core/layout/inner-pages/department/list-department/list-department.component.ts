@@ -20,6 +20,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     sortedCollection: any[];
     page: number;
     term: any;
+    companySearch: any;
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router) { }
 

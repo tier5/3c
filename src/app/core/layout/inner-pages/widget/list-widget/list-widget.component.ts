@@ -18,6 +18,7 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
   authSubscription: Subscription;
   page: number;
   term: any;
+  companySearch: any;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router) { }
