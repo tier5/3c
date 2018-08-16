@@ -19,11 +19,14 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
   page: number;
   term: any;
   companySearch: any;
+  companyList: any[];
+  companySubscription: Subscription;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router) { }
   /** Function to be executed when component initializes */
   ngOnInit() {
+    this.companySearch = '';
     this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
@@ -36,6 +39,13 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
       );
 
     this.afterLoginState = this.store.select('afterLogin');
+    this.companySubscription = this.store.select('afterLogin')
+      .subscribe(
+        (data) => {
+          this.companyList = data.widget.list.map(item => item.company)
+            .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+        }
+      );
   }
 
   /** Function to Edit Widget */

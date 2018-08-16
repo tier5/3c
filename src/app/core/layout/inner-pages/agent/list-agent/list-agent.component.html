@@ -18,8 +18,14 @@
           <div class="box-body">
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row filter">
-                <div class="col-sm-2">Filter by company : <input [(ngModel)]="companySearch" placeholder="Company"></div>
-                <div class="col-sm-10">Search : <input [(ngModel)]="term" placeholder="All keywords"></div>
+                <div class="col-sm-4">
+                  company :
+                  <select class='select-option' [(ngModel)]='companySearch'>
+                    <option value="">Filter by company</option>
+                    <option class='option' *ngFor='let option of companyList' [value]="option">{{option}}</option>
+                  </select>
+                </div>
+                <div class="col-sm-8">Search : <input [(ngModel)]="term" placeholder="All keywords"></div>
               </div>
               <div class="row">
                 <div class="col-sm-12">

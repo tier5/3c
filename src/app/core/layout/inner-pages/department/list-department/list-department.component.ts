@@ -21,12 +21,15 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     page: number;
     term: any;
     companySearch: any;
+    companyList: any[];
+    companySubscription: Subscription;
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
       this.page = 1;
+      this.companySearch = '';
       this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
@@ -39,6 +42,13 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
       );
 
     this.afterLoginState = this.store.select('afterLogin');
+    this.companySubscription = this.store.select('afterLogin')
+      .subscribe(
+        (data) => {
+          this.companyList = data.department.list.map(item => item.company_name)
+            .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+        }
+      );
   }
 
   /** Function call to start editing a department */

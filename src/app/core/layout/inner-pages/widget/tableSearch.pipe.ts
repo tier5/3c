@@ -14,7 +14,7 @@ export class TableSearchPipe implements PipeTransform {
       // check for first name
       if (companySearch && companySearch !== undefined) {
         const companyLower = companySearch.toLowerCase().trim();
-        if (el.company !== null && el.company.toLowerCase().indexOf(companyLower) > -1) {
+        if (el.company !== null && el.company.toLowerCase() === companyLower) {
           if (term && term !== undefined) {
             const termLower = term.toLowerCase().trim();
             if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
@@ -41,7 +41,7 @@ export class TableSearchPipe implements PipeTransform {
               }
             }
           } else {
-            return el.company.toLowerCase().indexOf(companyLower) > -1;
+            return el.company.toLowerCase() === companyLower;
           }
         }
       } else if (companySearch === undefined && term !== undefined) {

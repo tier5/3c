@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AgentActions from '../../../store/agent/agent.actions';
 import { OrderPipe } from 'ngx-order-pipe';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-list-agent',
@@ -21,6 +22,8 @@ export class ListAgentComponent implements OnInit {
     page: number;
     term: any;
     companySearch: any;
+    companyList: any[];
+    companySubscription: Subscription;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router, private orderPipe: OrderPipe) {
@@ -30,7 +33,15 @@ export class ListAgentComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new AgentActions.GetAgentListAttempt());
     this.page = 1;
+    this.companySearch = '';
     this.afterLoginState = this.store.select('afterLogin');
+    this.companySubscription = this.store.select('afterLogin')
+      .subscribe(
+        (data) => {
+          this.companyList = data.agent.list.map(item => item.get_company.company)
+            .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+        }
+      );
   }
 
   /** Function to Edit Agent */

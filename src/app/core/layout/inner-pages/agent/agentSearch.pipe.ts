@@ -17,7 +17,7 @@ export class AgentSearchPipe implements PipeTransform {
       // check for first name
       if (companySearch && companySearch !== undefined) {
         const companyLower = companySearch.toLowerCase().trim();
-        if ((el.get_company != null && el.get_company.company != null) && el.get_company.company.toLowerCase().indexOf(companyLower) > -1) {
+        if ((el.get_company != null && el.get_company.company != null) && el.get_company.company.toLowerCase() === companyLower) {
           if (term && term !== undefined) {
             const termLower = term.toLowerCase().trim();
             if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
@@ -44,7 +44,7 @@ export class AgentSearchPipe implements PipeTransform {
               }
             }
           } else {
-            return el.get_company.company.toLowerCase().indexOf(companyLower) > -1;
+            return el.get_company.company.toLowerCase() === companyLower;
           }
         }
       } else if (companySearch === undefined && term !== undefined) {
