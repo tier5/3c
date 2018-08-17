@@ -213,16 +213,14 @@ class ChatController extends Controller
                                 $type = '1'; // 1-> Mobile 2-> Web
                                 $direction = '1'; // 1->Incoming 2-> outgoing
                                 $userId = $responsesaveMessageTrack->agent_id;
-                                $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->select('message_body')->get();
+                                $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy',1)->get();
                                 if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                     foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                        if ($data->copy == 1) {
-                                            $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
-                                            $updateMessageCacheData = MessageCacheData::find($data->id);
-                                            $updateMessageCacheData->copy = 2;
-                                            $updateMessageCacheData->update();
-                                        }
+                                        $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
+                                        $updateMessageCacheData = MessageCacheData::find($data->id);
+                                        $updateMessageCacheData->copy = 2;
+                                        $updateMessageCacheData->update();
                                     }
                                 }
                                 $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
@@ -319,16 +317,13 @@ class ChatController extends Controller
                             $type = '1'; // 1-> Mobile 2-> Web
                             $direction = '1'; // 1->Incoming 2-> outgoing
                             $userId = $responsesaveMessageTrack->agent_id;
-                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->select('message_body')->get();
+                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy',1)->get();
                             if (count($fetchMessageBodyFromMessageCacheData) != 0) {
-
                                 foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                    if ($data->copy == 1) {
-                                        $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
-                                        $updateMessageCacheData = MessageCacheData::find($data->id);
-                                        $updateMessageCacheData->copy = 2;
-                                        $updateMessageCacheData->update();
-                                    }
+                                    $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
+                                    $updateMessageCacheData = MessageCacheData::find($data->id);
+                                    $updateMessageCacheData->copy = 2;
+                                    $updateMessageCacheData->update();
                                 }
                             }
                             $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
@@ -414,16 +409,14 @@ class ChatController extends Controller
                                     $type = '1'; // 1-> Mobile 2-> Web
                                     $direction = '1'; // 1->Incoming 2-> outgoing
                                     $userId = $responsesaveMessageTrack->agent_id;
-                                    $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCache->id)->select('message_body')->get();
+                                    $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCache->id)->where('copy',1)->get();
                                     if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                         foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                            if ($data->copy == 1) {
                                                 $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
                                                 $updateMessageCacheData = MessageCacheData::find($data->id);
                                                 $updateMessageCacheData->copy = 2;
                                                 $updateMessageCacheData->update();
-                                            }
                                         }
                                     }
                                     $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
