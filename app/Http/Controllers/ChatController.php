@@ -50,36 +50,18 @@ class ChatController extends Controller
         $checkTwilioNumbers = TwilioNumber::where('number', $toNumber)->with('getWidgetDetails')->first();
         if (count($checkTwilioNumbers) != 0) {
 
-            $getWidgetData = Widgets::where('widget_uuid', $checkTwilioNumbers->getWidgetDetails->widget_uuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
-            if (count($getWidgetData->widgetDepartment) > 1) {
-                $checkMessageTrack = MessageTrack::where('widget_id', $checkTwilioNumbers->getWidgetDetails->widget_uuid)
-                    ->where('from_phone_number', $fromNumber)
-                    ->where('status', 1)->first();
-                if (count($checkMessageTrack) == 0) {
-                    Log::info('1 ===> process Messages');
-                    $this->checkMessageCache($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody);
-                } else {
-                    Log::info('1 ===> saveOtherChat');
-                    $type = '1';
-                    $direction = '1';
-                    $userId = null;
-                    $this->saveOtherChat($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody, $type, $direction, $userId);
-                }
+            $checkMessageTrack = MessageTrack::where('widget_id', $checkTwilioNumbers->getWidgetDetails->widget_uuid)
+                ->where('from_phone_number', $fromNumber)
+                ->where('status', 1)->first();
+            if (count($checkMessageTrack) == 0) {
+                Log::info('1 ===> process Messages');
+                $this->checkMessageCache($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody);
             } else {
-                $checkMessageTrack = MessageTrack::where('widget_id', $checkTwilioNumbers->getWidgetDetails->widget_uuid)
-                    ->where('from_phone_number', $fromNumber)
-                    ->whereIn('status', [1,5])->get();
-
-                if (count($checkMessageTrack) == 0) {
-                    Log::info('1 ===> process Messages');
-                    $this->checkMessageCache($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody);
-                } else {
-                    Log::info('1 ===> saveOtherChat');
-                    $type = '1';
-                    $direction = '1';
-                    $userId = null;
-                    $this->saveOtherChat($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody, $type, $direction, $userId);
-                }
+                Log::info('1 ===> saveOtherChat');
+                $type = '1';
+                $direction = '1';
+                $userId = null;
+                $this->saveOtherChat($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody, $type, $direction, $userId);
             }
         } else {
             return Response::json(array(
@@ -144,7 +126,7 @@ class ChatController extends Controller
                                 $this->createSmsTemplate($fromNumber, $widgetUuid);
                                 $this->checkResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
                             } else {
-                                $this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
+                                //$this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
                                 $this->checkSingleResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
                             }
                         } else {
