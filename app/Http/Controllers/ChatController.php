@@ -126,6 +126,7 @@ class ChatController extends Controller
                                 $this->createSmsTemplate($fromNumber, $widgetUuid);
                                 $this->checkResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
                             } else {
+                                $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $updateMessageCache->id);
                                 //$this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
                                 $this->checkSingleResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
                             }
