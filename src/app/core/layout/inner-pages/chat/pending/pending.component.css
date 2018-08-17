@@ -40,7 +40,7 @@ h2{
 .chat-list ul li:last-child{
     border: 0;
 }
-.chat-list ul li:hover{
+.chat-list ul li:hover, .chat-list ul li.active{
     background: #3c8dbc;
     box-shadow: 1px 1px 1px 1px #666;
     border-bottom: 1px solid #3c8dbc;
@@ -63,13 +63,13 @@ h2{
     font-size: 12px;
     color: #000;
 }
-.chat-list ul li:hover h3{
+.chat-list ul li:hover h3,.chat-list ul li.active h3{
     color: #fff;
 }
-.chat-list ul li:hover h3 span{
+.chat-list ul li:hover h3 span, .chat-list ul li.active h3 span{
     color: #fff;
 }
-.chat-list ul li:hover p{
+.chat-list ul li:hover p, .chat-list ul li.active p{
     color: #fff;
 }
 .chat-box{

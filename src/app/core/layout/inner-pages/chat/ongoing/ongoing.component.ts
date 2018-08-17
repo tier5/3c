@@ -9,6 +9,7 @@ import 'rxjs/add/operator/take';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
+import {filterQueryId} from "../../../../../../../node_modules/@angular/core/src/view/util";
 
 @Component({
   selector: 'app-ongoing',
@@ -26,6 +27,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   toAgentId : number;
   departmentId : number;
   transferData : any;
+    chatRoomIdChangeDetection: boolean = false;
   
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) { }
@@ -34,7 +36,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
     this.chatService.connect();
     this.chatState = this.store.select('afterLogin').map(data => data.chat);
     this.getChatRoom();
-    this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
+    // this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
     this.store.select('auth')
         .take(1)
         .map(data => data.userId)
@@ -44,6 +46,9 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
+    console.log(this.currentChatRoom);
+       this.changeCurrentChat(0);
+      this.getAgentDepartmentList()
   }
 
   changeCurrentChat(i: number) {
@@ -87,19 +92,30 @@ export class OngoingComponent implements OnInit, OnDestroy {
     }
   }
 
+  getAgentDepartmentList(){
+      this.chatRoomSubscription = this.store.select(s => s.afterLogin.chat.ongoing[this.currentChatIndex])
+          .subscribe(
+              data => {
+                  if (data){
+                      this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : data.room}));
+                  }
+              });
+  }
+
   getChatRoom() {
-    this.chatRoomSubscription = this.store.select('afterLogin')
+    this.chatRoomSubscription = this.store.select("afterLogin")
         .subscribe(
             data => {
+                console.log(data);
               if (data.chat.ongoing[this.currentChatIndex] && !data.chat.ongoing[this.currentChatIndex].length) {
-                this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
+                  this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
+                  console.log(this.currentChatRoom);
               }
             });
   }
 
   sendMsg(form: NgForm) {
     this.chatService.sendMsg({ ...form.value, chatRoomId: this.currentChatRoom });
-
     form.reset();
   }
 
