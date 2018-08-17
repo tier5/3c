@@ -383,6 +383,7 @@ class ChatController extends Controller
 
     public function singleDepartmentChat($fromNumber, $widgetUuid, $messageBody)
     {
+        Log::info('singleDepartmentChat');
         if ($fromNumber != "" && $widgetUuid != "") {
             $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
             if ($checkWidget != null) {
@@ -393,10 +394,13 @@ class ChatController extends Controller
                         $updateMessageCache = MessageCache::where('id', $checkMessageCache->id)->update(['department_id' => $checkDepartment->department_id, 'status' => '0']);
                         $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
                         $responsesaveMessageTrack = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid, $messageType);
+                        Log::info('saveMessageTrack');
                         if ($responsesaveMessageTrack != false) {
                             $responseSaveContactList = $this->saveContactList($widgetUuid, $fromNumber);
+                            Log::info('saveContactList');
                             if ($responseSaveContactList != false) {
                                 $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList, $widgetUuid);
+                                Log::info('saveMessageLog');
                                 if ($responsesaveMessageLog != false) {
                                     //run a update query to update the Message_Track tables from
                                     $updateMessageTrack = MessageTrack::where('id', $responsesaveMessageTrack->id)->update(['message_id' => $responsesaveMessageLog]);
@@ -414,6 +418,7 @@ class ChatController extends Controller
                                         }
                                     }
                                     $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
+                                    Log::info($responseChatProcess);
                                     $time = date("Y-m-d H:i:s");
                                     $url = url('/') . ':3000/mobile-chat';
                                     $ch = curl_init();
