@@ -85,8 +85,8 @@ export class OngoingComponent implements OnInit, OnDestroy {
       case 5:
         this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
         this.changeCurrentChat(0);
-          this.router.navigate(['/chat/resolve']);
-        break;
+          location.href = '/chat/resolve';
+          break;
       default:
         console.log(status);
     }
