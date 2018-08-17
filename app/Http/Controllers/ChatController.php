@@ -217,10 +217,10 @@ class ChatController extends Controller
                                 if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                     foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                        if ($data->status == 1) {
+                                        if ($data->copy == 1) {
                                             $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
                                             $updateMessageCacheData = MessageCacheData::find($data->id);
-                                            $updateMessageCacheData->status = 6;
+                                            $updateMessageCacheData->copy = 2;
                                             $updateMessageCacheData->update();
                                         }
                                     }
@@ -323,10 +323,10 @@ class ChatController extends Controller
                             if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                 foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                    if ($data->status == 1) {
+                                    if ($data->copy == 1) {
                                         $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
                                         $updateMessageCacheData = MessageCacheData::find($data->id);
-                                        $updateMessageCacheData->status = 6;
+                                        $updateMessageCacheData->copy = 2;
                                         $updateMessageCacheData->update();
                                     }
                                 }
@@ -418,10 +418,10 @@ class ChatController extends Controller
                                     if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                         foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                            if ($data->status == 1) {
+                                            if ($data->copy == 1) {
                                                 $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId);
                                                 $updateMessageCacheData = MessageCacheData::find($data->id);
-                                                $updateMessageCacheData->status = 6;
+                                                $updateMessageCacheData->copy = 2;
                                                 $updateMessageCacheData->update();
                                             }
                                         }
@@ -1340,7 +1340,7 @@ class ChatController extends Controller
         //$updateChatThread   = ChatThread::where('message_log_id',$messageId)->where('widget_id',$widgetUuid)->update(['user_id' => $agentId,'status' => $status]);    //comment out
 
         $updateMessageForwardCounter = MessageForwardCounter::where('id', $messageForwardCountId)->update(['status' => $status]);
-
+        
         $response = ['agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status' => $status];
 
         return Response::json(array(
