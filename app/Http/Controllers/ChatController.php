@@ -192,6 +192,7 @@ class ChatController extends Controller
 
     public function checkMessageContain($messageBody, $fromNumber, $widgetUuid, $checkMessageCacheId)
     {
+        Log::info('checkMessageContain');
         if ($messageBody != "" && $fromNumber != "" && $widgetUuid != "") {
             $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->first();
             $messageResponse = $this->ctype_int($messageBody);
@@ -354,26 +355,13 @@ class ChatController extends Controller
                     ));
                 }
             } else {
-
-                $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->first();
-                $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $checkMessageCache->id);
-
-                if ($responseMessageCacheData == true) {
-                    $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
-                    if (count($getWidgetData->widgetDepartment) > 1) {
-                        $this->createSmsTemplate($fromNumber, $widgetUuid);
-                    } else {
-                        $this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
-                    }
-                } else {
-                    return Response::json(array(
-                        'status' => false,
-                        'code' => 400,
-                        'response' => [],
-                        'error' => true,
-                        'message' => 'data Not Saved !'
-                    ));
-                }
+                return Response::json(array(
+                    'status' => false,
+                    'code' => 400,
+                    'response' => [],
+                    'error' => true,
+                    'message' => 'data Not Saved !'
+                ));
             }
         } else {
 
@@ -389,6 +377,7 @@ class ChatController extends Controller
 
     public function singleDepartmentChat($fromNumber, $widgetUuid, $messageBody)
     {
+        Log::info('singleDepartmentChats');
         if ($fromNumber != "" && $widgetUuid != "") {
             $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
             if ($checkWidget != null) {
