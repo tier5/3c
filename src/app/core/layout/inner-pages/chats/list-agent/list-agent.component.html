@@ -1,6 +1,7 @@
 <div class="content-wrapper">
   <section class="content-header">
-    <h1>Chat List</h1>
+    <h1 *ngIf="chatMode">Chat List</h1>
+    <h1 *ngIf="!chatMode">Contact List</h1>
     <ol class="breadcrumb">
       <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
       <li *ngIf="chatMode"><a href="javascript:void(0)">Chats</a></li>
@@ -33,12 +34,12 @@
                       <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                           class="mdl-data-table__cell--non-numeric">Last Name
                       </th>
-                      <!--<th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Email</th>-->
+                      <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" *ngIf="!chatMode">Email</th>
                       <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                           aria-label="CSS grade: activate to sort column ascending">Phone
                       </th>
                       <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                          class="mdl-data-table__cell--non-numeric">Department
+                          class="mdl-data-table__cell--non-numeric" *ngIf="chatMode">Department
                       </th>
                       <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                           aria-label="CSS grade: activate to sort column ascending">Action
@@ -51,9 +52,9 @@
                       <td>{{i+1}}</td>
                       <td>{{item.first_name}}</td>
                       <td>{{item.last_name}}</td>
-                      <!--<td>{{item.email}}</td>-->
+                      <td *ngIf="!chatMode">{{item.email}}</td>
                       <td>{{item.phone}}</td>
-                      <td>{{item.department_agent_mapping.department_details.department_name}}</td>
+                      <td *ngIf="chatMode">{{item.department_agent_mapping.department_details.department_name}}</td>
                       <td>
                         <!-- Single button -->
                         <div class="btn-group">
