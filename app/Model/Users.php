@@ -17,6 +17,10 @@ class Users extends Model
   * @var null|string
   */
   protected $table = 'users';
+    /**
+     * @var array
+     */
+  protected $appends = ['name'];
 
   /*
   function for getting twilio credentials
@@ -51,5 +55,9 @@ class Users extends Model
     public function widgetCount()
     {
         return $this->hasMany('App\Model\Widgets','user_id','id');
+    }
+    public function getNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 }
