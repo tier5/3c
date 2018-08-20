@@ -75,7 +75,64 @@
         </div>
       </div>
       <!-- ./col -->
+
+      <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3>{{pendingChatCount}}</h3>
+            <p>Pending Chats</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+          <a href="/chat/pending" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+        <!-- small box -->
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>{{ongoingChatCount}}</h3>
+            <p>Ongoing Chats</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+          <a href="/chat/ongoing" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+
     </div>
+
+      <div class="row" *ngIf="(authState | async).isAgent">
+          <div class="col-md-4" *ngIf="!!(showChats() | async).length">
+              <ul>
+                  <ng-container
+                          *ngFor="let contact of (chatState | async).ongoing; let i = index;">
+                      <li [ngClass]="{ active : currentChatIndex == i}"
+                          (click)="changeCurrentChat(i)" *ngIf="contact.status == 1 || contact.status == 6">
+                          <div class="col-md-2">
+                              <div class="chat-head row">
+                                  <img src="../../../../assets/img/avatar5.png"
+                                       class="img-responsive">
+                              </div>
+                          </div>
+                          <div class="col-md-10">
+                              <div class="chat-content">
+                                  <h3>{{contact.client}} <span>{{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}} </span>
+                                  </h3>
+                                  <p>{{contact.room}}</p>
+                              </div>
+                          </div>
+                      </li>
+                  </ng-container>
+              </ul>
+          </div>
+      </div>
+
     <!-- /.row -->
   </section>
   <!-- /.content -->

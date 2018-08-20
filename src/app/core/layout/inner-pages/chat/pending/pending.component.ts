@@ -103,7 +103,7 @@ export class PendingComponent implements OnInit, OnDestroy {
         form.reset();
     }
 
-    /** Show chats id status is 5 */
+    /** Show chats id status is 1*/
     showChats() {
         return this.store.select('afterLogin')
             .map(data => data.chat)
