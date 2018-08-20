@@ -26,6 +26,7 @@
     "@ngrx/store-devtools": "^4.0.0",
     "amazing-time-picker": "^1.5.3",
     "angular2-moment": "^1.7.0",
+    "angular2-multiselect-dropdown": "^2.9.0",
     "angular2-text-mask": "^8.0.4",
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",

@@ -1,141 +1,143 @@
 <div class="content-wrapper">
-    <section class="content-header">
-        <h1>Department Section</h1>
-        <ol class="breadcrumb">
-            <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a routerLink="/department/list">Department</a></li>
-            <li class="active"><a href="javascript:void(0)">{{ editMode ? 'Edit' : 'Create' }}</a></li>
-        </ol>
-    </section>
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <!-- /.box-header -->
-                    <div class="box-body" *ngIf="(authState | async).twilioIsActive">
-                        <form #form="ngForm" (submit)="onCreateDep(form)">
-                            <!-- text input -->
-                            <div class="box-header with-border">
-                                <h3 class="box-title">{{ editMode ? 'Edit' : 'Create' }} Department</h3>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group autoListArea">
-                                            <label class="control-label" for="admin">
-                                                Admin for Department
-                                            </label>
-                                            <!--<select class="form-control"-->
-                                                    <!--id="admin"-->
-                                                    <!--name="userId"-->
-                                                    <!--[disabled]="editMode || (authState | async).isAdmin"-->
-                                                    <!--#selected-->
-                                                    <!--[(ngModel)]="dep.userId" (click)="adminChanged(dep.userId)">-->
-                                                <!--<option selected value="0">Choose...</option>-->
-                                                <!--<option [value]="item.id"-->
-                                                        <!--*ngFor="let item of (afterLoginState | async).admin.list; let i = index"-->
-                                                <!--&gt;-->
-                                                    <!--{{item.first_name}} {{item.last_name}}-->
-                                                <!--</option>-->
-                                            <!--</select>-->
+  <section class="content-header">
+    <h1>Department Section</h1>
+    <ol class="breadcrumb">
+      <li><a routerLink="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="/department/list">Department</a></li>
+      <li class="active"><a href="javascript:void(0)">{{ editMode ? 'Edit' : 'Create' }}</a></li>
+    </ol>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <!-- /.box-header -->
+          <div class="box-body" *ngIf="(authState | async).twilioIsActive">
+            <form #form="ngForm" (submit)="onCreateDep(form)">
+              <!-- text input -->
+              <div class="box-header with-border">
+                <h3 class="box-title">{{ editMode ? 'Edit' : 'Create' }} Department</h3>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
 
-                                            <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName"></div>
+                  <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName"></div>
 
-                                            <ng-template #thenTemplateName>
-                                                <input type="text" class="form-control"
-                                                       name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
-                                            </ng-template>
+                  <ng-template #thenTemplateName>
+                    <input type="hidden" class="form-control"
+                           name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
+                  </ng-template>
 
-                                            <ng-template #elseTemplateName>
+                  <ng-template #elseTemplateName>
+                    <div class="col-md-6">
+                      <div class="form-group autoListArea">
+                        <label class="control-label" for="admin">
+                          Admin for Department
+                        </label>
 
-                                                <input type="text" (keyup)="checkAdminname($event.target.value)"
-
-                                                       [ngClass]="editMode ?  'form-control' : 'form-control' "
-                                                       [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)" autocomplete="off" [readonly]="editMode" class="listBox" #selectOption>
-                                                <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i class="fa fa-close"></i> </span>
-                                                <ul *ngIf="showThis" class="autoList" id="autoList" >
-                                                    <li *ngFor="let item of updatedlistOfAdmins; let i = index"> <span (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span> </li>
-                                                </ul>
-                                            </ng-template>
-                                            <input type="hidden"  [ngModel]="dep.userId" id="admin" name="userId" #selected>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6" *ngIf="selected.value > 0">
-                                        <div class="form-group">
-                                            <label class="control-label" for="agents">
-                                                Select Agents
-                                            </label>
-                                            <select class="form-control"
-                                                    id="agents"
-                                                    name="agentIds"
-                                                    [(ngModel)]="dep.agents"
-                                                    multiple>
-                                                <option [value]="item.id" *ngFor="let item of (afterLoginState | async).agent.list; let i = index">
-                                                    {{item.first_name}} {{item.last_name}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6" *ngIf="selected.value > 0">
-                                <div class="form-group" [ngClass]="(dName.invalid && dName.touched) ? 'has-error': ''">
-                                    <label class="control-label" for="name">
-                                        <i *ngIf="dName.invalid && dName.touched" class="fa fa-times-circle-o"></i>
-                                        Department Name
-                                    </label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="name"
-                                           name="departmentName"
-                                           [ngModel]="dep.departmentName"
-                                           #dName="ngModel"
-                                           required
-                                           placeholder="Enter ..."
-                                    >
-                                    <span *ngIf="dName.invalid && dName.touched" class="help-block">Your Department Name is Required!</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6" *ngIf="selected.value > 0">
-                                <div class="form-group" [ngClass]="{ 'has-error': dDes.invalid && dDes.touched }">
-                                    <label class="control-label" for="detail">
-                                        <i *ngIf="dDes.invalid && dDes.touched" class="fa fa-times-circle-o"></i>
-                                        Department Description
-                                    </label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="detail"
-                                           name="departmentDetails"
-                                           ngModel
-                                           [ngModel]="dep.departmentDetails"
-                                           #dDes="ngModel"
-                                           required
-                                           placeholder="Enter ..."
-                                    >
-                                    <span *ngIf="dDes.invalid && dDes.touched" class="help-block">Your Department Description is Required!</span>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="box-footer">
-                                    <button type="submit"
-                                            [disabled]="form.invalid || selected.value <= 0"
-                                            class="btn btn-primary pull-right"
-                                    >
-                                        <i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        <input type="text" (keyup)="checkAdminname($event.target.value)"
+                               [ngClass]="editMode ?  'form-control' : 'form-control' "
+                               [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)"
+                               autocomplete="off" [readonly]="editMode" class="listBox" #selectOption>
+                        <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i
+                          class="fa fa-close"></i> </span>
+                        <ul *ngIf="showThis" class="autoList" id="autoList">
+                          <li *ngFor="let item of updatedlistOfAdmins; let i = index"><span
+                            (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="box-body" *ngIf="!(authState | async).twilioIsActive">
-                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>
+                  </ng-template>
+                  <input type="hidden" [ngModel]="dep.userId" id="admin" name="userId" #selected>
+                  <div class="col-md-6" *ngIf="selected.value > 0">
+                    <div class="form-group">
+                      <label class="control-label" for="agents">
+                        Select Agents
+                      </label>
+                      <angular2-multiselect
+                        id="agents" name="agentIds"
+                        [data]="(afterLoginState | async).agent.list"
+                        [(ngModel)]="dep.agents" [settings]="dropdownSettings"
+                      >
+                        <c-badge>
+                          <ng-template let-item="item">
+                            <label style="margin: 0px;">{{item.name}}</label>
+                          </ng-template>
+                        </c-badge>
+                      </angular2-multiselect>
+                      <!--<select class="form-control"
+                              id="agents"
+                              name="agentIds"
+                              [(ngModel)]="dep.agents"
+                              multiple>
+                          <option [value]="item.id" *ngFor="let item of (afterLoginState | async).agent.list; let i = index">
+                              {{item.first_name}} {{item.last_name}}
+                          </option>
+                      </select>-->
                     </div>
-                    <!-- /.box-body -->
+                  </div>
                 </div>
-            </div>
-            <!-- /.col -->
+              </div>
+              <div class="col-md-6" *ngIf="selected.value > 0">
+                <div class="form-group" [ngClass]="(dName.invalid && dName.touched) ? 'has-error': ''">
+                  <label class="control-label" for="name">
+                    <i *ngIf="dName.invalid && dName.touched" class="fa fa-times-circle-o"></i>
+                    Department Name
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         id="name"
+                         name="departmentName"
+                         [ngModel]="dep.departmentName"
+                         #dName="ngModel"
+                         required
+                         placeholder="Enter ..."
+                  >
+                  <span *ngIf="dName.invalid && dName.touched"
+                        class="help-block">Your Department Name is Required!</span>
+                </div>
+              </div>
+              <div class="col-md-6" *ngIf="selected.value > 0">
+                <div class="form-group" [ngClass]="{ 'has-error': dDes.invalid && dDes.touched }">
+                  <label class="control-label" for="detail">
+                    <i *ngIf="dDes.invalid && dDes.touched" class="fa fa-times-circle-o"></i>
+                    Department Description
+                  </label>
+                  <input type="text"
+                         class="form-control"
+                         id="detail"
+                         name="departmentDetails"
+                         ngModel
+                         [ngModel]="dep.departmentDetails"
+                         #dDes="ngModel"
+                         required
+                         placeholder="Enter ..."
+                  >
+                  <span *ngIf="dDes.invalid && dDes.touched"
+                        class="help-block">Your Department Description is Required!</span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="box-footer">
+                  <button type="submit"
+                          [disabled]="form.invalid || selected.value <= 0"
+                          class="btn btn-primary pull-right"
+                  >
+                    <i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="box-body" *ngIf="!(authState | async).twilioIsActive">
+            <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>
+          </div>
+          <!-- /.box-body -->
         </div>
-        <!-- /.row -->
-    </section>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
 </div>

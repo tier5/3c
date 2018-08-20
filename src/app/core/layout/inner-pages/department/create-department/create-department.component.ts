@@ -45,6 +45,8 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     updatedlistOfAdmins = [];
     adminName:any;
     showThis: boolean = false;
+  selectedItems = [];
+  dropdownSettings = {};
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
@@ -125,6 +127,22 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                   }
               }
           );
+    this.dropdownSettings = {
+      singleSelection: false,
+      text:"Select Agents",
+      selectAllText:'Select All',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: false,
+      classes:"myclass custom-class",
+      primaryKey: 'id',
+      labelKey: 'name'
+    };
+    this.selectedItems = [
+      {"id":2,"itemName":"Singapore"},
+      {"id":3,"itemName":"Australia"},
+      {"id":4,"itemName":"Canada"},
+      {"id":5,"itemName":"South Korea"}
+    ];
   }
 
   /** Your code to update the model */

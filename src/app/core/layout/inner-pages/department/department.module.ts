@@ -9,6 +9,7 @@ import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { MomentModule } from 'angular2-moment';
 import { DepartmentSearchPipe } from './departmentSearch.pipe';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { DepartmentSearchPipe } from './departmentSearch.pipe';
         Ng2SearchPipeModule,
         OrderModule,
         NgxPaginationModule,
-        MomentModule
+        MomentModule,
+        AngularMultiSelectModule
     ],
     declarations: [
         CreateDepartmentComponent,
