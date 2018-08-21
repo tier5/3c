@@ -25,7 +25,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ongoingChatCount: any;
     authState: Observable<fromAuth.State>;
     chatState: Observable<fromChat.ChatState>;
-    showNotification : boolean;
 
   constructor( private store: Store<fromAfterLogin.AfterLoginFeatureState>, private chatService: ChatService ) { }
 
@@ -69,11 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     showChats() {
         return this.store.select('afterLogin')
             .map(data => data.chat)
-            .map(chats => chats.ongoing.filter(chat => chat.status == 1  ));
-
-        // var maxID = (Math.max.apply(null, $scope.employees.map(x => x.id)) || 0) + 1;
-
-        // Math.max.apply(Math, array.map(function(o) { return o.y; }))
+            .map(chats => chats.ongoing.filter(chat => chat.status == 1 ));
     }
 
     ngOnDestroy (): void {
