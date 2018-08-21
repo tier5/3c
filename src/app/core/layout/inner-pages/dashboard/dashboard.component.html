@@ -104,77 +104,80 @@
         </div>
       </div>
 
+        <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{closedChatCount}}</h3>
+                    <p>Closed Chats</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/chat/ongoing" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
 
     </div>
 
-      <div class="row" *ngIf="(authState | async).isAgent">
-          <div class="col-md-4" *ngIf="!!(showChats() | async).length">
-              <ul>
-                  <ng-container
-                          *ngFor="let contact of (chatState | async).ongoing; let i = index;">
-                      <li [ngClass]="{ active : currentChatIndex == i}"
-                          (click)="changeCurrentChat(i)" *ngIf="contact.status == 1 || contact.status == 6">
-                          <div class="col-md-2">
-                              <div class="chat-head row">
-                                  <img src="../../../../assets/img/avatar5.png"
-                                       class="img-responsive">
-                              </div>
-                          </div>
-                          <div class="col-md-10">
-                              <div class="chat-content">
-                                  <h3>{{contact.client}} <span>{{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}} </span>
-                                  </h3>
-                                  <p>{{contact.room}}</p>
-                              </div>
-                          </div>
-                      </li>
-                  </ng-container>
-              </ul>
-          </div>
+      <!--<div class="row" *ngIf="(authState | async).isAgent">-->
+          <!--<div class="col-md-4" *ngIf="!!(showChats() | async).length">-->
+              <!--<ul>-->
+                  <!--<ng-container-->
+                          <!--*ngFor="let contact of (chatState | async).ongoing; let i = index;">-->
+                      <!--<li [ngClass]="{ active : currentChatIndex == i}"-->
+                          <!--(click)="changeCurrentChat(i)" *ngIf="contact.status == 1 || contact.status == 6">-->
+                          <!--<div class="col-md-2">-->
+                              <!--<div class="chat-head row">-->
+                                  <!--<img src="../../../../assets/img/avatar5.png"-->
+                                       <!--class="img-responsive">-->
+                              <!--</div>-->
+                          <!--</div>-->
+                          <!--<div class="col-md-10">-->
+                              <!--<div class="chat-content">-->
+                                  <!--<h3>{{contact.client}} <span>{{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}} </span>-->
+                                  <!--</h3>-->
+                                  <!--<p>{{contact.room}}</p>-->
+                              <!--</div>-->
+                          <!--</div>-->
+                      <!--</li>-->
+                  <!--</ng-container>-->
+              <!--</ul>-->
+          <!--</div>-->
 
 
 
 
 
-      </div>
+      <!--</div>-->
 
     <!-- /.row -->
   </section>
   <!-- /.content -->
-  <section>
-    <div class="col-md-4">
+  <section *ngIf="(authState | async).isAgent">
+    <div class="col-md-4" *ngIf="!!(showChats() | async).length">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Recently Added Products</h3>
+          <h3 class="box-title">Pending chat requests </h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
           <ul class="products-list product-list-in-box">
-            <li class="item">
+              <ng-container   *ngFor="let contact of (chatState | async).ongoing; let i = index;">
+            <li class="item" *ngIf="contact.status == 1 || contact.status == 6">
               <div class="product-info">
-                <a href="javascript:void(0)" class="product-title">Samsung TV</a>
+                <a href="javascript:void(0)" class="product-title">{{contact.client}}</a>
                 <span class="product-description">
-                  Samsung 32" 1080p 60Hz LED Smart HDTV.
+                  {{contact.room}} - {{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}}
                 </span>
               </div>
               <div class="button-box">
-                <button class="btn btn-success">Accept</button>
-                <button class="btn btn-danger">Reject</button>
+                <button class="btn btn-success" (click)="onSomeMsgAction(2,contact.room)">Accept</button>
+                <button class="btn btn-danger"  (click)="onSomeMsgAction(3,contact.room)">Reject</button>
               </div>
             </li>
-            <!-- /.item -->
-            <li class="item">
-              <div class="product-info">
-                <a href="javascript:void(0)" class="product-title">Bicycle</a>
-                <span class="product-description">
-                  26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                </span>
-              </div>
-              <div class="button-box">
-                <button class="btn btn-success">Accept</button>
-                <button class="btn btn-danger">Reject</button>
-              </div>
-            </li>
+              </ng-container>
           </ul>
         </div>
         <!-- /.box-body -->

@@ -23,8 +23,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     widgets: any;
     pendingChatCount: any;
     ongoingChatCount: any;
+    closedChatCount: any;
     authState: Observable<fromAuth.State>;
     chatState: Observable<fromChat.ChatState>;
+    agentId: number;
 
   constructor( private store: Store<fromAfterLogin.AfterLoginFeatureState>, private chatService: ChatService ) { }
 
@@ -40,6 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                   } else if(data.isAuthenticated !== false && data.isAgent){
                       console.log('hay call me hare ');
                       this.store.dispatch(new DashboardActions.GetDashboardItemsCountAttempt({userId: data.userId}));
+                      this.agentId = data.userId;
                       this.chatService.connect();
                       this.chatState = this.store.select('afterLogin').map(data => data.chat);
                   }
@@ -55,6 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                   this.widgets = changes.list[0][0].widgetCount;
                   this.pendingChatCount = changes.list[0][0].pendingChatCount;
                   this.ongoingChatCount = changes.list[0][0].ongoingChatCount;
+                  this.closedChatCount = changes.list[0][0].closedChatCount;
               }
           },(error) => {
               console.log(error);
@@ -70,6 +74,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .map(data => data.chat)
             .map(chats => chats.ongoing.filter(chat => chat.status == 1 ));
     }
+
+    onSomeMsgAction(status: number,currentChatRoom: number) {
+        console.log(status,currentChatRoom);
+        switch(status) {
+            case 2:
+                this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: currentChatRoom });
+                /** redirect to the ongoing chat page */
+                location.href = '/chat/ongoing';
+                break;
+            case 3:
+                this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: currentChatRoom });
+                break;
+            case 5:
+                this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: currentChatRoom });
+                break;
+            default:
+                console.log(status,currentChatRoom);
+        }
+    }
+
 
     ngOnDestroy (): void {
         this.authSubscription.unsubscribe();
