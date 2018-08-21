@@ -1,0 +1,9 @@
+.products-list .product-info {
+    margin-left: 0;
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+.button-box{
+    float: right;
+}
