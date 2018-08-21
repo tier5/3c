@@ -80,7 +80,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
             this.loader = false;
             this.form.reset();
             this.store.dispatch(new DepartmentActions.ResetDepartmentForm());
-            if(!!this.loggedInAdminId) {
+            if (!!this.loggedInAdminId) {
               this.form.form.patchValue({ userId: this.loggedInAdminId });
             }
           }
