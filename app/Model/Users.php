@@ -56,8 +56,26 @@ class Users extends Model
     {
         return $this->hasMany('App\Model\Widgets','user_id','id');
     }
+
     public function getNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
     }
+
+
+    public function pendingChatCount()
+    {
+        return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',1);
+    }
+
+    public function ongoingChatCount()
+    {
+        return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',2);
+    }
+
+    public function closedChatCount()
+    {
+        return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',5);
+    }
+
 }

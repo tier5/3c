@@ -102,8 +102,8 @@ class DashboardController extends Controller
                     }
                 }
 
-                if ($checkUser->userInfo->type == 2) { //Admin Department List
-                    \Log::info('This is Admin');
+                if ($checkUser->userInfo->type == 2) { //   Admin Dashboard items count
+
                     $dashboardItems = Users::where('id', $userId)->with('agentCount', 'departmentCount', 'widgetCount')->get();
 
                     $dashboardItemCount = array();
@@ -131,6 +131,36 @@ class DashboardController extends Controller
                             'message' => 'Sorry Dashboard Item Count list not found !'
                         ));
                     }
+                } if ($checkUser->userInfo->type == 3) { // Agent Dashboard item count
+                    $dashboardItems = Users::where('id',$userId)->with('pendingChatCount','ongoingChatCount','closedChatCount')->get();
+
+                    $dashboardItemCount = array();
+
+                    foreach ($dashboardItems as $key => $value) {
+                        $dashboardItemCount[$key]['pendingChatCount'] = $value->pendingChatCount->count();
+                        $dashboardItemCount[$key]['ongoingChatCount'] = $value->ongoingChatCount->count();
+                        $dashboardItemCount[$key]['closedChatCount'] = $value->closedChatCount->count();
+                    }
+
+                    if (count($dashboardItemCount) != 0) {
+
+                        return Response::json(array(
+                            'status' => true,
+                            'code' => 200,
+                            'response' => $dashboardItemCount,
+                            'message' => 'Dashboard Item Count List !'
+                        ));
+
+                    } else {
+
+                        return Response::json(array(
+                            'status' => false,
+                            'code' => 400,
+                            'response' => [],
+                            'message' => 'Sorry Dashboard Item Count list not found !'
+                        ));
+                    }
+
                 }
             } else {
 
