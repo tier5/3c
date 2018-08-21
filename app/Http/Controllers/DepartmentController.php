@@ -6,8 +6,12 @@
 namespace App\Http\Controllers;
 
 use App\Model\DepartmentAgentMap;
+use App\User;
 use Illuminate\Http\Request;
 use Auth,Mail,Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\AssignOp\Concat;
 use Response;
 use App\Model\UserToken; /* User Token Model */
 use App\Model\Users;
@@ -41,7 +45,7 @@ class DepartmentController extends Controller
                     foreach ($agentIds as $agentId) {
                         $departmentAgents = new DepartmentAgentMap();
                         $departmentAgents->department_id = $saveDepartment->id;
-                        $departmentAgents->user_id = $agentId;
+                        $departmentAgents->user_id = $agentId['id'];
                         $departmentAgents->save();
                     }
                 }
@@ -84,7 +88,7 @@ class DepartmentController extends Controller
                             foreach ($agentIds as $agentId) {
                                 $departmentAgents = new DepartmentAgentMap();
                                 $departmentAgents->department_id = $saveDepartment->id;
-                                $departmentAgents->user_id = $agentId;
+                                $departmentAgents->user_id = $agentId['id'];
                                 $departmentAgents->save();
                             }
                         }
@@ -146,7 +150,6 @@ class DepartmentController extends Controller
      */
     public function editDepartment(Request $request)
     {
-
         $departmentId      = $request->departmentId;  //department id
         $departmentName    = $request->departmentName;  //department Name
         $departmentDetails = $request->departmentDetails; //Department Details
@@ -163,7 +166,7 @@ class DepartmentController extends Controller
                     foreach ($agentIds as $agentId) {
                         $departmentAgents = new DepartmentAgentMap();
                         $departmentAgents->department_id = $updateDepartment->id;
-                        $departmentAgents->user_id = $agentId;
+                        $departmentAgents->user_id = $agentId['id'];
                         $departmentAgents->save();
                     }
                 }
@@ -213,7 +216,10 @@ class DepartmentController extends Controller
             $department = Department::where('id',$departmentId)->with('userDetails')->first();
             if( count($department) != 0 ) {
                 $data['department'] = $department;
-                $data['agents'] = $department->departmentAgents->pluck('user_id');
+                $agents = $department->departmentAgents->pluck('user_id');
+                if (count($agents) > 0) {
+                    $data['agents'] = User::whereIn('id',$agents)->select('id','first_name','last_name')->get();
+                }
                 return  Response::json(array(
                     'status'   => true,
                     'code'     => 200,
