@@ -6,6 +6,7 @@ import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AgentActions from '../../../store/agent/agent.actions';
 import { OrderPipe } from 'ngx-order-pipe';
 import {Subscription} from 'rxjs/Subscription';
+import * as fromAuth from '../../../../store/auth/auth.reducers';
 
 @Component({
   selector: 'app-list-agent',
@@ -16,6 +17,7 @@ export class ListAgentComponent implements OnInit {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  authState: Observable<fromAuth.State>;
     order: string = 'info.name';
     reverse: boolean = false;
     sortedCollection: any[];
@@ -32,6 +34,7 @@ export class ListAgentComponent implements OnInit {
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.store.dispatch(new AgentActions.GetAgentListAttempt());
+    this.authState = this.store.select('auth');
     this.page = 1;
     this.companySearch = '';
     this.afterLoginState = this.store.select('afterLogin');
