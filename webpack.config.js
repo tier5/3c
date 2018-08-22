@@ -24,12 +24,12 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      { 
+      {
         test: /(\.css$)/,
         loaders: ['style-loader', 'css-loader']
-      }, 
-      { 
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
         loader: 'file-loader'
       },
       {
@@ -86,11 +86,10 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"development"',
-        API_URL : '"http://3c.local/api/v1/"',
-        API_HOST : '"http://3c.local/"',
+        API_URL : '"http://localhost:8000/api/v1/"',
+        API_HOST : '"http://localhost:8000/"',
         SOCKET_URL : '"http://localhost:3000"'
       }
     }),
   ])
 }
-
