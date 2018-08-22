@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit {
   }
 
   /** Function call to toggle left sidebar */
-  toggleLeftSidebar() {
-    if(window.screen.width <= 767) {
+  toggleLeftSidebar(event) {
+    if (window.screen.width <= 767) {
       this.mtls.emit(event);
     } else {
       this.tls.emit(event);
