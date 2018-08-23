@@ -11,6 +11,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { MomentModule } from 'angular2-moment';
 import { TableSearchPipe } from './tableSearch.pipe';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+
 
 @NgModule({
   imports: [
@@ -22,7 +24,8 @@ import { TableSearchPipe } from './tableSearch.pipe';
       AmazingTimePickerModule,
       Ng2SearchPipeModule,
       NgxPaginationModule,
-      MomentModule
+      MomentModule,
+      AngularMultiSelectModule
 
   ],
     providers: [

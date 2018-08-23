@@ -69,12 +69,23 @@
                                 </div>
 
                                 <!-- Department -->
-                                <div class="col-md-6" *ngIf="selectedAdmin.value > 0">
+                                <div class="col-md-6"  >
                                     <div class="form-group">
                                         <label class="control-label" for="department">
                                             Department for Widget
                                         </label>
-                                        <select class="form-control"
+                                      <angular2-multiselect
+                                        id="department" name="departmentIdArray"
+                                        [data]="(afterLoginState | async).department.list"
+                                        [(ngModel)]="widget.departmentIdArray" [settings]="dropdownSettings"
+                                      >
+                                        <c-badge>
+                                          <ng-template let-item="item">
+                                            <label style="margin: 0px;">{{item.department_name}}</label>
+                                          </ng-template>
+                                        </c-badge>
+                                      </angular2-multiselect>
+                                        <!--<select class="form-control"
                                                 id="department"
                                                 name="departmentIdArray"
                                                 #selectedDepartment="ngModel"
@@ -83,13 +94,13 @@
                                                     *ngFor="let item of (afterLoginState | async).department.list">
                                                 {{item.department_name}}
                                             </option>
-                                        </select>
+                                        </select>-->
                                     </div>
                                 </div>
 
                             </div>
 
-                            <div class="row" *ngIf="selectedAdmin.value > 0">
+                            <div class="row"  >
 
                                 <!-- Web Site URL -->
                                 <div class="col-md-6">
@@ -137,7 +148,7 @@
 
                             </div>
 
-                            <div class="row" *ngIf="selectedAdmin.value > 0">
+                            <div class="row"  >
 
                                 <!-- TimeZone -->
                                 <div class="col-md-6">
@@ -178,7 +189,7 @@
 
                             </div>
 
-                            <div class="row" *ngIf="selectedAdmin.value > 0">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group col-md-6">
                                         <label class="control-label" for="image">Widget Logo </label>
@@ -211,10 +222,13 @@
 
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group"
-                                         [ngClass]="(daysArray.invalid && daysArray.touched) ? 'has-error': ''">
+                                    <div class="form-group">
                                         <label class="control-label" for="settings">Limit setting time & days </label>
-                                        <select name="daysArray"
+                                      <div *ngFor="let data of limitArray" id="settings">
+                                        <input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>
+                                      </div>
+
+                                        <!--<select name="daysArray"
                                                 class="form-control"
                                                 [ngModel]="widget.daysArray"
                                                 required
@@ -226,13 +240,13 @@
                                             <option value="Fri">Fri</option>
                                             <option value="Sat">Sat</option>
                                             <option value="Sun">Sun</option>
-                                        </select>
-                                        <span *ngIf="daysArray.invalid && daysArray.touched" class="help-block">Choosing Available Days is Required!</span>
+                                        </select>-->
+                                        <span *ngIf="widget.daysArray.length === 0" class="help-block" style="color: red !important;">Choosing Available Days is Required!</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row" *ngIf="selectedAdmin.value > 0">
+                            <div class="row"  >
                                 <!-- From Time -->
                                 <div class="col-md-6" [ngClass]="(startTime.invalid && startTime.touched) ? 'has-error': ''">
                                 <!--<div class="col-md-6">-->
@@ -281,7 +295,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="box-footer">
-                                    <button type="button" [disabled]="timePikerError || form.invalid" class="btn btn-primary pull-right" (click)="onSubmit(form)">
+                                    <button type="button" [disabled]="timePikerError || form.invalid || widget.daysArray.length === 0" class="btn btn-primary pull-right" (click)="onSubmit(form)">
                                         <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i>
                                         Submit
                                     </button>
