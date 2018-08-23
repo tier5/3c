@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Timezone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Response;
 use App\Model\Widgets;
 use App\Model\Users;
@@ -119,7 +120,6 @@ class WidgetController extends Controller
             $req->startTime = $startTime;
             $req->endTime   = $endTime;
             $this->updateWidgetSchedule($req);
-
             // Save Widget Departments
             $reqDepartments                    = new Request;
             $reqDepartments->widgetId          = $widgets->id;
@@ -418,7 +418,6 @@ class WidgetController extends Controller
       if (count($checkWidget) == 1) {
         // Check file is in param
         if ($request->hasFile('image')) {
-            \Log::info('Have File images');
           $extension = $request->image->extension();
           if (in_array($extension, $supportedFormat)) {
             $imageName   = $generateFileName.'.'.$extension;
@@ -457,7 +456,6 @@ class WidgetController extends Controller
           $reqSchedule->startTime = $widgetStartTime;
           $reqSchedule->endTime   = $widgetEndTime;
           $this->updateWidgetSchedule($reqSchedule);
-
           // Save Widget Departments
           $reqDepartments                    = new Request;
           $reqDepartments->widgetId          = $widgetId;
@@ -641,8 +639,9 @@ class WidgetController extends Controller
         /** to get all the widget departments */
         $departmentArray = [];
 
-        foreach($viewWidget->widgetDepartment as $department) {
-          $departmentArray[] = $department->department_id;
+        foreach($viewWidget->widgetDepartment as $key => $department) {
+          $departmentArray[$key]['id'] = $department->department_id;
+          $departmentArray[$key]['department_name'] = $department->departmentDetails->department_name;
         }
 
         /** array to send the response */
