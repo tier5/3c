@@ -118,4 +118,7 @@ Route::post('add-super-admin', 'UserController@addSuperadmin');
 Route::post('get-dashboard-count', 'DashboardController@getDashboardCount');
 // route for agent list based on selected admin
 Route::post('get-admin-agents','UserController@getAdminAgents');
+// route for company list
+Route::post('get-company-list','UserController@getCompanyList');
+
 

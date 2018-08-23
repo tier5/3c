@@ -132,14 +132,15 @@ class DashboardController extends Controller
                         ));
                     }
                 } if ($checkUser->userInfo->type == 3) { // Agent Dashboard item count
-                    $dashboardItems = Users::where('id',$userId)->with('pendingChatCount','ongoingChatCount','closedChatCount')->get();
+                    $dashboardItems = Users::where('id',$userId)->with('pendingChatCount','ongoingChatCount','closedChatCount','rejectedChatCount')->get();
 
                     $dashboardItemCount = array();
 
                     foreach ($dashboardItems as $key => $value) {
-                        $dashboardItemCount[$key]['pendingChatCount'] = $value->pendingChatCount->count();
-                        $dashboardItemCount[$key]['ongoingChatCount'] = $value->ongoingChatCount->count();
-                        $dashboardItemCount[$key]['closedChatCount'] = $value->closedChatCount->count();
+                        $dashboardItemCount[$key]['pendingChatCount']   = $value->pendingChatCount->count();
+                        $dashboardItemCount[$key]['ongoingChatCount']   = $value->ongoingChatCount->count();
+                        $dashboardItemCount[$key]['closedChatCount']    = $value->closedChatCount->count();
+                        $dashboardItemCount[$key]['rejectedChatCount']  = $value->rejectedChatCount->count();
                     }
 
                     if (count($dashboardItemCount) != 0) {
