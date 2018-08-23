@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as WidgetActions from '../../../store/widget/widget.actions';
 import { Subscription } from 'rxjs/Subscription';
+import * as fromAuth from "../../../../store/auth/auth.reducers";
+import * as AgentActions from "../../../store/agent/agent.actions";
 
 @Component({
   selector: 'app-list-widget',
@@ -15,6 +17,7 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
+  authState: Observable<fromAuth.State>;
   authSubscription: Subscription;
   page: number;
   term: any;
@@ -27,6 +30,7 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.companySearch = '';
+    this.authState = this.store.select('auth');
     this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
@@ -39,13 +43,31 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
       );
 
     this.afterLoginState = this.store.select('afterLogin');
-    this.companySubscription = this.store.select('afterLogin')
-      .subscribe(
-        (data) => {
-          this.companyList = data.widget.list.map(item => item.company)
-            .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
-        }
+    // this.companySubscription = this.store.select('afterLogin')
+    //   .subscribe(
+    //     (data) => {
+    //       this.companyList = data.widget.list.map(item => item.company)
+    //         .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+    //     }
+    //   );
+
+      this.authSubscription = this.store.select('auth')
+          .subscribe(
+              (data) => {
+                  if(data.isSuperAdmin) {
+                      this.store.dispatch(new AgentActions.GetCompanyListAttempt({userId: data.token}));
+                  }
+              }
+          );
+
+      /* Company List droupdown */
+      this.companySubscription = this.store.select('afterLogin','agent').subscribe(
+          (data)=> {
+              this.companyList = data.comapnyList;
+          }
       );
+
+
   }
 
   /** Function to Edit Widget */

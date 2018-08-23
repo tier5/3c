@@ -27,7 +27,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   toAgentId : number;
   departmentId : number;
   transferData : any;
-    chatRoomIdChangeDetection: boolean = false;
+  chatRoomIdChangeDetection: boolean = false;
   
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) { }
@@ -46,7 +46,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
               this.agentId = id;
             }
         );
-    console.log(this.currentChatRoom);
        this.changeCurrentChat(0);
       this.getAgentDepartmentList()
   }
@@ -106,10 +105,8 @@ export class OngoingComponent implements OnInit, OnDestroy {
     this.chatRoomSubscription = this.store.select("afterLogin")
         .subscribe(
             data => {
-                console.log(data);
               if (data.chat.ongoing[this.currentChatIndex] && !data.chat.ongoing[this.currentChatIndex].length) {
                   this.currentChatRoom = data.chat.ongoing[this.currentChatIndex].room;
-                  console.log(this.currentChatRoom);
               }
             });
   }

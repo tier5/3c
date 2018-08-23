@@ -81,7 +81,7 @@
         <div class="small-box bg-yellow">
           <div class="inner">
             <h3>{{pendingChatCount}}</h3>
-            <p>Pending Chats</p>
+            <p>New Requests</p>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -95,7 +95,7 @@
         <div class="small-box bg-green">
           <div class="inner">
             <h3>{{ongoingChatCount}}</h3>
-            <p>Ongoing Chats</p>
+            <p>Live Sessions</p>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -106,17 +106,32 @@
 
         <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
             <!-- small box -->
-            <div class="small-box bg-red">
+            <div class="small-box bg-blue">
                 <div class="inner">
                     <h3>{{closedChatCount}}</h3>
-                    <p>Closed Chats</p>
+                    <p>Closed </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="/chat/ongoing" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/chat/resolve" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
+
+        <div class="col-lg-3 col-xs-6"  *ngIf="(authState | async).isAgent">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{rejectedChatCount}}</h3>
+                    <p>Rejected </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/chat/rejected" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
 
 
     </div>

@@ -4,14 +4,16 @@ export interface AgentState {
   info: any,
   list: any,
   toEdit: any,
-  resetAgentForm: boolean
+  resetAgentForm: boolean,
+  comapnyList:  any,
 }
 
 const initialState: AgentState = {
   info: null,
   list: [],
   toEdit: {},
-  resetAgentForm: false
+  resetAgentForm: false,
+  comapnyList:  []
 }
 
 export function agentReducer (state = initialState, action: AgentActions.AgentActions) {
@@ -51,6 +53,11 @@ export function agentReducer (state = initialState, action: AgentActions.AgentAc
           return {
               ...state,
               list: action.payload
+          };
+      case (AgentActions.GET_COMPANY_LIST_SUCCESS):
+          return {
+              ...state,
+              comapnyList: action.payload
           };
     default:
       return state

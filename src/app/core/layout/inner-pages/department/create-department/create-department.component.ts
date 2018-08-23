@@ -40,18 +40,17 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   adminUserId:number;                 /** admin user id from admin selection droupdown */
   adminId:number;
   changedDepFlag: boolean = false;
-    adminList: Subscription;
-    listOfAdmins = [];
-    updatedlistOfAdmins = [];
-    adminName:any;
-    showThis: boolean = false;
-  selectedItems = [];
+  adminList: Subscription;
+  listOfAdmins = [];
+  updatedlistOfAdmins = [];
+  adminName:any;
+  showThis: boolean = false;
   dropdownSettings = {};
+
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
-              private cdr: ChangeDetectorRef, private router: Router,
-              private deptStore : Store<DepartmentReducer.DepartmentState>) { }
+              private cdr: ChangeDetectorRef, private router: Router) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -96,7 +95,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
              /** Checking route params to get id of department to edit */
           this.depId = this.activatedRoute.snapshot.params['id'];
              this.store.dispatch(new DepartmentActions.GetToEditDepartmentAttempt({departmentId: this.depId}));
-             // console.log(this.deptStore.select('toEdit'))
              this.updateDep = this.store.select('department')
                  .distinctUntilChanged()
                 .subscribe(
@@ -137,12 +135,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       primaryKey: 'id',
       labelKey: 'name'
     };
-    this.selectedItems = [
-      {"id":2,"itemName":"Singapore"},
-      {"id":3,"itemName":"Australia"},
-      {"id":4,"itemName":"Canada"},
-      {"id":5,"itemName":"South Korea"}
-    ];
   }
 
   /** Your code to update the model */
@@ -154,6 +146,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   ngOnDestroy(){
     this.authSubscription.unsubscribe();
     this.afterLoginSubscription.unsubscribe();
+    this.adminList.unsubscribe();
   }
 
   /** Function call to create a new department */

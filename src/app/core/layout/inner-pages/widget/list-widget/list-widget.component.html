@@ -17,16 +17,19 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                          <div class="row filter">
-                            <div class="col-sm-4">
-                              company :
-                              <select class='select-option' [(ngModel)]='companySearch'>
-                                <option value="">Filter by company</option>
-                                <option class='option' *ngFor='let option of companyList' [value]="option">{{option}}</option>
-                              </select>
+                            <div class="row filter">
+                                <div class="col-sm-4" *ngIf="!(authState | async).isAdmin;">
+                                    company :
+                                    <select class='select-option' [(ngModel)]='companySearch'>
+                                        <option value="">Filter by company</option>
+                                        <option class='option' *ngFor='let option of companyList' [value]="option.company">
+                                            {{option.company}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-8">Search : <input [(ngModel)]="term" placeholder="All keywords">
+                                </div>
                             </div>
-                            <div class="col-sm-8">Search : <input [(ngModel)]="term" placeholder="All keywords"></div>
-                          </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
@@ -34,34 +37,35 @@
                                         <thead>
                                         <tr role="row">
                                             <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">#</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Fristname</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Lastname</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Company</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Number</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Department</th>
-                                            <!--<th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">On Going Chat</th>-->
-                                            <!--<th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Resolve Chat</th>-->
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Created At</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Action</th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                Fristname
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Lastname
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Company
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Number
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                Department
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Created
+                                                At
+                                            </th>
+                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Action
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <!--<tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">-->
-                                        <tr role="row" class="odd" *ngFor="let item of (afterLoginState | async).widget.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
-                                            <td>{{i+1}}</td>
-                                            <td>{{item.first_name}}</td>
-                                            <td>{{item.last_name}}</td>
+                                        <tr role="row" class="odd"
+                                            *ngFor="let item of (afterLoginState | async).widget.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>{{ item.first_name }}</td>
+                                            <td>{{ item.last_name }}</td>
                                             <td>{{ item.company }}</td>
-                                            <td>{{item.twilio_numbers}}</td>
-                                            <!--<td>{{item.user_details?.first_name}}</td>-->
-                                            <!--<td>{{item.user_details?.last_name}}</td>-->
-                                            <!--<td>{{item.twilio_numbers?.number}}</td>-->
-                                            <!--<td><span *ngFor="let dep of item.widget_department, let j=index">{{dep.department_details?.department_name}}{{j === item.widget_department.length - 1 ? '' : ', '}}</span>-->
-                                            <!--</td>-->
-                                            <td>{{item.widget_department | slice:0:120 }}</td>
-                                            <!--<td></td>-->
-                                            <!--<td></td>-->
-                                            <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
+                                            <td>{{ item.twilio_numbers }}</td>
+                                            <td>{{ item.widget_department | slice:0:120 }}</td>
+                                            <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                                             <td>
                                                 <!-- Single button -->
                                                 <div class="btn-group" [appDropdown]="'open'" disable-hover="true">

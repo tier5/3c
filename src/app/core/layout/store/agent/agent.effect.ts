@@ -12,6 +12,8 @@ import * as AuthActions from '../../../store/auth/auth.actions'
 import * as AgentActions from './agent.actions'
 import * as AlertActions from '../../../store/alert/alert.actions'
 import { environment } from '../../../../../environments/environment'
+import {GET_COMPANY_LIST_ATTEMPT} from "./agent.actions";
+import {GET_COMPANY_LIST_SUCCESS} from "./agent.actions";
 
 @Injectable()
 export class AgentEffects {
@@ -181,6 +183,40 @@ export class AgentEffects {
                         return {
                             type: AlertActions.ALERT_SHOW,
                             payload: { message: res.message, type: 'danger'}
+                        }
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    )
+                })
+        })
+
+    @Effect()
+    getCompanyList = this.actions$
+        .ofType(AgentActions.GET_COMPANY_LIST_ATTEMPT)
+        .switchMap((action: AgentActions.GetCompanyListAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'get-company-list'
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const config = {
+                headers: headers
+            }
+            return this.httpClient.post(apiUrl, config)
+                .map((res: any) => {
+                    if (res.status) {
+                        return {
+                            type: AgentActions.GET_COMPANY_LIST_SUCCESS,
+                            payload: res.response
+                        }
+                    } else {
+                        return {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: res.message, type: 'danger'}
                         }
                     }
 

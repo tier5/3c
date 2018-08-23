@@ -22,7 +22,7 @@
                   company :
                   <select class='select-option' [(ngModel)]='companySearch'>
                     <option value="">Filter by company</option>
-                    <option class='option' *ngFor='let option of companyList' [value]="option">{{option}}</option>
+                    <option class='option' *ngFor='let option of companyList' [value]="option.company">{{option.company}}</option>
                   </select>
                 </div>
                 <div class="col-sm-8">Search : <input [(ngModel)]="term" placeholder="All keywords"></div>

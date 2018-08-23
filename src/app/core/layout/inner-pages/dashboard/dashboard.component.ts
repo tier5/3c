@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     pendingChatCount: any;
     ongoingChatCount: any;
     closedChatCount: any;
+    rejectedChatCount: any;
     authState: Observable<fromAuth.State>;
     chatState: Observable<fromChat.ChatState>;
     agentId: number;
@@ -40,7 +41,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                   } else if (data.isAuthenticated !== false && data.isSuperAdmin) {
                        this.store.dispatch(new DashboardActions.GetDashboardItemsCountAttempt({userId: null}));
                   } else if(data.isAuthenticated !== false && data.isAgent){
-                      console.log('hay call me hare ');
                       this.store.dispatch(new DashboardActions.GetDashboardItemsCountAttempt({userId: data.userId}));
                       this.agentId = data.userId;
                       this.chatService.connect();
@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                   this.pendingChatCount = changes.list[0][0].pendingChatCount;
                   this.ongoingChatCount = changes.list[0][0].ongoingChatCount;
                   this.closedChatCount = changes.list[0][0].closedChatCount;
+                  this.rejectedChatCount = changes.list[0][0].rejectedChatCount;
               }
           },(error) => {
               console.log(error);
