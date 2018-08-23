@@ -228,6 +228,7 @@ class WidgetController extends Controller
                     $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
                     $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
                     $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                    $listsWidgets[$key]['company'] = $data->userDetails->company;
                     if($data->widgetDepartment != null){
                         $departmentNames = array();
                         foreach($data->widgetDepartment as $newKey=>$depData){
@@ -274,6 +275,7 @@ class WidgetController extends Controller
                     $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
                     $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
                     $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                    $listsWidgets[$key]['company'] = $data->userDetails->company;
                     if($data->widgetDepartment != null){
                         $departmentNames = array();
                         foreach($data->widgetDepartment as $newKey=>$depData){
@@ -329,6 +331,7 @@ class WidgetController extends Controller
                   $listsWidgets[$key]['created_at'] = $data->created_at->format('Y-m-d H:i:s');
                   $listsWidgets[$key]['first_name'] = $data->userDetails->first_name;
                   $listsWidgets[$key]['last_name'] = $data->userDetails->last_name;
+                  $listsWidgets[$key]['company'] = $data->userDetails->company;
                   if($data->widgetDepartment != null){
                       $departmentNames = array();
                       foreach($data->widgetDepartment as $newKey=>$depData){

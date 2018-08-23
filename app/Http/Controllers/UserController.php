@@ -1027,6 +1027,7 @@ class UserController extends Controller
    */
   public function listofAgent(Request $request)
   {
+      \Log::info('hitting htis Function ');
     $userToken = $request->token;
 
     if ($userToken!='') { //Get agent list of an admin
@@ -1038,7 +1039,6 @@ class UserController extends Controller
         } else {  // Get all agents
 
             $getAgents = Users::where('type',3)->with('departmentAgentMapping.departmentDetails','getCompany')->orderBy('created_at','desc')->get();
-
         }
 
         if (count($getAgents)!=0) {
@@ -1533,6 +1533,37 @@ class UserController extends Controller
       }else{
 
           $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Admin id Found in the request !');
+      }
+
+      return Response()->json($response);
+  }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+  public function getCompanyList(Request $request){
+      $userToken      = $request->token;  //token recive from the user
+      if($userToken != ""){
+
+          $getUserInfo = UserToken::where('token',$userToken)->with('userInfo')->first();
+          if(count($getUserInfo) != "" && $getUserInfo->userInfo->type == 1){
+
+                $getCompany = Users::select('id','company')->where('type',2)->where('company','!=','')->get();
+                if(count($getCompany) != 0){
+
+                        $response = array('code'=>200,'error'=>false,'response'=>$getCompany,'status'=>true,'message'=>'List of Company !');
+                }else{
+
+                    $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Data not found !');
+                }
+          }else{
+
+              $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Not a superadmin !');
+          }
+      }else{
+
+          $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'User token not found  !');
       }
 
       return Response()->json($response);

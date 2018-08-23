@@ -39,7 +39,7 @@ class Users extends Model
 
   public function getCompany()
   {
-      return $this->hasOne('App\Model\Users','id','parent_id');
+      return $this->hasOne('App\Model\Users','id','parent_id')->select('id','company');
   }
 
   public function agentCount()
@@ -76,6 +76,11 @@ class Users extends Model
     public function closedChatCount()
     {
         return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',5);
+    }
+
+    public function rejectedChatCount()
+    {
+        return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',3);
     }
 
 }
