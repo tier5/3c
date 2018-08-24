@@ -81,7 +81,7 @@
         <div class="small-box bg-yellow">
           <div class="inner">
             <h3>{{pendingChatCount}}</h3>
-            <p>New Requests</p>
+            <h4>New Requests</h4>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -95,7 +95,7 @@
         <div class="small-box bg-green">
           <div class="inner">
             <h3>{{ongoingChatCount}}</h3>
-            <p>Live Sessions</p>
+            <h4>Live Sessions</h4>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -109,7 +109,7 @@
             <div class="small-box bg-blue">
                 <div class="inner">
                     <h3>{{closedChatCount}}</h3>
-                    <p>Closed </p>
+                    <h4>Closed </h4>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -123,7 +123,7 @@
             <div class="small-box bg-red">
                 <div class="inner">
                     <h3>{{rejectedChatCount}}</h3>
-                    <p>Rejected </p>
+                    <h4>Rejected </h4>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -136,7 +136,7 @@
 
     </div>
     <div class="row" *ngIf="(authState | async).isAgent">
-        <div class="col-md-4" *ngIf="!!(showChats() | async).length">
+        <div class="col-lg-3 col-xs-12" *ngIf="!!(showChats() | async).length">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Pending chat requests </h3>
