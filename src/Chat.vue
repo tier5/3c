@@ -47,28 +47,63 @@
                         </div>
                     </div>
                     <div v-for="message in messages">
-
-
-                        <div class="row msg_container base_sent" v-if="message.direction==1">
+                        <div class="row msg_container base_sent" v-if="message.direction === 1">
                             <div class="col-md-3 pull-left">
-                <span class="time-left"> <icon name="clock-o"></icon>{{ moment(message.created_at.date) }}
-
-                </span>
+                                <span class="time-left"> <icon name="clock-o"></icon>
+                                    {{ moment(message.created_at.date) }}
+                                </span>
                             </div>
                             <div class="messages msg_sent">
-                                <p class="pull-right">{{ message.message }}</p>
+                                <div v-if="message.isMMS">
+                                    <div class="row">
+                                        <a :href="message.fileUrl" class="pull-right">
+                                            <div v-if="message.fileType === 'image'">
+                                                <img :src="message.fileUrl" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                            <div v-if="message.fileType === 'audio'">
+                                                <img :src="apiHost + 'widgets/script/audio.png'" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                            <div v-if="message.fileType === 'video'">
+                                                <img :src="apiHost + 'widgets/script/video.jpeg'" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                            <div v-if="message.fileType === 'document'">
+                                                <img :src="apiHost + 'widgets/script/doc.jpg'" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row pull-right" v-if="message.message !== null"><p class="messageBody">{{ message.message }}</p></div>
                             </div>
 
                         </div>
 
 
-                        <div class="row msg_container base_receive" v-if="message.direction==2">
+                        <div class="row msg_container base_receive" v-if="message.direction === 2">
                             <div class="messages msg_receive">
-                                <p class="pull-left">{{ message.message }}</p>
+                                <div v-if="message.isMMS">
+                                    <div class="row">
+                                        <a :href="message.fileUrl" class="pull-left">
+                                            <div v-if="message.fileType === 'image'">
+                                                <img :src="message.fileUrl" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                            <div v-if="message.fileType === 'audio'">
+                                                <img :src="apiHost + 'widgets/script/audio.png'" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                            <div v-if="message.fileType === 'video'">
+                                                <img :src="apiHost + 'widgets/script/video.jpeg'" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                            <div v-if="message.fileType === 'document'">
+                                                <img :src="apiHost + 'widgets/script/doc.jpg'" :alt="message.fileUrl" class="docImage"/>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row pull-left" v-if="message.message !== null"><p class="messageBody">{{ message.message }}</p></div>
                             </div>
                             <div class="col-md-3 pull-right">
-                <span class="time-right">{{ moment(message.created_at.date) }}
-                </span>
+                                <span class="time-right">
+                                    {{ moment(message.created_at.date) }}
+                                </span>
                             </div>
                         </div>
 
@@ -97,18 +132,23 @@
                                 </div>
                             </div>
                             <div class="panel-body" v-if="chat && !departmentSubmitted">
-                                <div class="col-md-12 cust-pad">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Choose a department
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <div v-for="department in widgetDepartments" class="list-group">
-                                            <a class="list-group-item" @click="departmentSubmit(department.id)"> {{
-                                                department.department_name }} </a>
+                                <div v-if="widgetDepartments.length > 0">
+                                    <div class="col-md-12 cust-pad">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Choose a department
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <div v-for="department in widgetDepartments" class="list-group">
+                                                <a class="list-group-item" @click="departmentSubmit(department.id)">
+                                                    {{ department.department_name }} </a>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div v-else>
+                                    <div class="loader"></div>
                                 </div>
                             </div>
                             <div class="panel-body" v-if="chat && departmentSubmitted">
@@ -125,12 +165,15 @@
                 </div>
                 <div class="panel-footer" v-if="!minimize && !chatResolved">
                     <div class="input-group" v-if="sendMessage">
+                        <span class="input-group-btn" @click="triggerFileInput"> <icon name="paperclip"></icon></span>
+                        <span class="input-group-btn imageName">{{ imageName }}</span>
                         <input type="text" class="form-control input-sm chat_input" placeholder="Type a message..."
                                v-model="message" @keyup.enter="addMessage"/>
-                        <span class="input-group-btn"> <icon name="paperclip"></icon> </span>
+                        <input type="file" name="fileInput" id="fileInput" @change="fileSelected"
+                               style="display: none;"/>
                         <span class="input-group-btn" @click="addMessage">
-              <icon name="paper-plane"></icon>
-            </span>
+                          <icon name="paper-plane"></icon>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -198,7 +241,7 @@
             },
             /** to update the chat room with the chat message */
             newmsg: function (data) {
-                console.log(data);
+                console.log('newMessage', data);
                 this.messages.push(data);
             },
 
@@ -216,7 +259,6 @@
         },
         data() {
             return {
-                messages: [],
                 id: '',
                 messages: [],
                 room_name: '',
@@ -234,9 +276,11 @@
                 widgetDepartments: {},
                 departmentSubmitted: false,
                 chatFailed: false,
-                chatClicked: false
-
-
+                chatClicked: false,
+                image: {},
+                imageName: '',
+                imageUrl: '',
+                fileType: ''
             }
         },
         created() {
@@ -257,10 +301,11 @@
 
             /** to add sent chat message */
             addMessage() {
-
-                console.log("sent");
-                if (this.message) {
+                if (this.message || this.imageUrl) {
                     this.$socket.emit('msg', {
+                        file: true,
+                        fileURL: this.imageUrl,
+                        fileType: this.fileType,
                         messageBody: this.message,
                         direction: 1,
                         user: this.client.name,
@@ -270,6 +315,42 @@
                     });
                 }
                 this.message = '';
+                this.image = {};
+                this.imageName = '';
+                this.imageUrl = '';
+                this.fileType = '';
+            },
+
+            triggerFileInput() {
+                document.getElementById('fileInput').click()
+            },
+
+            fileSelected(e) {
+                const file = e.target.files[0];
+                let formData = new FormData();
+                formData.append('file', file);
+
+                /** api call to upload the file */
+                this.$http.post(this.apiUrl + 'file-upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(
+                    (response) => {
+                        if (response.status && response.body.status) {
+                            this.imageUrl = response.body.response.url;
+                            this.imageName = file.name;
+                            this.fileType = response.body.response.type;
+                        }
+                    },
+                    (error) => {
+                        console.error(error);
+                        this.imageUrl = '';
+                        this.fileType = '';
+                        this.image = {};
+                        this.imageName = '';
+                    }
+                );
             },
 
             chatMinimize() {
@@ -529,7 +610,7 @@
         margin-right: 5px;
     }
 
-    .msg_sent > p {
+    .msg_sent .messageBody {
         margin: 0;
         padding: 10px;
         background: #467FFD;
@@ -538,7 +619,7 @@
 
     }
 
-    .msg_receive > p {
+    .msg_receive .messageBody {
         margin: 0;
         padding: 10px;
         background: #eef5f9;
@@ -553,6 +634,56 @@
 
     .pull-right {
         padding: 5px;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid blue;
+        border-right: 16px solid green;
+        border-bottom: 16px solid red;
+        border-left: 16px solid pink;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    #preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #preview img {
+        max-width: 100%;
+        max-height: 500px;
+    }
+
+    .imageName {
+        font-size: 14px !important;
+    }
+    .docImage {
+        height: 200px;
+        width: 200px;
     }
 </style>
 

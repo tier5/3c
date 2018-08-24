@@ -119,16 +119,21 @@
                     </div>
                     <div class="col-md-8">
                         <div class="col-md-5" v-if="!departmentFormSubmit">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Choose a department
-                                </label>
-                                <div>
-                                    <div v-for="department in widgetDepartments" class="list-group">
-                                        <a class="list-group-item" @click="departmentSubmit(department.id)"> {{
-                                            department.department_name }} </a>
+                            <div v-if="widgetDepartments.length > 1">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Choose a department
+                                    </label>
+                                    <div>
+                                        <div v-for="department in widgetDepartments" class="list-group">
+                                            <a class="list-group-item" @click="departmentSubmit(department.id)"> {{
+                                                department.department_name }} </a>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div v-else>
+                                <div class="loader"></div>
                             </div>
                         </div>
                         <div class="col-md-5" v-if="departmentFormSubmit">
@@ -236,7 +241,8 @@
                 checkEmail: false,
                 checkMobile: '',
                 apiUrl: '',
-                apiHost: ''
+                apiHost: '',
+                currentTime: ''
             }
         },
 
@@ -468,10 +474,7 @@
 
 
                 this.timezone = (this.widgetTimezone.timezone_name).replace(/ *\([^)]*\) */g, "");
-
-//      $("#commonform").on('click', ':not(.close-form)', function(e) {
-//        e.stopPropagation();
-//      });
+                this.currentTime = this.widgetTimezone.current_time;
 
                 this.time.nowInLocal = new Date();
                 this.time.utc = new Date(this.time.nowInLocal.getTime() + this.time.nowInLocal.getTimezoneOffset() * 60000);
@@ -482,8 +485,9 @@
                 this.time.schedules = this.widgetTimezone.days;
                 this.time.start_val = parseInt(this.widget.widget_schedule.start_time.toString().split(":")[0]);
                 this.time.end_val = parseInt(this.widget.widget_schedule.end_time.toString().split(":")[0]);
+
                 if (this.time.schedules.hasOwnProperty(this.time.cur_day_UTC)) {
-                    if (this.time.cur_time_UTC >= this.time.start_val && this.time.cur_time_UTC < this.time.end_val) {
+                    if (this.currentTime >= this.time.start_val && this.currentTime < this.time.end_val) {
                         console.log('true: available');
                         this.btnProp.showChatSchedule = true;
                         this.chatScheduleClicked = false;
@@ -712,7 +716,28 @@
         color: rgb(255, 87, 34);
         font-size: 12px;
     }
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid blue;
+        border-right: 16px solid green;
+        border-bottom: 16px solid red;
+        border-left: 16px solid pink;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
 
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
 </style>
 
