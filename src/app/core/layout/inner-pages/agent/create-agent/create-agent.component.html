@@ -19,52 +19,55 @@
                 <h3 class="box-title">{{ editMode ? 'Edit': 'Create' }} Agent</h3>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName"></div>
+
+                <ng-template #thenTemplateName style="display: none;">
+                  <input type="hidden" class="form-control"
+                         name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
+                </ng-template>
+                <ng-template #elseTemplateName>
+                  <div class="col-md-6">
                     <div class="form-group autoListArea">
                       <label class="control-label" for="admin">
                         Admin for Agent
                       </label>
-                        <div *ngIf="(authState | async).isAdmin; then thenTemplateName else elseTemplateName"></div>
+                      <input type="text" (keyup)="checkAdminname($event.target.value)"
 
-                        <ng-template #thenTemplateName>
-                            <input type="text" class="form-control"
-                                    name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
-                        </ng-template>
-
-                        <ng-template #elseTemplateName>
-
-                            <input type="text" (keyup)="checkAdminname($event.target.value)"
-
-                                   [ngClass]="editMode ?  'form-control' : 'form-control' "
-                                   [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)" autocomplete="off" [readonly]="editMode" class="listBox" #selectOption>
-                            <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i class="fa fa-close"></i> </span>
-                            <ul *ngIf="showThis" class="autoList" id="autoList" >
-                                <li *ngFor="let item of updatedlistOfAdmins; let i = index"> <span (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span> </li>
-                            </ul>
-                        </ng-template>
-                        <input type="hidden"  [ngModel]="agent.parentId" id="admin" name="parentId" #selectedAdmin>
+                             [ngClass]="editMode ?  'form-control' : 'form-control' "
+                             [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)"
+                             autocomplete="off" [readonly]="editMode" class="listBox" #selectOption>
+                      <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i
+                        class="fa fa-close"></i> </span>
+                      <ul *ngIf="showThis" class="autoList" id="autoList">
+                        <li *ngFor="let item of updatedlistOfAdmins; let i = index"><span
+                          (click)="assignValue(item.id,item.first_name,item.last_name)">  {{item.first_name}} {{item.last_name}}  </span>
+                        </li>
+                      </ul>
                     </div>
-                </div>
-                      <!--<select-->
-                              <!--id="admin"-->
-                              <!--name="parentId"-->
-                              <!--[ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "-->
-                              <!--#selectedAdmin-->
-                              <!--[ngModel]="agent.parentId"-->
-                              <!--(change)="adminChanged(selectedAdmin.value)"-->
-                              <!--required style="opacity: 1 !important;"-->
-                      <!--&gt;-->
-                        <!--<option selected value="0">Choose...</option>-->
-                        <!--<option [value]="item.first_name"-->
-                                <!--*ngFor="let item of listOfAdmins; let i = index"-->
-                        <!--&gt;-->
-                          <!--{{item.first_name}} {{item.last_name}}-->
-                        <!--</option>-->
-                      <!--</select> OLD SELECT -->
+                  </div>
+                </ng-template>
+                <input type="hidden" [ngModel]="agent.parentId" id="admin" name="parentId" #selectedAdmin>
+
+                <!--<select-->
+                <!--id="admin"-->
+                <!--name="parentId"-->
+                <!--[ngClass]="editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' "-->
+                <!--#selectedAdmin-->
+                <!--[ngModel]="agent.parentId"-->
+                <!--(change)="adminChanged(selectedAdmin.value)"-->
+                <!--required style="opacity: 1 !important;"-->
+                <!--&gt;-->
+                <!--<option selected value="0">Choose...</option>-->
+                <!--<option [value]="item.first_name"-->
+                <!--*ngFor="let item of listOfAdmins; let i = index"-->
+                <!--&gt;-->
+                <!--{{item.first_name}} {{item.last_name}}-->
+                <!--</option>-->
+                <!--</select> OLD SELECT -->
 
                 <div class="col-md-6" *ngIf="selectedAdmin.value > 0">
 
-                    <div class="form-group">
+                  <div class="form-group">
                     <label class="control-label" for="department">
                       Department for Agent
                     </label>
@@ -77,15 +80,17 @@
                             required
                     >
                       <option selected value="0">Choose...</option>
-                        <option [value]="item.id" *ngFor="let item of (afterLoginState | async).department.list; let i = index">
+                      <option [value]="item.id"
+                              *ngFor="let item of (afterLoginState | async).department.list; let i = index">
                         {{item.department_name}}
                       </option>
-                        <option value="99999991999999" style="font-weight: bold;">&#43; Create Department </option>
+                      <option value="99999991999999" style="font-weight: bold;">&#43; Create Department</option>
                     </select>
                   </div>
-                    <div class="hide">
-                        <a class="btn btn-warning btn-md" style="margin-top: 25px;" type="button" (click)="createDepartment(template)" id="createDepartment"> Create Department</a>
-                    </div>
+                  <div class="hide">
+                    <a class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
+                       (click)="createDepartment(template)" id="createDepartment"> Create Department</a>
+                  </div>
                 </div>
 
               </div>
@@ -122,7 +127,8 @@
                            required
                            placeholder="Last Name"
                     >
-                    <span *ngIf="lastName.invalid && lastName.touched" class="help-block">Your Last Name is Required !</span>
+                    <span *ngIf="lastName.invalid && lastName.touched"
+                          class="help-block">Your Last Name is Required !</span>
                   </div>
                 </div>
               </div>
@@ -144,26 +150,28 @@
                            [disabled]="editMode"
                            placeholder="email"
                     >
-                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.email" class="help-block">Please Enter a Proper Email Address!</span>
-                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required" class="help-block">Your Email Address is Required!</span>
+                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.email"
+                          class="help-block">Please Enter a Proper Email Address!</span>
+                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required"
+                          class="help-block">Your Email Address is Required!</span>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <!--<div class="form-group" [ngClass]="(userName.invalid && userName.touched) ? 'has-error': ''">-->
-                    <!--<label class="control-label" for="userName">Username-->
-                      <!--<i *ngIf="userName.invalid && userName.touched" class="fa fa-times-circle-o"></i>-->
-                    <!--</label>-->
-                    <!--<input type="text"-->
-                           <!--class="form-control"-->
-                           <!--id="userName"-->
-                           <!--placeholder="Username"-->
-                           <!--[ngModel]="agent.userName"-->
-                           <!--name="userName"-->
-                           <!--required-->
-                           <!--ngModel-->
-                           <!--#userName="ngModel"-->
-                    <!--&gt;-->
-                    <!--<span *ngIf="userName.invalid && userName.touched" class="help-block">Your Username is Required !</span>-->
+                  <!--<label class="control-label" for="userName">Username-->
+                  <!--<i *ngIf="userName.invalid && userName.touched" class="fa fa-times-circle-o"></i>-->
+                  <!--</label>-->
+                  <!--<input type="text"-->
+                  <!--class="form-control"-->
+                  <!--id="userName"-->
+                  <!--placeholder="Username"-->
+                  <!--[ngModel]="agent.userName"-->
+                  <!--name="userName"-->
+                  <!--required-->
+                  <!--ngModel-->
+                  <!--#userName="ngModel"-->
+                  <!--&gt;-->
+                  <!--<span *ngIf="userName.invalid && userName.touched" class="help-block">Your Username is Required !</span>-->
                   <!--</div>-->
                 </div>
               </div>
@@ -185,7 +193,8 @@
                            ngModel
                            #phone="ngModel"
                     >
-                    <span *ngIf="phone.invalid && phone.touched" class="help-block">Your Phone Number is Required !</span>
+                    <span *ngIf="phone.invalid && phone.touched"
+                          class="help-block">Your Phone Number is Required !</span>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -195,7 +204,9 @@
 
               <div class="col-md-12">
                 <div class="box-footer">
-                  <button type="submit" [disabled]="form.invalid || !selectDept" class="btn btn-primary pull-right" ><i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit</button>
+                  <button type="submit" [disabled]="form.invalid || !selectDept" class="btn btn-primary pull-right"><i
+                    *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
+                  </button>
                 </div>
               </div>
             </form>
@@ -209,67 +220,68 @@
       <!-- /.col -->
     </div>
     <!-- /.row -->
-      <ng-template #template>
-          <div class="modal-header">
-              <h4 class="modal-title pull-left">Create Department </h4>
-              <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
-                  <span aria-hidden="true">&times;</span>
-              </button>
+    <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Create Department </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+        <form #form="ngForm" (submit)="onCreateDep(form)">
+          <input type="hidden"
+                 id="userId"
+                 name="userId"
+                 [ngModel]="dep.userId"
+                 #userId="ngModel">
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="(dName.invalid && dName.touched) ? 'has-error': ''">
+              <label class="control-label" for="name">
+                <i *ngIf="dName.invalid && dName.touched" class="fa fa-times-circle-o"></i>
+                Department Name
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="name"
+                     name="departmentName"
+                     [ngModel]="dep.departmentName"
+                     #dName="ngModel"
+                     required
+                     placeholder="Enter ..."
+              >
+              <span *ngIf="dName.invalid && dName.touched" class="help-block">Your Department Name is Required!</span>
+            </div>
           </div>
-          <div class="modal-body row">
-              <form #form="ngForm" (submit)="onCreateDep(form)">
-                  <input type="hidden"
-                         id="userId"
-                         name="userId"
-                         [ngModel]="dep.userId"
-                         #userId="ngModel">
-              <div class="col-md-6">
-                  <div class="form-group" [ngClass]="(dName.invalid && dName.touched) ? 'has-error': ''">
-                      <label class="control-label" for="name">
-                          <i *ngIf="dName.invalid && dName.touched" class="fa fa-times-circle-o"></i>
-                          Department Name
-                      </label>
-                      <input type="text"
-                             class="form-control"
-                             id="name"
-                             name="departmentName"
-                             [ngModel]="dep.departmentName"
-                             #dName="ngModel"
-                             required
-                             placeholder="Enter ..."
-                      >
-                      <span *ngIf="dName.invalid && dName.touched" class="help-block">Your Department Name is Required!</span>
-                  </div>
-              </div>
-                  <div class="col-md-6">
-                      <div class="form-group" [ngClass]="{ 'has-error': dDes.invalid && dDes.touched }">
-                          <label class="control-label" for="detail">
-                              <i *ngIf="dDes.invalid && dDes.touched" class="fa fa-times-circle-o"></i>
-                              Department Description
-                          </label>
-                          <input type="text"
-                                 class="form-control"
-                                 id="detail"
-                                 name="departmentDetails"
-                                 ngModel
-                                 [ngModel]="dep.departmentDetails"
-                                 #dDes="ngModel"
-                                 required
-                                 placeholder="Enter ..."
-                          >
-                          <span *ngIf="dDes.invalid && dDes.touched" class="help-block">Your Department Description is Required!</span>
-                      </div>
-                  </div>
-                  <div class="col-md-12">
-                      <button type="submit"
-                              [disabled]="form.invalid"
-                              class="btn btn-primary pull-right"
-                      >
-                          <i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
-                      </button>
-                  </div>
-              </form>
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{ 'has-error': dDes.invalid && dDes.touched }">
+              <label class="control-label" for="detail">
+                <i *ngIf="dDes.invalid && dDes.touched" class="fa fa-times-circle-o"></i>
+                Department Description
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="detail"
+                     name="departmentDetails"
+                     ngModel
+                     [ngModel]="dep.departmentDetails"
+                     #dDes="ngModel"
+                     required
+                     placeholder="Enter ..."
+              >
+              <span *ngIf="dDes.invalid && dDes.touched"
+                    class="help-block">Your Department Description is Required!</span>
+            </div>
           </div>
-      </ng-template>
+          <div class="col-md-12">
+            <button type="submit"
+                    [disabled]="form.invalid"
+                    class="btn btn-primary pull-right"
+            >
+              <i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </ng-template>
   </section>
 </div>
