@@ -17,4 +17,5 @@ class MessageTrack extends Model
      * @var null|string
      */
     protected $table = 'message_track';
+
 }

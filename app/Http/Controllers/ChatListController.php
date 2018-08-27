@@ -68,10 +68,31 @@ class ChatListController extends Controller
         $agentId = $request->agentId;
         if($agentId != ""){
 
-            $clientNames = MessageAgentTrack::where('agent_id', $agentId)->with('clientInfo.clientName')->where('status','!=',3)->get();
+            $allClientNames = MessageAgentTrack::where('agent_id', $agentId)->with('clientInfo.clientName')->where('status','!=',3)->get();
+            $clientNamesArr = [];
+            foreach($allClientNames as $key=>$value){
+                if(isset($value->clientInfo->clientName)){
+                    $clientNamesArr[$key]['name'] = $value->clientInfo->clientName->name;
+                    $clientNamesArr[$key]['email'] = $value->clientInfo->clientName->email;
+                    $clientNamesArr[$key]['phone'] = $value->clientInfo->clientName->phone;
+                }
+            }
+
+            $clientNames = array();
+            $i = 0;
+            $key_array = array();
+            $key = 'phone';
+            foreach($clientNamesArr as $val) {
+                if (!in_array($val[$key], $key_array)) {
+                    $key_array[$i] = $val[$key];
+                    $clientNames[] = $val;
+                }
+                $i++;
+            }
+
             if(count($clientNames) != 0 ){
 
-                $response = array('code'=>200,'error'=>false,'response'=>$clientNames,'status'=>true,'message'=>'List of client names !');
+                $response = array('code'=>200,'error'=>false,'response'=> $clientNames,'status'=>true,'message'=>'List of client names !');
             } else {
 
                 $response = array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'No Client Found !');
