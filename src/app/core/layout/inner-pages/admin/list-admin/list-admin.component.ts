@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as AdminActions from '../../../store/admin/admin.actions';
-import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-list-admin',
@@ -15,15 +14,12 @@ export class ListAdminComponent implements OnInit {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
-  order: string = 'info.name';
   reverse: boolean = false;
-  sortedCollection: any[];
   page: number;
   term:any;
     /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router, private orderPipe: OrderPipe) {
-      // this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
+              private router: Router ) {
   }
 
   /** Function to be executed when component initializes */
@@ -32,17 +28,6 @@ export class ListAdminComponent implements OnInit {
     this.page = 1;
     this.afterLoginState = this.store.select('afterLogin');
   }
-
-    /**
-     * Function for ordering the table
-     * @param {string} value
-     */
-    setOrder(value: string) {
-        if (this.order === value) {
-            this.reverse = !this.reverse;
-        }
-            this.order = value;
-    }
     
   /** Function call to start editing an admin*/
   onEdit(adminId: number) {

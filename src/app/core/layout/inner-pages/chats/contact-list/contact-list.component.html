@@ -16,8 +16,8 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="keyword"> </div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12">
-              <table id="contactListTable" class="table table-bordered table-hover dataTable444444444444444444" role="grid" aria-describedby="example2_info">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="All keyword"> </div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12">
+              <table id="contactListTable" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
               <thead>
               <tr role="row">
                 <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">#</th>
@@ -28,10 +28,10 @@
               </thead>
               <tbody>
                 <tr role="row" class="odd" *ngFor="let item of (chatState | async).contactList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
-                <td>{{i+1}}</td>
-                <td>{{item.client_info.client_name.name}}</td>
-                <td>{{item.client_info.client_name.email}}</td>
-                <td>{{item.client_info.client_name.phone}}</td>
+                <td *ngIf="item.client_info.client_name !== null">{{i+1}}</td>
+                <td>{{item.client_info.client_name?.name}}</td>
+                <td>{{item.client_info.client_name?.email}}</td>
+                <td>{{item.client_info.client_name?.phone}}</td>
 
               </tr>
               </tbody>

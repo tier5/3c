@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ChatsRoutingModule} from './chats-routing.module';
 import {ListChatComponent} from './list-chat/list-chat.component';
@@ -10,7 +10,8 @@ import {MomentModule} from 'angular2-moment';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {Pipe,PipeTransform} from "@angular/core";
+import { ChatSearchPipe } from './chatSearch.pipe';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -20,12 +21,13 @@ import {Pipe,PipeTransform} from "@angular/core";
         MomentModule,
         Ng2SearchPipeModule,
         OrderModule,
-        NgxPaginationModule
+        NgxPaginationModule,
     ],
     declarations: [
         ListChatComponent,
         ListAgentComponent,
-        ContactListComponent
+        ContactListComponent,
+        ChatSearchPipe
     ]
 })
 export class ChatsModule {
