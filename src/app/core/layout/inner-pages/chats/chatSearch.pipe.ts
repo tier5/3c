@@ -52,6 +52,7 @@ export class ChatSearchPipe implements PipeTransform {
                     }
                 }
             }
+
             /** check for the contact list search */
             if((el.client_info!= undefined &&  el.client_info.client_name != undefined &&el.client_info.client_name != null && el.client_info.client_name.name != null ) && el.client_info.client_name.name.toLowerCase().indexOf(termLower) > -1) {
                 return el.client_info.client_name.name.toLowerCase().indexOf(termLower) > -1;

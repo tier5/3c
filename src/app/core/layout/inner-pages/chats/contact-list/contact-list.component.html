@@ -27,12 +27,11 @@
               </tr>
               </thead>
               <tbody>
-                <tr role="row" class="odd" *ngFor="let item of (chatState | async).contactList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
-                <td *ngIf="item.client_info.client_name !== null">{{i+1}}</td>
-                <td>{{item.client_info.client_name?.name}}</td>
-                <td>{{item.client_info.client_name?.email}}</td>
-                <td>{{item.client_info.client_name?.phone}}</td>
-
+                <tr role="row" class="odd" *ngFor="let item of (chatState | async).contactList | filter:term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{item['name']}}</td>
+                <td>{{item['email']}}</td>
+                <td>{{item['phone']}}</td>
               </tr>
               </tbody>
             </table>
