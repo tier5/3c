@@ -15,6 +15,7 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {AmazingTimePickerService} from 'amazing-time-picker';
+import {WidgetEffects} from '../../../store/widget/widget.effect';
 
 interface FileReaderEventTarget extends EventTarget {
   result: string;
@@ -86,11 +87,13 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   numberErrorMessage = '';
   isBuyNumber = false;
   availableNumbers = [];
+
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
               private cdr: ChangeDetectorRef,
-              private element: ElementRef, private atp: AmazingTimePickerService, private router: Router) {
+              private element: ElementRef, private atp: AmazingTimePickerService, private router: Router, private WidgetEffects: WidgetEffects) {
+
   }
 
   /** Function call when component initializes */
@@ -383,6 +386,17 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     if (areaCode && contains) {
       this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
+      this.store.select('afterLogin','widget').filter(
+        widget => widget instanceof Object
+      ).subscribe(
+        (value) => {
+          console.log(value);
+        }
+      );
+     /* WidgetEffects.searchNumber.filter(action => action.type === 'GET_NUMBER_LIST_SUCCESS')
+        .subscribe(res => {
+        console.log(res);
+      });*/
     } else {
       this.numberErrorMessage = 'Please put area code & number contains for buy any number.';
       this.numberError = true;

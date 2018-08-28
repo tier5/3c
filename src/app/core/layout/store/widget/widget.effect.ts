@@ -212,7 +212,6 @@ export class WidgetEffects {
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
           if (res.status) {
-            console.log(res);
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,
               payload: res.response.data
