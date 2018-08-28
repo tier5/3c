@@ -214,7 +214,7 @@ export class WidgetEffects {
           if (res.status) {
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,
-              payload: res.response
+              payload: res.response.data
             };
           } else {
             return {
