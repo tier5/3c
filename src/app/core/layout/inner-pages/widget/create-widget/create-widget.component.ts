@@ -85,6 +85,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   numberError = false;
   numberErrorMessage = '';
   isBuyNumber = false;
+  availableNumbers = [];
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
@@ -382,12 +383,13 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     if (areaCode && contains) {
       this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
-      this.afterLoginSubscription = this.store.select('afterLogin')
-        .map(data => data.widget)
+      this.afterLoginSubscription = this.store.select('afterLogin','widget')
+        .map(data => data)
         .subscribe(
           (data) => {
             if (data) {
-              console.log(data);
+              console.log(data.numbers);
+              this.availableNumbers.push(data.numbers);
             }
           }
         );
