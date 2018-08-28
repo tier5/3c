@@ -908,16 +908,26 @@ class WidgetController extends Controller
                 $sid = $getTwilioCredentials->twilio_sid;
                 $token = $getTwilioCredentials->twilio_token;
                 $client = new Client($sid, $token);
-                $numbers = $client->availablePhoneNumbers('US')->local->read(
-
-                    array("areaCode" => $areaCode)  //if areaCode is there
-
-                );
-
-                return Response::json([
-                    'status' => true,
-                    'data' => $numbers
+                $numbers = $client->availablePhoneNumbers('US')->local->read([
+                    'areaCode' => $areaCode,
+                    'contains' => $contains
                 ]);
+                $newNumbers = [];
+                foreach ($numbers as $key => $number) {
+                    $newNumbers[$key]['number'] = $number->phoneNumber;
+                    $newNumbers[$key]['capabilities'] = $number->capabilities;
+                }
+                if (count($newNumbers) > 0) {
+                    return Response::json([
+                        'status' => true,
+                        'data' => $newNumbers
+                    ]);
+                } else {
+                    return Response::json([
+                        'status' => false,
+                        'message' => 'No number found'
+                    ]);
+                }
             } else {
                 return Response::json([
                     'status' => false,
