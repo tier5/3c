@@ -385,6 +385,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
       this.afterLoginSubscription = this.store.select('afterLogin','widget')
         .map(data => data)
+        .distinctUntilChanged()
         .subscribe(
           (data) => {
             if (data) {
