@@ -7,6 +7,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\Timezone;
+use App\Model\TwilioCredentials;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Response;
@@ -22,6 +24,7 @@ use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use Illuminate\Database\QueryException;
 use DB;
+use Twilio\Rest\Client;
 
 class WidgetController extends Controller
 {
@@ -892,5 +895,42 @@ class WidgetController extends Controller
             DB::commit();
         }
     }
+    public function searchNumber(Request $request)
+    {
+     //   try {
+            $userId = $request->userId;
+            $token = $request->token;
+            $areaCode = $request->areCode;
+            $contains = $request->contains;
+            if ($userId == '' || $userId == "undefined") {
 
+                $userId = Helper::getUserIdFromToken($token);
+            }
+            $checkUser = Users::where('id', $userId)->firstOrFail();
+            $getTwilioCredentials = TwilioCredentials::where('user_id',$userId)->firstOrFail();
+            $sid = $getTwilioCredentials->twilio_sid;
+            $token = $getTwilioCredentials->twilio_token;
+            $client = new Client($sid, $token);
+            $numbers = $client->availablePhoneNumbers('US')->local->read(
+                [
+                    "areaCode" => $areaCode,
+                    "contains" => $contains
+                ]
+            );
+            return Response::json([
+                'status' => true,
+                'data' => $numbers
+            ]);
+        /*} catch (\Exception $e) {
+            return Response::json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return Response::json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        }*/
+    }
 }
