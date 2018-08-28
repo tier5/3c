@@ -120,5 +120,7 @@ Route::post('get-dashboard-count', 'DashboardController@getDashboardCount');
 Route::post('get-admin-agents','UserController@getAdminAgents');
 // route for company list
 Route::post('get-company-list','UserController@getCompanyList');
+// route for search number
+Route::post('search-number', 'WidgetController@searchNumber');
 
 
