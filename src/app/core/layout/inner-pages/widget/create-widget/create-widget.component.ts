@@ -388,8 +388,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         .distinctUntilChanged()
         .subscribe(
           (data) => {
-            if (data) {
-              console.log(data.numbers);
+            if (data.numbers.length > 0) {
               this.availableNumbers.push(data.numbers);
             }
           }
