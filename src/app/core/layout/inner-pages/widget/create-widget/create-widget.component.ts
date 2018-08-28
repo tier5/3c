@@ -61,6 +61,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     endTime: '',
     image: '',
     script_url: '',
+    phoneNumber: ''
   };
 
   validationMinTime: Moment;
@@ -384,13 +385,13 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
    */
   buyNumber(areaCode, contains) {
     if (areaCode && contains) {
-      this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
-      this.store.select('afterLogin','widget').filter(
-        widget => widget instanceof Object
-      ).subscribe(
+      this.store.select('afterLogin','widget').subscribe(
         (value) => {
-          console.log(value);
+          if (value.numbers.length > 0) {
+            this.isBuyNumber = true;
+            this.availableNumbers.push(value.numbers);
+          }
         }
       );
      /* WidgetEffects.searchNumber.filter(action => action.type === 'GET_NUMBER_LIST_SUCCESS')

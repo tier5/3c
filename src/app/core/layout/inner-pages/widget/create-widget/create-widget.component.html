@@ -322,10 +322,11 @@
                                 <select class="form-control"
                                         id="numbers"
                                         name="number"
-                                        [ngModel]="availableNumbers">
-                                  <option [value]="item.number"
-                                          *ngFor="let item of (afterLoginState | async).widget.numbers">
-                                    {{item.number}}
+                                        [ngModel]="widget.phoneNumber">
+                                  <option *ngFor="let item of availableNumbers"
+                                          [value]="item.number"
+                                  >
+                                    {{item.number !== undefined ? item.number : ''}}
                                   </option>
                                 </select>
                               </div>
