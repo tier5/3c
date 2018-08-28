@@ -205,7 +205,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   /** Function call to create or edit a admin */
   onSubmit(form: NgForm) {
     this.loader = true;
-    for (let departmentId in form.value.departmentIdArray) {
+    for (const departmentId in form.value.departmentIdArray) {
       this.departmentArrayId.push(form.value.departmentIdArray[departmentId].id);
     }
     if (this.editMode) {
@@ -383,17 +383,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     if (areaCode && contains) {
       this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
-      this.afterLoginSubscription = this.store.select('afterLogin','widget')
-        .map(data => data)
-        .distinctUntilChanged()
-        .subscribe(
-          (data) => {
-            if (data.numbers.length > 0) {
-              this.availableNumbers.push(data.numbers);
-            }
-          }
-        );
-
     } else {
       this.numberErrorMessage = 'Please put area code & number contains for buy any number.';
       this.numberError = true;

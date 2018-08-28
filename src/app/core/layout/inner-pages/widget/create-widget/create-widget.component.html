@@ -313,6 +313,24 @@
                               <span style="color: red;">{{ numberErrorMessage }}</span>
                             </div>
                           </div>
+                          <div class="row" *ngIf="isBuyNumber">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="control-label" for="numbers">
+                                  Choose Numbers
+                                </label>
+                                <select class="form-control"
+                                        id="numbers"
+                                        name="number"
+                                        [ngModel]="availableNumbers">
+                                  <option [value]="item.number"
+                                          *ngFor="let item of (afterLoginState | async).widget.numbers">
+                                    {{item.number}}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
                             <div class="row" *ngIf="widget.script_url">
                               <div class="col-md-6">
                                   <div class="form-group">
