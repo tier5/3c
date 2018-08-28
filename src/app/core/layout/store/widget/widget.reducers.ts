@@ -1,11 +1,12 @@
-import * as WidgetActions from './widget.actions'
+import * as WidgetActions from './widget.actions';
 
 export interface WidgetState {
-  info: any,
-  toEdit: any,
-  list: any,
-  resetWidgetForm: boolean,
-  timezoneList: any
+  info: any;
+  toEdit: any;
+  list: any;
+  resetWidgetForm: boolean;
+  timezoneList: any;
+  numbers: any;
 }
 
 const initialState: WidgetState = {
@@ -13,8 +14,9 @@ const initialState: WidgetState = {
   list: [],
   toEdit: {},
   resetWidgetForm: false,
-  timezoneList: []
-}
+  timezoneList: [],
+  numbers: []
+};
 
 export function widgetReducer (state = initialState, action: WidgetActions.WidgetActions) {
   switch (action.type) {
@@ -44,7 +46,12 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
         ...state,
         toEdit: action.payload
       };
+    case (WidgetActions.GET_NUMBER_LIST_SUCCESS):
+      return {
+        ...state,
+        numbers: action.payload
+      }
     default:
-      return state
+      return state;
   }
 }

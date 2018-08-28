@@ -173,19 +173,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Area Code -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label" for="areaCode">Area Code</label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="areaCode"
-                                               name="areaCode"
-                                               [ngModel]="widget.areaCode"
-                                               placeholder="Area Code"
-                                        >
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -283,6 +270,49 @@
                                     </div>
                                 </div>
                             </div>
+                          <div class="row" *ngIf="!isBuyNumber">
+                            <!-- Area Code -->
+                            <div class="col-md-5">
+                              <div class="form-group">
+                                <label class="control-label" for="areaCode">Area Code</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="areaCode"
+                                       name="areaCode"
+                                       #areaCode
+                                       [ngModel]="widget.areaCode"
+                                       placeholder="Area Code"
+                                >
+                              </div>
+                            </div>
+
+                            <!-- Widget Details -->
+                            <div class="col-md-5">
+                              <div class="form-group">
+                                <label class="control-label" for="contains">
+                                  Number Contains
+                                </label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="contains"
+                                       name="contains"
+                                       [ngModel]="widget.contains"
+                                       #contains
+                                       placeholder="Number Contains ...."
+                                >
+                              </div>
+                            </div>
+                            <!--Buy number buttons -->
+                            <div class="col-md-2">
+                              <label class="control-label"> &nbsp;</label>
+                              <button type="button" class="form-control btn btn-success" (click)="buyNumber(areaCode.value,contains.value)">Buy Number</button>
+                            </div>
+                          </div>
+                          <div class="row" *ngIf="numberError && !isBuyNumber">
+                            <div class="col-md-10">
+                              <span style="color: red;">{{ numberErrorMessage }}</span>
+                            </div>
+                          </div>
                             <div class="row" *ngIf="widget.script_url">
                               <div class="col-md-6">
                                   <div class="form-group">

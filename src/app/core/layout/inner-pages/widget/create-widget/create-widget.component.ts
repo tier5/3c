@@ -54,6 +54,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     scheduleTimezone: 0,
     details: '',
     areaCode: '',
+    contains: '',
     daysArray: [],
     startTime: '',
     endTime: '',
@@ -81,7 +82,9 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   limitArray = [];
   departmentArrayId = [];
   departmentIdList = '';
-
+  numberError = false;
+  numberErrorMessage = '';
+  isBuyNumber = false;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
@@ -372,5 +375,27 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     this.widget.userId = 0;
   }
 
+  /**
+   * Buy Number
+   */
+  buyNumber(areaCode, contains) {
+    if (areaCode && contains) {
+      this.isBuyNumber = true;
+      this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
+      this.afterLoginSubscription = this.store.select('afterLogin')
+        .map(data => data.widget.numbers)
+        .subscribe(
+          (data) => {
+            if (data) {
+              console.log(data);
+            }
+          }
+        );
+
+    } else {
+      this.numberErrorMessage = 'Please put area code & number contains for buy any number.';
+      this.numberError = true;
+    }
+  }
 
 }
