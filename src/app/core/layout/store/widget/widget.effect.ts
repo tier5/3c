@@ -11,12 +11,12 @@ import 'rxjs/add/operator/switchMap';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import * as WidgetActions from './widget.actions';
 import { environment } from '../../../../../environments/environment';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Injectable()
 export class WidgetEffects {
-
   constructor (private actions$: Actions,
-               private httpClient: HttpClient) {}
+               private httpClient: HttpClient,
+               private spinnerService: Ng4LoadingSpinnerService) {}
 
   @Effect()
   getTimezoneList = this.actions$
@@ -209,14 +209,17 @@ export class WidgetEffects {
       const config = {
         headers: headers
       };
+      this.spinnerService.show();
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
           if (res.status) {
+            this.spinnerService.hide();
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,
-              payload: res.response.data
+              payload: res.data
             };
           } else {
+            this.spinnerService.hide();
             return {
               type: AlertActions.ALERT_SHOW,
               payload: {message: res.message, type: 'danger'}
@@ -224,6 +227,7 @@ export class WidgetEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,

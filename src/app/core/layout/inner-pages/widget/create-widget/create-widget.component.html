@@ -270,7 +270,7 @@
                                     </div>
                                 </div>
                             </div>
-                          <div class="row" *ngIf="!isBuyNumber">
+                          <div class="row">
                             <!-- Area Code -->
                             <div class="col-md-5">
                               <div class="form-group">
@@ -282,6 +282,7 @@
                                        #areaCode
                                        [ngModel]="widget.areaCode"
                                        placeholder="Area Code"
+                                       [disabled]="editMode"
                                 >
                               </div>
                             </div>
@@ -299,11 +300,12 @@
                                        [ngModel]="widget.contains"
                                        #contains
                                        placeholder="Number Contains ...."
+                                       [disabled]="editMode"
                                 >
                               </div>
                             </div>
                             <!--Buy number buttons -->
-                            <div class="col-md-2">
+                            <div class="col-md-2" *ngIf="!editMode">
                               <label class="control-label"> &nbsp; </label>
                               <button type="button" class="form-control btn btn-success" (click)="buyNumber(areaCode.value,contains.value)">Buy Number</button>
                             </div>
@@ -313,22 +315,40 @@
                               <span style="color: red;">{{ numberErrorMessage }}</span>
                             </div>
                           </div>
-                          <div class="row" *ngIf="isBuyNumber">
+                          <div class="row" *ngIf="(afterLoginState | async).widget.numbers.length > 0 && !editMode && isBuyNumber">
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label class="control-label" for="numbers">
-                                  Choose Numbers
+                                  Choose a Number
                                 </label>
                                 <select class="form-control"
                                         id="numbers"
                                         name="number"
-                                        [ngModel]="widget.phoneNumber">
-                                  <option *ngFor="let item of availableNumbers"
+                                        [ngModel]="widget.phoneNumber" required>
+                                  <option value=''>Choose a phone number</option>
+                                  <option *ngFor="let item of (afterLoginState | async).widget.numbers"
                                           [value]="item.number"
                                   >
-                                    {{item.number !== undefined ? item.number : ''}}
+                                    {{ item.number }} &nbsp;&nbsp;&nbsp; (  {{item.capabilities.voice ? 'Voice  ' : '' }}
+                                    {{ item.capabilities.SMS ? '/ SMS  ' : '' }}
+                                    {{ item.capabilities.MMS ? '/ MMS  ' : ''}}
+                                    {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )
+                                    <!--( <i class="fa fa-phone fa-fw" aria-hidden="true" *ngIf="item.capabilities.voice"></i>
+                                    <i class="fa fa-envelope fa-fw" aria-hidden="true" *ngIf="item.capabilities.SMS"></i>
+                                    <i class="fa fa-image fa-fw" aria-hidden="true" *ngIf="item.capabilities.MMS"></i>
+                                    <i class="fa fa-fax fa-fw" aria-hidden="true" *ngIf="item.capabilities.fax"></i> )-->
                                   </option>
                                 </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row" *ngIf="editMode">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="control-label" for="numbers">
+                                  Number
+                                </label>
+                                <input type="text" name="number" readonly [ngModel]="widget.phoneNumber" class="form-control">
                               </div>
                             </div>
                           </div>
@@ -344,7 +364,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="box-footer">
-                                    <button type="button" [disabled]="timePikerError || form.invalid || widget.daysArray.length === 0" class="btn btn-primary pull-right" (click)="onSubmit(form)">
+                                    <button type="button" [disabled]="timePikerError || form.invalid || widget.daysArray.length === 0 || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)" class="btn btn-primary pull-right" (click)="onSubmit(form)">
                                         <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i>
                                         Submit
                                     </button>

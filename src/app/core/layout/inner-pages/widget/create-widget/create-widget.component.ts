@@ -15,7 +15,7 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {AmazingTimePickerService} from 'amazing-time-picker';
-import {WidgetEffects} from '../../../store/widget/widget.effect';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 interface FileReaderEventTarget extends EventTarget {
   result: string;
@@ -93,7 +93,10 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
               private cdr: ChangeDetectorRef,
-              private element: ElementRef, private atp: AmazingTimePickerService, private router: Router, private WidgetEffects: WidgetEffects) {
+              private element: ElementRef,
+              private atp: AmazingTimePickerService,
+              private router: Router,
+              private spinnerService: Ng4LoadingSpinnerService) {
 
   }
 
@@ -136,6 +139,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                   this.widget.details = widget.details;
                   this.widget.scheduleTimezone = widget.schedule_timezone;
                   this.widget.areaCode = widget.area_code;
+                  this.widget.contains = widget.number_contains ;
                   this.widget.script_url = widget.script_url;
                   this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
                   this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
@@ -144,6 +148,9 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                   this.hideUploadedImage = false;
                   this.imgSrc = widget.image;
                   this.adminName = widget.first_name + ' ' + widget.last_name;
+                  if (typeof widget.twilio_numbers === 'object' && (widget.twilio_numbers !== undefined && widget.twilio_numbers !== null)) {
+                    this.widget.phoneNumber = widget.twilio_numbers.number;
+                  }
                   //  const image = this.element.nativeElement.querySelector('.uploaded-image');
                   //  image.src = widget.image;
                 }
@@ -253,9 +260,11 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       formData.append('details', form.value.details);
       formData.append('scheduleTimezone', form.value.scheduleTimezone);
       formData.append('areaCode', form.value.areaCode);
+      formData.append('numberContains', form.value.contains);
       formData.append('daysArray', <any>this.widget.daysArray);
       formData.append('startTime', form.value.startTime);
       formData.append('endTime', form.value.endTime);
+      formData.append('phoneNumber', form.value.number);
       this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
       /** Loader Show/Hide */
       this.store.select('alert')
@@ -276,12 +285,14 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.loader = false;
           });
     }
+    this.isBuyNumber = false;
   }
 
   /** Un-subscribing from all custom made events when component is destroyed */
   ngOnDestroy() {
     this.afterLoginSubscription.unsubscribe();
     this.authSubscription.unsubscribe();
+    this.adminList.unsubscribe();
   }
 
   /** Function call to upload image or video */
@@ -384,24 +395,13 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
    * Buy Number
    */
   buyNumber(areaCode, contains) {
-    if (areaCode && contains) {
+    if (areaCode || contains) {
+      this.spinnerService.show();
+      this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
-      this.store.select('afterLogin','widget').subscribe(
-        (value) => {
-          if (value.numbers.length > 0) {
-            this.isBuyNumber = true;
-            this.availableNumbers.push(value.numbers);
-          }
-        }
-      );
-     /* WidgetEffects.searchNumber.filter(action => action.type === 'GET_NUMBER_LIST_SUCCESS')
-        .subscribe(res => {
-        console.log(res);
-      });*/
     } else {
-      this.numberErrorMessage = 'Please put area code & number contains for buy any number.';
+      this.numberErrorMessage = 'Please put area code or number contains for buy any number.';
       this.numberError = true;
     }
   }
-
 }
