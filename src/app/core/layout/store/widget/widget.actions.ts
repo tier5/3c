@@ -22,6 +22,7 @@ export const GET_TIMEZONE_LIST_ATTEMPT = 'GET_TIMEZONE_LIST_ATTEMPT';
 
 export const GET_NUMBER_LIST_SUCCESS = 'GET_NUMBER_LIST_SUCCESS';
 export const GET_NUMBER_LIST_ATTEMPT = 'GET_NUMBER_LIST_ATTEMPT';
+export const GET_NUMBER_LIST_ERROR = 'GET_NUMBER_LIST_ERROR';
 
 export class GetWidgetAttempt implements Action {
   readonly type = GET_WIDGET_ATTEMPT;
@@ -94,6 +95,10 @@ export class GetNumberListSuccess implements Action {
   readonly type = GET_NUMBER_LIST_SUCCESS;
   constructor (public payload: any) { }
 }
+export class GetNumberListError implements Action {
+  readonly type = GET_NUMBER_LIST_ERROR;
+  constructor (public payload: any) { }
+}
 export type WidgetActions = ResetWidgetForm |
   GetWidgetAttempt | GetWidgetSuccess |
   AddWidgetAttempt | AddWidgetSuccess |
@@ -101,4 +106,4 @@ export type WidgetActions = ResetWidgetForm |
   GetWidgetListAttempt | GetWidgetListSuccess |
   GetTimeZoneListAttempt | GetTimeZoneListSuccess |
   GetWidgetToEditAttempt | GetWidgetToEditSuccess |
-  GetNumberListAttempt | GetNumberListSuccess;
+  GetNumberListAttempt | GetNumberListSuccess | GetNumberListError;

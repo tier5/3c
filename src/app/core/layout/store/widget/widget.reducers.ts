@@ -7,6 +7,9 @@ export interface WidgetState {
   resetWidgetForm: boolean;
   timezoneList: any;
   numbers: any;
+  newSuccessBuyNumberCall: boolean;
+  numberError: boolean;
+  numberMessage: any;
 }
 
 const initialState: WidgetState = {
@@ -15,7 +18,10 @@ const initialState: WidgetState = {
   toEdit: {},
   resetWidgetForm: false,
   timezoneList: [],
-  numbers: []
+  numbers: [],
+  newSuccessBuyNumberCall: false,
+  numberError: false,
+  numberMessage: ''
 };
 
 export function widgetReducer (state = initialState, action: WidgetActions.WidgetActions) {
@@ -49,7 +55,16 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
     case (WidgetActions.GET_NUMBER_LIST_SUCCESS):
       return {
         ...state,
-        numbers: action.payload
+        numbers: action.payload,
+        newSuccessBuyNumberCall: true
+      }
+      case (WidgetActions.GET_NUMBER_LIST_ERROR):
+      return {
+        ...state,
+        numbers: [],
+        newSuccessBuyNumberCall: false,
+        numberError: true,
+        numberMessage: action.payload.message
       }
     default:
       return state;

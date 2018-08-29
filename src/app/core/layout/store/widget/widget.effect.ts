@@ -221,7 +221,7 @@ export class WidgetEffects {
           } else {
             this.spinnerService.hide();
             return {
-              type: AlertActions.ALERT_SHOW,
+              type: WidgetActions.GET_NUMBER_LIST_ERROR,
               payload: {message: res.message, type: 'danger'}
             };
           }
@@ -230,7 +230,7 @@ export class WidgetEffects {
           this.spinnerService.hide();
           return of(
             {
-              type: AlertActions.ALERT_SHOW,
+              type: WidgetActions.GET_NUMBER_LIST_ERROR,
               payload: {message: err.error, type: 'danger'}
             }
           );

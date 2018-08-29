@@ -315,7 +315,12 @@
                               <span style="color: red;">{{ numberErrorMessage }}</span>
                             </div>
                           </div>
-                          <div class="row" *ngIf="(afterLoginState | async).widget.numbers.length > 0 && !editMode && isBuyNumber">
+                          <div class="row" *ngIf="(afterLoginState | async).widget.numberError && !(afterLoginState | async).widget.newSuccessBuyNumberCall">
+                            <div class="col-md-10">
+                              <span style="color: red;">{{ (afterLoginState | async).widget.numberMessage }}</span>
+                            </div>
+                          </div>
+                          <div class="row" *ngIf="(afterLoginState | async).widget.numbers.length > 0 && !editMode && isBuyNumber && (afterLoginState | async).widget.newSuccessBuyNumberCall">
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label class="control-label" for="numbers">
