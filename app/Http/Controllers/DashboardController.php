@@ -144,7 +144,9 @@ class DashboardController extends Controller
                     }
 
                     if (count($dashboardItemCount) != 0) {
-
+                        /** Update user activity */
+                        $userController = new UserController;
+                        $userController->updateUserLoggedInTime($userId);
                         return Response::json(array(
                             'status' => true,
                             'code' => 200,

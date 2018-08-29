@@ -33,7 +33,7 @@ class ChatListController extends Controller
         $chatRoomId = $request->chatRoomId;
         if($chatRoomId != "" ){
             $getDepartmentDetails = MessageAgentTrack::where('chat_room_id',$chatRoomId)->with('getWidget.widgetDepartment.departmentDetails.departmentAgents.agentDetails')->first();
-
+            $userId = $getDepartmentDetails->agent_id;
             $agentDepartmentData = [];
             
             if(count($getDepartmentDetails) != 0){

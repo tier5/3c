@@ -1310,11 +1310,14 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = "link to visit the page in the website http://138.197.215.68/chat/ongoing (demo api url)";
+            $smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
-            $this->sendSms($smsBody, $agentPhoneNumber, $toNumber);
-
+            $userController = new UserController;
+            if(!$userController->userLoginStatus($agentId)){
+                \Log::info('user Logged in now send ');
+                $this->sendSms($smsBody, $agentPhoneNumber, $toNumber);
+            }
         } else {
 
             return Response::json(array(

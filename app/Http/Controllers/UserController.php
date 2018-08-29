@@ -13,6 +13,7 @@ use Auth,Mail,Hash;
 use Response;
 use App\Model\UserToken; /* User Token Model */
 use App\Model\Users;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -66,6 +67,7 @@ class UserController extends Controller
             $saveToken->save();
 
             $createToken = UserToken::where('user_id',Auth::user()->id)->with('userInfo')->first(); //sending user info with token
+            $updateUserLoginTime = Users::where('id',Auth::user()->id)->update(['login_time'=>Carbon::now()->toDateTimeString()]); // Update the login Time
 
         $response = ['userId'=>Auth::user()->id,'userToken'=>$saveToken->token,'userType'=>Auth::user()->type,'firstName'=>$createToken->userInfo->first_name,'lastName'=>$createToken->userInfo->last_name,'email'=>$createToken->userInfo->email];
 
@@ -885,7 +887,8 @@ class UserController extends Controller
         $checkToken = UserToken::where('token',$token)->first(); // checking the token valid or not
 
         if(count($checkToken)!=0){
-
+            \Log::info($checkToken->user_id);
+              $removeUserLoginTime = Users::where('id',$checkToken->user_id)->update(['login_time'=>null]);
             if($checkToken->delete()){  //Delete the token
 
                 return Response()->json([
@@ -1567,6 +1570,44 @@ class UserController extends Controller
       }
 
       return Response()->json($response);
+  }
+
+    /**
+     * function to check user log in status
+     * @return int
+     */
+  public function userLoginStatus($userId){
+      if($userId != "" && $userId != null){
+            $getUserLoginTime = Users::where('id',$userId)->select('login_time')->first();
+            if($getUserLoginTime!=null) {
+                if($getUserLoginTime->login_time > Carbon::now()->subMinutes(5)) {
+                    // echo 'user logged in';
+                    return 1;
+                }else{
+                    // echo 'user not logged in';
+                    return 0;
+                }
+            } else {
+                // echo 'user not logged in ';
+                return 0;
+            }
+      }else{
+          return 0;
+         // echo 'user id not found';
+      }
+  }
+
+    /**
+     * function to update the user loging time after an activity in the software
+     * @param $userId
+     */
+  public function updateUserLoggedInTime($userId){
+      if($userId != null && $userId){
+          $updateUserLoginTime = Users::where('id',$userId)->update(['login_time'=>Carbon::now()->toDateTimeString()]); // Update the login Time
+      }else{
+          echo 'user Not Found';
+      }
+
   }
 
 }
