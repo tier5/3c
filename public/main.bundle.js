@@ -26,23 +26,23 @@ var map = {
 	],
 	"./inner-pages/admin/admin.module": [
 		"../../../../../src/app/core/layout/inner-pages/admin/admin.module.ts",
-		"admin.module",
-		"common"
+		"common",
+		"admin.module"
 	],
 	"./inner-pages/agent/agent.module": [
 		"../../../../../src/app/core/layout/inner-pages/agent/agent.module.ts",
-		"agent.module",
-		"common"
+		"common",
+		"agent.module"
 	],
 	"./inner-pages/chat/chat.module": [
 		"../../../../../src/app/core/layout/inner-pages/chat/chat.module.ts",
-		"chat.module",
-		"common"
+		"common",
+		"chat.module"
 	],
 	"./inner-pages/chats/chats.module": [
 		"../../../../../src/app/core/layout/inner-pages/chats/chats.module.ts",
-		"chats.module",
-		"common"
+		"common",
+		"chats.module"
 	],
 	"./inner-pages/dashboard/dashboard.module": [
 		"../../../../../src/app/core/layout/inner-pages/dashboard/dashboard.module.ts",
@@ -50,8 +50,8 @@ var map = {
 	],
 	"./inner-pages/department/department.module": [
 		"../../../../../src/app/core/layout/inner-pages/department/department.module.ts",
-		"department.module",
-		"common"
+		"common",
+		"department.module"
 	],
 	"./inner-pages/profile/profile.module": [
 		"../../../../../src/app/core/layout/inner-pages/profile/profile.module.ts",
@@ -60,13 +60,13 @@ var map = {
 	],
 	"./inner-pages/twilio/twilio.module": [
 		"../../../../../src/app/core/layout/inner-pages/twilio/twilio.module.ts",
-		"twilio.module",
-		"common"
+		"common",
+		"twilio.module"
 	],
 	"./inner-pages/widget/widget.module": [
 		"../../../../../src/app/core/layout/inner-pages/widget/widget.module.ts",
-		"widget.module",
-		"common"
+		"common",
+		"widget.module"
 	],
 	"./layout/layout.module": [
 		"../../../../../src/app/core/layout/layout.module.ts"
@@ -170,7 +170,7 @@ AppModule = __decorate([
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_3__core_core_module__["a" /* CoreModule */], __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */]
+            __WEBPACK_IMPORTED_MODULE_3__core_core_module__["a" /* CoreModule */], __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
         ],
         providers: [],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
@@ -693,7 +693,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/core.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n\n<app-alert *ngIf=\"(alertState | async).show\" [text]=\"(alertState | async).message\" [type]=\"(alertState | async).type\"></app-alert>"
+module.exports = "<router-outlet></router-outlet>\n\n<app-alert *ngIf=\"(alertState | async).show\" [text]=\"(alertState | async).message\" [type]=\"(alertState | async).type\"></app-alert>\n<app-spinner> </app-spinner>\n\n"
 
 /***/ }),
 
@@ -770,12 +770,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20_angular2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng4_loading_spinner__ = __webpack_require__("../../../../ng4-loading-spinner/ng4-loading-spinner.esm.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -814,7 +816,8 @@ CoreModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_20_angular2_moment__["MomentModule"],
             __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["i" /* StoreModule */].forRoot(__WEBPACK_IMPORTED_MODULE_18__store_core_reducers__["a" /* reducers */]),
             __WEBPACK_IMPORTED_MODULE_1__ngrx_effects__["c" /* EffectsModule */].forRoot([__WEBPACK_IMPORTED_MODULE_7__store_auth_auth_effects__["a" /* AuthEffects */]]),
-            !__WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_4__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : []
+            !__WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_4__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : [],
+            __WEBPACK_IMPORTED_MODULE_22_ng4_loading_spinner__["a" /* Ng4LoadingSpinnerModule */]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_10__core_component__["a" /* CoreComponent */],
@@ -845,7 +848,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "a {\n    cursor: pointer;\n}", ""]);
+exports.push([module.i, "a {\n    cursor: pointer;\n}\n@media (max-width: 767px) {\n  .sidebar-toggle {\n    position: absolute;\n    top: -50px;\n  }\n  .navbar-custom-menu {\n    position: absolute;\n    top: -50px;\n    right: 0px;\n  }\n  .navbar-static-top {\n    background: none;\n    min-height: auto;\n  }\n}\n", ""]);
 
 // exports
 
@@ -858,7 +861,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"main-header\">\n  <!-- Logo -->\n  <a href=\"../../index2.html\" class=\"logo\">\n    <!-- mini logo for sidebar mini 50x50 pixels -->\n    <span class=\"logo-mini\"><b>3</b>C</span>\n    <!-- logo for regular state and mobile devices -->\n    <span class=\"logo-lg\"><b>TM</b>SMS</span>\n  </a>\n  <!-- Header Navbar: style can be found in header.less -->\n  <nav class=\"navbar navbar-static-top\">\n    <!-- Sidebar toggle button-->\n    <a class=\"sidebar-toggle\" (click)=\"toggleLeftSidebar()\" data-toggle=\"push-menu\" role=\"button\">\n      <span class=\"sr-only\">Toggle navigation</span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n    </a>\n\n    <div class=\"navbar-custom-menu\">\n      <ul class=\"nav navbar-nav\">\n        <!-- Messages: style can be found in dropdown.less-->\n        <!--<li class=\"dropdown messages-menu\" [appDropdown]=\"'open'\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\">-->\n            <!--<i class=\"fa fa-envelope-o\"></i>-->\n            <!--<span class=\"label label-success\">4</span>-->\n          <!--</a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li class=\"header\">You have 4 messages</li>-->\n            <!--<li>-->\n              <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->\n              <!--<ul class=\"menu\">-->\n                <!--<li>&lt;!&ndash; start message &ndash;&gt;-->\n                  <!--<a>-->\n                    <!--<div class=\"pull-left\">-->\n                      <!--<img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">-->\n                    <!--</div>-->\n                    <!--<h4>-->\n                      <!--Support Team-->\n                      <!--<small><i class=\"fa fa-clock-o\"></i> 5 mins</small>-->\n                    <!--</h4>-->\n                    <!--<p>Why not buy a new awesome theme?</p>-->\n                  <!--</a>-->\n                <!--</li>-->\n                <!--&lt;!&ndash; end message &ndash;&gt;-->\n              <!--</ul>-->\n            <!--</li>-->\n            <!--<li class=\"footer\"><a>See All Messages</a></li>-->\n          <!--</ul>-->\n        <!--</li> Dont Need this now -->\n\n        <!-- Notifications: style can be found in dropdown.less -->\n        <!--<li class=\"dropdown notifications-menu\" [appDropdown]=\"'open'\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\">-->\n            <!--<i class=\"fa fa-bell-o\"></i>-->\n            <!--<span class=\"label label-warning\">10</span>-->\n          <!--</a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li class=\"header\">You have 10 notifications</li>-->\n            <!--<li>-->\n              <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->\n              <!--<ul class=\"menu\">-->\n                <!--<li>-->\n                  <!--<a>-->\n                    <!--<i class=\"fa fa-users text-aqua\"></i> 5 new members joined today-->\n                  <!--</a>-->\n                <!--</li>-->\n              <!--</ul>-->\n            <!--</li>-->\n            <!--<li class=\"footer\"><a>View all</a></li>-->\n          <!--</ul>-->\n        <!--</li> Dont need this now -->\n\n        <!-- Tasks: style can be found in dropdown.less -->\n        <!--<li class=\"dropdown tasks-menu\" [appDropdown]=\"'open'\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\">-->\n            <!--<i class=\"fa fa-flag-o\"></i>-->\n            <!--<span class=\"label label-danger\">9</span>-->\n          <!--</a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li class=\"header\">You have 9 tasks</li>-->\n            <!--<li>-->\n              <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->\n              <!--<ul class=\"menu\">-->\n                <!--<li>&lt;!&ndash; Task item &ndash;&gt;-->\n                  <!--<a>-->\n                    <!--<h3>-->\n                      <!--Design some buttons-->\n                      <!--<small class=\"pull-right\">20%</small>-->\n                    <!--</h3>-->\n                    <!--<div class=\"progress xs\">-->\n                      <!--<div class=\"progress-bar progress-bar-aqua\" style=\"width: 20%\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\">-->\n                        <!--<span class=\"sr-only\">20% Complete</span>-->\n                      <!--</div>-->\n                    <!--</div>-->\n                  <!--</a>-->\n                <!--</li>-->\n                <!--&lt;!&ndash; end task item &ndash;&gt;-->\n              <!--</ul>-->\n            <!--</li>-->\n            <!--<li class=\"footer\">-->\n              <!--<a>View all tasks</a>-->\n            <!--</li>-->\n          <!--</ul>-->\n        <!--</li> Dont Need This Now -->\n\n        <!-- User Account: style can be found in dropdown.less -->\n        <li class=\"dropdown user user-menu\" [appDropdown]=\"'open'\">\n          <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <img src=\"../../../../assets/img/avatar5.png\" class=\"user-image\" alt=\"User Image\">\n            <span class=\"hidden-xs\">{{(authState | async).name}}</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <!-- User image -->\n            <li class=\"user-header\">\n              <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n\n              <p>\n                {{(authState | async).name}} - {{(authState | async).isSuperAdmin ? 'Super Admin': ''}}{{(authState | async).isAdmin ? 'Admin': ''}}{{(authState | async).isAgent ? 'Agent': ''}}\n                <small></small>\n              </p>\n            </li>\n            <!-- Menu Body -->\n            <!--<li class=\"user-body\">-->\n              <!--<div class=\"row\">-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Followers</a>-->\n                <!--</div>-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Sales</a>-->\n                <!--</div>-->\n                <!--<div class=\"col-xs-4 text-center\">-->\n                  <!--<a>Friends</a>-->\n                <!--</div>-->\n              <!--</div>-->\n            <!--</li>-->\n            <!-- Menu Footer-->\n            <li class=\"user-footer\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-default btn-flat\" routerLink=\"/profile\"> Profile</a>\n              </div>\n              <div class=\"pull-right\">\n                <a class=\"btn btn-default btn-flat\" (click)=\"onSignOut()\">Sign out</a>\n              </div>\n            </li>\n          </ul>\n        </li>\n\n        <!-- Control Sidebar Toggle Button -->\n        <!--<li>-->\n          <!--<a data-toggle=\"control-sidebar\"><i class=\"fa fa-gears\"></i></a>-->\n        <!--</li> Dont need this now -->\n      </ul>\n    </div>\n  </nav>\n</header>"
+module.exports = "<header class=\"main-header\">\n  <!-- Logo -->\n  <a href=\"../../index2.html\" class=\"logo\">\n    <!-- mini logo for sidebar mini 50x50 pixels -->\n    <span class=\"logo-mini\"><b>3</b>C</span>\n    <!-- logo for regular state and mobile devices -->\n    <span class=\"logo-lg\"><b>TM</b>SMS</span>\n  </a>\n  <!-- Header Navbar: style can be found in header.less -->\n  <nav class=\"navbar navbar-static-top\">\n    <!-- Sidebar toggle button-->\n    <a class=\"sidebar-toggle\" (click)=\"toggleLeftSidebar($event)\" data-toggle=\"push-menu\" role=\"button\">\n      <span class=\"sr-only\">Toggle navigation</span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n    </a>\n\n    <div class=\"navbar-custom-menu\">\n      <ul class=\"nav navbar-nav\">\n\n        <!-- User Account: style can be found in dropdown.less -->\n        <li class=\"dropdown user user-menu\" [appDropdown]=\"'open'\">\n          <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n            <img src=\"../../../../assets/img/avatar5.png\" class=\"user-image\" alt=\"User Image\">\n            <span class=\"hidden-xs\">{{(authState | async).name}}</span>\n          </a>\n          <ul class=\"dropdown-menu\">\n            <!-- User image -->\n            <li class=\"user-header\">\n              <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n\n              <p>\n                {{(authState | async).name}} - {{(authState | async).isSuperAdmin ? 'Super Admin': ''}}{{(authState | async).isAdmin ? 'Admin': ''}}{{(authState | async).isAgent ? 'Agent': ''}}\n                <small></small>\n              </p>\n            </li>\n            <li class=\"user-footer\">\n              <div class=\"pull-left\">\n                <a class=\"btn btn-default btn-flat\" routerLink=\"/profile\"> Profile</a>\n              </div>\n              <div class=\"pull-right\">\n                <a class=\"btn btn-default btn-flat\" (click)=\"onSignOut()\">Sign out</a>\n              </div>\n            </li>\n          </ul>\n        </li>\n      </ul>\n    </div>\n  </nav>\n</header>\n"
 
 /***/ }),
 
@@ -894,7 +897,7 @@ var HeaderComponent = (function () {
         this.authState = this.store.select('auth');
     };
     /** Function call to toggle left sidebar */
-    HeaderComponent.prototype.toggleLeftSidebar = function () {
+    HeaderComponent.prototype.toggleLeftSidebar = function (event) {
         if (window.screen.width <= 767) {
             this.mtls.emit(event);
         }
@@ -987,14 +990,14 @@ var ChatService = (function () {
             .map(function (authData) { return authData.userId; })
             .distinctUntilChanged()
             .subscribe(function (id) {
-            console.log(id);
+            // console.log(id);
             if (id != null) {
                 _this.loggedInAgentId = id;
                 // To get all the agents and the rooms they are assigned to
                 _this.socket.emit('get-added-rooms');
                 // On getting the list of rooms all the agents are assigned to
                 _this.socket.on('new-rooms-added', function (data) {
-                    console.log('new-rooms-added: ', data);
+                    // console.log('new-rooms-added: ', data);
                     for (var i = 0, len = data.length; i < len; i++) {
                         if (data[i].agent_id == _this.loggedInAgentId) {
                             // To add current agent to room
@@ -1005,15 +1008,15 @@ var ChatService = (function () {
                 });
                 // When agent added to any room
                 _this.socket.on('agent-added-to-room', function (data) {
-                    console.log('agent-added-to-room', data.name);
+                    // console.log('agent-added-to-room', data.name);
                     _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["d" /* AddToChatList */](data));
                 });
                 _this.socket.on('msg-of-acceptance', function (data) {
-                    console.log(data);
+                    // console.log(data);
                 });
                 // Which agent accepted
                 _this.socket.on('which-agent-accepted', function (data) {
-                    console.log('which-agent-accepted: ', data);
+                    // console.log('which-agent-accepted: ', data);
                     if (data.agentId == _this.loggedInAgentId) {
                         _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["k" /* EditFromChatList */]({
                             status: data.status,
@@ -1027,15 +1030,15 @@ var ChatService = (function () {
                 });
                 // Which agent rejected
                 _this.socket.on('which-agent-rejected', function (data) {
-                    console.log('which-agent-rejected: ', data);
+                    // console.log('which-agent-rejected: ', data);
                     if (data.agentId == _this.loggedInAgentId) {
                         _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["i" /* DeleteFromChatList */]({ room_number: data.chatRoomId }));
                         _this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
                     }
                 });
                 _this.socket.on('which-agent-resolved', function (data) {
-                    console.log('In which agent resolved');
-                    console.log(data);
+                    // console.log('In which agent resolved');
+                    // console.log(data);
                     if (data.agentId == _this.loggedInAgentId) {
                         _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["k" /* EditFromChatList */]({
                             status: data.status,
@@ -1045,7 +1048,7 @@ var ChatService = (function () {
                     }
                 });
                 _this.socket.on('which-agent-transferred', function (data) {
-                    console.log('which-agent-transferred: ', data);
+                    // console.log('which-agent-transferred: ', data);
                     if (data.agentId == _this.loggedInAgentId) {
                         _this.socket.emit('remove-agent-from-room', { room_number: data.chatRoomId });
                         _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["i" /* DeleteFromChatList */]({ room_number: data.chatRoomId }));
@@ -1082,13 +1085,13 @@ var ChatService = (function () {
         };
     };
     ChatService.prototype.socketDisconnect = function () {
-        console.log("disconnecting");
+        // console.log("disconnecting");
         if (this.socket) {
             this.socket.emit('agent-disconnected');
         }
     };
     ChatService.prototype.ngOnDestroy = function () {
-        console.log("chat destroy");
+        // console.log("chat destroy");
     };
     return ChatService;
 }());
@@ -1367,7 +1370,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/sidebar/sidebar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside class=\"main-sidebar\">\n    <div class=\"slimScrollDiv\">\n        <!-- sidebar: style can be found in sidebar.less -->\n        <section class=\"sidebar\">\n            <!-- Sidebar user panel -->\n            <div class=\"user-panel\">\n                <div class=\"pull-left image\">\n                    <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n                </div>\n                <div class=\"pull-left info\">\n                    <p> {{(authState | async).name}} </p>\n                    <a><i class=\"fa fa-circle text-success\"></i> Online</a>\n                </div>\n            </div>\n            <!-- search form -->\n            <!--<form class=\"sidebar-form\">-->\n            <!--<div class=\"input-group\">-->\n            <!--<input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">-->\n            <!--<span class=\"input-group-btn\">-->\n            <!--<button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i>-->\n            <!--</button>-->\n            <!--</span>-->\n            <!--</div>-->\n            <!--</form>-->\n            <!-- /.search form -->\n            <!-- sidebar menu: : style can be found in sidebar.less -->\n            <ul class=\"sidebar-menu\" data-widget=\"tree\">\n                <li class=\"header\">MAIN NAVIGATIONS</li>\n\n                <!-- Dashboard -->\n                <li class=\"treeview\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/dashboard\">\n                        <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span>\n                    </a>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">USER\n                    ACCOUNTS\n                </li>\n\n                <!-- Admins -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-unlock-alt\"></i> <span> Admins</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/admin/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/admin/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <!-- Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-lock\"></i> <span> Agents</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/agent/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/agent/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">\n                    ORGANIZATION\n                </li>\n\n                <!-- Departments -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-puzzle-piece\"></i> <span> Departments</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/department/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/department/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <!-- Widgets -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-th\"></i> <span>Widgets</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/widget/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/widget/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isAgent\">COMMUNICATIONS</li>\n\n                <!-- Chat Rooms -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isAgent\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-comments\"></i> <span>Chat Rooms</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li>\n                            <a href=\"/chat/pending\">\n                                <i class=\"fa fa-comment\"></i> <span>Pending Chats</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/ongoing\">\n                                <i class=\"fa fa-comment\"></i> <span>Ongoing Chats</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/rejected\">\n                                <i class=\"fa fa-comment\"></i> <span>Rejected Chats</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/resolve\">\n                                <i class=\"fa fa-comment\"></i> <span>Resolve Chats</span>\n                            </a>\n                        </li>\n                    </ul>\n                </li>\n\n                <!-- Previous Chats of Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/chats/list-agent\">\n                        <i class=\"fa fa-comments\"></i> <span>Chats</span>\n                        <span class=\"pull-right-container\">\n                </span>\n                    </a>\n                </li>\n\n                <!-- Previous Chats of Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/chats/list-agents-contacts\">\n                        <i class=\"fa fa-address-book\"></i> <span>Contact List</span>\n                        <span class=\"pull-right-container\">\n                </span>\n                    </a>\n                </li>\n                <!-- Twilio Accounts -->\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin\">CREDENTIALS</li>\n\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-compress\"></i> <span> Twilio Accounts</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/twilio/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/twilio/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n                <!-- Twilio Accounts -->\n            </ul>\n        </section>\n        <!-- /.sidebar -->\n    </div>\n</aside>\n"
+module.exports = "<aside class=\"main-sidebar\">\n    <div class=\"slimScrollDiv\">\n        <!-- sidebar: style can be found in sidebar.less -->\n        <section class=\"sidebar\">\n            <!-- Sidebar user panel -->\n            <div class=\"user-panel\">\n                <div class=\"pull-left image\">\n                    <img src=\"../../../../assets/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">\n                </div>\n                <div class=\"pull-left info\">\n                    <p> {{(authState | async).name}} </p>\n                    <a><i class=\"fa fa-circle text-success\"></i> Online</a>\n                </div>\n            </div>\n            <!-- search form -->\n            <!--<form class=\"sidebar-form\">-->\n            <!--<div class=\"input-group\">-->\n            <!--<input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">-->\n            <!--<span class=\"input-group-btn\">-->\n            <!--<button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i>-->\n            <!--</button>-->\n            <!--</span>-->\n            <!--</div>-->\n            <!--</form>-->\n            <!-- /.search form -->\n            <!-- sidebar menu: : style can be found in sidebar.less -->\n            <ul class=\"sidebar-menu\" data-widget=\"tree\">\n                <li class=\"header\">MAIN NAVIGATIONS</li>\n\n                <!-- Dashboard -->\n                <li class=\"treeview\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a href=\"/dashboard\">\n                        <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span>\n                    </a>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">USER\n                    ACCOUNTS\n                </li>\n\n                <!-- Admins -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-unlock-alt\"></i> <span> Admins</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/admin/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/admin/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <!-- Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-lock\"></i> <span> Agents</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/agent/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/agent/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\">\n                    ORGANIZATION\n                </li>\n\n                <!-- Departments -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-puzzle-piece\"></i> <span> Departments</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/department/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/department/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <!-- Widgets -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-th\"></i> <span>Widgets</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/widget/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/widget/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"header\" *ngIf=\"(authState | async).isAgent\">COMMUNICATIONS</li>\n\n                <!-- Chat Rooms -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isAgent\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-comments\"></i> <span>Chat Options</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li>\n                            <a href=\"/chat/pending\">\n                                <i class=\"fa fa-comment\"></i> <span>New Requests</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/ongoing\">\n                                <i class=\"fa fa-comment\"></i> <span>Live Sessions</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/rejected\">\n                                <i class=\"fa fa-comment\"></i> <span>Rejected</span>\n                            </a>\n                        </li>\n                        <li>\n                            <a href=\"/chat/resolve\">\n                                <i class=\"fa fa-comment\"></i> <span>Closed</span>\n                            </a>\n                        </li>\n                    </ul>\n                </li>\n\n                <!-- Previous Chats of Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/chats/list-agent\">\n                        <i class=\"fa fa-comments\"></i> <span>Chats</span>\n                        <span class=\"pull-right-container\">\n                </span>\n                    </a>\n                </li>\n\n                <!-- Previous Chats of Agents -->\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin || (authState | async).isAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a routerLink=\"/chats/list-agents-contacts\">\n                        <i class=\"fa fa-address-book\"></i> <span>Contact List</span>\n                        <span class=\"pull-right-container\">\n                </span>\n                    </a>\n                </li>\n                <!-- Twilio Accounts -->\n                <li class=\"header\" *ngIf=\"(authState | async).isSuperAdmin\">CREDENTIALS</li>\n\n                <li class=\"treeview\"\n                    *ngIf=\"(authState | async).isSuperAdmin\"\n                    routerLinkActive=\"active\"\n                    [disable-hover]=\"true\"\n                    [appDropdown]=\"'menu-open'\"\n                >\n                    <a>\n                        <i class=\"fa fa-compress\"></i> <span> Twilio Accounts</span>\n                        <span class=\"pull-right-container\">\n              <i class=\"fa fa-angle-left pull-right\"></i>\n            </span>\n                    </a>\n                    <ul class=\"treeview-menu\">\n                        <li><a routerLink=\"/twilio/create\"><i class=\"fa fa-circle-o\"></i> Create</a></li>\n                        <li><a routerLink=\"/twilio/list\"><i class=\"fa fa-circle-o\"></i> List</a></li>\n                    </ul>\n                </li>\n                <!-- Twilio Accounts -->\n            </ul>\n        </section>\n        <!-- /.sidebar -->\n    </div>\n</aside>\n"
 
 /***/ }),
 
@@ -2050,22 +2053,30 @@ var reducers = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_AGENT_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EDIT_AGENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return RESET_AGENT_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return RESET_AGENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_COMPANY_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_COMPANY_LIST_SUCCESS; });
 /* unused harmony export GetAgentAttempt */
 /* unused harmony export GetAgentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddAgentAttempt; });
 /* unused harmony export AddAgentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EditAgentAttempt; });
 /* unused harmony export EditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetAgentListAttempt; });
 /* unused harmony export GetAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return ResetAgentForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetToEditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return ResetAgentForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetToEditAgentAttempt; });
 /* unused harmony export GetToEditAgentSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetAdminAgentListAttempt; });
+/* unused harmony export GetAdminAgentListSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetCompanyListAttempt; });
+/* unused harmony export GetCompanyListSuccess */
 var GET_AGENT_ATTEMPT = 'GET_AGENT_ATTEMPT';
 var GET_AGENT_SUCCESS = 'GET_AGENT_SUCCESS';
 var ADD_AGENT_ATTEMPT = 'ADD_AGENT_ATTEMPT';
@@ -2077,6 +2088,10 @@ var GET_AGENT_LIST_SUCCESS = 'GET_AGENT_LIST_SUCCESS';
 var RESET_AGENT_FORM = 'RESET_AGENT_FORM';
 var GET_TO_EDIT_AGENT_ATTEMPT = 'GET_TO_EDIT_AGENT_ATTEMPT';
 var GET_TO_EDIT_AGENT_SUCCESS = 'GET_TO_EDIT_AGENT_SUCCESS';
+var GET_ADMIN_AGENT_LIST_ATTEMPT = 'GET_ADMIN_AGENT_LIST_ATTEMPT';
+var GET_ADMIN_AGENT_LIST_SUCCESS = 'GET_ADMIN_AGENT_LIST_SUCCESS';
+var GET_COMPANY_LIST_ATTEMPT = 'GET_COMPANY_LIST_ATTEMPT';
+var GET_COMPANY_LIST_SUCCESS = 'GET_COMPANY_LIST_SUCCESS';
 var GetAgentAttempt = (function () {
     function GetAgentAttempt() {
         this.type = GET_AGENT_ATTEMPT;
@@ -2160,6 +2175,38 @@ var GetToEditAgentSuccess = (function () {
         this.type = GET_TO_EDIT_AGENT_SUCCESS;
     }
     return GetToEditAgentSuccess;
+}());
+
+var GetAdminAgentListAttempt = (function () {
+    function GetAdminAgentListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_ADMIN_AGENT_LIST_ATTEMPT;
+    }
+    return GetAdminAgentListAttempt;
+}());
+
+var GetAdminAgentListSuccess = (function () {
+    function GetAdminAgentListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_ADMIN_AGENT_LIST_SUCCESS;
+    }
+    return GetAdminAgentListSuccess;
+}());
+
+var GetCompanyListAttempt = (function () {
+    function GetCompanyListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_COMPANY_LIST_ATTEMPT;
+    }
+    return GetCompanyListAttempt;
+}());
+
+var GetCompanyListSuccess = (function () {
+    function GetCompanyListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_COMPANY_LIST_SUCCESS;
+    }
+    return GetCompanyListSuccess;
 }());
 
 //# sourceMappingURL=agent.actions.js.map
@@ -2254,7 +2301,7 @@ var AgentEffects = (function () {
             });
         });
         this.getAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["g" /* GET_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["i" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2265,7 +2312,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["h" /* GET_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["j" /* GET_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2322,7 +2369,7 @@ var AgentEffects = (function () {
             });
         });
         this.getToEditDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["i" /* GET_TO_EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["m" /* GET_TO_EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2332,7 +2379,7 @@ var AgentEffects = (function () {
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["j" /* GET_TO_EDIT_AGENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["n" /* GET_TO_EDIT_AGENT_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -2340,6 +2387,66 @@ var AgentEffects = (function () {
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
+                });
+            });
+        });
+        this.getAdminAgentList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["g" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-admin-agents';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .map(function (res) {
+                if (res.status) {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["h" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
+                        payload: res.response
+                    };
+                }
+                else {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                        payload: { message: res.message, type: 'danger' }
+                    };
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getCompanyList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["k" /* GET_COMPANY_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-company-list';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, config)
+                .map(function (res) {
+                if (res.status) {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* GET_COMPANY_LIST_SUCCESS */],
+                        payload: res.response
+                    };
+                }
+                else {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                        payload: { message: res.message, type: 'danger' }
+                    };
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
                 });
             });
         });
@@ -2362,6 +2469,14 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], AgentEffects.prototype, "getToEditDepartmentList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentEffects.prototype, "getAdminAgentList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentEffects.prototype, "getCompanyList", void 0);
 AgentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -2391,14 +2506,15 @@ var initialState = {
     info: null,
     list: [],
     toEdit: {},
-    resetAgentForm: false
+    resetAgentForm: false,
+    comapnyList: []
 };
 function agentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["b" /* ADD_AGENT_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetAgentForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["h" /* GET_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["j" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["e" /* EDIT_AGENT_SUCCESS */]):
             var index = state.list.indexOf(function (agent) { return agent.id === action.payload.id; });
@@ -2407,10 +2523,14 @@ function agentReducer(state, action) {
             var admins = state.list.slice();
             admins[index] = updatedAgent;
             return __assign({}, state, { list: state.list.concat(admins) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["j" /* GET_TO_EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["n" /* GET_TO_EDIT_AGENT_SUCCESS */]):
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* RESET_AGENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["s" /* RESET_AGENT_FORM */]):
             return __assign({}, state, { resetAgentForm: false });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["h" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
+            return __assign({}, state, { list: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["l" /* GET_COMPANY_LIST_SUCCESS */]):
+            return __assign({}, state, { comapnyList: action.payload });
         default:
             return state;
     }
@@ -2750,7 +2870,7 @@ var ChatEffects = (function () {
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
                 if (res.status) {
-                    console.log(res.response);
+                    // console.log(res.response);
                     return [
                         {
                             type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
@@ -3055,7 +3175,8 @@ function dashboardReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return ResetDepartmentForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return RESET_EDIT_DEPARTMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return ResetDepartmentForm; });
 /* unused harmony export GetDepartmentAttempt */
 /* unused harmony export GetDepartmentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddDepartmentAttempt; });
@@ -3066,6 +3187,7 @@ function dashboardReducer(state, action) {
 /* unused harmony export GetDepartmentListSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetToEditDepartmentAttempt; });
 /* unused harmony export GetToEditDepartmentSuccess */
+/* unused harmony export ResetEditDepartment */
 var RESET_DEPARTMENT_FORM = 'RESET_DEPARTMENT_FORM';
 var GET_DEPARTMENT_ATTEMPT = 'GET_DEPARTMENT_ATTEMPT';
 var GET_DEPARTMENT_SUCCESS = 'GET_DEPARTMENT_SUCCESS';
@@ -3077,6 +3199,7 @@ var GET_DEPARTMENT_LIST_ATTEMPT = 'GET_DEPARTMENT_LIST_ATTEMPT';
 var GET_DEPARTMENT_LIST_SUCCESS = 'GET_DEPARTMENT_LIST_SUCCESS';
 var GET_TO_EDIT_DEPARTMENT_ATTEMPT = 'GET_TO_EDIT_DEPARTMENT_ATTEMPT';
 var GET_TO_EDIT_DEPARTMENT_SUCCESS = 'GET_TO_EDIT_DEPARTMENT_SUCCESS';
+var RESET_EDIT_DEPARTMENT = 'RESET_EDIT_DEPARTMENT';
 var ResetDepartmentForm = (function () {
     function ResetDepartmentForm() {
         this.type = RESET_DEPARTMENT_FORM;
@@ -3161,6 +3284,14 @@ var GetToEditDepartmentSuccess = (function () {
         this.type = GET_TO_EDIT_DEPARTMENT_SUCCESS;
     }
     return GetToEditDepartmentSuccess;
+}());
+
+var ResetEditDepartment = (function () {
+    function ResetEditDepartment(payload) {
+        this.payload = payload;
+        this.type = RESET_EDIT_DEPARTMENT;
+    }
+    return ResetEditDepartment;
 }());
 
 //# sourceMappingURL=department.actions.js.map
@@ -3383,13 +3514,14 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 var initialState = {
     list: [],
     toEdit: {},
-    resetDepartmentForm: false
+    resetDepartmentForm: false,
+    newDepartmentId: 0,
 };
 function departmentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["b" /* ADD_DEPARTMENT_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), resetDepartmentForm: true });
+            return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, resetDepartmentForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* EDIT_DEPARTMENT_SUCCESS */]):
             var index = state.list.indexOf(function (dep) { return dep.id === action.payload.id; });
             var someDep = state.list[index];
@@ -3402,7 +3534,10 @@ function departmentReducer(state, action) {
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* RESET_DEPARTMENT_FORM */]):
             return __assign({}, state, { resetDepartmentForm: false });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["j" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
+            // console.log(action.payload);
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["n" /* RESET_EDIT_DEPARTMENT */]):
+            return __assign({}, state, { toEdit: {} });
         default:
             return state;
     }
@@ -4010,26 +4145,30 @@ function twilioReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_WIDGET_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EDIT_WIDGET_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_WIDGET_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_WIDGET_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_WIDGET_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return RESET_WIDGET_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_WIDGET_TO_EDIT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_WIDGET_TO_EDIT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_TIMEZONE_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_TIMEZONE_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_WIDGET_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_WIDGET_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return RESET_WIDGET_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_WIDGET_TO_EDIT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_WIDGET_TO_EDIT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TIMEZONE_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_TIMEZONE_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_NUMBER_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_NUMBER_LIST_ATTEMPT; });
 /* unused harmony export GetWidgetAttempt */
 /* unused harmony export GetWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddWidgetAttempt; });
 /* unused harmony export AddWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EditWidgetAttempt; });
 /* unused harmony export EditWidgetSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GetWidgetListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetWidgetListAttempt; });
 /* unused harmony export GetWidgetListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return ResetWidgetForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GetTimeZoneListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return ResetWidgetForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetTimeZoneListAttempt; });
 /* unused harmony export GetTimeZoneListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetWidgetToEditAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetWidgetToEditAttempt; });
 /* unused harmony export GetWidgetToEditSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetNumberListAttempt; });
+/* unused harmony export GetNumberListSuccess */
 var GET_WIDGET_ATTEMPT = 'GET_WIDGET_ATTEMPT';
 var GET_WIDGET_SUCCESS = 'GET_WIDGET_SUCCESS';
 var ADD_WIDGET_ATTEMPT = 'ADD_WIDGET_ATTEMPT';
@@ -4043,6 +4182,8 @@ var GET_WIDGET_TO_EDIT_ATTEMPT = 'GET_WIDGET_TO_EDIT_ATTEMPT';
 var GET_WIDGET_TO_EDIT_SUCCESS = 'GET_WIDGET_TO_EDIT_SUCCESS';
 var GET_TIMEZONE_LIST_SUCCESS = 'GET_TIMEZONE_LIST_SUCCESS';
 var GET_TIMEZONE_LIST_ATTEMPT = 'GET_TIMEZONE_LIST_ATTEMPT';
+var GET_NUMBER_LIST_SUCCESS = 'GET_NUMBER_LIST_SUCCESS';
+var GET_NUMBER_LIST_ATTEMPT = 'GET_NUMBER_LIST_ATTEMPT';
 var GetWidgetAttempt = (function () {
     function GetWidgetAttempt() {
         this.type = GET_WIDGET_ATTEMPT;
@@ -4144,6 +4285,22 @@ var GetWidgetToEditSuccess = (function () {
     return GetWidgetToEditSuccess;
 }());
 
+var GetNumberListAttempt = (function () {
+    function GetNumberListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_NUMBER_LIST_ATTEMPT;
+    }
+    return GetNumberListAttempt;
+}());
+
+var GetNumberListSuccess = (function () {
+    function GetNumberListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_NUMBER_LIST_SUCCESS;
+    }
+    return GetNumberListSuccess;
+}());
+
 //# sourceMappingURL=widget.actions.js.map
 
 /***/ }),
@@ -4171,6 +4328,7 @@ var GetWidgetToEditSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__widget_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng4_loading_spinner__ = __webpack_require__("../../../../ng4-loading-spinner/ng4-loading-spinner.esm.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4192,13 +4350,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var WidgetEffects = (function () {
-    function WidgetEffects(actions$, httpClient) {
+    function WidgetEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.getTimezoneList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["g" /* GET_TIMEZONE_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-timezone';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4209,7 +4369,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_TIMEZONE_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_TIMEZONE_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4266,7 +4426,7 @@ var WidgetEffects = (function () {
             });
         });
         this.getWidgetList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_WIDGET_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_WIDGET_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4277,7 +4437,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_WIDGET_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_WIDGET_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4334,7 +4494,7 @@ var WidgetEffects = (function () {
             });
         });
         this.widgetToEdit = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'viewWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4345,7 +4505,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_WIDGET_TO_EDIT_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_TO_EDIT_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4357,6 +4517,40 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.searchNumber = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["g" /* GET_NUMBER_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'search-number';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            _this.spinnerService.show();
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .map(function (res) {
+                if (res.status) {
+                    _this.spinnerService.hide();
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_SUCCESS */],
+                        payload: res.data
+                    };
+                }
+                else {
+                    _this.spinnerService.hide();
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                        payload: { message: res.message, type: 'danger' }
+                    };
+                }
+            })
+                .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -4386,12 +4580,16 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], WidgetEffects.prototype, "widgetToEdit", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], WidgetEffects.prototype, "searchNumber", void 0);
 WidgetEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12_ng4_loading_spinner__["b" /* Ng4LoadingSpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_ng4_loading_spinner__["b" /* Ng4LoadingSpinnerService */]) === "function" && _c || Object])
 ], WidgetEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=widget.effect.js.map
 
 /***/ }),
@@ -4416,21 +4614,24 @@ var initialState = {
     list: [],
     toEdit: {},
     resetWidgetForm: false,
-    timezoneList: []
+    timezoneList: [],
+    numbers: []
 };
 function widgetReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["b" /* ADD_WIDGET_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetWidgetForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["j" /* GET_WIDGET_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["l" /* GET_WIDGET_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["h" /* GET_TIMEZONE_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["j" /* GET_TIMEZONE_LIST_SUCCESS */]):
             return __assign({}, state, { timezoneList: action.payload.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["p" /* RESET_WIDGET_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["s" /* RESET_WIDGET_FORM */]):
             return __assign({}, state, { resetWidgetForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["l" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["n" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
             return __assign({}, state, { toEdit: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["h" /* GET_NUMBER_LIST_SUCCESS */]):
+            return __assign({}, state, { numbers: action.payload });
         default:
             return state;
     }
@@ -5248,11 +5449,14 @@ function authReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return reducers; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_auth_reducers__ = __webpack_require__("../../../../../src/app/core/store/auth/auth.reducers.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__alert_alert_reducers__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.reducers.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layout_store_department_department_reducers__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.reducers.ts");
+
 
 
 var reducers = {
     auth: __WEBPACK_IMPORTED_MODULE_0__auth_auth_reducers__["a" /* authReducer */],
-    alert: __WEBPACK_IMPORTED_MODULE_1__alert_alert_reducers__["a" /* alertReducer */]
+    alert: __WEBPACK_IMPORTED_MODULE_1__alert_alert_reducers__["a" /* alertReducer */],
+    department: __WEBPACK_IMPORTED_MODULE_2__layout_store_department_department_reducers__["a" /* departmentReducer */]
 };
 //# sourceMappingURL=core.reducers.js.map
 
@@ -5263,15 +5467,10 @@ var reducers = {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-// The file contents for the current environment will overwrite these during build.
 var environment = {
-    production: false,
-    API_BASE_URL: 'http://localhost:8000/api/v1/',
-    SOCKET_URL: 'http://localhost:3000'
+    production: true,
+    API_BASE_URL: 'http://138.197.215.68/api/v1/',
+    SOCKET_URL: 'http://138.197.215.68:3000'
 };
 //# sourceMappingURL=environment.js.map
 

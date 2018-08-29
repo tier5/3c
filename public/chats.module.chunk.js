@@ -1,5 +1,101 @@
 webpackJsonp(["chats.module"],{
 
+/***/ "../../../../../src/app/core/layout/inner-pages/chats/chatSearch.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatSearchPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__ = __webpack_require__("../../../../ngx-bootstrap/chronos/test/chain.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var ChatSearchPipe = (function () {
+    function ChatSearchPipe() {
+    }
+    ChatSearchPipe.prototype.transform = function (items, term) {
+        if (!items) {
+            return [];
+        }
+        if (!term) {
+            return items;
+        }
+        return items.filter(function (el) {
+            var termLower = term.toLowerCase().trim();
+            /** Search Body */
+            if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
+                return el.first_name.toLowerCase().indexOf(termLower) > -1;
+            }
+            else {
+                // check for last name
+                if (el.last_name != null && el.last_name.toLowerCase().indexOf(termLower) > -1) {
+                    return el.last_name.toLowerCase().indexOf(termLower) > -1;
+                }
+                else {
+                    // search for company
+                    if (el.company != null && el.company.toLowerCase().indexOf(termLower) > -1) {
+                        return el.company.toLowerCase().indexOf(termLower) > -1;
+                    }
+                    else {
+                        // search for email
+                        if (el.email != null && el.email.toLowerCase().indexOf(termLower) > -1) {
+                            return el.email.toLowerCase().indexOf(termLower) > -1;
+                        }
+                        else {
+                            // search for phone
+                            if (el.phone != null && el.phone.replace(/\D+/g, '').indexOf(termLower) > -1) {
+                                return el.phone.replace(/\D+/g, '').indexOf(termLower) > -1;
+                            }
+                            else {
+                                // search for date
+                                if (el.created_at != null && Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+                                    return Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                                }
+                                else {
+                                    // search by twillio sid
+                                    if ((el.twilio_info != null && el.twilio_info.twilio_sid != null) &&
+                                        el.twilio_info.twilio_sid.toLowerCase().indexOf(termLower) > -1) {
+                                        return el.twilio_info.twilio_sid.toLowerCase().indexOf(termLower) > -1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /** check for the contact list search */
+            if ((el.client_info != undefined && el.client_info.client_name != undefined && el.client_info.client_name != null && el.client_info.client_name.name != null) && el.client_info.client_name.name.toLowerCase().indexOf(termLower) > -1) {
+                return el.client_info.client_name.name.toLowerCase().indexOf(termLower) > -1;
+            }
+            else {
+                if ((el.client_info != undefined && el.client_info.client_name != undefined && el.client_info.client_name != null && el.client_info.client_name.email != null) && el.client_info.client_name.email.toLowerCase().indexOf(termLower) > -1) {
+                    return el.client_info.client_name.email.toLowerCase().indexOf(termLower) > -1;
+                }
+                else {
+                    if ((el.client_info != undefined && el.client_info.client_name != undefined && el.client_info.client_name != null && el.client_info.client_name.phone != null) && el.client_info.client_name.phone.replace(/\D+/g, '').indexOf(termLower) > -1) {
+                        return el.client_info.client_name.phone.replace(/\D+/g, '').indexOf(termLower) > -1;
+                    }
+                }
+            }
+        });
+    };
+    return ChatSearchPipe;
+}());
+ChatSearchPipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({
+        name: 'filter'
+    })
+], ChatSearchPipe);
+
+//# sourceMappingURL=chatSearch.pipe.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/core/layout/inner-pages/chats/chats-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -63,12 +159,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_search_filter__ = __webpack_require__("../../../../ng2-search-filter/ng2-search-filter.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ngx_order_pipe__ = __webpack_require__("../../../../ngx-order-pipe/ngx-order-pipe.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ngx_pagination__ = __webpack_require__("../../../../ngx-pagination/dist/ngx-pagination.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__chatSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chats/chatSearch.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -96,12 +194,13 @@ ChatsModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_8_angular2_moment__["MomentModule"],
             __WEBPACK_IMPORTED_MODULE_9_ng2_search_filter__["a" /* Ng2SearchPipeModule */],
             __WEBPACK_IMPORTED_MODULE_10_ngx_order_pipe__["a" /* OrderModule */],
-            __WEBPACK_IMPORTED_MODULE_11_ngx_pagination__["a" /* NgxPaginationModule */]
+            __WEBPACK_IMPORTED_MODULE_11_ngx_pagination__["a" /* NgxPaginationModule */],
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_4__list_chat_list_chat_component__["a" /* ListChatComponent */],
             __WEBPACK_IMPORTED_MODULE_5__list_agent_list_agent_component__["a" /* ListAgentComponent */],
-            __WEBPACK_IMPORTED_MODULE_6__contact_list_contact_list_component__["a" /* ContactListComponent */]
+            __WEBPACK_IMPORTED_MODULE_6__contact_list_contact_list_component__["a" /* ContactListComponent */],
+            __WEBPACK_IMPORTED_MODULE_12__chatSearch_pipe__["a" /* ChatSearchPipe */]
         ]
     })
 ], ChatsModule);
@@ -118,7 +217,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "@media screen and (max-width:1024px){\n    .box{\n        overflow-x: scroll;\n    }\n}", ""]);
 
 // exports
 
@@ -131,7 +230,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/chats/contact-list/contact-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Contact List</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li><a routerLink=\"/chats/list-agents-contacts\">Contact</a></li>\n      <li class=\"active\"><a href=\"javascript:void(0)\">View</a></li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <h3 class=\"box-title\">Contact List</h3>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\"><div class=\"row\"><div class=\"col-sm-6\"> Search : <input [(ngModel)]=\"term\" placeholder=\"keyword\"> </div><div class=\"col-sm-6\"></div></div><div class=\"row\"><div class=\"col-sm-12\">\n              <table id=\"contactListTable\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n              <thead>\n              <tr role=\"row\">\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Client Name </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Email</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Phone</th>\n              </tr>\n              </thead>\n              <tbody>\n                <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (chatState | async).contactList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                <td>{{i}}</td>\n                <td>{{item.client_info.client_name.name}}</td>\n                <td>{{item.client_info.client_name.email}}</td>\n                <td>{{item.client_info.client_name.phone}}</td>\n\n              </tr>\n              </tbody>\n            </table>\n              <div class=\"row\">\n                <pagination-controls class=\"older_post_text\"\n                                     (pageChange)=\"page=$event\"\n                                     maxSize=\"9\"\n                                     directionLinks=\"true\"\n                                     autoHide=\"true\"\n                                     previousLabel=\"\"\n                                     nextLabel=\"\"\n                                     screenReaderPaginationLabel=\"\"\n                                     screenReaderPageLabel=\"page\"\n                                     screenReaderCurrentLabel=\"You're on page\">\n                </pagination-controls>\n              </div>\n            </div>\n            </div>\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n        <!-- /.box -->\n        <!--<div class=\"msg-popup\">-->\n          <!--<p>This is a success msg!</p>-->\n        <!--</div>-->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"content-header\">-->\n    <!--<h1>Contact List</h1>-->\n    <!--<ol class=\"breadcrumb\">-->\n      <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n      <!--<li><a routerLink=\"/chats/list-agents-contacts\">Contact</a></li>-->\n      <!--<li class=\"active\"><a href=\"javascript:void(0)\">View</a></li>-->\n    <!--</ol>-->\n  <!--</section>-->\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <h3 class=\"box-title\">Contact List</h3>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\"><div class=\"row\"><div class=\"col-sm-6\"> Search : <input [(ngModel)]=\"term\" placeholder=\"All keyword\"> </div><div class=\"col-sm-6\"></div></div><div class=\"row\"><div class=\"col-sm-12\">\n              <table id=\"contactListTable\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n              <thead>\n              <tr role=\"row\">\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Client Name </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Email</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Phone</th>\n              </tr>\n              </thead>\n              <tbody>\n                <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (chatState | async).contactList | filter:term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                <td>{{i+1}}</td>\n                <td>{{item['name']}}</td>\n                <td>{{item['email']}}</td>\n                <td>{{item['phone']}}</td>\n              </tr>\n              </tbody>\n            </table>\n              <div class=\"row\">\n                <pagination-controls class=\"older_post_text\"\n                                     (pageChange)=\"page=$event\"\n                                     maxSize=\"9\"\n                                     directionLinks=\"true\"\n                                     autoHide=\"true\"\n                                     previousLabel=\"\"\n                                     nextLabel=\"\"\n                                     screenReaderPaginationLabel=\"\"\n                                     screenReaderPageLabel=\"page\"\n                                     screenReaderCurrentLabel=\"You're on page\">\n                </pagination-controls>\n              </div>\n            </div>\n            </div>\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n        <!-- /.box -->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
 
 /***/ }),
 
@@ -144,7 +243,6 @@ module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-he
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__ = __webpack_require__("../../../../ngx-order-pipe/ngx-order-pipe.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -158,17 +256,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var ContactListComponent = (function () {
     /** Service injection */
-    function ContactListComponent(store, activatedRoute, router, orderPipe) {
+    function ContactListComponent(store, activatedRoute, router) {
         this.store = store;
         this.activatedRoute = activatedRoute;
         this.router = router;
-        this.orderPipe = orderPipe;
-        this.order = 'info.name';
-        this.reverse = false;
-        this.sortedCollection = orderPipe.transform(this.chatState, 'info.name');
     }
     /** Function to be executed when component initializes */
     ContactListComponent.prototype.ngOnInit = function () {
@@ -186,16 +279,6 @@ var ContactListComponent = (function () {
     ContactListComponent.prototype.onViewChat = function (id) {
         this.router.navigate(['chats/list-chat/', id]);
     };
-    /**
-     * Function for ordering the table
-     * @param {string} value
-     */
-    ContactListComponent.prototype.setOrder = function (value) {
-        if (this.order === value) {
-            this.reverse = !this.reverse;
-        }
-        this.order = value;
-    };
     return ContactListComponent;
 }());
 ContactListComponent = __decorate([
@@ -204,10 +287,10 @@ ContactListComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/chats/contact-list/contact-list.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/chats/contact-list/contact-list.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__["b" /* OrderPipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__["b" /* OrderPipe */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object])
 ], ContactListComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c;
 //# sourceMappingURL=contact-list.component.js.map
 
 /***/ }),
@@ -220,7 +303,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "@media screen and (max-width:1024px){\n    .box{\n        overflow-x: scroll;\n    }\n}\n", ""]);
 
 // exports
 
@@ -233,7 +316,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/chats/list-agent/list-agent.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Agent List</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li *ngIf=\"chatMode\"><a href=\"javascript:void(0)\">Chats</a></li>\n      <li *ngIf=\"!chatMode\"><a href=\"javascript:void(0)\">Contact</a></li>\n      <li class=\"active\"><a href=\"javascript:void(0)\">List</a></li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <h3 class=\"box-title\">Agent List</h3>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n              <div class=\"row\">\n                <div class=\"col-sm-6\"> Search : <input [(ngModel)]=\"term\" placeholder=\"keyword\"> </div>\n                <div class=\"col-sm-6\"></div>\n              </div>\n              <div class=\"row\"><div class=\"col-sm-12\">\n              <table id=\"chatList\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n              <thead>\n              <tr role=\"row\">\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">First Name </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\" >Last Name </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" aria-label=\"Engine version: activate to sort column ascending\">Email</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" aria-label=\"CSS grade: activate to sort column ascending\">Phone</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Department </th>\n                <th  tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" aria-label=\"CSS grade: activate to sort column ascending\">Action</th>\n              </tr>\n              </thead>\n              <tbody>\n                <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (chatState | async).agentList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                <td>{{i+1}}</td>\n                <td>{{item.first_name}}</td>\n                <td>{{item.last_name}}</td>\n                <td>{{item.email}}</td>\n                <td>{{item.phone}}</td>\n                <td>{{item.department_agent_mapping.department_details.department_name}}</td>\n                <td>\n                  <!-- Single button -->\n                  <div class=\"btn-group\" >\n                    <button type=\"button\" class=\"btn btn-default\" aria-haspopup=\"true\" aria-expanded=\"false\" *ngIf=\"chatMode\" (click)=\"onViewChat(item.id)\">\n                      View Chats\n                    </button>\n                    <button type=\"button\" class=\"btn btn-default\" aria-haspopup=\"true\" aria-expanded=\"false\" *ngIf=\"!chatMode\" (click)=\"onViewContact(item.id)\">\n                      View Contact List\n                    </button>\n                  </div>\n                </td>\n              </tr>\n              </tbody>\n            </table>\n                <div class=\"row\">\n                  <pagination-controls class=\"older_post_text\"\n                                       (pageChange)=\"page=$event\"\n                                       maxSize=\"9\"\n                                       directionLinks=\"true\"\n                                       autoHide=\"true\"\n                                       previousLabel=\"\"\n                                       nextLabel=\"\"\n                                       screenReaderPaginationLabel=\"\"\n                                       screenReaderPageLabel=\"page\"\n                                       screenReaderCurrentLabel=\"You're on page\">\n                  </pagination-controls>\n                </div>\n            </div>\n            </div>\n\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n        <!-- /.box -->\n        <!--<div class=\"msg-popup\">-->\n          <!--<p>This is a success msg!</p>-->\n        <!--</div>-->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1 *ngIf=\"chatMode\">Chat List </h1>\n    <h1 *ngIf=\"!chatMode\">Contact List </h1>\n    <!--<ol class=\"breadcrumb\">-->\n      <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n      <!--<li *ngIf=\"chatMode\"><a href=\"javascript:void(0)\">Chats</a></li>-->\n      <!--<li *ngIf=\"!chatMode\"><a href=\"javascript:void(0)\">Contact</a></li>-->\n      <!--<li class=\"active\"><a href=\"javascript:void(0)\">List</a></li>-->\n    <!--</ol>-->\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <div class=\"row\">\n              <div class=\"col-sm-6\"> Search : <input [(ngModel)]=\"term\" placeholder=\"First Name,Last Name,Phone\"></div>\n            </div>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n              <div class=\"row\">\n                <div class=\"col-sm-12\">\n                  <table id=\"chatList\" class=\"table table-bordered table-hover dataTable\" role=\"grid\"\n                         aria-describedby=\"example2_info\">\n                    <thead>\n                    <tr role=\"row\">\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\">First Name\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\">Last Name\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" aria-label=\"Engine version: activate to sort column ascending\" *ngIf=\"!chatMode\">Email</th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          aria-label=\"CSS grade: activate to sort column ascending\">Phone\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\" *ngIf=\"chatMode\">Department\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          aria-label=\"CSS grade: activate to sort column ascending\">Action\n                      </th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    <tr role=\"row\" class=\"odd\"\n                        *ngFor=\"let item of (chatState | async).agentList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                      <td>{{i+1}}</td>\n                      <td>{{item.first_name}}</td>\n                      <td>{{item.last_name}}</td>\n                      <td *ngIf=\"!chatMode\">{{item.email}}</td>\n                      <td>{{item.phone}}</td>\n                      <td *ngIf=\"chatMode\">{{item.department_agent_mapping.department_details.department_name}}</td>\n                      <td>\n                        <!-- Single button -->\n                        <div class=\"btn-group\">\n                          <button type=\"button\" class=\"btn btn-default\" aria-haspopup=\"true\" aria-expanded=\"false\"\n                                  *ngIf=\"chatMode\" (click)=\"onViewChat(item.id)\">\n                            View Chats\n                          </button>\n                          <button type=\"button\" class=\"btn btn-default\" aria-haspopup=\"true\" aria-expanded=\"false\"\n                                  *ngIf=\"!chatMode\" (click)=\"onViewContact(item.id)\">\n                            View Contact List\n                          </button>\n                        </div>\n                      </td>\n                    </tr>\n                    </tbody>\n                  </table>\n                  <div class=\"row\">\n                    <pagination-controls class=\"older_post_text\"\n                                         (pageChange)=\"page=$event\"\n                                         maxSize=\"9\"\n                                         directionLinks=\"true\"\n                                         autoHide=\"true\"\n                                         previousLabel=\"\"\n                                         nextLabel=\"\"\n                                         screenReaderPaginationLabel=\"\"\n                                         screenReaderPageLabel=\"page\"\n                                         screenReaderCurrentLabel=\"You're on page\">\n                    </pagination-controls>\n                  </div>\n                </div>\n              </div>\n\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n        <!-- /.box -->\n        <!--<div class=\"msg-popup\">-->\n        <!--<p>This is a success msg!</p>-->\n        <!--</div>-->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
 
 /***/ }),
 
@@ -246,7 +329,6 @@ module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-he
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__ = __webpack_require__("../../../../ngx-order-pipe/ngx-order-pipe.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -260,18 +342,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var ListAgentComponent = (function () {
     /** Service injection */
-    function ListAgentComponent(store, activatedRoute, router, orderPipe) {
+    function ListAgentComponent(store, activatedRoute, router) {
         this.store = store;
         this.activatedRoute = activatedRoute;
         this.router = router;
-        this.orderPipe = orderPipe;
         this.chatMode = false;
-        this.order = 'info.name';
-        this.reverse = false;
-        this.sortedCollection = orderPipe.transform(this.chatState, 'info.name');
     }
     /** Function to be executed when component initializes */
     ListAgentComponent.prototype.ngOnInit = function () {
@@ -293,16 +370,6 @@ var ListAgentComponent = (function () {
     ListAgentComponent.prototype.onViewContact = function (id) {
         this.router.navigate(['chats/contact-list/', id]);
     };
-    /**
-     * Function for ordering the table
-     * @param {string} value
-     */
-    ListAgentComponent.prototype.setOrder = function (value) {
-        if (this.order === value) {
-            this.reverse = !this.reverse;
-        }
-        this.order = value;
-    };
     return ListAgentComponent;
 }());
 ListAgentComponent = __decorate([
@@ -311,10 +378,10 @@ ListAgentComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/chats/list-agent/list-agent.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/chats/list-agent/list-agent.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__["b" /* OrderPipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__["b" /* OrderPipe */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _c || Object])
 ], ListAgentComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c;
 //# sourceMappingURL=list-agent.component.js.map
 
 /***/ }),
@@ -327,7 +394,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "h2{\n    background: #fff;\n    text-align: center;\n    margin: 0;\n    padding: 15px;\n    color: #000;\n    font-size: 20px;\n    text-transform: uppercase;\n    letter-spacing: 1px;\n    box-shadow: 1px 1px 1px 1px #ebebeb;\n    -webkit-box-shadow: 1px 1px 1px 1px #ebebeb;\n    -moz-box-shadow: 1px 1px 1px 1px #ebebeb;\n}\n.box{\n    margin-top: 5px;\n    border: 0;\n}\n.chat-list{\n    display: inline-block;\n    width: 100%;\n}\n.chat-list ul{\n    margin: 5px 0 0;\n    padding: 0;\n    list-style-type: none;\n    background: #fff;\n    max-height: 705px;\n    overflow-y: auto;\n    border-radius: 3px;\n    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);\n}\n.chat-list ul li{\n    display: inline-block;\n    width: 100%;\n    padding: 15px 0;\n    border-bottom: 1px solid #f4f4f4;\n    cursor: pointer;\n    vertical-align: top;\n}\n.chat-list ul li:last-child{\n    border: 0;\n}\n.chat-list ul li:hover{\n    background: #3c8dbc;\n    box-shadow: 1px 1px 1px 1px #666;\n    border-bottom: 1px solid #3c8dbc;\n}\n.chat-head img{\n    border-radius: 50%;\n    margin: auto;\n    width: 40px;\n    height: 40px;\n}\n.chat-content h3{\n    margin: 0 0 5px;\n    font-size: 16px;\n    font-weight: bold;\n    color: #3c8dbc;\n}\n.chat-content h3 span{\n    float: right;\n    font-weight: normal;\n    font-size: 12px;\n    color: #000;\n}\n.chat-list ul li:hover h3{\n    color: #fff;\n}\n.chat-list ul li:hover h3 span{\n    color: #fff;\n}\n.chat-list ul li:hover p{\n    color: #fff;\n}\n.chat-box{\n    padding: 20px;\n}\n.receiver, .sender{\n    display: inline-block;\n    width: 100%;\n    padding: 20px 0;\n}\n.sender .chat-content{\n    text-align: right;\n    border-radius: 5px;\n}\n.receiver .chat-content{\n    background: #3c8dbc;\n    color: #fff;\n    padding: 15px;\n    border-radius: 5px;\n}\n.sender .chat-content p, .receiver .chat-content p {\n    margin: 0;\n}\n.direct-chat-msg {\n    margin-bottom: 20px;\n}\n.direct-chat-messages {\n    height: 500px;\n}", ""]);
+exports.push([module.i, "h2{\n    background: #fff;\n    text-align: center;\n    margin: 0;\n    padding: 15px;\n    color: #000;\n    font-size: 20px;\n    text-transform: uppercase;\n    letter-spacing: 1px;\n    box-shadow: 1px 1px 1px 1px #ebebeb;\n    -webkit-box-shadow: 1px 1px 1px 1px #ebebeb;\n    -moz-box-shadow: 1px 1px 1px 1px #ebebeb;\n}\n.box{\n    margin-top: 5px;\n    border: 0;\n}\n.chat-list{\n    display: inline-block;\n    width: 100%;\n}\n.chat-list ul{\n    margin: 5px 0 0;\n    padding: 0;\n    list-style-type: none;\n    background: #fff;\n    max-height: 705px;\n    overflow-y: auto;\n    border-radius: 3px;\n    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);\n}\n.chat-list ul li{\n    display: inline-block;\n    width: 100%;\n    padding: 15px 0;\n    border-bottom: 1px solid #f4f4f4;\n    cursor: pointer;\n    vertical-align: top;\n}\n.chat-list ul li:last-child{\n    border: 0;\n}\n.chat-list ul li:hover, .chat-list ul li.active {\n    background: #3c8dbc;\n    box-shadow: 1px 1px 1px 1px #666;\n    border-bottom: 1px solid #3c8dbc;\n}\n.chat-head img{\n    border-radius: 50%;\n    margin: auto;\n    width: 40px;\n    height: 40px;\n}\n.chat-content h3{\n    margin: 0 0 5px;\n    font-size: 16px;\n    font-weight: bold;\n    color: #3c8dbc;\n}\n.chat-content h3 span{\n    float: right;\n    font-weight: normal;\n    font-size: 12px;\n    color: #000;\n}\n\n.chat-list ul li:hover h3,.chat-list ul li.active h3{\n    color: #fff;\n}\n.chat-list ul li:hover h3 span, .chat-list ul li.active h3 span{\n    color: #fff;\n}\n.chat-list ul li:hover p, .chat-list ul li.active p{\n    color: #fff;\n}\n.chat-box{\n    padding: 20px;\n}\n.receiver, .sender{\n    display: inline-block;\n    width: 100%;\n    padding: 20px 0;\n}\n.sender .chat-content{\n    text-align: right;\n    border-radius: 5px;\n}\n.receiver .chat-content{\n    background: #3c8dbc;\n    color: #fff;\n    padding: 15px;\n    border-radius: 5px;\n}\n.sender .chat-content p, .receiver .chat-content p {\n    margin: 0;\n}\n.direct-chat-msg {\n    margin-bottom: 20px;\n}\n.direct-chat-messages {\n    height: 500px;\n}\n\n@media screen and (max-width:768px){\n    .direct-chat-messages {\n        height: 300px;\n    }\n    .chat-list ul{\n        max-height: 200px;\n    }\n\n@media screen and (max-width:1024px){\n    .box{\n        overflow-x: scroll;\n    }\n}\n}", ""]);
 
 // exports
 
@@ -340,7 +407,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/chats/list-chat/list-chat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Previous Chats</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li><a routerLink=\"/chats/list-agent\">Chats</a></li>\n      <li class=\"active\"><a href=\"javascript:void(0)\">View</a></li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"col-xs-12\">\n            <div class=\"row\">\n              <h2>Messages</h2>\n            </div>\n            <div class=\"row\" *ngIf=\"!!(showChats() | async).length\">\n              <div class=\"col-md-3 col-sm-3\">\n                <div class=\"row\">\n                  <div class=\"chat-list\">\n                    <ul>\n                      <ng-container *ngFor=\"let contact of (chatState | async).chatList; let i = index;\">\n                        <li [ngClass]=\"{ active : currentChatIndex == i}\"\n                            (click)=\"changeCurrentChat(i)\">\n                          <div class=\"col-md-2\">\n                            <div class=\"chat-head row\">\n                              <img src=\"../../../../assets/img/avatar5.png\" class=\"img-responsive\">\n                            </div>\n                          </div>\n                          <div class=\"col-md-10\">\n                            <div class=\"chat-content\">\n                              <h3>{{contact.client_name}} <span>{{contact.chat_time?.date | amFromUtc | amLocal | amTimeAgo}}</span> </h3>\n                              <p>{{contact.name}}</p>\n                            </div>\n                          </div>\n                        </li>\n                      </ng-container>\n                    </ul>\n                  </div>\n                </div>\n              </div>\n              <div class=\"col-md-9 col-sm-9\">\n                <div class=\"row\">\n                  <div class=\"box box-primary direct-chat direct-chat-primary\">\n                    <div class=\"box-body\">\n                      <!-- Conversations are loaded here -->\n                      <div class=\"direct-chat-messages\">\n                        <!-- Message. Default to the left -->\n                        <div class=\"direct-chat-msg\" [ngClass]=\"{ right: chat.direction == 2 }\" *ngFor=\"let chat of (chatState | async).chatList[currentChatIndex]?.chats\">\n                          <div class=\"direct-chat-info clearfix\">\n                            <span class=\"direct-chat-name\" [ngClass]=\"chat.direction == 2 ? 'pull-right' : 'pull-left'\">{{chat.user}}</span>\n                            <span class=\"direct-chat-timestamp\" [ngClass]=\"chat.direction == 1 ? 'pull-right' : 'pull-left'\"> {{chat.created_at.date  | amFromUtc | amLocal | amDateFormat:'MMMM Do YYYY, h:mm:ss a'}} </span>\n                          </div>\n                          <img class=\"direct-chat-img\" [src]=\"chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'\" alt=\"Message User Image\"><!-- /.direct-chat-img -->\n                          <div class=\"direct-chat-text\">\n                            {{chat.message}}\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row\" *ngIf=\"!(showChats() | async).length\">\n              <div class=\"box box-primary\">\n                <div class=\"box-body\" >\n                  <div class=\"col-md-9 col-sm-9\">\n                    <div class=\"col-md-5 col-sm-5\">\n                      <h4>No chats found at the moment!</h4>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n          </div>\n        </div>\n        <!-- /.box -->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n\n\n\n"
+module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Previous Chats</h1>\n    <!--<ol class=\"breadcrumb\">-->\n      <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n      <!--<li><a routerLink=\"/chats/list-agent\">Chats</a></li>-->\n      <!--<li class=\"active\"><a href=\"javascript:void(0)\">View</a></li>-->\n    <!--</ol>-->\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"col-xs-12\">\n            <div class=\"row\">\n              <h2>Messages</h2>\n            </div>\n            <div class=\"row\" *ngIf=\"!!(showChats() | async).length\">\n              <div class=\"col-md-3 col-sm-3\">\n                <div class=\"row\">\n                  <div class=\"chat-list\">\n                    <ul>\n                      <ng-container *ngFor=\"let contact of (chatState | async).chatList; let i = index;\">\n                        <li [ngClass]=\"{ active : currentChatIndex == i}\"\n                            (click)=\"changeCurrentChat(i)\">\n                          <div class=\"col-md-2\">\n                            <div class=\"chat-head row\">\n                              <img src=\"../../../../assets/img/avatar5.png\" class=\"img-responsive\">\n                            </div>\n                          </div>\n                          <div class=\"col-md-10\">\n                            <div class=\"chat-content\">\n                              <h3>{{contact.client_name}} <span>{{contact.chat_time?.date | amFromUtc | amLocal | amTimeAgo}}</span> </h3>\n                              <p>{{contact.name}}</p>\n                            </div>\n                          </div>\n                        </li>\n                      </ng-container>\n                    </ul>\n                  </div>\n                </div>\n              </div>\n              <div class=\"col-md-9 col-sm-9\">\n                <div class=\"row\">\n                  <div class=\"box box-primary direct-chat direct-chat-primary\">\n                    <div class=\"box-body\">\n                      <!-- Conversations are loaded here -->\n                      <div class=\"direct-chat-messages\"    #scrollChat [scrollTop]=\"scrollChat.scrollTo(0, 1000000)\">\n                        <!-- Message. Default to the left -->\n                        <div class=\"direct-chat-msg\" [ngClass]=\"{ right: chat.direction == 2 }\" *ngFor=\"let chat of (chatState | async).chatList[currentChatIndex]?.chats\">\n                          <div class=\"direct-chat-info clearfix\">\n                            <span class=\"direct-chat-name\" [ngClass]=\"chat.direction == 2 ? 'pull-right' : 'pull-left'\">{{chat.user}}</span>\n                            <span class=\"direct-chat-timestamp\" [ngClass]=\"chat.direction == 1 ? 'pull-right' : 'pull-left'\"> {{chat.created_at.date  | amFromUtc | amLocal | amDateFormat:'MMMM Do YYYY, h:mm:ss a'}} </span>\n                          </div>\n                          <img class=\"direct-chat-img\" [src]=\"chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'\" alt=\"Message User Image\"><!-- /.direct-chat-img -->\n                          <div class=\"direct-chat-text\">\n                            {{chat.message}}\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row\" *ngIf=\"!(showChats() | async).length\">\n              <div class=\"box box-primary\">\n                <div class=\"box-body\" >\n                  <div class=\"col-md-9 col-sm-9\">\n                    <div class=\"col-md-5 col-sm-5\">\n                      <h4>No chats found at the moment!</h4>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n          </div>\n        </div>\n        <!-- /.box -->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n\n\n\n"
 
 /***/ }),
 

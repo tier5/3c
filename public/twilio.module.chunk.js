@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/twilio/create-twilio/create-twilio.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Twilio Section</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li><a href=\"javascript:void(0)\">Twilio Accounts</a></li>\n      <li class=\"active\"><a routerLink=\"/twilio/create\">Create </a></li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box box-primary\">\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <form #form=\"ngForm\" (submit)=\"onSubmit(form)\">\n              <!-- text input -->\n              <div class=\"box-header with-border\">\n                <h3 class=\"box-title\">Create Twilio Credentials</h3>\n              </div>\n              <div class=\"col-md-6\">\n                <div class=\"form-group\" [ngClass]=\"{ 'has-error': sid.invalid && sid.touched }\">\n                  <label class=\"control-label\" for=\"tSid\">\n                    <i *ngIf=\"sid.invalid && sid.touched\" class=\"fa fa-times-circle-o\"></i>\n                     Twilio SID\n                  </label>\n                  <input type=\"text\"\n                         class=\"form-control\"\n                         id=\"tSid\"\n                         name=\"twilio_sid\"\n                         [ngModel]=\"twilio.twilio_sid\"\n                         #sid=\"ngModel\"\n                         required\n                         placeholder=\"Enter ...\"\n                  >\n                  <span *ngIf=\"sid.invalid && sid.touched\" class=\"help-block\">Your Twilio SID is Required!</span>\n                </div>\n              </div>\n              <div class=\"col-md-6\">\n                <div class=\"form-group\" [ngClass]=\"{ 'has-error': token.invalid && token.touched }\">\n                  <label class=\"control-label\" for=\"tToken\">\n                    <i *ngIf=\"token.invalid && token.touched\" class=\"fa fa-times-circle-o\"></i>\n                     Twilio Token\n                  </label>\n                  <input type=\"text\"\n                         class=\"form-control\"\n                         id=\"tToken\"\n                         name=\"twilio_token\"\n                         [ngModel]=\"twilio.twilio_token\"\n                         #token=\"ngModel\"\n                         required\n                         placeholder=\"Enter ...\"\n                  >\n                  <span *ngIf=\"token.invalid && token.touched\" class=\"help-block\">Your Twilio Token is Required!</span>\n                </div>\n              </div>\n              <div class=\"col-md-12\">\n                <div class=\"box-footer\">\n                  <button type=\"submit\" [disabled]=\"form.invalid\" class=\"btn btn-primary pull-right\"> Submit</button>\n                </div>\n              </div>\n            </form>\n          </div>\n          <!-- /.box-body -->\n        </div>\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"content-header\">-->\n    <!--<h1>Twilio Section</h1>-->\n    <!--<ol class=\"breadcrumb\">-->\n      <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n      <!--<li><a href=\"javascript:void(0)\">Twilio Accounts</a></li>-->\n      <!--<li class=\"active\"><a routerLink=\"/twilio/create\">Create </a></li>-->\n    <!--</ol>-->\n  <!--</section>-->\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box box-primary\">\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <form #form=\"ngForm\" (submit)=\"onSubmit(form)\">\n              <!-- text input -->\n              <div class=\"box-header with-border\">\n                <h3 class=\"box-title\">Create Twilio Credentials</h3>\n              </div>\n              <div class=\"col-md-6\">\n                <div class=\"form-group\" [ngClass]=\"{ 'has-error': sid.invalid && sid.touched }\">\n                  <label class=\"control-label\" for=\"tSid\">\n                    <i *ngIf=\"sid.invalid && sid.touched\" class=\"fa fa-times-circle-o\"></i>\n                     Twilio SID\n                  </label>\n                  <input type=\"text\"\n                         class=\"form-control\"\n                         id=\"tSid\"\n                         name=\"twilio_sid\"\n                         [ngModel]=\"twilio.twilio_sid\"\n                         #sid=\"ngModel\"\n                         required\n                         placeholder=\"Enter ...\"\n                  >\n                  <span *ngIf=\"sid.invalid && sid.touched\" class=\"help-block\">Your Twilio SID is Required!</span>\n                </div>\n              </div>\n              <div class=\"col-md-6\">\n                <div class=\"form-group\" [ngClass]=\"{ 'has-error': token.invalid && token.touched }\">\n                  <label class=\"control-label\" for=\"tToken\">\n                    <i *ngIf=\"token.invalid && token.touched\" class=\"fa fa-times-circle-o\"></i>\n                     Twilio Token\n                  </label>\n                  <input type=\"text\"\n                         class=\"form-control\"\n                         id=\"tToken\"\n                         name=\"twilio_token\"\n                         [ngModel]=\"twilio.twilio_token\"\n                         #token=\"ngModel\"\n                         required\n                         placeholder=\"Enter ...\"\n                  >\n                  <span *ngIf=\"token.invalid && token.touched\" class=\"help-block\">Your Twilio Token is Required!</span>\n                </div>\n              </div>\n              <div class=\"col-md-12\">\n                <div class=\"box-footer\">\n                  <button type=\"submit\" [disabled]=\"form.invalid\" class=\"btn btn-primary pull-right\"> Submit</button>\n                </div>\n              </div>\n            </form>\n          </div>\n          <!-- /.box-body -->\n        </div>\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
 
 /***/ }),
 
@@ -96,7 +96,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "@media screen and (max-width:1024px){\n    .box{\n      overflow-x: scroll;\n  }  \n  }", ""]);
 
 // exports
 
@@ -109,7 +109,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/twilio/list-twilio/list-twilio.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n    <section class=\"content-header\">\n        <h1>Twilio Section</h1>\n        <ol class=\"breadcrumb\">\n            <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n            <li><a href=\"javascript:void(0)\">Twilio Accounts</a></li>\n            <li class=\"active\"><a routerLink=\"/twilio/list\">List </a></li>\n        </ol>\n    </section>\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <div class=\"box-header with-border\">\n                        <h3 class=\"box-title\">List of Twilio Accounts</h3>\n                    </div>\n                    <!-- /.box-header -->\n                    <div class=\"box-body\">\n                        <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n                            <div class=\"row\">\n                                <div class=\"col-sm-6\"> Search : <input [(ngModel)]=\"term\" placeholder=\"keyword\"></div>\n                                <div class=\"col-sm-6\"></div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <table id=\"twilioTable\" class=\"table table-bordered table-hover dataTable\"\n                                           role=\"grid\" aria-describedby=\"example2_info\">\n                                        <thead>\n                                        <tr role=\"row\">\n                                            <th rowspan=\"1\" colspan=\"1\">#</th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">User\n                                            </th>\n                                            <!--<th class=\"sorting\" rowspan=\"1\" colspan=\"1\" >User Name</th>-->\n                                            <th rowspan=\"1\" colspan=\"1\">Email Address</th>\n                                            <th rowspan=\"1\" colspan=\"1\">Twilio SID</th>\n                                            <th rowspan=\"1\" colspan=\"1\">Twilio Account Type</th>\n                                            <th rowspan=\"1\" colspan=\"1\" >Created Date</th>\n                                        </tr>\n                                        </thead>\n                                        <tbody>\n                                        <tr role=\"row\" class=\"odd\"\n                                            *ngFor=\"let item of (afterLoginState | async).twilio.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                                            <td>{{i+1}}</td>\n                                            <td>{{item.user_info.first_name}} {{item.user_info.last_name}}</td>\n                                            <!--<td>{{item.user_info.username}}</td>-->\n                                            <td>{{item.user_info.email}}</td>\n                                            <td>{{item.twilio_sid}}</td>\n                                            <td>{{ item.user_info.type == '1' ? 'Main Account' : 'Subaccount' }}</td>\n                                            <td>{{item.created_at  | date }}</td>\n                                        </tr>\n                                        </tbody>\n                                    </table>\n                                    <div class=\"row\">\n                                        <pagination-controls class=\"older_post_text\"\n                                                             (pageChange)=\"page=$event\"\n                                                             maxSize=\"9\"\n                                                             directionLinks=\"true\"\n                                                             autoHide=\"true\"\n                                                             previousLabel=\"\"\n                                                             nextLabel=\"\"\n                                                             screenReaderPaginationLabel=\"\"\n                                                             screenReaderPageLabel=\"page\"\n                                                             screenReaderCurrentLabel=\"You're on page\">\n                                        </pagination-controls>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n                <!-- /.box -->\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1>Twilio Section</h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a href=\"javascript:void(0)\">Twilio Accounts</a></li>-->\n            <!--<li class=\"active\"><a routerLink=\"/twilio/list\">List </a></li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <div class=\"box-header with-border\">\n                        <h3 class=\"box-title\">List of Twilio Accounts</h3>\n                    </div>\n                    <!-- /.box-header -->\n                    <div class=\"box-body\">\n                        <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n                            <div class=\"row\">\n                                <div class=\"col-sm-6\"> Search : <input [(ngModel)]=\"term\" placeholder=\"All fields\"></div>\n                                <div class=\"col-sm-6\"></div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <table id=\"twilioTable\" class=\"table table-bordered table-hover dataTable\"\n                                           role=\"grid\" aria-describedby=\"example2_info\">\n                                        <thead>\n                                        <tr role=\"row\">\n                                            <th rowspan=\"1\" colspan=\"1\">#</th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">User\n                                            </th>\n                                            <!--<th class=\"sorting\" rowspan=\"1\" colspan=\"1\" >User Name</th>-->\n                                            <th rowspan=\"1\" colspan=\"1\">Email Address</th>\n                                            <th rowspan=\"1\" colspan=\"1\">Twilio SID</th>\n                                            <th rowspan=\"1\" colspan=\"1\">Twilio Account Type</th>\n                                            <th rowspan=\"1\" colspan=\"1\" >Created Date</th>\n                                        </tr>\n                                        </thead>\n                                        <tbody>\n                                        <tr role=\"row\" class=\"odd\"\n                                            *ngFor=\"let item of (afterLoginState | async).twilio.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                                            <td>{{i+1}}</td>\n                                            <td>{{item.user_info.first_name}} {{item.user_info.last_name}}</td>\n                                            <!--<td>{{item.user_info.username}}</td>-->\n                                            <td>{{item.user_info.email}}</td>\n                                            <td>{{item.twilio_sid}}</td>\n                                            <td>{{ item.user_info.type == '1' ? 'Main Account' : 'Subaccount' }}</td>\n                                            <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY'}}</td>\n                                        </tr>\n                                        </tbody>\n                                    </table>\n                                    <div class=\"row\">\n                                        <pagination-controls class=\"older_post_text\"\n                                                             (pageChange)=\"page=$event\"\n                                                             maxSize=\"9\"\n                                                             directionLinks=\"true\"\n                                                             autoHide=\"true\"\n                                                             previousLabel=\"\"\n                                                             nextLabel=\"\"\n                                                             screenReaderPaginationLabel=\"\"\n                                                             screenReaderPageLabel=\"page\"\n                                                             screenReaderCurrentLabel=\"You're on page\">\n                                        </pagination-controls>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n                <!-- /.box -->\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
 
 /***/ }),
 
@@ -230,12 +230,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_search_filter__ = __webpack_require__("../../../../ng2-search-filter/ng2-search-filter.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ngx_order_pipe__ = __webpack_require__("../../../../ngx-order-pipe/ngx-order-pipe.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_pagination__ = __webpack_require__("../../../../ngx-pagination/dist/ngx-pagination.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_angular2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__twilioSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/twilio/twilioSearch.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -258,16 +263,89 @@ TwilioModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_5__twilio_routing_module__["a" /* TwilioRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_6_ng2_search_filter__["a" /* Ng2SearchPipeModule */],
             __WEBPACK_IMPORTED_MODULE_7_ngx_order_pipe__["a" /* OrderModule */],
-            __WEBPACK_IMPORTED_MODULE_8_ngx_pagination__["a" /* NgxPaginationModule */]
+            __WEBPACK_IMPORTED_MODULE_8_ngx_pagination__["a" /* NgxPaginationModule */],
+            __WEBPACK_IMPORTED_MODULE_9_angular2_moment__["MomentModule"]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_3__create_twilio_create_twilio_component__["a" /* CreateTwilioComponent */],
-            __WEBPACK_IMPORTED_MODULE_4__list_twilio_list_twilio_component__["a" /* ListTwilioComponent */]
+            __WEBPACK_IMPORTED_MODULE_4__list_twilio_list_twilio_component__["a" /* ListTwilioComponent */],
+            __WEBPACK_IMPORTED_MODULE_10__twilioSearch_pipe__["a" /* TwilioSearchPipe */]
         ]
     })
 ], TwilioModule);
 
 //# sourceMappingURL=twilio.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/layout/inner-pages/twilio/twilioSearch.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TwilioSearchPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__ = __webpack_require__("../../../../ngx-bootstrap/chronos/test/chain.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var TwilioSearchPipe = (function () {
+    function TwilioSearchPipe() {
+    }
+    TwilioSearchPipe.prototype.transform = function (items, term) {
+        if (!items) {
+            return [];
+        }
+        if (!term) {
+            return items;
+        }
+        return items.filter(function (el) {
+            // check for first name
+            var termLower = term.toLowerCase().trim();
+            var name = el.user_info != null ? el.user_info.first_name + ' ' + el.user_info.last_name : '';
+            var userType = el.user_info != null ? (el.user_info.type === '1' ? 'Main Account' : 'Subaccount') : '';
+            if (name != null && name.toLowerCase().indexOf(termLower) > -1) {
+                return name.toLowerCase().indexOf(termLower) > -1;
+            }
+            else {
+                // check for last name
+                if ((el.user_info != null && el.user_info.email) && el.user_info.email.toLowerCase().indexOf(termLower) > -1) {
+                    return el.user_info.email.toLowerCase().indexOf(termLower) > -1;
+                }
+                else {
+                    // search for company
+                    if (el.twilio_sid != null && el.twilio_sid.toLowerCase().indexOf(termLower) > -1) {
+                        return el.twilio_sid.toLowerCase().indexOf(termLower) > -1;
+                    }
+                    else {
+                        // search for email
+                        if (userType != null && userType.toLowerCase().indexOf(termLower) > -1) {
+                            return userType.toLowerCase().indexOf(termLower) > -1;
+                        }
+                        else {
+                            // search for date
+                            if (el.created_at != null && Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    };
+    return TwilioSearchPipe;
+}());
+TwilioSearchPipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({
+        name: 'filter'
+    })
+], TwilioSearchPipe);
+
+//# sourceMappingURL=twilioSearch.pipe.js.map
 
 /***/ })
 

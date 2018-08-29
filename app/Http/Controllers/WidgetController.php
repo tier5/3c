@@ -44,6 +44,8 @@ class WidgetController extends Controller
         $areaCode = $request->areaCode;
         $widgetDepartment = $request->departmentIdArray;
         $widgetLogo = $request->image;
+        $phoneNumber = $request->phoneNumber;
+        $numberContains = $request->numberContains;
 
         $dayArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         $daysArray = $request->daysArray == '' ? $dayArray : $request->daysArray;
@@ -103,6 +105,7 @@ class WidgetController extends Controller
         $widgets->user_id = $userId;
         $widgets->website = $website;
         $widgets->area_code = $areaCode;
+        $widgets->number_contains = $numberContains;
         $widgets->schedule_timezone = $scheduleTimezone;
         $widgets->details = $details;
         $widgets->widget_uuid = $widgetUuid;
@@ -136,7 +139,8 @@ class WidgetController extends Controller
 
             // Get purchased twilio purchased phone numbers
             $twilioController = new TwilioController;
-            $purchasedResponse = $twilioController->getPurchasedPhoneNumber($widgets->id, $userId, $areaCode);
+           // $purchasedResponse = $twilioController->getPurchasedPhoneNumber($widgets->id, $userId, $areaCode);
+            $buyPhoneNumber = $twilioController->buyPhoneNumber($widgets->id,$userId,$phoneNumber);
 
             return $response = json_encode(array(
                 'code' => 200,
@@ -654,6 +658,7 @@ class WidgetController extends Controller
             $widgetArray['id'] = $viewWidget->id;
             $widgetArray['details'] = $viewWidget->details;
             $widgetArray['area_code'] = $viewWidget->area_code;
+            $widgetArray['number_contains'] = $viewWidget->number_contains;
             $widgetArray['image'] = $viewWidget->image;
             $widgetArray['schedule_timezone'] = $viewWidget->schedule_timezone;
             $widgetArray['status'] = $viewWidget->status;
@@ -900,7 +905,7 @@ class WidgetController extends Controller
     {
         try {
             $token = $request->token;
-            $areaCode = $request->areCode;
+            $areaCode = $request->areaCode;
             $contains = $request->contains;
             if ($token != "") {
                 $checkUser = UserToken::where('token', $token)->with('userInfo')->firstOrFail();
@@ -908,10 +913,20 @@ class WidgetController extends Controller
                 $sid = $getTwilioCredentials->twilio_sid;
                 $token = $getTwilioCredentials->twilio_token;
                 $client = new Client($sid, $token);
-                $numbers = $client->availablePhoneNumbers('US')->local->read([
-                    'areaCode' => $areaCode,
-                    'contains' => $contains
-                ]);
+                if ($areaCode && $contains) {
+                    $numbers = $client->availablePhoneNumbers('US')->local->read([
+                        'AreaCode' => $areaCode,
+                        'Contains' => $contains
+                    ]);
+                } elseif ($areaCode && !$contains) {
+                    $numbers = $client->availablePhoneNumbers('US')->local->read([
+                        'AreaCode' => $areaCode
+                    ]);
+                } else {
+                    $numbers = $client->availablePhoneNumbers('US')->local->read([
+                        'Contains' => $contains
+                    ]);
+                }
                 $newNumbers = [];
                 foreach ($numbers as $key => $number) {
                     $newNumbers[$key]['number'] = $number->phoneNumber;
@@ -921,7 +936,7 @@ class WidgetController extends Controller
                     return Response::json([
                         'status' => true,
                         'data' => $newNumbers
-                    ]);
+                    ],200);
                 } else {
                     return Response::json([
                         'status' => false,

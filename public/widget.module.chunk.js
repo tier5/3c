@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "label {\n    display: block;\n}\n\ni.fa-upload {\n    position: absolute;\n}\n\ni.fa-upload, i.fa-times-circle {\n    cursor: pointer;\n}\n\ninput[type=file] {\n    opacity: 0;\n}", ""]);
+exports.push([module.i, "label {\n    display: block;\n}\n\ni.fa-upload {\n    position: absolute;\n}\n\ni.fa-upload, i.fa-times-circle {\n    cursor: pointer;\n}\n\ninput[type=file] {\n    opacity: 0;\n}\n\n\n\n\n/** css for auto complite droupdown */\n\n.btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}\n.autoListArea{\n    position: relative;\n}\n.autoList{\n    position: absolute;\n    left: 0;\n    top: 100%;\n    background: #fff;\n    width: 100%;\n    max-height: 200px;\n    overflow-y: scroll;\n    box-shadow: 0 3px 5px rgba(0,0,0,0.3);\n    border: 1px solid #e2e2e2;\n    z-index: 99;\n    padding: 0;\n}\n.autoList li{\n    list-style: none;\n}\n.autoList li span{\n    display: block;\n    padding: 5px 15px;\n}\n.autoList li:hover{\n    background: #e2e2e2;\n}\n.hideList{\n    float: right;\n    margin: -27px 10px 0 0;\n    cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/widget/create-widget/create-widget.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n    <section class=\"content-header\">\n        <h1><span>Widget Section</span></h1>\n        <ol class=\"breadcrumb\">\n            <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n            <li><a routerLink=\"/widget/list\"> Widget</a></li>\n            <li class=\"active\"><a  href=\"javascript:void(0)\"> {{ editMode ? 'Edit' : 'Create' }} </a></li>\n        </ol>\n    </section>\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <!-- /.box-header -->\n                    <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n                        <form #form=\"ngForm\">\n\n                            <div class=\"box-header with-border\">\n                                <h3 class=\"box-title\">\n                                    <span *ngIf=\"editMode\">Edit </span>\n                                    <span *ngIf=\"!editMode\">Create </span>\n                                    Widget\n                                </h3>\n                            </div>\n\n                            <div class=\"row\">\n\n                                <!-- Admin for Widget -->\n                                <div class=\"col-md-6\" [hidden]=\"(authState | async).isAdmin\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"admin\">\n                                            Admin for Widget\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"admin\"\n                                                name=\"userId\"\n                                                [disabled]=\"editMode || (authState | async).isAdmin\"\n                                                #selectedAdmin\n                                                [ngModel]=\"widget.userId\"\n                                                (change)=\"adminChanged(selectedAdmin.value)\">\n                                            <option selected value=\"0\">Choose...</option>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).admin?.list; let i = index\">\n                                                {{item.first_name}} {{item.last_name}}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n                                <!-- Department -->\n                                <div class=\"col-md-6\" *ngIf=\"selectedAdmin.value > 0\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"department\">\n                                            Department for Widget\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"department\"\n                                                name=\"departmentIdArray\"\n                                                #selectedDepartment=\"ngModel\"\n                                                [ngModel]=\"widget.departmentIdArray\" multiple>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).department.list\">\n                                                {{item.department_name}}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\" *ngIf=\"selectedAdmin.value > 0\">\n\n                                <!-- Web Site URL -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(website.invalid && website.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"website\">\n                                            <i *ngIf=\"website.invalid && website.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Website URL\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"website\"\n                                               name=\"website\"\n                                               [ngModel]=\"widget.website\"\n                                               #website=\"ngModel\"\n                                               placeholder=\"Website URL\"\n                                        >\n                                        <span *ngIf=\"website.invalid && website.touched\" class=\"help-block\">Website URL is Required !</span>\n                                    </div>\n                                </div>\n\n                                <!-- Widget Details -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(details.invalid && details.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"details\">\n                                            <i *ngIf=\"details.invalid && details.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Widget Details\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"details\"\n                                               name=\"details\"\n                                               [ngModel]=\"widget.details\"\n                                               #details=\"ngModel\"\n                                               placeholder=\"Details about the widget ....\"\n                                        >\n                                        <span *ngIf=\"details.invalid && details.touched\" class=\"help-block\">Widget details is Required !</span>\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\" *ngIf=\"selectedAdmin.value > 0\">\n\n                                <!-- TimeZone -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"timezone\">\n                                            Timezone\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"timezone\"\n                                                name=\"scheduleTimezone\"\n                                                #selectedTimezone\n                                                required\n                                                [ngModel]=\"widget.scheduleTimezone\"\n                                        >\n                                            <option selected value=\"0\">Choose...</option>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).widget?.timezoneList; let i = index\"\n                                            >\n                                                {{item.timezone_name}}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n                                <!-- Area Code -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"areaCode\">Area Code</label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"areaCode\"\n                                               name=\"areaCode\"\n                                               [ngModel]=\"widget.areaCode\"\n                                               placeholder=\"Area Code\"\n                                        >\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\" *ngIf=\"selectedAdmin.value > 0\">\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group col-md-6\">\n                                        <label class=\"control-label\" for=\"image\">Widget Logo </label>\n                                        <i class=\"fa fa-upload fa-4x\" aria-hidden=\"true\"></i>\n                                        <input type=\"file\"\n                                               class=\"form-control\"\n                                               id=\"image\"\n                                               (change)=\"fileUploaded($event)\"\n                                               accept=\"image/*\"\n                                               name=\"image\"\n                                               ngModel\n                                               #fileUpload=\"ngModel\"\n\n                                        >\n                                    </div>\n                                    <span *ngIf=\"fileUpload.invalid && fileUpload.touched && postedImage===undefined\" class=\"help-block\">Website URL is Required!</span>\n                                    <div class=\"col-md-6\" *ngIf=\"!hideUploadedImage\">\n                                            <div class=\"image\" *ngIf=\"imgSrc\">\n                                                <i class=\"fa fa-times-circle fa-pull-right\"\n                                                   aria-hidden=\"true\"\n                                                   (click)=\"removeUploadedImage()\"\n                                                ></i>\n                                                <img class=\"img-responsive uploaded-image\"\n                                                     width=\"100%\"\n                                                     height=\"auto\"\n                                                     [src]=\"imgSrc\"\n                                                />\n                                            </div>\n                                        </div>\n\n                                </div>\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(daysArray.invalid && daysArray.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"settings\">Limit setting time & days </label>\n                                        <select name=\"daysArray\"\n                                                class=\"form-control\"\n                                                [ngModel]=\"widget.daysArray\"\n                                                required\n                                                #daysArray=\"ngModel\" id=\"settings\" multiple>\n                                            <option value=\"Mon\">Mon</option>\n                                            <option value=\"Tue\">Tue</option>\n                                            <option value=\"Wed\">Wed</option>\n                                            <option value=\"Thu\">Thu</option>\n                                            <option value=\"Fri\">Fri</option>\n                                            <option value=\"Sat\">Sat</option>\n                                            <option value=\"Sun\">Sun</option>\n                                        </select>\n                                        <span *ngIf=\"daysArray.invalid && daysArray.touched\" class=\"help-block\">Choosing Available Days is Required!</span>\n                                    </div>\n                                </div>\n                            </div>\n\n                            <div class=\"row\" *ngIf=\"selectedAdmin.value > 0\">\n                                <!-- From Time -->\n                                <div class=\"col-md-6\" [ngClass]=\"(startTime.invalid && startTime.touched) ? 'has-error': ''\">\n                                <!--<div class=\"col-md-6\">-->\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"startTime\">\n                                            <i *ngIf=\"startTime.invalid && startTime.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                             From Time\n                                        </label>\n                                        <div class=\"input-group\">\n                                            <input [ngModel]=\"widget.startTime\" name=\"startTime\" class=\"form-control\" #startTime=\"ngModel\" required id=\"startTime\"/>\n                                            <span class=\"input-group-addon\" (click)=\"openTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                        </div>\n                                        <span *ngIf=\"startTime.invalid && startTime.touched && startTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                    </div>\n\n                                </div>\n\n                                <!-- To Time -->\n                                <div class=\"col-md-6\"  [ngClass]=\"(endTime.invalid && endTime.touched) || timePikerError ? 'has-error': ''\">\n                                    <div class=\"form-group\" >\n                                        <label class=\"control-label\" for=\"endTime\">\n                                            <i *ngIf=\"(endTime.invalid && endTime.touched) || timePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                             To Time\n                                        </label>\n                                        <div class=\"input-group\">\n                                            <input [ngModel]=\"widget.endTime\" name=\"endTime\" #endTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"endTime\" (ngModelChange)=\"log2($event)\"/>\n                                            <span class=\"input-group-addon\" (click)=\"openEndTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                        </div>\n                                        <span *ngIf=\"timePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                        <span *ngIf=\"endTime.invalid && endTime.touched && endTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"row\" *ngIf=\"widget.script_url\">\n                              <div class=\"col-md-6\">\n                                  <div class=\"form-group\">\n                                      <label class=\"control-label\" for=\"startTime\">\n                                          Script URL\n                                      </label>\n                                  </div>\n                                {{widget.script_url}}\n                              </div>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"box-footer\">\n                                    <button type=\"button\" [disabled]=\"timePikerError || form.invalid\" class=\"btn btn-primary pull-right\" (click)=\"onSubmit(form)\">\n                                        <i *ngIf =\"loader\" class=\"fa fa-spinner fa-spin\"></i>\n                                        Submit\n                                    </button>\n                                </div>\n                            </div>\n\n                        </form>\n                    </div>\n                    <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1><span>Widget Section</span></h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a routerLink=\"/widget/list\"> Widget</a></li>-->\n            <!--<li class=\"active\"><a  href=\"javascript:void(0)\"> {{ editMode ? 'Edit' : 'Create' }} </a></li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <!-- /.box-header -->\n                    <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n                        <form #form=\"ngForm\">\n\n                            <div class=\"box-header with-border\">\n                                <h3 class=\"box-title\">\n                                    <span *ngIf=\"editMode\">Edit </span>\n                                    <span *ngIf=\"!editMode\">Create </span>\n                                    Widget\n                                </h3>\n                            </div>\n\n                            <div class=\"row\">\n\n                                <!-- Admin for Widget -->\n                                <div class=\"col-md-6\" [hidden]=\"(authState | async).isAdmin\">\n                                    <div class=\"form-group autoListArea\">\n                                        <label class=\"control-label\" for=\"admin\">\n                                            Admin for Widget\n                                        </label>\n\n                                        <div *ngIf=\"(authState | async).isAdmin; then thenTemplateName else elseTemplateName\"></div>\n\n                                        <ng-template #thenTemplateName>\n                                            <input type=\"text\" class=\"form-control\"\n                                                   name=\"adminName\" autocomplete=\"off\" readonly [value]=\"(authState | async).name\">\n                                        </ng-template>\n\n                                        <ng-template #elseTemplateName>\n                                            <input type=\"text\" (keyup)=\"checkAdminname($event.target.value)\"\n\n                                                   [ngClass]=\"editMode ?  'form-control' : 'form-control' \"\n                                                   [ngModel]=\"adminName\" name=\"adminName\" (click)=\"checkAdminname($event.target.value)\" autocomplete=\"off\" [readonly]=\"editMode\">\n                                            <span *ngIf=\"( !editMode && this.adminName)\" (click)=\"resetList()\" class=\"hideList\"> <i class=\"fa fa-close\"></i> </span>\n                                            <ul *ngIf=\"showThis\" class=\"autoList\">\n                                                <li *ngFor=\"let item of updatedlistOfAdmins; let i = index\"> <span (click)=\"assignValue(item.id,item.first_name,item.last_name)\">  {{item.first_name}} {{item.last_name}}  </span></li>\n                                            </ul>\n                                        </ng-template>\n                                        <input type=\"hidden\"  [ngModel]=\"widget.userId\" id=\"admin\" name=\"userId\" #selectedAdmin>\n\n\n                                        <!--<select class=\"form-control\"-->\n                                                <!--id=\"admin\"-->\n                                                <!--name=\"userId\"-->\n                                                <!--[disabled]=\"editMode || (authState | async).isAdmin\"-->\n                                                <!--#selectedAdmin-->\n                                                <!--[ngModel]=\"widget.userId\"-->\n                                                <!--(change)=\"adminChanged(selectedAdmin.value)\">-->\n                                            <!--<option selected value=\"0\">Choose...</option>-->\n                                            <!--<option [value]=\"item.id\"-->\n                                                    <!--*ngFor=\"let item of (afterLoginState | async).admin?.list; let i = index\">-->\n                                                <!--{{item.first_name}} {{item.last_name}}-->\n                                            <!--</option>-->\n                                        <!--</select> OLD SELECT -->\n                                    </div>\n                                </div>\n\n                                <!-- Department -->\n                                <div class=\"col-md-6\"  >\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"department\">\n                                            Department for Widget\n                                        </label>\n                                      <angular2-multiselect\n                                        id=\"department\" name=\"departmentIdArray\"\n                                        [data]=\"(afterLoginState | async).department.list\"\n                                        [(ngModel)]=\"widget.departmentIdArray\" [settings]=\"dropdownSettings\"\n                                      >\n                                        <c-badge>\n                                          <ng-template let-item=\"item\">\n                                            <label style=\"margin: 0px;\">{{item.department_name}}</label>\n                                          </ng-template>\n                                        </c-badge>\n                                      </angular2-multiselect>\n                                        <!--<select class=\"form-control\"\n                                                id=\"department\"\n                                                name=\"departmentIdArray\"\n                                                #selectedDepartment=\"ngModel\"\n                                                [ngModel]=\"widget.departmentIdArray\" multiple>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).department.list\">\n                                                {{item.department_name}}\n                                            </option>\n                                        </select>-->\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\"  >\n\n                                <!-- Web Site URL -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(website.invalid && website.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"website\">\n                                            <i *ngIf=\"website.invalid && website.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Website URL\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"website\"\n                                               name=\"website\"\n                                               [ngModel]=\"widget.website\"\n                                               #website=\"ngModel\"\n                                               placeholder=\"Website URL\"\n                                        >\n                                        <span *ngIf=\"website.invalid && website.touched\" class=\"help-block\">Website URL is Required !</span>\n                                    </div>\n                                </div>\n\n                                <!-- Widget Details -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(details.invalid && details.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"details\">\n                                            <i *ngIf=\"details.invalid && details.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Widget Details\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"details\"\n                                               name=\"details\"\n                                               [ngModel]=\"widget.details\"\n                                               #details=\"ngModel\"\n                                               placeholder=\"Details about the widget ....\"\n                                        >\n                                        <span *ngIf=\"details.invalid && details.touched\" class=\"help-block\">Widget details is Required !</span>\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\"  >\n\n                                <!-- TimeZone -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"timezone\">\n                                            Timezone\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"timezone\"\n                                                name=\"scheduleTimezone\"\n                                                #selectedTimezone\n                                                required\n                                                [ngModel]=\"widget.scheduleTimezone\"\n                                        >\n                                            <option selected value=\"0\">Choose...</option>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).widget?.timezoneList; let i = index\"\n                                            >\n                                                {{item.timezone_name}}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n\n                            </div>\n\n                            <div class=\"row\">\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group col-md-6\">\n                                        <label class=\"control-label\" for=\"image\">Widget Logo </label>\n                                        <i class=\"fa fa-upload fa-4x\" aria-hidden=\"true\"></i>\n                                        <input type=\"file\"\n                                               class=\"form-control\"\n                                               id=\"image\"\n                                               (change)=\"fileUploaded($event)\"\n                                               accept=\"image/*\"\n                                               name=\"image\"\n                                               ngModel\n                                               #fileUpload=\"ngModel\"\n\n                                        >\n                                    </div>\n                                    <span *ngIf=\"fileUpload.invalid && fileUpload.touched && postedImage===undefined\" class=\"help-block\">Website URL is Required!</span>\n                                    <div class=\"col-md-6\" *ngIf=\"!hideUploadedImage\">\n                                            <div class=\"image\" *ngIf=\"imgSrc\">\n                                                <i class=\"fa fa-times-circle fa-pull-right\"\n                                                   aria-hidden=\"true\"\n                                                   (click)=\"removeUploadedImage()\"\n                                                ></i>\n                                                <img class=\"img-responsive uploaded-image\"\n                                                     width=\"100%\"\n                                                     height=\"auto\"\n                                                     [src]=\"imgSrc\"\n                                                />\n                                            </div>\n                                        </div>\n\n                                </div>\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"settings\">Limit setting time & days </label>\n                                      <div *ngFor=\"let data of limitArray\" id=\"settings\">\n                                        <input type=\"checkbox\" name=\"daysArray\" [checked]=\"widget.daysArray.indexOf(data) > -1\" (change)=\"onChangeDaysArray(data, $event.target.checked)\"> {{data}}<br>\n                                      </div>\n\n                                        <!--<select name=\"daysArray\"\n                                                class=\"form-control\"\n                                                [ngModel]=\"widget.daysArray\"\n                                                required\n                                                #daysArray=\"ngModel\" id=\"settings\" multiple>\n                                            <option value=\"Mon\">Mon</option>\n                                            <option value=\"Tue\">Tue</option>\n                                            <option value=\"Wed\">Wed</option>\n                                            <option value=\"Thu\">Thu</option>\n                                            <option value=\"Fri\">Fri</option>\n                                            <option value=\"Sat\">Sat</option>\n                                            <option value=\"Sun\">Sun</option>\n                                        </select>-->\n                                        <span *ngIf=\"widget.daysArray.length === 0\" class=\"help-block\" style=\"color: red !important;\">Choosing Available Days is Required!</span>\n                                    </div>\n                                </div>\n                            </div>\n\n                            <div class=\"row\"  >\n                                <!-- From Time -->\n                                <div class=\"col-md-6\" [ngClass]=\"(startTime.invalid && startTime.touched) ? 'has-error': ''\">\n                                <!--<div class=\"col-md-6\">-->\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"startTime\">\n                                            <i *ngIf=\"startTime.invalid && startTime.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                             From Time\n                                        </label>\n                                        <div class=\"input-group\">\n                                            <input [ngModel]=\"widget.startTime\" name=\"startTime\" class=\"form-control\" #startTime=\"ngModel\" required id=\"startTime\"/>\n                                            <span class=\"input-group-addon\" (click)=\"openTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                        </div>\n                                        <span *ngIf=\"startTime.invalid && startTime.touched && startTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                    </div>\n\n                                </div>\n\n                                <!-- To Time -->\n                                <div class=\"col-md-6\"  [ngClass]=\"(endTime.invalid && endTime.touched) || timePikerError ? 'has-error': ''\">\n                                    <div class=\"form-group\" >\n                                        <label class=\"control-label\" for=\"endTime\">\n                                            <i *ngIf=\"(endTime.invalid && endTime.touched) || timePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                             To Time\n                                        </label>\n                                        <div class=\"input-group\">\n                                            <input [ngModel]=\"widget.endTime\" name=\"endTime\" #endTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"endTime\" (ngModelChange)=\"log2($event)\"/>\n                                            <span class=\"input-group-addon\" (click)=\"openEndTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                        </div>\n                                        <span *ngIf=\"timePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                        <span *ngIf=\"endTime.invalid && endTime.touched && endTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n\n                                    </div>\n                                </div>\n                            </div>\n                          <div class=\"row\">\n                            <!-- Area Code -->\n                            <div class=\"col-md-5\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"areaCode\">Area Code</label>\n                                <input type=\"text\"\n                                       class=\"form-control\"\n                                       id=\"areaCode\"\n                                       name=\"areaCode\"\n                                       #areaCode\n                                       [ngModel]=\"widget.areaCode\"\n                                       placeholder=\"Area Code\"\n                                       [disabled]=\"editMode\"\n                                >\n                              </div>\n                            </div>\n\n                            <!-- Widget Details -->\n                            <div class=\"col-md-5\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"contains\">\n                                  Number Contains\n                                </label>\n                                <input type=\"number\"\n                                       class=\"form-control\"\n                                       id=\"contains\"\n                                       name=\"contains\"\n                                       [ngModel]=\"widget.contains\"\n                                       #contains\n                                       placeholder=\"Number Contains ....\"\n                                       [disabled]=\"editMode\"\n                                >\n                              </div>\n                            </div>\n                            <!--Buy number buttons -->\n                            <div class=\"col-md-2\" *ngIf=\"!editMode\">\n                              <label class=\"control-label\"> &nbsp; </label>\n                              <button type=\"button\" class=\"form-control btn btn-success\" (click)=\"buyNumber(areaCode.value,contains.value)\">Buy Number</button>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"numberError && !isBuyNumber\">\n                            <div class=\"col-md-10\">\n                              <span style=\"color: red;\">{{ numberErrorMessage }}</span>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"(afterLoginState | async).widget.numbers.length > 0 && !editMode && isBuyNumber\">\n                            <div class=\"col-md-6\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"numbers\">\n                                  Choose a Number\n                                </label>\n                                <select class=\"form-control\"\n                                        id=\"numbers\"\n                                        name=\"number\"\n                                        [ngModel]=\"widget.phoneNumber\" required>\n                                  <option value=''>Choose a phone number</option>\n                                  <option *ngFor=\"let item of (afterLoginState | async).widget.numbers\"\n                                          [value]=\"item.number\"\n                                  >\n                                    {{ item.number }} &nbsp;&nbsp;&nbsp; (  {{item.capabilities.voice ? 'Voice  ' : '' }}\n                                    {{ item.capabilities.SMS ? '/ SMS  ' : '' }}\n                                    {{ item.capabilities.MMS ? '/ MMS  ' : ''}}\n                                    {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )\n                                    <!--( <i class=\"fa fa-phone fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.voice\"></i>\n                                    <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.SMS\"></i>\n                                    <i class=\"fa fa-image fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.MMS\"></i>\n                                    <i class=\"fa fa-fax fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.fax\"></i> )-->\n                                  </option>\n                                </select>\n                              </div>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"editMode\">\n                            <div class=\"col-md-6\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"numbers\">\n                                  Number\n                                </label>\n                                <input type=\"text\" name=\"number\" readonly [ngModel]=\"widget.phoneNumber\" class=\"form-control\">\n                              </div>\n                            </div>\n                          </div>\n                            <div class=\"row\" *ngIf=\"widget.script_url\">\n                              <div class=\"col-md-6\">\n                                  <div class=\"form-group\">\n                                      <label class=\"control-label\" for=\"startTime\">\n                                          Script URL\n                                      </label>\n                                  </div>\n                                {{widget.script_url}}\n                              </div>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"box-footer\">\n                                    <button type=\"button\" [disabled]=\"timePikerError || form.invalid || widget.daysArray.length === 0 || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)\" class=\"btn btn-primary pull-right\" (click)=\"onSubmit(form)\">\n                                        <i *ngIf =\"loader\" class=\"fa fa-spinner fa-spin\"></i>\n                                        Submit\n                                    </button>\n                                </div>\n                            </div>\n\n                        </form>\n                    </div>\n                    <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
 
 /***/ }),
 
@@ -40,6 +40,7 @@ module.exports = "<div class=\"content-wrapper\">\n    <section class=\"content-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/add/operator/distinctUntilChanged.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_distinctUntilChanged__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__ = __webpack_require__("../../../../amazing-time-picker/amazing-time-picker.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng4_loading_spinner__ = __webpack_require__("../../../../ng4-loading-spinner/ng4-loading-spinner.esm.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,15 +59,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CreateWidgetComponent = (function () {
     /** Service injection */
-    function CreateWidgetComponent(store, activatedRoute, cdr, element, atp, router) {
+    function CreateWidgetComponent(store, activatedRoute, cdr, element, atp, router, spinnerService) {
         this.store = store;
         this.activatedRoute = activatedRoute;
         this.cdr = cdr;
         this.element = element;
         this.atp = atp;
         this.router = router;
+        this.spinnerService = spinnerService;
         this.editMode = false;
         // startTime:any;
         this.widget = {
@@ -78,21 +81,34 @@ var CreateWidgetComponent = (function () {
             scheduleTimezone: 0,
             details: '',
             areaCode: '',
-            daysArray: '',
+            contains: '',
+            daysArray: [],
             startTime: '',
             endTime: '',
             image: '',
             script_url: '',
+            phoneNumber: ''
         };
         this.loader = false;
         this.hideUploadedImage = true;
         this.timePikerError = false;
+        this.listOfAdmins = [];
+        this.updatedlistOfAdmins = [];
+        this.showThis = true;
+        this.dropdownSettings = {};
+        this.limitArray = [];
+        this.departmentArrayId = [];
+        this.departmentIdList = '';
+        this.numberError = false;
+        this.numberErrorMessage = '';
+        this.isBuyNumber = false;
+        this.availableNumbers = [];
     }
     /** Function call when component initializes */
     CreateWidgetComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_admin_admin_actions__["q" /* GetAdminListAttempt */]());
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["m" /* GetTimeZoneListAttempt */]());
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["p" /* GetTimeZoneListAttempt */]());
         this.authState = this.store.select('auth');
         this.afterLoginState = this.store.select('afterLogin');
         this.authSubscription = this.store.select('auth')
@@ -108,7 +124,7 @@ var CreateWidgetComponent = (function () {
             /** Perform operation is present mode is edit mode */
             if (_this.editMode) {
                 _this.widgetId = _this.activatedRoute.snapshot.params['id'];
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["o" /* GetWidgetToEditAttempt */]({ widgetId: _this.widgetId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["r" /* GetWidgetToEditAttempt */]({ widgetId: _this.widgetId }));
                 _this.updateWidget = _this.store.select('afterLogin')
                     .map(function (data) { return data.widget.toEdit; })
                     .distinctUntilChanged()
@@ -121,6 +137,7 @@ var CreateWidgetComponent = (function () {
                         _this.widget.details = widget.details;
                         _this.widget.scheduleTimezone = widget.schedule_timezone;
                         _this.widget.areaCode = widget.area_code;
+                        _this.widget.contains = widget.number_contains;
                         _this.widget.script_url = widget.script_url;
                         _this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
                         _this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
@@ -128,6 +145,10 @@ var CreateWidgetComponent = (function () {
                         _this.widget.departmentIdArray = widget.departments;
                         _this.hideUploadedImage = false;
                         _this.imgSrc = widget.image;
+                        _this.adminName = widget.first_name + ' ' + widget.last_name;
+                        if (typeof widget.twilio_numbers === 'object' && (widget.twilio_numbers !== undefined && widget.twilio_numbers !== null)) {
+                            _this.widget.phoneNumber = widget.twilio_numbers.number;
+                        }
                         //  const image = this.element.nativeElement.querySelector('.uploaded-image');
                         //  image.src = widget.image;
                     }
@@ -139,11 +160,41 @@ var CreateWidgetComponent = (function () {
             .subscribe(function (data) {
             if (data) {
                 _this.form.reset();
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["q" /* ResetWidgetForm */]());
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["t" /* ResetWidgetForm */]());
                 if (!!_this.loggedInAdminId) {
                     _this.form.form.patchValue({ userId: _this.loggedInAdminId });
                 }
             }
+        });
+        this.adminList = this.store.select('afterLogin').map(function (data) { return data; })
+            .subscribe(function (data) {
+            if (data.admin.list) {
+                _this.listOfAdmins = data.admin.list;
+            }
+        });
+        this.dropdownSettings = {
+            singleSelection: false,
+            text: 'Select Department',
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
+            enableSearchFilter: false,
+            classes: 'myclass custom-class',
+            primaryKey: 'id',
+            labelKey: 'department_name'
+        };
+        this.limitArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    };
+    CreateWidgetComponent.prototype.onChangeDaysArray = function (data, checked) {
+        if (checked) {
+            this.widget.daysArray.push(data);
+        }
+        else {
+            this.removeDaysArray(data);
+        }
+    };
+    CreateWidgetComponent.prototype.removeDaysArray = function (data) {
+        this.widget.daysArray = this.widget.daysArray.filter(function (item) {
+            return item !== data;
         });
     };
     /** Function to detect changes */
@@ -154,17 +205,20 @@ var CreateWidgetComponent = (function () {
     CreateWidgetComponent.prototype.onSubmit = function (form) {
         var _this = this;
         this.loader = true;
+        for (var departmentId in form.value.departmentIdArray) {
+            this.departmentArrayId.push(form.value.departmentIdArray[departmentId].id);
+        }
         if (this.editMode) {
             var formDataEdit = new FormData();
             formDataEdit.append('id', this.widget.id);
             formDataEdit.append('image', this.postedImage);
             formDataEdit.append('userId', this.widget.userId);
-            formDataEdit.append('departmentIdArray', form.value.departmentIdArray);
+            formDataEdit.append('departmentIdArray', this.departmentArrayId);
             formDataEdit.append('website', form.value.website);
             formDataEdit.append('details', form.value.details);
             formDataEdit.append('scheduleTimezone', form.value.scheduleTimezone);
             formDataEdit.append('areaCode', form.value.areaCode);
-            formDataEdit.append('daysArray', form.value.daysArray);
+            formDataEdit.append('daysArray', this.widget.daysArray);
             formDataEdit.append('startTime', form.value.startTime);
             formDataEdit.append('endTime', form.value.endTime);
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["f" /* EditWidgetAttempt */](formDataEdit));
@@ -179,20 +233,27 @@ var CreateWidgetComponent = (function () {
                     _this.loader = false;
                     _this.router.navigate(['/widget/edit', _this.widget.id]);
                 }
-            }, function (error) { console.error(error); _this.loader = false; }, function () { _this.loader = false; });
+            }, function (error) {
+                console.error(error);
+                _this.loader = false;
+            }, function () {
+                _this.loader = false;
+            });
         }
         else {
             var formData = new FormData();
             formData.append('image', this.postedImage);
             formData.append('userId', form.value.userId);
-            formData.append('departmentIdArray', form.value.departmentIdArray);
+            formData.append('departmentIdArray', this.departmentArrayId);
             formData.append('website', form.value.website);
             formData.append('details', form.value.details);
             formData.append('scheduleTimezone', form.value.scheduleTimezone);
             formData.append('areaCode', form.value.areaCode);
-            formData.append('daysArray', form.value.daysArray);
+            formData.append('numberContains', form.value.contains);
+            formData.append('daysArray', this.widget.daysArray);
             formData.append('startTime', form.value.startTime);
             formData.append('endTime', form.value.endTime);
+            formData.append('phoneNumber', form.value.number);
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["c" /* AddWidgetAttempt */](formData));
             /** Loader Show/Hide */
             this.store.select('alert')
@@ -205,13 +266,20 @@ var CreateWidgetComponent = (function () {
                     _this.loader = false;
                     _this.router.navigate(['widget/create']);
                 }
-            }, function (error) { console.error(error); _this.loader = false; }, function () { _this.loader = false; });
+            }, function (error) {
+                console.error(error);
+                _this.loader = false;
+            }, function () {
+                _this.loader = false;
+            });
         }
+        this.isBuyNumber = false;
     };
     /** Un-subscribing from all custom made events when component is destroyed */
     CreateWidgetComponent.prototype.ngOnDestroy = function () {
         this.afterLoginSubscription.unsubscribe();
         this.authSubscription.unsubscribe();
+        this.adminList.unsubscribe();
     };
     /** Function call to upload image or video */
     CreateWidgetComponent.prototype.fileUploaded = function (event) {
@@ -257,7 +325,7 @@ var CreateWidgetComponent = (function () {
         if (event) {
             this.validationMinTime = this.form.value.startTime;
             this.validationMaxTime = event;
-            console.log(this.validationMaxTime);
+            // console.log(this.validationMaxTime);
             if (this.validationMinTime > this.validationMaxTime) {
                 this.timePikerError = true;
                 this.form.controls['endTime'].setErrors({ 'incorrect': true });
@@ -267,7 +335,9 @@ var CreateWidgetComponent = (function () {
     /** function to open time in the Start Time */
     CreateWidgetComponent.prototype.openTimer = function () {
         var _this = this;
-        var amazingTimePicker = this.atp.open();
+        var amazingTimePicker = this.atp.open({
+            onlyHour: true,
+        });
         amazingTimePicker.afterClose().subscribe(function (time) {
             _this.widget.startTime = time;
         });
@@ -275,11 +345,45 @@ var CreateWidgetComponent = (function () {
     /** function to open time in the End Time */
     CreateWidgetComponent.prototype.openEndTimer = function () {
         var _this = this;
-        var amazingTimePicker = this.atp.open();
+        var amazingTimePicker = this.atp.open({
+            onlyHour: true,
+        });
         amazingTimePicker.afterClose().subscribe(function (time) {
             _this.widget.endTime = time;
             _this.log2(time);
         });
+    };
+    /** Function to check filter admin name */
+    CreateWidgetComponent.prototype.checkAdminname = function ($event) {
+        this.showThis = true;
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(function (item) { return item.first_name.toLowerCase().indexOf($event) !== -1; });
+    };
+    /** function to assign value to the models */
+    CreateWidgetComponent.prototype.assignValue = function (id, first_name, last_name) {
+        this.widget.userId = id;
+        this.adminName = first_name + ' ' + last_name;
+        this.showThis = false;
+        this.adminChanged(id);
+    };
+    /** function to reset the droupdown when click on close*/
+    CreateWidgetComponent.prototype.resetList = function () {
+        this.adminName = '';
+        this.showThis = true;
+        this.widget.userId = 0;
+    };
+    /**
+     * Buy Number
+     */
+    CreateWidgetComponent.prototype.buyNumber = function (areaCode, contains) {
+        if (areaCode || contains) {
+            this.spinnerService.show();
+            this.isBuyNumber = true;
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["o" /* GetNumberListAttempt */]({ areaCode: areaCode, contains: contains }));
+        }
+        else {
+            this.numberErrorMessage = 'Please put area code or number contains for buy any number.';
+            this.numberError = true;
+        }
     };
     return CreateWidgetComponent;
 }());
@@ -293,10 +397,10 @@ CreateWidgetComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/create-widget/create-widget.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/create-widget/create-widget.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _g || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_9_ng4_loading_spinner__["b" /* Ng4LoadingSpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9_ng4_loading_spinner__["b" /* Ng4LoadingSpinnerService */]) === "function" && _h || Object])
 ], CreateWidgetComponent);
 
-var _a, _b, _c, _d, _e, _f, _g;
+var _a, _b, _c, _d, _e, _f, _g, _h;
 //# sourceMappingURL=create-widget.component.js.map
 
 /***/ }),
@@ -309,7 +413,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "a {\n    cursor: pointer;\n}", ""]);
+exports.push([module.i, "a {\n    cursor: pointer;\n}\n.filter {\n  padding-bottom: 10px;\n}\n@media screen and (max-width:520px){\n    .box{\n      overflow-x: scroll;\n  }\n  }\n", ""]);
 
 // exports
 
@@ -322,7 +426,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/widget/list-widget/list-widget.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Widget Section</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li><a routerLink=\"/widget/list\"> Widget</a></li>\n      <li class=\"active\">List</li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <h3 class=\"box-title\">List of all Widgets</h3>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\"><div class=\"row\"><div class=\"col-sm-6\">  Search : <input [(ngModel)]=\"term\" placeholder=\"keyword\"> </div><div class=\"col-sm-6\"></div></div><div class=\"row\"><div class=\"col-sm-12\"><table id=\"example2\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n              <thead>\n              <tr role=\"row\">\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Fristname</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Lastname</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Number</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Department</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">No. of Message</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">On Going Chat</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Resolve Chat</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Created At</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Action</th>\n              </tr>\n              </thead>\n              <tbody>\n              <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (afterLoginState | async).widget.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                <td>{{i+1}}</td>\n                <td>{{item.user_details?.first_name}}</td>\n                <td>{{item.user_details?.last_name}}</td>\n                <td>{{item.twilio_numbers?.number}}</td>\n                <td><span *ngFor=\"let dep of item.widget_department, let j=index\">{{dep.department_details?.department_name}}{{j === item.widget_department.length - 1 ? '' : ', '}}</span></td>\n                <td></td>\n                <td></td>\n                <td></td>\n                <td>{{item.created_at | date }}</td>\n                <td>\n                  <!-- Single button -->\n                  <div class=\"btn-group\" [appDropdown]=\"'open'\" disable-hover=\"true\">\n                    <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      Action <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu\">\n                      <li> <a (click)=\"onEditWidget(item.id)\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>Edit</a> </li>\n                    </ul>\n                  </div>\n                </td>\n              </tr>\n              </tbody>\n            </table>\n            </div>\n            </div>\n                <!-- Pagination -->\n                <div class=\"row\">\n                    <pagination-controls class=\"older_post_text\"\n                                         (pageChange)=\"page=$event\"\n                                         maxSize=\"9\"\n                                         directionLinks=\"true\"\n                                         autoHide=\"true\"\n                                         previousLabel=\"\"\n                                         nextLabel=\"\"\n                                         screenReaderPaginationLabel=\"\"\n                                         screenReaderPageLabel=\"page\"\n                                         screenReaderCurrentLabel=\"You're on page\">\n                    </pagination-controls>\n                </div>\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1>Widget Section</h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a routerLink=\"/widget/list\"> Widget</a></li>-->\n            <!--<li class=\"active\">List</li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box\">\n                    <div class=\"box-header\">\n                        <h3 class=\"box-title\">List of all Widgets</h3>\n                    </div>\n                    <!-- /.box-header -->\n                    <div class=\"box-body\">\n                        <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n                            <div class=\"row filter\">\n                                <div class=\"col-sm-4\" *ngIf=\"!(authState | async).isAdmin;\">\n                                    company :\n                                    <select class='select-option' [(ngModel)]='companySearch'>\n                                        <option value=\"\">Filter by company</option>\n                                        <option class='option' *ngFor='let option of companyList' [value]=\"option.company\">\n                                            {{option.company}}\n                                        </option>\n                                    </select>\n                                </div>\n                                <div class=\"col-sm-8\">Search : <input [(ngModel)]=\"term\" placeholder=\"All keywords\">\n                                </div>\n                            </div>\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <table id=\"example2\" class=\"table table-bordered table-hover dataTable\" role=\"grid\"\n                                           aria-describedby=\"example2_info\">\n                                        <thead>\n                                        <tr role=\"row\">\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">\n                                                Fristname\n                                            </th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Lastname\n                                            </th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Company\n                                            </th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Number\n                                            </th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">\n                                                Department\n                                            </th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Created\n                                                At\n                                            </th>\n                                            <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Action\n                                            </th>\n                                        </tr>\n                                        </thead>\n                                        <tbody>\n                                        <tr role=\"row\" class=\"odd\"\n                                            *ngFor=\"let item of (afterLoginState | async).widget.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                                            <td>{{ i+1 }}</td>\n                                            <td>{{ item.first_name }}</td>\n                                            <td>{{ item.last_name }}</td>\n                                            <td>{{ item.company }}</td>\n                                            <td>{{ item.twilio_numbers }}</td>\n                                            <td>{{ item.widget_department | slice:0:120 }}</td>\n                                            <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>\n                                            <td>\n                                                <!-- Single button -->\n                                                <div class=\"btn-group\" [appDropdown]=\"'open'\" disable-hover=\"true\">\n                                                    <button type=\"button\" class=\"btn btn-default dropdown-toggle\"\n                                                            data-toggle=\"dropdown\" aria-haspopup=\"true\"\n                                                            aria-expanded=\"false\">\n                                                        Action <span class=\"caret\"></span>\n                                                    </button>\n                                                    <ul class=\"dropdown-menu\">\n                                                        <li><a (click)=\"onEditWidget(item.id)\"><i class=\"fa fa-pencil\"\n                                                                                                  aria-hidden=\"true\"></i>Edit</a>\n                                                        </li>\n                                                    </ul>\n                                                </div>\n                                            </td>\n                                        </tr>\n                                        </tbody>\n                                    </table>\n                                </div>\n                            </div>\n                            <!-- Pagination -->\n                            <div class=\"row\">\n                                <pagination-controls class=\"older_post_text\"\n                                                     (pageChange)=\"page=$event\"\n                                                     maxSize=\"9\"\n                                                     directionLinks=\"true\"\n                                                     autoHide=\"true\"\n                                                     previousLabel=\"\"\n                                                     nextLabel=\"\"\n                                                     screenReaderPaginationLabel=\"\"\n                                                     screenReaderPageLabel=\"page\"\n                                                     screenReaderCurrentLabel=\"You're on page\">\n                                </pagination-controls>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
 
 /***/ }),
 
@@ -335,6 +439,7 @@ module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-he
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -348,6 +453,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ListWidgetComponent = (function () {
     /** Service injection */
     function ListWidgetComponent(store, router) {
@@ -357,16 +463,35 @@ var ListWidgetComponent = (function () {
     /** Function to be executed when component initializes */
     ListWidgetComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.companySearch = '';
+        this.authState = this.store.select('auth');
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["n" /* GetWidgetListAttempt */]({ userId: data.userId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["q" /* GetWidgetListAttempt */]({ userId: data.userId }));
             }
             else {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["n" /* GetWidgetListAttempt */]({}));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["q" /* GetWidgetListAttempt */]({}));
             }
         });
         this.afterLoginState = this.store.select('afterLogin');
+        // this.companySubscription = this.store.select('afterLogin')
+        //   .subscribe(
+        //     (data) => {
+        //       this.companyList = data.widget.list.map(item => item.company)
+        //         .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+        //     }
+        //   );
+        this.authSubscription = this.store.select('auth')
+            .subscribe(function (data) {
+            if (data.isSuperAdmin) {
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["q" /* GetCompanyListAttempt */]({ userId: data.token }));
+            }
+        });
+        /* Company List droupdown */
+        this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(function (data) {
+            _this.companyList = data.comapnyList;
+        });
     };
     /** Function to Edit Widget */
     ListWidgetComponent.prototype.onEditWidget = function (id) {
@@ -388,6 +513,120 @@ ListWidgetComponent = __decorate([
 
 var _a, _b;
 //# sourceMappingURL=list-widget.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/layout/inner-pages/widget/tableSearch.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TableSearchPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__ = __webpack_require__("../../../../ngx-bootstrap/chronos/test/chain.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var TableSearchPipe = (function () {
+    function TableSearchPipe() {
+    }
+    TableSearchPipe.prototype.transform = function (items, companySearch, term) {
+        if (!items) {
+            return [];
+        }
+        return items.filter(function (el) {
+            // check for first name
+            if (companySearch && companySearch !== '') {
+                var companyLower = companySearch.toLowerCase().trim();
+                if (el.company !== null && el.company.toLowerCase() === companyLower) {
+                    if (term && term !== undefined) {
+                        var termLower = term.toLowerCase().trim();
+                        if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
+                            return el.first_name.toLowerCase().indexOf(termLower) > -1;
+                        }
+                        else {
+                            // check for last name
+                            if (el.last_name != null && el.last_name.toLowerCase().indexOf(termLower) > -1) {
+                                return el.last_name.toLowerCase().indexOf(termLower) > -1;
+                            }
+                            else {
+                                // search for phone
+                                if (el.twilio_numbers != null && el.twilio_numbers.replace(/\D+/g, '').indexOf(termLower) > -1) {
+                                    return el.twilio_numbers.replace(/\D+/g, '').indexOf(termLower) > -1;
+                                }
+                                else {
+                                    // search for date
+                                    if (el.created_at != null && Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+                                        return Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                                    }
+                                    else {
+                                        // search for department
+                                        if (el.widget_department != null && el.widget_department.toString().toLowerCase().indexOf(termLower) > -1) {
+                                            return el.widget_department.toString().toLowerCase().indexOf(termLower) > -1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        return el.company.toLowerCase() === companyLower;
+                    }
+                }
+            }
+            else if (companySearch === '' && term !== undefined) {
+                var termLower = term.toLowerCase().trim();
+                if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
+                    return el.first_name.toLowerCase().indexOf(termLower) > -1;
+                }
+                else {
+                    // check for last name
+                    if (el.last_name != null && el.last_name.toLowerCase().indexOf(termLower) > -1) {
+                        return el.last_name.toLowerCase().indexOf(termLower) > -1;
+                    }
+                    else {
+                        // search for phone
+                        if (el.twilio_numbers != null && el.twilio_numbers.replace(/\D+/g, '').indexOf(termLower) > -1) {
+                            return el.twilio_numbers.replace(/\D+/g, '').indexOf(termLower) > -1;
+                        }
+                        else {
+                            // search for date
+                            if (el.created_at != null && Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                            }
+                            else {
+                                // search for department
+                                if (el.widget_department != null && el.widget_department.toString().toLowerCase().indexOf(termLower) > -1) {
+                                    return el.widget_department.toString().toLowerCase().indexOf(termLower) > -1;
+                                }
+                                else {
+                                    if (el.company != null && el.company.toLowerCase().indexOf(termLower) > -1) {
+                                        return el.company != null && el.company.toLowerCase().indexOf(termLower) > -1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                return items;
+            }
+        });
+    };
+    return TableSearchPipe;
+}());
+TableSearchPipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({
+        name: 'filter'
+    })
+], TableSearchPipe);
+
+//# sourceMappingURL=tableSearch.pipe.js.map
 
 /***/ }),
 
@@ -450,6 +689,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__ = __webpack_require__("../../../../amazing-time-picker/amazing-time-picker.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_search_filter__ = __webpack_require__("../../../../ng2-search-filter/ng2-search-filter.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ngx_pagination__ = __webpack_require__("../../../../ngx-pagination/dist/ngx-pagination.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_angular2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__tableSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/tableSearch.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__ = __webpack_require__("../../../../angular2-multiselect-dropdown/angular2-multiselect-dropdown.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -460,16 +703,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-// import {DpDatePickerModule} from 'ng2-date-picker';
 
 
 
 
-// import { TimePickerModule } from 'ng2-simple-timepicker';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-// export const MY_NATIVE_FORMATS = {
-//     timePickerInput: {hour: 'numeric', minute: 'numeric'},
-// };
+
+
+
 
 
 
@@ -485,12 +725,18 @@ WidgetModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__widget_routing_module__["a" /* WidgetRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_3_angular2_text_mask__["TextMaskModule"],
-            __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__["a" /* SharedModule */], __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["a" /* AmazingTimePickerModule */], __WEBPACK_IMPORTED_MODULE_9_ng2_search_filter__["a" /* Ng2SearchPipeModule */], __WEBPACK_IMPORTED_MODULE_10_ngx_pagination__["a" /* NgxPaginationModule */]
+            __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__["a" /* SharedModule */],
+            __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["a" /* AmazingTimePickerModule */],
+            __WEBPACK_IMPORTED_MODULE_9_ng2_search_filter__["a" /* Ng2SearchPipeModule */],
+            __WEBPACK_IMPORTED_MODULE_10_ngx_pagination__["a" /* NgxPaginationModule */],
+            __WEBPACK_IMPORTED_MODULE_11_angular2_moment__["MomentModule"],
+            __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */]
         ],
         providers: [],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_6__create_widget_create_widget_component__["a" /* CreateWidgetComponent */],
             __WEBPACK_IMPORTED_MODULE_5__list_widget_list_widget_component__["a" /* ListWidgetComponent */],
+            __WEBPACK_IMPORTED_MODULE_12__tableSearch_pipe__["a" /* TableSearchPipe */],
         ]
     })
 ], WidgetModule);

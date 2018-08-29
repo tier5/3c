@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth,Mail,Hash;
+use Illuminate\Support\Facades\Log;
 use Response;
 use App\Model\UserToken;              /* User Token Model */
 use App\Model\Users;                /* User Model */
@@ -570,4 +571,91 @@ class TwilioController extends Controller
 
     }
   }
+    /**
+     * Get Available Phone Numbers from Twilio
+     * @params widgetId = integer, user_id = integer , area_code = integer
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function buyPhoneNumber($widgetId, $userId, $phoneNumber)
+    {
+        $checkWidgets = Widgets::where('id',$widgetId)->first();
+        $checkUser    = Users::where('id',$userId)->first();
+        if(count($checkWidgets) == 0){
+
+            return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widgets not found !'));
+
+        }
+
+        // Check user is valid or not
+        if (count($checkUser) == 0) {
+
+            return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Users not found !'));
+
+        }
+
+        // Get Twilio Credentials
+        $getTwilioCredentials = TwilioCredentials::where('user_id',$userId)->first();
+
+        if(count($getTwilioCredentials)!=0){
+
+            $sid      = $getTwilioCredentials->twilio_sid;
+            $token    = $getTwilioCredentials->twilio_token;
+
+            $client   = new Client($sid, $token);
+
+            try {
+                $purchasedNumber = $client->incomingPhoneNumbers->create(array("phoneNumber" => $phoneNumber));
+
+            } catch (\Exception $e) {
+
+                return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>$e->getMessage().'Error Line'.$e->getLine()));
+
+            }
+
+            $prefix          = substr($purchasedNumber->phoneNumber, 0, -10);  //get prefix of phone_number
+            $phoneNumber     = substr($purchasedNumber->phoneNumber, -10); //phone_number
+            $numberUnid      = substr( str_shuffle( str_repeat( 'abcdefghijklmnopqrstuvwxyz0123456789', 10 ) ), 0, 8 ); // generate numberunid
+
+            // Saving Twilio number
+            $twilioNumber                         = new TwilioNumber;
+            $twilioNumber->user_id                = $userId;
+            $twilioNumber->widget_id              = $widgetId;
+            $twilioNumber->prefix                 = $prefix;
+            $twilioNumber->number                 = $phoneNumber;
+            $twilioNumber->twilio_number_sid      = $purchasedNumber->accountSid;
+            $twilioNumber->twilio_sub_account_sid = $purchasedNumber->sid;
+            $twilioNumber->twilio_credentials_id  = $getTwilioCredentials->id;
+            $twilioNumber->number_unid            = $numberUnid;
+
+            // Update widgets active
+            $checkWidgets->status = 1;
+            $checkWidgets->update();
+            //update twilio webhook
+            $updateNumber   = new Client($sid, $token);
+            try {
+                $updateNumber->incomingPhoneNumbers($purchasedNumber->sid)->update(
+                    array(
+                        "smsUrl" => url('/') . '/api/v1/mobile-chat',
+                        "smsMethod" => 'POST'
+                    )
+                );
+            } catch (\Exception $e) {
+                Log::info("Warning!! ".$e->getMessage());
+            }
+
+            if ($twilioNumber->save()) {
+
+                return $response = json_encode(array('code'=>200,'error'=>false,'response'=>[],'status'=>true,'message'=>'Widget updated and Twilio purchased saved !'));
+
+            } else {
+
+                return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Widget updated but Twilio purchased failed !'));
+
+            }
+        } else {
+
+            return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'Twilio Credentials not found !'));
+
+        }
+    }
 }

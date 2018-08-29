@@ -60,12 +60,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ngx_order_pipe__ = __webpack_require__("../../../../ngx-order-pipe/ngx-order-pipe.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ngx_pagination__ = __webpack_require__("../../../../ngx-pagination/dist/ngx-pagination.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_angular2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__agentSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/agent/agentSearch.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -95,15 +100,135 @@ AgentModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_9_ngx_order_pipe__["a" /* OrderModule */],
             __WEBPACK_IMPORTED_MODULE_10_ngx_pagination__["a" /* NgxPaginationModule */],
             __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_modal__["b" /* ModalModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_12_angular2_moment__["MomentModule"]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_5__create_agent_create_agent_component__["a" /* CreateAgentComponent */],
-            __WEBPACK_IMPORTED_MODULE_6__list_agent_list_agent_component__["a" /* ListAgentComponent */]
+            __WEBPACK_IMPORTED_MODULE_6__list_agent_list_agent_component__["a" /* ListAgentComponent */],
+            __WEBPACK_IMPORTED_MODULE_13__agentSearch_pipe__["a" /* AgentSearchPipe */]
         ]
     })
 ], AgentModule);
 
 //# sourceMappingURL=agent.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/layout/inner-pages/agent/agentSearch.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AgentSearchPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__ = __webpack_require__("../../../../ngx-bootstrap/chronos/test/chain.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var AgentSearchPipe = (function () {
+    function AgentSearchPipe() {
+    }
+    AgentSearchPipe.prototype.transform = function (items, companySearch, term) {
+        if (!items) {
+            return [];
+        }
+        /*if (!term || !companySearch) {
+          return items;
+        }*/
+        return items.filter(function (el) {
+            // check for first name
+            if (companySearch && companySearch !== '') {
+                var companyLower = companySearch.toLowerCase().trim();
+                if ((el.get_company != null && el.get_company.company != null) && el.get_company.company.toLowerCase() === companyLower) {
+                    if (term && term !== undefined) {
+                        var termLower = term.toLowerCase().trim();
+                        if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
+                            return el.first_name.toLowerCase().indexOf(termLower) > -1;
+                        }
+                        else {
+                            // check for last name
+                            if (el.last_name != null && el.last_name.toLowerCase().indexOf(termLower) > -1) {
+                                return el.last_name.toLowerCase().indexOf(termLower) > -1;
+                            }
+                            else {
+                                // search for email
+                                if (el.email != null && el.email.toLowerCase().indexOf(termLower) > -1) {
+                                    return el.email.toLowerCase().indexOf(termLower) > -1;
+                                }
+                                else {
+                                    // search for phone
+                                    if (el.phone != null && el.phone.replace(/\D+/g, '').indexOf(termLower) > -1) {
+                                        return el.phone.replace(/\D+/g, '').indexOf(termLower) > -1;
+                                    }
+                                    else {
+                                        // search for date
+                                        if (el.created_at != null && Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+                                            return Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        return el.get_company.company.toLowerCase() === companyLower;
+                    }
+                }
+            }
+            else if (companySearch === '' && term !== undefined) {
+                var termLower = term.toLowerCase().trim();
+                if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
+                    return el.first_name.toLowerCase().indexOf(termLower) > -1;
+                }
+                else {
+                    // check for last name
+                    if (el.last_name != null && el.last_name.toLowerCase().indexOf(termLower) > -1) {
+                        return el.last_name.toLowerCase().indexOf(termLower) > -1;
+                    }
+                    else {
+                        // search for company
+                        if ((el.get_company != null && el.get_company.company != null) && el.get_company.company.toLowerCase().indexOf(termLower) > -1) {
+                            return el.get_company.company.toLowerCase().indexOf(termLower) > -1;
+                        }
+                        else {
+                            // search for email
+                            if (el.email != null && el.email.toLowerCase().indexOf(termLower) > -1) {
+                                return el.email.toLowerCase().indexOf(termLower) > -1;
+                            }
+                            else {
+                                // search for phone
+                                if (el.phone != null && el.phone.replace(/\D+/g, '').indexOf(termLower) > -1) {
+                                    return el.phone.replace(/\D+/g, '').indexOf(termLower) > -1;
+                                }
+                                else {
+                                    // search for date
+                                    if (el.created_at != null && Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1) {
+                                        return Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_ngx_bootstrap_chronos_test_chain__["a" /* moment */])(el.created_at).format('MMMM DD YYYY').toLowerCase().indexOf(termLower) > -1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                return items;
+            }
+        });
+    };
+    return AgentSearchPipe;
+}());
+AgentSearchPipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({
+        name: 'filter'
+    })
+], AgentSearchPipe);
+
+//# sourceMappingURL=agentSearch.pipe.js.map
 
 /***/ }),
 
@@ -115,7 +240,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}", ""]);
+exports.push([module.i, ".btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}\n.autoListArea{\n    position: relative;\n}\n.autoList{\n    position: absolute;\n    left: 0;\n    top: 100%;\n    background: #fff;\n    width: 100%;\n    max-height: 200px;\n    overflow-y: scroll;\n    box-shadow: 0 3px 5px rgba(0,0,0,0.3);\n    border: 1px solid #e2e2e2;\n    z-index: 99;\n    padding: 0;\n}\n.autoList li{\n    list-style: none;\n}\n.autoList li span{\n    display: block;\n    padding: 5px 15px;\n}\n.autoList li:hover{\n    background: #e2e2e2;\n}\n.hideList{\n    float: right;\n    margin: -27px 10px 0 0;\n    cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -128,7 +253,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/agent/create-agent/create-agent.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Agent Section</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li><a routerLink=\"/agent/list\">Agent</a></li>\n      <li class=\"active\"><a href=\"javascript:void(0)\">{{editMode ? 'Edit' : 'Create'}}</a></li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box box-primary\">\n          <!-- /.box-header -->\n          <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n            <form #form=\"ngForm\" (submit)=\"onSubmit(form)\">\n              <!-- text input -->\n              <div class=\"box-header with-border\">\n                <h3 class=\"box-title\">{{ editMode ? 'Edit': 'Create' }} Agent</h3>\n              </div>\n              <div class=\"row\">\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                      <label class=\"control-label\" for=\"admin\">\n                        Admin for Agent\n                      </label>\n                      <select\n                              id=\"admin\"\n                              name=\"parentId\"\n                              [ngClass]=\"editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' \"\n                              #selectedAdmin\n                              [ngModel]=\"agent.parentId\"\n                              (change)=\"adminChanged(selectedAdmin.value)\"\n                              required\n                      >\n                        <option selected value=\"0\">Choose...</option>\n                        <option [value]=\"item.id\"\n                                *ngFor=\"let item of (afterLoginState | async).admin.list; let i = index\"\n                        >\n                          {{item.first_name}} {{item.last_name}}\n                        </option>\n                      </select>\n\n                    </div>\n                </div>\n\n                <div class=\"col-md-6\" *ngIf=\"selectedAdmin.value > 0\">\n\n                    <div class=\"form-group\">\n                    <label class=\"control-label\" for=\"department\">\n                      Department for Agent\n                    </label>\n                    <select class=\"form-control\"\n                            id=\"department\"\n                            name=\"departmentId\"\n                            [disabled]=\"editMode\"\n                            #selectedDepartment\n                            [ngModel]=\"agent.departmentId\"\n                            (change)=\"deptChanged(selectedDepartment.value)\"\n                            required\n                    >\n                      <option selected value=\"0\">Choose...</option>\n                        <option [value]=\"item.id\" *ngFor=\"let item of (afterLoginState | async).department.list; let i = index\">\n                        {{item.department_name}}\n                      </option>\n                        <option value=\"99999991999999\" style=\"font-weight: bold;\">&#43; Create Department </option>\n                    </select>\n                  </div>\n                    <div class=\"hide\">\n                        <a class=\"btn btn-warning btn-md\" style=\"margin-top: 25px;\" type=\"button\" (click)=\"createDepartment(template)\" id=\"createDepartment\"> Create Department</a>\n                    </div>\n                </div>\n\n              </div>\n\n              <div class=\"row\" *ngIf=\"selectDept\">\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(firstName.invalid && firstName.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"firstName\">First Name\n                      <i *ngIf=\"firstName.invalid && firstName.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"text\"\n                           class=\"form-control\"\n                           id=\"firstName\"\n                           name=\"firstName\"\n                           [ngModel]=\"agent.firstName\"\n                           #firstName=\"ngModel\"\n                           required\n                           placeholder=\"First Name\"\n                    >\n                    <span *ngIf=\"firstName.invalid && firstName.touched\" class=\"help-block\">Your First Name is Required !</span>\n                  </div>\n                </div>\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(lastName.invalid && lastName.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"lastName\">Last Name\n                      <i *ngIf=\"lastName.invalid && lastName.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"text\"\n                           class=\"form-control\"\n                           id=\"lastName\"\n                           name=\"lastName\"\n                           [ngModel]=\"agent.lastName\"\n                           #lastName=\"ngModel\"\n                           required\n                           placeholder=\"Last Name\"\n                    >\n                    <span *ngIf=\"lastName.invalid && lastName.touched\" class=\"help-block\">Your Last Name is Required !</span>\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"row\" *ngIf=\"selectDept\">\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(email.invalid && email.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"email\">Email\n                      <i *ngIf=\"email.invalid && email.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"email\"\n                           class=\"form-control\"\n                           id=\"email\"\n                           name=\"email\"\n                           [ngModel]=\"agent.email\"\n                           #email=\"ngModel\"\n                           email\n                           required\n                           [disabled]=\"editMode\"\n                           placeholder=\"email\"\n                    >\n                    <span *ngIf=\"email.invalid && email.touched && form.controls.email?.errors.email\" class=\"help-block\">Please Enter a Proper Email Address!</span>\n                    <span *ngIf=\"email.invalid && email.touched && form.controls.email?.errors.required\" class=\"help-block\">Your Email Address is Required!</span>\n                  </div>\n                </div>\n                <div class=\"col-md-6\">\n                  <!--<div class=\"form-group\" [ngClass]=\"(userName.invalid && userName.touched) ? 'has-error': ''\">-->\n                    <!--<label class=\"control-label\" for=\"userName\">Username-->\n                      <!--<i *ngIf=\"userName.invalid && userName.touched\" class=\"fa fa-times-circle-o\"></i>-->\n                    <!--</label>-->\n                    <!--<input type=\"text\"-->\n                           <!--class=\"form-control\"-->\n                           <!--id=\"userName\"-->\n                           <!--placeholder=\"Username\"-->\n                           <!--[ngModel]=\"agent.userName\"-->\n                           <!--name=\"userName\"-->\n                           <!--required-->\n                           <!--ngModel-->\n                           <!--#userName=\"ngModel\"-->\n                    <!--&gt;-->\n                    <!--<span *ngIf=\"userName.invalid && userName.touched\" class=\"help-block\">Your Username is Required !</span>-->\n                  <!--</div>-->\n                </div>\n              </div>\n\n              <div class=\"row\" *ngIf=\"selectDept\">\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(phone.invalid && phone.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"phone\">Phone\n                      <i *ngIf=\"phone.invalid && phone.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"text\"\n                           class=\"form-control\"\n                           [textMask]=\"{mask: mask, guide: false}\"\n                           id=\"phone\"\n                           placeholder=\"phone\"\n                           [ngModel]=\"agent.phone\"\n                           name=\"phone\"\n                           required\n                           ngModel\n                           #phone=\"ngModel\"\n                    >\n                    <span *ngIf=\"phone.invalid && phone.touched\" class=\"help-block\">Your Phone Number is Required !</span>\n                  </div>\n                </div>\n                <div class=\"col-md-6\">\n\n                </div>\n              </div>\n\n              <div class=\"col-md-12\">\n                <div class=\"box-footer\">\n                  <button type=\"submit\" [disabled]=\"form.invalid || !selectDept\" class=\"btn btn-primary pull-right\" ><i *ngIf=\"loader\" class=\"fa fa-spinner fa-spin\"></i> Submit</button>\n                </div>\n              </div>\n            </form>\n          </div>\n          <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n            <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n          </div>\n          <!-- /.box-body -->\n        </div>\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n      <ng-template #template>\n          <div class=\"modal-header\">\n              <h4 class=\"modal-title pull-left\">Create Department </h4>\n              <button type=\"button\" class=\"close pull-right\" aria-label=\"Close\" (click)=\"bsModalRef.hide()\">\n                  <span aria-hidden=\"true\">&times;</span>\n              </button>\n          </div>\n          <div class=\"modal-body row\">\n              <form #form=\"ngForm\" (submit)=\"onCreateDep(form)\">\n                  <input type=\"hidden\"\n                         id=\"userId\"\n                         name=\"userId\"\n                         [ngModel]=\"dep.userId\"\n                         #userId=\"ngModel\">\n              <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(dName.invalid && dName.touched) ? 'has-error': ''\">\n                      <label class=\"control-label\" for=\"name\">\n                          <i *ngIf=\"dName.invalid && dName.touched\" class=\"fa fa-times-circle-o\"></i>\n                          Department Name\n                      </label>\n                      <input type=\"text\"\n                             class=\"form-control\"\n                             id=\"name\"\n                             name=\"departmentName\"\n                             [ngModel]=\"dep.departmentName\"\n                             #dName=\"ngModel\"\n                             required\n                             placeholder=\"Enter ...\"\n                      >\n                      <span *ngIf=\"dName.invalid && dName.touched\" class=\"help-block\">Your Department Name is Required!</span>\n                  </div>\n              </div>\n                  <div class=\"col-md-6\">\n                      <div class=\"form-group\" [ngClass]=\"{ 'has-error': dDes.invalid && dDes.touched }\">\n                          <label class=\"control-label\" for=\"detail\">\n                              <i *ngIf=\"dDes.invalid && dDes.touched\" class=\"fa fa-times-circle-o\"></i>\n                              Department Description\n                          </label>\n                          <input type=\"text\"\n                                 class=\"form-control\"\n                                 id=\"detail\"\n                                 name=\"departmentDetails\"\n                                 ngModel\n                                 [ngModel]=\"dep.departmentDetails\"\n                                 #dDes=\"ngModel\"\n                                 required\n                                 placeholder=\"Enter ...\"\n                          >\n                          <span *ngIf=\"dDes.invalid && dDes.touched\" class=\"help-block\">Your Department Description is Required!</span>\n                      </div>\n                  </div>\n                  <div class=\"col-md-12\">\n                      <button type=\"submit\"\n                              [disabled]=\"form.invalid\"\n                              class=\"btn btn-primary pull-right\"\n                      >\n                          <i *ngIf=\"loader\" class=\"fa fa-spinner fa-spin\"></i> Submit\n                      </button>\n                  </div>\n              </form>\n          </div>\n      </ng-template>\n  </section>\n</div>"
+module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"content-header\">-->\n    <!--<h1>Agent Section</h1>-->\n    <!--<ol class=\"breadcrumb\">-->\n      <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n      <!--<li><a routerLink=\"/agent/list\">Agent</a></li>-->\n      <!--<li class=\"active\"><a href=\"javascript:void(0)\">{{editMode ? 'Edit' : 'Create'}}</a></li>-->\n    <!--</ol>-->\n  <!--</section>-->\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box box-primary\">\n          <!-- /.box-header -->\n          <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n            <form #form=\"ngForm\" (submit)=\"onSubmit(form)\">\n              <!-- text input -->\n              <div class=\"box-header with-border\">\n                <h3 class=\"box-title\">{{ editMode ? 'Edit': 'Create' }} Agent</h3>\n              </div>\n              <div class=\"row\">\n                <div *ngIf=\"(authState | async).isAdmin; then thenTemplateName else elseTemplateName\"></div>\n\n                <ng-template #thenTemplateName style=\"display: none;\">\n                  <input type=\"hidden\" class=\"form-control\"\n                         name=\"adminName\" autocomplete=\"off\" readonly [value]=\"(authState | async).name\">\n                </ng-template>\n                <ng-template #elseTemplateName>\n                  <div class=\"col-md-6\">\n                    <div class=\"form-group autoListArea\">\n                      <label class=\"control-label\" for=\"admin\">\n                        Admin for Agent\n                      </label>\n                      <input type=\"text\" (keyup)=\"checkAdminname($event.target.value)\"\n\n                             [ngClass]=\"editMode ?  'form-control' : 'form-control' \"\n                             [ngModel]=\"adminName\" name=\"adminName\" (click)=\"checkAdminname($event.target.value)\"\n                             autocomplete=\"off\" [readonly]=\"editMode\" class=\"listBox\" #selectOption>\n                      <span *ngIf=\"( !editMode && this.adminName)\" (click)=\"resetList()\" class=\"hideList\"> <i\n                        class=\"fa fa-close\"></i> </span>\n                      <ul *ngIf=\"showThis\" class=\"autoList\" id=\"autoList\">\n                        <li *ngFor=\"let item of updatedlistOfAdmins; let i = index\"><span\n                          (click)=\"assignValue(item.id,item.first_name,item.last_name)\">  {{item.first_name}} {{item.last_name}}  </span>\n                        </li>\n                      </ul>\n                    </div>\n                  </div>\n                </ng-template>\n                <input type=\"hidden\" [ngModel]=\"agent.parentId\" id=\"admin\" name=\"parentId\" #selectedAdmin>\n\n                <!--<select-->\n                <!--id=\"admin\"-->\n                <!--name=\"parentId\"-->\n                <!--[ngClass]=\"editMode || (authState | async).isAdmin ?  'btn-disabled form-control' : 'form-control' \"-->\n                <!--#selectedAdmin-->\n                <!--[ngModel]=\"agent.parentId\"-->\n                <!--(change)=\"adminChanged(selectedAdmin.value)\"-->\n                <!--required style=\"opacity: 1 !important;\"-->\n                <!--&gt;-->\n                <!--<option selected value=\"0\">Choose...</option>-->\n                <!--<option [value]=\"item.first_name\"-->\n                <!--*ngFor=\"let item of listOfAdmins; let i = index\"-->\n                <!--&gt;-->\n                <!--{{item.first_name}} {{item.last_name}}-->\n                <!--</option>-->\n                <!--</select> OLD SELECT -->\n\n                <div class=\"col-md-6\" *ngIf=\"selectedAdmin.value > 0\">\n\n                  <div class=\"form-group\">\n                    <label class=\"control-label\" for=\"department\">\n                      Department for Agent\n                    </label>\n                    <select class=\"form-control\"\n                            id=\"department\"\n                            name=\"departmentId\"\n                            #selectedDepartment\n                            [ngModel]=\"agent.departmentId\"\n                            (change)=\"deptChanged(selectedDepartment.value)\"\n                            required\n                    >\n                      <option selected value=\"0\">Choose...</option>\n                      <option [value]=\"item.id\"\n                              *ngFor=\"let item of (afterLoginState | async).department.list; let i = index\">\n                        {{item.department_name}}\n                      </option>\n                      <option value=\"99999991999999\" style=\"font-weight: bold;\">&#43; Create Department</option>\n                    </select>\n                  </div>\n                  <div class=\"hide\">\n                    <a class=\"btn btn-warning btn-md\" style=\"margin-top: 25px;\" type=\"button\"\n                       (click)=\"createDepartment(template)\" id=\"createDepartment\"> Create Department</a>\n                  </div>\n                </div>\n\n              </div>\n\n              <div class=\"row\" *ngIf=\"selectDept\">\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(firstName.invalid && firstName.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"firstName\">First Name\n                      <i *ngIf=\"firstName.invalid && firstName.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"text\"\n                           class=\"form-control\"\n                           id=\"firstName\"\n                           name=\"firstName\"\n                           [ngModel]=\"agent.firstName\"\n                           #firstName=\"ngModel\"\n                           required\n                           placeholder=\"First Name\"\n                    >\n                    <span *ngIf=\"firstName.invalid && firstName.touched\" class=\"help-block\">Your First Name is Required !</span>\n                  </div>\n                </div>\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(lastName.invalid && lastName.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"lastName\">Last Name\n                      <i *ngIf=\"lastName.invalid && lastName.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"text\"\n                           class=\"form-control\"\n                           id=\"lastName\"\n                           name=\"lastName\"\n                           [ngModel]=\"agent.lastName\"\n                           #lastName=\"ngModel\"\n                           required\n                           placeholder=\"Last Name\"\n                    >\n                    <span *ngIf=\"lastName.invalid && lastName.touched\"\n                          class=\"help-block\">Your Last Name is Required !</span>\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"row\" *ngIf=\"selectDept\">\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(email.invalid && email.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"email\">Email\n                      <i *ngIf=\"email.invalid && email.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"email\"\n                           class=\"form-control\"\n                           id=\"email\"\n                           name=\"email\"\n                           [ngModel]=\"agent.email\"\n                           #email=\"ngModel\"\n                           email\n                           required\n                           [disabled]=\"editMode\"\n                           placeholder=\"email\"\n                    >\n                    <span *ngIf=\"email.invalid && email.touched && form.controls.email?.errors.email\"\n                          class=\"help-block\">Please Enter a Proper Email Address!</span>\n                    <span *ngIf=\"email.invalid && email.touched && form.controls.email?.errors.required\"\n                          class=\"help-block\">Your Email Address is Required!</span>\n                  </div>\n                </div>\n                <div class=\"col-md-6\">\n                  <!--<div class=\"form-group\" [ngClass]=\"(userName.invalid && userName.touched) ? 'has-error': ''\">-->\n                  <!--<label class=\"control-label\" for=\"userName\">Username-->\n                  <!--<i *ngIf=\"userName.invalid && userName.touched\" class=\"fa fa-times-circle-o\"></i>-->\n                  <!--</label>-->\n                  <!--<input type=\"text\"-->\n                  <!--class=\"form-control\"-->\n                  <!--id=\"userName\"-->\n                  <!--placeholder=\"Username\"-->\n                  <!--[ngModel]=\"agent.userName\"-->\n                  <!--name=\"userName\"-->\n                  <!--required-->\n                  <!--ngModel-->\n                  <!--#userName=\"ngModel\"-->\n                  <!--&gt;-->\n                  <!--<span *ngIf=\"userName.invalid && userName.touched\" class=\"help-block\">Your Username is Required !</span>-->\n                  <!--</div>-->\n                </div>\n              </div>\n\n              <div class=\"row\" *ngIf=\"selectDept\">\n                <div class=\"col-md-6\">\n                  <div class=\"form-group\" [ngClass]=\"(phone.invalid && phone.touched) ? 'has-error': ''\">\n                    <label class=\"control-label\" for=\"phone\">Phone\n                      <i *ngIf=\"phone.invalid && phone.touched\" class=\"fa fa-times-circle-o\"></i>\n                    </label>\n                    <input type=\"text\"\n                           class=\"form-control\"\n                           [textMask]=\"{mask: mask, guide: false}\"\n                           id=\"phone\"\n                           placeholder=\"phone\"\n                           [ngModel]=\"agent.phone\"\n                           name=\"phone\"\n                           required\n                           ngModel\n                           #phone=\"ngModel\"\n                    >\n                    <span *ngIf=\"phone.invalid && phone.touched\"\n                          class=\"help-block\">Your Phone Number is Required !</span>\n                  </div>\n                </div>\n                <div class=\"col-md-6\">\n\n                </div>\n              </div>\n\n              <div class=\"col-md-12\">\n                <div class=\"box-footer\">\n                  <button type=\"submit\" [disabled]=\"form.invalid || !selectDept\" class=\"btn btn-primary pull-right\"><i\n                    *ngIf=\"loader\" class=\"fa fa-spinner fa-spin\"></i> Submit\n                  </button>\n                </div>\n              </div>\n            </form>\n          </div>\n          <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n            <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n          </div>\n          <!-- /.box-body -->\n        </div>\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n    <ng-template #template>\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title pull-left\">Create Department </h4>\n        <button type=\"button\" class=\"close pull-right\" aria-label=\"Close\" (click)=\"bsModalRef.hide()\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body row\">\n        <form #form=\"ngForm\" (submit)=\"onCreateDep(form)\">\n          <input type=\"hidden\"\n                 id=\"userId\"\n                 name=\"userId\"\n                 [ngModel]=\"dep.userId\"\n                 #userId=\"ngModel\">\n          <div class=\"col-md-6\">\n            <div class=\"form-group\" [ngClass]=\"(dName.invalid && dName.touched) ? 'has-error': ''\">\n              <label class=\"control-label\" for=\"name\">\n                <i *ngIf=\"dName.invalid && dName.touched\" class=\"fa fa-times-circle-o\"></i>\n                Department Name\n              </label>\n              <input type=\"text\"\n                     class=\"form-control\"\n                     id=\"name\"\n                     name=\"departmentName\"\n                     [ngModel]=\"dep.departmentName\"\n                     #dName=\"ngModel\"\n                     required\n                     placeholder=\"Enter ...\"\n              >\n              <span *ngIf=\"dName.invalid && dName.touched\" class=\"help-block\">Your Department Name is Required!</span>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"form-group\" [ngClass]=\"{ 'has-error': dDes.invalid && dDes.touched }\">\n              <label class=\"control-label\" for=\"detail\">\n                <i *ngIf=\"dDes.invalid && dDes.touched\" class=\"fa fa-times-circle-o\"></i>\n                Department Description\n              </label>\n              <input type=\"text\"\n                     class=\"form-control\"\n                     id=\"detail\"\n                     name=\"departmentDetails\"\n                     ngModel\n                     [ngModel]=\"dep.departmentDetails\"\n                     #dDes=\"ngModel\"\n                     required\n                     placeholder=\"Enter ...\"\n              >\n              <span *ngIf=\"dDes.invalid && dDes.touched\"\n                    class=\"help-block\">Your Department Description is Required!</span>\n            </div>\n          </div>\n          <div class=\"col-md-12\">\n            <button type=\"submit\"\n                    [disabled]=\"form.invalid\"\n                    class=\"btn btn-primary pull-right\"\n            >\n              <i *ngIf=\"loader\" class=\"fa fa-spinner fa-spin\"></i> Submit\n            </button>\n          </div>\n        </form>\n      </div>\n    </ng-template>\n  </section>\n</div>\n"
 
 /***/ }),
 
@@ -175,12 +300,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var CreateAgentComponent = (function () {
     /** Service injection */
-    function CreateAgentComponent(store, activatedRoute, cdr, router, modalService) {
+    function CreateAgentComponent(store, activatedRoute, cdr, router, modalService, deptStore) {
         this.store = store;
         this.activatedRoute = activatedRoute;
         this.cdr = cdr;
         this.router = router;
         this.modalService = modalService;
+        this.deptStore = deptStore;
         this.editMode = false;
         this.selectAdmin = false;
         this.selectDept = false;
@@ -196,6 +322,9 @@ var CreateAgentComponent = (function () {
             phone: ''
         };
         this.loader = false;
+        this.listOfAdmins = [];
+        this.updatedlistOfAdmins = [];
+        this.showThis = false;
     }
     /** Function to be executed when component initializes */
     CreateAgentComponent.prototype.ngOnInit = function () {
@@ -218,12 +347,13 @@ var CreateAgentComponent = (function () {
                 /** Perform operation is present mode is edit mode */
                 _this.selectDept = true;
                 _this.userId = _this.activatedRoute.snapshot.params['id'];
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["l" /* GetToEditAgentAttempt */]({ agentId: _this.userId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["r" /* GetToEditAgentAttempt */]({ agentId: _this.userId }));
                 _this.updateAgent = _this.store.select('afterLogin')
                     .map(function (data) { return data.agent.toEdit; })
                     .distinctUntilChanged()
                     .subscribe(function (agent) {
                     if (agent) {
+                        _this.adminUserId = agent.parent_id;
                         _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["k" /* GetDepartmentListAttempt */]({ userId: agent.parent_id }));
                         _this.agent.parentId = agent.parent_id;
                         _this.agent.firstName = agent.first_name;
@@ -232,6 +362,7 @@ var CreateAgentComponent = (function () {
                         _this.agent.email = agent.email;
                         _this.agent.phone = agent.phone;
                         _this.agent.departmentId = agent.department_id;
+                        _this.adminName = agent.admin_first_name + ' ' + agent.admin_last_name;
                     }
                 });
                 _this.selectAdmin = true;
@@ -244,7 +375,7 @@ var CreateAgentComponent = (function () {
                 _this.loader = false;
                 _this.form.reset();
                 _this.selectDept = false;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["n" /* ResetAgentForm */]());
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["t" /* ResetAgentForm */]());
                 if (!!_this.loggedInAdminId) {
                     _this.form.form.patchValue({ parentId: _this.loggedInAdminId, departmentId: 0 });
                 }
@@ -255,6 +386,27 @@ var CreateAgentComponent = (function () {
             departmentName: '',
             departmentDetails: ''
         };
+        this.adminList = this.store.select('afterLogin').map(function (data) { return data; })
+            .subscribe(function (data) {
+            if (data.admin.list) {
+                _this.listOfAdmins = data.admin.list;
+            }
+        });
+    };
+    CreateAgentComponent.prototype.checkAdminname = function ($event) {
+        this.showThis = true;
+        return this.updatedlistOfAdmins = this.listOfAdmins.filter(function (item) { return item.first_name.toLowerCase().indexOf($event) !== -1; });
+    };
+    CreateAgentComponent.prototype.assignValue = function (id, first_name, last_name) {
+        this.agent.parentId = id;
+        this.adminName = first_name + ' ' + last_name;
+        this.showThis = false;
+        this.adminChanged(id);
+    };
+    CreateAgentComponent.prototype.resetList = function () {
+        this.adminName = "";
+        this.showThis = true;
+        this.agent.parentId = 0;
     };
     CreateAgentComponent.prototype.ngAfterViewChecked = function () {
         this.cdr.detectChanges();
@@ -321,7 +473,15 @@ var CreateAgentComponent = (function () {
     };
     /** function to create a department */
     CreateAgentComponent.prototype.onCreateDep = function (form) {
+        var _this = this;
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["c" /* AddDepartmentAttempt */](form.value));
+        this.afterLoginSubscription = this.store.select('afterLogin')
+            .map(function (data) { return data.department.newDepartmentId; })
+            .subscribe(function (data) {
+            if (data) {
+                _this.agent.departmentId = data;
+            }
+        });
         this.bsModalRef.hide();
     };
     return CreateAgentComponent;
@@ -336,10 +496,10 @@ CreateAgentComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/agent/create-agent/create-agent.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/agent/create-agent/create-agent.component.css")],
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap_modal__["a" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap_modal__["a" /* BsModalService */]) === "function" && _f || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap_modal__["a" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap_modal__["a" /* BsModalService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _g || Object])
 ], CreateAgentComponent);
 
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g;
 //# sourceMappingURL=create-agent.component.js.map
 
 /***/ }),
@@ -352,7 +512,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "@media screen and (max-width:1024px){\n    .box{\n      overflow-x: scroll;\n  }\n  }\n.filter{\n  padding-bottom: 10px;\n}\n", ""]);
 
 // exports
 
@@ -365,7 +525,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/agent/list-agent/list-agent.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n  <section class=\"content-header\">\n    <h1>Agent List</h1>\n    <ol class=\"breadcrumb\">\n      <li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>\n      <li><a href=\"javascript:void(0)\">Agent</a></li>\n      <li class=\"active\"><a href=\"javascript:void(0)\">List</a></li>\n    </ol>\n  </section>\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <h3 class=\"box-title\">Agent List</h3>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n              <div class=\"row\">\n                <div class=\"col-sm-6\">Search : <input [(ngModel)]=\"term\" placeholder=\"keyword\"></div>\n                <div class=\"col-sm-6\"></div></div><div class=\"row\"><div class=\"col-sm-12\">\n              <table id=\"agentListTable\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n              <thead>\n              <tr role=\"row\">\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">First Name </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Last Name </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Company </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Email </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" aria-label=\"CSS grade: activate to sort column ascending\">Phone</th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Register Date </th>\n                <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\" aria-label=\"CSS grade: activate to sort column ascending\">Action</th>\n              </tr>\n              </thead>\n              <tbody>\n              <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (afterLoginState | async).agent.list | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                <td>{{i+1}}</td>\n                <td>{{item.first_name}}</td>\n                <td>{{item.last_name}}</td>\n                <td>{{item.get_company?.company}}</td>\n                <td>{{item.email}}</td>\n                <td>{{item.phone}}</td>\n                <td>{{item.created_at | date}}</td>\n                <td>\n                  <!-- Single button -->\n                  <div class=\"btn-group\" [appDropdown]=\"'open'\" [disable-hover]=\"true\">\n                    <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      Action <span class=\"caret\"></span>\n                    </button>\n                    <ul class=\"dropdown-menu\">\n                      <li> <a (click)=\"onEditAgent(item.id)\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>Edit</a> </li>\n                      <li *ngIf=\"item.profile_status == '1'\"> <a (click)=\"blockUser(item.id)\"><i class=\"fa fa-lock\" aria-hidden=\"true\"></i>Block</a> </li>\n                      <li *ngIf=\"item.profile_status == '2'\"> <a (click)=\"UnblockUser(item.id)\"><i class=\"fa fa-unlock\" aria-hidden=\"true\"></i>Unblock</a> </li>\n                    </ul>\n                  </div>\n                </td>\n              </tr>\n              </tbody>\n            </table>\n              <div class=\"row\">\n                <pagination-controls class=\"older_post_text\"\n                                     (pageChange)=\"page=$event\"\n                                     maxSize=\"9\"\n                                     directionLinks=\"true\"\n                                     autoHide=\"true\"\n                                     previousLabel=\"\"\n                                     nextLabel=\"\"\n                                     screenReaderPaginationLabel=\"\"\n                                     screenReaderPageLabel=\"page\"\n                                     screenReaderCurrentLabel=\"You're on page\">\n                </pagination-controls>\n              </div>\n            </div>\n            </div>\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n        <!-- /.box -->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"content-header\">-->\n    <!--<h1>Agent List</h1>-->\n    <!--<ol class=\"breadcrumb\">-->\n      <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n      <!--<li><a href=\"javascript:void(0)\">Agent</a></li>-->\n      <!--<li class=\"active\"><a href=\"javascript:void(0)\">List</a></li>-->\n    <!--</ol>-->\n  <!--</section>-->\n  <section class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-xs-12\">\n        <div class=\"box\">\n          <div class=\"box-header\">\n            <h3 class=\"box-title\">Agent List</h3>\n          </div>\n          <!-- /.box-header -->\n          <div class=\"box-body\">\n            <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n              <div class=\"row filter\">\n                <div class=\"col-sm-4\" *ngIf=\"!(authState | async).isAdmin;\">\n                  company :\n                  <select class='select-option' [(ngModel)]='companySearch'>\n                    <option value=\"\">Filter by company</option>\n                    <option class='option' *ngFor='let option of companyList' [value]=\"option.company\">{{option.company}}</option>\n                  </select>\n                </div>\n                <div class=\"col-sm-8\">Search : <input [(ngModel)]=\"term\" placeholder=\"All keywords\"></div>\n              </div>\n              <div class=\"row\">\n                <div class=\"col-sm-12\">\n                  <table id=\"agentListTable\" class=\"table table-bordered table-hover dataTable\" role=\"grid\"\n                         aria-describedby=\"example2_info\">\n                    <thead>\n                    <tr role=\"row\">\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">#</th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\">First Name\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\">Last Name\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\">Company\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\">Email</th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          aria-label=\"CSS grade: activate to sort column ascending\">Phone\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          class=\"mdl-data-table__cell--non-numeric\">Register Date\n                      </th>\n                      <th tabindex=\"0\" aria-controls=\"example2\" rowspan=\"1\" colspan=\"1\"\n                          aria-label=\"CSS grade: activate to sort column ascending\">Action\n                      </th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    <tr role=\"row\" class=\"odd\"\n                        *ngFor=\"let item of (afterLoginState | async).agent.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                      <td>{{i+1}}</td>\n                      <td>{{item.first_name}}</td>\n                      <td>{{item.last_name}}</td>\n                      <td>{{item.get_company?.company}}</td>\n                      <td>{{item.email}}</td>\n                      <td>{{item.phone}}</td>\n                      <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>\n                      <td>\n                        <!-- Single button -->\n                        <div class=\"btn-group\" [appDropdown]=\"'open'\" [disable-hover]=\"true\">\n                          <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\"\n                                  aria-haspopup=\"true\" aria-expanded=\"false\">\n                            Action <span class=\"caret\"></span>\n                          </button>\n                          <ul class=\"dropdown-menu\">\n                            <li><a (click)=\"onEditAgent(item.id)\"><i class=\"fa fa-pencil\"\n                                                                     aria-hidden=\"true\"></i>Edit</a></li>\n                            <!--<li *ngIf=\"item.profile_status == '1'\"> <a (click)=\"blockUser(item.id)\"><i class=\"fa fa-lock\" aria-hidden=\"true\"></i>Block</a> </li>-->\n                            <!--<li *ngIf=\"item.profile_status == '2'\"> <a (click)=\"UnblockUser(item.id)\"><i class=\"fa fa-unlock\" aria-hidden=\"true\"></i>Unblock</a> </li>-->\n                          </ul>\n                        </div>\n                      </td>\n                    </tr>\n                    </tbody>\n                  </table>\n                  <div class=\"row\">\n                    <pagination-controls class=\"older_post_text\"\n                                         (pageChange)=\"page=$event\"\n                                         maxSize=\"9\"\n                                         directionLinks=\"true\"\n                                         autoHide=\"true\"\n                                         previousLabel=\"\"\n                                         nextLabel=\"\"\n                                         screenReaderPaginationLabel=\"\"\n                                         screenReaderPageLabel=\"page\"\n                                         screenReaderCurrentLabel=\"You're on page\">\n                    </pagination-controls>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <!-- /.box-body -->\n        </div>\n        <!-- /.box -->\n      </div>\n      <!-- /.col -->\n    </div>\n    <!-- /.row -->\n  </section>\n</div>\n"
 
 /***/ }),
 
@@ -405,9 +565,22 @@ var ListAgentComponent = (function () {
     }
     /** Function to be executed when component initializes */
     ListAgentComponent.prototype.ngOnInit = function () {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["k" /* GetAgentListAttempt */]());
+        var _this = this;
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["p" /* GetAgentListAttempt */]());
+        this.authState = this.store.select('auth');
         this.page = 1;
+        this.companySearch = '';
         this.afterLoginState = this.store.select('afterLogin');
+        this.authSubscription = this.store.select('auth')
+            .subscribe(function (data) {
+            if (data.isSuperAdmin) {
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["q" /* GetCompanyListAttempt */]({ userId: data.token }));
+            }
+        });
+        /* Company List droupdown */
+        this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(function (data) {
+            _this.companyList = data.comapnyList;
+        });
     };
     /** Function to Edit Agent */
     ListAgentComponent.prototype.onEditAgent = function (id) {
@@ -422,6 +595,10 @@ var ListAgentComponent = (function () {
             this.reverse = !this.reverse;
         }
         this.order = value;
+    };
+    /** Un-subscribe from all subscription when component destroys */
+    ListAgentComponent.prototype.ngOnDestroy = function () {
+        // this.companySubscription.unsubscribe();
     };
     return ListAgentComponent;
 }());
