@@ -4145,30 +4145,32 @@ function twilioReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_WIDGET_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EDIT_WIDGET_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_WIDGET_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_WIDGET_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_WIDGET_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return RESET_WIDGET_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_WIDGET_TO_EDIT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_WIDGET_TO_EDIT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TIMEZONE_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_TIMEZONE_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_NUMBER_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_WIDGET_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_WIDGET_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return RESET_WIDGET_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_WIDGET_TO_EDIT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_WIDGET_TO_EDIT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_TIMEZONE_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TIMEZONE_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_NUMBER_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_NUMBER_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_NUMBER_LIST_ERROR; });
 /* unused harmony export GetWidgetAttempt */
 /* unused harmony export GetWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddWidgetAttempt; });
 /* unused harmony export AddWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EditWidgetAttempt; });
 /* unused harmony export EditWidgetSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetWidgetListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetWidgetListAttempt; });
 /* unused harmony export GetWidgetListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return ResetWidgetForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetTimeZoneListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return ResetWidgetForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetTimeZoneListAttempt; });
 /* unused harmony export GetTimeZoneListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetWidgetToEditAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GetWidgetToEditAttempt; });
 /* unused harmony export GetWidgetToEditSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetNumberListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetNumberListAttempt; });
 /* unused harmony export GetNumberListSuccess */
+/* unused harmony export GetNumberListError */
 var GET_WIDGET_ATTEMPT = 'GET_WIDGET_ATTEMPT';
 var GET_WIDGET_SUCCESS = 'GET_WIDGET_SUCCESS';
 var ADD_WIDGET_ATTEMPT = 'ADD_WIDGET_ATTEMPT';
@@ -4184,6 +4186,7 @@ var GET_TIMEZONE_LIST_SUCCESS = 'GET_TIMEZONE_LIST_SUCCESS';
 var GET_TIMEZONE_LIST_ATTEMPT = 'GET_TIMEZONE_LIST_ATTEMPT';
 var GET_NUMBER_LIST_SUCCESS = 'GET_NUMBER_LIST_SUCCESS';
 var GET_NUMBER_LIST_ATTEMPT = 'GET_NUMBER_LIST_ATTEMPT';
+var GET_NUMBER_LIST_ERROR = 'GET_NUMBER_LIST_ERROR';
 var GetWidgetAttempt = (function () {
     function GetWidgetAttempt() {
         this.type = GET_WIDGET_ATTEMPT;
@@ -4301,6 +4304,14 @@ var GetNumberListSuccess = (function () {
     return GetNumberListSuccess;
 }());
 
+var GetNumberListError = (function () {
+    function GetNumberListError(payload) {
+        this.payload = payload;
+        this.type = GET_NUMBER_LIST_ERROR;
+    }
+    return GetNumberListError;
+}());
+
 //# sourceMappingURL=widget.actions.js.map
 
 /***/ }),
@@ -4358,7 +4369,7 @@ var WidgetEffects = (function () {
         this.httpClient = httpClient;
         this.spinnerService = spinnerService;
         this.getTimezoneList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_TIMEZONE_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-timezone';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4369,7 +4380,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_TIMEZONE_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_TIMEZONE_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4426,7 +4437,7 @@ var WidgetEffects = (function () {
             });
         });
         this.getWidgetList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_WIDGET_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_WIDGET_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4437,7 +4448,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_WIDGET_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4494,7 +4505,7 @@ var WidgetEffects = (function () {
             });
         });
         this.widgetToEdit = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'viewWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4505,7 +4516,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_TO_EDIT_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["o" /* GET_WIDGET_TO_EDIT_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4537,14 +4548,14 @@ var WidgetEffects = (function () {
                 if (res.status) {
                     _this.spinnerService.hide();
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_SUCCESS */],
                         payload: res.data
                     };
                 }
                 else {
                     _this.spinnerService.hide();
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */],
                         payload: { message: res.message, type: 'danger' }
                     };
                 }
@@ -4552,7 +4563,7 @@ var WidgetEffects = (function () {
                 .catch(function (err) {
                 _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
-                    type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */],
                     payload: { message: err.error, type: 'danger' }
                 });
             });
@@ -4615,23 +4626,28 @@ var initialState = {
     toEdit: {},
     resetWidgetForm: false,
     timezoneList: [],
-    numbers: []
+    numbers: [],
+    newSuccessBuyNumberCall: false,
+    numberError: false,
+    numberMessage: ''
 };
 function widgetReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["b" /* ADD_WIDGET_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetWidgetForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["l" /* GET_WIDGET_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["m" /* GET_WIDGET_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["j" /* GET_TIMEZONE_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["k" /* GET_TIMEZONE_LIST_SUCCESS */]):
             return __assign({}, state, { timezoneList: action.payload.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["s" /* RESET_WIDGET_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["t" /* RESET_WIDGET_FORM */]):
             return __assign({}, state, { resetWidgetForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["n" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["o" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
             return __assign({}, state, { toEdit: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["h" /* GET_NUMBER_LIST_SUCCESS */]):
-            return __assign({}, state, { numbers: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["i" /* GET_NUMBER_LIST_SUCCESS */]):
+            return __assign({}, state, { numbers: action.payload, newSuccessBuyNumberCall: true });
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */]):
+            return __assign({}, state, { numbers: [], newSuccessBuyNumberCall: false, numberError: true, numberMessage: action.payload.message });
         default:
             return state;
     }
