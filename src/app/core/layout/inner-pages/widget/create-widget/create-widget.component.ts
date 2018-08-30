@@ -15,7 +15,6 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {AmazingTimePickerService} from 'amazing-time-picker';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 interface FileReaderEventTarget extends EventTarget {
   result: string;
@@ -95,8 +94,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
               private cdr: ChangeDetectorRef,
               private element: ElementRef,
               private atp: AmazingTimePickerService,
-              private router: Router,
-              private spinnerService: Ng4LoadingSpinnerService) {
+              private router: Router) {
 
   }
 
@@ -396,7 +394,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
    */
   buyNumber(areaCode, contains) {
     if (areaCode || contains) {
-      this.spinnerService.show();
       this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
     } else {

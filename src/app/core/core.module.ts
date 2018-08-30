@@ -21,7 +21,6 @@ import { reducers } from './store/core.reducers';
 import { SharedModule } from './shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import {ChatService} from './layout/inner-pages/chat/chat.service';
-import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   imports: [
@@ -34,7 +33,6 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    Ng4LoadingSpinnerModule
   ],
   declarations: [
     CoreComponent,
