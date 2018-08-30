@@ -11,7 +11,6 @@ import 'rxjs/add/operator/take';
 import { PushNotificationsService } from '../../../shared/push.notification.service';
 @Injectable()
 export class ChatService implements OnInit, OnDestroy {
-  private title = 'Browser Push Notifications!';
     socket: any;
     loggedInAgentId: number;
     loggedInAgentName: string;
@@ -101,13 +100,15 @@ export class ChatService implements OnInit, OnDestroy {
                         });
 
                         this.socket.on('newmsg', (data) => {
-                            const dataMessage: Array < any > = [];
-                            dataMessage.push({
-                              'title': data.user,
-                              'alertContent': data.message
+                            if (data.direction === 1) {
+                              const dataMessage: Array<any> = [];
+                              dataMessage.push({
+                                'title': data.user,
+                                'alertContent': data.message
 
-                            });
-                            this._notificationService.generateNotification(dataMessage);
+                              });
+                              this._notificationService.generateNotification(dataMessage);
+                            }
                             this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
                         });
 
