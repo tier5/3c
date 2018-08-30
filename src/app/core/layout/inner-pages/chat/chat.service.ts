@@ -48,6 +48,7 @@ export class ChatService implements OnInit, OnDestroy {
 
                         // When agent added to any room
                         this.socket.on('agent-added-to-room', (data) => {
+                          console.log('added', data);
                             // console.log('agent-added-to-room', data.name);
                             this.store.dispatch(new ChatActions.AddToChatList(data));
                         });

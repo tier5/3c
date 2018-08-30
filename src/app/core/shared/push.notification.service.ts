@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import {Howl, Howler} from 'howler';
 
 @Injectable()
 
@@ -21,7 +22,7 @@ export class PushNotificationsService {
 
   requestPermission(): void {
 
-    let self = this;
+    const self = this;
 
     if ('Notification' in window) {
 
@@ -35,9 +36,9 @@ export class PushNotificationsService {
 
   }
 
-  create(title: string, options ? : PushNotification): any {
+  create(title: string, options ?: PushNotification): any {
 
-    let self = this;
+    const self = this;
 
     return new Observable(function(obs) {
 
@@ -51,13 +52,13 @@ export class PushNotificationsService {
 
       if (self.permission !== 'granted') {
 
-        console.log("The user hasn't granted you permission to send push notifications");
+        console.log('The user hasn\'t granted you permission to send push notifications');
 
         obs.complete();
 
       }
 
-      let _notify = new Notification(title, options);
+      const _notify = new Notification(title, options);
 
       _notify.onshow = function(e) {
 
@@ -107,21 +108,26 @@ export class PushNotificationsService {
 
   generateNotification(source: Array < any > ): void {
 
-    let self = this;
+    const self = this;
 
     source.forEach((item) => {
 
-      let options = {
+      const options = {
 
         body: item.alertContent,
 
         icon: '../../../assets/img/avatar.png'
 
       };
+      const sound = new Howl({
+        src: ['../../../assets/to-the-point.mp3']
+      });
 
-      let notify = self.create(item.title, options).subscribe();
+      sound.play();
 
-    })
+      const notify = self.create(item.title, options).subscribe();
+
+    });
 
   }
 
@@ -131,28 +137,28 @@ export declare type Permission = 'denied' | 'granted' | 'default';
 
 export interface PushNotification {
 
-  body ? : string;
+  body ?: string;
 
-  icon ? : string;
+  icon ?: string;
 
-  tag ? : string;
+  tag ?: string;
 
-  data ? : any;
+  data ?: any;
 
-  renotify ? : boolean;
+  renotify ?: boolean;
 
-  silent ? : boolean;
+  silent ?: boolean;
 
-  sound ? : string;
+  sound ?: string;
 
-  noscreen ? : boolean;
+  noscreen ?: boolean;
 
-  sticky ? : boolean;
+  sticky ?: boolean;
 
-  dir ? : 'auto' | 'ltr' | 'rtl';
+  dir ?: 'auto' | 'ltr' | 'rtl';
 
-  lang ? : string;
+  lang ?: string;
 
-  vibrate ? : number[];
+  vibrate ?: number[];
 
 }
