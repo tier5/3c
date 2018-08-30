@@ -1,23 +1,23 @@
-import {Injectable, Component, NgModule, OnInit,OnDestroy} from '@angular/core'
-import { Store } from '@ngrx/store'
-import io from 'socket.io-client'
-import 'rxjs/add/operator/distinctUntilChanged'
-import 'rxjs/add/operator/map'
-import * as moment from 'moment'
-import { environment } from '../../../../../environments/environment'
-import * as fromAfterLogin from '../../store/after-login.reducers'
-import * as ChatActions from '../../store/chat/chat.actions'
-import 'rxjs/add/operator/take'
-
+import {Injectable, Component, NgModule, OnInit, OnDestroy} from '@angular/core';
+import { Store } from '@ngrx/store';
+import io from 'socket.io-client';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
+import * as moment from 'moment';
+import { environment } from '../../../../../environments/environment';
+import * as fromAfterLogin from '../../store/after-login.reducers';
+import * as ChatActions from '../../store/chat/chat.actions';
+import 'rxjs/add/operator/take';
+import { PushNotificationsService } from '../../../shared/push.notification.service';
 @Injectable()
 export class ChatService implements OnInit, OnDestroy {
+  private title = 'Browser Push Notifications!';
+    socket: any;
+    loggedInAgentId: number;
+    loggedInAgentName: string;
 
-    socket: any
-    loggedInAgentId: number
-    loggedInAgentName: string
-
-    constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>) {
-        //  console.log('IN SERVICE');
+    constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>, private _notificationService: PushNotificationsService) {
+      this._notificationService.requestPermission();
     }
 
 
@@ -29,7 +29,7 @@ export class ChatService implements OnInit, OnDestroy {
             .subscribe(
                 (id) => {
                     // console.log(id);
-                    if(id!=null) {
+                    if (id != null) {
 
                         this.loggedInAgentId = id;
                         // To get all the agents and the rooms they are assigned to
@@ -64,10 +64,10 @@ export class ChatService implements OnInit, OnDestroy {
                                 this.store.dispatch(new ChatActions.EditFromChatList({
                                     status: data.status,
                                     room_number: data.chatRoomId
-                                }))
+                                }));
                             } else {
-                                this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
-                                this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
+                                this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
+                                this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}));
                             }
                         });
 
@@ -75,7 +75,7 @@ export class ChatService implements OnInit, OnDestroy {
                         this.socket.on('which-agent-rejected', (data) => {
                             // console.log('which-agent-rejected: ', data);
                             if (data.agentId == this.loggedInAgentId) {
-                                this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
+                                this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}));
                                 this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
                             }
                         });
@@ -87,27 +87,34 @@ export class ChatService implements OnInit, OnDestroy {
                                 this.store.dispatch(new ChatActions.EditFromChatList({
                                     status: data.status,
                                     room_number: data.chatRoomId
-                                }))
+                                }));
                                 this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
                             }
-                        })
+                        });
 
                         this.socket.on('which-agent-transferred', (data) => {
                             // console.log('which-agent-transferred: ', data);
                             if (data.agentId == this.loggedInAgentId) {
-                                this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId})
-                                this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}))
+                                this.socket.emit('remove-agent-from-room', {room_number: data.chatRoomId});
+                                this.store.dispatch(new ChatActions.DeleteFromChatList({room_number: data.chatRoomId}));
                             }
-                        })
+                        });
 
                         this.socket.on('newmsg', (data) => {
-                            this.store.dispatch(new ChatActions.AddNewMsgToChatList(data))
-                        })
+                            const dataMessage: Array < any > = [];
+                            dataMessage.push({
+                              'title': data.user,
+                              'alertContent': data.message
+
+                            });
+                            this._notificationService.generateNotification(dataMessage);
+                            this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
+                        });
 
                     }
 
                 }
-            )
+            );
 
         this.store.select('auth')
             .subscribe(
@@ -115,7 +122,7 @@ export class ChatService implements OnInit, OnDestroy {
                     this.loggedInAgentName = data.name;
                     this.loggedInAgentId = data.userId;
                 }
-            )
+            );
     }
     ngOnInit() {
 
@@ -132,24 +139,24 @@ export class ChatService implements OnInit, OnDestroy {
             user: this.loggedInAgentName,
             direction: 2,
             time: moment()
-        }
-        this.socket.emit('msg', obj)
+        };
+        this.socket.emit('msg', obj);
     }
 
     sendResolveConfirmation (data) {
-        this.socket.emit('resolve-chat-request', data)
+        this.socket.emit('resolve-chat-request', data);
     }
 
     getLoggedInAgentDetails() {
         return {
             loggedInAgentId: this.loggedInAgentId,
             loggedInAgentName: this.loggedInAgentName
-        }
+        };
     }
 
     socketDisconnect() {
         // console.log("disconnecting");
-        if(this.socket) {
+        if (this.socket) {
             this.socket.emit('agent-disconnected');
         }
 

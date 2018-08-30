@@ -21,6 +21,7 @@ import { reducers } from './store/core.reducers';
 import { SharedModule } from './shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import {ChatService} from './layout/inner-pages/chat/chat.service';
+import { PushNotificationsService } from './shared/push.notification.service';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import {ChatService} from './layout/inner-pages/chat/chat.service';
     IsSuperAdminGuard,
     NotAuthGuard,
     ChatService,
+    PushNotificationsService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
 })
