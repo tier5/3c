@@ -109,6 +109,9 @@ export class ChatService implements OnInit, OnDestroy {
                           window.onblur = function () {
                             isTabActive = false;
                           };
+                          setInterval(function () {
+                            console.log(isTabActive ? 'active' : 'inactive');
+                          }, 1000);
 
                           if (data.direction === 1 && !isTabActive) {
                             console.log(isTabActive);
