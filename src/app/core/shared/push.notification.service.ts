@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import {Howl, Howler} from 'howler';
+import {Router} from '@angular/router';
 
 @Injectable()
 
@@ -8,7 +9,7 @@ export class PushNotificationsService {
 
   public permission: Permission;
 
-  constructor() {
+  constructor( private router: Router) {
 
     this.permission = this.isSupported() ? 'default' : 'denied';
 
@@ -107,7 +108,6 @@ export class PushNotificationsService {
   }
 
   generateNotification(source: Array < any > ): void {
-
     const self = this;
 
     source.forEach((item) => {

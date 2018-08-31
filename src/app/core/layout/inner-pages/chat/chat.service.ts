@@ -48,7 +48,6 @@ export class ChatService implements OnInit, OnDestroy {
 
                         // When agent added to any room
                         this.socket.on('agent-added-to-room', (data) => {
-                          console.log('added', data);
                             // console.log('agent-added-to-room', data.name);
                             this.store.dispatch(new ChatActions.AddToChatList(data));
                         });
@@ -101,16 +100,27 @@ export class ChatService implements OnInit, OnDestroy {
                         });
 
                         this.socket.on('newmsg', (data) => {
-                            if (data.direction === 1) {
-                              const dataMessage: Array<any> = [];
-                              dataMessage.push({
-                                'title': data.user,
-                                'alertContent': data.message
+                          let isTabActive = false;
 
-                              });
-                              this._notificationService.generateNotification(dataMessage);
-                            }
-                            this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
+                          window.onfocus = function () {
+                            isTabActive = true;
+                          };
+
+                          window.onblur = function () {
+                            isTabActive = false;
+                          };
+
+                          if (data.direction === 1 && !isTabActive) {
+                            console.log(isTabActive);
+                            const dataMessage: Array<any> = [];
+                            dataMessage.push({
+                              'title': data.user,
+                              'alertContent': data.message
+
+                            });
+                            this._notificationService.generateNotification(dataMessage);
+                          }
+                          this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
                         });
 
                     }
