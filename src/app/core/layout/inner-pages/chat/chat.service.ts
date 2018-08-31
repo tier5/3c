@@ -9,13 +9,16 @@ import * as fromAfterLogin from '../../store/after-login.reducers';
 import * as ChatActions from '../../store/chat/chat.actions';
 import 'rxjs/add/operator/take';
 import { PushNotificationsService } from '../../../shared/push.notification.service';
+import {NotificationAlertService} from '../../../shared/notification.alert.service';
+
 @Injectable()
 export class ChatService implements OnInit, OnDestroy {
     socket: any;
     loggedInAgentId: number;
     loggedInAgentName: string;
-
-    constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>, private _notificationService: PushNotificationsService) {
+    notification: boolean = true;
+    constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>, private _notificationService: PushNotificationsService,
+                 private _isNotification: NotificationAlertService) {
       this._notificationService.requestPermission();
     }
 
@@ -100,21 +103,9 @@ export class ChatService implements OnInit, OnDestroy {
                         });
 
                         this.socket.on('newmsg', (data) => {
-                          let isTabActive = false;
-
-                          window.onfocus = function () {
-                            isTabActive = true;
-                          };
-
-                          window.onblur = function () {
-                            isTabActive = false;
-                          };
-                          setInterval(function () {
-                            console.log(isTabActive ? 'active' : 'inactive');
-                          }, 1000);
-
-                          if (data.direction === 1 && !isTabActive) {
-                            console.log(isTabActive);
+                          this.notification = this._isNotification.getIsNotification();
+                          console.log('notification', this.notification);
+                          if (data.direction === 1 && this.notification) {
                             const dataMessage: Array<any> = [];
                             dataMessage.push({
                               'title': data.user,

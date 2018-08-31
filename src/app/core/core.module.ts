@@ -22,6 +22,7 @@ import { SharedModule } from './shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import {ChatService} from './layout/inner-pages/chat/chat.service';
 import { PushNotificationsService } from './shared/push.notification.service';
+import {NotificationAlertService} from './shared/notification.alert.service';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { PushNotificationsService } from './shared/push.notification.service';
     NotAuthGuard,
     ChatService,
     PushNotificationsService,
+    NotificationAlertService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
 })

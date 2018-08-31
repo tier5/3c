@@ -16,7 +16,6 @@ import {filterQueryId} from "../../../../../../../node_modules/@angular/core/src
   templateUrl: './ongoing.component.html',
   styleUrls: ['./ongoing.component.css']
 })
-
 export class OngoingComponent implements OnInit, OnDestroy {
 
   chatState: Observable<fromChat.ChatState>;
@@ -28,10 +27,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
   departmentId : number;
   transferData : any;
   chatRoomIdChangeDetection: boolean = false;
-  
+
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) { }
-  
+              private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) {  }
+
   ngOnInit() {
     this.chatService.connect();
     this.chatState = this.store.select('afterLogin').map(data => data.chat);
