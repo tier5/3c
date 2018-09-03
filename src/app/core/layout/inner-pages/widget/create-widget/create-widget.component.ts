@@ -400,7 +400,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
       this.store.select('afterLogin','widget','buttonLoader').map(data => data).subscribe(
           (data) => {
-              if (data === 'danger') {
+              if (data === 'danger' || data === 'success') {
                   this.buyButtonLoader = false;
               }
           }

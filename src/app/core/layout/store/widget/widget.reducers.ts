@@ -57,7 +57,7 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
     case (WidgetActions.GET_NUMBER_LIST_SUCCESS):
       return {
         ...state,
-        numbers: action.payload,
+        numbers: action.payload.res,
         newSuccessBuyNumberCall: true,
         buttonLoader:action.payload.type,
       }
@@ -68,7 +68,7 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
         newSuccessBuyNumberCall: false,
         numberError: true,
         numberMessage: action.payload.message,
-        buttonLoader:action.payload.type
+        buttonLoader: action.payload.type
       }
     default:
       return state;

@@ -43,6 +43,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       'userId': new FormControl(null, Validators.required),
       'firstName': new FormControl(null, Validators.required),
       'lastName': new FormControl(null, Validators.required),
+       'company': new FormControl(null),
       'phone': new FormControl(null, [Validators.required, Validators.minLength(14)]),
       'email': new FormControl({value: null, disabled: true}, [Validators.required, Validators.email])
     });
@@ -75,7 +76,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
               userId: uInfo.id,
               firstName: uInfo.first_name,
               lastName: uInfo.last_name,
-              userName: uInfo.username,
+              company: uInfo.company,
               phone: uInfo.phone,
               email: uInfo.email
             });
