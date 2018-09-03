@@ -358,7 +358,7 @@ class UserController extends Controller
               'error'   => false,
               'status'  => true,
               'response'=> [],
-              'message' => 'Your Password Updated Successfully!'
+              'message' => 'Password Updated !'
             ]);
 
         } else {
@@ -1386,7 +1386,7 @@ class UserController extends Controller
                         'error'   => false,
                         'status'  => true,
                         'response'=> [],
-                        'message' => 'Password Updated,Login With new Password !'
+                        'message' => 'Password Updated !'
                     ]);
                 }else{
                     return Response()->json([
