@@ -10,6 +10,7 @@ export interface WidgetState {
   newSuccessBuyNumberCall: boolean;
   numberError: boolean;
   numberMessage: any;
+  buttonLoader:any;
 }
 
 const initialState: WidgetState = {
@@ -21,7 +22,8 @@ const initialState: WidgetState = {
   numbers: [],
   newSuccessBuyNumberCall: false,
   numberError: false,
-  numberMessage: ''
+  numberMessage: '',
+  buttonLoader:''
 };
 
 export function widgetReducer (state = initialState, action: WidgetActions.WidgetActions) {
@@ -56,7 +58,8 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
       return {
         ...state,
         numbers: action.payload,
-        newSuccessBuyNumberCall: true
+        newSuccessBuyNumberCall: true,
+        buttonLoader:action.payload.type,
       }
       case (WidgetActions.GET_NUMBER_LIST_ERROR):
       return {
@@ -64,7 +67,8 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
         numbers: [],
         newSuccessBuyNumberCall: false,
         numberError: true,
-        numberMessage: action.payload.message
+        numberMessage: action.payload.message,
+        buttonLoader:action.payload.type
       }
     default:
       return state;

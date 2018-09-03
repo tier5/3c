@@ -87,6 +87,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
   numberErrorMessage = '';
   isBuyNumber = false;
   availableNumbers = [];
+  buyButtonLoader = false;
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
@@ -394,11 +395,21 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
    */
   buyNumber(areaCode, contains) {
     if (areaCode || contains) {
+      this.buyButtonLoader = true;
       this.isBuyNumber = true;
       this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
+      this.store.select('afterLogin','widget','buttonLoader').map(data => data).subscribe(
+          (data) => {
+              if (data === 'danger') {
+                  this.buyButtonLoader = false;
+              }
+          }
+      );
+
     } else {
       this.numberErrorMessage = 'Please put area code or number contains for buy any number.';
       this.numberError = true;
+      this.buyButtonLoader = false;
     }
   }
 }

@@ -212,12 +212,12 @@ export class WidgetEffects {
           if (res.status) {
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,
-              payload: res.data
+              payload:  { res:res.data, type:'success' }
             };
           } else {
             return {
               type: WidgetActions.GET_NUMBER_LIST_ERROR,
-              payload: {message: res.message, type: 'danger'}
+              payload: { message: res.message, type: 'danger' }
             };
           }
         })
@@ -225,7 +225,7 @@ export class WidgetEffects {
           return of(
             {
               type: WidgetActions.GET_NUMBER_LIST_ERROR,
-              payload: {message: err.error, type: 'danger'}
+              payload: { message: err.error, type: 'danger' }
             }
           );
         });
