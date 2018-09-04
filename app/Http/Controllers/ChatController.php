@@ -7,6 +7,7 @@ use App\Model\MessageAgentTrack;
 use App\Model\TwilioNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Response;
 use App\Model\Widgets;
 use App\Model\Users;
@@ -126,6 +127,7 @@ class ChatController extends Controller
                                 $this->createSmsTemplate($fromNumber, $widgetUuid);
                                 $this->checkResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
                             } else {
+                                $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $updateMessageCache->id);
                                 $responseMessageCacheData = $this->saveMessageCacheData($messageBody, $updateMessageCache->id);
                                 //$this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
                                 $this->checkSingleResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $updateMessageCache->id);
@@ -670,6 +672,62 @@ class ChatController extends Controller
                 'response' => [],
                 'message' => 'Sorry paramiters are not present in the request !'
             ));
+        }
+    }
+
+    public function sendEmail($body, $email)
+    {
+        Log::info($email);
+        $email = trim($email);
+        if ($email != "") {
+            $checkUser = Users::where('email', $email)->first();
+            if (count($checkUser) != 0) {
+                Mail::send('emails.agent-notification', ['body' => $body, 'fname' => $checkUser->first_name], function ($message) use ($checkUser) {
+                    $message->to($checkUser->email, $checkUser->first_name)->subject('3c chat notification');
+                });
+
+                if (Mail::failures()) {
+
+                    return Response()->json([
+                        'code' => 400,
+                        'error' => true,
+                        'status' => false,
+                        'response' => [],
+                        'message' => 'Try Again!!'
+                    ]);
+
+                } else {
+
+                    return Response()->json([
+                        'code' => 200,
+                        'error' => false,
+                        'status' => true,
+                        'response' => [],
+                        'message' => 'Mail Successfully Send To Your Registered Email!!'
+                    ]);
+
+                }
+            } else {
+
+                return Response::json(array(
+                    'status' => false,
+                    'code' => 400,
+                    'error' => true,
+                    'response' => [],
+                    'message' => 'No User Found !'
+                ));
+
+            }
+        } else {
+
+            return Response::json(array(
+                'status' => false,
+                'code' => 400,
+                'error' => true,
+                'response' => [],
+                'message' => 'No User Found !'
+            ));
+
         }
     }
 
@@ -1316,7 +1374,14 @@ class ChatController extends Controller
             $userController = new UserController;
             if(!$userController->userLoginStatus($agentId)){
                 \Log::info('user Logged in now send ');
-                $this->sendSms($smsBody, $agentPhoneNumber, $toNumber);
+                if ($getAgent->is_phone_notification) {
+                    Log::info('phone notification');
+                    $this->sendSms($smsBody, $agentPhoneNumber, $toNumber);
+                }
+                if ($getAgent->is_email_notification) {
+                    Log::info('email notification');
+                    $this->sendEmail($smsBody,$getAgent->email);
+                }
             }
         } else {
 
