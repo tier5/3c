@@ -8,6 +8,8 @@ import { RejectedComponent } from './rejected/rejected.component';
 import { ResolveComponent } from './resolve/resolve.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MomentModule } from 'angular2-moment';
+import { SweetAlertService } from 'ngx-sweetalert2';
+
 
 @NgModule({
   imports: [
@@ -15,7 +17,7 @@ import { MomentModule } from 'angular2-moment';
     ChatRoutingModule,
     FormsModule,
     SharedModule,
-    MomentModule
+    MomentModule,
       
   ],
   declarations: [
@@ -23,6 +25,7 @@ import { MomentModule } from 'angular2-moment';
     OngoingComponent,
     RejectedComponent,
     ResolveComponent
-  ]
+  ],
+    providers:[SweetAlertService]
 })
 export class ChatModule { }

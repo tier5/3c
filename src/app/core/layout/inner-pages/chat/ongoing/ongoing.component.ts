@@ -10,6 +10,7 @@ import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
 import {filterQueryId} from "../../../../../../../node_modules/@angular/core/src/view/util";
+import { SweetAlertService } from 'ngx-sweetalert2';
 
 @Component({
   selector: 'app-ongoing',
@@ -27,9 +28,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
   departmentId : number;
   transferData : any;
   chatRoomIdChangeDetection: boolean = false;
+  openStatus:boolean = false;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router) {  }
+              private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router, private _swal2: SweetAlertService) {  }
 
   ngOnInit() {
     this.chatService.connect();
@@ -69,25 +71,42 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   onSomeMsgAction(status: number) {
-    switch(status) {
-      case 2:
-        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
-        break;
-      case 3:
-        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
-        break;
-      case 4:
-        this.chatService.takeAction(this.transferData);
-        this.changeCurrentChat(0);
-        break;
-      case 5:
-        this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
-        this.changeCurrentChat(0);
-          location.href = '/chat/resolve';
-          break;
-      default:
-        console.log(status);
-    }
+      this._swal2.warning({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+      }).then((result) => {
+          if (result) {
+              this._swal2.error([
+                  'Chat Closed!',
+                  'Your Chat is closed.',
+                  'success']
+              )
+              switch(status) {
+                  case 2:
+                      this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
+                      break;
+                  case 3:
+                      this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
+                      break;
+                  case 4:
+                      this.chatService.takeAction(this.transferData);
+                      this.changeCurrentChat(0);
+                      break;
+                  case 5:
+                      this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
+                      this.changeCurrentChat(0);
+                      location.href = '/chat/resolve';
+                      break;
+                  default:
+                      console.log(status);
+              }
+          }
+      })
   }
 
   getAgentDepartmentList(){
@@ -124,6 +143,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
 
   getLoggedInAgentDetails() {
     return this.chatService.getLoggedInAgentDetails();
+  }
+
+  openDropdown() {
+      this.openStatus = !this.openStatus;
   }
 
   ngOnDestroy() {

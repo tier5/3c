@@ -97,12 +97,16 @@
                                         Company
                                     </label>
                                     <div class="col-sm-10">
-                                        <input type="text"
+                                        <input *ngIf="(authState | async).isAgent" type="text"
                                                class="form-control"
                                                id="company"
                                                formControlName="company"
-                                               placeholder="Name"
-                                        >
+                                               placeholder="Company Name" disabled>
+                                        <input *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin" type="text"
+                                               class="form-control"
+                                               id="company"
+                                               formControlName="company"
+                                               placeholder="Company Name">
                                         <span *ngIf="profileForm.get('company').invalid && profileForm.get('company').touched" class="help-block">Your User Name is Required!</span>
                                     </div>
                                 </div>
