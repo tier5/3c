@@ -693,7 +693,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/core.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n\n<app-alert *ngIf=\"(alertState | async).show\" [text]=\"(alertState | async).message\" [type]=\"(alertState | async).type\"></app-alert>\n<app-spinner> </app-spinner>\n\n"
+module.exports = "<router-outlet></router-outlet>\n\n<app-alert *ngIf=\"(alertState | async).show\" [text]=\"(alertState | async).message\" [type]=\"(alertState | async).type\"></app-alert>\n\n"
 
 /***/ }),
 
@@ -705,6 +705,8 @@ module.exports = "<router-outlet></router-outlet>\n\n<app-alert *ngIf=\"(alertSt
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_store_auth_auth_actions__ = __webpack_require__("../../../../../src/app/core/store/auth/auth.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_notification_alert_service__ = __webpack_require__("../../../../../src/app/core/shared/notification.alert.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -717,9 +719,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var CoreComponent = (function () {
-    function CoreComponent(store) {
+    function CoreComponent(store, _router, _r, _isNotificationData) {
         this.store = store;
+        this._router = _router;
+        this._r = _r;
+        this._isNotificationData = _isNotificationData;
+        this.notification = false;
+        window.addEventListener('focus', function () {
+            if (_router.url !== '/dashboard' || _r.url !== '/chat/pending') {
+                _isNotificationData.setIsNotification(false);
+            }
+            else {
+                _isNotificationData.setIsNotification(true);
+            }
+        });
+        window.addEventListener('blur', function () {
+            _isNotificationData.setIsNotification(true);
+        });
     }
     CoreComponent.prototype.ngOnInit = function () {
         this.alertState = this.store.select('alert');
@@ -734,10 +753,10 @@ CoreComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/core.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/core.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__shared_notification_alert_service__["a" /* NotificationAlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_notification_alert_service__["a" /* NotificationAlertService */]) === "function" && _d || Object])
 ], CoreComponent);
 
-var _a;
+var _a, _b, _c, _d;
 //# sourceMappingURL=core.component.js.map
 
 /***/ }),
@@ -770,13 +789,15 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_angular2_moment__ = __webpack_require__("../../../../angular2-moment/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20_angular2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng4_loading_spinner__ = __webpack_require__("../../../../ng4-loading-spinner/ng4-loading-spinner.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__shared_push_notification_service__ = __webpack_require__("../../../../../src/app/core/shared/push.notification.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_notification_alert_service__ = __webpack_require__("../../../../../src/app/core/shared/notification.alert.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -817,7 +838,6 @@ CoreModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["i" /* StoreModule */].forRoot(__WEBPACK_IMPORTED_MODULE_18__store_core_reducers__["a" /* reducers */]),
             __WEBPACK_IMPORTED_MODULE_1__ngrx_effects__["c" /* EffectsModule */].forRoot([__WEBPACK_IMPORTED_MODULE_7__store_auth_auth_effects__["a" /* AuthEffects */]]),
             !__WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_4__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : [],
-            __WEBPACK_IMPORTED_MODULE_22_ng4_loading_spinner__["a" /* Ng4LoadingSpinnerModule */]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_10__core_component__["a" /* CoreComponent */],
@@ -831,6 +851,8 @@ CoreModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_15__auth_is_super_admin_guard__["a" /* IsSuperAdminGuard */],
             __WEBPACK_IMPORTED_MODULE_17__auth_not_auth_guard__["a" /* NotAuthGuard */],
             __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__["a" /* ChatService */],
+            __WEBPACK_IMPORTED_MODULE_22__shared_push_notification_service__["a" /* PushNotificationsService */],
+            __WEBPACK_IMPORTED_MODULE_23__shared_notification_alert_service__["a" /* NotificationAlertService */],
             { provide: __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_9__auth_auth_interceptor__["a" /* AuthInterceptor */], multi: true }
         ]
     })
@@ -952,6 +974,8 @@ var _a, _b, _c;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__ = __webpack_require__("../../../../../src/app/core/shared/push.notification.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__ = __webpack_require__("../../../../../src/app/core/shared/notification.alert.service.ts");
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -978,10 +1002,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var ChatService = (function () {
-    function ChatService(store) {
+    function ChatService(store, _notificationService, _isNotification) {
         this.store = store;
-        //  console.log('IN SERVICE');
+        this._notificationService = _notificationService;
+        this._isNotification = _isNotification;
+        this.notification = true;
+        this._notificationService.requestPermission();
     }
     ChatService.prototype.connect = function () {
         var _this = this;
@@ -1055,6 +1084,16 @@ var ChatService = (function () {
                     }
                 });
                 _this.socket.on('newmsg', function (data) {
+                    _this.notification = _this._isNotification.getIsNotification();
+                    console.log('notification', _this.notification);
+                    if (data.direction === 1 && _this.notification) {
+                        var dataMessage = [];
+                        dataMessage.push({
+                            'title': data.user,
+                            'alertContent': data.message
+                        });
+                        _this._notificationService.generateNotification(dataMessage);
+                    }
                     _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["c" /* AddNewMsgToChatList */](data));
                 });
             }
@@ -1097,10 +1136,10 @@ var ChatService = (function () {
 }());
 ChatService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__["a" /* PushNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__["a" /* PushNotificationsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__["a" /* NotificationAlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__["a" /* NotificationAlertService */]) === "function" && _c || Object])
 ], ChatService);
 
-var _a;
+var _a, _b, _c;
 //# sourceMappingURL=chat.service.js.map
 
 /***/ }),
@@ -4339,7 +4378,6 @@ var GetNumberListError = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__widget_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng4_loading_spinner__ = __webpack_require__("../../../../ng4-loading-spinner/ng4-loading-spinner.esm.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4361,13 +4399,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var WidgetEffects = (function () {
-    function WidgetEffects(actions$, httpClient, spinnerService) {
+    function WidgetEffects(actions$, httpClient) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
-        this.spinnerService = spinnerService;
         this.getTimezoneList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
@@ -4542,18 +4578,15 @@ var WidgetEffects = (function () {
             var config = {
                 headers: headers
             };
-            _this.spinnerService.show();
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 if (res.status) {
-                    _this.spinnerService.hide();
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_SUCCESS */],
-                        payload: res.data
+                        payload: { res: res.data, type: 'success' }
                     };
                 }
                 else {
-                    _this.spinnerService.hide();
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */],
                         payload: { message: res.message, type: 'danger' }
@@ -4561,7 +4594,6 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
-                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
                     type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */],
                     payload: { message: err.error, type: 'danger' }
@@ -4597,10 +4629,10 @@ __decorate([
 ], WidgetEffects.prototype, "searchNumber", void 0);
 WidgetEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12_ng4_loading_spinner__["b" /* Ng4LoadingSpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_ng4_loading_spinner__["b" /* Ng4LoadingSpinnerService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
 ], WidgetEffects);
 
-var _a, _b, _c;
+var _a, _b;
 //# sourceMappingURL=widget.effect.js.map
 
 /***/ }),
@@ -4629,7 +4661,8 @@ var initialState = {
     numbers: [],
     newSuccessBuyNumberCall: false,
     numberError: false,
-    numberMessage: ''
+    numberMessage: '',
+    buttonLoader: ''
 };
 function widgetReducer(state, action) {
     if (state === void 0) { state = initialState; }
@@ -4645,9 +4678,9 @@ function widgetReducer(state, action) {
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["o" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
             return __assign({}, state, { toEdit: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["i" /* GET_NUMBER_LIST_SUCCESS */]):
-            return __assign({}, state, { numbers: action.payload, newSuccessBuyNumberCall: true });
+            return __assign({}, state, { numbers: action.payload.res, newSuccessBuyNumberCall: true, buttonLoader: action.payload.type });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */]):
-            return __assign({}, state, { numbers: [], newSuccessBuyNumberCall: false, numberError: true, numberMessage: action.payload.message });
+            return __assign({}, state, { numbers: [], newSuccessBuyNumberCall: false, numberError: true, numberMessage: action.payload.message, buttonLoader: action.payload.type });
         default:
             return state;
     }
@@ -4814,6 +4847,140 @@ DropdownDirective = __decorate([
 
 var _a, _b;
 //# sourceMappingURL=dropdown.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/shared/notification.alert.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationAlertService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var NotificationAlertService = (function () {
+    function NotificationAlertService() {
+        this.isNotification = true;
+    }
+    NotificationAlertService.prototype.getIsNotification = function () {
+        return this.isNotification;
+    };
+    NotificationAlertService.prototype.setIsNotification = function (data) {
+        this.isNotification = data;
+    };
+    return NotificationAlertService;
+}());
+NotificationAlertService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])()
+], NotificationAlertService);
+
+//# sourceMappingURL=notification.alert.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/core/shared/push.notification.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PushNotificationsService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_howler__ = __webpack_require__("../../../../howler/dist/howler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_howler___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_howler__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var PushNotificationsService = (function () {
+    function PushNotificationsService(router) {
+        this.router = router;
+        this.permission = this.isSupported() ? 'default' : 'denied';
+    }
+    PushNotificationsService.prototype.isSupported = function () {
+        return 'Notification' in window;
+    };
+    PushNotificationsService.prototype.requestPermission = function () {
+        var self = this;
+        if ('Notification' in window) {
+            Notification.requestPermission(function (status) {
+                return self.permission = status;
+            });
+        }
+    };
+    PushNotificationsService.prototype.create = function (title, options) {
+        var self = this;
+        return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"](function (obs) {
+            if (!('Notification' in window)) {
+                console.log('Notifications are not available in this environment');
+                obs.complete();
+            }
+            if (self.permission !== 'granted') {
+                console.log('The user hasn\'t granted you permission to send push notifications');
+                obs.complete();
+            }
+            var _notify = new Notification(title, options);
+            _notify.onshow = function (e) {
+                return obs.next({
+                    notification: _notify,
+                    event: e
+                });
+            };
+            _notify.onclick = function (e) {
+                return obs.next({
+                    notification: _notify,
+                    event: e
+                });
+            };
+            _notify.onerror = function (e) {
+                return obs.error({
+                    notification: _notify,
+                    event: e
+                });
+            };
+            _notify.onclose = function () {
+                return obs.complete();
+            };
+        });
+    };
+    PushNotificationsService.prototype.generateNotification = function (source) {
+        var self = this;
+        source.forEach(function (item) {
+            var options = {
+                body: item.alertContent,
+                icon: '../../../assets/img/avatar.png'
+            };
+            var sound = new __WEBPACK_IMPORTED_MODULE_2_howler__["Howl"]({
+                src: ['../../../assets/to-the-point.mp3']
+            });
+            sound.play();
+            var notify = self.create(item.title, options).subscribe();
+        });
+    };
+    return PushNotificationsService;
+}());
+PushNotificationsService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _a || Object])
+], PushNotificationsService);
+
+var _a;
+//# sourceMappingURL=push.notification.service.js.map
 
 /***/ }),
 
