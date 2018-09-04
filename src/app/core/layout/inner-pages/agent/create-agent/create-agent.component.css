@@ -82,7 +82,7 @@ input:checked + .slider:before {
 }
 
 .filterSubmit {
-  position: relative;
+  /*position: relative;*/
   z-index: 1;
   left: 0px;
   top: 0px;
