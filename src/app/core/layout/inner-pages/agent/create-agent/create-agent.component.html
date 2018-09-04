@@ -136,11 +136,11 @@
               <div class="row" *ngIf="selectDept">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="(email.invalid && email.touched) ? 'has-error': ''">
-                    <label class="control-label" for="email">Email
+                    <label class="control-label input-label-toggel" for="email">Email
                       <i *ngIf="email.invalid && email.touched" class="fa fa-times-circle-o"></i>
                     </label>
                     <input type="email"
-                           class="form-control"
+                           class="form-control input-box-toggel"
                            id="email"
                            name="email"
                            [ngModel]="agent.email"
@@ -150,6 +150,13 @@
                            [disabled]="editMode"
                            placeholder="email"
                     >
+                    <div class="row filterSubmit">
+                      <label class="switch">
+                        <input type="checkbox" name="isEmailNotification" [(ngModel)]="isemailNotification" [checked]="isemailNotification">
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+
                     <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.email"
                           class="help-block">Please Enter a Proper Email Address!</span>
                     <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required"
@@ -179,11 +186,11 @@
               <div class="row" *ngIf="selectDept">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="(phone.invalid && phone.touched) ? 'has-error': ''">
-                    <label class="control-label" for="phone">Phone
+                    <label class="control-label input-label-toggel" for="phone">Phone
                       <i *ngIf="phone.invalid && phone.touched" class="fa fa-times-circle-o"></i>
                     </label>
                     <input type="text"
-                           class="form-control"
+                           class="form-control input-box-toggel"
                            [textMask]="{mask: mask, guide: false}"
                            id="phone"
                            placeholder="phone"
@@ -193,6 +200,12 @@
                            ngModel
                            #phone="ngModel"
                     >
+                    <div class="row filterSubmit">
+                      <label class="switch">
+                        <input type="checkbox" name="isPhoneNotification" [(ngModel)]="isPhoneNotification" [checked]="isPhoneNotification">
+                        <span class="slider"></span>
+                      </label>
+                    </div>
                     <span *ngIf="phone.invalid && phone.touched"
                           class="help-block">Your Phone Number is Required !</span>
                   </div>
