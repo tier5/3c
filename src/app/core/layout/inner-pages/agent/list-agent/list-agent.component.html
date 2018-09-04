@@ -75,8 +75,8 @@
                           <ul class="dropdown-menu">
                             <li><a (click)="onEditAgent(item.id)"><i class="fa fa-pencil"
                                                                      aria-hidden="true"></i>Edit</a></li>
-                            <!--<li *ngIf="item.profile_status == '1'"> <a (click)="blockUser(item.id)"><i class="fa fa-lock" aria-hidden="true"></i>Block</a> </li>-->
-                            <!--<li *ngIf="item.profile_status == '2'"> <a (click)="UnblockUser(item.id)"><i class="fa fa-unlock" aria-hidden="true"></i>Unblock</a> </li>-->
+                            <li *ngIf="item.is_block == '1'"> <a (click)="blockUser(item.id)"><i class="fa fa-lock" aria-hidden="true"></i>Block</a> </li>
+                            <li *ngIf="item.is_block != '1'"> <a (click)="UnblockUser(item.id)"><i class="fa fa-unlock" aria-hidden="true"></i>Unblock</a> </li>
                           </ul>
                         </div>
                       </td>

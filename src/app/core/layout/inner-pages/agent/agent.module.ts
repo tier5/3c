@@ -13,7 +13,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment';
 import { AgentSearchPipe } from './agentSearch.pipe';
 
-
 @NgModule({
     imports: [
         CommonModule,
