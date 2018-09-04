@@ -99,7 +99,7 @@ var CreateDepartmentComponent = (function () {
             }
         });
         if (this.dep.userId !== 0) {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["o" /* GetAdminAgentListAttempt */]({ userId: this.dep.userId }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["t" /* GetAdminAgentListAttempt */]({ userId: this.dep.userId }));
         }
         this.afterLoginSubscription = this.store.select('afterLogin')
             .map(function (data) { return data.department.resetDepartmentForm; })
@@ -131,7 +131,7 @@ var CreateDepartmentComponent = (function () {
                             _this.dep.departmentName = dep.toEdit.department.department_name;
                             _this.dep.departmentDetails = dep.toEdit.department.department_details;
                             _this.dep.agents = dep.toEdit.agents;
-                            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["o" /* GetAdminAgentListAttempt */]({ userId: _this.dep.userId }));
+                            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["t" /* GetAdminAgentListAttempt */]({ userId: _this.dep.userId }));
                             _this.adminName = dep.toEdit.department.user_details.first_name + ' ' + dep.toEdit.department.user_details.last_name;
                         }
                     }
@@ -191,7 +191,7 @@ var CreateDepartmentComponent = (function () {
     /** Function to get agent list depending on the selected admin */
     CreateDepartmentComponent.prototype.adminChanged = function (id) {
         if (!!id) {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["o" /* GetAdminAgentListAttempt */]({ userId: id }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["t" /* GetAdminAgentListAttempt */]({ userId: id }));
         }
     };
     /** Function to filter by admin names */
@@ -511,7 +511,7 @@ var ListDepartmentComponent = (function () {
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isSuperAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["q" /* GetCompanyListAttempt */]({ userId: data.token }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["v" /* GetCompanyListAttempt */]({ userId: data.token }));
             }
         });
         /* Company List droupdown */

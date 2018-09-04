@@ -2090,32 +2090,40 @@ var reducers = {
 /* unused harmony export GET_AGENT_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_AGENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return RESET_AGENT_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_COMPANY_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_COMPANY_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return RESET_AGENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_COMPANY_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_COMPANY_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AGENT_BLOCK_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return AGENT_BLOCK_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return AGENT_UNBLOCK_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return AGENT_UNBLOCK_SUCCESS; });
 /* unused harmony export GetAgentAttempt */
 /* unused harmony export GetAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return AddAgentAttempt; });
 /* unused harmony export AddAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EditAgentAttempt; });
 /* unused harmony export EditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GetAgentListAttempt; });
 /* unused harmony export GetAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return ResetAgentForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetToEditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return ResetAgentForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetToEditAgentAttempt; });
 /* unused harmony export GetToEditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetAdminAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetAdminAgentListAttempt; });
 /* unused harmony export GetAdminAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetCompanyListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GetCompanyListAttempt; });
 /* unused harmony export GetCompanyListSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return BlockAgentAttempt; });
+/* unused harmony export BlockAgentSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return UnblockAgentAttempt; });
+/* unused harmony export UnblockAgentSuccess */
 var GET_AGENT_ATTEMPT = 'GET_AGENT_ATTEMPT';
 var GET_AGENT_SUCCESS = 'GET_AGENT_SUCCESS';
 var ADD_AGENT_ATTEMPT = 'ADD_AGENT_ATTEMPT';
@@ -2131,6 +2139,10 @@ var GET_ADMIN_AGENT_LIST_ATTEMPT = 'GET_ADMIN_AGENT_LIST_ATTEMPT';
 var GET_ADMIN_AGENT_LIST_SUCCESS = 'GET_ADMIN_AGENT_LIST_SUCCESS';
 var GET_COMPANY_LIST_ATTEMPT = 'GET_COMPANY_LIST_ATTEMPT';
 var GET_COMPANY_LIST_SUCCESS = 'GET_COMPANY_LIST_SUCCESS';
+var AGENT_BLOCK_ATTEMPT = 'AGENT_BLOCK_ATTEMPT';
+var AGENT_BLOCK_SUCCESS = 'AGENT_BLOCK_SUCCESS';
+var AGENT_UNBLOCK_ATTEMPT = 'AGENT_UNBLOCK_ATTEMPT';
+var AGENT_UNBLOCK_SUCCESS = 'AGENT_UNBLOCK_SUCCESS';
 var GetAgentAttempt = (function () {
     function GetAgentAttempt() {
         this.type = GET_AGENT_ATTEMPT;
@@ -2248,6 +2260,38 @@ var GetCompanyListSuccess = (function () {
     return GetCompanyListSuccess;
 }());
 
+var BlockAgentAttempt = (function () {
+    function BlockAgentAttempt(payload) {
+        this.payload = payload;
+        this.type = AGENT_BLOCK_ATTEMPT;
+    }
+    return BlockAgentAttempt;
+}());
+
+var BlockAgentSuccess = (function () {
+    function BlockAgentSuccess(payload) {
+        this.payload = payload;
+        this.type = AGENT_BLOCK_SUCCESS;
+    }
+    return BlockAgentSuccess;
+}());
+
+var UnblockAgentAttempt = (function () {
+    function UnblockAgentAttempt(payload) {
+        this.payload = payload;
+        this.type = AGENT_UNBLOCK_ATTEMPT;
+    }
+    return UnblockAgentAttempt;
+}());
+
+var UnblockAgentSuccess = (function () {
+    function UnblockAgentSuccess(payload) {
+        this.payload = payload;
+        this.type = AGENT_UNBLOCK_SUCCESS;
+    }
+    return UnblockAgentSuccess;
+}());
+
 //# sourceMappingURL=agent.actions.js.map
 
 /***/ }),
@@ -2340,7 +2384,7 @@ var AgentEffects = (function () {
             });
         });
         this.getAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["i" /* GET_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["n" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2351,7 +2395,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["j" /* GET_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["o" /* GET_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2370,7 +2414,7 @@ var AgentEffects = (function () {
             });
         });
         this.editAgent = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["d" /* EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["i" /* EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-update';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2382,7 +2426,7 @@ var AgentEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["e" /* EDIT_AGENT_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["j" /* EDIT_AGENT_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -2408,7 +2452,7 @@ var AgentEffects = (function () {
             });
         });
         this.getToEditDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["m" /* GET_TO_EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["r" /* GET_TO_EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2418,7 +2462,7 @@ var AgentEffects = (function () {
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["n" /* GET_TO_EDIT_AGENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["s" /* GET_TO_EDIT_AGENT_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -2430,7 +2474,7 @@ var AgentEffects = (function () {
             });
         });
         this.getAdminAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["g" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-admin-agents';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2441,7 +2485,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["h" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["m" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2460,7 +2504,7 @@ var AgentEffects = (function () {
             });
         });
         this.getCompanyList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["k" /* GET_COMPANY_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["p" /* GET_COMPANY_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-company-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2471,7 +2515,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* GET_COMPANY_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["q" /* GET_COMPANY_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2480,6 +2524,82 @@ var AgentEffects = (function () {
                         type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                         payload: { message: res.message, type: 'danger' }
                     };
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.blockAgent = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["c" /* AGENT_BLOCK_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'block-agent';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["d" /* AGENT_BLOCK_SUCCESS */],
+                            payload: res.response
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.unblockAgent = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["e" /* AGENT_UNBLOCK_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-agent';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["f" /* AGENT_UNBLOCK_SUCCESS */],
+                            payload: res.response
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
                 }
             })
                 .catch(function (err) {
@@ -2516,6 +2636,14 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], AgentEffects.prototype, "getCompanyList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentEffects.prototype, "blockAgent", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentEffects.prototype, "unblockAgent", void 0);
 AgentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -2546,30 +2674,46 @@ var initialState = {
     list: [],
     toEdit: {},
     resetAgentForm: false,
-    comapnyList: []
+    comapnyList: [],
+    blockAgent: false,
+    unblockAgent: false,
 };
 function agentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["b" /* ADD_AGENT_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetAgentForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["j" /* GET_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["o" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["e" /* EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["j" /* EDIT_AGENT_SUCCESS */]):
             var index = state.list.indexOf(function (agent) { return agent.id === action.payload.id; });
             var someAgent = state.list[index];
             var updatedAgent = __assign({}, someAgent, action.payload);
             var admins = state.list.slice();
             admins[index] = updatedAgent;
             return __assign({}, state, { list: state.list.concat(admins) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["n" /* GET_TO_EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["s" /* GET_TO_EDIT_AGENT_SUCCESS */]):
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["s" /* RESET_AGENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["x" /* RESET_AGENT_FORM */]):
             return __assign({}, state, { resetAgentForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["h" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["l" /* GET_COMPANY_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["q" /* GET_COMPANY_LIST_SUCCESS */]):
             return __assign({}, state, { comapnyList: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["d" /* AGENT_BLOCK_SUCCESS */]):
+            var unblockIndex = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
+            var someUnblockAdmins = state.list[unblockIndex];
+            var updatedUnblockAdmin = __assign({}, someUnblockAdmins, action.payload);
+            var unblockAdminData = state.list.slice();
+            unblockAdminData[unblockIndex] = updatedUnblockAdmin;
+            return __assign({}, state, { list: unblockAdminData.slice() });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["f" /* AGENT_UNBLOCK_SUCCESS */]):
+            var unblockIndex1 = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
+            var someUnblockAdmins1 = state.list[unblockIndex1];
+            var updatedUnblockAdmin1 = __assign({}, someUnblockAdmins1, action.payload);
+            var unblockAdminData1 = state.list.slice();
+            unblockAdminData1[unblockIndex1] = updatedUnblockAdmin1;
+            return __assign({}, state, { list: unblockAdminData1.slice() });
         default:
             return state;
     }

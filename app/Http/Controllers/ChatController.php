@@ -675,6 +675,12 @@ class ChatController extends Controller
         }
     }
 
+    /**
+     * Send email notification
+     * @param $body
+     * @param $email
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendEmail($body, $email)
     {
         Log::info($email);
@@ -1374,11 +1380,11 @@ class ChatController extends Controller
             $userController = new UserController;
             if(!$userController->userLoginStatus($agentId)){
                 \Log::info('user Logged in now send ');
-                if ($getAgent->is_phone_notification) {
+                if ($getAgent->is_phone_notification && $getAgent->is_block == '1') {
                     Log::info('phone notification');
                     $this->sendSms($smsBody, $agentPhoneNumber, $toNumber);
                 }
-                if ($getAgent->is_email_notification) {
+                if ($getAgent->is_email_notification && $getAgent->is_block == '1') {
                     Log::info('email notification');
                     $this->sendEmail($smsBody,$getAgent->email);
                 }

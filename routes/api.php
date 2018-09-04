@@ -122,5 +122,8 @@ Route::post('get-admin-agents','UserController@getAdminAgents');
 Route::post('get-company-list','UserController@getCompanyList');
 // route for search number
 Route::post('search-number', 'WidgetController@searchNumber');
-
+// route for block
+Route::post('block-agent', 'UserController@blockAgent');
+// route for unblock
+Route::post('unblock-agent','UserController@unblockAgent');
 

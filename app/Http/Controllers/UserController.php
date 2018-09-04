@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Department;
 use App\Model\DepartmentAgentMap;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Auth, Mail, Hash;
 use Illuminate\Support\Facades\Log;
@@ -54,8 +55,10 @@ class UserController extends Controller
         $request->merge([$field => $request->input('email')]);
         $credentials = $request->only($field, 'password');
         $credentials = array_add($credentials, 'profile_status', '1'); //If profile status !1 then user is not Active
+        $credentials = array_add($credentials, 'is_block', '1'); //If profile status !1 then user is not Active
 
         if (Auth::attempt($credentials)) { //Attempt Auth login
+
 
             $token = $this->generateRandomString();
 
@@ -1624,4 +1627,44 @@ class UserController extends Controller
 
     }
 
+    /**
+     * Block agent form login
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
+    public function blockAgent(Request $request)
+    {
+        try {
+            $getAgent = Users::findOrFail($request->userId);
+            $getAgent->is_block = '0';
+            $getAgent->update();
+            $response = array('code' => 200, 'error' => false, 'response' => $getAgent, 'status' => true, 'message' => 'User Blocked !');
+        } catch (\Exception $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        }
+        return Response()->json($response);
+    }
+
+    /**
+     * Unblock agent
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unblockAgent(Request $request)
+    {
+        try {
+            $getAgent = Users::findOrFail($request->userId);
+            $getAgent->is_block = '1';
+            $getAgent->update();
+            $response = array('code' => 200, 'error' => false, 'response' => $getAgent, 'status' => true, 'message' => 'User Unblocked!');
+        } catch (\Exception $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        }
+        return Response()->json($response);
+    }
 }
