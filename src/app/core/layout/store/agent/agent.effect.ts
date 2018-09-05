@@ -312,4 +312,45 @@ export class AgentEffects {
           )
         })
     });
+
+  @Effect()
+  deleteAgent =  this.actions$
+    .ofType(AgentActions.AGENT_DELETE_ATTEMPT)
+    .switchMap((action: AgentActions.DeleteAgentAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'delete-agent';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+      const config = {
+        headers: headers
+      };
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .mergeMap((res: any) => {
+          if (res.status) {
+            return [
+              {
+                type: AgentActions.AGENT_DELETE_SUCCESS,
+                payload: res.response
+              },
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'success' }
+              }
+            ]
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'danger' }
+              }
+            ]
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.error, type: 'danger' }
+            }
+          )
+        })
+    });
 }

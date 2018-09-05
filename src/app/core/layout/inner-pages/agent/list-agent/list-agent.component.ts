@@ -77,12 +77,30 @@ export class ListAgentComponent implements OnInit {
     this.order = value;
   }
 
+  /**
+   * Block a agent
+   * @param user_id
+   */
   blockUser(user_id) {
     this.store.dispatch(new AgentActions.BlockAgentAttempt({userId: user_id}));
   }
 
+  /**
+   * Unblock agent
+   * @param user_id
+   * @constructor
+   */
   UnblockUser(user_id) {
     this.store.dispatch(new AgentActions.UnblockAgentAttempt({userId: user_id}));
+  }
+
+  /**
+   * Delete a agent
+   * @param user_id
+   * @constructor
+   */
+  DeleteAgent(user_id) {
+    this.store.dispatch(new AgentActions.DeleteAgentAttempt({userId: user_id}));
   }
   /** Un-subscribe from all subscription when component destroys */
   ngOnDestroy(): void {

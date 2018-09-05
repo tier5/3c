@@ -1,4 +1,5 @@
 import * as WidgetActions from './widget.actions';
+import * as AgentActions from '../agent/agent.actions';
 
 export interface WidgetState {
   info: any;
@@ -59,7 +60,7 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
         ...state,
         numbers: action.payload.res,
         newSuccessBuyNumberCall: true,
-        buttonLoader:action.payload.type,
+        buttonLoader: action.payload.type,
       }
       case (WidgetActions.GET_NUMBER_LIST_ERROR):
       return {
@@ -70,6 +71,14 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
         numberMessage: action.payload.message,
         buttonLoader: action.payload.type
       }
+    case (WidgetActions.WIDGET_DELETE_SUCCESS):
+      const deleteIndex = state.list.findIndex(widget => widget.id === action.payload);
+      const deleteWidgetData = [...state.list];
+      deleteWidgetData.splice(deleteIndex, 1);
+      return {
+        ...state,
+        list: [...deleteWidgetData ]
+      };
     default:
       return state;
   }

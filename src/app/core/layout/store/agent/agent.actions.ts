@@ -29,6 +29,9 @@ export const AGENT_BLOCK_SUCCESS = 'AGENT_BLOCK_SUCCESS';
 export const AGENT_UNBLOCK_ATTEMPT = 'AGENT_UNBLOCK_ATTEMPT';
 export const AGENT_UNBLOCK_SUCCESS = 'AGENT_UNBLOCK_SUCCESS';
 
+export const AGENT_DELETE_ATTEMPT = 'AGENT_DELETE_ATTEMPT';
+export const AGENT_DELETE_SUCCESS = 'AGENT_DELETE_SUCCESS';
+
 export class GetAgentAttempt implements Action {
   readonly type = GET_AGENT_ATTEMPT;
 }
@@ -122,6 +125,16 @@ export class UnblockAgentSuccess implements Action {
   constructor(public payload: any) { }
 }
 
+export class DeleteAgentAttempt implements Action {
+  readonly type = AGENT_DELETE_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class DeleteAgentSuccess implements Action {
+  readonly type = AGENT_DELETE_SUCCESS;
+  constructor(public payload: any) { }
+}
+
 export type AgentActions = ResetAgentForm |
   GetAgentAttempt | GetAgentSuccess |
   AddAgentAttempt | AddAgentSuccess |
@@ -129,4 +142,5 @@ export type AgentActions = ResetAgentForm |
   GetAgentListAttempt | GetAgentListSuccess |
   GetToEditAgentAttempt | GetToEditAgentSuccess | GetAdminAgentListAttempt |
   GetAdminAgentListSuccess | GetCompanyListAttempt | GetCompanyListSuccess |
-  BlockAgentAttempt | BlockAgentSuccess | UnblockAgentAttempt | UnblockAgentSuccess;
+  BlockAgentAttempt | BlockAgentSuccess | UnblockAgentAttempt | UnblockAgentSuccess |
+  DeleteAgentAttempt | DeleteAgentSuccess;

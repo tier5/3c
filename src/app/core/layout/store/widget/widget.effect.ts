@@ -11,6 +11,7 @@ import 'rxjs/add/operator/switchMap';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import * as WidgetActions from './widget.actions';
 import { environment } from '../../../../../environments/environment';
+import * as AgentActions from '../agent/agent.actions';
 @Injectable()
 export class WidgetEffects {
   constructor (private actions$: Actions,
@@ -229,5 +230,45 @@ export class WidgetEffects {
             }
           );
         });
+    });
+  @Effect()
+  deleteWidget =  this.actions$
+    .ofType(WidgetActions.WIDGET_DELETE_ATTEMPT)
+    .switchMap((action: WidgetActions.DeleteWidgetAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'delete-widget';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+      const config = {
+        headers: headers
+      };
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .mergeMap((res: any) => {
+          if (res.status) {
+            return [
+              {
+                type: WidgetActions.WIDGET_DELETE_SUCCESS,
+                payload: res.response
+              },
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'success' }
+              }
+            ]
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'danger' }
+              }
+            ]
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.error, type: 'danger' }
+            }
+          )
+        })
     });
 }

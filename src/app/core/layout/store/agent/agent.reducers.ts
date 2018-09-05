@@ -83,6 +83,14 @@ export function agentReducer(state = initialState, action: AgentActions.AgentAct
         ...state,
         list: [...unblockAdminData1 ]
       };
+    case (AgentActions.AGENT_DELETE_SUCCESS):
+      const deleteIndex = state.list.findIndex(admin => admin.id === action.payload);
+      const deleteAdminData = [...state.list];
+      deleteAdminData.splice(deleteIndex, 1);
+      return {
+        ...state,
+        list: [...deleteAdminData ]
+      };
     default:
       return state;
   }
