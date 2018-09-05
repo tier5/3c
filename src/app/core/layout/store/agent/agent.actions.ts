@@ -23,6 +23,11 @@ export const GET_ADMIN_AGENT_LIST_SUCCESS = 'GET_ADMIN_AGENT_LIST_SUCCESS';
 export const GET_COMPANY_LIST_ATTEMPT = 'GET_COMPANY_LIST_ATTEMPT';
 export const GET_COMPANY_LIST_SUCCESS = 'GET_COMPANY_LIST_SUCCESS';
 
+export const AGENT_BLOCK_ATTEMPT = 'AGENT_BLOCK_ATTEMPT';
+export const AGENT_BLOCK_SUCCESS = 'AGENT_BLOCK_SUCCESS';
+
+export const AGENT_UNBLOCK_ATTEMPT = 'AGENT_UNBLOCK_ATTEMPT';
+export const AGENT_UNBLOCK_SUCCESS = 'AGENT_UNBLOCK_SUCCESS';
 
 export class GetAgentAttempt implements Action {
   readonly type = GET_AGENT_ATTEMPT;
@@ -96,9 +101,32 @@ export class GetCompanyListSuccess implements Action {
     constructor(public payload: any) { }
 }
 
+export class BlockAgentAttempt implements Action {
+  readonly type = AGENT_BLOCK_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class BlockAgentSuccess implements Action {
+  readonly type = AGENT_BLOCK_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+
+export class UnblockAgentAttempt implements Action {
+  readonly type = AGENT_UNBLOCK_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class UnblockAgentSuccess implements Action {
+  readonly type = AGENT_UNBLOCK_SUCCESS;
+  constructor(public payload: any) { }
+}
+
 export type AgentActions = ResetAgentForm |
   GetAgentAttempt | GetAgentSuccess |
   AddAgentAttempt | AddAgentSuccess |
   EditAgentAttempt | EditAgentSuccess |
   GetAgentListAttempt | GetAgentListSuccess |
-  GetToEditAgentAttempt | GetToEditAgentSuccess | GetAdminAgentListAttempt | GetAdminAgentListSuccess | GetCompanyListAttempt | GetCompanyListSuccess;
+  GetToEditAgentAttempt | GetToEditAgentSuccess | GetAdminAgentListAttempt |
+  GetAdminAgentListSuccess | GetCompanyListAttempt | GetCompanyListSuccess |
+  BlockAgentAttempt | BlockAgentSuccess | UnblockAgentAttempt | UnblockAgentSuccess;
