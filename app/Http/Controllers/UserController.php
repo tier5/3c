@@ -237,12 +237,13 @@ class UserController extends Controller
             if (count($forget_check) != 0) {
 
                 $accutal_id = base64_encode($forget_check->id);
-                $body = url('/') . '/reset-password/' . $accutal_id;
+                // $body = url('/') . '/reset-password/' . $accutal_id;
+                $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
 
                 // Send Mail to user email id
                 Mail::send([], [], function ($message) use ($body, $forget_check) {
                     //$message->from(getenv('MAIL_USERNAME'),"Password");
-                    $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password')->setBody($body, 'text/html');
+                    $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password?')->setBody($body, 'text/html');
                 });
 
                 if (Mail::failures()) {
@@ -1256,9 +1257,9 @@ class UserController extends Controller
 //            $body .= '<br><br>';
 //            $body .= '<br><br><br>Please Change your password !';
                 // Send Mail to user email id with the created password
-
-                Mail::send('emails.agent-register', ['password' => $password], function ($message) use ($checkUser) {
-                    $message->to($checkUser->email, $checkUser->first_name)->subject('3c Login');
+                $getAdminInfo = Users::where('parent_id',$checkUser->parent_id)->first();
+                Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo ], function ($message) use ($checkUser) {
+                    $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
                 });
 
                 if (Mail::failures()) {

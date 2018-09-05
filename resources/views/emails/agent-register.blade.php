@@ -467,12 +467,20 @@
                                         <div style="color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 10px; padding-left: 30px; padding-top: 10px; padding-bottom: 5px;">
                                             <div style="font-size:12px;line-height:14px;color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                 <p style="margin: 0;font-size: 14px;line-height: 17px"><strong><span
-                                                                style="font-size: 24px; line-height: 28px;">Hello there,</span></strong>
+                                                                style="font-size: 24px; line-height: 28px;">Hi {{ $userInfo->first_name }}!</span></strong>
                                                 </p>
+                                                @if($userInfo->type == 3)
+                                                    <p style="margin: 0;font-size: 14px;line-height: 17px"><span
+                                                                style="font-size: 14px; line-height: 16px;"><span
+                                                                    style="line-height: 16px; font-size: 14px;">You have been added to {{ $getAdminInfo->company }} by {{ $getAdminInfo->first_name }} {{ $getAdminInfo->last_name }}.Your password is : <strong>{{ $password }}</strong></span></span>
+                                                    </p>
+                                                @else
                                                 <p style="margin: 0;font-size: 14px;line-height: 17px"><span
                                                             style="font-size: 14px; line-height: 16px;"><span
                                                                 style="line-height: 16px; font-size: 14px;">Thanks for signup up with 3c.Your password for login is : <strong>{{ $password }}</strong></span></span>
-                                                </p></div>
+                                                </p>
+                                                @endif
+                                            </div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
@@ -562,15 +570,15 @@
                                         <div style="color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:180%; padding-right: 30px; padding-left: 30px; padding-top: 30px; padding-bottom: 30px;">
                                             <div style="font-size:12px;line-height:22px;color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                 <p style="margin: 0;font-size: 12px;line-height: 22px"><span
-                                                            style="font-size: 14px; line-height: 25px;">Please change your password after login.</span>
+                                                            style="font-size: 14px; line-height: 25px;">Please remember to change your password.</span>
                                                 </p>
                                                 <p style="margin: 0;font-size: 12px;line-height: 22px"><span
                                                             style="font-size: 14px; line-height: 25px;">If you didn't attempt to login, delete this email.</span>
                                                 </p>
                                                 <p style="margin: 0;font-size: 12px;line-height: 22px"><span
-                                                            style="font-size: 14px; line-height: 25px;">Cheers,</span></p>
+                                                            style="font-size: 14px; line-height: 25px;">Thanks,</span></p>
                                                 <p style="margin: 0;font-size: 12px;line-height: 22px"><em><strong><span
-                                                                    style="font-size: 14px; line-height: 25px;">TM SMS Team</span></strong></em>
+                                                                    style="font-size: 14px; line-height: 25px;">Telemojo Robots</span></strong></em>
                                                 </p></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
@@ -655,7 +663,7 @@
                                         <div style="color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 5px; padding-left: 5px; padding-top: 5px; padding-bottom: 5px;">
                                             <div style="font-size:12px;line-height:14px;color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                 <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center">
-                                                    <span style="font-size: 14px; line-height: 16px;"><strong>+000 000 0000</strong></span>
+                                                    <span style="font-size: 14px; line-height: 16px;"><strong>+888 336 3695</strong></span>
                                                 </p></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
@@ -748,7 +756,7 @@
                                         <div style="color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
                                             <div style="font-size:12px;line-height:14px;color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                 <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center">
-                                                    <span style="font-size: 14px; line-height: 16px;"><strong>yourmail@example.com</strong></span><br>
+                                                    <span style="font-size: 14px; line-height: 16px;"><strong>support@telemojo.com</strong></span><br>
                                                 </p></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
