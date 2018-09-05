@@ -5,7 +5,7 @@ var axios = require('axios');
 var bodyParser = require('body-parser');
 
 //var API_URL = 'http://3c.local/api/v1/';
-var API_URL = 'http://138.197.215.68/api/v1/';
+var API_URL = 'http://142.93.199.178/api/v1/';
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended:false}));
