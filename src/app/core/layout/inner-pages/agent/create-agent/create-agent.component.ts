@@ -116,21 +116,23 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
               }
             }
         );
-        this.afterLoginSubscription = this.store.select('afterLogin')
-          .map(data => data.agent.resetAgentForm)
-          .subscribe(
-            (data) => {
-              if (data) {
-                this.loader = false;
-                this.form.reset();
-                this.selectDept = false;
-                this.store.dispatch(new AgentActions.ResetAgentForm());
-                if (!!this.loggedInAdminId) {
-                  this.form.form.patchValue({ parentId: this.loggedInAdminId, departmentId: 0 });
-                }
-              }
-            }
-          );
+
+        // this.afterLoginSubscription = this.store.select('afterLogin')
+        //   .map(data => data.agent.resetAgentForm)
+        //   .subscribe(
+        //     (data) => {
+        //         console.log(data);
+        //       if (data) {
+        //         this.loader = false;
+        //         this.form.reset();
+        //         this.selectDept = false;
+        //         this.store.dispatch(new AgentActions.ResetAgentForm());
+        //         if (!!this.loggedInAdminId) {
+        //           this.form.form.patchValue({ parentId: this.loggedInAdminId, departmentId: 0 });
+        //         }
+        //       }
+        //     }
+        //   );
 
         this.dep = {
             userId: '',
@@ -206,7 +208,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
-      this.afterLoginSubscription.unsubscribe();
+      // this.afterLoginSubscription.unsubscribe();
       this.authSubscription.unsubscribe();
     }
 

@@ -1,5 +1,5 @@
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -12,6 +12,8 @@ import * as DepartmentActions from '../../../store/department/department.actions
 import * as DepartmentReducer from '../../../store/department/department.reducers';
 import { Subscription } from 'rxjs/Subscription';
 import * as AgentActions from '../../../store/agent/agent.actions';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-create-department',
@@ -37,6 +39,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     agents: []
   };
   loader: boolean = false;
+  createAgentLoader: boolean = false;   /** Loader for add agent button */
   adminUserId:number;                 /** admin user id from admin selection droupdown */
   adminId:number;
   changedDepFlag: boolean = false;
@@ -46,11 +49,14 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   adminName:any;
   showThis: boolean = false;
   dropdownSettings = {};
+  bsModalRef: BsModalRef;             /** bootstrap modal */
+  agent: any;                            /** initialize the agent object */
+  mask: Array<string | RegExp> = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
-              private cdr: ChangeDetectorRef, private router: Router) { }
+              private cdr: ChangeDetectorRef, private router: Router, private modalService: BsModalService) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -135,6 +141,17 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       primaryKey: 'id',
       labelKey: 'name'
     };
+
+    /** Empty Agent option */
+    this.agent = {
+        userId: '',
+        firstName: '',
+        lastName: '',
+        email:'',
+        phone:'',
+        isemailNotification:true,
+        isPhoneNotification:true,
+    };
   }
 
   /** Your code to update the model */
@@ -197,6 +214,33 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         this.adminName = "";
         this.showThis = true;
         this.dep.userId = 0;
+    }
+    /** Function to create agent modal*/
+    CreateAgent(template:  TemplateRef<any>) {
+        console.log(this.dep.userId);
+        this.bsModalRef = this.modalService.show(template);
+    }
+
+    /** Function to create agent */
+    onCreateAgentSubmit(form){
+        this.createAgentLoader = true;
+        /** Create Agent */
+        this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
+        /** Loader Show/Hide */
+        this.store.select('alert')
+            .map(data => data)
+            .subscribe(
+                (data) => {
+                    if (data.show && data.type === 'danger') {
+                        this.createAgentLoader = false;
+                    }else if (data.show && data.type === 'success') {
+                        this.bsModalRef.hide();
+                        this.store.select('afterLogin','agent','newAgentInfo')
+                            .subscribe(data=> {
+                                this.dep.agents.push({id:data.id, first_name:data.first_name, last_name: data.last_name});
+                            })
+                    }
+                }, (error) => { console.error(error); this.createAgentLoader = false; } , () => {this.createAgentLoader = false; });
     }
 
 }

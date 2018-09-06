@@ -4,20 +4,22 @@ export interface AgentState {
   info: any;
   list: any;
   toEdit: any;
-  resetAgentForm: boolean;
+  //resetAgentForm: boolean;
   comapnyList: any;
   blockAgent: boolean;
   unblockAgent: boolean;
+  newAgentInfo:any;
 }
 
 const initialState: AgentState = {
   info: null,
   list: [],
   toEdit: {},
-  resetAgentForm: false,
+  //resetAgentForm: false,
   comapnyList: [],
   blockAgent: false,
   unblockAgent: false,
+  newAgentInfo:[],
 };
 
 export function agentReducer(state = initialState, action: AgentActions.AgentActions) {
@@ -26,7 +28,8 @@ export function agentReducer(state = initialState, action: AgentActions.AgentAct
       return {
         ...state,
         list: [...state.list, action.payload],
-        resetAgentForm: true
+        //resetAgentForm: true,
+        newAgentInfo:action.payload
       };
     case (AgentActions.GET_AGENT_LIST_SUCCESS):
       return {
@@ -51,7 +54,7 @@ export function agentReducer(state = initialState, action: AgentActions.AgentAct
     case (AgentActions.RESET_AGENT_FORM):
       return {
         ...state,
-        resetAgentForm: false
+        //resetAgentForm: false
       };
     case (AgentActions.GET_ADMIN_AGENT_LIST_SUCCESS):
       return {
