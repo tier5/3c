@@ -153,4 +153,80 @@ export class DepartmentEffects {
         })
     });
 
+  @Effect()
+  preDeleteDepartment = this.actions$
+    .ofType(DepartmentActions.PRE_DELETE_ATTEMPT)
+    .switchMap((action: DepartmentActions.PreDeleteAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'check-pre-delete-department';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const config = {
+        headers: headers
+      }
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .map((res: any) => {
+          if (res.status) {
+            return {
+                type: DepartmentActions.PRE_DELETE_SUCCESS,
+                payload: res.response
+              }
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'danger' }
+              }
+            ]
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.message, type: 'danger' }
+            }
+          )
+        })
+    });
+
+  @Effect()
+  deleteDepartment = this.actions$
+    .ofType(DepartmentActions.DEPARTMENT_DELETE_ATTEMPT)
+    .switchMap((action: DepartmentActions.DepartmentDeleteAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'delete-department';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const config = {
+        headers: headers
+      }
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .mergeMap((res: any) => {
+          if (res.status) {
+            return [
+              {
+                type: DepartmentActions.DEPARTMENT_DELETE_SUCCESS,
+                payload: res.response
+              },
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'success' }
+              }
+            ]
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'danger' }
+              }
+            ]
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.message, type: 'danger' }
+            }
+          )
+        })
+    });
+
 }

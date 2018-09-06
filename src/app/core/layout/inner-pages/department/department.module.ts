@@ -10,6 +10,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { MomentModule } from 'angular2-moment';
 import { DepartmentSearchPipe } from './departmentSearch.pipe';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
         OrderModule,
         NgxPaginationModule,
         MomentModule,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        ModalModule.forRoot(),
     ],
     declarations: [
         CreateDepartmentComponent,

@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import { Observable } from 'rxjs/Observable';
 import * as DepartmentActions from '../../../store/department/department.actions';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import * as fromAuth from "../../../../store/auth/auth.reducers";
-import * as AgentActions from "../../../store/agent/agent.actions";
+import * as fromAuth from '../../../../store/auth/auth.reducers';
+import * as AgentActions from '../../../store/agent/agent.actions';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-list-department',
@@ -19,6 +21,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     afterLoginState: Observable<fromAfterLogin.FeatureState>;
     authSubscription: Subscription;
     authState: Observable<fromAuth.State>;
+    preDeleteSubscription: Subscription;
     order = 'info.name';
     sortedCollection: any[];
     page: number;
@@ -26,8 +29,10 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     companySearch: any;
     companyList: any[];
     companySubscription: Subscription;
+    bsModalRef: BsModalRef;
+    deleteCheckList: any[];
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) { }
+              private router: Router,  private modalService: BsModalService) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -57,8 +62,8 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
           );
 
       /* Company List droupdown */
-      this.companySubscription = this.store.select('afterLogin','agent').subscribe(
-          (data)=> {
+      this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(
+          (data) => {
               this.companyList = data.comapnyList;
           }
       );
@@ -70,6 +75,19 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     this.router.navigate([ 'department/edit/', depId ]);
   }
 
+  preDelete(dept_id, template: TemplateRef<any>) {
+    this.store.dispatch(new DepartmentActions.PreDeleteAttempt({deptId: dept_id}));
+    this.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(
+      (data) => {
+        this.deleteCheckList = data;
+      }
+    );
+    this.bsModalRef = this.modalService.show(template);
+  }
+  deleteDepartment(id) {
+    this.bsModalRef.hide();
+    this.store.dispatch(new DepartmentActions.DepartmentDeleteAttempt({deptId: id}));
+  }
   ngOnDestroy (): void {
     this.companyList = null;
     this.authSubscription.unsubscribe();

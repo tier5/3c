@@ -66,8 +66,20 @@
                       <td>{{item.phone}}</td>
                       <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                       <td>
+                        <button type="button" class="btn btn-success btn-xs" (click)="onEditAgent(item.id)">
+                          <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>
+                        <button *ngIf="item.is_block == '1'" type="button" class="btn btn-warning btn-xs" (click)="blockUser(item.id)">
+                          <i class="fa fa-lock" aria-hidden="true"></i>
+                        </button>
+                        <button *ngIf="item.is_block != '1'" type="button" class="btn btn-warning btn-xs" (click)="UnblockUser(item.id)">
+                          <i class="fa fa-unlock" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="DeleteAgent(item.id)">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
                         <!-- Single button -->
-                        <div class="btn-group" [appDropdown]="'open'" [disable-hover]="true">
+                        <!--<div class="btn-group" [appDropdown]="'open'" [disable-hover]="true">
                           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                   aria-haspopup="true" aria-expanded="false">
                             Action <span class="caret"></span>
@@ -79,7 +91,7 @@
                             <li *ngIf="item.is_block != '1'"> <a (click)="UnblockUser(item.id)"><i class="fa fa-unlock" aria-hidden="true"></i>Unblock</a> </li>
                             <li> <a (click)="DeleteAgent(item.id)"><i class="fa fa-times" aria-hidden="true"></i>Delete</a> </li>
                           </ul>
-                        </div>
+                        </div>-->
                       </td>
                     </tr>
                     </tbody>

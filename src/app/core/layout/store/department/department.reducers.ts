@@ -1,10 +1,12 @@
 import * as DepartmentActions from './department.actions';
+import * as AgentActions from '../agent/agent.actions';
 
 export interface DepartmentState {
-  list: any,
-  toEdit: any,
-  resetDepartmentForm: boolean,
-  newDepartmentId: number,
+  list: any;
+  toEdit: any;
+  resetDepartmentForm: boolean;
+  newDepartmentId: number;
+  preDelete: any;
 }
 
 const initialState: DepartmentState = {
@@ -12,6 +14,7 @@ const initialState: DepartmentState = {
   toEdit: {},
   resetDepartmentForm: false,
   newDepartmentId: 0,
+  preDelete: []
 };
 
 export function departmentReducer(state = initialState, action: DepartmentActions.DepartmentActions) {
@@ -53,7 +56,20 @@ export function departmentReducer(state = initialState, action: DepartmentAction
         return {
             ...state,
             toEdit : {}
-        }
+        };
+    case (DepartmentActions.PRE_DELETE_SUCCESS):
+      return {
+        ...state,
+        preDelete: action.payload,
+      };
+    case (DepartmentActions.DEPARTMENT_DELETE_SUCCESS):
+      const deleteIndex = state.list.findIndex(department => department.id === action.payload);
+      const deleteData = [...state.list];
+      deleteData.splice(deleteIndex, 1);
+      return {
+        ...state,
+        list: [...deleteData ]
+      };
     default:
       return state;
   }
