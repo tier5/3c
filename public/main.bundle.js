@@ -2090,40 +2090,44 @@ var reducers = {
 /* unused harmony export GET_AGENT_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_AGENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return RESET_AGENT_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_COMPANY_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_COMPANY_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return RESET_AGENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_COMPANY_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GET_COMPANY_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AGENT_BLOCK_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return AGENT_BLOCK_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return AGENT_UNBLOCK_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return AGENT_UNBLOCK_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return AGENT_UNBLOCK_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return AGENT_UNBLOCK_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return AGENT_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return AGENT_DELETE_SUCCESS; });
 /* unused harmony export GetAgentAttempt */
 /* unused harmony export GetAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return AddAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return AddAgentAttempt; });
 /* unused harmony export AddAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return EditAgentAttempt; });
 /* unused harmony export EditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GetAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return GetAgentListAttempt; });
 /* unused harmony export GetAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return ResetAgentForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetToEditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return ResetAgentForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return GetToEditAgentAttempt; });
 /* unused harmony export GetToEditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetAdminAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetAdminAgentListAttempt; });
 /* unused harmony export GetAdminAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GetCompanyListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return GetCompanyListAttempt; });
 /* unused harmony export GetCompanyListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return BlockAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return BlockAgentAttempt; });
 /* unused harmony export BlockAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return UnblockAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return UnblockAgentAttempt; });
 /* unused harmony export UnblockAgentSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return DeleteAgentAttempt; });
+/* unused harmony export DeleteAgentSuccess */
 var GET_AGENT_ATTEMPT = 'GET_AGENT_ATTEMPT';
 var GET_AGENT_SUCCESS = 'GET_AGENT_SUCCESS';
 var ADD_AGENT_ATTEMPT = 'ADD_AGENT_ATTEMPT';
@@ -2143,6 +2147,8 @@ var AGENT_BLOCK_ATTEMPT = 'AGENT_BLOCK_ATTEMPT';
 var AGENT_BLOCK_SUCCESS = 'AGENT_BLOCK_SUCCESS';
 var AGENT_UNBLOCK_ATTEMPT = 'AGENT_UNBLOCK_ATTEMPT';
 var AGENT_UNBLOCK_SUCCESS = 'AGENT_UNBLOCK_SUCCESS';
+var AGENT_DELETE_ATTEMPT = 'AGENT_DELETE_ATTEMPT';
+var AGENT_DELETE_SUCCESS = 'AGENT_DELETE_SUCCESS';
 var GetAgentAttempt = (function () {
     function GetAgentAttempt() {
         this.type = GET_AGENT_ATTEMPT;
@@ -2292,6 +2298,22 @@ var UnblockAgentSuccess = (function () {
     return UnblockAgentSuccess;
 }());
 
+var DeleteAgentAttempt = (function () {
+    function DeleteAgentAttempt(payload) {
+        this.payload = payload;
+        this.type = AGENT_DELETE_ATTEMPT;
+    }
+    return DeleteAgentAttempt;
+}());
+
+var DeleteAgentSuccess = (function () {
+    function DeleteAgentSuccess(payload) {
+        this.payload = payload;
+        this.type = AGENT_DELETE_SUCCESS;
+    }
+    return DeleteAgentSuccess;
+}());
+
 //# sourceMappingURL=agent.actions.js.map
 
 /***/ }),
@@ -2384,7 +2406,7 @@ var AgentEffects = (function () {
             });
         });
         this.getAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["n" /* GET_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["q" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2395,7 +2417,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["o" /* GET_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2414,7 +2436,7 @@ var AgentEffects = (function () {
             });
         });
         this.editAgent = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["i" /* EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-update';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2426,7 +2448,7 @@ var AgentEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["j" /* EDIT_AGENT_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["m" /* EDIT_AGENT_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -2452,7 +2474,7 @@ var AgentEffects = (function () {
             });
         });
         this.getToEditDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["r" /* GET_TO_EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["u" /* GET_TO_EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2462,7 +2484,7 @@ var AgentEffects = (function () {
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["s" /* GET_TO_EDIT_AGENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["v" /* GET_TO_EDIT_AGENT_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -2474,7 +2496,7 @@ var AgentEffects = (function () {
             });
         });
         this.getAdminAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["o" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-admin-agents';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2485,7 +2507,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["m" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["p" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2504,7 +2526,7 @@ var AgentEffects = (function () {
             });
         });
         this.getCompanyList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["p" /* GET_COMPANY_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["s" /* GET_COMPANY_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-company-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2515,7 +2537,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["q" /* GET_COMPANY_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["t" /* GET_COMPANY_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2572,7 +2594,7 @@ var AgentEffects = (function () {
             });
         });
         this.unblockAgent = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["e" /* AGENT_UNBLOCK_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["g" /* AGENT_UNBLOCK_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2584,7 +2606,45 @@ var AgentEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["f" /* AGENT_UNBLOCK_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["h" /* AGENT_UNBLOCK_SUCCESS */],
+                            payload: res.response
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.deleteAgent = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["e" /* AGENT_DELETE_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-agent';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["f" /* AGENT_DELETE_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -2644,6 +2704,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], AgentEffects.prototype, "unblockAgent", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentEffects.prototype, "deleteAgent", void 0);
 AgentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -2683,22 +2747,22 @@ function agentReducer(state, action) {
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["b" /* ADD_AGENT_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetAgentForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["o" /* GET_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["j" /* EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* EDIT_AGENT_SUCCESS */]):
             var index = state.list.indexOf(function (agent) { return agent.id === action.payload.id; });
             var someAgent = state.list[index];
             var updatedAgent = __assign({}, someAgent, action.payload);
             var admins = state.list.slice();
             admins[index] = updatedAgent;
             return __assign({}, state, { list: state.list.concat(admins) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["s" /* GET_TO_EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["v" /* GET_TO_EDIT_AGENT_SUCCESS */]):
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["x" /* RESET_AGENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["A" /* RESET_AGENT_FORM */]):
             return __assign({}, state, { resetAgentForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["p" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["q" /* GET_COMPANY_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["t" /* GET_COMPANY_LIST_SUCCESS */]):
             return __assign({}, state, { comapnyList: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["d" /* AGENT_BLOCK_SUCCESS */]):
             var unblockIndex = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
@@ -2707,13 +2771,18 @@ function agentReducer(state, action) {
             var unblockAdminData = state.list.slice();
             unblockAdminData[unblockIndex] = updatedUnblockAdmin;
             return __assign({}, state, { list: unblockAdminData.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["f" /* AGENT_UNBLOCK_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["h" /* AGENT_UNBLOCK_SUCCESS */]):
             var unblockIndex1 = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
             var someUnblockAdmins1 = state.list[unblockIndex1];
             var updatedUnblockAdmin1 = __assign({}, someUnblockAdmins1, action.payload);
             var unblockAdminData1 = state.list.slice();
             unblockAdminData1[unblockIndex1] = updatedUnblockAdmin1;
             return __assign({}, state, { list: unblockAdminData1.slice() });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["f" /* AGENT_DELETE_SUCCESS */]):
+            var deleteIndex = state.list.findIndex(function (admin) { return admin.id === action.payload; });
+            var deleteAdminData = state.list.slice();
+            deleteAdminData.splice(deleteIndex, 1);
+            return __assign({}, state, { list: deleteAdminData.slice() });
         default:
             return state;
     }
@@ -3347,30 +3416,38 @@ function dashboardReducer(state, action) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return RESET_DEPARTMENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return RESET_DEPARTMENT_FORM; });
 /* unused harmony export GET_DEPARTMENT_ATTEMPT */
 /* unused harmony export GET_DEPARTMENT_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_DEPARTMENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EDIT_DEPARTMENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_DEPARTMENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return RESET_EDIT_DEPARTMENT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return ResetDepartmentForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return EDIT_DEPARTMENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return EDIT_DEPARTMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_DEPARTMENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return RESET_EDIT_DEPARTMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return PRE_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return PRE_DELETE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DEPARTMENT_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return DEPARTMENT_DELETE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return ResetDepartmentForm; });
 /* unused harmony export GetDepartmentAttempt */
 /* unused harmony export GetDepartmentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddDepartmentAttempt; });
 /* unused harmony export AddDepartmentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EditDepartmentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EditDepartmentAttempt; });
 /* unused harmony export EditDepartmentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetDepartmentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GetDepartmentListAttempt; });
 /* unused harmony export GetDepartmentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetToEditDepartmentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetToEditDepartmentAttempt; });
 /* unused harmony export GetToEditDepartmentSuccess */
 /* unused harmony export ResetEditDepartment */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return PreDeleteAttempt; });
+/* unused harmony export PreDeleteSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return DepartmentDeleteAttempt; });
+/* unused harmony export DepartmentDeleteSuccess */
 var RESET_DEPARTMENT_FORM = 'RESET_DEPARTMENT_FORM';
 var GET_DEPARTMENT_ATTEMPT = 'GET_DEPARTMENT_ATTEMPT';
 var GET_DEPARTMENT_SUCCESS = 'GET_DEPARTMENT_SUCCESS';
@@ -3383,6 +3460,10 @@ var GET_DEPARTMENT_LIST_SUCCESS = 'GET_DEPARTMENT_LIST_SUCCESS';
 var GET_TO_EDIT_DEPARTMENT_ATTEMPT = 'GET_TO_EDIT_DEPARTMENT_ATTEMPT';
 var GET_TO_EDIT_DEPARTMENT_SUCCESS = 'GET_TO_EDIT_DEPARTMENT_SUCCESS';
 var RESET_EDIT_DEPARTMENT = 'RESET_EDIT_DEPARTMENT';
+var PRE_DELETE_ATTEMPT = 'PRE_DELETE_ATTEMPT';
+var PRE_DELETE_SUCCESS = 'PRE_DELETE_SUCCESS';
+var DEPARTMENT_DELETE_ATTEMPT = 'DEPARTMENT_DELETE_ATTEMPT';
+var DEPARTMENT_DELETE_SUCCESS = 'DEPARTMENT_DELETE_SUCCESS';
 var ResetDepartmentForm = (function () {
     function ResetDepartmentForm() {
         this.type = RESET_DEPARTMENT_FORM;
@@ -3477,6 +3558,38 @@ var ResetEditDepartment = (function () {
     return ResetEditDepartment;
 }());
 
+var PreDeleteAttempt = (function () {
+    function PreDeleteAttempt(payload) {
+        this.payload = payload;
+        this.type = PRE_DELETE_ATTEMPT;
+    }
+    return PreDeleteAttempt;
+}());
+
+var PreDeleteSuccess = (function () {
+    function PreDeleteSuccess(payload) {
+        this.payload = payload;
+        this.type = PRE_DELETE_SUCCESS;
+    }
+    return PreDeleteSuccess;
+}());
+
+var DepartmentDeleteAttempt = (function () {
+    function DepartmentDeleteAttempt(payload) {
+        this.payload = payload;
+        this.type = DEPARTMENT_DELETE_ATTEMPT;
+    }
+    return DepartmentDeleteAttempt;
+}());
+
+var DepartmentDeleteSuccess = (function () {
+    function DepartmentDeleteSuccess(payload) {
+        this.payload = payload;
+        this.type = DEPARTMENT_DELETE_SUCCESS;
+    }
+    return DepartmentDeleteSuccess;
+}());
+
 //# sourceMappingURL=department.actions.js.map
 
 /***/ }),
@@ -3569,7 +3682,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.editDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["d" /* EDIT_DEPARTMENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["g" /* EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'edit-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3581,7 +3694,7 @@ var DepartmentEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["e" /* EDIT_DEPARTMENT_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -3607,7 +3720,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["g" /* GET_DEPARTMENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* GET_DEPARTMENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'department-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3617,7 +3730,7 @@ var DepartmentEffects = (function () {
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["h" /* GET_DEPARTMENT_LIST_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["k" /* GET_DEPARTMENT_LIST_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -3629,7 +3742,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getToEditDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["i" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["l" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3639,9 +3752,79 @@ var DepartmentEffects = (function () {
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["m" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
                     payload: res.response
                 };
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.message, type: 'danger' }
+                });
+            });
+        });
+        this.preDeleteDepartment = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["p" /* PRE_DELETE_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'check-pre-delete-department';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .map(function (res) {
+                if (res.status) {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["q" /* PRE_DELETE_SUCCESS */],
+                        payload: res.response
+                    };
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.message, type: 'danger' }
+                });
+            });
+        });
+        this.deleteDepartment = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["d" /* DEPARTMENT_DELETE_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-department';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["e" /* DEPARTMENT_DELETE_SUCCESS */],
+                            payload: res.response
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
             })
                 .catch(function (err) {
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
@@ -3669,6 +3852,14 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], DepartmentEffects.prototype, "getToEditDepartment", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], DepartmentEffects.prototype, "preDeleteDepartment", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], DepartmentEffects.prototype, "deleteDepartment", void 0);
 DepartmentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -3699,28 +3890,36 @@ var initialState = {
     toEdit: {},
     resetDepartmentForm: false,
     newDepartmentId: 0,
+    preDelete: []
 };
 function departmentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["b" /* ADD_DEPARTMENT_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, resetDepartmentForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* EDIT_DEPARTMENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */]):
             var index = state.list.indexOf(function (dep) { return dep.id === action.payload.id; });
             var someDep = state.list[index];
             var updatedDep = __assign({}, someDep, action.payload);
             var deps = state.list.slice();
             deps[index] = updatedDep;
             return __assign({}, state, { list: state.list.concat(deps) });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* GET_DEPARTMENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["k" /* GET_DEPARTMENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* RESET_DEPARTMENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["s" /* RESET_DEPARTMENT_FORM */]):
             return __assign({}, state, { resetDepartmentForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["j" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
             // console.log(action.payload);
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["n" /* RESET_EDIT_DEPARTMENT */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["t" /* RESET_EDIT_DEPARTMENT */]):
             return __assign({}, state, { toEdit: {} });
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["q" /* PRE_DELETE_SUCCESS */]):
+            return __assign({}, state, { preDelete: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* DEPARTMENT_DELETE_SUCCESS */]):
+            var deleteIndex = state.list.findIndex(function (department) { return department.id === action.payload; });
+            var deleteData = state.list.slice();
+            deleteData.splice(deleteIndex, 1);
+            return __assign({}, state, { list: deleteData.slice() });
         default:
             return state;
     }
@@ -4326,34 +4525,38 @@ function twilioReducer(state, action) {
 /* unused harmony export GET_WIDGET_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_WIDGET_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_WIDGET_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EDIT_WIDGET_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_WIDGET_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_WIDGET_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_WIDGET_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return RESET_WIDGET_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_WIDGET_TO_EDIT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_WIDGET_TO_EDIT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_TIMEZONE_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_TIMEZONE_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_NUMBER_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_NUMBER_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_NUMBER_LIST_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EDIT_WIDGET_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EDIT_WIDGET_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_WIDGET_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_WIDGET_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return RESET_WIDGET_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_WIDGET_TO_EDIT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_WIDGET_TO_EDIT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_TIMEZONE_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_TIMEZONE_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_NUMBER_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_NUMBER_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_NUMBER_LIST_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return WIDGET_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return WIDGET_DELETE_SUCCESS; });
 /* unused harmony export GetWidgetAttempt */
 /* unused harmony export GetWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddWidgetAttempt; });
 /* unused harmony export AddWidgetSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return EditWidgetAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return EditWidgetAttempt; });
 /* unused harmony export EditWidgetSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetWidgetListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GetWidgetListAttempt; });
 /* unused harmony export GetWidgetListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return ResetWidgetForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetTimeZoneListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return ResetWidgetForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetTimeZoneListAttempt; });
 /* unused harmony export GetTimeZoneListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GetWidgetToEditAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetWidgetToEditAttempt; });
 /* unused harmony export GetWidgetToEditSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetNumberListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetNumberListAttempt; });
 /* unused harmony export GetNumberListSuccess */
 /* unused harmony export GetNumberListError */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DeleteWidgetAttempt; });
+/* unused harmony export DeleteWidgetSuccess */
 var GET_WIDGET_ATTEMPT = 'GET_WIDGET_ATTEMPT';
 var GET_WIDGET_SUCCESS = 'GET_WIDGET_SUCCESS';
 var ADD_WIDGET_ATTEMPT = 'ADD_WIDGET_ATTEMPT';
@@ -4370,6 +4573,8 @@ var GET_TIMEZONE_LIST_ATTEMPT = 'GET_TIMEZONE_LIST_ATTEMPT';
 var GET_NUMBER_LIST_SUCCESS = 'GET_NUMBER_LIST_SUCCESS';
 var GET_NUMBER_LIST_ATTEMPT = 'GET_NUMBER_LIST_ATTEMPT';
 var GET_NUMBER_LIST_ERROR = 'GET_NUMBER_LIST_ERROR';
+var WIDGET_DELETE_ATTEMPT = 'WIDGET_DELETE_ATTEMPT';
+var WIDGET_DELETE_SUCCESS = 'WIDGET_DELETE_SUCCESS';
 var GetWidgetAttempt = (function () {
     function GetWidgetAttempt() {
         this.type = GET_WIDGET_ATTEMPT;
@@ -4495,6 +4700,22 @@ var GetNumberListError = (function () {
     return GetNumberListError;
 }());
 
+var DeleteWidgetAttempt = (function () {
+    function DeleteWidgetAttempt(payload) {
+        this.payload = payload;
+        this.type = WIDGET_DELETE_ATTEMPT;
+    }
+    return DeleteWidgetAttempt;
+}());
+
+var DeleteWidgetSuccess = (function () {
+    function DeleteWidgetSuccess(payload) {
+        this.payload = payload;
+        this.type = WIDGET_DELETE_SUCCESS;
+    }
+    return DeleteWidgetSuccess;
+}());
+
 //# sourceMappingURL=widget.actions.js.map
 
 /***/ }),
@@ -4549,7 +4770,7 @@ var WidgetEffects = (function () {
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.getTimezoneList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_TIMEZONE_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-timezone';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4560,7 +4781,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_TIMEZONE_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_TIMEZONE_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4617,7 +4838,7 @@ var WidgetEffects = (function () {
             });
         });
         this.getWidgetList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_WIDGET_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4628,7 +4849,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4647,7 +4868,7 @@ var WidgetEffects = (function () {
             });
         });
         this.editWidget = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["d" /* EDIT_WIDGET_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["e" /* EDIT_WIDGET_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'updateWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4659,7 +4880,7 @@ var WidgetEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["e" /* EDIT_WIDGET_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["f" /* EDIT_WIDGET_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -4685,7 +4906,7 @@ var WidgetEffects = (function () {
             });
         });
         this.widgetToEdit = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["o" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'viewWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4696,7 +4917,7 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["o" /* GET_WIDGET_TO_EDIT_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["p" /* GET_WIDGET_TO_EDIT_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4715,7 +4936,7 @@ var WidgetEffects = (function () {
             });
         });
         this.searchNumber = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["g" /* GET_NUMBER_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'search-number';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -4726,20 +4947,58 @@ var WidgetEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["j" /* GET_NUMBER_LIST_SUCCESS */],
                         payload: { res: res.data, type: 'success' }
                     };
                 }
                 else {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */],
+                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_ERROR */],
                         payload: { message: res.message, type: 'danger' }
                     };
                 }
             })
                 .catch(function (err) {
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
-                    type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */],
+                    type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_ERROR */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.deleteWidget = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["w" /* WIDGET_DELETE_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-widget';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["x" /* WIDGET_DELETE_SUCCESS */],
+                            payload: res.response
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["of"])({
+                    type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
                 });
             });
@@ -4771,6 +5030,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], WidgetEffects.prototype, "searchNumber", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], WidgetEffects.prototype, "deleteWidget", void 0);
 WidgetEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -4813,18 +5076,23 @@ function widgetReducer(state, action) {
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["b" /* ADD_WIDGET_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetWidgetForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["m" /* GET_WIDGET_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["k" /* GET_TIMEZONE_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["l" /* GET_TIMEZONE_LIST_SUCCESS */]):
             return __assign({}, state, { timezoneList: action.payload.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["t" /* RESET_WIDGET_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["u" /* RESET_WIDGET_FORM */]):
             return __assign({}, state, { resetWidgetForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["o" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["p" /* GET_WIDGET_TO_EDIT_SUCCESS */]):
             return __assign({}, state, { toEdit: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["i" /* GET_NUMBER_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["j" /* GET_NUMBER_LIST_SUCCESS */]):
             return __assign({}, state, { numbers: action.payload.res, newSuccessBuyNumberCall: true, buttonLoader: action.payload.type });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["h" /* GET_NUMBER_LIST_ERROR */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["i" /* GET_NUMBER_LIST_ERROR */]):
             return __assign({}, state, { numbers: [], newSuccessBuyNumberCall: false, numberError: true, numberMessage: action.payload.message, buttonLoader: action.payload.type });
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["x" /* WIDGET_DELETE_SUCCESS */]):
+            var deleteIndex = state.list.findIndex(function (widget) { return widget.id === action.payload; });
+            var deleteWidgetData = state.list.slice();
+            deleteWidgetData.splice(deleteIndex, 1);
+            return __assign({}, state, { list: deleteWidgetData.slice() });
         default:
             return state;
     }

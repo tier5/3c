@@ -1668,4 +1668,22 @@ class UserController extends Controller
         }
         return Response()->json($response);
     }
+    /**
+     * Delete agent
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAgent(Request $request)
+    {
+        try {
+            $getAgent = Users::findOrFail($request->userId);
+            $getAgent->delete();
+            $response = array('code' => 200, 'error' => false, 'response' => $request->userId, 'status' => true, 'message' => 'User Deleted!');
+        } catch (\Exception $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        }
+        return Response()->json($response);
+    }
 }

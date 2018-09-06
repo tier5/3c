@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
                 if ($checkUser->userInfo->type == 1 && $userId == "") { //Superadmin with no user id
 
-                    $dashboardItemCount = \DB::select("SELECT (SELECT COUNT(*)FROM department) AS departmentCount, (SELECT COUNT(*)FROM widgets) AS widgetCount,(SELECT COUNT(*)FROM users where type=3) AS agentCount, (SELECT COUNT(*)FROM users where type=2) as adminCount");
+                    $dashboardItemCount = \DB::select("SELECT (SELECT COUNT(*)FROM department WHERE deleted_at IS NULL ) AS departmentCount, (SELECT COUNT(*)FROM widgets WHERE deleted_at IS NULL ) AS widgetCount,(SELECT COUNT(*)FROM users where type=3 AND deleted_at IS NULL ) AS agentCount, (SELECT COUNT(*)FROM users where type=2) as adminCount");
                     // this will come as superadmin
 
                     if (count($dashboardItemCount) != 0) {

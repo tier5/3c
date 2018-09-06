@@ -99,7 +99,7 @@ var CreateDepartmentComponent = (function () {
             }
         });
         if (this.dep.userId !== 0) {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["t" /* GetAdminAgentListAttempt */]({ userId: this.dep.userId }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["w" /* GetAdminAgentListAttempt */]({ userId: this.dep.userId }));
         }
         this.afterLoginSubscription = this.store.select('afterLogin')
             .map(function (data) { return data.department.resetDepartmentForm; })
@@ -107,7 +107,7 @@ var CreateDepartmentComponent = (function () {
             if (data) {
                 _this.loader = false;
                 _this.form.reset();
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["o" /* ResetDepartmentForm */]());
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["u" /* ResetDepartmentForm */]());
                 if (!!_this.loggedInAdminId) {
                     _this.form.form.patchValue({ userId: _this.loggedInAdminId });
                 }
@@ -120,7 +120,7 @@ var CreateDepartmentComponent = (function () {
             if (_this.editMode) {
                 /** Checking route params to get id of department to edit */
                 _this.depId = _this.activatedRoute.snapshot.params['id'];
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["l" /* GetToEditDepartmentAttempt */]({ departmentId: _this.depId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["o" /* GetToEditDepartmentAttempt */]({ departmentId: _this.depId }));
                 _this.updateDep = _this.store.select('department')
                     .distinctUntilChanged()
                     .subscribe(function (dep) {
@@ -131,7 +131,7 @@ var CreateDepartmentComponent = (function () {
                             _this.dep.departmentName = dep.toEdit.department.department_name;
                             _this.dep.departmentDetails = dep.toEdit.department.department_details;
                             _this.dep.agents = dep.toEdit.agents;
-                            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["t" /* GetAdminAgentListAttempt */]({ userId: _this.dep.userId }));
+                            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["w" /* GetAdminAgentListAttempt */]({ userId: _this.dep.userId }));
                             _this.adminName = dep.toEdit.department.user_details.first_name + ' ' + dep.toEdit.department.user_details.last_name;
                         }
                     }
@@ -171,7 +171,7 @@ var CreateDepartmentComponent = (function () {
         this.loader = true;
         if (this.editMode) {
             var data = __assign({}, form.value, { departmentId: this.depId });
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["f" /* EditDepartmentAttempt */](__assign({}, data)));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["i" /* EditDepartmentAttempt */](__assign({}, data)));
             /** Loader Show/Hide */
             this.store.select('alert')
                 .map(function (data) { return data; })
@@ -191,7 +191,7 @@ var CreateDepartmentComponent = (function () {
     /** Function to get agent list depending on the selected admin */
     CreateDepartmentComponent.prototype.adminChanged = function (id) {
         if (!!id) {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["t" /* GetAdminAgentListAttempt */]({ userId: id }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["w" /* GetAdminAgentListAttempt */]({ userId: id }));
         }
     };
     /** Function to filter by admin names */
@@ -293,12 +293,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_angular2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__departmentSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/department/departmentSearch.pipe.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_angular2_multiselect_dropdown_angular2_multiselect_dropdown__ = __webpack_require__("../../../../angular2-multiselect-dropdown/angular2-multiselect-dropdown.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -326,7 +328,8 @@ DepartmentModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_7_ngx_order_pipe__["a" /* OrderModule */],
             __WEBPACK_IMPORTED_MODULE_8_ngx_pagination__["a" /* NgxPaginationModule */],
             __WEBPACK_IMPORTED_MODULE_9_angular2_moment__["MomentModule"],
-            __WEBPACK_IMPORTED_MODULE_11_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */]
+            __WEBPACK_IMPORTED_MODULE_11_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */],
+            __WEBPACK_IMPORTED_MODULE_12_ngx_bootstrap_modal__["b" /* ModalModule */].forRoot(),
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_3__create_department_create_department_component__["a" /* CreateDepartmentComponent */],
@@ -458,7 +461,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/department/list-department/list-department.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1>Departments</h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a href=\"javascript:void(0)\">Department</a></li>-->\n            <!--<li class=\"active\"><a href=\"javascript:void(0)\">List</a></li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <div class=\"box-header with-border\">\n                        <h3 class=\"box-title\">List of all Departments</h3>\n                    </div>\n                    <!-- /.box-header -->\n                    <div class=\"box-body\">\n                        <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n                          <div class=\"row filter\">\n                            <div class=\"col-sm-4\" *ngIf=\"!(authState | async).isAdmin;\">\n                              company :\n                              <select class='select-option' [(ngModel)]='companySearch'>\n                                <option value=\"\">Filter by company</option>\n                                <option class='option' *ngFor='let option of companyList' [value]=\"option.company\">{{option.company}}</option>\n                              </select>\n                            </div>\n                            <div class=\"col-sm-8\">Search : <input [(ngModel)]=\"term\" placeholder=\"All keywords\"></div>\n                          </div>\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <table id=\"departmentListTable\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n                                        <thead>\n                                        <tr role=\"row\">\n                                            <th rowspan=\"1\" colspan=\"1\" >#</th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Department Name </th>\n                                            <th rowspan=\"1\" colspan=\"1\" >Department Description</th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Company </th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Created Date</th>\n                                            <th rowspan=\"1\" colspan=\"1\" >Actions</th>\n                                        </tr>\n                                        </thead>\n                                        <tbody>\n                                        <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (afterLoginState | async).department.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                                            <td>{{i+1}}</td>\n                                            <td>{{item.department_name}}</td>\n                                            <td>{{item.department_details | slice:0:120 }}</td>\n                                            <!--<td>{{item.user_details?.company}}</td>-->\n                                            <td>{{item.company_name}}</td>\n                                            <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>\n                                            <td>\n                                                <!--<button type=\"button\" class=\"btn btn-primary btn-xs\">-->\n                                                    <!--<i class=\"fa fa-search\" aria-hidden=\"true\"></i>-->\n                                                     <!--View-->\n                                                <!--</button>-->\n                                                <button type=\"button\" class=\"btn btn-warning btn-xs\" (click)=\"onEdit(item.id)\">\n                                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                                     Edit\n                                                </button>\n                                                <!--<button type=\"button\" class=\"btn btn-danger btn-xs\">-->\n                                                    <!--<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>-->\n                                                     <!--Delete-->\n                                                <!--</button>-->\n                                            </td>\n                                        </tr>\n                                        </tbody>\n                                    </table>\n                                    <div class=\"row\">\n                                        <pagination-controls class=\"older_post_text\"\n                                                             (pageChange)=\"page=$event\"\n                                                             maxSize=\"9\"\n                                                             directionLinks=\"true\"\n                                                             autoHide=\"true\"\n                                                             previousLabel=\"\"\n                                                             nextLabel=\"\"\n                                                             screenReaderPaginationLabel=\"\"\n                                                             screenReaderPageLabel=\"page\"\n                                                             screenReaderCurrentLabel=\"You're on page\">\n                                        </pagination-controls>\n                                    </div>\n                                </div>\n                            </div>\n                            <!-- Pagination -->\n                        </div>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n                <!-- /.box -->\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1>Departments</h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a href=\"javascript:void(0)\">Department</a></li>-->\n            <!--<li class=\"active\"><a href=\"javascript:void(0)\">List</a></li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <div class=\"box-header with-border\">\n                        <h3 class=\"box-title\">List of all Departments</h3>\n                    </div>\n                    <!-- /.box-header -->\n                    <div class=\"box-body\">\n                        <div id=\"example2_wrapper\" class=\"dataTables_wrapper form-inline dt-bootstrap\">\n                          <div class=\"row filter\">\n                            <div class=\"col-sm-4\" *ngIf=\"!(authState | async).isAdmin;\">\n                              company :\n                              <select class='select-option' [(ngModel)]='companySearch'>\n                                <option value=\"\">Filter by company</option>\n                                <option class='option' *ngFor='let option of companyList' [value]=\"option.company\">{{option.company}}</option>\n                              </select>\n                            </div>\n                            <div class=\"col-sm-8\">Search : <input [(ngModel)]=\"term\" placeholder=\"All keywords\"></div>\n                          </div>\n                            <div class=\"row\">\n                                <div class=\"col-sm-12\">\n                                    <table id=\"departmentListTable\" class=\"table table-bordered table-hover dataTable\" role=\"grid\" aria-describedby=\"example2_info\">\n                                        <thead>\n                                        <tr role=\"row\">\n                                            <th rowspan=\"1\" colspan=\"1\" >#</th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Department Name </th>\n                                            <th rowspan=\"1\" colspan=\"1\" >Department Description</th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Company </th>\n                                            <th rowspan=\"1\" colspan=\"1\" class=\"mdl-data-table__cell--non-numeric\">Created Date</th>\n                                            <th rowspan=\"1\" colspan=\"1\" >Actions</th>\n                                        </tr>\n                                        </thead>\n                                        <tbody>\n                                        <tr role=\"row\" class=\"odd\" *ngFor=\"let item of (afterLoginState | async).department.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index\">\n                                            <td>{{i+1}}</td>\n                                            <td>{{item.department_name}}</td>\n                                            <td>{{item.department_details | slice:0:120 }}</td>\n                                            <!--<td>{{item.user_details?.company}}</td>-->\n                                            <td>{{item.company_name}}</td>\n                                            <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>\n                                            <td>\n                                                <!--<button type=\"button\" class=\"btn btn-primary btn-xs\">-->\n                                                    <!--<i class=\"fa fa-search\" aria-hidden=\"true\"></i>-->\n                                                     <!--View-->\n                                                <!--</button>-->\n                                                <button type=\"button\" class=\"btn btn-warning btn-xs\" (click)=\"onEdit(item.id)\">\n                                                    <i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>\n                                                </button>\n                                                <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"preDelete(item.id, template)\">\n                                                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                                                </button>\n                                            </td>\n                                        </tr>\n                                        </tbody>\n                                    </table>\n                                    <div class=\"row\">\n                                        <pagination-controls class=\"older_post_text\"\n                                                             (pageChange)=\"page=$event\"\n                                                             maxSize=\"9\"\n                                                             directionLinks=\"true\"\n                                                             autoHide=\"true\"\n                                                             previousLabel=\"\"\n                                                             nextLabel=\"\"\n                                                             screenReaderPaginationLabel=\"\"\n                                                             screenReaderPageLabel=\"page\"\n                                                             screenReaderCurrentLabel=\"You're on page\">\n                                        </pagination-controls>\n                                    </div>\n                                </div>\n                            </div>\n                            <!-- Pagination -->\n                        </div>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n                <!-- /.box -->\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n  <ng-template #template>\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title pull-left\">Department CheckList</h4>\n      <button type=\"button\" class=\"close pull-right\" aria-label=\"Close\" (click)=\"bsModalRef.hide()\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n      <div class=\"row\" *ngIf=\"deleteCheckList['agents'] !== undefined && deleteCheckList['agents'].length > 0\">\n        <div class=\"col-md-12\">\n          <div class=\"col-md-8\">\n          <h5>Following departments will be free after deleting the agent :</h5>\n        </div>\n          <div class=\"col-md-4\">\n            <div class=\"row\" *ngFor=\"let department of deleteCheckList['agents']\">\n              <div class=\"col-md-12\">\n                <h5>{{ department.first_name + ' ' + department.last_name}}</h5>\n              </div>\n            </div>\n        </div>\n        </div>\n      </div>\n      <div class=\"row\" *ngIf=\"deleteCheckList['widgets'] !== undefined && deleteCheckList['widgets'].length > 0\">\n        <div class=\"col-md-12\">\n          <div class=\"col-md-8\">\n            <h5>Following widgets will be free after deleting the agent :</h5>\n          </div>\n          <div class=\"col-md-4\">\n            <div class=\"row\" *ngFor=\"let widgets of deleteCheckList['widgets']\">\n              <div class=\"col-md-12\">\n                <h5>{{ widgets.website }}</h5>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"row\" *ngIf=\"deleteCheckList['isSingleDepartmentWidgets']\">\n        <div class=\"col-md-12\">\n          <h4>There is some single department widgets so please first make the department free. Then Delete it.</h4>\n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <button class=\"btn btn-warning btn-lg pull-right\" [disabled]=\"deleteCheckList['isSingleDepartmentWidgets']\" (click)=\"deleteDepartment(deleteCheckList.department.id)\">Delete</button>\n          <button class=\"btn btn-success btn-lg\" aria-label=\"Close\" (click)=\"bsModalRef.hide()\">Skip</button>\n        </div>\n      </div>\n    </div>\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -472,6 +475,7 @@ module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"cont
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -486,10 +490,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ListDepartmentComponent = (function () {
-    function ListDepartmentComponent(store, router) {
+    function ListDepartmentComponent(store, router, modalService) {
         this.store = store;
         this.router = router;
+        this.modalService = modalService;
         this.order = 'info.name';
     }
     /** Function to be executed when component initializes */
@@ -501,17 +507,17 @@ var ListDepartmentComponent = (function () {
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["k" /* GetDepartmentListAttempt */]({ userId: data.userId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: data.userId }));
             }
             else {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["k" /* GetDepartmentListAttempt */]({}));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({}));
             }
         });
         this.afterLoginState = this.store.select('afterLogin');
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isSuperAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["v" /* GetCompanyListAttempt */]({ userId: data.token }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["y" /* GetCompanyListAttempt */]({ userId: data.token }));
             }
         });
         /* Company List droupdown */
@@ -522,6 +528,18 @@ var ListDepartmentComponent = (function () {
     /** Function call to start editing a department */
     ListDepartmentComponent.prototype.onEdit = function (depId) {
         this.router.navigate(['department/edit/', depId]);
+    };
+    ListDepartmentComponent.prototype.preDelete = function (dept_id, template) {
+        var _this = this;
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["r" /* PreDeleteAttempt */]({ deptId: dept_id }));
+        this.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(function (data) {
+            _this.deleteCheckList = data;
+        });
+        this.bsModalRef = this.modalService.show(template);
+    };
+    ListDepartmentComponent.prototype.deleteDepartment = function (id) {
+        this.bsModalRef.hide();
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["f" /* DepartmentDeleteAttempt */]({ deptId: id }));
     };
     ListDepartmentComponent.prototype.ngOnDestroy = function () {
         this.companyList = null;
@@ -536,10 +554,10 @@ ListDepartmentComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/department/list-department/list-department.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/department/list-department/list-department.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_modal__["a" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_modal__["a" /* BsModalService */]) === "function" && _c || Object])
 ], ListDepartmentComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=list-department.component.js.map
 
 /***/ })

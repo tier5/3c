@@ -961,4 +961,22 @@ class WidgetController extends Controller
             ]);
         }
     }
+    /**
+     * Delete agent
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteWidget(Request $request)
+    {
+        try {
+            $getWidget = Widgets::findOrFail($request->widget_id);
+            $getWidget->delete();
+            $response = array('code' => 200, 'error' => false, 'response' => $request->widget_id, 'status' => true, 'message' => 'Widget Deleted!');
+        } catch (\Exception $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        }
+        return Response()->json($response);
+    }
 }

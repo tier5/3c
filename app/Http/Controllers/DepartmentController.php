@@ -6,7 +6,10 @@
 namespace App\Http\Controllers;
 
 use App\Model\DepartmentAgentMap;
+use App\Model\WidgetDepartmentMapping;
+use App\Model\Widgets;
 use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Auth,Mail,Hash;
 use Illuminate\Support\Facades\DB;
@@ -424,5 +427,60 @@ class DepartmentController extends Controller
             ));
 
         }
+    }
+
+    /**
+     * CHECK PRE DELETE
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkPreDeleteDepartment(Request $request)
+    {
+        try {
+            $widgetsArray = [];
+            $department = Department::findOrFail($request->deptId);
+            $data['department'] = $department;
+            $isSingelDepartmentWidget = false;
+            $agents = $department->departmentAgents->pluck('user_id');
+            if (count($agents) > 0) {
+                $data['agents'] = User::whereIn('id',$agents)->select('id','first_name','last_name')->get();
+            }
+            $widgets = $department->getWidgets;
+            if (count($widgets) > 0) {
+                $widgetIds = $department->getWidgets->pluck('widget_id');
+                foreach ($widgetIds as $key => $widgetId) {
+                    $widgetsArray[$key] = Widgets::findOrFail($widgetId);
+                    $widgetDepartmentCount = WidgetDepartmentMapping::where('widget_id',$widgetId)->count();
+                    if ($widgetDepartmentCount == 1) {
+                        $isSingelDepartmentWidget = true;
+                    }
+                }
+            } else {
+                $data['widgets'] = [];
+            }
+            $data['widgets'] = $widgetsArray;
+            $data['isSingleDepartmentWidgets'] = $isSingelDepartmentWidget;
+            $response = array('code' => 200, 'error' => false, 'response' => $data, 'status' => true, 'message' => 'department data');
+        } catch (\Exception $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        }
+        return Response()->json($response);
+    }
+    public function deleteDepartment(Request $request)
+    {
+        try {
+            $department = Department::findOrFail($request->deptId);
+            $departmentAgent = DepartmentAgentMap::where('department_id',$request->deptId)->delete();
+            $departmentWidget = WidgetDepartmentMapping::where('department_id',$request->deptId)->delete();
+            $department->delete();
+            $response = array('code' => 200, 'error' => false, 'response' => $request->dept_id, 'status' => true, 'message' => 'Deleted Department');
+        } catch (\Exception $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
+        }
+        return Response()->json($response);
     }
 }

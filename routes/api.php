@@ -126,4 +126,11 @@ Route::post('search-number', 'WidgetController@searchNumber');
 Route::post('block-agent', 'UserController@blockAgent');
 // route for unblock
 Route::post('unblock-agent','UserController@unblockAgent');
-
+// Delete agent
+Route::post('delete-agent','UserController@deleteAgent');
+// Delete Widget
+Route::post('delete-widget','WidgetController@deleteWidget');
+// Check Department
+Route::post('check-pre-delete-department','DepartmentController@checkPreDeleteDepartment');
+// Delete Department
+Route::post('delete-department', 'DepartmentController@deleteDepartment');
