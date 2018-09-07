@@ -22,11 +22,11 @@ use App\Model\MessageCache;
 use App\Model\MessageCacheData;
 use App\Model\MessageForwardCounter;
 use App\Model\UserToken;
+use App\Model\AgentTransferLog;
 use App\Http\Controllers\TwilioController;
 use Helper;
 use SebastianBergmann\Environment\Console;
 use Twilio\Rest\Client;                         /* Twilio REST client */
-
 use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use Illuminate\Database\QueryException;
@@ -1676,7 +1676,16 @@ class ChatController extends Controller
             }
         } elseif ($toAgentId != "" && $fromAgentId != "") {
 
+            $getMessageAgentTrackId = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->select('id')->first();
             $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->update(['agent_id' => $toAgentId, 'status' => 1]);
+            /** Save transfer agent log */
+            $createTransferLog = new AgentTransferLog;
+            $createTransferLog->message_agent_track_id = $getMessageAgentTrackId->id;
+            $createTransferLog->transfer_from_agent_id = $fromAgentId;
+            $createTransferLog->transfer_to_agent_id   = $toAgentId;
+            $createTransferLog->status = 1; //active
+            $createTransferLog->save();
+
             $this->sendNotificationToAgents($toAgentId, $widgetUuid);
             $response = ['agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status' => $status];
 
@@ -1764,8 +1773,9 @@ class ChatController extends Controller
         $allAgents = [];
         foreach ($AgentCreateArray as $AgentId => $list) {
 
-            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName', 'allChat.agentInfo')->orderBy('id', 'desc')->get();
+            $rooms = MessageAgentTrack::where('agent_id', $AgentId)->with('clientInfo.clientName', 'allChat.agentInfo', 'getTransferLog')->orderBy('id', 'desc')->get();
             /** get chat of all agents*/
+
             $allRooms = [];
             $agents['agent_id'] = $AgentId;
             foreach ($rooms as $room) {
@@ -1776,6 +1786,13 @@ class ChatController extends Controller
                     $agentRooms['client_name'] = $room->clientInfo->clientName->name;
                 } else {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
+                }
+                if(isset($room->getTransferLog)){
+                    foreach($room->getTransferLog as $agentKey=>$agentValue){
+                        $getAgentName = Users::where('id',$agentValue->transfer_from_agent_id)->select('first_name','last_name')->first();
+                        $agentRooms['transfer_from_agent'] = $getAgentName->first_name.' '.$getAgentName->last_name;
+                        // $agentRooms['transfer_to_agent'] = $agentValue->transfer_to_agent_id;
+                    }
                 }
                 $agentRooms['chats'] = array();
                 foreach ($room->allChat as $key => $chat) {

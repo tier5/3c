@@ -472,7 +472,7 @@
                                                 @if($userInfo->type == 3)
                                                     <p style="margin: 0;font-size: 14px;line-height: 17px"><span
                                                                 style="font-size: 14px; line-height: 16px;"><span
-                                                                    style="line-height: 16px; font-size: 14px;">You have been added to {{ $getAdminInfo->company }} by {{ $getAdminInfo->first_name }} {{ $getAdminInfo->last_name }}.Your password is : <strong>{{ $password }}</strong></span></span>
+                                                                    style="line-height: 16px; font-size: 14px;">You've been added to {{ $getAdminInfo->company }} by {{ $getAdminInfo->first_name }} {{ $getAdminInfo->last_name }}.Your password is : <strong>{{ $password }}</strong></span></span>
                                                     </p>
                                                 @else
                                                 <p style="margin: 0;font-size: 14px;line-height: 17px"><span
@@ -503,7 +503,7 @@
                                                             <center style="color:#ffffff; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:14px;">
                                         <![endif]-->
                                         <div style="color: #ffffff; background-color: #F8D995; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; max-width: 208px; width: 168px;width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; text-align: center; mso-border-alt: none;">
-                                            <span style="font-size:12px;line-height:24px;"><a href="http://138.197.215.68/" target="_blank">Click hare for login</a> </span>
+                                            <span style="font-size:12px;line-height:24px;"><a href="{{$siteUrl}}" target="_blank">Click hare for login</a> </span>
                                         </div>
                                         <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
                                     </div>
@@ -571,9 +571,6 @@
                                             <div style="font-size:12px;line-height:22px;color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                 <p style="margin: 0;font-size: 12px;line-height: 22px"><span
                                                             style="font-size: 14px; line-height: 25px;">Please remember to change your password.</span>
-                                                </p>
-                                                <p style="margin: 0;font-size: 12px;line-height: 22px"><span
-                                                            style="font-size: 14px; line-height: 25px;">If you didn't attempt to login, delete this email.</span>
                                                 </p>
                                                 <p style="margin: 0;font-size: 12px;line-height: 22px"><span
                                                             style="font-size: 14px; line-height: 25px;">Thanks,</span></p>

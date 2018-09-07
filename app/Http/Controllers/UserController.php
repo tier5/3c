@@ -1178,7 +1178,9 @@ class UserController extends Controller
 
         if ($agentId != '') { //Get agent details
 
-            $agent = Users::where('id', $agentId)->with('departmentAgentMapping.departmentDetails.userDetails')->get()->first();
+            $agent = Users::where('id', $agentId)->with('departmentAgentMapping.departmentDetails','getParentInfo')->get()->first();
+//            \Log::info(print_r($agent,'true'));
+//            dd($agent);
 
             if (count($agent) != 0) {
 
@@ -1195,12 +1197,18 @@ class UserController extends Controller
                 $agentArray['phone'] = $agent->phone;
                 $agentArray['profile_status'] = $agent->profile_status;
                 $agentArray['type'] = $agent->type;
-                $agentArray['department_id'] = $agent->departmentAgentMapping->department_id;
-                $agentArray['department_name'] = $agent->departmentAgentMapping->departmentDetails->department_name;
-                $agentArray['department_details'] = $agent->departmentAgentMapping->departmentDetails->department_details;
-                $agentArray['admin_first_name'] = $agent->departmentAgentMapping->departmentDetails->userDetails->first_name;
+                $agentArray['admin_first_name'] = $agent->getParentInfo->first_name;
+                $agentArray['admin_last_name'] = $agent->getParentInfo->last_name;
+                if(isset($agent->departmentAgentMapping) && isset($agent->departmentAgentMapping->departmentDetails)){
+                    $agentArray['department_id'] = $agent->departmentAgentMapping->department_id;
+                    $agentArray['department_name'] = $agent->departmentAgentMapping->departmentDetails->department_name;
+                    $agentArray['department_details'] = $agent->departmentAgentMapping->departmentDetails->department_details;
+                }else{
+                    $agentArray['department_id'] = [];
+                    $agentArray['department_name'] = [];
+                    $agentArray['department_details'] = [];
+                }
                 $agentArray['admin_username'] = "";
-                $agentArray['admin_last_name'] = $agent->departmentAgentMapping->departmentDetails->userDetails->last_name;
                 $agentArray['is_email_notification'] = $agent->is_email_notification == '1' ? true : false;
                 $agentArray['is_phone_notification'] = $agent->is_phone_notification == '1' ? true : false;
 
@@ -1257,8 +1265,12 @@ class UserController extends Controller
 //            $body .= '<br><br>';
 //            $body .= '<br><br><br>Please Change your password !';
                 // Send Mail to user email id with the created password
-                $getAdminInfo = Users::where('parent_id',$checkUser->parent_id)->first();
-                Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo ], function ($message) use ($checkUser) {
+                if($checkUser->type == 3){
+                    $getAdminInfo = Users::where('id',$checkUser->parent_id)->first();
+                }else{
+                    $getAdminInfo=[];
+                }
+                Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl'=>url('/') ], function ($message) use ($checkUser) {
                     $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
                 });
 

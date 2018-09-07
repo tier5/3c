@@ -30,6 +30,7 @@ class DepartmentController extends Controller
      */
     public function createDepartment(Request $request)
     {
+        //dd($request->all());
         $userToken         = $request->token;
         $userId            = $request->userId;
         $departmentName    = $request->departmentName;
@@ -46,10 +47,17 @@ class DepartmentController extends Controller
             if( $saveDepartment->save() ) {
                 if (count($agentIds) > 0) {
                     foreach ($agentIds as $agentId) {
-                        $departmentAgents = new DepartmentAgentMap();
-                        $departmentAgents->department_id = $saveDepartment->id;
-                        $departmentAgents->user_id = $agentId['id'];
-                        $departmentAgents->save();
+                        $checkUpdateDepartmentAgent = DepartmentAgentMap::where('user_id',$agentId['id'])->first();
+                        if($checkUpdateDepartmentAgent){
+                            $checkUpdateDepartmentAgent->department_id = $saveDepartment->id;
+                            $checkUpdateDepartmentAgent->user_id = $agentId['id'];
+                            $checkUpdateDepartmentAgent->save();
+                        }else{
+                            $departmentAgents = new DepartmentAgentMap();
+                            $departmentAgents->department_id = $saveDepartment->id;
+                            $departmentAgents->user_id = $agentId['id'];
+                            $departmentAgents->save();
+                        }
                     }
                 }
                 return Response::json(array(

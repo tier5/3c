@@ -34,6 +34,10 @@ class MessageAgentTrack extends Model
         return $this->hasOne('App\Model\Users','id','agent_id');
     }
 
+    public function getTransferLog(){
+        return $this->hasMany('App\Model\AgentTransferLog','message_agent_track_id','id');
+    }
+
 }
 
 

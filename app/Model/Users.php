@@ -85,4 +85,9 @@ class Users extends Model
         return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',3);
     }
 
+    public function getParentInfo()
+    {
+        return $this->hasOne('App\Model\Users','id','parent_id')->select('first_name','last_name','id');
+    }
+
 }
