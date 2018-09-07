@@ -134,3 +134,5 @@ Route::post('delete-widget','WidgetController@deleteWidget');
 Route::post('check-pre-delete-department','DepartmentController@checkPreDeleteDepartment');
 // Delete Department
 Route::post('delete-department', 'DepartmentController@deleteDepartment');
+// Get all the agents with all chats
+Route::post('agent-all-chats','ChatListController@getAllAgentChats');
