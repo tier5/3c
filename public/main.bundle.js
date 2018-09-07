@@ -3942,6 +3942,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                console.log(res);
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["q" /* PRE_DELETE_SUCCESS */],

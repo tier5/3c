@@ -234,17 +234,22 @@ var OngoingComponent = (function () {
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Yes'
                 }).then(function (result) {
-                    if (result.value) {
-                        _this._swal2.error([
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        ]);
-                        _this.chatService.takeAction({ agentId: _this.agentId, status: status, chatRoomId: _this.currentChatRoom });
+                    console.log(result);
+                    if (result) {
+                        _this.chatService.takeAction({
+                            agentId: _this.agentId,
+                            status: status,
+                            chatRoomId: _this.currentChatRoom
+                        });
                         _this.changeCurrentChat(0);
                         location.href = '/chat/resolve';
+                    }
+                }, function (dismiss) {
+                    // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+                    if (dismiss === 'cancel') {
+                        console.log('cancel');
                     }
                 });
                 break;
