@@ -91,19 +91,24 @@ export class OngoingComponent implements OnInit, OnDestroy {
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',
                           cancelButtonColor: '#d33',
-                          confirmButtonText: 'Yes, delete it!'
+                          confirmButtonText: 'Yes'
                       }).then((result) => {
-                          if (result.value) {
-                             this._swal2.error([
-                                  'Deleted!',
-                                  'Your file has been deleted.',
-                                  'success'
-                              ])
-                              this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
+                          console.log(result);
+                          if (result) {
+                              this.chatService.takeAction({
+                                  agentId: this.agentId,
+                                  status: status,
+                                  chatRoomId: this.currentChatRoom
+                              });
                               this.changeCurrentChat(0);
                               location.href = '/chat/resolve';
                           }
-                      })
+                      }, (dismiss) => {
+                          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+                          if (dismiss === 'cancel') {
+                              console.log('cancel');
+                          }
+                      });
                       break;
                   default:
                       console.log(status);

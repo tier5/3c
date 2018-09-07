@@ -164,6 +164,7 @@ export class DepartmentEffects {
       }
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+            console.log(res);
           if (res.status) {
             return {
                 type: DepartmentActions.PRE_DELETE_SUCCESS,

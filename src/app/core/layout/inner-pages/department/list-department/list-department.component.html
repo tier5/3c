@@ -91,7 +91,7 @@
     </section>
   <ng-template #template>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Department CheckList</h4>
+      <h4 class="modal-title pull-left">Department Delete</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -100,7 +100,7 @@
       <div class="row" *ngIf="deleteCheckList['agents'] !== undefined && deleteCheckList['agents'].length > 0">
         <div class="col-md-12">
           <div class="col-md-8">
-          <h5>Following departments will be free after deleting the agent :</h5>
+          <h5>Following agents will be free after deleting this department:</h5>
         </div>
           <div class="col-md-4">
             <div class="row" *ngFor="let department of deleteCheckList['agents']">
@@ -114,7 +114,7 @@
       <div class="row" *ngIf="deleteCheckList['widgets'] !== undefined && deleteCheckList['widgets'].length > 0">
         <div class="col-md-12">
           <div class="col-md-8">
-            <h5>Following widgets will be free after deleting the agent :</h5>
+            <h5>Following widgets will be free after deleting this department:</h5>
           </div>
           <div class="col-md-4">
             <div class="row" *ngFor="let widgets of deleteCheckList['widgets']">
@@ -127,7 +127,7 @@
       </div>
       <div class="row" *ngIf="deleteCheckList['isSingleDepartmentWidgets']">
         <div class="col-md-12">
-          <h4>There is some single department widgets so please first make the department free. Then Delete it.</h4>
+          <h4>There is some widgets which contains this department only,can't able to delete this department.</h4>
         </div>
       </div>
       <div class="row">
