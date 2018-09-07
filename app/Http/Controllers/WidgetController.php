@@ -971,6 +971,8 @@ class WidgetController extends Controller
         try {
             $getWidget = Widgets::findOrFail($request->widget_id);
             $getWidget->delete();
+            $deleteWidgetDepartmentMap      = WidgetDepartmentMapping::where('widget_id',$request->widget_id)->delete();
+            $deleteWidgetScheduleMapping    = WidgetScheduleMapping::where('widget_id',$request->widget_id)->delete();
             $response = array('code' => 200, 'error' => false, 'response' => $request->widget_id, 'status' => true, 'message' => 'Widget Deleted!');
         } catch (\Exception $e) {
             $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
