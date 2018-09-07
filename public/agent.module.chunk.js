@@ -266,7 +266,8 @@ module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"conten
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/admin/admin.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.actions.ts");
@@ -371,19 +372,22 @@ var CreateAgentComponent = (function () {
                 _this.selectAdmin = true;
             }
         });
-        this.afterLoginSubscription = this.store.select('afterLogin')
-            .map(function (data) { return data.agent.resetAgentForm; })
-            .subscribe(function (data) {
-            if (data) {
-                _this.loader = false;
-                _this.form.reset();
-                _this.selectDept = false;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["B" /* ResetAgentForm */]());
-                if (!!_this.loggedInAdminId) {
-                    _this.form.form.patchValue({ parentId: _this.loggedInAdminId, departmentId: 0 });
-                }
-            }
-        });
+        // this.afterLoginSubscription = this.store.select('afterLogin')
+        //   .map(data => data.agent.resetAgentForm)
+        //   .subscribe(
+        //     (data) => {
+        //         console.log(data);
+        //       if (data) {
+        //         this.loader = false;
+        //         this.form.reset();
+        //         this.selectDept = false;
+        //         this.store.dispatch(new AgentActions.ResetAgentForm());
+        //         if (!!this.loggedInAdminId) {
+        //           this.form.form.patchValue({ parentId: this.loggedInAdminId, departmentId: 0 });
+        //         }
+        //       }
+        //     }
+        //   );
         this.dep = {
             userId: '',
             departmentName: '',
@@ -451,7 +455,7 @@ var CreateAgentComponent = (function () {
     };
     /** Un-subscribing from all custom made events when component is destroyed */
     CreateAgentComponent.prototype.ngOnDestroy = function () {
-        this.afterLoginSubscription.unsubscribe();
+        // this.afterLoginSubscription.unsubscribe();
         this.authSubscription.unsubscribe();
     };
     /** Function to fetch department list with respect to adminId/userId */
@@ -614,7 +618,7 @@ var ListAgentComponent = (function () {
      * @constructor
      */
     ListAgentComponent.prototype.UnblockUser = function (user_id) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["C" /* UnblockAgentAttempt */]({ userId: user_id }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["B" /* UnblockAgentAttempt */]({ userId: user_id }));
     };
     /**
      * Delete a agent
