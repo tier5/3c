@@ -11,6 +11,7 @@ import { MomentModule } from 'angular2-moment';
 import { SweetAlertService } from 'ngx-sweetalert2';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,14 +19,14 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     FormsModule,
     SharedModule,
     MomentModule,
-      
+
   ],
   declarations: [
     PendingComponent,
     OngoingComponent,
     RejectedComponent,
-    ResolveComponent
+    ResolveComponent,
   ],
-    providers:[SweetAlertService]
+    providers: [SweetAlertService]
 })
 export class ChatModule { }

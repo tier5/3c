@@ -1,6 +1,6 @@
 import {Injectable, Component, NgModule, OnInit, OnDestroy} from '@angular/core';
 import { Store } from '@ngrx/store';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';

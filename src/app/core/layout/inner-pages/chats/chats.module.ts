@@ -11,6 +11,9 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ChatSearchPipe } from './chatSearch.pipe';
+import { AgentLiveComponent } from './agent-live/agent-live.component';
+import { AgentRejectedComponent } from './agent-rejected/agent-rejected.component';
+import { AgentClosedComponent } from './agent-closed/agent-closed.component';
 
 @NgModule({
     imports: [
@@ -27,7 +30,10 @@ import { ChatSearchPipe } from './chatSearch.pipe';
         ListChatComponent,
         ListAgentComponent,
         ContactListComponent,
-        ChatSearchPipe
+        ChatSearchPipe,
+        AgentLiveComponent,
+        AgentRejectedComponent,
+        AgentClosedComponent
     ]
 })
 export class ChatsModule {

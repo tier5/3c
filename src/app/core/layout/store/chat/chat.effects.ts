@@ -12,7 +12,7 @@ import * as ChatActions from '../chat/chat.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
 import { ChatService } from '../../inner-pages/chat/chat.service'
-import { GET_CONTACT_LIST_ATTEMPT } from "./chat.actions";
+import { GET_CONTACT_LIST_ATTEMPT } from './chat.actions';
 
 @Injectable()
 export class ChatEffects {
@@ -71,7 +71,7 @@ export class ChatEffects {
                         }
                     )
                 })
-            
+
         })
 
 

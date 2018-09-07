@@ -16,7 +16,6 @@ export class ChatSearchPipe implements PipeTransform {
 
         return items.filter(function (el: any) {
             const termLower = term.toLowerCase().trim();
-
             /** Search Body */
             if (el.first_name != null && el.first_name.toLowerCase().indexOf(termLower) > -1) {
                 return el.first_name.toLowerCase().indexOf(termLower) > -1;

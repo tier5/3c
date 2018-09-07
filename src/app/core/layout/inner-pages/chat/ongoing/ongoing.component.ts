@@ -9,7 +9,7 @@ import 'rxjs/add/operator/take';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
 import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
-import {filterQueryId} from "../../../../../../../node_modules/@angular/core/src/view/util";
+import {filterQueryId} from '../../../../../../../node_modules/@angular/core/src/view/util';
 import { SweetAlertService } from 'ngx-sweetalert2';
 
 @Component({
@@ -24,14 +24,15 @@ export class OngoingComponent implements OnInit, OnDestroy {
   currentChatRoom: string = '';
   chatRoomSubscription: Subscription;
   agentId: number;
-  toAgentId : number;
-  departmentId : number;
-  transferData : any;
+  toAgentId: number;
+  departmentId: number;
+  transferData: any;
   chatRoomIdChangeDetection: boolean = false;
-  openStatus:boolean = false;
+  openStatus: boolean = false;
 
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private chatService: ChatService,private activatedRoute: ActivatedRoute, private router: Router, private _swal2: SweetAlertService) {  }
+              private chatService: ChatService,private activatedRoute: ActivatedRoute,
+              private router: Router, private _swal2: SweetAlertService) {  }
 
   ngOnInit() {
     this.chatService.connect();
@@ -48,7 +49,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
             }
         );
        this.changeCurrentChat(0);
-      this.getAgentDepartmentList()
+      this.getAgentDepartmentList();
   }
 
   changeCurrentChat(i: number) {
@@ -73,7 +74,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   onSomeMsgAction(status: number) {
       this._swal2.warning({
           title: 'Are you sure?',
-          text: "You won't be able to revert this!",
+          text: 'You won\'t be able to revert this!',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -120,7 +121,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   getChatRoom() {
-    this.chatRoomSubscription = this.store.select("afterLogin")
+    this.chatRoomSubscription = this.store.select('afterLogin')
         .subscribe(
             data => {
               if (data.chat.ongoing[this.currentChatIndex] && !data.chat.ongoing[this.currentChatIndex].length) {

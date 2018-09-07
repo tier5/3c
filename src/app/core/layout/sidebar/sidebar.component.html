@@ -161,7 +161,39 @@
                     </ul>
                 </li>
 
-                <!-- Previous Chats of Agents -->
+              <!-- Chat Rooms -->
+              <li class="treeview"
+                  *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
+                  routerLinkActive="active"
+                  [disable-hover]="true"
+                  [appDropdown]="'menu-open'"
+              >
+                <a>
+                  <i class="fa fa-comments"></i> <span>Chat Options</span>
+                  <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li>
+                    <a href="/chats/agent-live">
+                      <i class="fa fa-comment"></i> <span>Live Sessions</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/chats/agent-rejected">
+                      <i class="fa fa-comment"></i> <span>Rejected</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/chats/agent-closed">
+                      <i class="fa fa-comment"></i> <span>Closed</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+               <!--  Previous Chats of Agents
                 <li class="treeview"
                     *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin"
                     routerLinkActive="active"
@@ -173,7 +205,7 @@
                         <span class="pull-right-container">
                 </span>
                     </a>
-                </li>
+                </li>-->
 
                 <!-- Previous Chats of Agents -->
                 <li class="treeview"

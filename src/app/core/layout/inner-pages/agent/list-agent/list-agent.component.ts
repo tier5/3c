@@ -55,7 +55,9 @@ export class ListAgentComponent implements OnInit {
     /* Company List droupdown */
     this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(
       (data) => {
-        this.companyList = data.comapnyList;
+        if (data.comapnyList) {
+          this.companyList = data.comapnyList;
+        }
       }
     );
 
@@ -101,6 +103,14 @@ export class ListAgentComponent implements OnInit {
    */
   DeleteAgent(user_id) {
     this.store.dispatch(new AgentActions.DeleteAgentAttempt({userId: user_id}));
+  }
+
+  /**
+   * Show Chat List
+   * @param id
+   */
+  chatList(id) {
+    this.router.navigate(['chats/list-chat/', id]);
   }
   /** Un-subscribe from all subscription when component destroys */
   ngOnDestroy(): void {

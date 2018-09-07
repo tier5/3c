@@ -8,9 +8,10 @@ import * as fromAgent from './agent/agent.reducers';
 import * as fromWidget from './widget/widget.reducers';
 import * as fromChat from './chat/chat.reducers';
 import * as fromDashboard from './dashboard/dashboard.reducers';
+import * as fromAgentChat from './agent-chat/agent-chat.reducers';
 
 export interface AfterLoginFeatureState extends fromApp.AppState {
-  afterLogin: FeatureState
+  afterLogin: FeatureState;
 }
 
 export interface FeatureState {
@@ -22,6 +23,7 @@ export interface FeatureState {
   widget: fromWidget.WidgetState,
   chat: fromChat.ChatState,
   dashboard: fromDashboard.DashboardState,
+  agentChats: fromAgentChat.AgentChatState,
 
 };
 
@@ -34,4 +36,5 @@ export const reducers: ActionReducerMap<FeatureState> = {
   widget: fromWidget.widgetReducer,
   chat: fromChat.chatReducer,
   dashboard: fromDashboard.dashboardReducer,
+  agentChats: fromAgentChat.agentChatReducer,
 };

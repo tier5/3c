@@ -75,6 +75,9 @@
                         <button *ngIf="item.is_block != '1'" type="button" class="btn btn-warning btn-xs" (click)="UnblockUser(item.id)">
                           <i class="fa fa-unlock" aria-hidden="true"></i>
                         </button>
+                        <button type="button" class="btn btn-primary btn-xs" (click)="chatList(item.id)">
+                          <i class="fa fa-list" aria-hidden="true"></i>
+                        </button>
                         <button type="button" class="btn btn-danger btn-xs" (click)="DeleteAgent(item.id)">
                           <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>

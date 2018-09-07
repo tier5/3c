@@ -16,9 +16,10 @@ import { DepartmentEffects } from './store/department/department.effects';
 import { AdminEffects } from './store/admin/admin.effect';
 import { AgentEffects } from './store/agent/agent.effect';
 import { WidgetEffects } from './store/widget/widget.effect';
-import { ChatEffects } from './store/chat/chat.effects'
-import { ChatService } from './inner-pages/chat/chat.service'
-import { DashboardEffects} from "./store/dashboard/dashboard.effects";
+import { ChatEffects } from './store/chat/chat.effects';
+import { ChatService } from './inner-pages/chat/chat.service';
+import { AgentChatEffects } from './store/agent-chat/agent-chat.effect';
+import { DashboardEffects} from './store/dashboard/dashboard.effects';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { DashboardEffects} from "./store/dashboard/dashboard.effects";
     SharedModule,
     MomentModule,
     StoreModule.forFeature('afterLogin', reducers),
-    EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects, AgentEffects, WidgetEffects, ChatEffects, DashboardEffects])
+    EffectsModule.forFeature([ProfileEffects, TwilioEffects, DepartmentEffects, AdminEffects,
+      AgentEffects, WidgetEffects, ChatEffects, DashboardEffects, AgentChatEffects])
   ],
   declarations: [
     LayoutComponent,
