@@ -71,21 +71,6 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   onSomeMsgAction(status: number) {
-      this._swal2.warning({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes'
-      }).then((result) => {
-          if (result) {
-              this._swal2.error([
-                  'Chat Closed!',
-                  'Your Chat is closed.',
-                  'success']
-              )
               switch(status) {
                   case 2:
                       this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
@@ -98,16 +83,32 @@ export class OngoingComponent implements OnInit, OnDestroy {
                       this.changeCurrentChat(0);
                       break;
                   case 5:
-                      this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
-                      this.changeCurrentChat(0);
-                      location.href = '/chat/resolve';
+                      this._swal2.warning({
+                          title: 'Are you sure?',
+                          text: "You won't be able to revert this!",
+                          type: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Yes, delete it!'
+                      }).then((result) => {
+                          if (result.value) {
+                             this._swal2.error([
+                                  'Deleted!',
+                                  'Your file has been deleted.',
+                                  'success'
+                              ])
+                              this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
+                              this.changeCurrentChat(0);
+                              location.href = '/chat/resolve';
+                          }
+                      })
                       break;
                   default:
                       console.log(status);
               }
           }
-      })
-  }
+
 
   getAgentDepartmentList(){
       this.chatRoomSubscription = this.store.select(s => s.afterLogin.chat.ongoing[this.currentChatIndex])
