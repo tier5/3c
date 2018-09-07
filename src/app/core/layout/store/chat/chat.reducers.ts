@@ -28,14 +28,17 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         connected   : true
       };
     case ChatActions.ADD_TO_CHAT_LIST:
-        // console.log(action.payload);
+        // console.log('chat', action.payload);
       const obj = {
         room: action.payload.name,
         client: action.payload.client_name,
         chatTime: action.payload.chat_time,
         status: action.payload.status,
         chats: action.payload.chats,
-        transferInfo: action.payload.transfer_from_agent
+        transferInfo: action.payload.transfer_from_agent,
+        isMMS: action.payload.isMMS,
+        fileType: action.payload.fileType,
+        fileUrl: action.payload.fileUrl
       };
       return {
         ...state,
@@ -47,6 +50,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       const someChatList = {...oldChatList[indexOfChat]};
       someChatList.chats = [...someChatList.chats, {...action.payload}];
       oldChatList[indexOfChat] = {...someChatList};
+      console.log(oldChatList);
       return {
         ...state,
         ongoing: [...oldChatList]

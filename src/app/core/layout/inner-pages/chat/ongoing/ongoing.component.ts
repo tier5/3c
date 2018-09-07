@@ -11,6 +11,10 @@ import * as ChatActions from '../../../store/chat/chat.actions';
 import * as fromChat from '../../../store/chat/chat.reducers';
 import {filterQueryId} from '../../../../../../../node_modules/@angular/core/src/view/util';
 import { SweetAlertService } from 'ngx-sweetalert2';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {environment} from '../../../../../../environments/environment';
+import {of} from 'rxjs/observable/of';
+import * as AlertActions from '../../../../store/alert/alert.actions';
 
 @Component({
   selector: 'app-ongoing',
@@ -29,10 +33,14 @@ export class OngoingComponent implements OnInit, OnDestroy {
   transferData: any;
   chatRoomIdChangeDetection: boolean = false;
   openStatus: boolean = false;
-
+  isMMS: boolean = false;
+  fileType: string = '';
+  fileUrl: string = '';
+  fileName: string = '';
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService,private activatedRoute: ActivatedRoute,
-              private router: Router, private _swal2: SweetAlertService) {  }
+              private router: Router, private _swal2: SweetAlertService,
+              private httpClient: HttpClient) {  }
 
   ngOnInit() {
     this.chatService.connect();
@@ -137,15 +145,20 @@ export class OngoingComponent implements OnInit, OnDestroy {
   }
 
   sendMsg(form: NgForm) {
-    this.chatService.sendMsg({ ...form.value, chatRoomId: this.currentChatRoom });
+    this.chatService.sendMsg({ ...form.value, chatRoomId: this.currentChatRoom, file: this.isMMS,
+      fileURL: this.fileUrl, fileType: this.fileType });
     form.reset();
+    this.isMMS = false;
+    this.fileName = '';
+    this.fileType = '';
+    this.fileUrl = '';
   }
 
   /** Show chats id status is not 3 or 5 */
   showChats() {
     return this.store.select('afterLogin')
       .map(data => data.chat)
-      .map(chats => chats.ongoing.filter(chat => chat.status != 3 && chat.status != 5 ));
+      .map(chats => chats.ongoing.filter(chat => chat.status !== 3 && chat.status !== 5 ));
   }
 
   getLoggedInAgentDetails() {
@@ -156,6 +169,37 @@ export class OngoingComponent implements OnInit, OnDestroy {
       this.openStatus = !this.openStatus;
   }
 
+  triggerFileInput() {
+    document.getElementById('fileInput').click();
+  }
+
+  fileSelected(event) {
+    const eventObj: MSInputMethodContext = <MSInputMethodContext>event;
+    const target: HTMLInputElement = <HTMLInputElement>eventObj.target;
+    const files: FileList = target.files;
+
+    const formData: FormData = new FormData();
+    formData.append('file', files[0]);
+    const apiUrl = environment.API_BASE_URL + 'file-upload';
+    const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
+    const config = {
+      headers: headers
+    };
+    this.httpClient.post(apiUrl, formData, config)
+      .subscribe((res: any) => {
+        if (res.status) {
+          this.isMMS = true;
+          this.fileUrl = res.response.url;
+          this.fileType = res.response.type;
+          this.fileName = files[0].name;
+        } else {
+          this.isMMS = false;
+          this.fileName = '';
+          this.fileType = '';
+          this.fileUrl = '';
+        }
+      });
+  }
   ngOnDestroy() {
     this.chatRoomSubscription.unsubscribe();
   }

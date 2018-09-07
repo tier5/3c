@@ -94,6 +94,22 @@
                                                              [src]="chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'"
                                                              alt="Message User Image"><!-- /.direct-chat-img -->
                                                         <div class="direct-chat-text">
+                                                          <div *ngIf="chat.isMMS">
+                                                            <a [href]="chat.fileUrl">
+                                                              <div *ngIf="chat.fileType === 'image'">
+                                                                <img [src]="chat.fileUrl" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'audio'">
+                                                                <img [src]="'../../../../assets/img/audio.png'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'video'">
+                                                                <img [src]="'../../../../assets/img/video.jpeg'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'document'">
+                                                                <img [src]="'../../../../assets/img/doc.jpg'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                            </a>
+                                                          </div>
                                                             {{chat.message}}
                                                         </div>
                                                     </div>

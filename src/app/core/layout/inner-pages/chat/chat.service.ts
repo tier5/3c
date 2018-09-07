@@ -139,7 +139,7 @@ export class ChatService implements OnInit, OnDestroy {
         this.socket.emit('agent-performed-some-action', data);
     }
 
-    sendMsg (data: { messageBody: string, chatRoomId: string }) {
+    /*sendMsg (data: { messageBody: string, chatRoomId: string }) {
         const obj = {
             ...data,
             user: this.loggedInAgentName,
@@ -147,7 +147,17 @@ export class ChatService implements OnInit, OnDestroy {
             time: moment()
         };
         this.socket.emit('msg', obj);
-    }
+    }*/
+
+  sendMsg (data: { messageBody: string, chatRoomId: string, file: boolean, fileURL: string, fileType: string }) {
+    const obj = {
+      ...data,
+      user: this.loggedInAgentName,
+      direction: 2,
+      time: moment()
+    };
+    this.socket.emit('msg', obj);
+  }
 
     sendResolveConfirmation (data) {
         this.socket.emit('resolve-chat-request', data);

@@ -12,10 +12,12 @@ import * as AlertActions from '../../../store/alert/alert.actions';
 import * as WidgetActions from './widget.actions';
 import { environment } from '../../../../../environments/environment';
 import * as AgentActions from '../agent/agent.actions';
+import {SpinnerService} from '../../../shared/spinner';
 @Injectable()
 export class WidgetEffects {
   constructor (private actions$: Actions,
-               private httpClient: HttpClient) {}
+               private httpClient: HttpClient,
+               private spinnerService: SpinnerService) {}
 
   @Effect()
   getTimezoneList = this.actions$
@@ -208,8 +210,10 @@ export class WidgetEffects {
       const config = {
         headers: headers
       };
+      this.spinnerService.show();
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,

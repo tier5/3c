@@ -181,7 +181,10 @@ ul.super-sub li:hover{background: #e1e3e9;}
         max-height: 200px;
     }
 }
-
+.docImage {
+  height: 200px;
+  width: 200px;
+}
 
 
 

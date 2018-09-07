@@ -18,7 +18,7 @@ import { IsSuperAdminGuard } from './auth/is-super-admin.guard';
 import { LayoutModule } from './layout/layout.module';
 import { NotAuthGuard } from './auth/not-auth.guard';
 import { reducers } from './store/core.reducers';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './shared';
 import { MomentModule } from 'angular2-moment';
 import {ChatService} from './layout/inner-pages/chat/chat.service';
 import { PushNotificationsService } from './shared/push.notification.service';

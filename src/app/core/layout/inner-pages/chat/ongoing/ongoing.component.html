@@ -83,7 +83,6 @@
                                                     <div class="direct-chat-msg"
                                                          [ngClass]="{ right: chat.direction == 2 }"
                                                          *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
-
                                                         <div class="direct-chat-info clearfix">
                                                             <span class="direct-chat-name"
                                                                   [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
@@ -94,6 +93,22 @@
                                                              [src]="chat.direction == 2 ?  '../../../../assets/img/user1-128x128.jpg' : '../../../../assets/img/user3-128x128.jpg'"
                                                              alt="Message User Image"><!-- /.direct-chat-img -->
                                                         <div class="direct-chat-text">
+                                                          <div *ngIf="chat.isMMS">
+                                                            <a [href]="chat.fileUrl">
+                                                              <div *ngIf="chat.fileType === 'image'">
+                                                                <img [src]="chat.fileUrl" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'audio'">
+                                                                <img [src]="'../../../../assets/img/audio.png'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'video'">
+                                                                <img [src]="'../../../../assets/img/video.jpeg'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                              <div *ngIf="chat.fileType === 'document'">
+                                                                <img [src]="'../../../../assets/img/doc.jpg'" [alt]="chat.fileUrl" class="docImage"/>
+                                                              </div>
+                                                            </a>
+                                                          </div>
                                                             {{chat.message}}
                                                         </div>
                                                         </div>
@@ -104,16 +119,23 @@
 
                                         </div>
                                         <!-- /.box-body -->
+                                      <input type="file" id="fileInput" style="display: none;" (change)="fileSelected($event)">
                                         <div class="box-footer"
                                              *ngIf="(chatState | async).ongoing[currentChatIndex]?.status != 1">
                                             <form #form="ngForm" (submit)="sendMsg(form)">
                                                 <div class="input-group">
+                                                  <span class="input-group-btn">
+                                                    <button type="button" class="btn" (click)="triggerFileInput()" >
+                                                      <i class="fa fa-paperclip"></i>
+                                                      <span *ngIf="isMMS">{{ fileName }}</span>
+                                                    </button>
+                                                  </span>
                                                     <input type="text"
                                                            name="messageBody"
                                                            placeholder="Type Message ..."
                                                            class="form-control"
                                                            ngModel
-                                                           required
+                                                           [required]="!isMMS"
                                                     >
                                                     <span class="input-group-btn">
                         <!--<button type="button"-->
