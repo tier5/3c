@@ -151,6 +151,9 @@
                     <span class="product-description">
                       {{contact.room}} - {{contact.chatTime.date | amFromUtc | amLocal | amTimeAgo}}
                     </span>
+                    <span *ngIf="contact.transferInfo">
+                      Transfer By : {{contact.transferInfo}}
+                    </span>
                   </div>
                   <div class="button-box">
                     <button class="btn btn-success" (click)="onSomeMsgAction(2,contact.room)">Accept</button>

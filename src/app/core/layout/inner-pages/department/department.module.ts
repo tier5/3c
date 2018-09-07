@@ -11,6 +11,7 @@ import { MomentModule } from 'angular2-moment';
 import { DepartmentSearchPipe } from './departmentSearch.pipe';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {TextMaskModule} from 'angular2-text-mask';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
         MomentModule,
         AngularMultiSelectModule,
         ModalModule.forRoot(),
+        TextMaskModule,
     ],
     declarations: [
         CreateDepartmentComponent,

@@ -28,12 +28,14 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         connected   : true
       };
     case ChatActions.ADD_TO_CHAT_LIST:
+        // console.log(action.payload);
       const obj = {
         room: action.payload.name,
         client: action.payload.client_name,
         chatTime: action.payload.chat_time,
         status: action.payload.status,
-        chats: action.payload.chats
+        chats: action.payload.chats,
+        transferInfo: action.payload.transfer_from_agent
       };
       return {
         ...state,
