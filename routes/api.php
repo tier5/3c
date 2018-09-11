@@ -136,3 +136,5 @@ Route::post('check-pre-delete-department','DepartmentController@checkPreDeleteDe
 Route::post('delete-department', 'DepartmentController@deleteDepartment');
 // Get all the agents with all chats
 Route::post('agent-all-chats','ChatListController@getAllAgentChats');
+// Upload file
+Route::post('file-upload','ChatController@uploadFile');

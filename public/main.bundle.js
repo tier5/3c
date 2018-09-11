@@ -1114,6 +1114,15 @@ var ChatService = (function () {
         console.log(data);
         this.socket.emit('agent-performed-some-action', data);
     };
+    /*sendMsg (data: { messageBody: string, chatRoomId: string }) {
+        const obj = {
+            ...data,
+            user: this.loggedInAgentName,
+            direction: 2,
+            time: moment()
+        };
+        this.socket.emit('msg', obj);
+    }*/
     ChatService.prototype.sendMsg = function (data) {
         var obj = __assign({}, data, { user: this.loggedInAgentName, direction: 2, time: __WEBPACK_IMPORTED_MODULE_5_moment__() });
         this.socket.emit('msg', obj);
@@ -2976,11 +2985,11 @@ function agentReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetTransferAgentListAttempt; });
 /* unused harmony export GetTransferAgentListSuccess */
 var CONNECT_ATTEMPT = 'CONNECT_ATTEMPT';
-var CONNECT_SUCCESS = "CONNECT_SUCCESS";
-var ADD_NEW_MSG_TO_CHAT_LIST = "ADD_NEW_MSG_TO_CHAT_LIST";
-var ADD_TO_CHAT_LIST = "ADD_TO_CHAT_LIST";
-var EDIT_FROM_CHAT_LIST = "EDIT_FROM_CHAT_LIST";
-var DELETE_FROM_CHAT_LIST = "DELETE_FROM_CHAT_LIST";
+var CONNECT_SUCCESS = 'CONNECT_SUCCESS';
+var ADD_NEW_MSG_TO_CHAT_LIST = 'ADD_NEW_MSG_TO_CHAT_LIST';
+var ADD_TO_CHAT_LIST = 'ADD_TO_CHAT_LIST';
+var EDIT_FROM_CHAT_LIST = 'EDIT_FROM_CHAT_LIST';
+var DELETE_FROM_CHAT_LIST = 'DELETE_FROM_CHAT_LIST';
 var GET_AGENT_LIST_ATTEMPT = 'GET_AGENT_LIST_ATTEMPT';
 var GET_AGENT_LIST_SUCCESS = 'GET_AGENT_LIST_SUCCESS';
 var GET_CHAT_LIST_ATTEMPT = 'GET_CHAT_LIST_ATTEMPT';
@@ -3354,14 +3363,17 @@ function chatReducer(state, action) {
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["f" /* CONNECT_SUCCESS */]:
             return __assign({}, state, { ongoing: [], resolve: [], connected: true });
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["b" /* ADD_TO_CHAT_LIST */]:
-            // console.log(action.payload);
+            // console.log('chat', action.payload);
             var obj = {
                 room: action.payload.name,
                 client: action.payload.client_name,
                 chatTime: action.payload.chat_time,
                 status: action.payload.status,
                 chats: action.payload.chats,
-                transferInfo: action.payload.transfer_from_agent
+                transferInfo: action.payload.transfer_from_agent,
+                isMMS: action.payload.isMMS,
+                fileType: action.payload.fileType,
+                fileUrl: action.payload.fileUrl
             };
             return __assign({}, state, { ongoing: state.ongoing.concat([__assign({}, obj)]) });
         case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["a" /* ADD_NEW_MSG_TO_CHAT_LIST */]):
@@ -3370,6 +3382,7 @@ function chatReducer(state, action) {
             var someChatList = __assign({}, oldChatList[indexOfChat]);
             someChatList.chats = someChatList.chats.concat([__assign({}, action.payload)]);
             oldChatList[indexOfChat] = __assign({}, someChatList);
+            console.log(oldChatList);
             return __assign({}, state, { ongoing: oldChatList.slice() });
         case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["j" /* EDIT_FROM_CHAT_LIST */]):
             var indexToEdit = state.ongoing.findIndex(function (chat) { return chat.room === action.payload.room_number; });
