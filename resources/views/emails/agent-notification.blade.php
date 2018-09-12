@@ -599,7 +599,7 @@
                                             <div style="color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 5px; padding-left: 5px; padding-top: 5px; padding-bottom: 5px;">
                                                 <div style="font-size:12px;line-height:14px;color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                     <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center">
-                                                        <span style="font-size: 14px; line-height: 16px;"><strong>+000 000 0000</strong></span>
+                                                        <span style="font-size: 14px; line-height: 16px;"><strong>+888 336 3695</strong></span>
                                                     </p></div>
                                             </div>
                                             <!--[if mso]></td></tr></table><![endif]-->
@@ -692,7 +692,7 @@
                                             <div style="color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
                                                 <div style="font-size:12px;line-height:14px;color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                     <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center">
-                                                        <span style="font-size: 14px; line-height: 16px;"><strong>yourmail@example.com</strong></span><br>
+                                                        <span style="font-size: 14px; line-height: 16px;"><strong>support@telemojo.com</strong></span><br>
                                                     </p></div>
                                             </div>
                                             <!--[if mso]></td></tr></table><![endif]-->
@@ -757,6 +757,100 @@
                                             </tr>
                                             </tbody>
                                         </table>
+
+
+                                        {{--<div align="center"--}}
+                                        {{--style="padding-right: 0px; padding-left: 0px; padding-bottom: 0px;" class="">--}}
+                                        {{--<div style="line-height:5px;font-size:1px">&#160;</div>--}}
+                                        {{--<div style="display: table; max-width:131px;">--}}
+                                        {{--<!--[if (mso)|(IE)]>--}}
+                                        {{--<table width="131" cellpadding="0" cellspacing="0" border="0">--}}
+                                        {{--<tr>--}}
+                                        {{--<td style="border-collapse:collapse; padding-right: 0px; padding-left: 0px; padding-bottom: 0px;"--}}
+                                        {{--align="center">--}}
+                                        {{--<table width="100%" cellpadding="0" cellspacing="0" border="0"--}}
+                                        {{--style="border-collapse:collapse; mso-table-lspace: 0pt;mso-table-rspace: 0pt; width:131px;">--}}
+                                        {{--<tr>--}}
+                                        {{--<td width="32" style="width:32px; padding-right: 5px;"--}}
+                                        {{--valign="top"><![endif]-->--}}
+                                        {{--<table align="left" border="0" cellspacing="0" cellpadding="0" width="32"--}}
+                                        {{--height="32"--}}
+                                        {{--style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;Margin-right: 5px">--}}
+                                        {{--<tbody>--}}
+                                        {{--<tr style="vertical-align: top">--}}
+                                        {{--<td align="left" valign="middle"--}}
+                                        {{--style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">--}}
+                                        {{--<a href="https://www.facebook.com/" title="Facebook"--}}
+                                        {{--target="_blank">--}}
+                                        {{--<img src="images/facebook@2x.png" alt="Facebook"--}}
+                                        {{--title="Facebook" width="32"--}}
+                                        {{--style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">--}}
+                                        {{--</a>--}}
+                                        {{--<div style="line-height:5px;font-size:1px">&#160;</div>--}}
+                                        {{--</td>--}}
+                                        {{--</tr>--}}
+                                        {{--</tbody>--}}
+                                        {{--</table>--}}
+                                        {{--<!--[if (mso)|(IE)]></td>--}}
+                                        {{--<td width="32" style="width:32px; padding-right: 5px;" valign="top"><![endif]-->--}}
+                                        {{--<table align="left" border="0" cellspacing="0" cellpadding="0" width="32"--}}
+                                        {{--height="32"--}}
+                                        {{--style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;Margin-right: 5px">--}}
+                                        {{--<tbody>--}}
+                                        {{--<tr style="vertical-align: top">--}}
+                                        {{--<td align="left" valign="middle"--}}
+                                        {{--style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">--}}
+                                        {{--<a href="https://twitter.com/" title="Twitter" target="_blank">--}}
+                                        {{--<img src="images/twitter@2x.png" alt="Twitter"--}}
+                                        {{--title="Twitter" width="32"--}}
+                                        {{--style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">--}}
+                                        {{--</a>--}}
+                                        {{--<div style="line-height:5px;font-size:1px">&#160;</div>--}}
+                                        {{--</td>--}}
+                                        {{--</tr>--}}
+                                        {{--</tbody>--}}
+                                        {{--</table>--}}
+                                        {{--<!--[if (mso)|(IE)]></td>--}}
+                                        {{--<td width="32" style="width:32px; padding-right: 0;" valign="top"><![endif]-->--}}
+                                        {{--<table align="left" border="0" cellspacing="0" cellpadding="0" width="32"--}}
+                                        {{--height="32"--}}
+                                        {{--style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;Margin-right: 0">--}}
+                                        {{--<tbody>--}}
+                                        {{--<tr style="vertical-align: top">--}}
+                                        {{--<td align="left" valign="middle"--}}
+                                        {{--style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">--}}
+                                        {{--<a href="https://plus.google.com/" title="Google+"--}}
+                                        {{--target="_blank">--}}
+                                        {{--<img src="images/googleplus@2x.png" alt="Google+"--}}
+                                        {{--title="Google+" width="32"--}}
+                                        {{--style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">--}}
+                                        {{--</a>--}}
+                                        {{--<div style="line-height:5px;font-size:1px">&#160;</div>--}}
+                                        {{--</td>--}}
+                                        {{--</tr>--}}
+                                        {{--</tbody>--}}
+                                        {{--</table>--}}
+                                        {{--<!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->--}}
+                                        {{--</div>--}}
+                                        {{--</div>--}}
+
+
+                                        {{--<div class="">--}}
+                                        {{--<!--[if mso]>--}}
+                                        {{--<table width="100%" cellpadding="0" cellspacing="0" border="0">--}}
+                                        {{--<tr>--}}
+                                        {{--<td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;">--}}
+                                        {{--<![endif]-->--}}
+                                        {{--<div style="color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;">--}}
+                                        {{--<div style="font-size:12px;line-height:14px;color:#FFFFFF;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">--}}
+                                        {{--<p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center">--}}
+                                        {{--<strong><span style="font-size: 14px; line-height: 16px;">We Are Social</span></strong><br>--}}
+                                        {{--</p></div>--}}
+                                        {{--</div>--}}
+                                        {{--<!--[if mso]></td></tr></table><![endif]-->--}}
+                                        {{--</div>--}}
+
+
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="divider "
                                                style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%">
                                             <tbody>
@@ -839,6 +933,7 @@
                     </div>
                 </div>
                 <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+            </div>
         </td>
     </tr>
     </tbody>

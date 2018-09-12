@@ -737,6 +737,7 @@ class ChatController extends Controller
             $checkUser = Users::where('email', $email)->first();
             if (count($checkUser) != 0) {
                 Mail::send('emails.agent-notification', ['body' => $body, 'fname' => $checkUser->first_name], function ($message) use ($checkUser) {
+                    $message->from(env('MAIL_USERNAME'), 'sms.telemojo.com');
                     $message->to($checkUser->email, $checkUser->first_name)->subject('3c chat notification');
                 });
 

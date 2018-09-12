@@ -242,7 +242,7 @@ class UserController extends Controller
 
                 // Send Mail to user email id
                 Mail::send([], [], function ($message) use ($body, $forget_check) {
-                    //$message->from(getenv('MAIL_USERNAME'),"Password");
+                    $message->from(env('MAIL_USERNAME'), 'sms.telemojo.com');
                     $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password?')->setBody($body, 'text/html');
                 });
 
@@ -1271,6 +1271,7 @@ class UserController extends Controller
                     $getAdminInfo=[];
                 }
                 Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl'=>url('/') ], function ($message) use ($checkUser) {
+                    $message->from(env('MAIL_USERNAME'), 'sms.telemojo.com');
                     $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
                 });
 
