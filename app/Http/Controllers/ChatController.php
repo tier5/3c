@@ -634,7 +634,10 @@ class ChatController extends Controller
                 $smsBody .= "Please Reply with the Number only.";
                 $smsBody .= "\n";
                 $smsBody .= "Thanks";
-                $this->sendSms($smsBody, $fromNumber, $toNumber);
+                $file = false;
+                $fileUrl = '';
+                $fileType = '';
+                $this->sendSms($smsBody, $fromNumber, $toNumber, $file, $fileType, $fileUrl);
             } else {
                 Log::info('3 ==> else');
                 return Response::json(array(
@@ -662,7 +665,7 @@ class ChatController extends Controller
      * @param smsBody, fromNumber, toNumber
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendSms($smsBody, $toNumber, $fromNumber)
+    public function sendSms($smsBody, $toNumber, $fromNumber, $file, $fileType, $fileUrl)
     {
         Log::info('4 ==> send sms');
         if ($smsBody != "" && $toNumber != "" && $fromNumber != "") {
@@ -674,11 +677,20 @@ class ChatController extends Controller
                     $sid = $keys->getTwilioCredentials->twilio_sid;
                     $token = $keys->getTwilioCredentials->twilio_token;
                     $clientsms = new Client($sid, $token);
-                    $message = $clientsms->messages->create(
-                        $toNumber, array(
-                        "from" => $fromNumber,
-                        "body" => $smsBody
-                    ));
+                    if ($file) {
+                        $message = $clientsms->messages->create(
+                            $toNumber, array(
+                            "from" => $fromNumber,
+                            "body" => $smsBody,
+                            "mediaUrl" => $fileUrl
+                        ));
+                    } else {
+                        $message = $clientsms->messages->create(
+                            $toNumber, array(
+                            "from" => $fromNumber,
+                            "body" => $smsBody
+                        ));
+                    }
                     \Log::info("from =>" . $fromNumber . "body =>" . $smsBody . "To--> " . $toNumber);
                     \Log::info('SMS Send !');
                 } catch (\Exception $e) {
@@ -1165,7 +1177,7 @@ class ChatController extends Controller
                         $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
                         //modify this part
                         Log::info('15 => send sms');
-                        $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber);
+                        $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber, $file, $fileType, $fileUrl);
                     }
                     $messageId = $checkMessageTrack->message_id;
                     $userId = $checkMessageTrack->agent_id;
@@ -1436,7 +1448,10 @@ class ChatController extends Controller
                 \Log::info('user Logged in now send ');
                 if ($getAgent->is_phone_notification && $getAgent->is_block == '1') {
                     Log::info('phone notification');
-                    $this->sendSms($smsBody, $agentPhoneNumber, $toNumber);
+                    $file = false;
+                    $fileType = '';
+                    $fileUrl = '';
+                    $this->sendSms($smsBody, $agentPhoneNumber, $toNumber, $file, $fileType, $fileUrl);
                 }
                 if ($getAgent->is_email_notification && $getAgent->is_block == '1') {
                     Log::info('email notification');
