@@ -540,7 +540,6 @@ class ChatController extends Controller
                                         }
                                     }
                                     $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
-                                    Log::info($responseChatProcess);
                                     $time = date("Y-m-d H:i:s");
                                     $url = url('/') . ':3000/mobile-chat';
                                     $ch = curl_init();
@@ -733,7 +732,6 @@ class ChatController extends Controller
      */
     public function sendEmail($body, $email)
     {
-        Log::info($email);
         $email = trim($email);
         if ($email != "") {
             $checkUser = Users::where('email', $email)->first();
@@ -1185,7 +1183,6 @@ class ChatController extends Controller
                     $type = 2; //1->mobile 2->web
                     Log::info('15 => save chat sms');
                     $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
-                    Log::info($responseSaveChatThread);
                     if ($responseSaveChatThread->direction == 1) {
                         //user contain client info
                         $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
@@ -1422,7 +1419,7 @@ class ChatController extends Controller
     public function sendNotificationToAgents($agentId, $widgetUuId)
     {
         if ($agentId != "" && $widgetUuId != "") {
-            $getAgent = Users::where('id', $agentId)->first();
+            $getAgent = Users::where('id', $agentId)->with('pendingChatCount')->first();
             if (count($getAgent) != 0) {
                 //   $agentPhoneNumber = $getAgent->phone;
                 $agentPhoneNumber = '+1' . preg_replace('/\D+/', '', $getAgent->phone);
@@ -1440,7 +1437,8 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
+            $smsBody = $getAgent->first_name.', You have '. $getAgent->pendingChatCount->count() .' number of pending chat requests at http://sms.telemojo.com/pending ';
+            //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
             $userController = new UserController;
