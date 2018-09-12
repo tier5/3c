@@ -736,31 +736,34 @@ class ChatController extends Controller
         if ($email != "") {
             $checkUser = Users::where('email', $email)->first();
             if (count($checkUser) != 0) {
-                Mail::send('emails.agent-notification', ['body' => $body, 'fname' => $checkUser->first_name], function ($message) use ($checkUser) {
-                    $message->from('sms@telemojo.com', 'sms.telemojo.com');
-                    $message->to($checkUser->email, $checkUser->first_name)->subject('3c chat notification');
-                });
+                try {
+                    Mail::send('emails.agent-notification', ['body' => $body, 'fname' => $checkUser->first_name], function ($message) use ($checkUser) {
+                        $message->from('sms@telemojo.com', 'sms.telemojo.com');
+                        $message->to($checkUser->email, $checkUser->first_name)->subject('3c chat notification');
+                    });
+                    if (Mail::failures()) {
 
-                if (Mail::failures()) {
+                        return Response()->json([
+                            'code' => 400,
+                            'error' => true,
+                            'status' => false,
+                            'response' => [],
+                            'message' => 'Try Again!!'
+                        ]);
 
-                    return Response()->json([
-                        'code' => 400,
-                        'error' => true,
-                        'status' => false,
-                        'response' => [],
-                        'message' => 'Try Again!!'
-                    ]);
+                    } else {
 
-                } else {
+                        return Response()->json([
+                            'code' => 200,
+                            'error' => false,
+                            'status' => true,
+                            'response' => [],
+                            'message' => 'Mail Successfully Send To Your Registered Email!!'
+                        ]);
 
-                    return Response()->json([
-                        'code' => 200,
-                        'error' => false,
-                        'status' => true,
-                        'response' => [],
-                        'message' => 'Mail Successfully Send To Your Registered Email!!'
-                    ]);
-
+                    }
+                } catch (\Exception $e) {
+                    Log::info('can not able to send mail');
                 }
             } else {
 

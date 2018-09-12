@@ -239,33 +239,35 @@ class UserController extends Controller
                 $accutal_id = base64_encode($forget_check->id);
                 // $body = url('/') . '/reset-password/' . $accutal_id;
                 $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
+                try {
+                    Mail::send([], [], function ($message) use ($body, $forget_check) {
+                        $message->from('sms@telemojo.com', 'sms.telemojo.com');
+                        $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password?')->setBody($body, 'text/html');
+                    });
 
-                // Send Mail to user email id
-                Mail::send([], [], function ($message) use ($body, $forget_check) {
-                    $message->from('sms@telemojo.com', 'sms.telemojo.com');
-                    $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password?')->setBody($body, 'text/html');
-                });
+                    if (Mail::failures()) {
 
-                if (Mail::failures()) {
+                        return Response()->json([
+                            'code' => 400,
+                            'error' => true,
+                            'status' => false,
+                            'response' => [],
+                            'message' => 'Try Again!!'
+                        ]);
 
-                    return Response()->json([
-                        'code' => 400,
-                        'error' => true,
-                        'status' => false,
-                        'response' => [],
-                        'message' => 'Try Again!!'
-                    ]);
+                    } else {
 
-                } else {
+                        return Response()->json([
+                            'code' => 200,
+                            'error' => false,
+                            'status' => true,
+                            'response' => [],
+                            'message' => 'Password Reset Mail Successfully Send To Your Registered Email!!'
+                        ]);
 
-                    return Response()->json([
-                        'code' => 200,
-                        'error' => false,
-                        'status' => true,
-                        'response' => [],
-                        'message' => 'Password Reset Mail Successfully Send To Your Registered Email!!'
-                    ]);
-
+                    }
+                } catch (\Exception $e) {
+                    Log::info('con not able to send sms');
                 }
             } else {
 
@@ -1270,31 +1272,35 @@ class UserController extends Controller
                 }else{
                     $getAdminInfo=[];
                 }
-                Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl'=>url('/') ], function ($message) use ($checkUser) {
-                    $message->from('sms@telemojo.com', 'sms.telemojo.com');
-                    $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
-                });
+                try {
+                    Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl' => url('/')], function ($message) use ($checkUser) {
+                        $message->from('sms@telemojo.com', 'sms.telemojo.com');
+                        $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
+                    });
 
-                if (Mail::failures()) {
+                    if (Mail::failures()) {
 
-                    return Response()->json([
-                        'code' => 400,
-                        'error' => true,
-                        'status' => false,
-                        'response' => [],
-                        'message' => 'Try Again!!'
-                    ]);
+                        return Response()->json([
+                            'code' => 400,
+                            'error' => true,
+                            'status' => false,
+                            'response' => [],
+                            'message' => 'Try Again!!'
+                        ]);
 
-                } else {
+                    } else {
 
-                    return Response()->json([
-                        'code' => 200,
-                        'error' => false,
-                        'status' => true,
-                        'response' => [],
-                        'message' => 'Mail Successfully Send To Your Registered Email!!'
-                    ]);
+                        return Response()->json([
+                            'code' => 200,
+                            'error' => false,
+                            'status' => true,
+                            'response' => [],
+                            'message' => 'Mail Successfully Send To Your Registered Email!!'
+                        ]);
 
+                    }
+                } catch (\Exception $e) {
+                    Log::info('can not able to send sms');
                 }
             } else {
 
