@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "label {\n    display: block;\n}\n\ni.fa-upload {\n    position: absolute;\n}\n\ni.fa-upload, i.fa-times-circle {\n    cursor: pointer;\n}\n\ninput[type=file] {\n    opacity: 0;\n}\n\n\n\n\n/** css for auto complite droupdown */\n\n.btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}\n.autoListArea{\n    position: relative;\n}\n.autoList{\n    position: absolute;\n    left: 0;\n    top: 100%;\n    background: #fff;\n    width: 100%;\n    max-height: 200px;\n    overflow-y: scroll;\n    box-shadow: 0 3px 5px rgba(0,0,0,0.3);\n    border: 1px solid #e2e2e2;\n    z-index: 99;\n    padding: 0;\n}\n.autoList li{\n    list-style: none;\n}\n.autoList li span{\n    display: block;\n    padding: 5px 15px;\n}\n.autoList li:hover{\n    background: #e2e2e2;\n}\n.hideList{\n    float: right;\n    margin: -27px 10px 0 0;\n    cursor: pointer;\n}", ""]);
+exports.push([module.i, "label {\n    display: block;\n}\n\ni.fa-upload {\n    position: absolute;\n}\n\ni.fa-upload, i.fa-times-circle {\n    cursor: pointer;\n}\n\ninput[type=file] {\n    opacity: 0;\n}\n\n\n\n\n/** css for auto complite droupdown */\n\n.btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}\n.autoListArea{\n    position: relative;\n}\n.autoList{\n    position: absolute;\n    left: 0;\n    top: 100%;\n    background: #fff;\n    width: 100%;\n    max-height: 200px;\n    overflow-y: scroll;\n    box-shadow: 0 3px 5px rgba(0,0,0,0.3);\n    border: 1px solid #e2e2e2;\n    z-index: 99;\n    padding: 0;\n}\n.autoList li{\n    list-style: none;\n}\n.autoList li span{\n    display: block;\n    padding: 5px 15px;\n}\n.autoList li:hover{\n    background: #e2e2e2;\n}\n.hideList{\n    float: right;\n    margin: -27px 10px 0 0;\n    cursor: pointer;\n}\n\n.createAgentBtn{\n    padding-top: 29px;\n}\n\n/*Media Query for responsive*/\n@media screen and (max-width:764px) {\n    .createAgentBtn {\n        padding-top: 0px !important;\n    }\n}", ""]);
 
 // exports
 
@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/layout/inner-pages/widget/create-widget/create-widget.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1><span>Widget Section</span></h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a routerLink=\"/widget/list\"> Widget</a></li>-->\n            <!--<li class=\"active\"><a  href=\"javascript:void(0)\"> {{ editMode ? 'Edit' : 'Create' }} </a></li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <!-- /.box-header -->\n                    <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n                        <form #form=\"ngForm\">\n\n                            <div class=\"box-header with-border\">\n                                <h3 class=\"box-title\">\n                                    <span *ngIf=\"editMode\">Edit </span>\n                                    <span *ngIf=\"!editMode\">Create </span>\n                                    Widget\n                                </h3>\n                            </div>\n\n                            <div class=\"row\">\n\n                                <!-- Admin for Widget -->\n                                <div class=\"col-md-6\" [hidden]=\"(authState | async).isAdmin\">\n                                    <div class=\"form-group autoListArea\">\n                                        <label class=\"control-label\" for=\"admin\">\n                                            Admin for Widget\n                                        </label>\n\n                                        <div *ngIf=\"(authState | async).isAdmin; then thenTemplateName else elseTemplateName\"></div>\n\n                                        <ng-template #thenTemplateName>\n                                            <input type=\"text\" class=\"form-control\"\n                                                   name=\"adminName\" autocomplete=\"off\" readonly [value]=\"(authState | async).name\">\n                                        </ng-template>\n\n                                        <ng-template #elseTemplateName>\n                                            <input type=\"text\" (keyup)=\"checkAdminname($event.target.value)\"\n\n                                                   [ngClass]=\"editMode ?  'form-control' : 'form-control' \"\n                                                   [ngModel]=\"adminName\" name=\"adminName\" (click)=\"checkAdminname($event.target.value)\" autocomplete=\"off\" [readonly]=\"editMode\">\n                                            <span *ngIf=\"( !editMode && this.adminName)\" (click)=\"resetList()\" class=\"hideList\"> <i class=\"fa fa-close\"></i> </span>\n                                            <ul *ngIf=\"showThis\" class=\"autoList\">\n                                                <li *ngFor=\"let item of updatedlistOfAdmins; let i = index\"> <span (click)=\"assignValue(item.id,item.first_name,item.last_name)\">  {{item.first_name}} {{item.last_name}}  </span></li>\n                                            </ul>\n                                        </ng-template>\n                                        <input type=\"hidden\"  [ngModel]=\"widget.userId\" id=\"admin\" name=\"userId\" #selectedAdmin>\n\n\n                                        <!--<select class=\"form-control\"-->\n                                                <!--id=\"admin\"-->\n                                                <!--name=\"userId\"-->\n                                                <!--[disabled]=\"editMode || (authState | async).isAdmin\"-->\n                                                <!--#selectedAdmin-->\n                                                <!--[ngModel]=\"widget.userId\"-->\n                                                <!--(change)=\"adminChanged(selectedAdmin.value)\">-->\n                                            <!--<option selected value=\"0\">Choose...</option>-->\n                                            <!--<option [value]=\"item.id\"-->\n                                                    <!--*ngFor=\"let item of (afterLoginState | async).admin?.list; let i = index\">-->\n                                                <!--{{item.first_name}} {{item.last_name}}-->\n                                            <!--</option>-->\n                                        <!--</select> OLD SELECT -->\n                                    </div>\n                                </div>\n\n                                <!-- Department -->\n                                <div class=\"col-md-6\"  >\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"department\">\n                                            Department for Widget\n                                        </label>\n                                      <angular2-multiselect\n                                        id=\"department\" name=\"departmentIdArray\"\n                                        [data]=\"(afterLoginState | async).department.list\"\n                                        [(ngModel)]=\"widget.departmentIdArray\" [settings]=\"dropdownSettings\"\n                                      >\n                                        <c-badge>\n                                          <ng-template let-item=\"item\">\n                                            <label style=\"margin: 0px;\">{{item.department_name}}</label>\n                                          </ng-template>\n                                        </c-badge>\n                                      </angular2-multiselect>\n                                        <!--<select class=\"form-control\"\n                                                id=\"department\"\n                                                name=\"departmentIdArray\"\n                                                #selectedDepartment=\"ngModel\"\n                                                [ngModel]=\"widget.departmentIdArray\" multiple>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).department.list\">\n                                                {{item.department_name}}\n                                            </option>\n                                        </select>-->\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\"  >\n\n                                <!-- Web Site URL -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(website.invalid && website.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"website\">\n                                            <i *ngIf=\"website.invalid && website.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Website URL\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"website\"\n                                               name=\"website\"\n                                               [ngModel]=\"widget.website\"\n                                               #website=\"ngModel\"\n                                               placeholder=\"Website URL\"\n                                        >\n                                        <span *ngIf=\"website.invalid && website.touched\" class=\"help-block\">Website URL is Required !</span>\n                                    </div>\n                                </div>\n\n                                <!-- Widget Details -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(details.invalid && details.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"details\">\n                                            <i *ngIf=\"details.invalid && details.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Widget Details\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"details\"\n                                               name=\"details\"\n                                               [ngModel]=\"widget.details\"\n                                               #details=\"ngModel\"\n                                               placeholder=\"Details about the widget ....\"\n                                        >\n                                        <span *ngIf=\"details.invalid && details.touched\" class=\"help-block\">Widget details is Required !</span>\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\"  >\n\n                                <!-- TimeZone -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"timezone\">\n                                            Timezone\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"timezone\"\n                                                name=\"scheduleTimezone\"\n                                                #selectedTimezone\n                                                required\n                                                [ngModel]=\"widget.scheduleTimezone\"\n                                        >\n                                            <option selected value=\"0\">Choose...</option>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).widget?.timezoneList; let i = index\"\n                                            >\n                                                {{item.timezone_name}}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n\n                            </div>\n\n                            <div class=\"row\">\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group col-md-6\">\n                                        <label class=\"control-label\" for=\"image\">Widget Logo </label>\n                                        <i class=\"fa fa-upload fa-4x\" aria-hidden=\"true\"></i>\n                                        <input type=\"file\"\n                                               class=\"form-control\"\n                                               id=\"image\"\n                                               (change)=\"fileUploaded($event)\"\n                                               accept=\"image/*\"\n                                               name=\"image\"\n                                               ngModel\n                                               #fileUpload=\"ngModel\"\n\n                                        >\n                                    </div>\n                                    <span *ngIf=\"fileUpload.invalid && fileUpload.touched && postedImage===undefined\" class=\"help-block\">Website URL is Required!</span>\n                                    <div class=\"col-md-6\" *ngIf=\"!hideUploadedImage\">\n                                            <div class=\"image\" *ngIf=\"imgSrc\">\n                                                <i class=\"fa fa-times-circle fa-pull-right\"\n                                                   aria-hidden=\"true\"\n                                                   (click)=\"removeUploadedImage()\"\n                                                ></i>\n                                                <img class=\"img-responsive uploaded-image\"\n                                                     width=\"100%\"\n                                                     height=\"auto\"\n                                                     [src]=\"imgSrc\"\n                                                />\n                                            </div>\n                                        </div>\n\n                                </div>\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"settings\">Limit setting time & days </label>\n                                      <div *ngFor=\"let data of limitArray\" id=\"settings\">\n                                        <input type=\"checkbox\" name=\"daysArray\" [checked]=\"widget.daysArray.indexOf(data) > -1\" (change)=\"onChangeDaysArray(data, $event.target.checked)\"> {{data}}<br>\n                                      </div>\n\n                                        <!--<select name=\"daysArray\"\n                                                class=\"form-control\"\n                                                [ngModel]=\"widget.daysArray\"\n                                                required\n                                                #daysArray=\"ngModel\" id=\"settings\" multiple>\n                                            <option value=\"Mon\">Mon</option>\n                                            <option value=\"Tue\">Tue</option>\n                                            <option value=\"Wed\">Wed</option>\n                                            <option value=\"Thu\">Thu</option>\n                                            <option value=\"Fri\">Fri</option>\n                                            <option value=\"Sat\">Sat</option>\n                                            <option value=\"Sun\">Sun</option>\n                                        </select>-->\n                                        <span *ngIf=\"widget.daysArray.length === 0\" class=\"help-block\" style=\"color: red !important;\">Choosing Available Days is Required!</span>\n                                    </div>\n                                </div>\n                            </div>\n\n                            <div class=\"row\"  >\n                                <!-- From Time -->\n                                <div class=\"col-md-6\" [ngClass]=\"(startTime.invalid && startTime.touched) ? 'has-error': ''\">\n                                <!--<div class=\"col-md-6\">-->\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"startTime\">\n                                            <i *ngIf=\"startTime.invalid && startTime.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                             From Time\n                                        </label>\n                                        <div class=\"input-group\">\n                                            <input [ngModel]=\"widget.startTime\" name=\"startTime\" class=\"form-control\" #startTime=\"ngModel\" required id=\"startTime\"/>\n                                            <span class=\"input-group-addon\" (click)=\"openTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                        </div>\n                                        <span *ngIf=\"startTime.invalid && startTime.touched && startTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                    </div>\n\n                                </div>\n\n                                <!-- To Time -->\n                                <div class=\"col-md-6\"  [ngClass]=\"(endTime.invalid && endTime.touched) || timePikerError ? 'has-error': ''\">\n                                    <div class=\"form-group\" >\n                                        <label class=\"control-label\" for=\"endTime\">\n                                            <i *ngIf=\"(endTime.invalid && endTime.touched) || timePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                             To Time\n                                        </label>\n                                        <div class=\"input-group\">\n                                            <input [ngModel]=\"widget.endTime\" name=\"endTime\" #endTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"endTime\" (ngModelChange)=\"log2($event)\"/>\n                                            <span class=\"input-group-addon\" (click)=\"openEndTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                        </div>\n                                        <span *ngIf=\"timePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                        <span *ngIf=\"endTime.invalid && endTime.touched && endTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n\n                                    </div>\n                                </div>\n                            </div>\n                          <div class=\"row\">\n                            <!-- Area Code -->\n                            <div class=\"col-md-5\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"areaCode\">Area Code</label>\n                                <input type=\"text\"\n                                       class=\"form-control\"\n                                       id=\"areaCode\"\n                                       name=\"areaCode\"\n                                       #areaCode\n                                       [ngModel]=\"widget.areaCode\"\n                                       placeholder=\"Area Code\"\n                                       [disabled]=\"editMode\"\n                                >\n                              </div>\n                            </div>\n\n                            <!-- Widget Details -->\n                            <div class=\"col-md-5\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"contains\">\n                                  Number Contains\n                                </label>\n                                <input type=\"number\"\n                                       class=\"form-control\"\n                                       id=\"contains\"\n                                       name=\"contains\"\n                                       [ngModel]=\"widget.contains\"\n                                       #contains\n                                       placeholder=\"Number Contains ....\"\n                                       [disabled]=\"editMode\"\n                                >\n                              </div>\n                            </div>\n                            <!--Buy number buttons -->\n                            <div class=\"col-md-2\" *ngIf=\"!editMode\">\n                              <label class=\"control-label\"> &nbsp; </label>\n                              <button type=\"button\" class=\"form-control btn btn-success\" (click)=\"buyNumber(areaCode.value,contains.value)\"><i *ngIf =\"buyButtonLoader\" class=\"fa fa-spinner fa-spin\"> </i> Get Number</button>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"numberError && !isBuyNumber\">\n                            <div class=\"col-md-10\">\n                              <span style=\"color: red;\">{{ numberErrorMessage }}</span>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"(afterLoginState | async).widget.numberError && !(afterLoginState | async).widget.newSuccessBuyNumberCall\">\n                            <div class=\"col-md-10\">\n                              <span style=\"color: red;\">{{ (afterLoginState | async).widget.numberMessage }}</span>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"(afterLoginState | async).widget.numbers.length > 0 && !editMode && isBuyNumber && (afterLoginState | async).widget.newSuccessBuyNumberCall\">\n                            <div class=\"col-md-6\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"numbers\">\n                                  Choose a Number\n                                </label>\n                                <select class=\"form-control\"\n                                        id=\"numbers\"\n                                        name=\"number\"\n                                        [ngModel]=\"widget.phoneNumber\" required>\n                                  <option value=''>Choose a phone number</option>\n                                  <option *ngFor=\"let item of (afterLoginState | async).widget.numbers\"\n                                          [value]=\"item.number\"\n                                  >\n                                    {{ item.number }} &nbsp;&nbsp;&nbsp; (  {{item.capabilities.voice ? 'Voice  ' : '' }}\n                                    {{ item.capabilities.SMS ? '/ SMS  ' : '' }}\n                                    {{ item.capabilities.MMS ? '/ MMS  ' : ''}}\n                                    {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )\n                                    <!--( <i class=\"fa fa-phone fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.voice\"></i>\n                                    <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.SMS\"></i>\n                                    <i class=\"fa fa-image fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.MMS\"></i>\n                                    <i class=\"fa fa-fax fa-fw\" aria-hidden=\"true\" *ngIf=\"item.capabilities.fax\"></i> )-->\n                                  </option>\n                                </select>\n                              </div>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"editMode\">\n                            <div class=\"col-md-6\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"numbers\">\n                                  Number\n                                </label>\n                                <input type=\"text\" name=\"number\" readonly [ngModel]=\"widget.phoneNumber\" class=\"form-control\">\n                              </div>\n                            </div>\n                          </div>\n                            <div class=\"row\" *ngIf=\"widget.script_url\">\n                              <div class=\"col-md-6\">\n                                  <div class=\"form-group\">\n                                      <label class=\"control-label\" for=\"startTime\">\n                                          Script URL\n                                      </label>\n                                  </div>\n                                {{widget.script_url}}\n                              </div>\n                            </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"box-footer\">\n                                    <button type=\"button\" [disabled]=\"timePikerError || form.invalid || widget.daysArray.length === 0 || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)\" class=\"btn btn-primary pull-right\" (click)=\"onSubmit(form)\">\n                                        <i *ngIf =\"loader\" class=\"fa fa-spinner fa-spin\"></i>\n                                        Submit\n                                    </button>\n                                </div>\n                            </div>\n\n                        </form>\n                    </div>\n                    <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n    </section>\n</div>\n"
+module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"content-header\">-->\n        <!--<h1><span>Widget Section</span></h1>-->\n        <!--<ol class=\"breadcrumb\">-->\n            <!--<li><a routerLink=\"/dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></li>-->\n            <!--<li><a routerLink=\"/widget/list\"> Widget</a></li>-->\n            <!--<li class=\"active\"><a  href=\"javascript:void(0)\"> {{ editMode ? 'Edit' : 'Create' }} </a></li>-->\n        <!--</ol>-->\n    <!--</section>-->\n    <section class=\"content\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\">\n                <div class=\"box box-primary\">\n                    <!-- /.box-header -->\n                    <div class=\"box-body\" *ngIf=\"(authState | async).twilioIsActive\">\n                        <form #form=\"ngForm\">\n\n                            <div class=\"box-header with-border\">\n                                <h3 class=\"box-title\">\n                                    <span *ngIf=\"editMode\">Edit </span>\n                                    <span *ngIf=\"!editMode\">Create </span>\n                                    Widget\n                                </h3>\n                            </div>\n\n                            <div class=\"row\">\n\n                                <!-- Admin for Widget -->\n                                <div class=\"col-md-6\" [hidden]=\"(authState | async).isAdmin\">\n                                    <div class=\"form-group autoListArea\">\n                                        <label class=\"control-label\" for=\"admin\">\n                                            Admin for Widget\n                                        </label>\n\n                                        <div *ngIf=\"(authState | async).isAdmin; then thenTemplateName else elseTemplateName\"></div>\n\n                                        <ng-template #thenTemplateName>\n                                            <input type=\"text\" class=\"form-control\"\n                                                   name=\"adminName\" autocomplete=\"off\" readonly [value]=\"(authState | async).name\">\n                                        </ng-template>\n\n                                        <ng-template #elseTemplateName>\n                                            <input type=\"text\" (keyup)=\"checkAdminname($event.target.value)\"\n\n                                                   [ngClass]=\"editMode ?  'form-control' : 'form-control' \"\n                                                   [ngModel]=\"adminName\" name=\"adminName\" (click)=\"checkAdminname($event.target.value)\" autocomplete=\"off\" [readonly]=\"editMode\">\n                                            <span *ngIf=\"( !editMode && this.adminName)\" (click)=\"resetList()\" class=\"hideList\"> <i class=\"fa fa-close\"></i> </span>\n                                            <ul *ngIf=\"showThis\" class=\"autoList\">\n                                                <li *ngFor=\"let item of updatedlistOfAdmins; let i = index\"> <span (click)=\"assignValue(item.id,item.first_name,item.last_name)\">  {{item.first_name}} {{item.last_name}}  </span></li>\n                                            </ul>\n                                        </ng-template>\n                                        <input type=\"hidden\"  [ngModel]=\"widget.userId\" id=\"admin\" name=\"userId\" #selectedAdmin>\n\n\n                                        <!--<select class=\"form-control\"-->\n                                                <!--id=\"admin\"-->\n                                                <!--name=\"userId\"-->\n                                                <!--[disabled]=\"editMode || (authState | async).isAdmin\"-->\n                                                <!--#selectedAdmin-->\n                                                <!--[ngModel]=\"widget.userId\"-->\n                                                <!--(change)=\"adminChanged(selectedAdmin.value)\">-->\n                                            <!--<option selected value=\"0\">Choose...</option>-->\n                                            <!--<option [value]=\"item.id\"-->\n                                                    <!--*ngFor=\"let item of (afterLoginState | async).admin?.list; let i = index\">-->\n                                                <!--{{item.first_name}} {{item.last_name}}-->\n                                            <!--</option>-->\n                                        <!--</select> OLD SELECT -->\n                                    </div>\n                                </div>\n\n                                <!-- Department -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"col-md-10\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"department\">\n                                            Department for Widget\n                                        </label>\n                                      <angular2-multiselect\n                                        id=\"department\" name=\"departmentIdArray\"\n                                        [data]=\"(afterLoginState | async).department.list\"\n                                        [(ngModel)]=\"widget.departmentIdArray\" [settings]=\"dropdownSettings\"\n                                      >\n                                        <c-badge>\n                                          <ng-template let-item=\"item\">\n                                            <label style=\"margin: 0px;\">{{item.department_name}}</label>\n                                          </ng-template>\n                                        </c-badge>\n                                      </angular2-multiselect>\n                                        <!--<select class=\"form-control\"\n                                                id=\"department\"\n                                                name=\"departmentIdArray\"\n                                                #selectedDepartment=\"ngModel\"\n                                                [ngModel]=\"widget.departmentIdArray\" multiple>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).department.list\">\n                                                {{item.department_name}}\n                                            </option>\n                                        </select>-->\n                                    </div>\n                                    </div>\n                                    <div class=\"col-md-2 createAgentBtn\">\n                                        <div class=\"form-group\">\n                                            <button type=\"button\" class=\"btn btn-primary\" (click)=\"CreateDepartment(template)\"><i class=\"fa fa-plus\"> </i> Create Department</button>\n                                        </div>\n                                    </div>\n                                </div>\n\n                                <!-- Widget Description -->\n                                <div class=\"col-md-6\"  [hidden]=\"!(authState | async).isAdmin\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(details.invalid && details.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"details\">\n                                            <i *ngIf=\"details.invalid && details.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Widget Description\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"details\"\n                                               name=\"details\"\n                                               [ngModel]=\"widget.details\"\n                                               #details=\"ngModel\"\n                                               placeholder=\"Description about the widget ....\"\n                                        >\n                                        <span *ngIf=\"details.invalid && details.touched\" class=\"help-block\">Widget Description is Required !</span>\n                                    </div>\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\">\n\n                                <!-- Web Site URL -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(website.invalid && website.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"website\">\n                                            <i *ngIf=\"website.invalid && website.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Website URL\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"website\"\n                                               name=\"website\"\n                                               [ngModel]=\"widget.website\"\n                                               #website=\"ngModel\"\n                                               placeholder=\"Website URL\"\n                                        >\n                                        <span *ngIf=\"website.invalid && website.touched\" class=\"help-block\">Website URL is Required !</span>\n                                    </div>\n                                </div>\n\n                                <!-- Widget Description -->\n                                <div class=\"col-md-6\"   [hidden]=\"(authState | async).isAdmin\">\n                                    <div class=\"form-group\"\n                                         [ngClass]=\"(details.invalid && details.touched) ? 'has-error': ''\">\n                                        <label class=\"control-label\" for=\"details\">\n                                            <i *ngIf=\"details.invalid && details.touched\"\n                                               class=\"fa fa-times-circle-o\">\n                                            </i>\n                                            Widget Description\n                                        </label>\n                                        <input type=\"text\"\n                                               class=\"form-control\"\n                                               id=\"details\"\n                                               name=\"details\"\n                                               [ngModel]=\"widget.details\"\n                                               #details=\"ngModel\"\n                                               placeholder=\"Description about the widget ....\"\n                                        >\n                                        <span *ngIf=\"details.invalid && details.touched\" class=\"help-block\">Widget Description is Required !</span>\n                                    </div>\n                                </div>\n\n                                <div class=\"col-md-6\" *ngIf=\"widget.script_url\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\">\n                                            Script URL\n                                        </label>\n                                    </div>\n                                    {{widget.script_url}}\n                                </div>\n\n                            </div>\n\n                            <div class=\"row\">\n\n                                <!-- TimeZone -->\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"timezone\">\n                                            Timezone\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"timezone\"\n                                                name=\"scheduleTimezone\"\n                                                #selectedTimezone\n                                                required\n                                                [ngModel]=\"widget.scheduleTimezone\"\n                                        >\n                                            <option selected value=\"0\">Choose...</option>\n                                            <option [value]=\"item.id\"\n                                                    *ngFor=\"let item of (afterLoginState | async).widget?.timezoneList; let i = index\"\n                                            >\n                                                {{item.timezone_name}}\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n\n\n                            </div>\n\n                            <div class=\"row\">\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group col-md-6\">\n                                        <label class=\"control-label\" for=\"image\">Widget Logo </label>\n                                        <i class=\"fa fa-upload fa-4x\" aria-hidden=\"true\"></i>\n                                        <input type=\"file\"\n                                               class=\"form-control\"\n                                               id=\"image\"\n                                               (change)=\"fileUploaded($event)\"\n                                               accept=\"image/*\"\n                                               name=\"image\"\n                                               ngModel\n                                               #fileUpload=\"ngModel\"\n\n                                        >\n                                    </div>\n                                    <span *ngIf=\"fileUpload.invalid && fileUpload.touched && postedImage===undefined\" class=\"help-block\">Website URL is Required!</span>\n                                    <div class=\"col-md-6\" *ngIf=\"!hideUploadedImage\">\n                                            <div class=\"image\" *ngIf=\"imgSrc\">\n                                                <i class=\"fa fa-times-circle fa-pull-right\"\n                                                   aria-hidden=\"true\"\n                                                   (click)=\"removeUploadedImage()\"\n                                                ></i>\n                                                <img class=\"img-responsive uploaded-image\"\n                                                     width=\"100%\"\n                                                     height=\"auto\"\n                                                     [src]=\"imgSrc\"\n                                                />\n                                            </div>\n                                        </div>\n\n                                </div>\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\">Limit setting time & days </label>\n                                      <!--<div *ngFor=\"let data of limitArray\" id=\"settings\">-->\n                                        <!--<input type=\"checkbox\" name=\"daysArray\" [checked]=\"widget.daysArray.indexOf(data) > -1\" (change)=\"onChangeDaysArray(data, $event.target.checked)\"> {{data}}<br>-->\n                                      <!--</div>-->\n                                        <table class=\"table table-bordered\">\n                                        <tr><input type=\"checkbox\" name=\"sunCbk\" id=\"sunCbk\" [checked]=\"checkSun\" (click)=\"OpenTimer(1)\">Sun\n                                            <td  *ngIf=\"checkSun\">\n                                                <div class=\"col-md-6\" [ngClass]=\"(sunStartTime.invalid && sunStartTime.touched) ? 'has-error': ''\">\n                                                    <!--<div class=\"col-md-6\">-->\n                                                    <div class=\"form-group\">\n                                                        <label class=\"control-label\" for=\"sunStartTime\">\n                                                            <i *ngIf=\"sunStartTime.invalid && sunStartTime.touched\"\n                                                               class=\"fa fa-times-circle-o\">\n                                                            </i>\n                                                            From Time\n                                                        </label>\n                                                        <div class=\"input-group\">\n                                                            <input [ngModel]=\"widget.sunCbk.startTime\" name=\"sunStartTime\" class=\"form-control\" #sunStartTime=\"ngModel\" required id=\"sunStartTime\"/>\n                                                            <span class=\"input-group-addon\" (click)=\"openStartTimePiker(1)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                        </div>\n                                                        <span *ngIf=\"sunStartTime.invalid && sunStartTime.touched && sunStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                    </div>\n                                                </div>\n                                            </td>\n                                            <td  *ngIf=\"checkSun\">\n                                                <div class=\"col-md-6\"  [ngClass]=\"(sunEndTime.invalid && sunEndTime.touched) || sunTimePikerError ? 'has-error': ''\">\n                                                    <div class=\"form-group\" >\n                                                        <label class=\"control-label\" for=\"sunEndTime\">\n                                                            <i *ngIf=\"(sunEndTime.invalid && sunEndTime.touched) || sunTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                            To Time\n                                                        </label>\n                                                        <div class=\"input-group\">\n                                                            <input [ngModel]=\"widget.sunCbk.endTime\" name=\"sunEndTime\" #sunEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"sunEndTime\" (ngModelChange)=\"log2($event)\"/>\n                                                            <span class=\"input-group-addon\" (click)=\"openEndTimePiker(1)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                        </div>\n                                                        <span *ngIf=\"sunTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                        <span *ngIf=\"sunEndTime.invalid && sunEndTime.touched && sunEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                    </div>\n                                                </div>\n                                            </td>\n                                        </tr>\n                                        <tr>\n                                        <input type=\"checkbox\" name=\"monCbk\"  [checked]=\"checkMon\"   (click)=\"OpenTimer(2)\">Mon\n                                            <td *ngIf=\"checkMon\">\n                                                <div class=\"col-md-6\" [ngClass]=\"(monStartTime.invalid && monStartTime.touched) ? 'has-error': ''\">\n                                                    <!--<div class=\"col-md-6\">-->\n                                                    <div class=\"form-group\">\n                                                        <label class=\"control-label\" for=\"startTime1\">\n                                                            <i *ngIf=\"monStartTime.invalid && monStartTime.touched\"\n                                                               class=\"fa fa-times-circle-o\">\n                                                            </i>\n                                                            From Time\n                                                        </label>\n                                                        <div class=\"input-group\">\n                                                            <input [ngModel]=\"widget.monCbk.startTime\" name=\"monStartTime\" class=\"form-control\" #monStartTime=\"ngModel\" required id=\"startTime1\"/>\n                                                            <span class=\"input-group-addon\" (click)=\"openStartTimePiker(2)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                        </div>\n                                                        <span *ngIf=\"monStartTime.invalid && monStartTime.touched && monStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                    </div>\n                                                </div>\n                                            </td>\n                                            <td *ngIf=\"checkMon\">\n                                                <div class=\"col-md-6\"  [ngClass]=\"(monEndTime.invalid && monEndTime.touched) || monTimePikerError ? 'has-error': ''\">\n                                                    <div class=\"form-group\" >\n                                                        <label class=\"control-label\" for=\"endTime1\">\n                                                            <i *ngIf=\"(monEndTime.invalid && monEndTime.touched) || monTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                            To Time\n                                                        </label>\n                                                        <div class=\"input-group\">\n                                                            <input [ngModel]=\"widget.monCbk.endTime\" name=\"monEndTime\" #monEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"endTime1\" (ngModelChange)=\"log2($event)\"/>\n                                                            <span class=\"input-group-addon\" (click)=\"openEndTimePiker(2)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                        </div>\n                                                        <span *ngIf=\"monTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                        <span *ngIf=\"monEndTime.invalid && monEndTime.touched && monEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                    </div>\n                                                </div>\n                                            </td>\n                                        </tr>\n                                            <tr>\n                                        <input type=\"checkbox\" name=\"tueCbk\" [checked]=\"checkTue\"  (click)=\"OpenTimer(3)\">Tue\n                                        <td *ngIf=\"checkTue\">\n                                            <div class=\"col-md-6\" [ngClass]=\"(tueStartTime.invalid && tueStartTime.touched) ? 'has-error': ''\">\n                                                <!--<div class=\"col-md-6\">-->\n                                                <div class=\"form-group\">\n                                                    <label class=\"control-label\" for=\"tueStartTime\">\n                                                        <i *ngIf=\"tueStartTime.invalid && tueStartTime.touched\"\n                                                           class=\"fa fa-times-circle-o\">\n                                                        </i>\n                                                        From Time\n                                                    </label>\n                                                    <div class=\"input-group\">\n                                                        <input [ngModel]=\"widget.tueCbk.startTime\" name=\"tueStartTime\" class=\"form-control\" #tueStartTime=\"ngModel\" required id=\"tueStartTime\"/>\n                                                        <span class=\"input-group-addon\" (click)=\"openStartTimePiker(3)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                    </div>\n                                                    <span *ngIf=\"tueStartTime.invalid && tueStartTime.touched && tueStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                </div>\n                                            </div>\n                                        </td>\n                                        <td *ngIf=\"checkTue\">\n                                            <div class=\"col-md-6\"  [ngClass]=\"(tueEndTime.invalid && tueEndTime.touched) || tueTimePikerError ? 'has-error': ''\">\n                                                <div class=\"form-group\" >\n                                                    <label class=\"control-label\" for=\"tueEndTime\">\n                                                        <i *ngIf=\"(tueEndTime.invalid && tueEndTime.touched) || tueTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                        To Time\n                                                    </label>\n                                                    <div class=\"input-group\">\n                                                        <input [ngModel]=\"widget.tueCbk.endTime\" name=\"tueEndTime\" #tueEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"tueEndTime\" (ngModelChange)=\"log2($event)\"/>\n                                                        <span class=\"input-group-addon\" (click)=\"openEndTimePiker(3)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                    </div>\n                                                    <span *ngIf=\"tueTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                    <span *ngIf=\"tueEndTime.invalid && tueEndTime.touched && tueEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                </div>\n                                            </div>\n                                              </td>\n                                        </tr>\n                                        <tr>\n                                            <input type=\"checkbox\" name=\"wedCbk\" id=\"wedCbk\" [checked]=\"checkWed\" (click)=\"OpenTimer(4)\">Wed\n                                            <td *ngIf=\"checkWed\">\n                                                <div class=\"col-md-6\" [ngClass]=\"(wedStartTime.invalid && wedStartTime.touched) ? 'has-error': ''\">\n                                                    <!--<div class=\"col-md-6\">-->\n                                                    <div class=\"form-group\">\n                                                        <label class=\"control-label\" for=\"wedStartTime\">\n                                                            <i *ngIf=\"wedStartTime.invalid && wedStartTime.touched\"\n                                                               class=\"fa fa-times-circle-o\">\n                                                            </i>\n                                                            From Time\n                                                        </label>\n                                                        <div class=\"input-group\">\n                                                            <input [ngModel]=\"widget.wedCbk.startTime\" name=\"wedStartTime\" class=\"form-control\" #wedStartTime=\"ngModel\" required id=\"wedStartTime\"/>\n                                                            <span class=\"input-group-addon\" (click)=\"openStartTimePiker(4)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                        </div>\n                                                        <span *ngIf=\"wedStartTime.invalid && wedStartTime.touched && wedStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                    </div>\n                                                </div>\n                                        </td>\n                                        <td *ngIf=\"checkWed\">\n                                            <div class=\"col-md-6\"  [ngClass]=\"(wedEndTime.invalid && wedEndTime.touched) || wedTimePikerError ? 'has-error': ''\">\n                                                <div class=\"form-group\" >\n                                                    <label class=\"control-label\" for=\"wedEndTime\">\n                                                        <i *ngIf=\"(wedEndTime.invalid && wedEndTime.touched) || wedTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                        To Time\n                                                    </label>\n                                                    <div class=\"input-group\">\n                                                        <input [ngModel]=\"widget.wedCbk.endTime\" name=\"wedEndTime\" #wedEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"wedEndTime\" (ngModelChange)=\"log2($event)\"/>\n                                                        <span class=\"input-group-addon\" (click)=\"openEndTimePiker(4)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                    </div>\n                                                    <span *ngIf=\"wedTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                    <span *ngIf=\"wedEndTime.invalid && wedEndTime.touched && wedEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                </div>\n                                            </div>\n                                        </td>\n                                        </tr>\n                                        <tr>\n                                            <input type=\"checkbox\" name=\"thuCbk\" id=\"thuCbk\" [checked]=\"checkThu\" (click)=\"OpenTimer(5)\">Thu\n                                         <td *ngIf=\"checkThu\">\n                                             <div class=\"col-md-6\" [ngClass]=\"(thuStartTime.invalid && thuStartTime.touched) ? 'has-error': ''\">\n                                                 <!--<div class=\"col-md-6\">-->\n                                                 <div class=\"form-group\">\n                                                     <label class=\"control-label\" for=\"thuStartTime\">\n                                                         <i *ngIf=\"thuStartTime.invalid && thuStartTime.touched\"\n                                                            class=\"fa fa-times-circle-o\">\n                                                         </i>\n                                                         From Time\n                                                     </label>\n                                                     <div class=\"input-group\">\n                                                         <input [ngModel]=\"widget.thuCbk.startTime\" name=\"thuStartTime\" class=\"form-control\" #thuStartTime=\"ngModel\" required id=\"thuStartTime\"/>\n                                                         <span class=\"input-group-addon\" (click)=\"openStartTimePiker(5)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                     </div>\n                                                     <span *ngIf=\"thuStartTime.invalid && thuStartTime.touched && thuStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                 </div>\n                                             </div>\n                                        </td>\n                                        <td *ngIf=\"checkThu\">\n                                            <div class=\"col-md-6\"  [ngClass]=\"(thuEndTime.invalid && thuEndTime.touched) || thuTimePikerError ? 'has-error': ''\">\n                                                <div class=\"form-group\" >\n                                                    <label class=\"control-label\" for=\"thuEndTime\">\n                                                        <i *ngIf=\"(thuEndTime.invalid && thuEndTime.touched) || thuTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                        To Time\n                                                    </label>\n                                                    <div class=\"input-group\">\n                                                        <input [ngModel]=\"widget.thuCbk.endTime\" name=\"thuEndTime\" #thuEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"thuEndTime\" (ngModelChange)=\"log2($event)\"/>\n                                                        <span class=\"input-group-addon\" (click)=\"openEndTimePiker(5)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                    </div>\n                                                    <span *ngIf=\"thuTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                    <span *ngIf=\"thuEndTime.invalid && thuEndTime.touched && thuEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                </div>\n                                            </div>\n                                        </td>\n                                        </tr>\n                                            <tr>\n                                        <input type=\"checkbox\" name=\"friCbk\"  [checked]=\"checkFri\" (click)=\"OpenTimer(6)\">Fri\n                                                <td *ngIf=\"checkFri\">\n                                                    <div class=\"col-md-6\" [ngClass]=\"(friStartTime.invalid && friStartTime.touched) ? 'has-error': ''\">\n                                                        <div class=\"form-group\">\n                                                            <label class=\"control-label\" for=\"friStartTime\">\n                                                                <i *ngIf=\"friStartTime.invalid && friStartTime.touched\"\n                                                                   class=\"fa fa-times-circle-o\">\n                                                                </i>\n                                                                From Time\n                                                            </label>\n                                                            <div class=\"input-group\">\n                                                                <input [ngModel]=\"widget.friCbk.startTime\" name=\"friStartTime\" class=\"form-control\" #friStartTime=\"ngModel\" required id=\"friStartTime\"/>\n                                                                <span class=\"input-group-addon\" (click)=\"openStartTimePiker(6)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                            </div>\n                                                            <span *ngIf=\"friStartTime.invalid && friStartTime.touched && friStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                        </div>\n                                                    </div>\n                                        </td>\n                                                <td *ngIf=\"checkFri\">\n                                                    <div class=\"col-md-6\"  [ngClass]=\"(friEndTime.invalid && friEndTime.touched) || friTimePikerError ? 'has-error': ''\">\n                                                        <div class=\"form-group\" >\n                                                            <label class=\"control-label\" for=\"friEndTime\">\n                                                                <i *ngIf=\"(friEndTime.invalid && friEndTime.touched) || friTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                                To Time\n                                                            </label>\n                                                            <div class=\"input-group\">\n                                                                <input [ngModel]=\"widget.friCbk.endTime\" name=\"friEndTime\" #friEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"friEndTime\" (ngModelChange)=\"log2($event)\"/>\n                                                                <span class=\"input-group-addon\" (click)=\"openEndTimePiker(6)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                            </div>\n                                                            <span *ngIf=\"friTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                            <span *ngIf=\"friEndTime.invalid && friEndTime.touched && friEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                        </div>\n                                                    </div>\n                                                </td>\n                                        </tr>\n                                            <tr>\n                                                <input type=\"checkbox\" name=\"satCbk\" id=\"satCbk\"  [checked]=\"checkSat\" (click)=\"OpenTimer(7)\">Sat\n                                                <td *ngIf=\"checkSat\">\n                                                    <div class=\"col-md-6\" [ngClass]=\"(satStartTime.invalid && satStartTime.touched) ? 'has-error': ''\">\n                                                        <div class=\"form-group\">\n                                                            <label class=\"control-label\" for=\"satStartTime\">\n                                                                <i *ngIf=\"satStartTime.invalid && satStartTime.touched\"\n                                                                   class=\"fa fa-times-circle-o\">\n                                                                </i>\n                                                                From Time\n                                                            </label>\n                                                            <div class=\"input-group\">\n                                                                <input [ngModel]=\"widget.satCbk.startTime\" name=\"satStartTime\" class=\"form-control\" #satStartTime=\"ngModel\" required id=\"satStartTime\"/>\n                                                                <span class=\"input-group-addon\" (click)=\"openStartTimePiker(7)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                            </div>\n                                                            <span *ngIf=\"satStartTime.invalid && satStartTime.touched && satStartTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>\n                                                        </div>\n                                                    </div>\n                                                </td>\n                                                <td *ngIf=\"checkSat\">\n                                                    <div class=\"col-md-6\"  [ngClass]=\"(satEndTime.invalid && satEndTime.touched) || satTimePikerError ? 'has-error': ''\">\n                                                        <div class=\"form-group\" >\n                                                            <label class=\"control-label\" for=\"satEndTime\">\n                                                                <i *ngIf=\"(satEndTime.invalid && satEndTime.touched) || satTimePikerError\" class=\"fa fa-times-circle-o\"> </i>\n                                                                To Time\n                                                            </label>\n                                                            <div class=\"input-group\">\n                                                                <input [ngModel]=\"widget.satCbk.endTime\" name=\"satEndTime\" #satEndTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"satEndTime\" (ngModelChange)=\"log2($event)\"/>\n                                                                <span class=\"input-group-addon\" (click)=\"openEndTimePiker(7)\"><i class=\"glyphicon glyphicon-time\"></i></span>\n                                                            </div>\n                                                            <span *ngIf=\"satTimePikerError\" class=\"help-block\">End Time Should before Start Time</span>\n                                                            <span *ngIf=\"satEndTime.invalid && satEndTime.touched && satEndTime.errors?.required\" class=\"help-block\">End Time is Required</span>\n                                                        </div>\n                                                    </div>\n                                                </td>\n                                            </tr>\n                                        </table>\n                                        <!--<span *ngIf=\"widget.daysArray.length === 0\" class=\"help-block\" style=\"color: red !important;\">Choosing Available Days is Required!</span>-->\n                                    </div>\n                                </div>\n                            </div>\n\n                            <div class=\"row\">\n                                <!-- From Time -->\n                                <!--<div class=\"col-md-6\" [ngClass]=\"(startTime.invalid && startTime.touched) ? 'has-error': ''\">-->\n                                <!--&lt;!&ndash;<div class=\"col-md-6\">&ndash;&gt;-->\n                                    <!--<div class=\"form-group\">-->\n                                        <!--<label class=\"control-label\" for=\"startTime\">-->\n                                            <!--<i *ngIf=\"startTime.invalid && startTime.touched\"-->\n                                               <!--class=\"fa fa-times-circle-o\">-->\n                                            <!--</i>-->\n                                             <!--From Time-->\n                                        <!--</label>-->\n                                        <!--<div class=\"input-group\">-->\n                                            <!--<input [ngModel]=\"widget.startTime\" name=\"startTime\" class=\"form-control\" #startTime=\"ngModel\" required id=\"startTime\"/>-->\n                                            <!--<span class=\"input-group-addon\" (click)=\"openTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>-->\n                                        <!--</div>-->\n                                        <!--<span *ngIf=\"startTime.invalid && startTime.touched && startTime.errors?.required\" class=\"help-block\">Start Time is Required!</span>-->\n                                    <!--</div>-->\n\n                                <!--</div>-->\n\n                                <!-- To Time -->\n                                <!--<div class=\"col-md-6\"  [ngClass]=\"(endTime.invalid && endTime.touched) || timePikerError ? 'has-error': ''\">-->\n                                    <!--<div class=\"form-group\" >-->\n                                        <!--<label class=\"control-label\" for=\"endTime\">-->\n                                            <!--<i *ngIf=\"(endTime.invalid && endTime.touched) || timePikerError\" class=\"fa fa-times-circle-o\"> </i>-->\n                                             <!--To Time-->\n                                        <!--</label>-->\n                                        <!--<div class=\"input-group\">-->\n                                            <!--<input [ngModel]=\"widget.endTime\" name=\"endTime\" #endTime=\"ngModel\" class=\"form-control\"  [required]=\"'required'\" type=\"text\" id=\"endTime\" (ngModelChange)=\"log2($event)\"/>-->\n                                            <!--<span class=\"input-group-addon\" (click)=\"openEndTimer()\"><i class=\"glyphicon glyphicon-time\"></i></span>-->\n                                        <!--</div>-->\n                                        <!--<span *ngIf=\"timePikerError\" class=\"help-block\">End Time Should before Start Time</span>-->\n                                        <!--<span *ngIf=\"endTime.invalid && endTime.touched && endTime.errors?.required\" class=\"help-block\">End Time is Required</span>-->\n\n                                    <!--</div>-->\n                                <!--</div>-->\n                            </div>\n                          <div class=\"row\">\n                            <!-- Area Code -->\n                            <div class=\"col-md-5\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"areaCode\">Area Code</label>\n                                <input type=\"text\"\n                                       class=\"form-control\"\n                                       id=\"areaCode\"\n                                       name=\"areaCode\"\n                                       #areaCode\n                                       [ngModel]=\"widget.areaCode\"\n                                       placeholder=\"Area Code\"\n                                >\n                              </div>\n                            </div>\n\n                            <!-- Widget Details -->\n                            <div class=\"col-md-5\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"contains\">\n                                  Number Contains\n                                </label>\n                                <input type=\"number\"\n                                       class=\"form-control\"\n                                       id=\"contains\"\n                                       name=\"contains\"\n                                       [ngModel]=\"widget.contains\"\n                                       #contains\n                                       placeholder=\"Number Contains ....\"\n                                >\n                              </div>\n                            </div>\n                            <!--Buy number buttons -->\n                            <div class=\"col-md-2\" *ngIf=\"!editMode\">\n                              <label class=\"control-label\"> &nbsp; </label>\n                              <button type=\"button\" class=\"form-control btn btn-success\" (click)=\"buyNumber(areaCode.value,contains.value)\"><i *ngIf =\"buyButtonLoader\" class=\"fa fa-spinner fa-spin\"> </i> Get Number</button>\n                            </div>\n                              <div class=\"col-md-2\" *ngIf=\"editMode\">\n                                  <label class=\"control-label\"> &nbsp; </label>\n                                  <button type=\"button\" class=\"form-control btn btn-success\" (click)=\"buyNumber(areaCode.value,contains.value)\"><i *ngIf =\"buyButtonLoader\" class=\"fa fa-spinner fa-spin\"> </i> Change Number</button>\n                              </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"numberError && !isBuyNumber\">\n                            <div class=\"col-md-10\">\n                              <span style=\"color: red;\">{{ numberErrorMessage }}</span>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"(afterLoginState | async).widget.numberError && !(afterLoginState | async).widget.newSuccessBuyNumberCall\">\n                            <div class=\"col-md-10\">\n                              <span style=\"color: red;\">{{ (afterLoginState | async).widget.numberMessage }}</span>\n                            </div>\n                          </div>\n                          <div class=\"row\" *ngIf=\"(afterLoginState | async).widget.numbers.length > 0 && !editMode && isBuyNumber && (afterLoginState | async).widget.newSuccessBuyNumberCall\">\n                            <div class=\"col-md-6\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"numbers\">\n                                  Choose a Number\n                                </label>\n                                <select class=\"form-control\"\n                                        id=\"numbers\"\n                                        name=\"number\"\n                                        [ngModel]=\"widget.phoneNumber\" required>\n                                  <option value=''>Choose a phone number</option>\n                                  <option *ngFor=\"let item of (afterLoginState | async).widget.numbers\"\n                                          [value]=\"item.number\"\n                                  >\n                                    {{ item.number }} &nbsp;&nbsp;&nbsp; (  {{item.capabilities.voice ? 'Voice  ' : '' }}\n                                    {{ item.capabilities.SMS ? '/ SMS  ' : '' }}\n                                    {{ item.capabilities.MMS ? '/ MMS  ' : ''}}\n                                    {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )\n                                  </option>\n                                </select>\n                              </div>\n                            </div>\n                          </div>\n                            <div class=\"row\" *ngIf=\"(afterLoginState | async).widget.numbers.length > 0 && editMode && isBuyNumber && (afterLoginState | async).widget.newSuccessBuyNumberCall\">\n                                <div class=\"col-md-6\">\n                                    <div class=\"form-group\">\n                                        <label class=\"control-label\" for=\"numbers\">\n                                            Choose a Number\n                                        </label>\n                                        <select class=\"form-control\"\n                                                id=\"numbers\"\n                                                name=\"number\"\n                                                [ngModel]=\"widget.phoneNumber\" required>\n                                            <option value=''>Choose a phone number</option>\n                                            <option *ngFor=\"let item of (afterLoginState | async).widget.numbers\"\n                                                    [value]=\"item.number\"\n                                            >\n                                                {{ item.number }} &nbsp;&nbsp;&nbsp; (  {{item.capabilities.voice ? 'Voice  ' : '' }}\n                                                {{ item.capabilities.SMS ? '/ SMS  ' : '' }}\n                                                {{ item.capabilities.MMS ? '/ MMS  ' : ''}}\n                                                {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )\n                                            </option>\n                                        </select>\n                                    </div>\n                                </div>\n                            </div>\n                          <div class=\"row\" *ngIf=\"editMode\">\n                            <div class=\"col-md-6\">\n                              <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"numbers\">\n                                  Number\n                                </label>\n                                <input type=\"text\" name=\"number\" readonly [ngModel]=\"widget.phoneNumber\" class=\"form-control\">\n                              </div>\n                            </div>\n                          </div>\n                            <div class=\"col-md-12\">\n                                <div class=\"box-footer\">\n                                    <button type=\"button\" [disabled]=\"form.invalid || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)\" class=\"btn btn-primary pull-right\" (click)=\"onSubmit(form)\">\n                                        <i *ngIf =\"loader\" class=\"fa fa-spinner fa-spin\"></i>\n                                        Submit\n                                    </button>\n                                </div>\n                            </div>\n\n                        </form>\n                    </div>\n                    <div class=\"box-body\" *ngIf=\"!(authState | async).twilioIsActive\">\n                        <h4>Twilio Credentials Not Added by SuperAdmin :-(</h4>\n                    </div>\n                    <!-- /.box-body -->\n                </div>\n            </div>\n            <!-- /.col -->\n        </div>\n        <!-- /.row -->\n\n        <ng-template #template>\n            <div class=\"modal-header\">\n                <h4 class=\"modal-title pull-left\">Create Department </h4>\n                <button type=\"button\" class=\"close pull-right\" aria-label=\"Close\" (click)=\"bsModalRef.hide()\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body row\">\n                <form #form=\"ngForm\" (submit)=\"onCreateDep(form)\">\n                    <input type=\"hidden\"\n                           id=\"userId\"\n                           name=\"userId\"\n                           [ngModel]=\"dep.userId\"\n                           #userId=\"ngModel\">\n                    <div class=\"col-md-6\">\n\n                            <div class=\"form-group\">\n                                <label class=\"control-label\" for=\"agents\">\n                                    Select Agents\n                                </label>\n                                <angular2-multiselect\n                                        id=\"agents\" name=\"agentIds\"\n                                        [data]=\"(afterLoginState | async).agent.list\"\n                                        [(ngModel)]=\"dep.agents\" [settings]=\"agentListDropdownSettings\"\n                                >\n                                    <c-badge>\n                                        <ng-template let-item=\"item\">\n                                            <label style=\"margin: 0px;\">{{item.first_name}} {{ item.last_name}}</label>\n                                        </ng-template>\n                                    </c-badge>\n                                </angular2-multiselect>\n                            </div>\n                    </div>\n                    <div class=\"col-md-6\">\n                        <div class=\"form-group\" [ngClass]=\"(dName.invalid && dName.touched) ? 'has-error': ''\">\n                            <label class=\"control-label\" for=\"name\">\n                                <i *ngIf=\"dName.invalid && dName.touched\" class=\"fa fa-times-circle-o\"></i>\n                                Department Name\n                            </label>\n                            <input type=\"text\"\n                                   class=\"form-control\"\n                                   id=\"name\"\n                                   name=\"departmentName\"\n                                   [ngModel]=\"dep.departmentName\"\n                                   #dName=\"ngModel\"\n                                   required\n                                   placeholder=\"Enter ...\"\n                            >\n                            <span *ngIf=\"dName.invalid && dName.touched\" class=\"help-block\">Your Department Name is Required!</span>\n                        </div>\n                    </div>\n                    <div class=\"col-md-6\">\n                        <div class=\"form-group\" [ngClass]=\"{ 'has-error': dDes.invalid && dDes.touched }\">\n                            <label class=\"control-label\" for=\"detail\">\n                                <i *ngIf=\"dDes.invalid && dDes.touched\" class=\"fa fa-times-circle-o\"></i>\n                                Department Description\n                            </label>\n                            <input type=\"text\"\n                                   class=\"form-control\"\n                                   id=\"detail\"\n                                   name=\"departmentDetails\"\n                                   ngModel\n                                   [ngModel]=\"dep.departmentDetails\"\n                                   #dDes=\"ngModel\"\n                                   required\n                                   placeholder=\"Enter ...\"\n                            >\n                            <span *ngIf=\"dDes.invalid && dDes.touched\"\n                                  class=\"help-block\">Your Department Description is Required!</span>\n                        </div>\n                    </div>\n                    <div class=\"col-md-12\">\n                        <button type=\"submit\"\n                                [disabled]=\"form.invalid\"\n                                class=\"btn btn-primary pull-right\"\n                        >\n                            <i *ngIf=\"loader\" class=\"fa fa-spinner fa-spin\"></i> Submit\n                        </button>\n                    </div>\n                </form>\n            </div>\n        </ng-template>\n\n\n    </section>\n</div>\n"
 
 /***/ }),
 
@@ -39,6 +39,8 @@ module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"cont
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/distinctUntilChanged.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__ = __webpack_require__("../../../../amazing-time-picker/amazing-time-picker.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -57,15 +59,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var CreateWidgetComponent = (function () {
     /** Service injection */
-    function CreateWidgetComponent(store, activatedRoute, cdr, element, atp, router) {
+    function CreateWidgetComponent(store, activatedRoute, cdr, element, atp, router, modalService) {
         this.store = store;
         this.activatedRoute = activatedRoute;
         this.cdr = cdr;
         this.element = element;
         this.atp = atp;
         this.router = router;
+        this.modalService = modalService;
         this.editMode = false;
         // startTime:any;
         this.widget = {
@@ -79,6 +84,34 @@ var CreateWidgetComponent = (function () {
             areaCode: '',
             contains: '',
             daysArray: [],
+            sunCbk: {
+                startTime: '',
+                endTime: '',
+            },
+            monCbk: {
+                startTime: '',
+                endTime: '',
+            },
+            tueCbk: {
+                startTime: '',
+                endTime: '',
+            },
+            wedCbk: {
+                startTime: '',
+                endTime: '',
+            },
+            thuCbk: {
+                startTime: '',
+                endTime: '',
+            },
+            friCbk: {
+                startTime: '',
+                endTime: '',
+            },
+            satCbk: {
+                startTime: '',
+                endTime: '',
+            },
             startTime: '',
             endTime: '',
             image: '',
@@ -87,11 +120,11 @@ var CreateWidgetComponent = (function () {
         };
         this.loader = false;
         this.hideUploadedImage = true;
-        this.timePikerError = false;
         this.listOfAdmins = [];
         this.updatedlistOfAdmins = [];
         this.showThis = true;
         this.dropdownSettings = {};
+        this.agentListDropdownSettings = {};
         this.limitArray = [];
         this.departmentArrayId = [];
         this.departmentIdList = '';
@@ -100,6 +133,7 @@ var CreateWidgetComponent = (function () {
         this.isBuyNumber = false;
         this.availableNumbers = [];
         this.buyButtonLoader = false;
+        this.departmentIdNewArray = [];
     }
     /** Function call when component initializes */
     CreateWidgetComponent.prototype.ngOnInit = function () {
@@ -114,6 +148,7 @@ var CreateWidgetComponent = (function () {
                 _this.widget.userId = data.userId;
                 _this.loggedInAdminId = data.userId;
                 _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: data.userId }));
+                // this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: data.userId}));
             }
         });
         this.activatedRoute.data.subscribe(function (data) {
@@ -136,9 +171,49 @@ var CreateWidgetComponent = (function () {
                         _this.widget.areaCode = widget.area_code;
                         _this.widget.contains = widget.number_contains;
                         _this.widget.script_url = widget.script_url;
-                        _this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
-                        _this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
-                        _this.widget.daysArray = widget.widget_schedule ? (widget.widget_schedule.day).split(',') : '';
+                        // this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
+                        // this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
+                        // this.widget.daysArray = widget.widget_schedule ? (widget.widget_schedule.day).split(',') : '';
+                        var that_1 = _this;
+                        if (widget.widget_schedule) {
+                            widget.widget_schedule.forEach(function (value) {
+                                if (value.day == 'Sun') {
+                                    that_1.checkSun = true;
+                                    that_1.widget.sunCbk.startTime = value.start_time;
+                                    that_1.widget.sunCbk.endTime = value.end_time;
+                                }
+                                if (value.day == 'Mon') {
+                                    that_1.checkMon = true;
+                                    that_1.widget.monCbk.startTime = value.start_time;
+                                    that_1.widget.monCbk.endTime = value.end_time;
+                                }
+                                if (value.day == 'Tue') {
+                                    that_1.checkTue = true;
+                                    that_1.widget.tueCbk.startTime = value.start_time;
+                                    that_1.widget.tueCbk.endTime = value.end_time;
+                                }
+                                if (value.day == 'Wed') {
+                                    that_1.checkWed = true;
+                                    that_1.widget.wedCbk.startTime = value.start_time;
+                                    that_1.widget.wedCbk.endTime = value.end_time;
+                                }
+                                if (value.day == 'Thu') {
+                                    that_1.checkThu = true;
+                                    that_1.widget.thuCbk.startTime = value.start_time;
+                                    that_1.widget.thuCbk.endTime = value.end_time;
+                                }
+                                if (value.day == 'Fri') {
+                                    that_1.checkFri = true;
+                                    that_1.widget.friCbk.startTime = value.start_time;
+                                    that_1.widget.friCbk.endTime = value.end_time;
+                                }
+                                if (value.day == 'Sat') {
+                                    that_1.checkSat = true;
+                                    that_1.widget.satCbk.startTime = value.start_time;
+                                    that_1.widget.satCbk.endTime = value.end_time;
+                                }
+                            });
+                        } // Top IF
                         _this.widget.departmentIdArray = widget.departments;
                         _this.hideUploadedImage = false;
                         _this.imgSrc = widget.image;
@@ -179,7 +254,22 @@ var CreateWidgetComponent = (function () {
             primaryKey: 'id',
             labelKey: 'department_name'
         };
+        this.agentListDropdownSettings = {
+            singleSelection: false,
+            text: 'Select Agent',
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
+            enableSearchFilter: false,
+            classes: 'myclass custom-class',
+            primaryKey: 'id',
+            labelKey: 'name'
+        };
         this.limitArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        this.dep = {
+            userId: '',
+            departmentName: '',
+            departmentDetails: ''
+        };
     };
     CreateWidgetComponent.prototype.onChangeDaysArray = function (data, checked) {
         if (checked) {
@@ -218,6 +308,28 @@ var CreateWidgetComponent = (function () {
             formDataEdit.append('daysArray', this.widget.daysArray);
             formDataEdit.append('startTime', form.value.startTime);
             formDataEdit.append('endTime', form.value.endTime);
+            formDataEdit.append('phoneNumber', form.value.number);
+            formDataEdit.append('sunCbk', this.checkSun);
+            formDataEdit.append('sunStartTime', form.value.sunStartTime);
+            formDataEdit.append('sunEndTime', form.value.sunEndTime);
+            formDataEdit.append('monCbk', this.checkMon);
+            formDataEdit.append('monStartTime', form.value.monStartTime);
+            formDataEdit.append('monEndTime', form.value.monEndTime);
+            formDataEdit.append('tueCbk', this.checkTue);
+            formDataEdit.append('tueStartTime', form.value.tueStartTime);
+            formDataEdit.append('tueEndTime', form.value.tueEndTime);
+            formDataEdit.append('wedCbk', this.checkWed);
+            formDataEdit.append('wedStartTime', form.value.wedStartTime);
+            formDataEdit.append('wedEndTime', form.value.wedEndTime);
+            formDataEdit.append('thuCbk', this.checkThu);
+            formDataEdit.append('thuStartTime', form.value.thuStartTime);
+            formDataEdit.append('thuEndTime', form.value.thuEndTime);
+            formDataEdit.append('friCbk', this.checkFri);
+            formDataEdit.append('friStartTime', form.value.friStartTime);
+            formDataEdit.append('friEndTime', form.value.friEndTime);
+            formDataEdit.append('satCbk', this.checkSat);
+            formDataEdit.append('satStartTime', form.value.satStartTime);
+            formDataEdit.append('satEndTime', form.value.satEndTime);
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["g" /* EditWidgetAttempt */](formDataEdit));
             /** Loader Show/Hide */
             this.store.select('alert')
@@ -247,10 +359,28 @@ var CreateWidgetComponent = (function () {
             formData.append('scheduleTimezone', form.value.scheduleTimezone);
             formData.append('areaCode', form.value.areaCode);
             formData.append('numberContains', form.value.contains);
-            formData.append('daysArray', this.widget.daysArray);
-            formData.append('startTime', form.value.startTime);
-            formData.append('endTime', form.value.endTime);
             formData.append('phoneNumber', form.value.number);
+            formData.append('sunCbk', this.checkSun);
+            formData.append('sunStartTime', form.value.sunStartTime);
+            formData.append('sunEndTime', form.value.sunEndTime);
+            formData.append('monCbk', this.checkMon);
+            formData.append('monStartTime', form.value.monStartTime);
+            formData.append('monEndTime', form.value.monEndTime);
+            formData.append('tueCbk', this.checkTue);
+            formData.append('tueStartTime', form.value.tueStartTime);
+            formData.append('tueEndTime', form.value.tueEndTime);
+            formData.append('wedCbk', this.checkWed);
+            formData.append('wedStartTime', form.value.wedStartTime);
+            formData.append('wedEndTime', form.value.wedEndTime);
+            formData.append('thuCbk', this.checkThu);
+            formData.append('thuStartTime', form.value.thuStartTime);
+            formData.append('thuEndTime', form.value.thuEndTime);
+            formData.append('friCbk', this.checkFri);
+            formData.append('friStartTime', form.value.friStartTime);
+            formData.append('friEndTime', form.value.friEndTime);
+            formData.append('satCbk', this.checkSat);
+            formData.append('satStartTime', form.value.satStartTime);
+            formData.append('satEndTime', form.value.satEndTime);
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["c" /* AddWidgetAttempt */](formData));
             /** Loader Show/Hide */
             this.store.select('alert')
@@ -316,40 +446,25 @@ var CreateWidgetComponent = (function () {
         this.postedImage = undefined;
         this.imgSrc = '';
     };
-    /** Function call on change of 'to' date */
-    CreateWidgetComponent.prototype.log2 = function (event) {
-        this.timePikerError = false;
-        if (event) {
-            this.validationMinTime = this.form.value.startTime;
-            this.validationMaxTime = event;
-            // console.log(this.validationMaxTime);
-            if (this.validationMinTime > this.validationMaxTime) {
-                this.timePikerError = true;
-                this.form.controls['endTime'].setErrors({ 'incorrect': true });
-            }
-        }
-    };
     /** function to open time in the Start Time */
-    CreateWidgetComponent.prototype.openTimer = function () {
-        var _this = this;
-        var amazingTimePicker = this.atp.open({
-            onlyHour: true,
-        });
-        amazingTimePicker.afterClose().subscribe(function (time) {
-            _this.widget.startTime = time;
-        });
-    };
+    // openTimer() {
+    //   const amazingTimePicker = this.atp.open({
+    //     onlyHour: true,
+    //   });
+    //   amazingTimePicker.afterClose().subscribe(time => {
+    //     this.widget.startTime = time;
+    //   });
+    // }
     /** function to open time in the End Time */
-    CreateWidgetComponent.prototype.openEndTimer = function () {
-        var _this = this;
-        var amazingTimePicker = this.atp.open({
-            onlyHour: true,
-        });
-        amazingTimePicker.afterClose().subscribe(function (time) {
-            _this.widget.endTime = time;
-            _this.log2(time);
-        });
-    };
+    // openEndTimer() {
+    //   const amazingTimePicker = this.atp.open({
+    //     onlyHour: true,
+    //   });
+    //   amazingTimePicker.afterClose().subscribe(time => {
+    //     this.widget.endTime = time;
+    //     this.log2(time);
+    //   });
+    // }
     /** Function to check filter admin name */
     CreateWidgetComponent.prototype.checkAdminname = function ($event) {
         this.showThis = true;
@@ -389,6 +504,258 @@ var CreateWidgetComponent = (function () {
             this.buyButtonLoader = false;
         }
     };
+    /** Function to create modal for creating department */
+    CreateWidgetComponent.prototype.CreateDepartment = function (template) {
+        this.dep.userId = this.widget.userId;
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_10__store_agent_agent_actions__["w" /* GetAdminAgentListAttempt */]({ userId: this.widget.userId }));
+        this.bsModalRef = this.modalService.show(template);
+    };
+    /** function to create a department */
+    CreateWidgetComponent.prototype.onCreateDep = function (form) {
+        var _this = this;
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["c" /* AddDepartmentAttempt */](form.value));
+        var newArray = [];
+        this.newAfterLoginSubscription = this.store.select('department')
+            .subscribe(function (data) {
+            if (data.newDepartmentId > 0 && data) {
+                newArray.push(data);
+                var oldArray = _this.widget.departmentIdArray;
+                var newObj_1 = [{ id: newArray[newArray.length - 1].newDepartmentId, department_name: newArray[newArray.length - 1].newDepartmentName }];
+                var fIndex_1 = -1;
+                if (oldArray.length > 0) {
+                    oldArray.forEach(function (elem, index) {
+                        if (elem.id === newObj_1[0].id) {
+                            fIndex_1 = index;
+                        }
+                    });
+                }
+                if (fIndex_1 !== -1) {
+                    oldArray.splice(fIndex_1, 1);
+                }
+                _this.widget.departmentIdArray = oldArray.concat(newObj_1);
+            }
+        });
+        this.bsModalRef.hide();
+    };
+    /** function to toggle timer */
+    CreateWidgetComponent.prototype.OpenTimer = function (value) {
+        if (value == 1) {
+            this.checkSun = !this.checkSun;
+        }
+        if (value == 2) {
+            this.checkMon = !this.checkMon;
+        }
+        if (value == 3) {
+            this.checkTue = !this.checkTue;
+        }
+        if (value == 4) {
+            this.checkWed = !this.checkWed;
+        }
+        if (value == 5) {
+            this.checkThu = !this.checkThu;
+        }
+        if (value == 6) {
+            this.checkFri = !this.checkFri;
+        }
+        if (value == 7) {
+            this.checkSat = !this.checkSat;
+        }
+    };
+    /** Function to open start time piker */
+    CreateWidgetComponent.prototype.openStartTimePiker = function (value) {
+        var _this = this;
+        if (value == 1) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.sunCbk.startTime = time;
+            });
+        }
+        if (value == 2) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.monCbk.startTime = time;
+            });
+        }
+        if (value == 3) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.tueCbk.startTime = time;
+            });
+        }
+        if (value == 4) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.wedCbk.startTime = time;
+            });
+        }
+        if (value == 5) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.thuCbk.startTime = time;
+            });
+        }
+        if (value == 6) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.friCbk.startTime = time;
+            });
+        }
+        if (value == 7) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.satCbk.startTime = time;
+            });
+        }
+    };
+    /** Function to open end time piker */
+    CreateWidgetComponent.prototype.openEndTimePiker = function (value) {
+        var _this = this;
+        if (value == 1) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.sunCbk.endTime = time;
+                _this.log2(time, 1);
+            });
+        }
+        if (value == 2) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.monCbk.endTime = time;
+                _this.log2(time, 2);
+            });
+        }
+        if (value == 3) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.tueCbk.endTime = time;
+                _this.log2(time, 3);
+            });
+        }
+        if (value == 4) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.wedCbk.endTime = time;
+                _this.log2(time, 4);
+            });
+        }
+        if (value == 5) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.thuCbk.endTime = time;
+                _this.log2(time, 5);
+            });
+        }
+        if (value == 6) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.friCbk.endTime = time;
+                _this.log2(time, 6);
+            });
+        }
+        if (value == 7) {
+            var amazingTimePicker = this.atp.open({
+                onlyHour: true,
+            });
+            amazingTimePicker.afterClose().subscribe(function (time) {
+                _this.widget.satCbk.endTime = time;
+                _this.log2(time, 7);
+            });
+        }
+    };
+    /** Function to check start and end time **** call on change of 'to' date */
+    CreateWidgetComponent.prototype.log2 = function (event, value) {
+        if (event) {
+            if (value == 1) {
+                this.sunTimePikerError = false;
+                this.validationMinTime = this.form.value.sunStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.sunTimePikerError = true;
+                    this.form.controls['sunEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+            if (value == 2) {
+                this.monTimePikerError = false;
+                this.validationMinTime = this.form.value.monStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.monTimePikerError = true;
+                    this.form.controls['monEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+            if (value == 3) {
+                this.tueTimePikerError = false;
+                this.validationMinTime = this.form.value.tueStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.tueTimePikerError = true;
+                    this.form.controls['tueEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+            if (value == 4) {
+                this.wedTimePikerError = false;
+                this.validationMinTime = this.form.value.wedStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.wedTimePikerError = true;
+                    this.form.controls['wedEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+            if (value == 5) {
+                this.thuTimePikerError = false;
+                this.validationMinTime = this.form.value.thuStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.thuTimePikerError = true;
+                    this.form.controls['thuEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+            if (value == 6) {
+                this.friTimePikerError = false;
+                this.validationMinTime = this.form.value.friStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.friTimePikerError = true;
+                    this.form.controls['friEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+            if (value == 7) {
+                this.satTimePikerError = false;
+                this.validationMinTime = this.form.value.satStartTime;
+                this.validationMaxTime = event;
+                if (this.validationMinTime > this.validationMaxTime) {
+                    this.satTimePikerError = true;
+                    this.form.controls['satEndTime'].setErrors({ 'incorrect': true });
+                }
+            }
+        }
+    };
     return CreateWidgetComponent;
 }());
 __decorate([
@@ -401,10 +768,10 @@ CreateWidgetComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/create-widget/create-widget.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/create-widget/create-widget.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _g || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngrx_store__["h" /* Store */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_amazing_time_picker__["b" /* AmazingTimePickerService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_9_ngx_bootstrap_modal__["a" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9_ngx_bootstrap_modal__["a" /* BsModalService */]) === "function" && _h || Object])
 ], CreateWidgetComponent);
 
-var _a, _b, _c, _d, _e, _f, _g;
+var _a, _b, _c, _d, _e, _f, _g, _h;
 //# sourceMappingURL=create-widget.component.js.map
 
 /***/ }),
@@ -705,12 +1072,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_angular2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__tableSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/tableSearch.pipe.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__ = __webpack_require__("../../../../angular2-multiselect-dropdown/angular2-multiselect-dropdown.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -742,7 +1111,8 @@ WidgetModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_9_ng2_search_filter__["a" /* Ng2SearchPipeModule */],
             __WEBPACK_IMPORTED_MODULE_10_ngx_pagination__["a" /* NgxPaginationModule */],
             __WEBPACK_IMPORTED_MODULE_11_angular2_moment__["MomentModule"],
-            __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */]
+            __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */],
+            __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_modal__["b" /* ModalModule */].forRoot()
         ],
         providers: [],
         declarations: [

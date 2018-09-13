@@ -4118,13 +4118,14 @@ var initialState = {
     toEdit: {},
     resetDepartmentForm: false,
     newDepartmentId: 0,
-    preDelete: []
+    preDelete: [],
+    newDepartmentName: ''
 };
 function departmentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["b" /* ADD_DEPARTMENT_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, resetDepartmentForm: true });
+            return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, newDepartmentName: action.payload.department_name, resetDepartmentForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */]):
             var index = state.list.indexOf(function (dep) { return dep.id === action.payload.id; });
             var someDep = state.list[index];
