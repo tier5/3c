@@ -194,4 +194,45 @@ export class ChatEffects {
                 });
 
         });
+
+
+  @Effect()
+  getChatInitEffect = this.actions$
+    .ofType(ChatActions.INI_CHAT_ATTEMPT)
+    .switchMap((action: ChatActions.IniChatAttempt) => {
+      const apiUrl = environment.API_BASE_URL + 'ini-chat';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+      const config = {
+        headers: headers
+      };
+
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .mergeMap((res: any) => {
+          if (res.status) {
+            return [
+              {
+                type: ChatActions.INI_CHAT_SUCCESS,
+                payload: res.response
+              }
+            ];
+          } else {
+            return [
+              {
+                type: ChatActions.INI_CHAT_ERROR,
+                payload: res.message
+              }
+            ];
+          }
+
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: {message: err.error, type: 'danger'}
+            }
+          );
+        });
+
+    });
 }

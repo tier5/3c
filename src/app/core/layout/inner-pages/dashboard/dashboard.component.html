@@ -166,8 +166,52 @@
             <!-- /.box-body -->
           </div>
         </div>
-    </div>
 
+      <div class="col-lg-3 col-xs-12" *ngIf="widgetLists.length > 0">
+        <div class="box box-info">
+          <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <i class="fa fa-envelope"></i>
+            <h3 class="box-title">Initiate chat</h3>
+          </div>
+          <div class="box-body">
+            <form>
+              <div class="form-group">
+                <label class="control-label">Number</label>
+                <input type="text" class="form-control" name="number" #number placeholder="Please enter exactly 10 digits">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Message</label>
+                <input type="text" class="form-control" name="message" #message placeholder="Message">
+              </div>
+              <div class="form-group">
+                <label class="control-label">File</label>
+                <input type="file" class="form-control" name="file" #file placeholder="attach a file for mms" (change)="uploadFile($event)">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Select a widget</label>
+                <select class="form-control" #widgetSelect name="widgetSelect">
+                  <option value="" selected>Select a Widget</option>
+                  <ng-container *ngFor="let list of widgetLists">
+                    <option [value]="list.widget_uuid" *ngIf="list.twilio_numbers !== null">
+                      {{ list.twilio_numbers.number }}
+                      {{ list.website !== null ? ' ( '  +list.website+ ' ) ' : '' }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="initiateError">
+                <span class="has-error">{{ initiateMessage }}</span>
+              </div>
+            </form>
+          </div>
+          <div class="box-footer clearfix">
+            <button type="button" class="pull-right btn btn-default" id="sendEmail" (click)="sendMessage(number.value, message.value, widgetSelect.selectedOptions[0].value)">
+              Send
+              <i class="fa fa-arrow-circle-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
       <!--<div class="row" *ngIf="(authState | async).isAgent">-->
           <!--<div class="col-md-4" *ngIf="!!(showChats() | async).length">-->
               <!--<ul>-->

@@ -11,3 +11,6 @@
 .button-box{
     float: right;
 }
+.has-error {
+  color: red;
+}

@@ -6,7 +6,9 @@ export interface ChatState {
   connected: boolean,
   chatList : any,
   agentList : any,
-  contactList : any
+  contactList : any,
+  messageSend : boolean,
+  messageError: boolean,
 }
 
 const initialState: ChatState = {
@@ -15,7 +17,9 @@ const initialState: ChatState = {
   connected: false,
   chatList : [] ,
   agentList : [],
-  contactList : []
+  contactList : [],
+  messageSend: false,
+  messageError: false,
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
@@ -94,6 +98,16 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ...state,
         agentList: action.payload
       };
+      case (ChatActions.INI_CHAT_SUCCESS):
+        return {
+          ...state,
+          messageSend: true
+        };
+      case (ChatActions.INI_CHAT_ERROR):
+        return {
+          ...state,
+          messageError: true
+        };
     default:
       return state;
   }
