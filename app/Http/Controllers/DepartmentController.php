@@ -30,7 +30,6 @@ class DepartmentController extends Controller
      */
     public function createDepartment(Request $request)
     {
-        //dd($request->all());
         $userToken         = $request->token;
         $userId            = $request->userId;
         $departmentName    = $request->departmentName;
@@ -127,7 +126,7 @@ class DepartmentController extends Controller
                         'status'  => false,
                         'code'    => 400,
                         'response'=> [],
-                        'message' => 'Bad Request !'
+                        'message' => 'Bad Request,UserType mismatch !'
                     ));
 
                 }
@@ -147,7 +146,7 @@ class DepartmentController extends Controller
                 'status'  => false,
                 'code'    => 400,
                 'response'=> [],
-                'message' => 'Bad Request !'
+                'message' => 'Bad Request,User token not found  !'
             ));
 
         }

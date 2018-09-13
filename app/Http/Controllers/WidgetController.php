@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Timezone;
 use App\Model\TwilioCredentials;
+use App\Model\TwilioNumber;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -46,11 +47,6 @@ class WidgetController extends Controller
         $widgetLogo = $request->image;
         $phoneNumber = $request->phoneNumber;
         $numberContains = $request->numberContains;
-
-        $dayArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-        $daysArray = $request->daysArray == '' ? $dayArray : $request->daysArray;
-        $startTime = $request->startTime == '' ? '00:00:00' : $request->startTime;
-        $endTime = $request->endTime == '' ? '24:00:00' : $request->endTime;
         $imagePath = '';
         $supportedFormat = array('jpeg', 'jpg', 'png', 'gif', 'tif');
         $generateFileName = date("YmdHis");
@@ -121,12 +117,70 @@ class WidgetController extends Controller
         if ($widgets->save()) {
 
             // Save Widget Schdule Time
-            $req = new Request;
-            $req->widgetId = $widgets->id;
-            $req->daysArray = $daysArray;
-            $req->startTime = $startTime;
-            $req->endTime = $endTime;
-            $this->updateWidgetSchedule($req);
+            // save time data to the widget schedule
+            if($request->sunCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Sun';
+                $req->startTime = $request->sunStartTime;
+                $req->endTime = $request->sunEndTime;
+                 // save this
+                $this->updateWidgetSchedule($req);
+            }
+            if($request->monCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Mon';
+                $req->startTime = $request->monStartTime;
+                $req->endTime = $request->monEndTime;
+                // save this
+                $this->updateWidgetSchedule($req);
+            }
+            if($request->tueCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Tue';
+                $req->startTime = $request->tueStartTime;
+                $req->endTime = $request->tueEndTime;
+                // save this
+                $this->updateWidgetSchedule($req);
+            }
+            if($request->wedCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Wed';
+                $req->startTime = $request->wedStartTime;
+                $req->endTime = $request->wedEndTime;
+                // save this
+                $this->updateWidgetSchedule($req);
+            }
+            if($request->thuCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Thu';
+                $req->startTime = $request->thuStartTime;
+                $req->endTime = $request->thuEndTime;
+                // save this
+                $this->updateWidgetSchedule($req);
+            }
+            if($request->friCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Fri';
+                $req->startTime = $request->friStartTime;
+                $req->endTime = $request->friEndTime;
+                // save this
+                $this->updateWidgetSchedule($req);
+            }
+            if($request->satCbk == true){
+                $req = new Request;
+                $req->widgetId = $widgets->id;
+                $req->day = 'Sat';
+                $req->startTime = $request->satStartTime;
+                $req->endTime = $request->satEndTime;
+                // save this
+                $this->updateWidgetSchedule($req);
+            }
             // Save Widget Departments
             $reqDepartments = new Request;
             $reqDepartments->widgetId = $widgets->id;
@@ -404,7 +458,7 @@ class WidgetController extends Controller
         $imagePath = '';
         $supportedFormat = array('jpeg', 'jpg', 'png', 'gif', 'tif');
         $generateFileName = date("YmdHi");
-
+        $phoneNumber = $request->phoneNumber;
         // If userId is not present
         if ($userId == '') {
 
@@ -456,21 +510,95 @@ class WidgetController extends Controller
                 }
             }
             if ($checkWidget->save()) {
-
+                // Update phone number
+                if($phoneNumber!=""){
+                    $updatePhoneNUmber = TwilioNumber::where('widget_id',$widgetId)->first();
+                    if($updatePhoneNUmber) {
+                        $phoneNumber       = substr($phoneNumber, -10); //phone_number
+                        $updatePhoneNUmber->number = $phoneNumber;
+                        $updatePhoneNUmber->save();
+                    } else {
+                        $twilioController = new TwilioController;
+                        $buyPhoneNumber = $twilioController->buyPhoneNumber($widgetId,$userId,$phoneNumber);
+                    }
+                }
                 // Save Widget Schdule Time
-                $reqSchedule = new Request;
-                $reqSchedule->widgetId = $widgetId;
-                $reqSchedule->daysArray = $widgetScheduleDay;
-                $reqSchedule->startTime = $widgetStartTime;
-                $reqSchedule->endTime = $widgetEndTime;
-                $this->updateWidgetSchedule($reqSchedule);
+//                $reqSchedule = new Request;
+//                $reqSchedule->widgetId = $widgetId;
+//                $reqSchedule->daysArray = $widgetScheduleDay;
+//                $reqSchedule->startTime = $widgetStartTime;
+//                $reqSchedule->endTime = $widgetEndTime;
+//                $this->updateWidgetSchedule($reqSchedule);
+                if($request->sunCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Sun';
+                    $req->startTime = $request->sunStartTime;
+                    $req->endTime = $request->sunEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+                if($request->monCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Mon';
+                    $req->startTime = $request->monStartTime;
+                    $req->endTime = $request->monEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+                if($request->tueCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Tue';
+                    $req->startTime = $request->tueStartTime;
+                    $req->endTime = $request->tueEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+                if($request->wedCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Wed';
+                    $req->startTime = $request->wedStartTime;
+                    $req->endTime = $request->wedEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+                if($request->thuCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Thu';
+                    $req->startTime = $request->thuStartTime;
+                    $req->endTime = $request->thuEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+                if($request->friCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Fri';
+                    $req->startTime = $request->friStartTime;
+                    $req->endTime = $request->friEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+                if($request->satCbk == true){
+                    $req = new Request;
+                    $req->widgetId = $widgetId;
+                    $req->day = 'Sat';
+                    $req->startTime = $request->satStartTime;
+                    $req->endTime = $request->satEndTime;
+                    // save this
+                    $this->updateWidgetSchedule($req);
+                }
+
                 // Save Widget Departments
                 $reqDepartments = new Request;
                 $reqDepartments->widgetId = $widgetId;
                 $reqDepartments->userId = $userId;
                 $reqDepartments->departmentIdArray = $widgetDepartment;
                 $this->updateWidgetDepartment($reqDepartments);
-
                 // Get Widget Details
                 $viewWidget = Widgets::where('id', $widgetId)->with('twilioNumbers', 'widgetSchedule', 'widgetDepartment.departmentDetails')->first();
 
@@ -502,7 +630,6 @@ class WidgetController extends Controller
         $widgetUserId = $request->userId;
         $widgetDepartment = explode(',', $request->departmentIdArray);
         $token = $request->token;
-
         $checkWidget = Widgets::find($widgetId);
 
         // Check Widget
@@ -575,7 +702,7 @@ class WidgetController extends Controller
         $widgetScheduleDay = $request->daysArray;
         $widgetStartTime = $request->startTime;
         $widgetEndTime = $request->endTime;
-        $days = $request->daysArray;
+        $days = $request->day;
 
         $checkWidget = Widgets::find($widgetId);
 
@@ -585,11 +712,8 @@ class WidgetController extends Controller
             return $response = json_encode(array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => 'Widget not found !'));
 
         }
-
-        $checkWidgetSchedule = WidgetScheduleMapping::where('widget_id', $widgetId)->first();
-
-        if (count($checkWidgetSchedule) == 0) {
-
+        $checkWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day',$days)->first();
+        if(count($checkWidgetSchedule) == 0 ){
             $widgetSchedule = new WidgetScheduleMapping;
             $widgetSchedule->widget_id = $widgetId;
             $widgetSchedule->day = $days;
@@ -605,13 +729,11 @@ class WidgetController extends Controller
                 return $response = json_encode(array('code' => 400, 'error' => false, 'response' => [], 'status' => false, 'message' => 'Widget Schedule not saved !'));
 
             }
-
-        } else {
-
+        }else{
+            $checkWidgetSchedule->widget_id = $widgetId;
             $checkWidgetSchedule->day = $days;
             $checkWidgetSchedule->start_time = $widgetStartTime;
             $checkWidgetSchedule->end_time = $widgetEndTime;
-
             if ($checkWidgetSchedule->save()) {
 
                 return $response = json_encode(array('code' => 200, 'error' => false, 'response' => $checkWidgetSchedule, 'status' => false, 'message' => 'Widget Schedule saved !'));
@@ -622,7 +744,10 @@ class WidgetController extends Controller
 
             }
         }
+
+
     }
+
 
     /**
      * View widget
