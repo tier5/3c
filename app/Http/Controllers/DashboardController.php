@@ -147,10 +147,22 @@ class DashboardController extends Controller
                         /** Update user activity */
                         $userController = new UserController;
                         $userController->updateUserLoggedInTime($userId);
+                        $widgets = [];
+                        $agentDepartments = DepartmentAgentMap::where('user_id',$userId)->pluck('department_id');
+
+
+                        if (count($agentDepartments) > 0) {
+                            $departments = array_unique($agentDepartments->toArray(), SORT_REGULAR);
+                            $departmentWidgets = WidgetDepartmentMapping::whereIn('department_id',$departments)->orderBy('department_orders')->pluck('widget_id');
+                            if (count($departmentWidgets) > 0) {
+                                $widgets = Widgets::whereIn('id',$departmentWidgets)->with('twilioNumbers')->get();
+                            }
+                        }
                         return Response::json(array(
                             'status' => true,
                             'code' => 200,
                             'response' => $dashboardItemCount,
+                            'widgets' => $widgets,
                             'message' => 'Dashboard Item Count List !'
                         ));
 

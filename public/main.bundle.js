@@ -2970,6 +2970,9 @@ function agentReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_CONTACT_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_TRANSFER_AGENT_LIST_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_TRANSFER_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return INI_CHAT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return INI_CHAT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return INI_CHAT_ERROR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ConnectAttempt; });
 /* unused harmony export ConnectSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddNewMsgToChatList; });
@@ -2984,6 +2987,9 @@ function agentReducer(state, action) {
 /* unused harmony export GetContactListSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetTransferAgentListAttempt; });
 /* unused harmony export GetTransferAgentListSuccess */
+/* unused harmony export IniChatAttempt */
+/* unused harmony export IniChatSuccess */
+/* unused harmony export IniChatError */
 var CONNECT_ATTEMPT = 'CONNECT_ATTEMPT';
 var CONNECT_SUCCESS = 'CONNECT_SUCCESS';
 var ADD_NEW_MSG_TO_CHAT_LIST = 'ADD_NEW_MSG_TO_CHAT_LIST';
@@ -2998,6 +3004,9 @@ var GET_CONTACT_LIST_ATTEMPT = 'GET_CONTACT_LIST_ATTEMPT';
 var GET_CONTACT_LIST_SUCCESS = 'GET_CONTACT_LIST_SUCCESS';
 var GET_TRANSFER_AGENT_LIST_ATTEMPT = 'GET_TRANSFER_AGENT_LIST_ATTEMPT';
 var GET_TRANSFER_AGENT_LIST_SUCCESS = 'GET_TRANSFER_AGENT_LIST_SUCCESS';
+var INI_CHAT_ATTEMPT = 'INI_CHAT_ATTEMPT';
+var INI_CHAT_SUCCESS = 'INI_CHAT_SUCCESS';
+var INI_CHAT_ERROR = 'INI_CHAT_ERROR';
 var ConnectAttempt = (function () {
     function ConnectAttempt() {
         this.type = CONNECT_ATTEMPT;
@@ -3105,6 +3114,30 @@ var GetTransferAgentListSuccess = (function () {
         this.type = GET_TRANSFER_AGENT_LIST_SUCCESS;
     }
     return GetTransferAgentListSuccess;
+}());
+
+var IniChatAttempt = (function () {
+    function IniChatAttempt(payload) {
+        this.payload = payload;
+        this.type = INI_CHAT_ATTEMPT;
+    }
+    return IniChatAttempt;
+}());
+
+var IniChatSuccess = (function () {
+    function IniChatSuccess(payload) {
+        this.payload = payload;
+        this.type = INI_CHAT_SUCCESS;
+    }
+    return IniChatSuccess;
+}());
+
+var IniChatError = (function () {
+    function IniChatError(payload) {
+        this.payload = payload;
+        this.type = INI_CHAT_ERROR;
+    }
+    return IniChatError;
 }());
 
 //# sourceMappingURL=chat.actions.js.map
@@ -3301,6 +3334,40 @@ var ChatEffects = (function () {
                 });
             });
         });
+        this.getChatInitEffect = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["x" /* INI_CHAT_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'ini-chat';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["z" /* INI_CHAT_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["y" /* INI_CHAT_ERROR */],
+                            payload: res.message
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
     }
     return ChatEffects;
 }());
@@ -3324,6 +3391,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], ChatEffects.prototype, "getTransferAgentList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], ChatEffects.prototype, "getChatInitEffect", void 0);
 ChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -3355,7 +3426,9 @@ var initialState = {
     connected: false,
     chatList: [],
     agentList: [],
-    contactList: []
+    contactList: [],
+    messageSend: false,
+    messageError: false,
 };
 function chatReducer(state, action) {
     if (state === void 0) { state = initialState; }
@@ -3404,6 +3477,10 @@ function chatReducer(state, action) {
             return __assign({}, state, { contactList: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { agentList: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["z" /* INI_CHAT_SUCCESS */]):
+            return __assign({}, state, { messageSend: true });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["y" /* INI_CHAT_ERROR */]):
+            return __assign({}, state, { messageError: true });
         default:
             return state;
     }
@@ -3499,7 +3576,7 @@ var DashboardEffects = (function () {
                     return [
                         {
                             type: __WEBPACK_IMPORTED_MODULE_9__dashboard_dashboard_actions__["b" /* GET_DASHBOARD_ITEMS_COUNT_SUCCESS */],
-                            payload: res.response
+                            payload: res
                         }
                     ];
                 }
@@ -3552,13 +3629,14 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 
 var initialState = {
-    list: []
+    list: [],
+    widgets: []
 };
 function dashboardReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__dashboard_actions__["b" /* GET_DASHBOARD_ITEMS_COUNT_SUCCESS */]):
-            return __assign({}, state, { list: [action.payload] });
+            return __assign({}, state, { list: [action.payload.response], widgets: action.payload.widgets });
         default:
             return state;
     }

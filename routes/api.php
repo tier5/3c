@@ -138,3 +138,5 @@ Route::post('delete-department', 'DepartmentController@deleteDepartment');
 Route::post('agent-all-chats','ChatListController@getAllAgentChats');
 // Upload file
 Route::post('file-upload','ChatController@uploadFile');
+// Initiate a chat with agent
+Route::post('ini-chat','ChatController@initiateChatWithAgent');

@@ -1981,6 +1981,129 @@ class ChatController extends Controller
             return 'document';
         }
     }
+    public function initiateChatWithAgent(Request $request)
+    {
+        Log::info($request->all());
+        try {
+            $toNumber = '+1'.$request->to;
+            $body = $request->body;
+            $file = $request->file;
+            $fileUrl = $request->fileUrl;
+            $fileType = $request->fileType;
+            $widgetUIID = $request->widget_uuid;
+            $userId = $request->userId;
+            $name = '';
+            $email = '';
 
+            $getWidgetData = Widgets::where('widget_uuid', $widgetUIID)->with('twilioNumbers')->first();
+            if (count($getWidgetData->widgetDepartment) > 1) {
+                $fromNumber = $getWidgetData->twilioNumbers->prefix . $getWidgetData->twilioNumbers->number;
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'code' => 400,
+                    'response' => [],
+                    'error' => true,
+                    'message' => 'Widget not found'
+                ));
+            }
+            $departmentAgentMap = DepartmentAgentMap::where('user_id',$userId)->first();
+            if ($departmentAgentMap) {
+                $saveMessageTrack = new MessageTrack;
+                $saveMessageTrack->widget_id = $widgetUIID;
+                $saveMessageTrack->department_id = $departmentAgentMap->department_id;
+                $saveMessageTrack->from_phone_number = $toNumber;
+                $saveMessageTrack->message_type = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
+                $saveMessageTrack->status = 1;
+                if ($saveMessageTrack->save()) {
+
+                    $responsesaveContactList = $this->saveContactList($widgetUIID, $toNumber, $name, $email);
+                    if ($responsesaveContactList != 0) {
+                        $responsesaveMessageLog = $this->saveMessageLog($responsesaveContactList, $widgetUIID);
+                        if ($responsesaveMessageLog != false) {
+
+                            $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['message_id' => $responsesaveMessageLog]);
+
+                            $chatRoomId = $this->chatProcess($toNumber, $widgetUIID);   //calling chat process
+
+                            $saveChatThread = new ChatThread;
+                            $saveChatThread->message_log_id = $responsesaveMessageLog;
+                            $saveChatThread->widget_id = $widgetUIID;
+                            $saveChatThread->chat_thread = $body;
+                            $saveChatThread->type = '1';
+                            $saveChatThread->user_id = $userId;
+                            $saveChatThread->direction = '2';
+                            $saveChatThread->chat_type = '1';
+                            $saveChatThread->is_mms = $file;
+                            $saveChatThread->file_type = $fileType;
+                            $saveChatThread->file_url = $fileUrl;
+                            if ($saveChatThread->save()) {
+                                //call to node API
+                                $getChatInfo = MessageTrack::where('message_id', $responsesaveMessageLog)->select('agent_id', 'chat_room_id', 'status')->first();
+                                if ($getChatInfo) {
+                                    /** call to node API for sending this message to the frontend chat secticon */
+                                    $time = date("Y-m-d H:i:s");
+                                    $url = url('/') . ':3000/mobile-chat';
+                                    $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, $url);
+                                    curl_setopt($ch, CURLOPT_POST, 1);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                        "messageBody=$body&direction=2&user=$toNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf");
+
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    $server_output = curl_exec($ch);
+                                    curl_close($ch);
+                                }
+                                $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['status' => 2,'agent_id' => $userId]);
+                                $updateMessageLog = MessageLog::where('id', $responsesaveContactList)->update(['status' => 2]);
+                                $updateAgentMessageTruct = MessageAgentTrack::where('agent_id',$userId)
+                                    ->where('message_id',$responsesaveMessageLog)->where('chat_room_id',$chatRoomId)->update(['status' => 2]);
+                                $this->sendSms($body, $toNumber, $fromNumber, $file, $fileType, $fileUrl);
+                                return Response::json(array(
+                                    'status' => true,
+                                    'code' => 200,
+                                    'response' => [],
+                                    'error' => false,
+                                    'message' => 'Message Saved'
+                                ));
+                            } else {
+                                return Response::json(array(
+                                    'status' => false,
+                                    'code' => 400,
+                                    'response' => [],
+                                    'error' => true,
+                                    'message' => 'message not saved'
+                                ));
+                            }
+
+
+                        } else {
+
+                        }
+                    } else {
+
+                    }
+                } else {
+
+                }
+            } else {
+                return Response::json(array(
+                    'status' => false,
+                    'code' => 400,
+                    'response' => [],
+                    'error' => true,
+                    'message' => 'Department not found'
+                ));
+            }
+        } catch (\Exception $e) {
+            return Response::json(array(
+                'status' => false,
+                'code' => 400,
+                'response' => [],
+                'error' => true,
+                'message' => $e->getMessage()
+            ));
+        }
+    }
 
 }
