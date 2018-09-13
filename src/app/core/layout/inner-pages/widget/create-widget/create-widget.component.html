@@ -69,7 +69,8 @@
                                 </div>
 
                                 <!-- Department -->
-                                <div class="col-md-6"  >
+                                <div class="col-md-6">
+                                    <div class="col-md-10">
                                     <div class="form-group">
                                         <label class="control-label" for="department">
                                             Department for Widget
@@ -96,11 +97,39 @@
                                             </option>
                                         </select>-->
                                     </div>
+                                    </div>
+                                    <div class="col-md-2 createAgentBtn">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" (click)="CreateDepartment(template)"><i class="fa fa-plus"> </i> Create Department</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Widget Description -->
+                                <div class="col-md-6"  [hidden]="!(authState | async).isAdmin">
+                                    <div class="form-group"
+                                         [ngClass]="(details.invalid && details.touched) ? 'has-error': ''">
+                                        <label class="control-label" for="details">
+                                            <i *ngIf="details.invalid && details.touched"
+                                               class="fa fa-times-circle-o">
+                                            </i>
+                                            Widget Description
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="details"
+                                               name="details"
+                                               [ngModel]="widget.details"
+                                               #details="ngModel"
+                                               placeholder="Description about the widget ...."
+                                        >
+                                        <span *ngIf="details.invalid && details.touched" class="help-block">Widget Description is Required !</span>
+                                    </div>
                                 </div>
 
                             </div>
 
-                            <div class="row"  >
+                            <div class="row">
 
                                 <!-- Web Site URL -->
                                 <div class="col-md-6">
@@ -124,15 +153,15 @@
                                     </div>
                                 </div>
 
-                                <!-- Widget Details -->
-                                <div class="col-md-6">
+                                <!-- Widget Description -->
+                                <div class="col-md-6"   [hidden]="(authState | async).isAdmin">
                                     <div class="form-group"
                                          [ngClass]="(details.invalid && details.touched) ? 'has-error': ''">
                                         <label class="control-label" for="details">
                                             <i *ngIf="details.invalid && details.touched"
                                                class="fa fa-times-circle-o">
                                             </i>
-                                            Widget Details
+                                            Widget Description
                                         </label>
                                         <input type="text"
                                                class="form-control"
@@ -140,15 +169,24 @@
                                                name="details"
                                                [ngModel]="widget.details"
                                                #details="ngModel"
-                                               placeholder="Details about the widget ...."
+                                               placeholder="Description about the widget ...."
                                         >
-                                        <span *ngIf="details.invalid && details.touched" class="help-block">Widget details is Required !</span>
+                                        <span *ngIf="details.invalid && details.touched" class="help-block">Widget Description is Required !</span>
                                     </div>
+                                </div>
+
+                                <div class="col-md-6" *ngIf="widget.script_url">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Script URL
+                                        </label>
+                                    </div>
+                                    {{widget.script_url}}
                                 </div>
 
                             </div>
 
-                            <div class="row"  >
+                            <div class="row">
 
                                 <!-- TimeZone -->
                                 <div class="col-md-6">
@@ -210,65 +248,309 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label" for="settings">Limit setting time & days </label>
-                                      <div *ngFor="let data of limitArray" id="settings">
-                                        <input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>
-                                      </div>
-
-                                        <!--<select name="daysArray"
-                                                class="form-control"
-                                                [ngModel]="widget.daysArray"
-                                                required
-                                                #daysArray="ngModel" id="settings" multiple>
-                                            <option value="Mon">Mon</option>
-                                            <option value="Tue">Tue</option>
-                                            <option value="Wed">Wed</option>
-                                            <option value="Thu">Thu</option>
-                                            <option value="Fri">Fri</option>
-                                            <option value="Sat">Sat</option>
-                                            <option value="Sun">Sun</option>
-                                        </select>-->
-                                        <span *ngIf="widget.daysArray.length === 0" class="help-block" style="color: red !important;">Choosing Available Days is Required!</span>
+                                        <label class="control-label">Limit setting time & days </label>
+                                      <!--<div *ngFor="let data of limitArray" id="settings">-->
+                                        <!--<input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>-->
+                                      <!--</div>-->
+                                        <table class="table table-bordered">
+                                        <tr><input type="checkbox" name="sunCbk" id="sunCbk" [checked]="checkSun" (click)="OpenTimer(1)">Sun
+                                            <td  *ngIf="checkSun">
+                                                <div class="col-md-6" [ngClass]="(sunStartTime.invalid && sunStartTime.touched) ? 'has-error': ''">
+                                                    <!--<div class="col-md-6">-->
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="sunStartTime">
+                                                            <i *ngIf="sunStartTime.invalid && sunStartTime.touched"
+                                                               class="fa fa-times-circle-o">
+                                                            </i>
+                                                            From Time
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input [ngModel]="widget.sunCbk.startTime" name="sunStartTime" class="form-control" #sunStartTime="ngModel" required id="sunStartTime"/>
+                                                            <span class="input-group-addon" (click)="openStartTimePiker(1)"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                        <span *ngIf="sunStartTime.invalid && sunStartTime.touched && sunStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td  *ngIf="checkSun">
+                                                <div class="col-md-6"  [ngClass]="(sunEndTime.invalid && sunEndTime.touched) || sunTimePikerError ? 'has-error': ''">
+                                                    <div class="form-group" >
+                                                        <label class="control-label" for="sunEndTime">
+                                                            <i *ngIf="(sunEndTime.invalid && sunEndTime.touched) || sunTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                            To Time
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input [ngModel]="widget.sunCbk.endTime" name="sunEndTime" #sunEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="sunEndTime" (ngModelChange)="log2($event)"/>
+                                                            <span class="input-group-addon" (click)="openEndTimePiker(1)"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                        <span *ngIf="sunTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                        <span *ngIf="sunEndTime.invalid && sunEndTime.touched && sunEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <input type="checkbox" name="monCbk"  [checked]="checkMon"   (click)="OpenTimer(2)">Mon
+                                            <td *ngIf="checkMon">
+                                                <div class="col-md-6" [ngClass]="(monStartTime.invalid && monStartTime.touched) ? 'has-error': ''">
+                                                    <!--<div class="col-md-6">-->
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="startTime1">
+                                                            <i *ngIf="monStartTime.invalid && monStartTime.touched"
+                                                               class="fa fa-times-circle-o">
+                                                            </i>
+                                                            From Time
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input [ngModel]="widget.monCbk.startTime" name="monStartTime" class="form-control" #monStartTime="ngModel" required id="startTime1"/>
+                                                            <span class="input-group-addon" (click)="openStartTimePiker(2)"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                        <span *ngIf="monStartTime.invalid && monStartTime.touched && monStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td *ngIf="checkMon">
+                                                <div class="col-md-6"  [ngClass]="(monEndTime.invalid && monEndTime.touched) || monTimePikerError ? 'has-error': ''">
+                                                    <div class="form-group" >
+                                                        <label class="control-label" for="endTime1">
+                                                            <i *ngIf="(monEndTime.invalid && monEndTime.touched) || monTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                            To Time
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input [ngModel]="widget.monCbk.endTime" name="monEndTime" #monEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="endTime1" (ngModelChange)="log2($event)"/>
+                                                            <span class="input-group-addon" (click)="openEndTimePiker(2)"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                        <span *ngIf="monTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                        <span *ngIf="monEndTime.invalid && monEndTime.touched && monEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                            <tr>
+                                        <input type="checkbox" name="tueCbk" [checked]="checkTue"  (click)="OpenTimer(3)">Tue
+                                        <td *ngIf="checkTue">
+                                            <div class="col-md-6" [ngClass]="(tueStartTime.invalid && tueStartTime.touched) ? 'has-error': ''">
+                                                <!--<div class="col-md-6">-->
+                                                <div class="form-group">
+                                                    <label class="control-label" for="tueStartTime">
+                                                        <i *ngIf="tueStartTime.invalid && tueStartTime.touched"
+                                                           class="fa fa-times-circle-o">
+                                                        </i>
+                                                        From Time
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <input [ngModel]="widget.tueCbk.startTime" name="tueStartTime" class="form-control" #tueStartTime="ngModel" required id="tueStartTime"/>
+                                                        <span class="input-group-addon" (click)="openStartTimePiker(3)"><i class="glyphicon glyphicon-time"></i></span>
+                                                    </div>
+                                                    <span *ngIf="tueStartTime.invalid && tueStartTime.touched && tueStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td *ngIf="checkTue">
+                                            <div class="col-md-6"  [ngClass]="(tueEndTime.invalid && tueEndTime.touched) || tueTimePikerError ? 'has-error': ''">
+                                                <div class="form-group" >
+                                                    <label class="control-label" for="tueEndTime">
+                                                        <i *ngIf="(tueEndTime.invalid && tueEndTime.touched) || tueTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                        To Time
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <input [ngModel]="widget.tueCbk.endTime" name="tueEndTime" #tueEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="tueEndTime" (ngModelChange)="log2($event)"/>
+                                                        <span class="input-group-addon" (click)="openEndTimePiker(3)"><i class="glyphicon glyphicon-time"></i></span>
+                                                    </div>
+                                                    <span *ngIf="tueTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                    <span *ngIf="tueEndTime.invalid && tueEndTime.touched && tueEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                </div>
+                                            </div>
+                                              </td>
+                                        </tr>
+                                        <tr>
+                                            <input type="checkbox" name="wedCbk" id="wedCbk" [checked]="checkWed" (click)="OpenTimer(4)">Wed
+                                            <td *ngIf="checkWed">
+                                                <div class="col-md-6" [ngClass]="(wedStartTime.invalid && wedStartTime.touched) ? 'has-error': ''">
+                                                    <!--<div class="col-md-6">-->
+                                                    <div class="form-group">
+                                                        <label class="control-label" for="wedStartTime">
+                                                            <i *ngIf="wedStartTime.invalid && wedStartTime.touched"
+                                                               class="fa fa-times-circle-o">
+                                                            </i>
+                                                            From Time
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <input [ngModel]="widget.wedCbk.startTime" name="wedStartTime" class="form-control" #wedStartTime="ngModel" required id="wedStartTime"/>
+                                                            <span class="input-group-addon" (click)="openStartTimePiker(4)"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                        <span *ngIf="wedStartTime.invalid && wedStartTime.touched && wedStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                    </div>
+                                                </div>
+                                        </td>
+                                        <td *ngIf="checkWed">
+                                            <div class="col-md-6"  [ngClass]="(wedEndTime.invalid && wedEndTime.touched) || wedTimePikerError ? 'has-error': ''">
+                                                <div class="form-group" >
+                                                    <label class="control-label" for="wedEndTime">
+                                                        <i *ngIf="(wedEndTime.invalid && wedEndTime.touched) || wedTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                        To Time
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <input [ngModel]="widget.wedCbk.endTime" name="wedEndTime" #wedEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="wedEndTime" (ngModelChange)="log2($event)"/>
+                                                        <span class="input-group-addon" (click)="openEndTimePiker(4)"><i class="glyphicon glyphicon-time"></i></span>
+                                                    </div>
+                                                    <span *ngIf="wedTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                    <span *ngIf="wedEndTime.invalid && wedEndTime.touched && wedEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                            <input type="checkbox" name="thuCbk" id="thuCbk" [checked]="checkThu" (click)="OpenTimer(5)">Thu
+                                         <td *ngIf="checkThu">
+                                             <div class="col-md-6" [ngClass]="(thuStartTime.invalid && thuStartTime.touched) ? 'has-error': ''">
+                                                 <!--<div class="col-md-6">-->
+                                                 <div class="form-group">
+                                                     <label class="control-label" for="thuStartTime">
+                                                         <i *ngIf="thuStartTime.invalid && thuStartTime.touched"
+                                                            class="fa fa-times-circle-o">
+                                                         </i>
+                                                         From Time
+                                                     </label>
+                                                     <div class="input-group">
+                                                         <input [ngModel]="widget.thuCbk.startTime" name="thuStartTime" class="form-control" #thuStartTime="ngModel" required id="thuStartTime"/>
+                                                         <span class="input-group-addon" (click)="openStartTimePiker(5)"><i class="glyphicon glyphicon-time"></i></span>
+                                                     </div>
+                                                     <span *ngIf="thuStartTime.invalid && thuStartTime.touched && thuStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                 </div>
+                                             </div>
+                                        </td>
+                                        <td *ngIf="checkThu">
+                                            <div class="col-md-6"  [ngClass]="(thuEndTime.invalid && thuEndTime.touched) || thuTimePikerError ? 'has-error': ''">
+                                                <div class="form-group" >
+                                                    <label class="control-label" for="thuEndTime">
+                                                        <i *ngIf="(thuEndTime.invalid && thuEndTime.touched) || thuTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                        To Time
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <input [ngModel]="widget.thuCbk.endTime" name="thuEndTime" #thuEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="thuEndTime" (ngModelChange)="log2($event)"/>
+                                                        <span class="input-group-addon" (click)="openEndTimePiker(5)"><i class="glyphicon glyphicon-time"></i></span>
+                                                    </div>
+                                                    <span *ngIf="thuTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                    <span *ngIf="thuEndTime.invalid && thuEndTime.touched && thuEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                            <tr>
+                                        <input type="checkbox" name="friCbk"  [checked]="checkFri" (click)="OpenTimer(6)">Fri
+                                                <td *ngIf="checkFri">
+                                                    <div class="col-md-6" [ngClass]="(friStartTime.invalid && friStartTime.touched) ? 'has-error': ''">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="friStartTime">
+                                                                <i *ngIf="friStartTime.invalid && friStartTime.touched"
+                                                                   class="fa fa-times-circle-o">
+                                                                </i>
+                                                                From Time
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <input [ngModel]="widget.friCbk.startTime" name="friStartTime" class="form-control" #friStartTime="ngModel" required id="friStartTime"/>
+                                                                <span class="input-group-addon" (click)="openStartTimePiker(6)"><i class="glyphicon glyphicon-time"></i></span>
+                                                            </div>
+                                                            <span *ngIf="friStartTime.invalid && friStartTime.touched && friStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                        </div>
+                                                    </div>
+                                        </td>
+                                                <td *ngIf="checkFri">
+                                                    <div class="col-md-6"  [ngClass]="(friEndTime.invalid && friEndTime.touched) || friTimePikerError ? 'has-error': ''">
+                                                        <div class="form-group" >
+                                                            <label class="control-label" for="friEndTime">
+                                                                <i *ngIf="(friEndTime.invalid && friEndTime.touched) || friTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                                To Time
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <input [ngModel]="widget.friCbk.endTime" name="friEndTime" #friEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="friEndTime" (ngModelChange)="log2($event)"/>
+                                                                <span class="input-group-addon" (click)="openEndTimePiker(6)"><i class="glyphicon glyphicon-time"></i></span>
+                                                            </div>
+                                                            <span *ngIf="friTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                            <span *ngIf="friEndTime.invalid && friEndTime.touched && friEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                        </tr>
+                                            <tr>
+                                                <input type="checkbox" name="satCbk" id="satCbk"  [checked]="checkSat" (click)="OpenTimer(7)">Sat
+                                                <td *ngIf="checkSat">
+                                                    <div class="col-md-6" [ngClass]="(satStartTime.invalid && satStartTime.touched) ? 'has-error': ''">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="satStartTime">
+                                                                <i *ngIf="satStartTime.invalid && satStartTime.touched"
+                                                                   class="fa fa-times-circle-o">
+                                                                </i>
+                                                                From Time
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <input [ngModel]="widget.satCbk.startTime" name="satStartTime" class="form-control" #satStartTime="ngModel" required id="satStartTime"/>
+                                                                <span class="input-group-addon" (click)="openStartTimePiker(7)"><i class="glyphicon glyphicon-time"></i></span>
+                                                            </div>
+                                                            <span *ngIf="satStartTime.invalid && satStartTime.touched && satStartTime.errors?.required" class="help-block">Start Time is Required!</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td *ngIf="checkSat">
+                                                    <div class="col-md-6"  [ngClass]="(satEndTime.invalid && satEndTime.touched) || satTimePikerError ? 'has-error': ''">
+                                                        <div class="form-group" >
+                                                            <label class="control-label" for="satEndTime">
+                                                                <i *ngIf="(satEndTime.invalid && satEndTime.touched) || satTimePikerError" class="fa fa-times-circle-o"> </i>
+                                                                To Time
+                                                            </label>
+                                                            <div class="input-group">
+                                                                <input [ngModel]="widget.satCbk.endTime" name="satEndTime" #satEndTime="ngModel" class="form-control"  [required]="'required'" type="text" id="satEndTime" (ngModelChange)="log2($event)"/>
+                                                                <span class="input-group-addon" (click)="openEndTimePiker(7)"><i class="glyphicon glyphicon-time"></i></span>
+                                                            </div>
+                                                            <span *ngIf="satTimePikerError" class="help-block">End Time Should before Start Time</span>
+                                                            <span *ngIf="satEndTime.invalid && satEndTime.touched && satEndTime.errors?.required" class="help-block">End Time is Required</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!--<span *ngIf="widget.daysArray.length === 0" class="help-block" style="color: red !important;">Choosing Available Days is Required!</span>-->
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row"  >
+                            <div class="row">
                                 <!-- From Time -->
-                                <div class="col-md-6" [ngClass]="(startTime.invalid && startTime.touched) ? 'has-error': ''">
-                                <!--<div class="col-md-6">-->
-                                    <div class="form-group">
-                                        <label class="control-label" for="startTime">
-                                            <i *ngIf="startTime.invalid && startTime.touched"
-                                               class="fa fa-times-circle-o">
-                                            </i>
-                                             From Time
-                                        </label>
-                                        <div class="input-group">
-                                            <input [ngModel]="widget.startTime" name="startTime" class="form-control" #startTime="ngModel" required id="startTime"/>
-                                            <span class="input-group-addon" (click)="openTimer()"><i class="glyphicon glyphicon-time"></i></span>
-                                        </div>
-                                        <span *ngIf="startTime.invalid && startTime.touched && startTime.errors?.required" class="help-block">Start Time is Required!</span>
-                                    </div>
+                                <!--<div class="col-md-6" [ngClass]="(startTime.invalid && startTime.touched) ? 'has-error': ''">-->
+                                <!--&lt;!&ndash;<div class="col-md-6">&ndash;&gt;-->
+                                    <!--<div class="form-group">-->
+                                        <!--<label class="control-label" for="startTime">-->
+                                            <!--<i *ngIf="startTime.invalid && startTime.touched"-->
+                                               <!--class="fa fa-times-circle-o">-->
+                                            <!--</i>-->
+                                             <!--From Time-->
+                                        <!--</label>-->
+                                        <!--<div class="input-group">-->
+                                            <!--<input [ngModel]="widget.startTime" name="startTime" class="form-control" #startTime="ngModel" required id="startTime"/>-->
+                                            <!--<span class="input-group-addon" (click)="openTimer()"><i class="glyphicon glyphicon-time"></i></span>-->
+                                        <!--</div>-->
+                                        <!--<span *ngIf="startTime.invalid && startTime.touched && startTime.errors?.required" class="help-block">Start Time is Required!</span>-->
+                                    <!--</div>-->
 
-                                </div>
+                                <!--</div>-->
 
                                 <!-- To Time -->
-                                <div class="col-md-6"  [ngClass]="(endTime.invalid && endTime.touched) || timePikerError ? 'has-error': ''">
-                                    <div class="form-group" >
-                                        <label class="control-label" for="endTime">
-                                            <i *ngIf="(endTime.invalid && endTime.touched) || timePikerError" class="fa fa-times-circle-o"> </i>
-                                             To Time
-                                        </label>
-                                        <div class="input-group">
-                                            <input [ngModel]="widget.endTime" name="endTime" #endTime="ngModel" class="form-control"  [required]="'required'" type="text" id="endTime" (ngModelChange)="log2($event)"/>
-                                            <span class="input-group-addon" (click)="openEndTimer()"><i class="glyphicon glyphicon-time"></i></span>
-                                        </div>
-                                        <span *ngIf="timePikerError" class="help-block">End Time Should before Start Time</span>
-                                        <span *ngIf="endTime.invalid && endTime.touched && endTime.errors?.required" class="help-block">End Time is Required</span>
+                                <!--<div class="col-md-6"  [ngClass]="(endTime.invalid && endTime.touched) || timePikerError ? 'has-error': ''">-->
+                                    <!--<div class="form-group" >-->
+                                        <!--<label class="control-label" for="endTime">-->
+                                            <!--<i *ngIf="(endTime.invalid && endTime.touched) || timePikerError" class="fa fa-times-circle-o"> </i>-->
+                                             <!--To Time-->
+                                        <!--</label>-->
+                                        <!--<div class="input-group">-->
+                                            <!--<input [ngModel]="widget.endTime" name="endTime" #endTime="ngModel" class="form-control"  [required]="'required'" type="text" id="endTime" (ngModelChange)="log2($event)"/>-->
+                                            <!--<span class="input-group-addon" (click)="openEndTimer()"><i class="glyphicon glyphicon-time"></i></span>-->
+                                        <!--</div>-->
+                                        <!--<span *ngIf="timePikerError" class="help-block">End Time Should before Start Time</span>-->
+                                        <!--<span *ngIf="endTime.invalid && endTime.touched && endTime.errors?.required" class="help-block">End Time is Required</span>-->
 
-                                    </div>
-                                </div>
+                                    <!--</div>-->
+                                <!--</div>-->
                             </div>
                           <div class="row">
                             <!-- Area Code -->
@@ -282,7 +564,6 @@
                                        #areaCode
                                        [ngModel]="widget.areaCode"
                                        placeholder="Area Code"
-                                       [disabled]="editMode"
                                 >
                               </div>
                             </div>
@@ -300,7 +581,6 @@
                                        [ngModel]="widget.contains"
                                        #contains
                                        placeholder="Number Contains ...."
-                                       [disabled]="editMode"
                                 >
                               </div>
                             </div>
@@ -309,6 +589,10 @@
                               <label class="control-label"> &nbsp; </label>
                               <button type="button" class="form-control btn btn-success" (click)="buyNumber(areaCode.value,contains.value)"><i *ngIf ="buyButtonLoader" class="fa fa-spinner fa-spin"> </i> Get Number</button>
                             </div>
+                              <div class="col-md-2" *ngIf="editMode">
+                                  <label class="control-label"> &nbsp; </label>
+                                  <button type="button" class="form-control btn btn-success" (click)="buyNumber(areaCode.value,contains.value)"><i *ngIf ="buyButtonLoader" class="fa fa-spinner fa-spin"> </i> Change Number</button>
+                              </div>
                           </div>
                           <div class="row" *ngIf="numberError && !isBuyNumber">
                             <div class="col-md-10">
@@ -338,15 +622,34 @@
                                     {{ item.capabilities.SMS ? '/ SMS  ' : '' }}
                                     {{ item.capabilities.MMS ? '/ MMS  ' : ''}}
                                     {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )
-                                    <!--( <i class="fa fa-phone fa-fw" aria-hidden="true" *ngIf="item.capabilities.voice"></i>
-                                    <i class="fa fa-envelope fa-fw" aria-hidden="true" *ngIf="item.capabilities.SMS"></i>
-                                    <i class="fa fa-image fa-fw" aria-hidden="true" *ngIf="item.capabilities.MMS"></i>
-                                    <i class="fa fa-fax fa-fw" aria-hidden="true" *ngIf="item.capabilities.fax"></i> )-->
                                   </option>
                                 </select>
                               </div>
                             </div>
                           </div>
+                            <div class="row" *ngIf="(afterLoginState | async).widget.numbers.length > 0 && editMode && isBuyNumber && (afterLoginState | async).widget.newSuccessBuyNumberCall">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="numbers">
+                                            Choose a Number
+                                        </label>
+                                        <select class="form-control"
+                                                id="numbers"
+                                                name="number"
+                                                [ngModel]="widget.phoneNumber" required>
+                                            <option value=''>Choose a phone number</option>
+                                            <option *ngFor="let item of (afterLoginState | async).widget.numbers"
+                                                    [value]="item.number"
+                                            >
+                                                {{ item.number }} &nbsp;&nbsp;&nbsp; (  {{item.capabilities.voice ? 'Voice  ' : '' }}
+                                                {{ item.capabilities.SMS ? '/ SMS  ' : '' }}
+                                                {{ item.capabilities.MMS ? '/ MMS  ' : ''}}
+                                                {{ item.capabilities.fax ? '/ Fax  ' : '' }}  )
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                           <div class="row" *ngIf="editMode">
                             <div class="col-md-6">
                               <div class="form-group">
@@ -357,19 +660,9 @@
                               </div>
                             </div>
                           </div>
-                            <div class="row" *ngIf="widget.script_url">
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label class="control-label" for="startTime">
-                                          Script URL
-                                      </label>
-                                  </div>
-                                {{widget.script_url}}
-                              </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="box-footer">
-                                    <button type="button" [disabled]="timePikerError || form.invalid || widget.daysArray.length === 0 || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)" class="btn btn-primary pull-right" (click)="onSubmit(form)">
+                                    <button type="button" [disabled]="form.invalid || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)" class="btn btn-primary pull-right" (click)="onSubmit(form)">
                                         <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i>
                                         Submit
                                     </button>
@@ -387,5 +680,90 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
+
+        <ng-template #template>
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Create Department </h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body row">
+                <form #form="ngForm" (submit)="onCreateDep(form)">
+                    <input type="hidden"
+                           id="userId"
+                           name="userId"
+                           [ngModel]="dep.userId"
+                           #userId="ngModel">
+                    <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label class="control-label" for="agents">
+                                    Select Agents
+                                </label>
+                                <angular2-multiselect
+                                        id="agents" name="agentIds"
+                                        [data]="(afterLoginState | async).agent.list"
+                                        [(ngModel)]="dep.agents" [settings]="agentListDropdownSettings"
+                                >
+                                    <c-badge>
+                                        <ng-template let-item="item">
+                                            <label style="margin: 0px;">{{item.first_name}} {{ item.last_name}}</label>
+                                        </ng-template>
+                                    </c-badge>
+                                </angular2-multiselect>
+                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" [ngClass]="(dName.invalid && dName.touched) ? 'has-error': ''">
+                            <label class="control-label" for="name">
+                                <i *ngIf="dName.invalid && dName.touched" class="fa fa-times-circle-o"></i>
+                                Department Name
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="name"
+                                   name="departmentName"
+                                   [ngModel]="dep.departmentName"
+                                   #dName="ngModel"
+                                   required
+                                   placeholder="Enter ..."
+                            >
+                            <span *ngIf="dName.invalid && dName.touched" class="help-block">Your Department Name is Required!</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" [ngClass]="{ 'has-error': dDes.invalid && dDes.touched }">
+                            <label class="control-label" for="detail">
+                                <i *ngIf="dDes.invalid && dDes.touched" class="fa fa-times-circle-o"></i>
+                                Department Description
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="detail"
+                                   name="departmentDetails"
+                                   ngModel
+                                   [ngModel]="dep.departmentDetails"
+                                   #dDes="ngModel"
+                                   required
+                                   placeholder="Enter ..."
+                            >
+                            <span *ngIf="dDes.invalid && dDes.touched"
+                                  class="help-block">Your Department Description is Required!</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit"
+                                [disabled]="form.invalid"
+                                class="btn btn-primary pull-right"
+                        >
+                            <i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+
+
     </section>
 </div>

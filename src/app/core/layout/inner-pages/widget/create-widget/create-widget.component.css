@@ -55,3 +55,14 @@ input[type=file] {
     margin: -27px 10px 0 0;
     cursor: pointer;
 }
+
+.createAgentBtn{
+    padding-top: 29px;
+}
+
+/*Media Query for responsive*/
+@media screen and (max-width:764px) {
+    .createAgentBtn {
+        padding-top: 0px !important;
+    }
+}

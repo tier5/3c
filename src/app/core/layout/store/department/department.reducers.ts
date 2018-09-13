@@ -6,6 +6,7 @@ export interface DepartmentState {
   toEdit: any;
   resetDepartmentForm: boolean;
   newDepartmentId: number;
+  newDepartmentName:string;
   preDelete: any;
 }
 
@@ -14,7 +15,8 @@ const initialState: DepartmentState = {
   toEdit: {},
   resetDepartmentForm: false,
   newDepartmentId: 0,
-  preDelete: []
+  preDelete: [],
+    newDepartmentName:''
 };
 
 export function departmentReducer(state = initialState, action: DepartmentActions.DepartmentActions) {
@@ -24,6 +26,7 @@ export function departmentReducer(state = initialState, action: DepartmentAction
         ...state,
         list: [ ...state.list, action.payload ],
         newDepartmentId: action.payload.id,
+        newDepartmentName: action.payload.department_name,
         resetDepartmentForm: true
       };
     case (DepartmentActions.EDIT_DEPARTMENT_SUCCESS):
