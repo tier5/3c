@@ -1,11 +1,13 @@
 import * as DashboardActions from './dashboard.actions';
 
 export interface DashboardState {
-    list:any
+    list: any;
+  widgets: any;
 }
 
 const initialState: DashboardState = {
-    list:[]
+    list: [],
+    widgets: []
 };
 
 export function dashboardReducer(state = initialState, action: DashboardActions.DashboardActions) {
@@ -13,7 +15,8 @@ export function dashboardReducer(state = initialState, action: DashboardActions.
         case (DashboardActions.GET_DASHBOARD_ITEMS_COUNT_SUCCESS):
             return {
                 ...state,
-                list: [ action.payload ]
+                list: [ action.payload.response ],
+              widgets: action.payload.widgets
             };
         default:
             return state;

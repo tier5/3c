@@ -33,7 +33,7 @@ export class DashboardEffects {
                         return [
                             {
                                 type: DashboardActions.GET_DASHBOARD_ITEMS_COUNT_SUCCESS,
-                                payload: res.response
+                                payload: res
                             }
                         ]
                     } else {

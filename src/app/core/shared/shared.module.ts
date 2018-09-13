@@ -3,18 +3,20 @@ import { CommonModule } from '@angular/common';
 
 import { AutoScrollDirective } from './auto-scroll.directive';
 import { DropdownDirective } from './dropdown.directive';
-
+import { SpinnerComponent } from './spinner';
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
     DropdownDirective,
-    AutoScrollDirective
+    AutoScrollDirective,
+    SpinnerComponent
   ],
   exports: [
     DropdownDirective,
-    AutoScrollDirective
+    AutoScrollDirective,
+    SpinnerComponent
   ]
 })
 export class SharedModule { }

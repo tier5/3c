@@ -1,4 +1,6 @@
 <router-outlet></router-outlet>
 
+<sjs-spinner [radius]="25" [lines]="15" [width]="8" [length]="15" [opacity]="0.9" [shadow]="true"></sjs-spinner>
+
 <app-alert *ngIf="(alertState | async).show" [text]="(alertState | async).message" [type]="(alertState | async).type"></app-alert>
 

@@ -7,7 +7,7 @@ import * as fromAlert from './store/alert/alert.reducers';
 import * as AuthActions from '../core/store/auth/auth.actions';
 import {Router} from '@angular/router';
 import {NotificationAlertService} from './shared/notification.alert.service';
-
+import { SpinnerService } from './shared';
 
 @Component({
   selector: 'app-core',
@@ -19,7 +19,8 @@ export class CoreComponent implements OnInit {
   alertState: Observable<fromAlert.AlertState>;
   notification = false;
   constructor(private store: Store<fromApp.AppState>, protected _router: Router, protected _r: Router,
-              private _isNotificationData: NotificationAlertService) {
+              private _isNotificationData: NotificationAlertService,
+              private spinnerService: SpinnerService) {
     window.addEventListener('focus', function() {
       if (_router.url !== '/dashboard' || _r.url !== '/chat/pending') {
         _isNotificationData.setIsNotification(false);

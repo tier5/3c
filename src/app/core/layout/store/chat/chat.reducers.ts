@@ -6,7 +6,9 @@ export interface ChatState {
   connected: boolean,
   chatList : any,
   agentList : any,
-  contactList : any
+  contactList : any,
+  messageSend : boolean,
+  messageError: boolean,
 }
 
 const initialState: ChatState = {
@@ -15,7 +17,9 @@ const initialState: ChatState = {
   connected: false,
   chatList : [] ,
   agentList : [],
-  contactList : []
+  contactList : [],
+  messageSend: false,
+  messageError: false,
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
@@ -28,14 +32,17 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         connected   : true
       };
     case ChatActions.ADD_TO_CHAT_LIST:
-        // console.log(action.payload);
+        // console.log('chat', action.payload);
       const obj = {
         room: action.payload.name,
         client: action.payload.client_name,
         chatTime: action.payload.chat_time,
         status: action.payload.status,
         chats: action.payload.chats,
-        transferInfo: action.payload.transfer_from_agent
+        transferInfo: action.payload.transfer_from_agent,
+        isMMS: action.payload.isMMS,
+        fileType: action.payload.fileType,
+        fileUrl: action.payload.fileUrl
       };
       return {
         ...state,
@@ -47,6 +54,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       const someChatList = {...oldChatList[indexOfChat]};
       someChatList.chats = [...someChatList.chats, {...action.payload}];
       oldChatList[indexOfChat] = {...someChatList};
+      console.log(oldChatList);
       return {
         ...state,
         ongoing: [...oldChatList]
@@ -90,6 +98,16 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ...state,
         agentList: action.payload
       };
+      case (ChatActions.INI_CHAT_SUCCESS):
+        return {
+          ...state,
+          messageSend: true
+        };
+      case (ChatActions.INI_CHAT_ERROR):
+        return {
+          ...state,
+          messageError: true
+        };
     default:
       return state;
   }
