@@ -1441,7 +1441,7 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = $getAgent->first_name.', You have '. $getAgent->pendingChatCount->count() .' number of pending chat requests at http://sms.telemojo.com/pending ';
+            $smsBody = $getAgent->first_name.', You have '. $getAgent->pendingChatCount->count() .' number of pending chat requests at http://greys.telemojo.net/pending ';
             //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
