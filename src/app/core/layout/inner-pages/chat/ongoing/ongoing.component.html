@@ -94,7 +94,7 @@
                                                              alt="Message User Image"><!-- /.direct-chat-img -->
                                                         <div class="direct-chat-text">
                                                           <div *ngIf="chat.isMMS">
-                                                            <a [href]="chat.fileUrl">
+                                                            <a [href]="chat.fileUrl" target="_blank">
                                                               <div *ngIf="chat.fileType === 'image'">
                                                                 <img [src]="chat.fileUrl" [alt]="chat.fileUrl" class="docImage"/>
                                                               </div>
