@@ -56,7 +56,7 @@
                             <div class="messages msg_sent">
                                 <div v-if="message.isMMS">
                                     <div class="row">
-                                        <a :href="message.fileUrl" class="pull-right">
+                                        <a :href="message.fileUrl" class="pull-right" target="_blank">
                                             <div v-if="message.fileType === 'image'">
                                                 <img :src="message.fileUrl" :alt="message.fileUrl" class="docImage"/>
                                             </div>
@@ -82,7 +82,7 @@
                             <div class="messages msg_receive">
                                 <div v-if="message.isMMS">
                                     <div class="row">
-                                        <a :href="message.fileUrl" class="pull-left">
+                                        <a :href="message.fileUrl" class="pull-left" target="_blank">
                                             <div v-if="message.fileType === 'image'">
                                                 <img :src="message.fileUrl" :alt="message.fileUrl" class="docImage"/>
                                             </div>
