@@ -64,9 +64,9 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
-        API_URL : '"http://138.197.215.68/api/v1/"',
-        API_HOST : '"http://138.197.215.68/"',
-        SOCKET_URL : '"http://138.197.215.68:3000"'
+        API_URL : '"http://178.128.187.125/api/v1/"',
+        API_HOST : '"http://178.128.187.125/"',
+        SOCKET_URL : '"http://178.128.187.125:3000"'
 
       }
     }),
