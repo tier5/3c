@@ -853,13 +853,13 @@ class WidgetController extends Controller
             if ($widgetUuid != "") {
 
                 $widgetData = Widgets::where('widget_uuid', $widgetUuid)->with('userDetails', 'twilioNumbers', 'widgetSchedule', 'widgetDepartment.departmentDetails')->get();
-
                 if (count($widgetData) != 0) {
 
                     $widgetArray = [];
                     $widgetData = $widgetData->first();
                     $timezone_data = Timezone::where('id', $widgetData->schedule_timezone)->first();
                     $days = [];
+                    $daysTime = [];
                     $weekdays = [
                         'Mon' => 1,
                         'Tue' => 2,
@@ -872,33 +872,39 @@ class WidgetController extends Controller
                     $dates = [];
                     $date = date('w');
                     $day = date('w');
-                    $start_date = date('Y-m-d', strtotime('-' . $day . ' days'));
-                    $daysArray = explode(',', $widgetData->widgetSchedule->day);
-                    for ($i = 0; $i < count($daysArray); $i++) {
-                        if (array_key_exists($daysArray[$i], $weekdays)) {
-                            if ($daysArray[$i] == "Sun") {
-                                $dates[] = date('Y-m-d', strtotime('next sunday'));
-                            } else if ($daysArray[$i] == "Mon") {
-                                $dates[] = date('Y-m-d', strtotime('next monday'));
-                            } else if ($daysArray[$i] == "Tue") {
-                                $dates[] = date('Y-m-d', strtotime('next tuesday'));
-                            } else if ($daysArray[$i] == "Wed") {
-                                $dates[] = date('Y-m-d', strtotime('next wednesday'));
-                            } else if ($daysArray[$i] == "Thu") {
-                                $dates[] = date('Y-m-d', strtotime('next thursday'));
-                            } else if ($daysArray[$i] == "Fri") {
-                                $dates[] = date('Y-m-d', strtotime('next friday'));
-                            } else {
-                                $dates[] = date('Y-m-d', strtotime('next saturday'));
-                            }
-                            $days[$weekdays[$daysArray[$i]]] = $daysArray[$i];
 
+                    foreach ($widgetData->widgetSchedule as $key => $shedule) {
+                        $start_date = date('Y-m-d', strtotime('-' . $day . ' days'));
+                        $daysArray = explode(',', $shedule->day);
+                        for ($i = 0; $i < count($daysArray); $i++) {
+                            if (array_key_exists($daysArray[$i], $weekdays)) {
+                                if ($daysArray[$i] == "Sun") {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next sunday'));
+                                } else if ($daysArray[$i] == "Mon") {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next monday'));
+                                } else if ($daysArray[$i] == "Tue") {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next tuesday'));
+                                } else if ($daysArray[$i] == "Wed") {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next wednesday'));
+                                } else if ($daysArray[$i] == "Thu") {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next thursday'));
+                                } else if ($daysArray[$i] == "Fri") {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next friday'));
+                                } else {
+                                    $dates[$key][] = date('Y-m-d', strtotime('next saturday'));
+                                }
+                                $days[$weekdays[$daysArray[$i]]]['day'] = $daysArray[$i];
+                                $daysTime[$weekdays[$daysArray[$i]]]['day'] = $daysArray[$i];
+                                $daysTime[$weekdays[$daysArray[$i]]]['start_time'] = $shedule->start_time;
+                                $daysTime[$weekdays[$daysArray[$i]]]['end_time'] = $shedule->end_time;
+                            }
                         }
                     }
                     $timezone['time_difference'] = $timezone_data->time_difference;
                     $timezone['status'] = $timezone_data->status;
                     $timezone['timezone_name'] = $timezone_data->timezone_name;
                     $timezone['days'] = $days;
+                    $timezone['dayTime'] = $daysTime;
                     $timezone['id'] = $timezone_data->id;
 
                     $date_utc = new \DateTime("now", new \DateTimeZone($timezone_data->timezone_format));
