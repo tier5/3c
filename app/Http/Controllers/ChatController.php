@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\DepartmentAgentMap;
 use App\Model\File;
 use App\Model\MessageAgentTrack;
+use App\Model\Timezone;
 use App\Model\TwilioNumber;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -507,52 +508,82 @@ class ChatController extends Controller
     {
         Log::info('singleDepartmentChat');
         if ($fromNumber != "" && $widgetUuid != "") {
-            $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
+            $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails','widgetSchedule')->first();
             if ($checkWidget != null) {
-                $checkDepartment = WidgetDepartmentMapping::where('department_orders', 0)->where('widget_id', $checkWidget->id)->first();
-                if (count($checkDepartment) != 0) {
-                    $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->first();
-                    if ($checkMessageCache != null) {
-                        $updateMessageCache = MessageCache::where('id', $checkMessageCache->id)->update(['department_id' => $checkDepartment->department_id, 'status' => '0']);
-                        $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
-                        $responsesaveMessageTrack = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid, $messageType);
-                        Log::info('saveMessageTrack');
-                        if ($responsesaveMessageTrack != false) {
-                            $responseSaveContactList = $this->saveContactList($widgetUuid, $fromNumber);
-                            Log::info('saveContactList');
-                            if ($responseSaveContactList != false) {
-                                $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList, $widgetUuid);
-                                Log::info('saveMessageLog');
-                                if ($responsesaveMessageLog != false) {
-                                    //run a update query to update the Message_Track tables from
-                                    $updateMessageTrack = MessageTrack::where('id', $responsesaveMessageTrack->id)->update(['message_id' => $responsesaveMessageLog]);
-                                    $type = '1'; // 1-> Mobile 2-> Web
-                                    $direction = '1'; // 1->Incoming 2-> outgoing
-                                    $userId = $responsesaveMessageTrack->agent_id;
-                                    $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCache->id)->where('copy',1)->get();
-                                    if (count($fetchMessageBodyFromMessageCacheData) != 0) {
+                $timezone_data = Timezone::where('id', $checkWidget->schedule_timezone)->first();
+                $date_utc = new \DateTime("now", new \DateTimeZone($timezone_data->timezone_format));
+                $current_time = $date_utc->format('H');
+                $current_day = $date_utc->format('D');
+                $available = false;
+                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per '.$timezone_data->timezone_format.' timezone \n';
+                foreach ($checkWidget->widgetSchedule as $key => $shedule) {
+                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to '.$shedule->end_time.'\n';
+                    if ($shedule->day == $current_day && $current_time >= explode(':',$shedule->start_time)[0]  && $current_time < explode(':',$shedule->end_time)[0]) {
+                        $available = true;
+                    }
+                }
+                $availableDayTime .= 'Thank you.';
+                $file = false;
+                $fileType = '';
+                $fileUrl = '';
+                $toNumber = $checkWidget->twilioNumbers->prefix . $checkWidget->twilioNumbers->number;
+                if ($available) {
+                    $this->sendSms($availableDayTime, $fromNumber, $toNumber, $file, $fileType, $fileUrl);
+                } else {
+                    $checkDepartment = WidgetDepartmentMapping::where('department_orders', 0)->where('widget_id', $checkWidget->id)->first();
+                    if (count($checkDepartment) != 0) {
+                        $checkMessageCache = MessageCache::where('from_phone_number', $fromNumber)->where('widget_uuid', $widgetUuid)->first();
+                        if ($checkMessageCache != null) {
+                            $updateMessageCache = MessageCache::where('id', $checkMessageCache->id)->update(['department_id' => $checkDepartment->department_id, 'status' => '0']);
+                            $messageType = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
+                            $responsesaveMessageTrack = $this->saveMessageTrack($checkDepartment->department_id, $fromNumber, $widgetUuid, $messageType);
+                            Log::info('saveMessageTrack');
+                            if ($responsesaveMessageTrack != false) {
+                                $responseSaveContactList = $this->saveContactList($widgetUuid, $fromNumber);
+                                Log::info('saveContactList');
+                                if ($responseSaveContactList != false) {
+                                    $responsesaveMessageLog = $this->saveMessageLog($responseSaveContactList, $widgetUuid);
+                                    Log::info('saveMessageLog');
+                                    if ($responsesaveMessageLog != false) {
+                                        //run a update query to update the Message_Track tables from
+                                        $updateMessageTrack = MessageTrack::where('id', $responsesaveMessageTrack->id)->update(['message_id' => $responsesaveMessageLog]);
+                                        $type = '1'; // 1-> Mobile 2-> Web
+                                        $direction = '1'; // 1->Incoming 2-> outgoing
+                                        $userId = $responsesaveMessageTrack->agent_id;
+                                        $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCache->id)->where('copy',1)->get();
+                                        if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
-                                        foreach ($fetchMessageBodyFromMessageCacheData as $data) {
+                                            foreach ($fetchMessageBodyFromMessageCacheData as $data) {
                                                 $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId, $data->is_mms, $data->file_type, $data->file_url);
                                                 $updateMessageCacheData = MessageCacheData::find($data->id);
                                                 $updateMessageCacheData->copy = 2;
                                                 $updateMessageCacheData->update();
+                                            }
                                         }
-                                    }
-                                    $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
-                                    $time = date("Y-m-d H:i:s");
-                                    $url = url('/') . ':3000/mobile-chat';
-                                    $ch = curl_init();
-                                    curl_setopt($ch, CURLOPT_URL, $url);
-                                    curl_setopt($ch, CURLOPT_POST, 1);
-                                    curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                        "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf");
+                                        $responseChatProcess = $this->chatProcess($fromNumber, $widgetUuid);   //calling chat process
+                                        $time = date("Y-m-d H:i:s");
+                                        $url = url('/') . ':3000/mobile-chat';
+                                        $ch = curl_init();
+                                        curl_setopt($ch, CURLOPT_URL, $url);
+                                        curl_setopt($ch, CURLOPT_POST, 1);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf");
 
-                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    $server_output = curl_exec($ch);
-                                    curl_close($ch);
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        $server_output = curl_exec($ch);
+                                        curl_close($ch);
+                                    }
                                 }
                             }
+                        } else {
+                            Log::info('3 ==> else');
+                            return Response::json(array(
+                                'status' => false,
+                                'code' => 400,
+                                'error' => true,
+                                'response' => [],
+                                'message' => 'Message cache not found !'
+                            ));
                         }
                     } else {
                         Log::info('3 ==> else');
@@ -561,18 +592,9 @@ class ChatController extends Controller
                             'code' => 400,
                             'error' => true,
                             'response' => [],
-                            'message' => 'Message cache not found !'
+                            'message' => 'department not found !'
                         ));
                     }
-                } else {
-                    Log::info('3 ==> else');
-                    return Response::json(array(
-                        'status' => false,
-                        'code' => 400,
-                        'error' => true,
-                        'response' => [],
-                        'message' => 'department not found !'
-                    ));
                 }
             } else {
                 Log::info('3 ==> else');
@@ -612,30 +634,46 @@ class ChatController extends Controller
      * @param text
      * @return binary(true or false)
      */
-
     public function createSmsTemplate($fromNumber, $widgetUuid)
     {
         Log::info('3 ==> sms template');
         if ($fromNumber != "" && $widgetUuid != "") {
-            $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
+            $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails','widgetSchedule')->first();
             if (count($getWidgetData->widgetDepartment) > 1) {
+                $timezone_data = Timezone::where('id', $getWidgetData->schedule_timezone)->first();
+                $date_utc = new \DateTime("now", new \DateTimeZone($timezone_data->timezone_format));
+                $current_time = $date_utc->format('H');
+                $current_day = $date_utc->format('D');
+                $available = false;
+                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per '.$timezone_data->timezone_format.' timezone \n';
+                foreach ($getWidgetData->widgetSchedule as $key => $shedule) {
+                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to '.$shedule->end_time.'\n';
+                    if ($shedule->day == $current_day && $current_time >= explode(':',$shedule->start_time)[0]  && $current_time < explode(':',$shedule->end_time)[0]) {
+                        $available = true;
+                    }
+                }
+                $availableDayTime = ' Thank you.';
                 Log::info('3 ==> if');
                 $toNumber = $getWidgetData->twilioNumbers->prefix . $getWidgetData->twilioNumbers->number;
-                $smsBody = "Please Choose a Department from the list ...";
-                foreach ($getWidgetData->widgetDepartment as $data) {
-                    $smsBody .= "\n";
-                    $smsBody .= "\n";
-                    $smsBody .= $data->department_orders + 1;
-                    $smsBody .= " - ";
-                    $smsBody .= $data->departmentDetails->department_name;
-                }
-                $smsBody .= "\n";
-                $smsBody .= "Please Reply with the Number only.";
-                $smsBody .= "\n";
-                $smsBody .= "Thanks";
                 $file = false;
                 $fileUrl = '';
                 $fileType = '';
+                if ($available) {
+                    $smsBody = $availableDayTime;
+                } else {
+                    $smsBody = "Please Choose a Department from the list ...";
+                    foreach ($getWidgetData->widgetDepartment as $data) {
+                        $smsBody .= "\n";
+                        $smsBody .= "\n";
+                        $smsBody .= $data->department_orders + 1;
+                        $smsBody .= " - ";
+                        $smsBody .= $data->departmentDetails->department_name;
+                    }
+                    $smsBody .= "\n";
+                    $smsBody .= "Please Reply with the Number only.";
+                    $smsBody .= "\n";
+                    $smsBody .= "Thanks";
+                }
                 $this->sendSms($smsBody, $fromNumber, $toNumber, $file, $fileType, $fileUrl);
             } else {
                 Log::info('3 ==> else');
