@@ -217,6 +217,7 @@
                     cur_time_UTC: '',
                     first_val: '',
                     schedules: '',
+                    secheduleTimes: '',
                     start_val: '',
                     end_val: ''
                 },
@@ -476,6 +477,7 @@
                 this.timezone = (this.widgetTimezone.timezone_name).replace(/ *\([^)]*\) */g, "");
                 this.currentTime = this.widgetTimezone.current_time;
 
+
                 this.time.nowInLocal = new Date();
                 this.time.utc = new Date(this.time.nowInLocal.getTime() + this.time.nowInLocal.getTimezoneOffset() * 60000);
                 this.time.nowInUTC = new Date(this.time.utc.getTime() + (parseInt(this.widgetTimezone.time_difference.split(":")[0]) * 60 * 60000));
@@ -483,10 +485,11 @@
                 this.time.cur_time_UTC = this.time.nowInUTC.getHours();
                 this.time.cur_day_UTC = this.time.nowInUTC.getDay();
                 this.time.schedules = this.widgetTimezone.days;
-                this.time.start_val = parseInt(this.widget.widget_schedule.start_time.toString().split(":")[0]);
-                this.time.end_val = parseInt(this.widget.widget_schedule.end_time.toString().split(":")[0]);
-
                 if (this.time.schedules.hasOwnProperty(this.time.cur_day_UTC)) {
+                    this.secheduleTimes = this.widgetTimezone.dayTime;
+                    this.time.start_val = parseInt(this.secheduleTimes[this.time.cur_day_UTC].start_time.toString().split(":")[0]);
+                    console.log(this.time.cur_date_UTC);
+                    this.time.end_val = parseInt(this.secheduleTimes[this.time.cur_day_UTC].end_time.toString().split(":")[0]);
                     if (this.currentTime >= this.time.start_val && this.currentTime < this.time.end_val) {
                         console.log('true: available');
                         this.btnProp.showChatSchedule = true;
