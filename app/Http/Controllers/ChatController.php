@@ -28,6 +28,7 @@ use App\Model\MessageCacheData;
 use App\Model\MessageForwardCounter;
 use App\Model\UserToken;
 use App\Model\AgentTransferLog;
+use App\Model\AgentTransferHistory;
 use App\Http\Controllers\TwilioController;
 use Helper;
 use SebastianBergmann\Environment\Console;
@@ -1479,7 +1480,7 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = $getAgent->first_name.', You have '. $getAgent->pendingChatCount->count() .' number of pending chat requests at http://sms.telemojo.com/pending ';
+            $smsBody = $getAgent->first_name.', You have '. $getAgent->pendingChatCount->count() .' of pending chat requests at http://sms.telemojo.com/pending ';
             //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
@@ -1597,7 +1598,17 @@ class ChatController extends Controller
         //$updateChatThread   = ChatThread::where('message_log_id',$messageId)->where('widget_id',$widgetUuid)->update(['user_id' => $agentId,'status' => $status]);    //comment out
 
         $updateMessageForwardCounter = MessageForwardCounter::where('id', $messageForwardCountId)->update(['status' => $status]);
-        
+
+        \Log::info('$messageAgentTrackId-->'.$messageAgentTrackId.'message_id->'.$messageId);
+        $checkAndUpdateAgentHistory = AgentTransferHistory::where('message_id',$messageId)->where('status',0)->first();
+
+        if(count($checkAndUpdateAgentHistory)){
+            $checkAndUpdateAgentHistory->transfer_to_agent_id = $agentId;
+            $checkAndUpdateAgentHistory->status = 1;
+            $checkAndUpdateAgentHistory->other_agent_ids = null;
+            $checkAndUpdateAgentHistory->save();
+        }
+
         $response = ['agentId' => $agentId, 'chatRoomId' => $chatRoomId, 'status' => $status];
 
         return Response::json(array(
@@ -1732,10 +1743,10 @@ class ChatController extends Controller
         $chatRoomId = $checkMessageAgentTrack->chat_room_id;
         $messageId = $checkMessageAgentTrack->message_id;
         $status = 4;    //Transfer Scenario
-
+        \Log::info('$fromAgentId-->'.$fromAgentId. '$departmentId-->'.$departmentId . '$toAgentId-->'.$toAgentId );
         if ($departmentId != "") {  //transfer to a department
-
-            $checkDepartment = DepartmentAgentMap::where('department_id', $departmentId)->select('user_id')->get();
+            $allAgentsIds =[];
+            $checkDepartment = DepartmentAgentMap::where('department_id', $departmentId)->whereNotIn('user_id',[$fromAgentId])->select('user_id')->get();
             if (count($checkDepartment) != 0) {
                 $dpartmentAgentCount = count($checkDepartment);
                 $updateMessageTrack = MessageTrack::where('message_id', $messageId)->update(['department_id' => $departmentId, 'status' => $status, 'agent_id' => null]);
@@ -1744,7 +1755,9 @@ class ChatController extends Controller
                 $updateMessageForwardCounter->status = $status;
                 $updateMessageForwardCounter->update();
                 $deleteMessageAgentTrack = MessageAgentTrack::where('message_forward_counter_id', $updateMessageForwardCounter->id)->delete();
+
                 foreach ($checkDepartment as $agent) {
+                    $allAgentsIds[]= $agent->user_id;
                     $saveMessageAgentTrack = new MessageAgentTrack;
                     $saveMessageAgentTrack->agent_id = $agent->user_id;
                     $saveMessageAgentTrack->message_id = $messageId;
@@ -1755,6 +1768,23 @@ class ChatController extends Controller
                     $saveMessageAgentTrack->save();
                     $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id, $saveMessageAgentTrack->widget_id);
                 }
+
+                $removeFromAgentId = array_diff($allAgentsIds,[$fromAgentId]);
+                $allAgentsIds = implode(',',$removeFromAgentId);
+                $getLastChatThreadId = ChatThread::where('user_id',$fromAgentId)->where('message_log_id',$messageId)->max('id');        // find the last chatThread id
+                /** Save to transfer History */
+                $createTransferHistory = new AgentTransferHistory;
+                $createTransferHistory->message_agent_track_id = $messageAgentTrackId;
+                $createTransferHistory->transfer_from_agent_id = $fromAgentId;
+                $createTransferHistory->transfer_to_agent_id   = null;
+                $createTransferHistory->chat_room_id = $chatRoomId;
+                $createTransferHistory->last_chat_thread_id = $getLastChatThreadId;
+                $createTransferHistory->message_id = $messageId;
+                $createTransferHistory->other_agent_ids = $allAgentsIds;
+                $createTransferHistory->transfer_time = date('Y-m-d H:i:s');
+                $createTransferHistory->status = 0; // 0 -> No , 1 -> Yes
+                $createTransferHistory->save();
+
                 //call to node API
                 $url = url('/') . ':3000/send-rooms';
                 $ch = curl_init();
@@ -1785,7 +1815,7 @@ class ChatController extends Controller
             }
         } elseif ($toAgentId != "" && $fromAgentId != "") {
 
-            $getMessageAgentTrackId = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->select('id')->first();
+            $getMessageAgentTrackId = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->select('id','message_id')->first();
             $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->update(['agent_id' => $toAgentId, 'status' => 1]);
             /** Save transfer agent log */
             $createTransferLog = new AgentTransferLog;
@@ -1794,6 +1824,22 @@ class ChatController extends Controller
             $createTransferLog->transfer_to_agent_id   = $toAgentId;
             $createTransferLog->status = 1; //active
             $createTransferLog->save();
+
+            $getLastChatThreadId = ChatThread::where('user_id',$fromAgentId)->where('message_log_id',$getMessageAgentTrackId->message_id)->max('id');        // find the last chatThread id
+
+            /** Save to transfer History */
+            $createTransferHistory = new AgentTransferHistory;
+            $createTransferHistory->message_agent_track_id = $getMessageAgentTrackId->id;
+            $createTransferHistory->transfer_from_agent_id = $fromAgentId;
+            $createTransferHistory->transfer_to_agent_id   = null;
+            $createTransferHistory->chat_room_id = $chatRoomId;
+            $createTransferHistory->last_chat_thread_id = $getLastChatThreadId;
+            $createTransferHistory->message_id = $getMessageAgentTrackId->message_id;
+            $createTransferHistory->transfer_time = date('Y-m-d H:i:s');
+            $createTransferHistory->other_agent_ids = $toAgentId;
+            $createTransferHistory->status = 0; // 0 -> No , 1 -> Yes
+            $createTransferHistory->save();
+            // \Log::info('$createTransferHistory ---> '.printf($createTransferHistory,true));
 
             $this->sendNotificationToAgents($toAgentId, $widgetUuid);
             $response = ['agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status' => $status];
@@ -1900,7 +1946,6 @@ class ChatController extends Controller
                     foreach($room->getTransferLog as $agentKey=>$agentValue){
                         $getAgentName = Users::where('id',$agentValue->transfer_from_agent_id)->select('first_name','last_name')->first();
                         $agentRooms['transfer_from_agent'] = $getAgentName->first_name.' '.$getAgentName->last_name;
-                        // $agentRooms['transfer_to_agent'] = $agentValue->transfer_to_agent_id;
                     }
                 }
                 $agentRooms['chats'] = array();
@@ -2143,5 +2188,67 @@ class ChatController extends Controller
             ));
         }
     }
+
+    /** Fuunction to get all closed / resolved for an agent */
+    public function getAllClosedChats(Request $request){
+        if($request->agentId){
+
+            $rooms = MessageAgentTrack::where('agent_id', $request->agentId)->with('clientInfo.clientName', 'allChat.agentInfo')->where('status',5)->orderBy('id', 'desc')->get();
+
+            $allRooms = [];
+            $agents['agent_id'] = $request->agentId;
+            foreach ($rooms as $room) {
+                $agentRooms['name'] = $room->chat_room_id;
+                $agentRooms['status'] = $room->status;
+                $agentRooms['chat_time'] = $room->created_at;
+                if ($room->clientInfo->clientName->name != "") {
+                    $agentRooms['client_name'] = $room->clientInfo->clientName->name;
+                } else {
+                    $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
+                }
+                $agentRooms['chats'] = array();
+                foreach ($room->allChat as $key => $chat) {
+                    $agentRooms['chats'][$key]['message'] = $chat->chat_thread;
+                    $agentRooms['chats'][$key]['direction'] = $chat->direction;
+                    $agentRooms['chats'][$key]['roomNo'] = $room->chat_room_id;
+                    $agentRooms['chats'][$key]['isMMS'] = $chat->is_mms;
+                    $agentRooms['chats'][$key]['fileType'] = $chat->file_type;
+                    $agentRooms['chats'][$key]['fileUrl'] = $chat->file_url;
+                    if ($chat->direction == 1) {
+                        if ($room->clientInfo->clientName->name != "") {
+                            $agentRooms['chats'][$key]['user'] = $room->clientInfo->clientName->name;
+                        } else {
+                            $agentRooms['chats'][$key]['user'] = $room->clientInfo->clientName->phone;
+                        }
+                    }
+                    if ($chat->direction == 2) {
+                        $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                    }
+                    $agentRooms['chats'][$key]['created_at'] = $chat->created_at;
+                }
+                $allRooms[] = $agentRooms;
+
+            }
+            $agents['rooms'] = $allRooms;
+            $allAgents[] = $agents;
+            // dd($allAgents);
+            return Response::json(array(
+                'status' => true,
+                'error' => false,
+                'code' => 200,
+                'response' => $allAgents,
+                'message' => 'Agents with chatrooms !'
+            ));
+        } else {
+            return Response::json(array(
+                'status' => false,
+                'error' => true,
+                'code' => 400,
+                'response' => [],
+                'message' => 'No Chant found !'
+            ));
+            }
+        }
+
 
 }

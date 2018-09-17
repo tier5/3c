@@ -21,7 +21,7 @@ class CreateAgentTransferHistory extends Migration
             $table->integer('chat_room_id')->nullable();
             $table->integer('last_chat_thread_id')->nullable();;
             $table->integer('message_id')->nullable();
-            $table->integer('other_agent_ids')->nullable();
+            $table->string('other_agent_ids')->nullable();
             $table->string('transfer_time')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
