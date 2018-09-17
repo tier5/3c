@@ -219,7 +219,21 @@
                   </div>
                 </div>
 
-
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="timeout">
+                      Transfer Timeout
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="timeout"
+                           name="timeout"
+                      [ngModel]="widget.transferTimeout"
+                      #transferTimeout="ngModel"
+                           placeholder="Please put a timout in 00:00 format"
+                    >
+                  </div>
+                </div>
               </div>
 
               <div class="row">

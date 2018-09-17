@@ -17,8 +17,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {AmazingTimePickerService} from 'amazing-time-picker';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import * as AgentActions from "../../../store/agent/agent.actions";
-import {forEach} from "@angular/router/src/utils/collection";
+import * as AgentActions from '../../../store/agent/agent.actions';
+import {forEach} from '@angular/router/src/utils/collection';
 
 interface FileReaderEventTarget extends EventTarget {
     result: string;
@@ -93,7 +93,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         endTime: '',
         image: '',
         script_url: '',
-        phoneNumber: ''
+        phoneNumber: '',
+      transferTimeout: '00:30',
     };
 
     validationMinTime: Moment;
@@ -124,21 +125,21 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     dep: any;                            /** initialize the department object */
     departmentIdNewArray = [];
 
-    sunTimePikerError:boolean;
-    monTimePikerError:boolean;
-    tueTimePikerError:boolean;
-    wedTimePikerError:boolean;
-    thuTimePikerError:boolean;
-    friTimePikerError:boolean;
-    satTimePikerError:boolean;
+    sunTimePikerError: boolean;
+    monTimePikerError: boolean;
+    tueTimePikerError: boolean;
+    wedTimePikerError: boolean;
+    thuTimePikerError: boolean;
+    friTimePikerError: boolean;
+    satTimePikerError: boolean;
 
-    checkSun:boolean;
-    checkMon:boolean;
-    checkTue:boolean;
-    checkWed:boolean;
-    checkThu:boolean;
-    checkFri:boolean;
-    checkSat:boolean;
+    checkSun: boolean;
+    checkMon: boolean;
+    checkTue: boolean;
+    checkWed: boolean;
+    checkThu: boolean;
+    checkFri: boolean;
+    checkSat: boolean;
 
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
@@ -192,11 +193,12 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                                     this.widget.areaCode = widget.area_code;
                                     this.widget.contains = widget.number_contains;
                                     this.widget.script_url = widget.script_url;
+                                    this.widget.transferTimeout = widget.transfer_timeout;
                                     // this.widget.startTime = widget.widget_schedule ? widget.widget_schedule.start_time : '';
                                     // this.widget.endTime = widget.widget_schedule ? widget.widget_schedule.end_time : '';
                                     // this.widget.daysArray = widget.widget_schedule ? (widget.widget_schedule.day).split(',') : '';
                                     const that = this;
-                                    if(widget.widget_schedule) {
+                                    if (widget.widget_schedule) {
                                         widget.widget_schedule.forEach(function (value) {
                                             if (value.day == 'Sun') {
                                                 that.checkSun = true;
@@ -292,7 +294,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             classes: 'myclass custom-class',
             primaryKey: 'id',
             labelKey: 'name'
-        }
+        };
 
         this.limitArray = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -364,6 +366,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formDataEdit.append('satCbk', <any>this.checkSat);
             formDataEdit.append('satStartTime', form.value.satStartTime);
             formDataEdit.append('satEndTime', form.value.satEndTime);
+            formDataEdit.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.EditWidgetAttempt(formDataEdit));
             /** Loader Show/Hide */
             this.store.select('alert')
@@ -415,7 +418,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formData.append('satCbk', <any>this.checkSat);
             formData.append('satStartTime', form.value.satStartTime);
             formData.append('satEndTime', form.value.satEndTime);
-
+          formData.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
             /** Loader Show/Hide */
             this.store.select('alert')
@@ -536,7 +539,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.buyButtonLoader = true;
             this.isBuyNumber = true;
             this.store.dispatch(new WidgetActions.GetNumberListAttempt({areaCode: areaCode, contains: contains}));
-            this.store.select('afterLogin','widget','buttonLoader').map(data => data).subscribe(
+            this.store.select('afterLogin', 'widget', 'buttonLoader').map(data => data).subscribe(
                 (data) => {
                     if (data === 'danger' || data === 'success') {
                         this.buyButtonLoader = false;
@@ -560,21 +563,21 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     /** function to create a department */
     onCreateDep(form) {
         this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
-        let newArray = [];
+        const newArray = [];
         this.newAfterLoginSubscription = this.store.select('department')
             .subscribe(
                 (data) => {
-                    if(data.newDepartmentId > 0 && data){
+                    if (data.newDepartmentId > 0 && data){
                         newArray.push(data);
-                        let oldArray = this.widget.departmentIdArray;
-                        let newObj=[{id:newArray[newArray.length - 1].newDepartmentId,department_name:newArray[newArray.length - 1].newDepartmentName}];
-                        let fIndex:any = -1;
-                        if(oldArray.length > 0) {
+                        const oldArray = this.widget.departmentIdArray;
+                        const newObj = [{id: newArray[newArray.length - 1].newDepartmentId, department_name: newArray[newArray.length - 1].newDepartmentName}];
+                        let fIndex: any = -1;
+                        if (oldArray.length > 0) {
                             oldArray.forEach((elem, index) => {
                                 if (elem.id === newObj[0].id) {
                                     fIndex = index;
                                 }
-                            })
+                            });
                         }
                         if (fIndex !== -1){
                             oldArray.splice(fIndex, 1);
@@ -589,31 +592,31 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
     /** function to toggle timer */
     OpenTimer(value: number){
-        if(value == 1){
+        if (value == 1){
             this.checkSun = !this.checkSun;
         }
-        if(value == 2){
+        if (value == 2){
             this.checkMon = !this.checkMon;
         }
-        if(value == 3){
+        if (value == 3){
             this.checkTue = !this.checkTue;
         }
-        if(value == 4){
+        if (value == 4){
             this.checkWed = !this.checkWed;
         }
-        if(value == 5){
+        if (value == 5){
             this.checkThu = !this.checkThu;
         }
-        if(value == 6){
+        if (value == 6){
             this.checkFri = !this.checkFri;
         }
-        if(value == 7){
+        if (value == 7){
             this.checkSat = !this.checkSat;
         }
     }
     /** Function to open start time piker */
-    openStartTimePiker(value:number) {
-        if( value == 1 ){
+    openStartTimePiker(value: number) {
+        if ( value == 1 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -621,7 +624,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.widget.sunCbk.startTime = time;
             });
         }
-        if( value == 2 ){
+        if ( value == 2 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -629,7 +632,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.widget.monCbk.startTime = time;
             });
         }
-        if( value == 3 ){
+        if ( value == 3 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -637,7 +640,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.widget.tueCbk.startTime = time;
             });
         }
-        if( value == 4 ){
+        if ( value == 4 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -645,7 +648,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.widget.wedCbk.startTime = time;
             });
         }
-        if( value == 5 ){
+        if ( value == 5 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -653,7 +656,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.widget.thuCbk.startTime = time;
             });
         }
-        if( value == 6 ){
+        if ( value == 6 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -661,7 +664,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.widget.friCbk.startTime = time;
             });
         }
-        if( value == 7 ){
+        if ( value == 7 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
@@ -672,76 +675,76 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     }
 
     /** Function to open end time piker */
-    openEndTimePiker(value:number) {
-        if( value == 1 ){
+    openEndTimePiker(value: number) {
+        if ( value == 1 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.sunCbk.endTime = time;
-                this.log2(time,1);
+                this.log2(time, 1);
             });
         }
-        if( value == 2 ){
+        if ( value == 2 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.monCbk.endTime = time;
-                this.log2(time,2);
+                this.log2(time, 2);
             });
         }
-        if( value == 3 ){
+        if ( value == 3 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.tueCbk.endTime = time;
-                this.log2(time,3);
+                this.log2(time, 3);
             });
         }
-        if( value == 4 ){
+        if ( value == 4 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.wedCbk.endTime = time;
-                this.log2(time,4);
+                this.log2(time, 4);
             });
         }
-        if( value == 5 ){
+        if ( value == 5 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.thuCbk.endTime = time;
-                this.log2(time,5);
+                this.log2(time, 5);
             });
         }
-        if( value == 6 ){
+        if ( value == 6 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.friCbk.endTime = time;
-                this.log2(time,6);
+                this.log2(time, 6);
             });
         }
-        if( value == 7 ){
+        if ( value == 7 ){
             const amazingTimePicker = this.atp.open({
                 onlyHour: true,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.satCbk.endTime = time;
-                this.log2(time,7);
+                this.log2(time, 7);
             });
         }
     }
 
     /** Function to check start and end time **** call on change of 'to' date */
-    log2(event,value:number) {
+    log2(event, value: number) {
         if (event) {
-            if(value == 1 ){
+            if (value == 1 ){
                 this.sunTimePikerError = false;
                 this.validationMinTime = this.form.value.sunStartTime;
                 this.validationMaxTime = event;
@@ -750,7 +753,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     this.form.controls['sunEndTime'].setErrors({'incorrect': true});
                 }
             }
-            if(value == 2 ){
+            if (value == 2 ){
                 this.monTimePikerError = false;
                 this.validationMinTime = this.form.value.monStartTime;
                 this.validationMaxTime = event;
@@ -759,7 +762,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     this.form.controls['monEndTime'].setErrors({'incorrect': true});
                 }
             }
-            if(value == 3 ){
+            if (value == 3 ){
                 this.tueTimePikerError = false;
                 this.validationMinTime = this.form.value.tueStartTime;
                 this.validationMaxTime = event;
@@ -768,7 +771,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     this.form.controls['tueEndTime'].setErrors({'incorrect': true});
                 }
             }
-            if(value == 4 ){
+            if (value == 4 ){
                 this.wedTimePikerError = false;
                 this.validationMinTime = this.form.value.wedStartTime;
                 this.validationMaxTime = event;
@@ -777,7 +780,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     this.form.controls['wedEndTime'].setErrors({'incorrect': true});
                 }
             }
-            if(value == 5 ){
+            if (value == 5 ){
                 this.thuTimePikerError = false;
                 this.validationMinTime = this.form.value.thuStartTime;
                 this.validationMaxTime = event;
@@ -786,7 +789,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     this.form.controls['thuEndTime'].setErrors({'incorrect': true});
                 }
             }
-            if(value == 6 ){
+            if (value == 6 ){
                 this.friTimePikerError = false;
                 this.validationMinTime = this.form.value.friStartTime;
                 this.validationMaxTime = event;
@@ -795,7 +798,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     this.form.controls['friEndTime'].setErrors({'incorrect': true});
                 }
             }
-            if(value == 7 ){
+            if (value == 7 ){
                 this.satTimePikerError = false;
                 this.validationMinTime = this.form.value.satStartTime;
                 this.validationMaxTime = event;

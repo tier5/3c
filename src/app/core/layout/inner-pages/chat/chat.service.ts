@@ -62,7 +62,7 @@ export class ChatService implements OnInit, OnDestroy {
                         // Which agent accepted
                         this.socket.on('which-agent-accepted', (data) => {
                             // console.log('which-agent-accepted: ', data);
-                            if (data.agentId == this.loggedInAgentId) {
+                            if (data.agentId === this.loggedInAgentId) {
                                 this.store.dispatch(new ChatActions.EditFromChatList({
                                     status: data.status,
                                     room_number: data.chatRoomId
@@ -115,6 +115,16 @@ export class ChatService implements OnInit, OnDestroy {
                             this._notificationService.generateNotification(dataMessage);
                           }
                           this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
+                        });
+                        this.socket.on('agentNotification', (data) => {
+                          console.log('data', data);
+                          const dataMessage: Array<any> = [];
+                          dataMessage.push({
+                            'title': 'Chat transfer notification',
+                            'alertContent': data
+
+                          });
+                          this._notificationService.generateNotification(dataMessage);
                         });
 
                     }
