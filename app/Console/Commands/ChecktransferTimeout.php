@@ -45,18 +45,25 @@ class ChecktransferTimeout extends Command
     public function handle()
     {
         try {
-            $transfer = AgentTransferHistory::where('status',0)->get();
-            if (count($transfer) > 0) {
-                $messageAgentTrack = MessageAgentTrack::findOrFail($transfer->message_agent_track_id);
-                $widget = Widgets::where('widget_uuid',$messageAgentTrack->widget_id)->firstOrFail();
-                $to = Carbon::createFromFormat('Y-m-d H:s:i', $transfer->transfer_time);
-                $from = Carbon::createFromFormat('Y-m-d H:s:i',date('Y-m-d H:i:s'));
-                if ($from->greaterThan($to)) {
-                    $diffSeconds = $to->diffInSeconds($from);
-                    $transferTimeOut = explode(':',$widget->transfer_timeout);
-                    $timeoutInSecond = $transferTimeOut[0]*60*60 + $transferTimeOut[1]*60;
-                    if ($timeoutInSecond - $diffSeconds == 60) {
-                        TransferAgentTimeout::dispatch($transfer->id);
+            $transfers = AgentTransferHistory::where('status',0)->get();
+            if (count($transfers) > 0) {
+                foreach ($transfers as $transfer) {
+                    $messageAgentTrack = MessageAgentTrack::findOrFail($transfer->message_agent_track_id);
+                    $widget = Widgets::where('widget_uuid',$messageAgentTrack->widget_id)->firstOrFail();
+                    $to = Carbon::createFromFormat('Y-m-d H:i:s',$transfer->transfer_time);
+                    $from = Carbon::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'));
+                    if ($from->greaterThan($to)) {
+                        $diffSeconds = $to->diffInSeconds($from);
+                        Log::info('to ,'.$to);
+                        Log::info('from ,'.$from);
+                        $transferTimeOut = explode(':',$widget->transfer_timeout);
+                        $timeoutInSecond = $transferTimeOut[0]*60*60 + $transferTimeOut[1]*60;
+                        $timeoutDif = $diffSeconds - $timeoutInSecond;
+                        Log::info($timeoutDif);
+                        if (($timeoutDif > 0) && ($timeoutDif < 60)) {
+                            Log::info('Command '.$transfer->id);
+                            TransferAgentTimeout::dispatch($transfer->id);
+                        }
                     }
                 }
             }

@@ -38,20 +38,21 @@ class TransferAgentTimeout implements ShouldQueue
     {
         try {
             $transfer = AgentTransferHistory::findOrFail($this->transferId);
+            $checkMessageTrack = MessageTrack::where('message_id', $transfer->message_id)->firstOrFail();
             $updateMessageTrack = MessageTrack::where('message_id', $transfer->message_id)
                 ->update([
                     'status' => 2,
                     'agent_id' => $transfer->transfer_from_agent_id
                 ]);
 
-            $deleteMessageTract = MessageAgentTrack::where('chat_room_id',$updateMessageTrack->chat_room_id)
-                ->where('widget_id', $updateMessageTrack->widget_id)->delete();
+            $deleteMessageTract = MessageAgentTrack::where('chat_room_id',$checkMessageTrack->chat_room_id)
+                ->where('widget_id', $checkMessageTrack->widget_id)->delete();
 
             $messageAgentTrack = new MessageAgentTrack();
             $messageAgentTrack->agent_id = $transfer->transfer_from_agent_id;
-            $messageAgentTrack->message_id = $updateMessageTrack->message_id;
-            $messageAgentTrack->chat_room_id = $updateMessageTrack->chat_room_id;
-            $messageAgentTrack->widget_id = $updateMessageTrack->widget_id;
+            $messageAgentTrack->message_id = $checkMessageTrack->message_id;
+            $messageAgentTrack->chat_room_id = $checkMessageTrack->chat_room_id;
+            $messageAgentTrack->widget_id = $checkMessageTrack->widget_id;
             $messageAgentTrack->message_forward_counter_id = 1;
             $messageAgentTrack->status = 2;
             $messageAgentTrack->save();
@@ -67,6 +68,17 @@ class TransferAgentTimeout implements ShouldQueue
             $server_output = curl_exec($ch);
             curl_close($ch);
 
+
+
+            //call to node API
+            $url = url('/') . ':3000/send-rooms';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            curl_close($ch);
         } catch (\Exception $e) {
             Log::info('Queue Error !! '.$e->getMessage());
         } catch (ModelNotFoundException $e) {
