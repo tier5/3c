@@ -47,6 +47,10 @@ class WidgetController extends Controller
         $widgetLogo = $request->image;
         $phoneNumber = $request->phoneNumber;
         $numberContains = $request->numberContains;
+        $transferTimeout = $request->transferTimeout;
+        if (!preg_match("/^(?(?=\d{2})(?:2[0-3]|[01][0-9])|[0-9]):[0-5][0-9]$/", $transferTimeout)) {
+            return $response = json_encode(array('code' => 400, 'error' => true, 'response' => null, 'status' => false, 'message' => 'Transfer Time out format is not matching !'));
+        }
         $imagePath = '';
         $supportedFormat = array('jpeg', 'jpg', 'png', 'gif', 'tif');
         $generateFileName = date("YmdHis");
@@ -107,7 +111,7 @@ class WidgetController extends Controller
         $widgets->widget_uuid = $widgetUuid;
         $widgets->script_url = $widgetSrciptUrl;
         $widgets->status = 0;
-
+        $widgets->transfer_timeout = $transferTimeout;
         if ($imagePath != '') {
 
             $widgets->image = $imagePath;
@@ -454,7 +458,11 @@ class WidgetController extends Controller
         $widgetLogo = $request->image;
         $userId = $request->userId;
         $token = $request->token;
-
+        $transferTimeout = $request->transferTimeout;
+        Log::info($transferTimeout);
+        if (!preg_match("/^(?(?=\d{2})(?:2[0-3]|[01][0-9])|[0-9]):[0-5][0-9]$/", $transferTimeout)) {
+            return $response = json_encode(array('code' => 400, 'error' => true, 'response' => null, 'status' => false, 'message' => 'Transfer Time out format is not matching !'));
+        }
         $imagePath = '';
         $supportedFormat = array('jpeg', 'jpg', 'png', 'gif', 'tif');
         $generateFileName = date("YmdHi");
@@ -498,7 +506,7 @@ class WidgetController extends Controller
             $checkWidget->website = $widgetWebsite;
             $checkWidget->schedule_timezone = $widgetScheduleTimeZone;
             $checkWidget->details = $widgetDetails;
-
+            $checkWidget->transfer_timeout = $transferTimeout;
             if ($imagePath != '') {
                 $checkWidget->image = $imagePath;
             } else {
@@ -677,13 +685,11 @@ class WidgetController extends Controller
 
         // Save Departments of Widget
         foreach ($widgetDepartment as $key => $value) {
-
             $departmentMapping = new WidgetDepartmentMapping;
             $departmentMapping->widget_id = $widgetId;
             $departmentMapping->department_id = $value;
             $departmentMapping->department_orders = $key;
             $departmentMapping->save();
-
         }
 
         return $response = json_encode(array('code' => 200, 'error' => true, 'response' => [], 'status' => false, 'message' => 'Department mapped to Widget !'));
@@ -797,6 +803,7 @@ class WidgetController extends Controller
             $widgetArray['departments'] = $departmentArray;
             $widgetArray['first_name'] = $viewWidget->userDetails->first_name;
             $widgetArray['last_name'] = $viewWidget->userDetails->last_name;
+            $widgetArray['transfer_timeout'] = $viewWidget->transfer_timeout;
 
 
             return $response = json_encode(array('code' => 200, 'error' => false, 'response' => $widgetArray, 'status' => true, 'message' => 'Widget Details !'));

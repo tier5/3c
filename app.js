@@ -36,7 +36,14 @@ io.on('connection', function (socket) {
         });
     });
 
-
+    app.post('/agent-notification', function (req, res) {
+        console.log('agent notification');
+        io.sockets.in(data.chatRoomId).emit('agentNotification','Transferred chat is not accepted by anyone so it has been reinstated to you.');
+        res.status(200).json({
+            status: true
+        })
+    });
+    
     /** Event emitted when a client connects */
     socket.on('client-connected', function (data) {
         console.log('Node: Client Connected: ', data);
