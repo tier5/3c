@@ -1210,6 +1210,7 @@ class ChatController extends Controller
         if ($chatRoomId != "") {
             $checkMessageTrack = MessageTrack::where('chat_room_id', $chatRoomId)->first();
             if (count($checkMessageTrack) != 0) {
+
                 if (isset($request->callFrom) && $request->callFrom != null && $request->callFrom == 'shelf') {
                     $response = ['message' => $messageBody,
                         'direction' => $direction,
@@ -1217,43 +1218,61 @@ class ChatController extends Controller
                         'user' => $request->user,
                         'created_at' => $request->time];
                 } else {
-                    if ($checkMessageTrack->message_type == 1) {
-                        $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
-                        $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
-                        //modify this part
-                        Log::info('15 => send sms');
-                        $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber, $file, $fileType, $fileUrl);
-                    }
-                    $messageId = $checkMessageTrack->message_id;
-                    $userId = $checkMessageTrack->agent_id;
-                    $widgetUuid = $checkMessageTrack->widget_id;
-                    $type = 2; //1->mobile 2->web
-                    Log::info('15 => save chat sms');
-                    $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
-                    if ($responseSaveChatThread->direction == 1) {
-                        //user contain client info
-                        $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
-                        if ($getClientInfo->clientName->name != "") {
-                            $user = $getClientInfo->clientName->name;
-                        } else {
-                            $user = $getClientInfo->clientName->phone;
+                    if ($direction == 1 || $direction == 2) {
+                        if ($checkMessageTrack->message_type == 1) {
+                            $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
+                            $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
+                            //modify this part
+                            Log::info('15 => send sms');
+                            $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber, $file, $fileType, $fileUrl);
                         }
-                    }
-                    if ($responseSaveChatThread->direction == 2) {
-                        //user contain Agent info
-                        $getAgentInfo = ChatThread::where('id', $responseSaveChatThread->id)->with('agentInfo')->first();
-                        $user = $getAgentInfo->agentInfo->first_name;
-                    }
+                        $messageId = $checkMessageTrack->message_id;
+                        $userId = $checkMessageTrack->agent_id;
+                        $widgetUuid = $checkMessageTrack->widget_id;
+                        $type = 2; //1->mobile 2->web
+                        Log::info('15 => save chat sms');
+                        $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
+                        if ($responseSaveChatThread->direction == 1) {
+                            //user contain client info
+                            $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
+                            if ($getClientInfo->clientName->name != "") {
+                                $user = $getClientInfo->clientName->name;
+                            } else {
+                                $user = $getClientInfo->clientName->phone;
+                            }
+                        }
+                        if ($responseSaveChatThread->direction == 2) {
+                            //user contain Agent info
+                            $getAgentInfo = ChatThread::where('id', $responseSaveChatThread->id)->with('agentInfo')->first();
+                            $user = $getAgentInfo->agentInfo->first_name;
+                        }
 
-                    $response = ['message' => $responseSaveChatThread->chat_thread,
-                        'direction' => $responseSaveChatThread->direction,
-                        'roomNo' => $checkMessageTrack->chat_room_id,
-                        'user' => $user,
-                        'created_at' => $responseSaveChatThread->created_at,
-                        'isMMS' => $file,
-                        'fileType' => $fileType,
-                        'fileUrl' => $fileUrl];
+                        $response = ['message' => $responseSaveChatThread->chat_thread,
+                            'direction' => $responseSaveChatThread->direction,
+                            'roomNo' => $checkMessageTrack->chat_room_id,
+                            'user' => $user,
+                            'created_at' => $responseSaveChatThread->created_at,
+                            'isMMS' => $file,
+                            'fileType' => $fileType,
+                            'fileUrl' => $fileUrl];
 
+                    } elseif ($direction == 4) {
+                        $file = false;
+                        $fileType = '';
+                        $fileUrl = '';
+                        $messageId = $checkMessageTrack->message_id;
+                        $userId = $checkMessageTrack->agent_id;
+                        $widgetUuid = $checkMessageTrack->widget_id;
+                        $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, 2, $direction, $userId, $file, $fileType, $fileUrl);
+                        $response = ['message' => $responseSaveChatThread->chat_thread,
+                            'direction' => $responseSaveChatThread->direction,
+                            'roomNo' => $checkMessageTrack->chat_room_id,
+                            'user' => 'system',
+                            'created_at' => $responseSaveChatThread->created_at,
+                            'isMMS' => $file,
+                            'fileType' => $fileType,
+                            'fileUrl' => $fileUrl];
+                    }
                 }
                 return Response::json(array(
                     'status' => true,
@@ -1484,7 +1503,7 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = $getAgent->first_name . ', You have ' . $getAgent->pendingChatCount->count() . ' of pending chat requests at http://sms.telemojo.com/pending ';
+            $smsBody = $getAgent ? $getAgent->first_name . ',' : '' . ' You have ' . $getAgent->pendingChatCount->count() . ' chat requests at http://sms.telemojo.com/pending ';
             //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
@@ -2251,6 +2270,7 @@ class ChatController extends Controller
                 }
             }
             $rooms = MessageAgentTrack::where('agent_id', $request->agentId)->with('clientInfo.clientName', 'allChat.agentInfo')->where('status', 5)->orderBy('id', 'desc')->get();
+
             $allRooms = [];
             $agents['agent_id'] = $request->agentId;
             foreach ($rooms as $room) {

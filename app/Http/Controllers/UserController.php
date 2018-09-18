@@ -241,7 +241,7 @@ class UserController extends Controller
                 $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
                 try {
                     Mail::send([], [], function ($message) use ($body, $forget_check) {
-                        $message->from('sms@telemojo.com', 'sms.telemojo.com');
+                        $message->from('sms@telemojo.com', 'TM SMS');
                         $message->to($forget_check->email, $forget_check->first_name)->subject('Forget Password?')->setBody($body, 'text/html');
                     });
 
@@ -1274,7 +1274,7 @@ class UserController extends Controller
                 }
                 try {
                     Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl' => url('/')], function ($message) use ($checkUser) {
-                        $message->from('sms@telemojo.com', 'sms.telemojo.com');
+                        $message->from('sms@telemojo.com', 'TM SMS');
                         $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
                     });
 
