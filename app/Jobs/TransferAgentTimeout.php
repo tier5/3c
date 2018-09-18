@@ -59,16 +59,19 @@ class TransferAgentTimeout implements ShouldQueue
 
             $transfer->delete();
 
-            $url = url('/') . ':3000/agent-notification';
+            $body = 'Transferred chat is not accepted by anyone so it has been reinstated to you.';
+
+            $time = date("Y-m-d H:i:s");
+            $url = url('/') . ':3000/mobile-chat';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "");
+            curl_setopt($ch, CURLOPT_POSTFIELDS,
+                "messageBody=$body&direction=4&user=System&chatRoomId=$checkMessageTrack->chat_room_id&time=$time");
+
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec($ch);
             curl_close($ch);
-
-
 
             //call to node API
             $url = url('/') . ':3000/send-rooms';

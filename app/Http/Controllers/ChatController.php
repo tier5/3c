@@ -33,6 +33,7 @@ use App\Http\Controllers\TwilioController;
 use Helper;
 use SebastianBergmann\Environment\Console;
 use Twilio\Rest\Client;                         /* Twilio REST client */
+
 use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use Illuminate\Database\QueryException;
@@ -43,6 +44,7 @@ class ChatController extends Controller
     private $audio_ext = ['mp3', 'ogg', 'mpga'];
     private $video_ext = ['mp4', 'mpeg'];
     private $document_ext = ['doc', 'docx', 'pdf', 'odt'];
+
     /**
      * function to check incoming message from the mobile phone
      *
@@ -78,7 +80,7 @@ class ChatController extends Controller
                     'type' => $fileType,
                     'extension' => $fileExtension
                 ]);
-                $fileUrl = url('/').Storage::url('uploads/'.$filename);
+                $fileUrl = url('/') . Storage::url('uploads/' . $filename);
             } else {
                 $file = false;
                 $fileType = '';
@@ -257,7 +259,7 @@ class ChatController extends Controller
                                 $type = '1'; // 1-> Mobile 2-> Web
                                 $direction = '1'; // 1->Incoming 2-> outgoing
                                 $userId = $responsesaveMessageTrack->agent_id;
-                                $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy',1)->get();
+                                $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy', 1)->get();
                                 if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                     foreach ($fetchMessageBodyFromMessageCacheData as $data) {
@@ -364,7 +366,7 @@ class ChatController extends Controller
                             $type = '1'; // 1-> Mobile 2-> Web
                             $direction = '1'; // 1->Incoming 2-> outgoing
                             $userId = $responsesaveMessageTrack->agent_id;
-                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy',1)->get();
+                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy', 1)->get();
                             if (count($fetchMessageBodyFromMessageCacheData) != 0) {
                                 foreach ($fetchMessageBodyFromMessageCacheData as $data) {
                                     $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId, $data->is_mms, $data->file_type, $data->file_url);
@@ -408,7 +410,7 @@ class ChatController extends Controller
                 if ($responseMessageCacheData == true) {
                     $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails')->first();
                     if (count($getWidgetData->widgetDepartment) > 1) {
-                       // $this->createSmsTemplate($fromNumber, $widgetUuid);
+                        // $this->createSmsTemplate($fromNumber, $widgetUuid);
                     } else {
                         $this->singleDepartmentChat($fromNumber, $widgetUuid, $messageBody);
                     }
@@ -448,7 +450,7 @@ class ChatController extends Controller
                             $type = '1'; // 1-> Mobile 2-> Web
                             $direction = '1'; // 1->Incoming 2-> outgoing
                             $userId = $responsesaveMessageTrack->agent_id;
-                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy',1)->get();
+                            $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCacheId)->where('copy', 1)->get();
                             if (count($fetchMessageBodyFromMessageCacheData) != 0) {
                                 foreach ($fetchMessageBodyFromMessageCacheData as $data) {
                                     $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId, $data->is_mms, $data->file_type, $data->file_url);
@@ -509,17 +511,17 @@ class ChatController extends Controller
     {
         Log::info('singleDepartmentChat');
         if ($fromNumber != "" && $widgetUuid != "") {
-            $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails','widgetSchedule')->first();
+            $checkWidget = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails', 'widgetSchedule')->first();
             if ($checkWidget != null) {
                 $timezone_data = Timezone::where('id', $checkWidget->schedule_timezone)->first();
                 $date_utc = new \DateTime("now", new \DateTimeZone($timezone_data->timezone_format));
                 $current_time = $date_utc->format('H');
                 $current_day = $date_utc->format('D');
                 $available = false;
-                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per '.$timezone_data->timezone_format.' timezone \n';
+                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone \n';
                 foreach ($checkWidget->widgetSchedule as $key => $shedule) {
-                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to '.$shedule->end_time.'\n';
-                    if ($shedule->day == $current_day && $current_time >= explode(':',$shedule->start_time)[0]  && $current_time < explode(':',$shedule->end_time)[0]) {
+                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '\n';
+                    if ($shedule->day == $current_day && $current_time >= explode(':', $shedule->start_time)[0] && $current_time < explode(':', $shedule->end_time)[0]) {
                         $available = true;
                     }
                 }
@@ -551,7 +553,7 @@ class ChatController extends Controller
                                         $type = '1'; // 1-> Mobile 2-> Web
                                         $direction = '1'; // 1->Incoming 2-> outgoing
                                         $userId = $responsesaveMessageTrack->agent_id;
-                                        $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCache->id)->where('copy',1)->get();
+                                        $fetchMessageBodyFromMessageCacheData = MessageCacheData::where('message_cache_id', $checkMessageCache->id)->where('copy', 1)->get();
                                         if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                             foreach ($fetchMessageBodyFromMessageCacheData as $data) {
@@ -639,17 +641,17 @@ class ChatController extends Controller
     {
         Log::info('3 ==> sms template');
         if ($fromNumber != "" && $widgetUuid != "") {
-            $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails','widgetSchedule')->first();
+            $getWidgetData = Widgets::where('widget_uuid', $widgetUuid)->with('twilioNumbers', 'widgetDepartment.departmentDetails', 'widgetSchedule')->first();
             if (count($getWidgetData->widgetDepartment) > 1) {
                 $timezone_data = Timezone::where('id', $getWidgetData->schedule_timezone)->first();
                 $date_utc = new \DateTime("now", new \DateTimeZone($timezone_data->timezone_format));
                 $current_time = $date_utc->format('H');
                 $current_day = $date_utc->format('D');
                 $available = false;
-                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per '.$timezone_data->timezone_format.' timezone \n';
+                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone \n';
                 foreach ($getWidgetData->widgetSchedule as $key => $shedule) {
-                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to '.$shedule->end_time.'\n';
-                    if ($shedule->day == $current_day && $current_time >= explode(':',$shedule->start_time)[0]  && $current_time < explode(':',$shedule->end_time)[0]) {
+                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '\n';
+                    if ($shedule->day == $current_day && $current_time >= explode(':', $shedule->start_time)[0] && $current_time < explode(':', $shedule->end_time)[0]) {
                         $available = true;
                     }
                 }
@@ -1015,7 +1017,7 @@ class ChatController extends Controller
 
     public function saveChatThread($responseSaveContactList, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl)
     {
-        if ($responseSaveContactList != "" && $widgetUuid != "" && ( $messageBody != "" || $file)) {
+        if ($responseSaveContactList != "" && $widgetUuid != "" && ($messageBody != "" || $file)) {
 
             $saveChatThread = new ChatThread;
             $saveChatThread->message_log_id = $responseSaveContactList;
@@ -1206,6 +1208,7 @@ class ChatController extends Controller
         if ($chatRoomId != "") {
             $checkMessageTrack = MessageTrack::where('chat_room_id', $chatRoomId)->first();
             if (count($checkMessageTrack) != 0) {
+
                 if (isset($request->callFrom) && $request->callFrom != null && $request->callFrom == 'shelf') {
                     $response = ['message' => $messageBody,
                         'direction' => $direction,
@@ -1213,43 +1216,61 @@ class ChatController extends Controller
                         'user' => $request->user,
                         'created_at' => $request->time];
                 } else {
-                    if ($checkMessageTrack->message_type == 1) {
-                        $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
-                        $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
-                        //modify this part
-                        Log::info('15 => send sms');
-                        $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber, $file, $fileType, $fileUrl);
-                    }
-                    $messageId = $checkMessageTrack->message_id;
-                    $userId = $checkMessageTrack->agent_id;
-                    $widgetUuid = $checkMessageTrack->widget_id;
-                    $type = 2; //1->mobile 2->web
-                    Log::info('15 => save chat sms');
-                    $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
-                    if ($responseSaveChatThread->direction == 1) {
-                        //user contain client info
-                        $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
-                        if ($getClientInfo->clientName->name != "") {
-                            $user = $getClientInfo->clientName->name;
-                        } else {
-                            $user = $getClientInfo->clientName->phone;
+                    if ($direction == 1 || $direction == 2) {
+                        if ($checkMessageTrack->message_type == 1) {
+                            $getWidgetPhoneNumber = Widgets::where('widget_uuid', $checkMessageTrack->widget_id)->with('twilioNumbers')->first();
+                            $widgetPhoneNumber = $getWidgetPhoneNumber->twilioNumbers->prefix . $getWidgetPhoneNumber->twilioNumbers->number;
+                            //modify this part
+                            Log::info('15 => send sms');
+                            $this->sendSms($messageBody, $checkMessageTrack->from_phone_number, $widgetPhoneNumber, $file, $fileType, $fileUrl);
                         }
-                    }
-                    if ($responseSaveChatThread->direction == 2) {
-                        //user contain Agent info
-                        $getAgentInfo = ChatThread::where('id', $responseSaveChatThread->id)->with('agentInfo')->first();
-                        $user = $getAgentInfo->agentInfo->first_name;
-                    }
+                        $messageId = $checkMessageTrack->message_id;
+                        $userId = $checkMessageTrack->agent_id;
+                        $widgetUuid = $checkMessageTrack->widget_id;
+                        $type = 2; //1->mobile 2->web
+                        Log::info('15 => save chat sms');
+                        $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
+                        if ($responseSaveChatThread->direction == 1) {
+                            //user contain client info
+                            $getClientInfo = MessageLog::where('id', $responseSaveChatThread->message_log_id)->with('clientName')->first();
+                            if ($getClientInfo->clientName->name != "") {
+                                $user = $getClientInfo->clientName->name;
+                            } else {
+                                $user = $getClientInfo->clientName->phone;
+                            }
+                        }
+                        if ($responseSaveChatThread->direction == 2) {
+                            //user contain Agent info
+                            $getAgentInfo = ChatThread::where('id', $responseSaveChatThread->id)->with('agentInfo')->first();
+                            $user = $getAgentInfo->agentInfo->first_name;
+                        }
 
-                    $response = ['message' => $responseSaveChatThread->chat_thread,
-                        'direction' => $responseSaveChatThread->direction,
-                        'roomNo' => $checkMessageTrack->chat_room_id,
-                        'user' => $user,
-                        'created_at' => $responseSaveChatThread->created_at,
-                        'isMMS' => $file,
-                        'fileType' => $fileType,
-                        'fileUrl' => $fileUrl];
+                        $response = ['message' => $responseSaveChatThread->chat_thread,
+                            'direction' => $responseSaveChatThread->direction,
+                            'roomNo' => $checkMessageTrack->chat_room_id,
+                            'user' => $user,
+                            'created_at' => $responseSaveChatThread->created_at,
+                            'isMMS' => $file,
+                            'fileType' => $fileType,
+                            'fileUrl' => $fileUrl];
 
+                    } elseif ($direction == 4) {
+                        $file = false;
+                        $fileType = '';
+                        $fileUrl = '';
+                        $messageId = $checkMessageTrack->message_id;
+                        $userId = $checkMessageTrack->agent_id;
+                        $widgetUuid = $checkMessageTrack->widget_id;
+                        $responseSaveChatThread = $this->saveChatThread($messageId, $widgetUuid, $messageBody, 2, $direction, $userId, $file, $fileType, $fileUrl);
+                        $response = ['message' => $responseSaveChatThread->chat_thread,
+                            'direction' => $responseSaveChatThread->direction,
+                            'roomNo' => $checkMessageTrack->chat_room_id,
+                            'user' => 'system',
+                            'created_at' => $responseSaveChatThread->created_at,
+                            'isMMS' => $file,
+                            'fileType' => $fileType,
+                            'fileUrl' => $fileUrl];
+                    }
                 }
                 return Response::json(array(
                     'status' => true,
@@ -1480,12 +1501,12 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = $getAgent ? $getAgent->first_name.',' : ''.' You have '. $getAgent->pendingChatCount->count() .' of pending chat requests at http://sms.telemojo.com/pending ';
+            $smsBody = $getAgent ? $getAgent->first_name . ',' : '' . ' You have ' . $getAgent->pendingChatCount->count() . ' of pending chat requests at http://sms.telemojo.com/pending ';
             //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
             $userController = new UserController;
-            if(!$userController->userLoginStatus($agentId)){
+            if (!$userController->userLoginStatus($agentId)) {
                 \Log::info('user Logged in now send ');
                 if ($getAgent->is_phone_notification && $getAgent->is_block == '1') {
                     Log::info('phone notification');
@@ -1496,7 +1517,7 @@ class ChatController extends Controller
                 }
                 if ($getAgent->is_email_notification && $getAgent->is_block == '1') {
                     Log::info('email notification');
-                    $this->sendEmail($smsBody,$getAgent->email);
+                    $this->sendEmail($smsBody, $getAgent->email);
                 }
             }
         } else {
@@ -1599,10 +1620,10 @@ class ChatController extends Controller
 
         $updateMessageForwardCounter = MessageForwardCounter::where('id', $messageForwardCountId)->update(['status' => $status]);
 
-        \Log::info('$messageAgentTrackId-->'.$messageAgentTrackId.'message_id->'.$messageId);
-        $checkAndUpdateAgentHistory = AgentTransferHistory::where('message_id',$messageId)->where('status',0)->first();
+        \Log::info('$messageAgentTrackId-->' . $messageAgentTrackId . 'message_id->' . $messageId);
+        $checkAndUpdateAgentHistory = AgentTransferHistory::where('message_id', $messageId)->where('status', 0)->first();
 
-        if(count($checkAndUpdateAgentHistory)){
+        if (count($checkAndUpdateAgentHistory)) {
             $checkAndUpdateAgentHistory->transfer_to_agent_id = $agentId;
             $checkAndUpdateAgentHistory->status = 1;
             $checkAndUpdateAgentHistory->other_agent_ids = null;
@@ -1743,10 +1764,10 @@ class ChatController extends Controller
         $chatRoomId = $checkMessageAgentTrack->chat_room_id;
         $messageId = $checkMessageAgentTrack->message_id;
         $status = 4;    //Transfer Scenario
-        \Log::info('$fromAgentId-->'.$fromAgentId. '$departmentId-->'.$departmentId . '$toAgentId-->'.$toAgentId );
+        \Log::info('$fromAgentId-->' . $fromAgentId . '$departmentId-->' . $departmentId . '$toAgentId-->' . $toAgentId);
         if ($departmentId != "") {  //transfer to a department
-            $allAgentsIds =[];
-            $checkDepartment = DepartmentAgentMap::where('department_id', $departmentId)->whereNotIn('user_id',[$fromAgentId])->select('user_id')->get();
+            $allAgentsIds = [];
+            $checkDepartment = DepartmentAgentMap::where('department_id', $departmentId)->whereNotIn('user_id', [$fromAgentId])->select('user_id')->get();
             if (count($checkDepartment) != 0) {
                 $dpartmentAgentCount = count($checkDepartment);
                 $updateMessageTrack = MessageTrack::where('message_id', $messageId)->update(['department_id' => $departmentId, 'status' => $status, 'agent_id' => null]);
@@ -1757,7 +1778,7 @@ class ChatController extends Controller
                 $deleteMessageAgentTrack = MessageAgentTrack::where('message_forward_counter_id', $updateMessageForwardCounter->id)->delete();
 
                 foreach ($checkDepartment as $agent) {
-                    $allAgentsIds[]= $agent->user_id;
+                    $allAgentsIds[] = $agent->user_id;
                     $saveMessageAgentTrack = new MessageAgentTrack;
                     $saveMessageAgentTrack->agent_id = $agent->user_id;
                     $saveMessageAgentTrack->message_id = $messageId;
@@ -1769,14 +1790,14 @@ class ChatController extends Controller
                     $this->sendNotificationToAgents($saveMessageAgentTrack->agent_id, $saveMessageAgentTrack->widget_id);
                 }
 
-                $removeFromAgentId = array_diff($allAgentsIds,[$fromAgentId]);
-                $allAgentsIds = implode(',',$removeFromAgentId);
-                $getLastChatThreadId = ChatThread::where('user_id',$fromAgentId)->where('message_log_id',$messageId)->max('id');        // find the last chatThread id
+                $removeFromAgentId = array_diff($allAgentsIds, [$fromAgentId]);
+                $allAgentsIds = implode(',', $removeFromAgentId);
+                $getLastChatThreadId = ChatThread::where('user_id', $fromAgentId)->where('message_log_id', $messageId)->max('id');        // find the last chatThread id
                 /** Save to transfer History */
                 $createTransferHistory = new AgentTransferHistory;
                 $createTransferHistory->message_agent_track_id = $messageAgentTrackId;
                 $createTransferHistory->transfer_from_agent_id = $fromAgentId;
-                $createTransferHistory->transfer_to_agent_id   = null;
+                $createTransferHistory->transfer_to_agent_id = null;
                 $createTransferHistory->chat_room_id = $chatRoomId;
                 $createTransferHistory->last_chat_thread_id = $getLastChatThreadId;
                 $createTransferHistory->message_id = $messageId;
@@ -1815,23 +1836,23 @@ class ChatController extends Controller
             }
         } elseif ($toAgentId != "" && $fromAgentId != "") {
 
-            $getMessageAgentTrackId = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->select('id','message_id')->first();
+            $getMessageAgentTrackId = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->select('id', 'message_id')->first();
             $updateAgentFromMessageAgentTrack = MessageAgentTrack::where('agent_id', $fromAgentId)->where('chat_room_id', $chatRoomId)->where('widget_id', $widgetUuid)->update(['agent_id' => $toAgentId, 'status' => 1]);
             /** Save transfer agent log */
             $createTransferLog = new AgentTransferLog;
             $createTransferLog->message_agent_track_id = $getMessageAgentTrackId->id;
             $createTransferLog->transfer_from_agent_id = $fromAgentId;
-            $createTransferLog->transfer_to_agent_id   = $toAgentId;
+            $createTransferLog->transfer_to_agent_id = $toAgentId;
             $createTransferLog->status = 1; //active
             $createTransferLog->save();
 
-            $getLastChatThreadId = ChatThread::where('user_id',$fromAgentId)->where('message_log_id',$getMessageAgentTrackId->message_id)->max('id');        // find the last chatThread id
+            $getLastChatThreadId = ChatThread::where('user_id', $fromAgentId)->where('message_log_id', $getMessageAgentTrackId->message_id)->max('id');        // find the last chatThread id
 
             /** Save to transfer History */
             $createTransferHistory = new AgentTransferHistory;
             $createTransferHistory->message_agent_track_id = $getMessageAgentTrackId->id;
             $createTransferHistory->transfer_from_agent_id = $fromAgentId;
-            $createTransferHistory->transfer_to_agent_id   = null;
+            $createTransferHistory->transfer_to_agent_id = null;
             $createTransferHistory->chat_room_id = $chatRoomId;
             $createTransferHistory->last_chat_thread_id = $getLastChatThreadId;
             $createTransferHistory->message_id = $getMessageAgentTrackId->message_id;
@@ -1942,10 +1963,10 @@ class ChatController extends Controller
                 } else {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
                 }
-                if(isset($room->getTransferLog)){
-                    foreach($room->getTransferLog as $agentKey=>$agentValue){
-                        $getAgentName = Users::where('id',$agentValue->transfer_from_agent_id)->select('first_name','last_name')->first();
-                        $agentRooms['transfer_from_agent'] = $getAgentName->first_name.' '.$getAgentName->last_name;
+                if (isset($room->getTransferLog)) {
+                    foreach ($room->getTransferLog as $agentKey => $agentValue) {
+                        $getAgentName = Users::where('id', $agentValue->transfer_from_agent_id)->select('first_name', 'last_name')->first();
+                        $agentRooms['transfer_from_agent'] = $getAgentName->first_name . ' ' . $getAgentName->last_name;
                     }
                 }
                 $agentRooms['chats'] = array();
@@ -1993,9 +2014,8 @@ class ChatController extends Controller
             $filename = $file->getClientOriginalName();
             $ext = $file->getClientOriginalExtension();
             $without_ext = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $filenameNew = str_slug(strtolower($without_ext)).'-'.time().'.'.$ext;
+            $filenameNew = str_slug(strtolower($without_ext)) . '-' . time() . '.' . $ext;
             $type = $this->getType($ext);
-
 
 
             if (Storage::putFileAs('/public/uploads/', $file, $filenameNew)) {
@@ -2009,7 +2029,7 @@ class ChatController extends Controller
                 'status' => true,
                 'code' => 200,
                 'response' => [
-                    'url' => url('/').Storage::url('uploads/'.$filenameNew),
+                    'url' => url('/') . Storage::url('uploads/' . $filenameNew),
                     'type' => $type
                 ],
                 'error' => false,
@@ -2033,6 +2053,7 @@ class ChatController extends Controller
             ));
         }
     }
+
     /**
      * Get all extensions
      * @return array Extensions of all file types
@@ -2041,6 +2062,7 @@ class ChatController extends Controller
     {
         return array_merge($this->image_ext, $this->audio_ext, $this->video_ext, $this->document_ext);
     }
+
     /**
      * Get type by extension
      * @param  string $ext Specific extension
@@ -2064,11 +2086,12 @@ class ChatController extends Controller
             return 'document';
         }
     }
+
     public function initiateChatWithAgent(Request $request)
     {
         Log::info($request->all());
         try {
-            $toNumber = '+1'.$request->to;
+            $toNumber = '+1' . $request->to;
             $body = $request->body;
             $file = $request->file;
             $fileUrl = $request->fileUrl;
@@ -2090,7 +2113,7 @@ class ChatController extends Controller
                     'message' => 'Widget not found'
                 ));
             }
-            $departmentAgentMap = DepartmentAgentMap::where('user_id',$userId)->first();
+            $departmentAgentMap = DepartmentAgentMap::where('user_id', $userId)->first();
             if ($departmentAgentMap) {
                 $saveMessageTrack = new MessageTrack;
                 $saveMessageTrack->widget_id = $widgetUIID;
@@ -2137,10 +2160,10 @@ class ChatController extends Controller
                                     $server_output = curl_exec($ch);
                                     curl_close($ch);
                                 }
-                                $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['status' => 2,'agent_id' => $userId]);
+                                $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['status' => 2, 'agent_id' => $userId]);
                                 $updateMessageLog = MessageLog::where('id', $responsesaveContactList)->update(['status' => 2]);
-                                $updateAgentMessageTruct = MessageAgentTrack::where('agent_id',$userId)
-                                    ->where('message_id',$responsesaveMessageLog)->where('chat_room_id',$chatRoomId)->update(['status' => 2]);
+                                $updateAgentMessageTruct = MessageAgentTrack::where('agent_id', $userId)
+                                    ->where('message_id', $responsesaveMessageLog)->where('chat_room_id', $chatRoomId)->update(['status' => 2]);
                                 $this->sendSms($body, $toNumber, $fromNumber, $file, $fileType, $fileUrl);
                                 return Response::json(array(
                                     'status' => true,
@@ -2190,10 +2213,11 @@ class ChatController extends Controller
     }
 
     /** Fuunction to get all closed / resolved for an agent */
-    public function getAllClosedChats(Request $request){
-        if($request->agentId){
+    public function getAllClosedChats(Request $request)
+    {
+        if ($request->agentId) {
 
-            $rooms = MessageAgentTrack::where('agent_id', $request->agentId)->with('clientInfo.clientName', 'allChat.agentInfo')->where('status',5)->orderBy('id', 'desc')->get();
+            $rooms = MessageAgentTrack::where('agent_id', $request->agentId)->with('clientInfo.clientName', 'allChat.agentInfo')->where('status', 5)->orderBy('id', 'desc')->get();
 
             $allRooms = [];
             $agents['agent_id'] = $request->agentId;
@@ -2247,8 +2271,8 @@ class ChatController extends Controller
                 'response' => [],
                 'message' => 'No Chant found !'
             ));
-            }
         }
+    }
 
 
 }
