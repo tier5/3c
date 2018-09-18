@@ -520,9 +520,9 @@ class ChatController extends Controller
                 $current_time = $date_utc->format('H');
                 $current_day = $date_utc->format('D');
                 $available = false;
-                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone \n';
+                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone';
                 foreach ($checkWidget->widgetSchedule as $key => $shedule) {
-                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '\n';
+                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '';
                     if ($shedule->day == $current_day && $current_time >= explode(':', $shedule->start_time)[0] && $current_time < explode(':', $shedule->end_time)[0]) {
                         $available = true;
                     }
@@ -650,9 +650,9 @@ class ChatController extends Controller
                 $current_time = $date_utc->format('H');
                 $current_day = $date_utc->format('D');
                 $available = false;
-                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone \n';
+                $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone ';
                 foreach ($getWidgetData->widgetSchedule as $key => $shedule) {
-                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '\n';
+                    $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '';
                     if ($shedule->day == $current_day && $current_time >= explode(':', $shedule->start_time)[0] && $current_time < explode(':', $shedule->end_time)[0]) {
                         $available = true;
                     }
