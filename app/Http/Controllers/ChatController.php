@@ -74,7 +74,7 @@ class ChatController extends Controller
             $filename = "$mediaSid.$fileExtension";
             $fileType = $this->getType($fileExtension);
             $model = new File();
-            if (Storage::putFileAs('/public/uploads/', $media, $filename)) {
+            if (file_put_contents(storage_path('app/public/uploads/').$filename,$media)) {
                 $model::create([
                     'name' => $filename,
                     'type' => $fileType,
