@@ -9,6 +9,7 @@ export interface ChatState {
   contactList : any,
   messageSend : boolean,
   messageError: boolean,
+  closedChats:any,
 }
 
 const initialState: ChatState = {
@@ -20,6 +21,7 @@ const initialState: ChatState = {
   contactList : [],
   messageSend: false,
   messageError: false,
+  closedChats: [],
 };
 
 export function chatReducer(state = initialState, action: ChatActions.ChatActions) {
@@ -29,6 +31,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         ...state,
         ongoing : [],
         resolve : [],
+        closedChats : [],
         connected   : true
       };
     case ChatActions.ADD_TO_CHAT_LIST:
@@ -107,6 +110,11 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
         return {
           ...state,
           messageError: true
+        };
+        case (ChatActions.GET_AGENT_CLOSED_CHATS_SUCCESS):
+          return {
+          ...state,
+          closedChats: action.payload
         };
     default:
       return state;

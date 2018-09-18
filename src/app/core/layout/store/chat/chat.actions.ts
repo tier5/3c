@@ -24,6 +24,8 @@ export const INI_CHAT_ATTEMPT = 'INI_CHAT_ATTEMPT';
 export const INI_CHAT_SUCCESS = 'INI_CHAT_SUCCESS';
 export const INI_CHAT_ERROR = 'INI_CHAT_ERROR';
 
+export const GET_AGENT_CLOSED_CHATS_ATTEMPT = 'GET_AGENT_CLOSED_CHATS_ATTEMPT';
+export const GET_AGENT_CLOSED_CHATS_SUCCESS = 'GET_AGENT_CLOSED_CHATS_SUCCESS';
 
 export class ConnectAttempt implements Action {
   readonly type = CONNECT_ATTEMPT;
@@ -107,6 +109,16 @@ export class IniChatError implements Action {
   constructor(public payload: any) { }
 }
 
+export class GetAgentClosedChatsAttempt implements Action {
+    readonly type = GET_AGENT_CLOSED_CHATS_ATTEMPT;
+    constructor(public payload: any) { }
+}
+
+export class GetAgentClosedChatsSuccess implements Action {
+    readonly type = GET_AGENT_CLOSED_CHATS_SUCCESS;
+    constructor(public payload: any) { }
+}
+
 
 export type ChatActions =
     ConnectAttempt | ConnectSuccess |
@@ -116,4 +128,4 @@ export type ChatActions =
         GetChatListAttempt | GetChatListSuccess |
         GetContactListAttempt | GetContactListSuccess |
         GetTransferAgentListAttempt | GetTransferAgentListSuccess |
-        IniChatAttempt | IniChatSuccess | IniChatError;
+        IniChatAttempt | IniChatSuccess | IniChatError | GetAgentClosedChatsAttempt | GetAgentClosedChatsSuccess;
