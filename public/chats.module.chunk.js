@@ -615,7 +615,7 @@ var ContactListComponent = (function () {
         this.activatedRoute.params
             .subscribe(function (id) {
             _this.agentId = _this.activatedRoute.snapshot.params['id'];
-            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["v" /* GetContactListAttempt */]({ agentId: id }));
+            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["y" /* GetContactListAttempt */]({ agentId: id }));
         });
     };
     /** Function to Edit Agent */
@@ -702,7 +702,7 @@ var ListAgentComponent = (function () {
         this.activatedRoute.data
             .subscribe(function (data) {
             _this.chatMode = data['chatMode'];
-            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["t" /* GetAgentListAttempt */]());
+            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["w" /* GetAgentListAttempt */]());
         });
     };
     /** Function to View Chats of Agent */
@@ -791,7 +791,7 @@ var ListChatComponent = (function () {
         this.activatedRoute.params
             .subscribe(function (id) {
             _this.agentId = _this.activatedRoute.snapshot.params['id'];
-            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["u" /* GetChatListAttempt */]({ agentId: id }));
+            _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["x" /* GetChatListAttempt */]({ agentId: id }));
         });
     };
     ListChatComponent.prototype.changeCurrentChat = function (i) {
