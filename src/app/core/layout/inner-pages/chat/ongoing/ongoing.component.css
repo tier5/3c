@@ -186,8 +186,21 @@ ul.super-sub li:hover{background: #e1e3e9;}
   width: 200px;
 }
 
+.chat-notification {
+  display: inline-block;
+  text-align: center;
+  margin-left: 500px;
+  padding: 15px;
+
+}
 
 
+@media screen and (max-width:764px) {
+  .chat-notification {
+    display: inline-block;
+    text-align: center;
+    margin-left: 10px !important;
+    padding: 15px;
 
-
-
+  }
+}

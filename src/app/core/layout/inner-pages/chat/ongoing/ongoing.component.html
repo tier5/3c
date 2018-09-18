@@ -83,6 +83,7 @@
                                                     <div class="direct-chat-msg"
                                                          [ngClass]="{ right: chat.direction == 2 }"
                                                          *ngFor="let chat of (chatState | async).ongoing[currentChatIndex]?.chats">
+                                                      <div *ngIf="chat.direction === 1 || chat.direction === 2">
                                                         <div class="direct-chat-info clearfix">
                                                             <span class="direct-chat-name"
                                                                   [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
@@ -111,6 +112,12 @@
                                                           </div>
                                                             {{chat.message}}
                                                         </div>
+                                                      </div>
+                                                      <div class="chat-notification" *ngIf="chat.direction==4">
+                                                        <div class="row">
+                                                          <b> {{ chat.message }} </b>
+                                                        </div>
+                                                      </div>
                                                         </div>
                                                     </div>
                                                 </div>

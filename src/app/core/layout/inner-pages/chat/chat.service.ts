@@ -116,8 +116,10 @@ export class ChatService implements OnInit, OnDestroy {
                           }
                           this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
                         });
+
                         this.socket.on('agentNotification', (data) => {
                           console.log('data', data);
+                          this.notification = this._isNotification.getIsNotification();
                           const dataMessage: Array<any> = [];
                           dataMessage.push({
                             'title': 'Chat transfer notification',
