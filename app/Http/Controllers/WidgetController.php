@@ -47,6 +47,10 @@ class WidgetController extends Controller
         $widgetLogo = $request->image;
         $phoneNumber = $request->phoneNumber;
         $numberContains = $request->numberContains;
+        $transferTimeout = $request->transferTimeout;
+        if (!preg_match("/^(?(?=\d{2})(?:2[0-3]|[01][0-9])|[0-9]):[0-5][0-9]$/", $transferTimeout)) {
+            return $response = json_encode(array('code' => 400, 'error' => true, 'response' => null, 'status' => false, 'message' => 'Transfer Time out format is not matching !'));
+        }
         $imagePath = '';
         $supportedFormat = array('jpeg', 'jpg', 'png', 'gif', 'tif');
         $generateFileName = date("YmdHis");
@@ -107,7 +111,7 @@ class WidgetController extends Controller
         $widgets->widget_uuid = $widgetUuid;
         $widgets->script_url = $widgetSrciptUrl;
         $widgets->status = 0;
-
+        $widgets->transfer_timeout = $transferTimeout;
         if ($imagePath != '') {
 
             $widgets->image = $imagePath;
@@ -118,7 +122,7 @@ class WidgetController extends Controller
 
             // Save Widget Schdule Time
             // save time data to the widget schedule
-            if($request->sunCbk == true){
+            if($request->sunCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Sun';
@@ -127,7 +131,7 @@ class WidgetController extends Controller
                  // save this
                 $this->updateWidgetSchedule($req);
             }
-            if($request->monCbk == true){
+            if($request->monCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Mon';
@@ -136,7 +140,7 @@ class WidgetController extends Controller
                 // save this
                 $this->updateWidgetSchedule($req);
             }
-            if($request->tueCbk == true){
+            if($request->tueCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Tue';
@@ -145,7 +149,7 @@ class WidgetController extends Controller
                 // save this
                 $this->updateWidgetSchedule($req);
             }
-            if($request->wedCbk == true){
+            if($request->wedCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Wed';
@@ -154,7 +158,7 @@ class WidgetController extends Controller
                 // save this
                 $this->updateWidgetSchedule($req);
             }
-            if($request->thuCbk == true){
+            if($request->thuCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Thu';
@@ -163,7 +167,7 @@ class WidgetController extends Controller
                 // save this
                 $this->updateWidgetSchedule($req);
             }
-            if($request->friCbk == true){
+            if($request->friCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Fri';
@@ -172,7 +176,7 @@ class WidgetController extends Controller
                 // save this
                 $this->updateWidgetSchedule($req);
             }
-            if($request->satCbk == true){
+            if($request->satCbk == 'true'){
                 $req = new Request;
                 $req->widgetId = $widgets->id;
                 $req->day = 'Sat';
@@ -454,7 +458,10 @@ class WidgetController extends Controller
         $widgetLogo = $request->image;
         $userId = $request->userId;
         $token = $request->token;
-
+        $transferTimeout = $request->transferTimeout;
+        if (!preg_match("/^(?(?=\d{2})(?:2[0-3]|[01][0-9])|[0-9]):[0-5][0-9]$/", $transferTimeout)) {
+            return $response = json_encode(array('code' => 400, 'error' => true, 'response' => null, 'status' => false, 'message' => 'Transfer Time out format is not matching !'));
+        }
         $imagePath = '';
         $supportedFormat = array('jpeg', 'jpg', 'png', 'gif', 'tif');
         $generateFileName = date("YmdHi");
@@ -498,7 +505,7 @@ class WidgetController extends Controller
             $checkWidget->website = $widgetWebsite;
             $checkWidget->schedule_timezone = $widgetScheduleTimeZone;
             $checkWidget->details = $widgetDetails;
-
+            $checkWidget->transfer_timeout = $transferTimeout;
             if ($imagePath != '') {
                 $checkWidget->image = $imagePath;
             } else {
@@ -529,7 +536,8 @@ class WidgetController extends Controller
 //                $reqSchedule->startTime = $widgetStartTime;
 //                $reqSchedule->endTime = $widgetEndTime;
 //                $this->updateWidgetSchedule($reqSchedule);
-                if($request->sunCbk == true){
+
+                if($request->sunCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Sun';
@@ -537,8 +545,10 @@ class WidgetController extends Controller
                     $req->endTime = $request->sunEndTime;
                     // save this
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Sun')->delete();
                 }
-                if($request->monCbk == true){
+                if($request->monCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Mon';
@@ -546,8 +556,10 @@ class WidgetController extends Controller
                     $req->endTime = $request->monEndTime;
                     // save this
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Mon')->delete();
                 }
-                if($request->tueCbk == true){
+                if($request->tueCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Tue';
@@ -555,17 +567,22 @@ class WidgetController extends Controller
                     $req->endTime = $request->tueEndTime;
                     // save this
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Tue')->delete();
                 }
-                if($request->wedCbk == true){
+                if($request->wedCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Wed';
                     $req->startTime = $request->wedStartTime;
                     $req->endTime = $request->wedEndTime;
                     // save this
+                    Log::info('here',$req->all());
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Wed')->delete();
                 }
-                if($request->thuCbk == true){
+                if($request->thuCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Thu';
@@ -573,8 +590,10 @@ class WidgetController extends Controller
                     $req->endTime = $request->thuEndTime;
                     // save this
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Thu')->delete();
                 }
-                if($request->friCbk == true){
+                if($request->friCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Fri';
@@ -582,8 +601,10 @@ class WidgetController extends Controller
                     $req->endTime = $request->friEndTime;
                     // save this
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Fri')->delete();
                 }
-                if($request->satCbk == true){
+                if($request->satCbk == 'true'){
                     $req = new Request;
                     $req->widgetId = $widgetId;
                     $req->day = 'Sat';
@@ -591,6 +612,8 @@ class WidgetController extends Controller
                     $req->endTime = $request->satEndTime;
                     // save this
                     $this->updateWidgetSchedule($req);
+                } else {
+                    $deleteWidgetSchedule = WidgetScheduleMapping::where('widget_id',$widgetId)->where('day','Sat')->delete();
                 }
 
                 // Save Widget Departments
@@ -677,13 +700,11 @@ class WidgetController extends Controller
 
         // Save Departments of Widget
         foreach ($widgetDepartment as $key => $value) {
-
             $departmentMapping = new WidgetDepartmentMapping;
             $departmentMapping->widget_id = $widgetId;
             $departmentMapping->department_id = $value;
             $departmentMapping->department_orders = $key;
             $departmentMapping->save();
-
         }
 
         return $response = json_encode(array('code' => 200, 'error' => true, 'response' => [], 'status' => false, 'message' => 'Department mapped to Widget !'));
@@ -698,6 +719,7 @@ class WidgetController extends Controller
      */
     public function updateWidgetSchedule(Request $request)
     {
+        Log::info($request->day);
         $widgetId = $request->widgetId;
         $widgetScheduleDay = $request->daysArray;
         $widgetStartTime = $request->startTime;
@@ -797,6 +819,7 @@ class WidgetController extends Controller
             $widgetArray['departments'] = $departmentArray;
             $widgetArray['first_name'] = $viewWidget->userDetails->first_name;
             $widgetArray['last_name'] = $viewWidget->userDetails->last_name;
+            $widgetArray['transfer_timeout'] = $viewWidget->transfer_timeout;
 
 
             return $response = json_encode(array('code' => 200, 'error' => false, 'response' => $widgetArray, 'status' => true, 'message' => 'Widget Details !'));
