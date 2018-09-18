@@ -527,7 +527,7 @@ class ChatController extends Controller
                         $available = true;
                     }
                 }
-                $availableDayTime .= 'Thank you.';
+                $availableDayTime .= ' Thank you.';
                 $file = false;
                 $fileType = '';
                 $fileUrl = '';
@@ -657,7 +657,7 @@ class ChatController extends Controller
                         $available = true;
                     }
                 }
-                $availableDayTime = ' Thank you.';
+                $availableDayTime .=' Thank you.';
                 Log::info('3 ==> if');
                 $toNumber = $getWidgetData->twilioNumbers->prefix . $getWidgetData->twilioNumbers->number;
                 $file = false;
