@@ -18,8 +18,14 @@ class AgentTransferHistory extends Model
      */
     protected $table = 'agent_transfer_history';
 
-    public function getAgentInfo(){
-        return $this->hasOne('App\Model\Users','id','transfer_from_agent');
+
+    public function clientInfo(){
+            return $this->hasOne('App\Model\MessageLog','id','message_id');
     }
+
+     public function allChat(){
+             return $this->hasMany('App\Model\ChatThread','message_log_id','message_id');
+    }
+
 
 }

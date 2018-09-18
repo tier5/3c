@@ -80,6 +80,11 @@ class Users extends Model
         return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',5);
     }
 
+    public function agentClosedChatCount()
+    {
+        return $this->hasMany('App\Model\AgentTransferHistory','transfer_from_agent_id','id')->where('status',1);
+    }
+
     public function rejectedChatCount()
     {
         return $this->hasMany('App\Model\MessageAgentTrack','agent_id','id')->where('status',3);
