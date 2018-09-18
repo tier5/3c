@@ -418,7 +418,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formData.append('satCbk', <any>this.checkSat);
             formData.append('satStartTime', form.value.satStartTime);
             formData.append('satEndTime', form.value.satEndTime);
-          formData.append('transferTimeout', form.value.timeout);
+            formData.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
             /** Loader Show/Hide */
             this.store.select('alert')
@@ -748,7 +748,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.sunTimePikerError = false;
                 this.validationMinTime = this.form.value.sunStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.sunTimePikerError = true;
                     this.form.controls['sunEndTime'].setErrors({'incorrect': true});
                 }
@@ -757,7 +757,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.monTimePikerError = false;
                 this.validationMinTime = this.form.value.monStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.monTimePikerError = true;
                     this.form.controls['monEndTime'].setErrors({'incorrect': true});
                 }
@@ -766,7 +766,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.tueTimePikerError = false;
                 this.validationMinTime = this.form.value.tueStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.tueTimePikerError = true;
                     this.form.controls['tueEndTime'].setErrors({'incorrect': true});
                 }
@@ -775,7 +775,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.wedTimePikerError = false;
                 this.validationMinTime = this.form.value.wedStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.wedTimePikerError = true;
                     this.form.controls['wedEndTime'].setErrors({'incorrect': true});
                 }
@@ -784,7 +784,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.thuTimePikerError = false;
                 this.validationMinTime = this.form.value.thuStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.thuTimePikerError = true;
                     this.form.controls['thuEndTime'].setErrors({'incorrect': true});
                 }
@@ -793,7 +793,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.friTimePikerError = false;
                 this.validationMinTime = this.form.value.friStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.friTimePikerError = true;
                     this.form.controls['friEndTime'].setErrors({'incorrect': true});
                 }
@@ -802,7 +802,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                 this.satTimePikerError = false;
                 this.validationMinTime = this.form.value.satStartTime;
                 this.validationMaxTime = event;
-                if (this.validationMinTime > this.validationMaxTime) {
+                if (this.validationMinTime >= this.validationMaxTime) {
                     this.satTimePikerError = true;
                     this.form.controls['satEndTime'].setErrors({'incorrect': true});
                 }
