@@ -5,6 +5,7 @@ import * as fromAfterLogin from '../../../store/after-login.reducers';
 import {ChatService} from '../../chat/chat.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as AgentChatActions from '../../../store/agent-chat/agent-chat.action';
+import {GetAgentCloseChatAttempt} from "../../../store/agent-chat/agent-chat.action";
 
 @Component({
   selector: 'app-agent-closed',
@@ -27,7 +28,8 @@ export class AgentClosedComponent implements OnInit {
     this.agentIndex = 0;
     this.clientIndex = 0;
     this.close = false;
-    this.store.dispatch(new AgentChatActions.GetAgentLiveChatAttempt);
+    // this.store.dispatch(new AgentChatActions.GetAgentLiveChatAttempt);
+      this.store.dispatch( new AgentChatActions.GetAgentCloseChatAttempt );
     this.agentChatSubscription = this.store.select('afterLogin', 'agentChats').subscribe(
       (data) => {
         if (data.list.length > 0) {
