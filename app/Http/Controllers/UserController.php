@@ -1181,9 +1181,6 @@ class UserController extends Controller
         if ($agentId != '') { //Get agent details
 
             $agent = Users::where('id', $agentId)->with('departmentAgentMapping.departmentDetails','getParentInfo')->get()->first();
-//            \Log::info(print_r($agent,'true'));
-//            dd($agent);
-
             if (count($agent) != 0) {
 
                 $agentArray = [];

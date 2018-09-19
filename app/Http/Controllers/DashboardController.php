@@ -155,10 +155,9 @@ class DashboardController extends Controller
                             $departments = array_unique($agentDepartments->toArray(), SORT_REGULAR);
                             $departmentWidgets = WidgetDepartmentMapping::whereIn('department_id',$departments)->orderBy('department_orders')->pluck('widget_id');
                             if (count($departmentWidgets) > 0) {
-                                $widgets = Widgets::whereIn('id',$departmentWidgets)->with('twilioNumbers')->get();
+                                $widgets = Widgets::whereIn('id',$departmentWidgets)->whereNull('deleted_at')->with('twilioNumbers')->get();
                             }
                         }
-                        \Log::info($dashboardItemCount);
                         return Response::json(array(
                             'status' => true,
                             'code' => 200,

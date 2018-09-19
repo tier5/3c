@@ -2108,12 +2108,18 @@ var reducers = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GET_AGENT_LIVE_CHAT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_AGENT_LIVE_CHAT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GetAgentLiveChatAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GET_AGENT_LIVE_CHAT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return GET_AGENT_LIVE_CHAT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GET_AGENT_CLOSE_CHAT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_AGENT_CLOSE_CHAT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GetAgentLiveChatAttempt; });
 /* unused harmony export GetAgentLiveChatSuccess */
+/* unused harmony export GetAgentCloseChatSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return GetAgentCloseChatAttempt; });
 var GET_AGENT_LIVE_CHAT_ATTEMPT = 'GET_AGENT_LIVE_CHAT_ATTEMPT';
 var GET_AGENT_LIVE_CHAT_SUCCESS = 'GET_AGENT_LIVE_CHAT_SUCCESS';
+var GET_AGENT_CLOSE_CHAT_ATTEMPT = 'GET_AGENT_CLOSE_CHAT_ATTEMPT';
+var GET_AGENT_CLOSE_CHAT_SUCCESS = 'GET_AGENT_LIVE_CHAT_SUCCESS';
 var GetAgentLiveChatAttempt = (function () {
     function GetAgentLiveChatAttempt() {
         this.type = GET_AGENT_LIVE_CHAT_ATTEMPT;
@@ -2127,6 +2133,21 @@ var GetAgentLiveChatSuccess = (function () {
         this.type = GET_AGENT_LIVE_CHAT_SUCCESS;
     }
     return GetAgentLiveChatSuccess;
+}());
+
+var GetAgentCloseChatSuccess = (function () {
+    function GetAgentCloseChatSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_CLOSE_CHAT_SUCCESS;
+    }
+    return GetAgentCloseChatSuccess;
+}());
+
+var GetAgentCloseChatAttempt = (function () {
+    function GetAgentCloseChatAttempt() {
+        this.type = GET_AGENT_CLOSE_CHAT_ATTEMPT;
+    }
+    return GetAgentCloseChatAttempt;
 }());
 
 //# sourceMappingURL=agent-chat.action.js.map
@@ -2177,7 +2198,7 @@ var AgentChatEffects = (function () {
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.getAgentListWithChat = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["a" /* GET_AGENT_LIVE_CHAT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["c" /* GET_AGENT_LIVE_CHAT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-all-chats';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2188,7 +2209,39 @@ var AgentChatEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["b" /* GET_AGENT_LIVE_CHAT_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["d" /* GET_AGENT_LIVE_CHAT_SUCCESS */],
+                        payload: res.response
+                    };
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getAgentCloseListWithChat = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["a" /* GET_AGENT_CLOSE_CHAT_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'all-agent-closed-chats';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, config)
+                .map(function (res) {
+                if (res.status) {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["b" /* GET_AGENT_CLOSE_CHAT_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2215,6 +2268,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], AgentChatEffects.prototype, "getAgentListWithChat", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentChatEffects.prototype, "getAgentCloseListWithChat", void 0);
 AgentChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -2246,7 +2303,9 @@ var initialState = {
 function agentChatReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_chat_action__["b" /* GET_AGENT_LIVE_CHAT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_chat_action__["d" /* GET_AGENT_LIVE_CHAT_SUCCESS */]):
+            return __assign({}, state, { list: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_chat_action__["b" /* GET_AGENT_CLOSE_CHAT_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
         default:
             return state;

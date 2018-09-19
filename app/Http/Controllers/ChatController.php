@@ -2008,6 +2008,11 @@ class ChatController extends Controller
         ));
     }
 
+    /**
+     * function to handel file upload from the chat
+     * @param Request $request
+     * @return mixed
+     */
     public function uploadFile(Request $request)
     {
         try {
@@ -2090,6 +2095,11 @@ class ChatController extends Controller
         }
     }
 
+    /**
+     * initiate chat from the dashboard
+     * @param Request $request
+     * @return mixed
+     */
     public function initiateChatWithAgent(Request $request)
     {
         try {
@@ -2214,7 +2224,12 @@ class ChatController extends Controller
         }
     }
 
-    /** Fuunction to get all closed / resolved for an agent */
+
+    /**
+     * Function to get all closed / resolved for an agent
+     * @param Request $request
+     * @return mixed
+     */
     public function getAllClosedChats(Request $request)
     {
         if ($request->agentId) {

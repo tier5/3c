@@ -54,13 +54,10 @@ class ChecktransferTimeout extends Command
                     $from = Carbon::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'));
                     if ($from->greaterThan($to)) {
                         $diffSeconds = $to->diffInSeconds($from);
-                        Log::info('to ,'.$to);
-                        Log::info('from ,'.$from);
                         $transferTimeOut = explode(':',$widget->transfer_timeout);
                         $timeoutInSecond = $transferTimeOut[0]*60*60 + $transferTimeOut[1]*60;
                         $timeoutDif = $diffSeconds - $timeoutInSecond;
-                        Log::info($timeoutDif);
-                        if (($timeoutDif > 0) && ($timeoutDif < 60)) {
+                        if (($timeoutDif > 0) && ($timeoutDif < 90)) {
                             Log::info('Command '.$transfer->id);
                             TransferAgentTimeout::dispatch($transfer->id);
                         }
