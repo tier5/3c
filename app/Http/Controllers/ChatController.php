@@ -54,7 +54,6 @@ class ChatController extends Controller
     public function checkMessage(Request $request)
     {
         Log::info('1 ===> message received');
-
         //Variable Declaration ( data recive from twilio sms webhook )
         $fromNumber = $request->From;                           //client Number
         $toNumber = substr($request->To, -10);            //widget Number
@@ -65,6 +64,7 @@ class ChatController extends Controller
         $converter = new MimeTypeConverter();
 
         if (isset($request->NumMedia) && $request->NumMedia > 0) {
+            Log::info('message has a media file');
             $file = true;
             $mediaUrl = $request->input("MediaUrl0");
             $MIMEType = $request->input("MediaContentType0");
@@ -75,6 +75,7 @@ class ChatController extends Controller
             $fileType = $this->getType($fileExtension);
             $model = new File();
             if (file_put_contents(storage_path('app/public/uploads/').$filename,$media)) {
+                Log::info('media file saved');
                 $model::create([
                     'name' => $filename,
                     'type' => $fileType,
@@ -523,7 +524,7 @@ class ChatController extends Controller
                 $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone';
                 foreach ($checkWidget->widgetSchedule as $key => $shedule) {
                     $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '';
-                    if ($shedule->day == $current_day && $current_time >= explode(':', $shedule->start_time)[0] && $current_time < explode(':', $shedule->end_time)[0]) {
+                    if ($shedule->day == $current_day && explode(':', $current_time)[0] >= explode(':', $shedule->start_time)[0] && explode(':', $current_time)[0] <= explode(':', $shedule->end_time)[0]) {
                         $available = true;
                     }
                 }
@@ -653,12 +654,11 @@ class ChatController extends Controller
                 $availableDayTime = 'We are unable to chat with you now. Please contact us in following time as per ' . $timezone_data->timezone_format . ' timezone ';
                 foreach ($getWidgetData->widgetSchedule as $key => $shedule) {
                     $availableDayTime .= $shedule->day . ' : ' . $shedule->start_time . ' to ' . $shedule->end_time . '';
-                    if ($shedule->day == $current_day && $current_time >= explode(':', $shedule->start_time)[0] && $current_time < explode(':', $shedule->end_time)[0]) {
+                    if ($shedule->day == $current_day && explode(':', $current_time)[0] >= explode(':', $shedule->start_time)[0] && explode(':', $current_time)[0] <= explode(':', $shedule->end_time)[0]) {
                         $available = true;
                     }
                 }
                 $availableDayTime .=' Thank you.';
-                Log::info('3 ==> if');
                 $toNumber = $getWidgetData->twilioNumbers->prefix . $getWidgetData->twilioNumbers->number;
                 $file = false;
                 $fileUrl = '';
