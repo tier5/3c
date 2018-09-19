@@ -533,7 +533,7 @@ class ChatController extends Controller
                 $fileType = '';
                 $fileUrl = '';
                 $toNumber = $checkWidget->twilioNumbers->prefix . $checkWidget->twilioNumbers->number;
-                if ($available) {
+                if (!$available) {
                     $this->sendSms($availableDayTime, $fromNumber, $toNumber, $file, $fileType, $fileUrl);
                 } else {
                     $checkDepartment = WidgetDepartmentMapping::where('department_orders', 0)->where('widget_id', $checkWidget->id)->first();
@@ -663,7 +663,7 @@ class ChatController extends Controller
                 $file = false;
                 $fileUrl = '';
                 $fileType = '';
-                if ($available) {
+                if (!$available) {
                     $smsBody = $availableDayTime;
                 } else {
                     $smsBody = "Please Choose a Department from the list ...";
