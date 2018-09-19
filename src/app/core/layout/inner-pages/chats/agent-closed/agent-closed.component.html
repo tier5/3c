@@ -40,8 +40,7 @@
                     <ul *ngIf="agentList[agentIndex].chat !== undefined">
                       <ng-container
                         *ngFor="let client of agentList[agentIndex]?.chat; let j = index;">
-                        <li [ngClass]="{ active : clientIndex == j}" (click)="changeClient(j)"
-                            *ngIf="client.status === '5'">
+                        <li [ngClass]="{ active : clientIndex == j}" (click)="changeClient(j)">
                           <div class="col-md-2">
                             <div class="chat-head row">
                               <img src="../../../../assets/img/avatar5.png"
@@ -72,7 +71,7 @@
                                  [ngClass]="{ right: chat.direction == 2 }"
                                  *ngFor="let chat of agentList[agentIndex].chat[clientIndex].chats">
 
-                              <div class="direct-chat-info clearfix" *ngIf="agentList[agentIndex].chat.status === '5'">
+                              <div class="direct-chat-info clearfix">
                                                             <span class="direct-chat-name"
                                                                   [ngClass]="chat.direction == 2 ? 'pull-right' : 'pull-left'">{{chat.user}}</span>
                                 <span class="direct-chat-timestamp"
