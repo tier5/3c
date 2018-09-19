@@ -282,7 +282,7 @@ class ChatController extends Controller
                                 curl_setopt($ch, CURLOPT_URL, $url);
                                 curl_setopt($ch, CURLOPT_POST, 1);
                                 curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                    "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileUrl=$fileUrl&fileType=$fileType");
+                                    "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
 
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                 $server_output = curl_exec($ch);
@@ -385,7 +385,7 @@ class ChatController extends Controller
                             curl_setopt($ch, CURLOPT_URL, $url);
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileUrl=$fileUrl&fileType=$fileType");
+                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
 
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             $server_output = curl_exec($ch);
@@ -471,7 +471,7 @@ class ChatController extends Controller
                             curl_setopt($ch, CURLOPT_URL, $url);
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileUrl=$fileUrl&fileType=$fileType");
+                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
 
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             $server_output = curl_exec($ch);
@@ -573,7 +573,7 @@ class ChatController extends Controller
                                         curl_setopt($ch, CURLOPT_URL, $url);
                                         curl_setopt($ch, CURLOPT_POST, 1);
                                         curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileUrl=$fileUrl&fileType=$fileType");
+                                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$responseChatProcess&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
 
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         $server_output = curl_exec($ch);
@@ -1075,7 +1075,7 @@ class ChatController extends Controller
                         curl_setopt($ch, CURLOPT_URL, $url);
                         curl_setopt($ch, CURLOPT_POST, 1);
                         curl_setopt($ch, CURLOPT_POSTFIELDS,
-                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf&file=$file&fileUrl=$fileUrl&fileType=$fileType");
+                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
 
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         $server_output = curl_exec($ch);
