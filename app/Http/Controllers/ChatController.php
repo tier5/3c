@@ -264,10 +264,7 @@ class ChatController extends Controller
                                 if (count($fetchMessageBodyFromMessageCacheData) != 0) {
 
                                     foreach ($fetchMessageBodyFromMessageCacheData as $data) {
-                                        $file = false;
-                                        $fileType = '';
-                                        $fileUrl = '';
-                                        $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId, $file, $fileType, $fileUrl);
+                                        $this->saveChatThread($responsesaveMessageLog, $widgetUuid, $data->message_body, $type, $direction, $userId, $data->is_mms, $data->file_type, $data->file_url);
                                         $updateMessageCacheData = MessageCacheData::find($data->id);
                                         $updateMessageCacheData->copy = 2;
                                         $updateMessageCacheData->update();
