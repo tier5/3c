@@ -155,9 +155,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         formData.append('widget_uuid', widgetSelect);
         formData.append('userId', <any>this.agentId);
         formData.append('body', message);
-        formData.append('file', <any>this.isMMS);
-        formData.append('fileUrl', <any>this.fileType);
-        formData.append('fileType', <any>this.fileUrl);
+        if (this.isMMS) {
+          formData.append('file', '1');
+        } else {
+          formData.append('file', '0');
+        }
+        formData.append('fileUrl', <any>this.fileUrl);
+        formData.append('fileType', <any>this.fileType);
         const apiUrl = environment.API_BASE_URL + 'ini-chat';
         const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
         const config = {
