@@ -24,7 +24,7 @@ const initialState: WidgetState = {
   newSuccessBuyNumberCall: false,
   numberError: false,
   numberMessage: '',
-  buttonLoader:''
+  buttonLoader: ''
 };
 
 export function widgetReducer (state = initialState, action: WidgetActions.WidgetActions) {
