@@ -12,6 +12,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { MomentModule } from 'angular2-moment';
 import { TableSearchPipe } from './tableSearch.pipe';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
       Ng2SearchPipeModule,
       NgxPaginationModule,
       MomentModule,
-      AngularMultiSelectModule
+      AngularMultiSelectModule,
+      ModalModule.forRoot()
 
   ],
     providers: [

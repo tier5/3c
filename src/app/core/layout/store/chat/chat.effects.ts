@@ -13,6 +13,7 @@ import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
 import { ChatService } from '../../inner-pages/chat/chat.service';
 import { GET_CONTACT_LIST_ATTEMPT } from './chat.actions';
+import {GET_AGENT_CLOSED_CHATS_ATTEMPT} from "../chat/chat.actions";
 
 @Injectable()
 export class ChatEffects {
@@ -233,6 +234,45 @@ export class ChatEffects {
             }
           );
         });
-
     });
+
+    @Effect()
+    getAllAgentClosedChats = this.actions$
+        .ofType(ChatActions.GET_AGENT_CLOSED_CHATS_ATTEMPT)
+        .switchMap((action: ChatActions.IniChatAttempt) => {
+            const apiUrl = environment.API_BASE_URL + 'get-all-closed-chats';
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+            const config = {
+                headers: headers
+            };
+
+            return this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap((res: any) => {
+                    if (res.status) {
+                        return [
+                            {
+                                type: ChatActions.GET_AGENT_CLOSED_CHATS_SUCCESS,
+                                payload: res.response
+                            }
+                        ];
+                    } else {
+                        return [
+                            {
+                                type: ChatActions.INI_CHAT_ERROR,
+                                payload: res.message
+                            }
+                        ];
+                    }
+
+                })
+                .catch((err: HttpErrorResponse) => {
+                    return of(
+                        {
+                            type: AlertActions.ALERT_SHOW,
+                            payload: {message: err.error, type: 'danger'}
+                        }
+                    );
+                });
+        });
+
 }

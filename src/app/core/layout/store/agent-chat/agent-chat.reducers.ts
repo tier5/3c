@@ -15,6 +15,11 @@ export function agentChatReducer(state = initialState, action: AgentChatActions.
         ...state,
         list: action.payload
       };
+      case (AgentChatActions.GET_AGENT_CLOSE_CHAT_SUCCESS):
+        return {
+            ...state,
+            list: action.payload
+        }
     default:
       return state;
   }

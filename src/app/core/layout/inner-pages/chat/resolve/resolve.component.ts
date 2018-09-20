@@ -32,9 +32,11 @@ import * as fromChat from '../../../store/chat/chat.reducers';
 
     ngOnInit() {
         this.chatService.connect();
-        this.chatState = this.store.select('afterLogin').map(data => data.chat);
+
+        // this.chatState = this.store.select('afterLogin','chat','closedChats').map(data=>data);
+        // console.log(this.chatState);
         this.getChatRoom();
-        this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
+        // this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
         this.store.select('auth')
             .take(1)
             .map(data => data.userId)
@@ -44,12 +46,14 @@ import * as fromChat from '../../../store/chat/chat.reducers';
                     this.agentId = id;
                 }
             );
+        this.store.dispatch(new ChatActions.GetAgentClosedChatsAttempt({ agentId: this.agentId }));
+        this.chatState = this.store.select('afterLogin').map(data => data.chat);
     }
 
     changeCurrentChat(i: number) {
         this.currentChatIndex = i;
-        this.getChatRoom();
-        this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
+      //  this.getChatRoom();
+       /// this.store.dispatch(new ChatActions.GetTransferAgentListAttempt({ chatRoomId : this.currentChatRoom}));
 
     }
 
@@ -103,7 +107,7 @@ import * as fromChat from '../../../store/chat/chat.reducers';
 
     /** Show chats id status is 5 */
     showChats() {
-        return this.store.select('afterLogin')
+         return this.store.select('afterLogin')
             .map(data => data.chat)
             .map(chats => chats.ongoing.filter(chat => chat.status == 5 ));
     }
