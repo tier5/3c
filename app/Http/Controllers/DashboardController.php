@@ -139,7 +139,7 @@ class DashboardController extends Controller
                     foreach ($dashboardItems as $key => $value) {
                         $dashboardItemCount[$key]['pendingChatCount']   = $value->pendingChatCount->count();
                         $dashboardItemCount[$key]['ongoingChatCount']   = $value->ongoingChatCount->count();
-                        $dashboardItemCount[$key]['closedChatCount']    = $value->closedChatCount->count();
+                        $dashboardItemCount[$key]['closedChatCount']    = $value->agentClosedChatCount->count() + $value->closedChatCount->count();
                         $dashboardItemCount[$key]['rejectedChatCount']  = $value->rejectedChatCount->count();
                     }
 
@@ -155,7 +155,7 @@ class DashboardController extends Controller
                             $departments = array_unique($agentDepartments->toArray(), SORT_REGULAR);
                             $departmentWidgets = WidgetDepartmentMapping::whereIn('department_id',$departments)->orderBy('department_orders')->pluck('widget_id');
                             if (count($departmentWidgets) > 0) {
-                                $widgets = Widgets::whereIn('id',$departmentWidgets)->with('twilioNumbers')->get();
+                                $widgets = Widgets::whereIn('id',$departmentWidgets)->whereNull('deleted_at')->with('twilioNumbers')->get();
                             }
                         }
                         return Response::json(array(

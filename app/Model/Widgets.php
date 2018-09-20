@@ -43,7 +43,7 @@ class Widgets extends Model
      */
     public function widgetSchedule(){
 
-      return $this->hasOne('App\Model\WidgetScheduleMapping','widget_id','id');
+      return $this->hasMany('App\Model\WidgetScheduleMapping','widget_id','id');
 
     }
 

@@ -1050,7 +1050,7 @@ var ChatService = (function () {
                 // Which agent accepted
                 _this.socket.on('which-agent-accepted', function (data) {
                     // console.log('which-agent-accepted: ', data);
-                    if (data.agentId == _this.loggedInAgentId) {
+                    if (data.agentId === _this.loggedInAgentId) {
                         _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["k" /* EditFromChatList */]({
                             status: data.status,
                             room_number: data.chatRoomId
@@ -1099,6 +1099,16 @@ var ChatService = (function () {
                         _this._notificationService.generateNotification(dataMessage);
                     }
                     _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["c" /* AddNewMsgToChatList */](data));
+                });
+                _this.socket.on('agentNotification', function (data) {
+                    console.log('data', data);
+                    _this.notification = _this._isNotification.getIsNotification();
+                    var dataMessage = [];
+                    dataMessage.push({
+                        'title': 'Chat transfer notification',
+                        'alertContent': data
+                    });
+                    _this._notificationService.generateNotification(dataMessage);
                 });
             }
         });
@@ -2098,12 +2108,18 @@ var reducers = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GET_AGENT_LIVE_CHAT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_AGENT_LIVE_CHAT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GetAgentLiveChatAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GET_AGENT_LIVE_CHAT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return GET_AGENT_LIVE_CHAT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GET_AGENT_CLOSE_CHAT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_AGENT_CLOSE_CHAT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GetAgentLiveChatAttempt; });
 /* unused harmony export GetAgentLiveChatSuccess */
+/* unused harmony export GetAgentCloseChatSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return GetAgentCloseChatAttempt; });
 var GET_AGENT_LIVE_CHAT_ATTEMPT = 'GET_AGENT_LIVE_CHAT_ATTEMPT';
 var GET_AGENT_LIVE_CHAT_SUCCESS = 'GET_AGENT_LIVE_CHAT_SUCCESS';
+var GET_AGENT_CLOSE_CHAT_ATTEMPT = 'GET_AGENT_CLOSE_CHAT_ATTEMPT';
+var GET_AGENT_CLOSE_CHAT_SUCCESS = 'GET_AGENT_LIVE_CHAT_SUCCESS';
 var GetAgentLiveChatAttempt = (function () {
     function GetAgentLiveChatAttempt() {
         this.type = GET_AGENT_LIVE_CHAT_ATTEMPT;
@@ -2117,6 +2133,21 @@ var GetAgentLiveChatSuccess = (function () {
         this.type = GET_AGENT_LIVE_CHAT_SUCCESS;
     }
     return GetAgentLiveChatSuccess;
+}());
+
+var GetAgentCloseChatSuccess = (function () {
+    function GetAgentCloseChatSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_CLOSE_CHAT_SUCCESS;
+    }
+    return GetAgentCloseChatSuccess;
+}());
+
+var GetAgentCloseChatAttempt = (function () {
+    function GetAgentCloseChatAttempt() {
+        this.type = GET_AGENT_CLOSE_CHAT_ATTEMPT;
+    }
+    return GetAgentCloseChatAttempt;
 }());
 
 //# sourceMappingURL=agent-chat.action.js.map
@@ -2167,7 +2198,7 @@ var AgentChatEffects = (function () {
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.getAgentListWithChat = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["a" /* GET_AGENT_LIVE_CHAT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["c" /* GET_AGENT_LIVE_CHAT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-all-chats';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -2178,7 +2209,39 @@ var AgentChatEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["b" /* GET_AGENT_LIVE_CHAT_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["d" /* GET_AGENT_LIVE_CHAT_SUCCESS */],
+                        payload: res.response
+                    };
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getAgentCloseListWithChat = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["a" /* GET_AGENT_CLOSE_CHAT_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'all-agent-closed-chats';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, config)
+                .map(function (res) {
+                if (res.status) {
+                    return {
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["b" /* GET_AGENT_CLOSE_CHAT_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2205,6 +2268,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], AgentChatEffects.prototype, "getAgentListWithChat", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], AgentChatEffects.prototype, "getAgentCloseListWithChat", void 0);
 AgentChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -2236,7 +2303,9 @@ var initialState = {
 function agentChatReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_chat_action__["b" /* GET_AGENT_LIVE_CHAT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_chat_action__["d" /* GET_AGENT_LIVE_CHAT_SUCCESS */]):
+            return __assign({}, state, { list: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_chat_action__["b" /* GET_AGENT_CLOSE_CHAT_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
         default:
             return state;
@@ -2962,34 +3031,38 @@ function agentReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_TO_CHAT_LIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_FROM_CHAT_LIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DELETE_FROM_CHAT_LIST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_CHAT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_CHAT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_CONTACT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_CONTACT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_TRANSFER_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_TRANSFER_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return INI_CHAT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return INI_CHAT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return INI_CHAT_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_CHAT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_CHAT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_CONTACT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_CONTACT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GET_TRANSFER_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GET_TRANSFER_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return INI_CHAT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return INI_CHAT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return INI_CHAT_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_AGENT_CLOSED_CHATS_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_AGENT_CLOSED_CHATS_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return ConnectAttempt; });
 /* unused harmony export ConnectSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddNewMsgToChatList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return AddToChatList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EditFromChatList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return DeleteFromChatList; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetAgentListAttempt; });
 /* unused harmony export GetAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GetChatListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return GetChatListAttempt; });
 /* unused harmony export GetChatListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GetContactListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return GetContactListAttempt; });
 /* unused harmony export GetContactListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetTransferAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return GetTransferAgentListAttempt; });
 /* unused harmony export GetTransferAgentListSuccess */
 /* unused harmony export IniChatAttempt */
 /* unused harmony export IniChatSuccess */
 /* unused harmony export IniChatError */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GetAgentClosedChatsAttempt; });
+/* unused harmony export GetAgentClosedChatsSuccess */
 var CONNECT_ATTEMPT = 'CONNECT_ATTEMPT';
 var CONNECT_SUCCESS = 'CONNECT_SUCCESS';
 var ADD_NEW_MSG_TO_CHAT_LIST = 'ADD_NEW_MSG_TO_CHAT_LIST';
@@ -3007,6 +3080,8 @@ var GET_TRANSFER_AGENT_LIST_SUCCESS = 'GET_TRANSFER_AGENT_LIST_SUCCESS';
 var INI_CHAT_ATTEMPT = 'INI_CHAT_ATTEMPT';
 var INI_CHAT_SUCCESS = 'INI_CHAT_SUCCESS';
 var INI_CHAT_ERROR = 'INI_CHAT_ERROR';
+var GET_AGENT_CLOSED_CHATS_ATTEMPT = 'GET_AGENT_CLOSED_CHATS_ATTEMPT';
+var GET_AGENT_CLOSED_CHATS_SUCCESS = 'GET_AGENT_CLOSED_CHATS_SUCCESS';
 var ConnectAttempt = (function () {
     function ConnectAttempt() {
         this.type = CONNECT_ATTEMPT;
@@ -3140,6 +3215,22 @@ var IniChatError = (function () {
     return IniChatError;
 }());
 
+var GetAgentClosedChatsAttempt = (function () {
+    function GetAgentClosedChatsAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_CLOSED_CHATS_ATTEMPT;
+    }
+    return GetAgentClosedChatsAttempt;
+}());
+
+var GetAgentClosedChatsSuccess = (function () {
+    function GetAgentClosedChatsSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_CLOSED_CHATS_SUCCESS;
+    }
+    return GetAgentClosedChatsSuccess;
+}());
+
 //# sourceMappingURL=chat.actions.js.map
 
 /***/ }),
@@ -3198,7 +3289,7 @@ var ChatEffects = (function () {
             //this.chatService.connect();
         });
         this.getAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["l" /* GET_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["n" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3210,7 +3301,7 @@ var ChatEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["m" /* GET_AGENT_LIST_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["o" /* GET_AGENT_LIST_SUCCESS */],
                             payload: res.response
                         }
                     ];
@@ -3218,7 +3309,7 @@ var ChatEffects = (function () {
                 else {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["m" /* GET_AGENT_LIST_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["o" /* GET_AGENT_LIST_SUCCESS */],
                             payload: []
                         }
                     ];
@@ -3232,7 +3323,7 @@ var ChatEffects = (function () {
             });
         });
         this.getChatList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["n" /* GET_CHAT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["p" /* GET_CHAT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'client-chat';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3243,7 +3334,7 @@ var ChatEffects = (function () {
                 .map(function (res) {
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["o" /* GET_CHAT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["q" /* GET_CHAT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -3262,7 +3353,7 @@ var ChatEffects = (function () {
             });
         });
         this.getContactList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["p" /* GET_CONTACT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["r" /* GET_CONTACT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'contact-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3274,7 +3365,7 @@ var ChatEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["q" /* GET_CONTACT_LIST_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_CONTACT_LIST_SUCCESS */],
                             payload: res.response
                         }
                     ];
@@ -3286,7 +3377,7 @@ var ChatEffects = (function () {
                             payload: { message: res.message, type: 'danger' },
                         },
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["q" /* GET_CONTACT_LIST_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_CONTACT_LIST_SUCCESS */],
                             payload: []
                         }
                     ];
@@ -3300,7 +3391,7 @@ var ChatEffects = (function () {
             });
         });
         this.getTransferAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["r" /* GET_TRANSFER_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["t" /* GET_TRANSFER_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-department-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3313,7 +3404,7 @@ var ChatEffects = (function () {
                     // console.log(res.response);
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["u" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
                             payload: res.response
                         }
                     ];
@@ -3321,7 +3412,7 @@ var ChatEffects = (function () {
                 else {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["u" /* GET_TRANSFER_AGENT_LIST_SUCCESS */],
                             payload: []
                         }
                     ];
@@ -3335,7 +3426,7 @@ var ChatEffects = (function () {
             });
         });
         this.getChatInitEffect = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["x" /* INI_CHAT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["A" /* INI_CHAT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'ini-chat';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -3347,7 +3438,7 @@ var ChatEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["z" /* INI_CHAT_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["C" /* INI_CHAT_SUCCESS */],
                             payload: res.response
                         }
                     ];
@@ -3355,7 +3446,41 @@ var ChatEffects = (function () {
                 else {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["y" /* INI_CHAT_ERROR */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["B" /* INI_CHAT_ERROR */],
+                            payload: res.message
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
+        this.getAllAgentClosedChats = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["l" /* GET_AGENT_CLOSED_CHATS_ATTEMPT */])
+            .switchMap(function (action) {
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-all-closed-chats';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                if (res.status) {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["m" /* GET_AGENT_CLOSED_CHATS_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["B" /* INI_CHAT_ERROR */],
                             payload: res.message
                         }
                     ];
@@ -3395,6 +3520,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], ChatEffects.prototype, "getChatInitEffect", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], ChatEffects.prototype, "getAllAgentClosedChats", void 0);
 ChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
@@ -3429,12 +3558,13 @@ var initialState = {
     contactList: [],
     messageSend: false,
     messageError: false,
+    closedChats: [],
 };
 function chatReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["f" /* CONNECT_SUCCESS */]:
-            return __assign({}, state, { ongoing: [], resolve: [], connected: true });
+            return __assign({}, state, { ongoing: [], resolve: [], closedChats: [], connected: true });
         case __WEBPACK_IMPORTED_MODULE_0__chat_actions__["b" /* ADD_TO_CHAT_LIST */]:
             // console.log('chat', action.payload);
             var obj = {
@@ -3469,18 +3599,20 @@ function chatReducer(state, action) {
             var oldChats = state.ongoing.slice();
             oldChats.splice(indexToDelete, 1);
             return __assign({}, state, { ongoing: oldChats.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["m" /* GET_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["o" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { agentList: action.payload, chatList: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["o" /* GET_CHAT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["q" /* GET_CHAT_LIST_SUCCESS */]):
             return __assign({}, state, { chatList: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["q" /* GET_CONTACT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["s" /* GET_CONTACT_LIST_SUCCESS */]):
             return __assign({}, state, { contactList: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["s" /* GET_TRANSFER_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["u" /* GET_TRANSFER_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { agentList: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["z" /* INI_CHAT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["C" /* INI_CHAT_SUCCESS */]):
             return __assign({}, state, { messageSend: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["y" /* INI_CHAT_ERROR */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["B" /* INI_CHAT_ERROR */]):
             return __assign({}, state, { messageError: true });
+        case (__WEBPACK_IMPORTED_MODULE_0__chat_actions__["m" /* GET_AGENT_CLOSED_CHATS_SUCCESS */]):
+            return __assign({}, state, { closedChats: action.payload });
         default:
             return state;
     }
@@ -4118,13 +4250,14 @@ var initialState = {
     toEdit: {},
     resetDepartmentForm: false,
     newDepartmentId: 0,
-    preDelete: []
+    preDelete: [],
+    newDepartmentName: ''
 };
 function departmentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["b" /* ADD_DEPARTMENT_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, resetDepartmentForm: true });
+            return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, newDepartmentName: action.payload.department_name, resetDepartmentForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */]):
             var index = state.list.indexOf(function (dep) { return dep.id === action.payload.id; });
             var someDep = state.list[index];

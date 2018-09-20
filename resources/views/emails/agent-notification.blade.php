@@ -467,7 +467,7 @@
                                             <div style="color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;line-height:120%; padding-right: 10px; padding-left: 30px; padding-top: 10px; padding-bottom: 5px;">
                                                 <div style="font-size:12px;line-height:14px;color:#555555;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;text-align:left;">
                                                     <p style="margin: 0;font-size: 14px;line-height: 17px"><strong><span
-                                                                    style="font-size: 24px; line-height: 28px;">Hello {{ $fname }},</span></strong>
+                                                                    style="font-size: 24px; line-height: 28px;">Hello, </span></strong>
                                                     </p>
                                                     <p style="margin: 0;font-size: 14px;line-height: 17px"><span
                                                                 style="font-size: 14px; line-height: 16px;"><span

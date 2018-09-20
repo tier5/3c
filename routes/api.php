@@ -140,3 +140,7 @@ Route::post('agent-all-chats','ChatListController@getAllAgentChats');
 Route::post('file-upload','ChatController@uploadFile');
 // Initiate a chat with agent
 Route::post('ini-chat','ChatController@initiateChatWithAgent');
+// get only closed chats
+Route::post('get-all-closed-chats','ChatController@getAllClosedChats');
+// get only closed chats for the admin/superadmin
+Route::post('all-agent-closed-chats','ChatListController@getAgentsClosedChats');

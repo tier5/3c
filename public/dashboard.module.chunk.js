@@ -205,9 +205,14 @@ var DashboardComponent = (function () {
                 formData.append('widget_uuid', widgetSelect);
                 formData.append('userId', this.agentId);
                 formData.append('body', message);
-                formData.append('file', this.isMMS);
-                formData.append('fileUrl', this.fileType);
-                formData.append('fileType', this.fileUrl);
+                if (this.isMMS) {
+                    formData.append('file', '1');
+                }
+                else {
+                    formData.append('file', '0');
+                }
+                formData.append('fileUrl', this.fileUrl);
+                formData.append('fileType', this.fileType);
                 var apiUrl = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_BASE_URL + 'ini-chat';
                 var headers = new __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
                 var config = {
