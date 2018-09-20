@@ -2187,6 +2187,7 @@ class ChatController extends Controller
                                                         $responseMessageCacheId = $this->saveMessageCache($toNumber, $widgetUIID);  // save to message cache
                                                         $updateStatus = MessageCache::where('id',$responseMessageCacheId)->update(['status'=>2]);
                                                         $this->saveMessageCacheData($body, $responseMessageCacheId, $file, $fileType, $fileUrl);        // save to message cache data
+                                                        $updateMEssageCacheData = MessageCacheData::where('message_cache_id',$responseMessageCacheId)->update(['copy'=>2]);
                                                     }
 
                                                 } else {
