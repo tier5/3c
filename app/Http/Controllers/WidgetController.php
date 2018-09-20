@@ -189,7 +189,7 @@ class WidgetController extends Controller
             $reqDepartments = new Request;
             $reqDepartments->widgetId = $widgets->id;
             $reqDepartments->userId = $userId;
-            $reqDepartments->departmentIdArray = $widgetDepartment;
+            $reqDepartments->departmentIdArray = array_unique($widgetDepartment);
 
 
             $this->updateWidgetDepartment($reqDepartments);
@@ -529,13 +529,6 @@ class WidgetController extends Controller
                         $buyPhoneNumber = $twilioController->buyPhoneNumber($widgetId,$userId,$phoneNumber);
                     }
                 }
-                // Save Widget Schdule Time
-//                $reqSchedule = new Request;
-//                $reqSchedule->widgetId = $widgetId;
-//                $reqSchedule->daysArray = $widgetScheduleDay;
-//                $reqSchedule->startTime = $widgetStartTime;
-//                $reqSchedule->endTime = $widgetEndTime;
-//                $this->updateWidgetSchedule($reqSchedule);
 
                 if($request->sunCbk == 'true'){
                     $req = new Request;
@@ -620,7 +613,7 @@ class WidgetController extends Controller
                 $reqDepartments = new Request;
                 $reqDepartments->widgetId = $widgetId;
                 $reqDepartments->userId = $userId;
-                $reqDepartments->departmentIdArray = $widgetDepartment;
+                $reqDepartments->departmentIdArray = array_unique($widgetDepartment);
                 $this->updateWidgetDepartment($reqDepartments);
                 // Get Widget Details
                 $viewWidget = Widgets::where('id', $widgetId)->with('twilioNumbers', 'widgetSchedule', 'widgetDepartment.departmentDetails')->first();
