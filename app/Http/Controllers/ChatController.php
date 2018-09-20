@@ -2115,7 +2115,7 @@ class ChatController extends Controller
             $email = '';
 
             $getWidgetData = Widgets::where('widget_uuid', $widgetUIID)->with('twilioNumbers')->first();
-            if (count($getWidgetData->widgetDepartment) > 1) {
+            if (count($getWidgetData->widgetDepartment) > 0) {
                 $fromNumber = $getWidgetData->twilioNumbers->prefix . $getWidgetData->twilioNumbers->number;
             } else {
                 return Response::json(array(
