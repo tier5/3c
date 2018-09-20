@@ -9,7 +9,7 @@ import { ResolveComponent } from './resolve/resolve.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import { SweetAlertService } from 'ngx-sweetalert2';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { SweetAlertService } from 'ngx-sweetalert2';
     FormsModule,
     SharedModule,
     MomentModule,
-
+    ModalModule.forRoot()
   ],
   declarations: [
     PendingComponent,

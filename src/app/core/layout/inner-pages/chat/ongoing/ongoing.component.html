@@ -52,8 +52,9 @@
                                             <div class="chat-btn">
                                                 <div *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 2">
                                                     <button (click)="onSomeMsgAction(5)" class="btn btn-success">Close Chat</button>
-                                                    <!-- Droupdown -->
-                                                    <div class="dropdown target-drop" [ngClass]="openStatus ? 'open' : ''">
+                                                    <button class="btn btn-warning" (click)="chatTransferModal(template)">Transfer</button>
+                                                  <!-- Droupdown -->
+                                                   <!-- <div class="dropdown target-drop" [ngClass]="openStatus ? 'open' : ''">
                                                         <button class="btn btn-default" (click)="openDropdown()" type="button" data-toggle="dropdown">Transfer<span class="caret"></span></button>
                                                         <ul class="dropdown-menu">
                                                             <li class="dropdown-submenu" *ngFor="let department of (chatState | async).agentList; let i = index;">
@@ -72,7 +73,7 @@
                                                                 </div>
                                                             </li>
                                                         </ul>
-                                                    </div>
+                                                    </div>-->
                                                     <!-- Droupdown -->
                                                 </div>
                                                 <!-- Conversations are loaded here -->
@@ -184,6 +185,62 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Transfer Chat</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" #form="ngForm" (ngSubmit)="transferChat(form)">
+              <div class="form-group">
+                <label class="col-md-4 control-label">
+                  Transfer To
+                </label>
+                <div class="col-md-8">
+                  <select class="form-control" [ngModel]="transferTo" name="transferTo" (change)="transferChange($event)" required>
+                    <option value="department">Department</option>
+                    <option value="agent">Agent</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">
+                  Select Department
+                </label>
+                <div class="col-md-8">
+                  <select class="form-control" [ngModel]="transferToDepartment" name="transferToDepartment" (change)="transferChangeDepartment($event)" required>
+                    <option value="">Select a department</option>
+                    <ng-container *ngFor="let department of (chatState | async).agentList">
+                      <option [value]="department.department_id">{{ department.department_name }}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="transferTo === 'agent'">
+                <label class="col-md-4 control-label">
+                  Select Agent
+                </label>
+                <div class="col-md-8">
+                  <select class="form-control" [ngModel]="transferToAgent" name="transferToAgent" required>
+                    <option value="">Select agent</option>
+                    <ng-container *ngIf="transferToDepartment">
+                      <ng-container *ngFor="let agentList of transferAgentList">
+                        <option [value]="agentList.id" *ngIf="agentId !== agentList.id">{{ agentList.first_name + ' ' +agentList.last_name }}</option>
+                      </ng-container>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-2 pull-right">
+                  <button class="btn btn-info" type="submit" [disabled]="form.invalid">Transfer</button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </ng-template>
     </section>
 </div>
 
