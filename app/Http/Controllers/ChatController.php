@@ -2133,7 +2133,7 @@ class ChatController extends Controller
                 $saveMessageTrack->department_id = $departmentAgentMap->department_id;
                 $saveMessageTrack->from_phone_number = $toNumber;
                 $saveMessageTrack->message_type = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
-                $saveMessageTrack->status = 2;
+                $saveMessageTrack->status = 1;
                 if ($saveMessageTrack->save()) {
 
                     $responsesaveContactList = $this->saveContactList($widgetUIID, $toNumber, $name, $email);
