@@ -106,7 +106,7 @@ export class ChatService implements OnInit, OnDestroy {
                           this.notification = this._isNotification.getIsNotification();
                           console.log('notification', this.notification);
                           console.log('data.direction', data.direction);
-                          if (data.direction === 1 && this.notification) {
+                          if (data.direction == 1 && this.notification) {
                               console.log('within if condition == 1 .. ', data.direction);
                             const dataMessage: Array<any> = [];
                             dataMessage.push({
@@ -116,7 +116,7 @@ export class ChatService implements OnInit, OnDestroy {
                             });
                             this._notificationService.generateNotification(dataMessage);
                           }
-                          if(data.direction === 4 && this.notification) {
+                          if(data.direction == 4 && this.notification) {
                               console.log('within if condition == 4 .. ', data.direction);
                               const dataMessage: Array<any> = [];
                               dataMessage.push({
