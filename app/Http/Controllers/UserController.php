@@ -238,7 +238,12 @@ class UserController extends Controller
 
                 $accutal_id = base64_encode($forget_check->id);
                 // $body = url('/') . '/reset-password/' . $accutal_id;
-                $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
+                if(url('/') == 'http://178.128.187.125') {
+                    $body = 'http://greys.telemojo.net/reset-password/' . $accutal_id;
+                }else{
+                    $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
+                }
+
                 try {
                     Mail::send([], [], function ($message) use ($body, $forget_check) {
                         $message->from('sms@telemojo.com', 'TM SMS');
