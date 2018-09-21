@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { ChatService } from '../chat.service';
 import { NgForm } from '@angular/forms';
@@ -15,7 +15,10 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import {environment} from '../../../../../../environments/environment';
 import {of} from 'rxjs/observable/of';
 import * as AlertActions from '../../../../store/alert/alert.actions';
-
+import {BsModalService} from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import * as DepartmentActions from '../../../store/department/department.actions';
+import * as AgentActions from '../../../store/agent/agent.actions';
 @Component({
   selector: 'app-ongoing',
   templateUrl: './ongoing.component.html',
@@ -37,12 +40,21 @@ export class OngoingComponent implements OnInit, OnDestroy {
   fileType: string = '';
   fileUrl: string = '';
   fileName: string = '';
+  bsModalRef: BsModalRef;
+  transferTo: string;
+  transferToDepartment: any;
+  transferToAgent: any;
+  transferAgentList: any;
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private chatService: ChatService,private activatedRoute: ActivatedRoute,
               private router: Router, private _swal2: SweetAlertService,
-              private httpClient: HttpClient) {  }
+              private httpClient: HttpClient, private modalService: BsModalService) {  }
 
   ngOnInit() {
+    this.transferTo = 'department';
+    this.transferToDepartment = '';
+    this.transferToAgent = '';
+    this.transferAgentList = [];
     this.chatService.connect();
     this.chatState = this.store.select('afterLogin').map(data => data.chat);
     this.getChatRoom();
@@ -79,8 +91,45 @@ export class OngoingComponent implements OnInit, OnDestroy {
     this.onSomeMsgAction(4);
   }
 
+  chatTransferModal(template:  TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(template);
+    this.transferTo = 'department';
+    this.transferToDepartment = '';
+    this.transferToAgent = '';
+    this.transferAgentList = [];
+  }
+
+  transferChat(form: NgForm) {
+    if (form.value.transferTo === 'agent') {
+        this.transferChatToAgent(form.value.transferToAgent);
+    } else {
+        this.transferChatToDepartment(form.value.transferToDepartment);
+    }
+    this.bsModalRef.hide();
+  }
+
+  transferChange(event) {
+    this.transferTo = event.target.value;
+  }
+
+  transferChangeDepartment(event) {
+    this.transferToDepartment = event.target.value;
+    this.store.dispatch(new DepartmentActions.GetToEditDepartmentAttempt({departmentId: this.transferToDepartment}));
+    this.store.select('department')
+      .distinctUntilChanged()
+      .subscribe(
+        (dep) => {
+          if (dep) {
+            if (dep.toEdit.department !== undefined) {
+              this.transferAgentList = dep.toEdit.agents;
+            }
+          }
+        }
+      );
+  }
+
   onSomeMsgAction(status: number) {
-              switch(status) {
+              switch (status) {
                   case 2:
                       this.chatService.takeAction({ agentId: this.agentId, status: status, chatRoomId: this.currentChatRoom });
                       break;
@@ -94,7 +143,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
                   case 5:
                       this._swal2.warning({
                           title: 'Are you sure?',
-                          text: "You won't be able to revert this!",
+                          text: 'You won\'t be able to revert this!',
                           type: 'warning',
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',
