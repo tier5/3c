@@ -105,6 +105,7 @@ export class ChatService implements OnInit, OnDestroy {
                         this.socket.on('newmsg', (data) => {
                           this.notification = this._isNotification.getIsNotification();
                           console.log('notification', this.notification);
+                          console.log('data.direction', data.direction);
                           if (data.direction === 1 && this.notification) {
                             const dataMessage: Array<any> = [];
                             dataMessage.push({
