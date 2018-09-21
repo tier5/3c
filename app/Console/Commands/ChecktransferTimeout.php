@@ -48,7 +48,8 @@ class ChecktransferTimeout extends Command
             $transfers = AgentTransferHistory::where('status',0)->get();
             if (count($transfers) > 0) {
                 foreach ($transfers as $transfer) {
-                    $messageAgentTrack = MessageAgentTrack::findOrFail($transfer->message_agent_track_id);
+                    // $messageAgentTrack = MessageAgentTrack::findOrFail($transfer->message_agent_track_id);
+                    $messageAgentTrack = MessageAgentTrack::where('chat_room_id',$transfer->chat_room_id)->firstOrFail();
                     $widget = Widgets::where('widget_uuid',$messageAgentTrack->widget_id)->firstOrFail();
                     $to = Carbon::createFromFormat('Y-m-d H:i:s',$transfer->transfer_time);
                     $from = Carbon::createFromFormat('Y-m-d H:i:s',date('Y-m-d H:i:s'));

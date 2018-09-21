@@ -1097,6 +1097,14 @@ var ChatService = (function () {
                             'alertContent': data.message
                         });
                         _this._notificationService.generateNotification(dataMessage);
+                    } /** Added for the chat transfer time notification */
+                    if (data.direction === 4 && _this.notification) {
+                        var dataMessage = [];
+                        dataMessage.push({
+                            'title': data.user,
+                            'alertContent': data.message
+                        });
+                        _this._notificationService.generateNotification(dataMessage);
                     }
                     _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_chat_chat_actions__["c" /* AddNewMsgToChatList */](data));
                 });
