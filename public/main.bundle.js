@@ -1090,6 +1090,7 @@ var ChatService = (function () {
                 _this.socket.on('newmsg', function (data) {
                     _this.notification = _this._isNotification.getIsNotification();
                     console.log('notification', _this.notification);
+                    console.log('data.direction', data.direction);
                     if (data.direction === 1 && _this.notification) {
                         var dataMessage = [];
                         dataMessage.push({
