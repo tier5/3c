@@ -1091,7 +1091,7 @@ var ChatService = (function () {
                     _this.notification = _this._isNotification.getIsNotification();
                     console.log('notification', _this.notification);
                     console.log('data.direction', data.direction);
-                    if (data.direction === 1 && _this.notification) {
+                    if (data.direction == 1 && _this.notification) {
                         console.log('within if condition == 1 .. ', data.direction);
                         var dataMessage = [];
                         dataMessage.push({
@@ -1100,7 +1100,7 @@ var ChatService = (function () {
                         });
                         _this._notificationService.generateNotification(dataMessage);
                     }
-                    if (data.direction === 4 && _this.notification) {
+                    if (data.direction == 4 && _this.notification) {
                         console.log('within if condition == 4 .. ', data.direction);
                         var dataMessage = [];
                         dataMessage.push({
