@@ -113,6 +113,15 @@ export class ChatService implements OnInit, OnDestroy {
 
                             });
                             this._notificationService.generateNotification(dataMessage);
+                          } /** Added for the chat transfer time notification */
+                          if(data.direction === 4 && this.notification) {
+                              const dataMessage: Array<any> = [];
+                              dataMessage.push({
+                                  'title': data.user,
+                                  'alertContent': data.message
+
+                              });
+                              this._notificationService.generateNotification(dataMessage);
                           }
                           this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
                         });
