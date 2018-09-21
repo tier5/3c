@@ -1097,7 +1097,7 @@ var ChatService = (function () {
                             'alertContent': data.message
                         });
                         _this._notificationService.generateNotification(dataMessage);
-                    } /** Added for the chat transfer time notification */
+                    }
                     if (data.direction === 4 && _this.notification) {
                         var dataMessage = [];
                         dataMessage.push({
