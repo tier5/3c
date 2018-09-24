@@ -980,6 +980,7 @@ var _a, _b, _c;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/take.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__ = __webpack_require__("../../../../../src/app/core/shared/push.notification.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__ = __webpack_require__("../../../../../src/app/core/shared/notification.alert.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -1008,11 +1009,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChatService = (function () {
-    function ChatService(store, _notificationService, _isNotification) {
+    function ChatService(store, _notificationService, _isNotification, spinnerService) {
         this.store = store;
         this._notificationService = _notificationService;
         this._isNotification = _isNotification;
+        this.spinnerService = spinnerService;
         this.notification = true;
         this._notificationService.requestPermission();
     }
@@ -1170,10 +1173,10 @@ var ChatService = (function () {
 }());
 ChatService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__["a" /* PushNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__["a" /* PushNotificationsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__["a" /* NotificationAlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__["a" /* NotificationAlertService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__["a" /* PushNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__shared_push_notification_service__["a" /* PushNotificationsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__["a" /* NotificationAlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__shared_notification_alert_service__["a" /* NotificationAlertService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_11__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__shared_spinner__["b" /* SpinnerService */]) === "function" && _d || Object])
 ], ChatService);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=chat.service.js.map
 
 /***/ }),
@@ -2099,7 +2102,6 @@ function adminReducer(state, action) {
 
 
 
-;
 var reducers = {
     profile: __WEBPACK_IMPORTED_MODULE_0__profile_profile_reducers__["a" /* profileReducer */],
     twilio: __WEBPACK_IMPORTED_MODULE_1__twilio_twilio_reducers__["a" /* twilioReducer */],
@@ -3297,7 +3299,7 @@ var ChatEffects = (function () {
             });
         })
             .do(function () {
-            //this.chatService.connect();
+            // this.chatService.connect();
         });
         this.getAgentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["n" /* GET_AGENT_LIST_ATTEMPT */])

@@ -1958,6 +1958,7 @@ class ChatController extends Controller
             $allRooms = [];
             $agents['agent_id'] = $AgentId;
             foreach ($rooms as $room) {
+
                 $agentRooms['name'] = $room->chat_room_id;
                 $agentRooms['status'] = $room->status;
                 $agentRooms['chat_time'] = $room->created_at;
@@ -1966,12 +1967,21 @@ class ChatController extends Controller
                 } else {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->phone;
                 }
-                if (isset($room->getTransferLog)) {
+                $getTransferChats = AgentTransferHistory::where('chat_room_id', $room->chat_room_id)->orderBy('created_at','DESC')->get();
+                if (count($getTransferChats) > 0) {
+                    $getAgentName = Users::where('id', $getTransferChats[0]->transfer_from_agent_id)->select('first_name', 'last_name')->first();
+                    $agentRooms['transfer_from_agent'] = $getAgentName->first_name . ' ' . $getAgentName->last_name;
+                    $agentRooms['transferred'] = true;
+                } else {
+                    $agentRooms['transfer_from_agent'] = '';
+                    $agentRooms['transferred'] = false;
+                }
+                /*if (isset($room->getTransferLog)) {
                     foreach ($room->getTransferLog as $agentKey => $agentValue) {
                         $getAgentName = Users::where('id', $agentValue->transfer_from_agent_id)->select('first_name', 'last_name')->first();
                         $agentRooms['transfer_from_agent'] = $getAgentName->first_name . ' ' . $getAgentName->last_name;
                     }
-                }
+                }*/
                 $agentRooms['chats'] = array();
                 foreach ($room->allChat as $key => $chat) {
                     $agentRooms['chats'][$key]['message'] = $chat->chat_thread;
