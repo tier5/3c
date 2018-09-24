@@ -10,6 +10,7 @@ import * as ChatActions from '../../store/chat/chat.actions';
 import 'rxjs/add/operator/take';
 import { PushNotificationsService } from '../../../shared/push.notification.service';
 import {NotificationAlertService} from '../../../shared/notification.alert.service';
+import {SpinnerService} from '../../../shared/spinner';
 
 @Injectable()
 export class ChatService implements OnInit, OnDestroy {
@@ -18,7 +19,7 @@ export class ChatService implements OnInit, OnDestroy {
     loggedInAgentName: string;
     notification: boolean = true;
     constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>, private _notificationService: PushNotificationsService,
-                 private _isNotification: NotificationAlertService) {
+                 private _isNotification: NotificationAlertService, private spinnerService: SpinnerService) {
       this._notificationService.requestPermission();
     }
 

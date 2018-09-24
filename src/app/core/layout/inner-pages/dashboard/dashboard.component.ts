@@ -94,7 +94,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onSomeMsgAction(status: number, currentChatRoom: number) {
-    console.log(status, currentChatRoom);
     switch (status) {
       case 2:
         this.chatService.takeAction({agentId: this.agentId, status: status, chatRoomId: currentChatRoom});
@@ -103,6 +102,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 3:
         this.chatService.takeAction({agentId: this.agentId, status: status, chatRoomId: currentChatRoom});
+        this.authSubscription = this.store.select('auth')
+          .subscribe(
+            (data) => {
+                if (data.isAuthenticated !== false && data.isAgent) {
+                this.store.dispatch(new DashboardActions.GetDashboardItemsCountAttempt({userId: data.userId}));
+              }
+            }
+          );
         break;
       case 5:
         this.chatService.takeAction({agentId: this.agentId, status: status, chatRoomId: currentChatRoom});

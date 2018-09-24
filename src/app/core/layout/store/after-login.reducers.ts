@@ -15,17 +15,17 @@ export interface AfterLoginFeatureState extends fromApp.AppState {
 }
 
 export interface FeatureState {
-  profile: fromProfile.ProfileState,
-  twilio: fromTwilio.TwilioState,
-  department: fromDepartment.DepartmentState,
-  admin: fromAdmin.AdminState,
-  agent: fromAgent.AgentState,
-  widget: fromWidget.WidgetState,
-  chat: fromChat.ChatState,
-  dashboard: fromDashboard.DashboardState,
-  agentChats: fromAgentChat.AgentChatState,
+  profile: fromProfile.ProfileState;
+  twilio: fromTwilio.TwilioState;
+  department: fromDepartment.DepartmentState;
+  admin: fromAdmin.AdminState;
+  agent: fromAgent.AgentState;
+  widget: fromWidget.WidgetState;
+  chat: fromChat.ChatState;
+  dashboard: fromDashboard.DashboardState;
+  agentChats: fromAgentChat.AgentChatState;
 
-};
+}
 
 export const reducers: ActionReducerMap<FeatureState> = {
   profile: fromProfile.profileReducer,

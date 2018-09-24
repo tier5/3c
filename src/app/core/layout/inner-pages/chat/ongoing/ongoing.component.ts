@@ -19,6 +19,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import * as DepartmentActions from '../../../store/department/department.actions';
 import * as AgentActions from '../../../store/agent/agent.actions';
+import {SpinnerService} from '../../../../shared/spinner';
 @Component({
   selector: 'app-ongoing',
   templateUrl: './ongoing.component.html',
@@ -27,28 +28,28 @@ import * as AgentActions from '../../../store/agent/agent.actions';
 export class OngoingComponent implements OnInit, OnDestroy {
 
   chatState: Observable<fromChat.ChatState>;
-  currentChatIndex: number = 0;
-  currentChatRoom: string = '';
+  currentChatIndex = 0;
+  currentChatRoom = '';
   chatRoomSubscription: Subscription;
   agentId: number;
   toAgentId: number;
   departmentId: number;
   transferData: any;
-  chatRoomIdChangeDetection: boolean = false;
-  openStatus: boolean = false;
-  isMMS: boolean = false;
-  fileType: string = '';
-  fileUrl: string = '';
-  fileName: string = '';
+  chatRoomIdChangeDetection = false;
+  openStatus = false;
+  isMMS = false;
+  fileType = '';
+  fileUrl = '';
+  fileName = '';
   bsModalRef: BsModalRef;
   transferTo: string;
   transferToDepartment: any;
   transferToAgent: any;
   transferAgentList: any;
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private chatService: ChatService,private activatedRoute: ActivatedRoute,
+              private chatService: ChatService, private activatedRoute: ActivatedRoute,
               private router: Router, private _swal2: SweetAlertService,
-              private httpClient: HttpClient, private modalService: BsModalService) {  }
+              private httpClient: HttpClient, private modalService: BsModalService, private spinnerService: SpinnerService) {  }
 
   ngOnInit() {
     this.transferTo = 'department';
@@ -139,6 +140,10 @@ export class OngoingComponent implements OnInit, OnDestroy {
                   case 4:
                       this.chatService.takeAction(this.transferData);
                       this.changeCurrentChat(0);
+                      this.spinnerService.show();
+                      setInterval(a => {
+                        this.spinnerService.hide();
+                      }, 5000, []);
                       break;
                   case 5:
                       this._swal2.warning({
@@ -173,7 +178,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
           }
 
 
-  getAgentDepartmentList(){
+  getAgentDepartmentList() {
       this.chatRoomSubscription = this.store.select(s => s.afterLogin.chat.ongoing[this.currentChatIndex])
           .subscribe(
               data => {
