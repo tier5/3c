@@ -1,15 +1,15 @@
 import * as ChatActions from './chat.actions';
 
 export interface ChatState {
-  ongoing: any,
-  resolve: any,
-  connected: boolean,
-  chatList : any,
-  agentList : any,
-  contactList : any,
-  messageSend : boolean,
-  messageError: boolean,
-  closedChats:any,
+  ongoing: any;
+  resolve: any;
+  connected: boolean;
+  chatList: any;
+  agentList: any;
+  contactList: any;
+  messageSend: boolean;
+  messageError: boolean;
+  closedChats: any;
 }
 
 const initialState: ChatState = {
@@ -74,7 +74,7 @@ export function chatReducer(state = initialState, action: ChatActions.ChatAction
       };
     case ChatActions.DELETE_FROM_CHAT_LIST:
       const indexToDelete = state.ongoing.findIndex(chat => chat.room === action.payload.room_number);
-      const oldChats = [...state.ongoing]
+      const oldChats = [...state.ongoing];
       oldChats.splice(indexToDelete, 1);
       return {
         ...state,
