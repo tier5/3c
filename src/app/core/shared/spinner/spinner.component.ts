@@ -5,7 +5,8 @@ import { Spinner } from 'spin.js';
 
 @Component({
   selector: 'sjs-spinner',
-  templateUrl: './spinner.component.html'
+  templateUrl: './spinner.component.html',
+  styleUrls: ['./spinner.component.css']
 })
 export class SpinnerComponent implements OnInit, OnDestroy {
 
@@ -40,7 +41,7 @@ export class SpinnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initSpinner();
+    // this.initSpinner();
     this.createServiceSubscription();
   }
 
@@ -86,11 +87,11 @@ export class SpinnerComponent implements OnInit, OnDestroy {
 
   startSpinner() {
     this.show = true;
-    this.spinner.spin(this.element.firstChild);
+     // this.spinner.spin(this.element.firstChild);
   }
 
   stopSpinner() {
     this.show = false;
-    this.spinner.stop();
+    // this.spinner.stop();
   }
 }
