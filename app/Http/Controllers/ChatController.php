@@ -74,7 +74,7 @@ class ChatController extends Controller
             $filename = "$mediaSid.$fileExtension";
             $fileType = $this->getType($fileExtension);
             $model = new File();
-            if (file_put_contents(storage_path('app/public/uploads/').$filename,$media)) {
+            if (file_put_contents(storage_path('app/public/uploads/') . $filename, $media)) {
                 Log::info('media file saved');
                 $model::create([
                     'name' => $filename,
@@ -102,7 +102,7 @@ class ChatController extends Controller
                 $type = '1';
                 $direction = '1';
                 $userId = null;
-                $this->saveOtherChat($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
+                $this->saveOtherChat($fromNumber, $checkTwilioNumbers->getWidgetDetails->widget_uuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl, $status = 1);
             }
         } else {
             return Response::json(array(
@@ -154,7 +154,7 @@ class ChatController extends Controller
                             $type = '1';
                             $direction = '1';
                             $userId = $checkMessageTrack->agent_id;
-                            $this->saveOtherChat($fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl);
+                            $this->saveOtherChat($fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl, $checkMessageTrack->status);
                         } elseif ($checkMessageTrack->status == 5) {
                             Log::info('2 ===> check message status 5');
                             $updateMessageTrack = MessageTrack::where('widget_id', $widgetUuid)
@@ -655,7 +655,7 @@ class ChatController extends Controller
                         $available = true;
                     }
                 }
-                $availableDayTime .=' Thank you.';
+                $availableDayTime .= ' Thank you.';
                 $toNumber = $getWidgetData->twilioNumbers->prefix . $getWidgetData->twilioNumbers->number;
                 $file = false;
                 $fileUrl = '';
@@ -1044,55 +1044,54 @@ class ChatController extends Controller
      * @param responseSaveContactList,widgetUuid,messageBody,type,direction,userId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function saveOtherChat($fromNumber, $widget_uuid, $messageBody, $type, $direction, $userId = null, $file, $fileType, $fileUrl)
+    public function saveOtherChat($fromNumber, $widget_uuid, $messageBody, $type, $direction, $userId = null, $file, $fileType, $fileUrl, $status)
     {
         if ($fromNumber != "" && $widget_uuid != "") {
-            $getContactListId = ContactList::where('widget_id', $widget_uuid)->where('phone', $fromNumber)->select('id')->with('messageLogDetails')->first();
+            $getContactListId = ContactList::where('widget_id', $widget_uuid)->where('phone', $fromNumber)->select('id')->first();
             if (count($getContactListId) != 0) {
+                $messageLogId = MessageLog::where('contact_list_id', $getContactListId->id)->where('status', $status)->select('id')->first();
+                if ($messageLogId) {
+                    $saveChatThread = new ChatThread;
+                    $saveChatThread->message_log_id = $messageLogId->id;
+                    $saveChatThread->widget_id = $widget_uuid;
+                    $saveChatThread->chat_thread = $messageBody;
+                    $saveChatThread->type = $type;
+                    $saveChatThread->user_id = $userId;
+                    $saveChatThread->direction = $direction;
+                    $saveChatThread->chat_type = $type;
+                    $saveChatThread->is_mms = $file;
+                    $saveChatThread->file_type = $fileType;
+                    $saveChatThread->file_url = $fileUrl;
+                    if ($saveChatThread->save()) {
+                        //call to node API
+                        $getChatInfo = MessageTrack::where('message_id', $messageLogId->id)->select('agent_id', 'chat_room_id', 'status')->first();
+                        if ($type == 1 && $getChatInfo) {
+                            /** call to node API for sending this message to the frontend chat secticon */
+                            $time = date("Y-m-d H:i:s");
+                            $url = url('/') . ':3000/mobile-chat';
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $url);
+                            curl_setopt($ch, CURLOPT_POST, 1);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
 
-                $saveChatThread = new ChatThread;
-                $saveChatThread->message_log_id = $getContactListId->messageLogDetails->id;
-                $saveChatThread->widget_id = $widget_uuid;
-                $saveChatThread->chat_thread = $messageBody;
-                $saveChatThread->type = $type;
-                $saveChatThread->user_id = $userId;
-                $saveChatThread->direction = $direction;
-                $saveChatThread->chat_type = $type;
-                $saveChatThread->is_mms = $file;
-                $saveChatThread->file_type = $fileType;
-                $saveChatThread->file_url = $fileUrl;
-                if ($saveChatThread->save()) {
-                    //call to node API
-                    $getChatInfo = MessageTrack::where('message_id', $getContactListId->messageLogDetails->id)->select('agent_id', 'chat_room_id', 'status')->first();
-                    if ($type == 1 && $getChatInfo) {
-                        /** call to node API for sending this message to the frontend chat secticon */
-                        $time = date("Y-m-d H:i:s");
-                        $url = url('/') . ':3000/mobile-chat';
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $url);
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                            "messageBody=$messageBody&direction=1&user=$fromNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf&file=$file&fileURL=$fileUrl&fileType=$fileType");
-
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        $server_output = curl_exec($ch);
-                        curl_close($ch);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            $server_output = curl_exec($ch);
+                            curl_close($ch);
+                        }
+                        \Log::info('Chat message saved !');
+                        return true;
+                    } else {
+                        Log::info('Chat message not saved ! chat thread not saved');
+                        return false;
                     }
-                    \Log::info('Chat message saved !');
-                    return true;
                 } else {
-                    \Log::info('Chat message not saved !');
+                    \Log::info('Chat message not saved ! Message Log not found');
                     return false;
                 }
             } else {
-
-                return Response::json(array(
-                    'status' => false,
-                    'code' => 400,
-                    'error' => true,
-                    'response' => [],
-                    'message' => 'No Data Found !'
-                ));
+                \Log::info('Chat message not saved ! Contact list not found');
+                return false;
             }
         } else {
 
@@ -1504,8 +1503,8 @@ class ChatController extends Controller
             } else {
                 $toNumber = "";
             }
-            $smsBody = $getAgent ? $getAgent->first_name . ',' : '' ;
-            $smsBody .=' You have ' . $getAgent->pendingChatCount->count() . ' chat requests at http://greys.telemojo.net/pending ';
+            $smsBody = $getAgent ? $getAgent->first_name . ',' : '';
+            $smsBody .= ' You have ' . $getAgent->pendingChatCount->count() . ' chat requests at http://greys.telemojo.net/pending ';
             //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
@@ -2185,9 +2184,9 @@ class ChatController extends Controller
                                                     $saveMessageAgentTrack->status = 2;
                                                     if ($saveMessageAgentTrack->save()) {
                                                         $responseMessageCacheId = $this->saveMessageCache($toNumber, $widgetUIID);  // save to message cache
-                                                        $updateStatus = MessageCache::where('id',$responseMessageCacheId)->update(['status'=>2]);
+                                                        $updateStatus = MessageCache::where('id', $responseMessageCacheId)->update(['status' => 2]);
                                                         $this->saveMessageCacheData($body, $responseMessageCacheId, $file, $fileType, $fileUrl);        // save to message cache data
-                                                        $updateMEssageCacheData = MessageCacheData::where('message_cache_id',$responseMessageCacheId)->update(['copy'=>2]);
+                                                        $updateMEssageCacheData = MessageCacheData::where('message_cache_id', $responseMessageCacheId)->update(['copy' => 2]);
                                                     }
 
                                                 } else {
@@ -2304,7 +2303,7 @@ class ChatController extends Controller
                 $chatRooms = [];
                 $agentId = $request->agentId;
                 $messageAgentTract = MessageAgentTrack::where('chat_room_id', $key)->with('clientInfo.clientName', 'allChat.agentInfo')->where(function ($query) use ($agentId) {
-                    $query->where('agent_id','!=',$agentId)->orWhere('status','!=',5);
+                    $query->where('agent_id', '!=', $agentId)->orWhere('status', '!=', 5);
                 })->first();
                 if ($messageAgentTract) {
                     $chatThreads = ChatThread::where('message_log_id', $messageAgentTract->message_id)->orderBy('id', 'ASC')->get();
