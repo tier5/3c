@@ -144,3 +144,5 @@ Route::post('ini-chat','ChatController@initiateChatWithAgent');
 Route::post('get-all-closed-chats','ChatController@getAllClosedChats');
 // get only closed chats for the admin/superadmin
 Route::post('all-agent-closed-chats','ChatListController@getAgentsClosedChats');
+// get the list of all twilio account for superadmin
+Route::post('list-all-twilio-accounts','TwilioController@listAllTwilioAccount');

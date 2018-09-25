@@ -36,7 +36,7 @@ class Users extends Model
   */
   public function departmentAgentMapping()
   {
-    return $this->hasOne('App\Model\DepartmentAgentMap','user_id','id');
+    return $this->hasMany('App\Model\DepartmentAgentMap','user_id','id');
   }
 
   public function getCompany()

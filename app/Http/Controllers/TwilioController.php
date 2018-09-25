@@ -658,4 +658,62 @@ class TwilioController extends Controller
 
         }
     }
+
+    /**
+     * function to fetch all twilio account and subaccount for superadmin
+     * @param Request $request
+     * @return false|string
+     */
+    public function listAllTwilioAccount(Request $request){
+        $userToken = $request->token;
+
+        if($userToken !=""){
+
+            $getUser = UserToken::where('token',$userToken)->with('userInfo','twilioInfo')->first();
+
+            if(count($getUser) !=0 ){
+
+                try{
+                    $client  = new Client($getUser->twilioInfo->twilio_sid, $getUser->twilioInfo->twilio_token);
+                    $accounts = $client->api->v2010->accounts->read();
+                    $twilioAccountList = [];
+                    foreach($accounts as $key=>$value){
+                        $twilioAccountList[$key]['authToken'] = $value->authToken;
+                        $twilioAccountList[$key]['dateCreated'] = $value->dateCreated;
+                        $twilioAccountList[$key]['friendlyName'] = $value->friendlyName;
+                        $twilioAccountList[$key]['sid'] = $value->sid;
+                        $twilioAccountList[$key]['twilioStatus'] = $value->status;
+                        $getAdminName = TwilioCredentials::where('twilio_sid',$value->sid)->with('userInfo')->first();
+                        if(count($getAdminName) != 0 && count($getAdminName->userInfo) !=0 ){
+                            $twilioAccountList[$key]['adminName'] = $getAdminName->userInfo->first_name.' '.$getAdminName->userInfo->last_name;
+                            if($getAdminName->userInfo->is_block == 1 && $getAdminName->userInfo->deleted_at == null ) {
+                                $twilioAccountList[$key]['adminStatus'] = 'Active';
+                            } elseif($getAdminName->userInfo->deleted_at != null ) {
+                                $twilioAccountList[$key]['adminStatus'] = 'Deleted';
+                            } elseif($getAdminName->userInfo->is_block == 0) {
+                                $twilioAccountList[$key]['adminStatus'] = 'Deactivate';
+                            }
+                        }else{
+                            $twilioAccountList[$key]['adminName'] = '';
+                            $twilioAccountList[$key]['adminStatus'] = '';
+                        }
+                    }
+                    return Response::json(array(
+                        'code'    => 200,
+                        'error'   => false,
+                        'status'  => true,
+                        'response'=> $twilioAccountList,
+                        'message' => 'All twilio Credential List !'
+                    ));
+                }catch(\Exception $e) {
+                    Log::info("Warning!! ".$e->getMessage());
+                }
+            }else{
+                return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'User not found !'));
+            }
+        }else{
+            return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'User Token not found !'));
+        }
+    }
+
 }
