@@ -41,7 +41,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     agent = {
       userId: 0,
       parentId: 0,
-      departmentId: 0,
+      departmentId: [],
       firstName: '',
       lastName: '',
       email: '',
@@ -49,7 +49,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       phone: ''
     };
 
-    departments: any;
+    // departments: any;
     loader = false;
     bsModalRef: BsModalRef;             /** bootstrap modal */
     dep: any;                            /** initialize the department object */
@@ -60,6 +60,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     showThis = false;
     isemailNotification = true;
     isPhoneNotification = true;
+    dropdownSettings = {};          /** dropDown settings blank obj*/
   /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -105,7 +106,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                         this.agent.userName = agent.username;
                         this.agent.email = agent.email;
                         this.agent.phone = agent.phone;
-                        this.agent.departmentId = agent.department_id;
+                        this.agent.departmentId = agent.departments;
                         this.adminName = agent.admin_first_name + ' ' + agent.admin_last_name;
                         this.isemailNotification = agent.is_email_notification;
                         this.isPhoneNotification = agent.is_phone_notification;
@@ -148,6 +149,19 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                     }
                 }
             );
+
+        /** iniciate drop down settings */
+        this.dropdownSettings = {
+            singleSelection: false,
+            text: 'Select Department',
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
+            enableSearchFilter: false,
+            classes: 'myclass custom-class',
+            primaryKey: 'id',
+            labelKey: 'department_name'
+        };
+
     }
 
     checkAdminname($event){
@@ -234,21 +248,51 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         this.dep.userId = this.adminUserId;
         this.bsModalRef = this.modalService.show(template);
     }
+    // /** function to create a department */
+    // onCreateDep(form) {
+    //   this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
+    //
+    //   this.afterLoginSubscription = this.store.select('afterLogin')
+    //     .map(data => data.department.newDepartmentId)
+    //     .subscribe(
+    //       (data) => {
+    //         if (data) {
+    //          /// this.agent.departmentId = data;
+    //         }
+    //       }
+    //     );
+    //
+    //   this.bsModalRef.hide();
+    // }
+
     /** function to create a department */
     onCreateDep(form) {
-      this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
+        this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
+        const newArray = [];
+        this.afterLoginSubscription = this.store.select('department')
+            .subscribe(
+                (data) => {
+                    if (data.newDepartmentId > 0 && data){
+                        newArray.push(data);
+                        const oldArray = this.agent.departmentId;
+                        const newObj = [{id: newArray[newArray.length - 1].newDepartmentId, department_name: newArray[newArray.length - 1].newDepartmentName}];
+                        let fIndex: any = -1;
+                        if (oldArray.length > 0) {
+                            oldArray.forEach((elem, index) => {
+                                if (elem.id === newObj[0].id) {
+                                    fIndex = index;
+                                }
+                            });
+                        }
+                        if (fIndex !== -1){
+                            oldArray.splice(fIndex, 1);
+                        }
 
-      this.afterLoginSubscription = this.store.select('afterLogin')
-        .map(data => data.department.newDepartmentId)
-        .subscribe(
-          (data) => {
-            if (data) {
-              this.agent.departmentId = data;
-            }
-          }
-        );
-
-      this.bsModalRef.hide();
+                        this.agent.departmentId = [ ...oldArray, ...newObj];
+                    }
+                }
+            );
+        this.bsModalRef.hide();
     }
 
 }
