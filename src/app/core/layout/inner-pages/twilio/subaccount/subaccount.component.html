@@ -10,10 +10,6 @@
           <div class="box-body">
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row">
-                <div class="col-sm-6"> Search : <input [(ngModel)]="term" placeholder="All fields"></div>
-                <div class="col-sm-6"></div>
-              </div>
-              <div class="row">
                 <div class="col-sm-12">
                   <table class="table table-bordered table-hover dataTable"
                          role="grid" aria-describedby="example2_info">
@@ -31,7 +27,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of subaccountList | filter : term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                      <tr *ngFor="let item of subaccountList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                         <td>{{ i+1 }}</td>
                         <td>{{ item.friendlyName }}</td>
                         <td>{{ item.sid }}</td>
