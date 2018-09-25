@@ -686,6 +686,8 @@ class TwilioController extends Controller
                         $getAdminName = TwilioCredentials::where('twilio_sid',$value->sid)->with('userInfo')->first();
                         if(count($getAdminName) != 0 && count($getAdminName->userInfo) !=0 ){
                             $twilioAccountList[$key]['adminName'] = $getAdminName->userInfo->first_name.' '.$getAdminName->userInfo->last_name;
+                            $twilioAccountList[$key]['userId'] = $getAdminName->userInfo->id;
+                            $twilioAccountList[$key]['userType'] = $getAdminName->userInfo->type;
                             if($getAdminName->userInfo->is_block == 1 && $getAdminName->userInfo->deleted_at == null ) {
                                 $twilioAccountList[$key]['adminStatus'] = 'Active';
                             } elseif($getAdminName->userInfo->deleted_at != null ) {
@@ -696,6 +698,8 @@ class TwilioController extends Controller
                         }else{
                             $twilioAccountList[$key]['adminName'] = '';
                             $twilioAccountList[$key]['adminStatus'] = '';
+                            $twilioAccountList[$key]['userId'] = '';
+                            $twilioAccountList[$key]['userType'] = '';
                         }
                     }
                     return Response::json(array(
@@ -713,6 +717,95 @@ class TwilioController extends Controller
             }
         }else{
             return $response = json_encode(array('code'=>400,'error'=>true,'response'=>[],'status'=>false,'message'=>'User Token not found !'));
+        }
+    }
+
+    /**
+     * Close twilio account of an user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function closeUserTwilioAccount(Request $request)
+    {
+        $userId                    = $request->userId;
+        $sid                       = $request->twilioSid;
+        $token                     = $request->twilioToken;
+
+        if( $sid !='' && $token!= '' ){
+            try{
+                $client  = new Client($sid, $token);
+                $account = $client->api->accounts($sid)->update(array(
+                    'status' => 'closed'
+                ));
+
+                if(count($account)!=0){
+                    // check the user table for any user data associated with system
+                    if($userId){
+                        $getAdminTwilioCredentials = TwilioCredentials::where('user_id',$userId)->first();
+                        $getAdminTwilioCredentials->twilio_friendly_name = $account->friendlyName;
+                        $getAdminTwilioCredentials->twilio_sid           = $account->sid;
+                        $getAdminTwilioCredentials->twilio_token         = $account->authToken;
+                        $getAdminTwilioCredentials->user_id              = $userId;
+                        $getAdminTwilioCredentials->type                 = 2; //Admin Account
+                        $getAdminTwilioCredentials->status               = $account->status;
+                        if($getAdminTwilioCredentials->update()){
+
+                            return  Response::json(array(
+                                'code'    => 200,
+                                'error'   => false,
+                                'status'  => true,
+                                'response'=> $getAdminTwilioCredentials,
+                                'message' => 'User Twilio Credentials Updated !'
+                            ));
+
+                        } else{
+                            return  Response::json(array(
+                                'error'   => true,
+                                'status'  => false,
+                                'code'    => 400,
+                                'response'=> [],
+                                'message' => 'Sorry Twilio Credentials not Updated !'
+                            ));
+                        }
+                    }
+                    return  Response::json(array(
+                        'code'    => 200,
+                        'error'   => false,
+                        'status'  => true,
+                        'response'=> [],
+                        'message' => 'User Twilio Credentials Updated !'
+                    ));
+                } else {
+                    return  Response::json(array(
+                        'error'   => true,
+                        'status'  => false,
+                        'code'    => 400,
+                        'response'=> [],
+                        'message' => 'Sorry Twilio Credentials not Updated !'
+                    ));
+                }
+            }catch(\Exception $e){
+
+                return  Response::json(array(
+                    'error' => true,
+                    'code' => 400,
+                    'status' => false,
+                    'response'=> [],
+                    'message' => $e->getMessage()
+                ));
+
+                \Log::info('Exception ->'.$e->getMessage());
+
+            }
+        } else {
+
+            return  Response::json(array(
+                'error'   => true,
+                'code'    => 400,
+                'status'  => false,
+                'response'=> [],
+                'message' => 'Sorry Twilio Credentials not found !'
+            ));
         }
     }
 
