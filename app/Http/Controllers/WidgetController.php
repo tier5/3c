@@ -189,7 +189,7 @@ class WidgetController extends Controller
             $reqDepartments = new Request;
             $reqDepartments->widgetId = $widgets->id;
             $reqDepartments->userId = $userId;
-            $reqDepartments->departmentIdArray = array_unique($widgetDepartment);
+            $reqDepartments->departmentIdArray = implode(',',array_unique(explode(',',$widgetDepartment)));
 
 
             $this->updateWidgetDepartment($reqDepartments);
@@ -613,7 +613,7 @@ class WidgetController extends Controller
                 $reqDepartments = new Request;
                 $reqDepartments->widgetId = $widgetId;
                 $reqDepartments->userId = $userId;
-                $reqDepartments->departmentIdArray = array_unique($widgetDepartment);
+                $reqDepartments->departmentIdArray = implode(',',array_unique(explode(',',$widgetDepartment)));
                 $this->updateWidgetDepartment($reqDepartments);
                 // Get Widget Details
                 $viewWidget = Widgets::where('id', $widgetId)->with('twilioNumbers', 'widgetSchedule', 'widgetDepartment.departmentDetails')->first();

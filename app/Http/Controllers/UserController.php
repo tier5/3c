@@ -238,7 +238,12 @@ class UserController extends Controller
 
                 $accutal_id = base64_encode($forget_check->id);
                 // $body = url('/') . '/reset-password/' . $accutal_id;
-                $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
+                if(url('/') == 'http://178.128.187.125') {
+                    $body = 'http://greys.telemojo.net/reset-password/' . $accutal_id;
+                }else{
+                    $body = 'http://sms.telemojo.com/reset-password/' . $accutal_id;
+                }
+
                 try {
                     Mail::send([], [], function ($message) use ($body, $forget_check) {
                         $message->from('sms@telemojo.com', 'TM SMS');
@@ -957,6 +962,7 @@ class UserController extends Controller
         $password = $this->generateRandomString(); //generate Random Password for the agent
         $parentId = $request->parentId; //admin ID
         $departmentId = $request->departmentId; //department id
+        // $departmentId = implode(',',array_unique(explode(',',$request->departmentId)));
         $type = 3;  //Agent User
         $isEmailNotification = $request->isEmailNotification ? '1' : '0';
         $isPhoneNotification = $request->isPhoneNotification ? '1' : '0';
@@ -978,12 +984,15 @@ class UserController extends Controller
                 $saveUser->is_email_notification = $isEmailNotification;
                 $saveUser->is_phone_notification = $isPhoneNotification;
                 if ($saveUser->save()) {
+                    if(is_array($departmentId) || is_object($departmentId)) {
 
-                    $saveDepartment = new DepartmentAgentMap;
-                    $saveDepartment->department_id = $departmentId;
-                    $saveDepartment->user_id = $saveUser->id;
-                    $saveDepartment->save();
-
+                        foreach ($departmentId as $key => $value) {
+                            $saveDepartment = new DepartmentAgentMap;
+                            $saveDepartment->department_id = $value['id'];
+                            $saveDepartment->user_id = $saveUser->id;
+                            $saveDepartment->save();
+                        }
+                    }
                     $this->sendRegistrationEmail($email, $password); //send email and password to the register Agent
                     return Response()->json([
                         'code' => 200,
@@ -1098,9 +1107,16 @@ class UserController extends Controller
                 $checkUser->is_email_notification = $isEmailNotification;
                 $checkUser->is_phone_notification = $isPhoneNotification;
                 if ($checkUser->save()) { // Save user data
-                    $checkUserDeptMap = DepartmentAgentMap::where('user_id', $checkUser->id)->first();
-                    $checkUserDeptMap->department_id = $departmentId;
-                    $checkUserDeptMap->update();
+                    $deleteOldAgentDeptMap =  DepartmentAgentMap::where('user_id', $userId)->delete();
+
+                    if(is_array($departmentId) || is_object($departmentId)) {
+                        foreach ($departmentId as $key => $value) {
+                            $saveDepartment = new DepartmentAgentMap;
+                            $saveDepartment->department_id = $value['id'];
+                            $saveDepartment->user_id = $userId;
+                            $saveDepartment->save();
+                        }
+                    }
                     $response = array('code' => 200, 'error' => false, 'response' => $checkUser, 'status' => true, 'message' => 'Agent Updated!');
                 } else {
 
@@ -1181,6 +1197,7 @@ class UserController extends Controller
         if ($agentId != '') { //Get agent details
 
             $agent = Users::where('id', $agentId)->with('departmentAgentMapping.departmentDetails','getParentInfo')->get()->first();
+
             if (count($agent) != 0) {
 
                 $agentArray = [];
@@ -1198,15 +1215,22 @@ class UserController extends Controller
                 $agentArray['type'] = $agent->type;
                 $agentArray['admin_first_name'] = $agent->getParentInfo->first_name;
                 $agentArray['admin_last_name'] = $agent->getParentInfo->last_name;
-                if(isset($agent->departmentAgentMapping) && isset($agent->departmentAgentMapping->departmentDetails)){
-                    $agentArray['department_id'] = $agent->departmentAgentMapping->department_id;
-                    $agentArray['department_name'] = $agent->departmentAgentMapping->departmentDetails->department_name;
-                    $agentArray['department_details'] = $agent->departmentAgentMapping->departmentDetails->department_details;
-                }else{
-                    $agentArray['department_id'] = [];
-                    $agentArray['department_name'] = [];
-                    $agentArray['department_details'] = [];
+                $agentDeptArray = [];
+                if(isset($agent->departmentAgentMapping)){
+                    foreach($agent->departmentAgentMapping as $maxKey=>$deptValue){
+                            if (isset($deptValue->departmentDetails) && $deptValue->departmentDetails && $deptValue->department_id != null) {
+                                $agentDeptArray[$maxKey]['id'] = $deptValue->departmentDetails->id;
+                                $agentDeptArray[$maxKey]['department_name'] = $deptValue->departmentDetails->department_name;
+                                $agentDeptArray[$maxKey]['department_details'] = $deptValue->departmentDetails->department_details;
+
+                            } else {
+                                $agentDeptArray = [];
+                            }
+                    }
+                } else {
+                    $agentDeptArray = [];
                 }
+                $agentArray['departments'] = $agentDeptArray;
                 $agentArray['admin_username'] = "";
                 $agentArray['is_email_notification'] = $agent->is_email_notification == '1' ? true : false;
                 $agentArray['is_phone_notification'] = $agent->is_phone_notification == '1' ? true : false;

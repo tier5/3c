@@ -503,7 +503,7 @@
                                                                 <center style="color:#ffffff; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:14px;">
                                             <![endif]-->
                                             <div style="color: #ffffff; background-color: #F8D995; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; max-width: 208px; width: 168px;width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; text-align: center; mso-border-alt: none;">
-                                                <span style="font-size:12px;line-height:24px;"><a href="{{$siteUrl}}" target="_blank">Click hare for login</a> </span>
+                                                <span style="font-size:12px;line-height:24px;"><a href="{{$siteUrl}}" target="_blank">Click here for login</a> </span>
                                             </div>
                                             <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
                                         </div>

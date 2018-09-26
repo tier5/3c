@@ -24,4 +24,12 @@ class UserToken extends Model
   public function userInfo(){
     return $this->hasOne('App\Model\Users','id','profile_user_id');
   }
+
+    /**
+     * function to return twilio account credentials
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function twilioInfo(){
+        return $this->hasOne('App\Model\TwilioCredentials','user_id','profile_user_id');
+    }
 }

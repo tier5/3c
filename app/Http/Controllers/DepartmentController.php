@@ -475,6 +475,12 @@ class DepartmentController extends Controller
         }
         return Response()->json($response);
     }
+
+    /**
+     * Delete department
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteDepartment(Request $request)
     {
         try {
@@ -482,7 +488,7 @@ class DepartmentController extends Controller
             $departmentAgent = DepartmentAgentMap::where('department_id',$request->deptId)->delete();
             $departmentWidget = WidgetDepartmentMapping::where('department_id',$request->deptId)->delete();
             $department->delete();
-            $response = array('code' => 200, 'error' => false, 'response' => $request->dept_id, 'status' => true, 'message' => 'Deleted Department');
+            $response = array('code' => 200, 'error' => false, 'response' => $request->deptId, 'status' => true, 'message' => 'Deleted Department');
         } catch (\Exception $e) {
             $response = array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => $e->getMessage());
         } catch (ModelNotFoundException $e) {
