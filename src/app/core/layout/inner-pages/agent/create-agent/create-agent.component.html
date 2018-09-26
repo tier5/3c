@@ -65,37 +65,49 @@
                 <!--</option>-->
                 <!--</select> OLD SELECT -->
 
-                <div class="col-md-6" *ngIf="selectedAdmin.value > 0">
-
+                <div class="col-md-6">
+                 <div class="col-md-10">
                   <div class="form-group">
                     <label class="control-label" for="department">
                       Department for Agent
                     </label>
-                    <select class="form-control"
-                            id="department"
-                            name="departmentId"
-                            #selectedDepartment
-                            [ngModel]="agent.departmentId"
-                            (change)="deptChanged(selectedDepartment.value)"
-                            required
-                    >
-                      <option selected value="0">Choose...</option>
-                      <option [value]="item.id"
-                              *ngFor="let item of (afterLoginState | async).department.list; let i = index">
-                        {{item.department_name}}
-                      </option>
-                      <option value="99999991999999" style="font-weight: bold;">&#43; Create Department</option>
-                    </select>
-                  </div>
-                  <div class="hide">
-                    <a class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
-                       (click)="createDepartment(template)" id="createDepartment"> Create Department</a>
+                    <!--<select class="form-control"-->
+                            <!--id="department"-->
+                            <!--name="departmentId"-->
+                            <!--#selectedDepartment-->
+                            <!--[ngModel]="agent.departmentId"-->
+                            <!--(change)="deptChanged(selectedDepartment.value)"-->
+                            <!--required-->
+                    <!--&gt;-->
+                      <!--<option selected value="0">Choose...</option>-->
+                      <!--<option [value]="item.id"-->
+                              <!--*ngFor="let item of (afterLoginState | async).department.list; let i = index">-->
+                        <!--{{item.department_name}}-->
+                      <!--</option>-->
+                      <!--<option value="99999991999999" style="font-weight: bold;">&#43; Create Department</option>-->
+                    <!--</select>-->
+                      <angular2-multiselect
+                              id="department" name="departmentId"
+                              [data]="(afterLoginState | async).department.list"
+                              [(ngModel)]="agent.departmentId" [settings]="dropdownSettings" required>
+                          <c-badge>
+                              <ng-template let-item="item">
+                                  <label style="margin: 0px;">{{item.department_name}}</label>
+                              </ng-template>
+                          </c-badge>
+                      </angular2-multiselect>
                   </div>
                 </div>
+                  <div class="col-md-2">
+                    <a class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
+                       (click)="createDepartment(template)" id="createDepartment"><i class="fa fa-plus"></i> Create Department</a>
+                  </div>
+
+                </div>  <!-- col-md-6 End -->
 
               </div>
 
-              <div class="row" *ngIf="selectDept">
+              <div class="row">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="(firstName.invalid && firstName.touched) ? 'has-error': ''">
                     <label class="control-label" for="firstName">First Name
@@ -133,7 +145,7 @@
                 </div>
               </div>
 
-              <div class="row" *ngIf="selectDept">
+              <div class="row">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="(email.invalid && email.touched) ? 'has-error': ''">
                     <label class="control-label input-label-toggel" for="email">Email
@@ -183,7 +195,7 @@
                 </div>
               </div>
 
-              <div class="row" *ngIf="selectDept">
+              <div class="row">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="(phone.invalid && phone.touched) ? 'has-error': ''">
                     <label class="control-label input-label-toggel" for="phone">Phone
@@ -217,7 +229,7 @@
 
               <div class="col-md-12">
                 <div class="box-footer">
-                  <button type="submit" [disabled]="form.invalid || !selectDept" class="btn btn-primary pull-right"><i
+                  <button type="submit" [disabled]="form.invalid" class="btn btn-primary pull-right"><i
                     *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
                   </button>
                 </div>

@@ -12,6 +12,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment';
 import { AgentSearchPipe } from './agentSearch.pipe';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { AgentSearchPipe } from './agentSearch.pipe';
         OrderModule,
         NgxPaginationModule,
         ModalModule.forRoot(),
-        MomentModule
+        MomentModule,
+        AngularMultiSelectModule
     ],
     declarations: [
         CreateAgentComponent,

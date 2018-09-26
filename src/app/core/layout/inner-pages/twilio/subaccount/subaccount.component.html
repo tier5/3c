@@ -1,0 +1,72 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">List of Twilio Sub-Accounts</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table class="table table-bordered table-hover dataTable"
+                         role="grid" aria-describedby="example2_info">
+                    <thead>
+                    <tr role="row">
+                      <th rowspan="1" colspan="1">#</th>
+                      <th rowspan="1" colspan="1">Friendly Name</th>
+                      <th rowspan="1" colspan="1">Twilio SID</th>
+                      <th rowspan="1" colspan="1">Twilio token</th>
+                      <th rowspan="1" colspan="1">Twilio Status</th>
+                      <th rowspan="1" colspan="1">Admin Name</th>
+                      <th rowspan="1" colspan="1">Admin Status</th>
+                      <th rowspan="1" colspan="1" >Created Date</th>
+                      <th rowspan="1" colspan="1" >Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of subaccountList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ item.friendlyName }}</td>
+                        <td>{{ item.sid }}</td>
+                        <td>{{ item.authToken }}</td>
+                        <td>{{ item.twilioStatus }}</td>
+                        <td>{{ item.adminName }}</td>
+                        <td>{{ item.adminStatus }}</td>
+                        <td>{{ item.dateCreated.date | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
+                        <td>
+                          <button type="button" class="btn btn-danger" *ngIf="item.adminName === '' && (item.adminStatus !== 'Active' || item.adminStatus !== 'Deactivate') " (click)="deleteSubAccount(item.userId,item.sid,item.authToken)">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="row">
+                    <pagination-controls class="older_post_text"
+                                         (pageChange)="page=$event"
+                                         maxSize="9"
+                                         directionLinks="true"
+                                         autoHide="true"
+                                         previousLabel=""
+                                         nextLabel=""
+                                         screenReaderPaginationLabel=""
+                                         screenReaderPageLabel="page"
+                                         screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+</div>

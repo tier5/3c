@@ -9,3 +9,10 @@
 /*router-outlet > div {*/
     /*min-height: 500px;*/
 /*}*/
+
+.spinnerloader{
+  z-index: 0;
+  position: relative;
+}
+
+

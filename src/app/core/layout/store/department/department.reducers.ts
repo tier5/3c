@@ -16,7 +16,7 @@ const initialState: DepartmentState = {
   resetDepartmentForm: false,
   newDepartmentId: 0,
   preDelete: [],
-    newDepartmentName:''
+    newDepartmentName: ''
 };
 
 export function departmentReducer(state = initialState, action: DepartmentActions.DepartmentActions) {

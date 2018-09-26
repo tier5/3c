@@ -10,6 +10,7 @@ import * as ChatActions from '../../store/chat/chat.actions';
 import 'rxjs/add/operator/take';
 import { PushNotificationsService } from '../../../shared/push.notification.service';
 import {NotificationAlertService} from '../../../shared/notification.alert.service';
+import {SpinnerService} from '../../../shared/spinner';
 
 @Injectable()
 export class ChatService implements OnInit, OnDestroy {
@@ -18,7 +19,7 @@ export class ChatService implements OnInit, OnDestroy {
     loggedInAgentName: string;
     notification: boolean = true;
     constructor (private store: Store<fromAfterLogin.AfterLoginFeatureState>, private _notificationService: PushNotificationsService,
-                 private _isNotification: NotificationAlertService) {
+                 private _isNotification: NotificationAlertService, private spinnerService: SpinnerService) {
       this._notificationService.requestPermission();
     }
 
@@ -105,7 +106,9 @@ export class ChatService implements OnInit, OnDestroy {
                         this.socket.on('newmsg', (data) => {
                           this.notification = this._isNotification.getIsNotification();
                           console.log('notification', this.notification);
-                          if (data.direction === 1 && this.notification) {
+                          console.log('data.direction', data.direction);
+                          if (data.direction == 1 && this.notification) {
+                              console.log('within if condition == 1 .. ', data.direction);
                             const dataMessage: Array<any> = [];
                             dataMessage.push({
                               'title': data.user,
@@ -113,6 +116,16 @@ export class ChatService implements OnInit, OnDestroy {
 
                             });
                             this._notificationService.generateNotification(dataMessage);
+                          }
+                          if(data.direction == 4 && this.notification) {
+                              console.log('within if condition == 4 .. ', data.direction);
+                              const dataMessage: Array<any> = [];
+                              dataMessage.push({
+                                  'title': data.user,
+                                  'alertContent': data.message
+
+                              });
+                              this._notificationService.generateNotification(dataMessage);
                           }
                           this.store.dispatch(new ChatActions.AddNewMsgToChatList(data));
                         });
