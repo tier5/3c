@@ -37,7 +37,7 @@
                         <td>{{ item.adminStatus }}</td>
                         <td>{{ item.dateCreated.date | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                         <td>
-                          <button type="button" class="btn btn-danger" *ngIf="item.adminName === '' && (item.adminStatus !== 'Active' || item.adminStatus !== 'Deactivate') " (click)="deleteSubAccount(item.userId,item.sid,item.authToken)">
+                          <button type="button" class="btn btn-danger" *ngIf="item.adminName === '' && (item.adminStatus !== 'Active' || item.adminStatus !== 'Deactivate') && item.twilioStatus !=='closed'" (click)="deleteSubAccount(item.userId,item.sid,item.authToken)">
                             <i class="fa fa-trash"></i>
                           </button>
                         </td>
