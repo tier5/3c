@@ -1504,8 +1504,12 @@ class ChatController extends Controller
                 $toNumber = "";
             }
             $smsBody = $getAgent ? $getAgent->first_name . ',' : '';
-            $smsBody .= ' You have ' . $getAgent->pendingChatCount->count() . ' chat requests at http://sms.telemojo.net/pending ';
-            //$smsBody = "link to visit the page in the website http://sms.telemojo.com/chat/ongoing (demo api url)";
+
+            if(url('/') == 'http://178.128.187.125') {
+                $smsBody .= ' You have ' . $getAgent->pendingChatCount->count() . ' chat requests at http://greys.telemojo.net/pending ';
+            }else{
+                $smsBody .= ' You have ' . $getAgent->pendingChatCount->count() . ' chat requests at http://sms.telemojo.com/pending ';
+            }
             /** Try to send sms */
             \Log::info('$smsBody-->' . $smsBody . '$agentPhoneNumber-->' . $agentPhoneNumber . '$toNumber-->' . $toNumber);
             $userController = new UserController;
