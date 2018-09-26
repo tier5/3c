@@ -2137,128 +2137,133 @@ class ChatController extends Controller
             }
             $departmentAgentMap = DepartmentAgentMap::where('user_id', $userId)->first();
             if ($departmentAgentMap) {
-                $saveMessageTrack = new MessageTrack;
-                $saveMessageTrack->widget_id = $widgetUIID;
-                $saveMessageTrack->department_id = $departmentAgentMap->department_id;
-                $saveMessageTrack->from_phone_number = $toNumber;
-                $saveMessageTrack->message_type = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
-                $saveMessageTrack->status = 1;
-                if ($saveMessageTrack->save()) {
+                $getMessageTract = MessageTrack::where('from_phone_number',$toNumber)->whereIn('status',['1','2','4'])->get();
+                if (count($getMessageTract) == 0) {
+                    $saveMessageTrack = new MessageTrack;
+                    $saveMessageTrack->widget_id = $widgetUIID;
+                    $saveMessageTrack->department_id = $departmentAgentMap->department_id;
+                    $saveMessageTrack->from_phone_number = $toNumber;
+                    $saveMessageTrack->message_type = 1; // Message type 1 ->Mobile SMS 2->Web Chat Message
+                    $saveMessageTrack->status = 1;
+                    if ($saveMessageTrack->save()) {
 
-                    $responsesaveContactList = $this->saveContactList($widgetUIID, $toNumber, $name, $email);
-                    if ($responsesaveContactList != 0) {
-                        $responsesaveMessageLog = $this->saveMessageLog($responsesaveContactList, $widgetUIID);
-                        if ($responsesaveMessageLog != false) {
+                        $responsesaveContactList = $this->saveContactList($widgetUIID, $toNumber, $name, $email);
+                        if ($responsesaveContactList != 0) {
+                            $responsesaveMessageLog = $this->saveMessageLog($responsesaveContactList, $widgetUIID);
+                            if ($responsesaveMessageLog != false) {
 
-                            $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['message_id' => $responsesaveMessageLog]);
+                                $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['message_id' => $responsesaveMessageLog]);
 
-                            // $chatRoomId = $this->chatProcess($toNumber, $widgetUIID,1);   //calling chat process
-                            /** saving and inicating chat process */
-                            $checkMessageTrack = MessageTrack::where('widget_id', $widgetUIID)->where('from_phone_number', $toNumber)->whereIn('status', [1, 6])->first();
+                                // $chatRoomId = $this->chatProcess($toNumber, $widgetUIID,1);   //calling chat process
+                                /** saving and inicating chat process */
+                                $checkMessageTrack = MessageTrack::where('widget_id', $widgetUIID)->where('from_phone_number', $toNumber)->whereIn('status', [1, 6])->first();
 
-                            if (count($checkMessageTrack) != 0) {
-                                $chatRoomId = $this->generateRandomString();
-                                $checkMessageTrack->chat_room_id = $chatRoomId;
-                                if ($checkMessageTrack->update()) {
-                                    $departmentId = $checkMessageTrack->department_id;
-                                    $messageId = $checkMessageTrack->message_id;
-                                    $countAgentDepartment = DepartmentAgentMap::where('department_id', $departmentId)->count();
+                                if (count($checkMessageTrack) != 0) {
+                                    $chatRoomId = $this->generateRandomString();
+                                    $checkMessageTrack->chat_room_id = $chatRoomId;
+                                    if ($checkMessageTrack->update()) {
+                                        $departmentId = $checkMessageTrack->department_id;
+                                        $messageId = $checkMessageTrack->message_id;
+                                        $countAgentDepartment = DepartmentAgentMap::where('department_id', $departmentId)->count();
 //                                    $responsesaveMessageForwardCount = $this->saveMessageForwardCount($widgetUuid, $countAgentDepartment, $messageId);
 //                                    if ($responsesaveMessageForwardCount != false) {
 //
 //                                        $this->saveMessageAgentTrack($responsesaveMessageForwardCount, $chatRoomId, $widgetUuid, $messageId, $departmentId);
 //                                    }
-                                    // save message forward
-                                    if ($widgetUIID != "" && $countAgentDepartment != "" && $messageId != "") {
+                                        // save message forward
+                                        if ($widgetUIID != "" && $countAgentDepartment != "" && $messageId != "") {
 
-                                        $saveMessageForwardCount = new MessageForwardCounter;
-                                        $saveMessageForwardCount->widget_id = $widgetUIID;
-                                        $saveMessageForwardCount->agent_count = $countAgentDepartment;
-                                        $saveMessageForwardCount->count_init = 1;
-                                        $saveMessageForwardCount->message_id = $messageId;
-                                        $saveMessageForwardCount->status = 2;
-                                        if ($saveMessageForwardCount->save()) {
-                                            // return $saveMessageForwardCount->id;
+                                            $saveMessageForwardCount = new MessageForwardCounter;
+                                            $saveMessageForwardCount->widget_id = $widgetUIID;
+                                            $saveMessageForwardCount->agent_count = $countAgentDepartment;
+                                            $saveMessageForwardCount->count_init = 1;
+                                            $saveMessageForwardCount->message_id = $messageId;
+                                            $saveMessageForwardCount->status = 2;
+                                            if ($saveMessageForwardCount->save()) {
+                                                // return $saveMessageForwardCount->id;
 
-                                            if ($saveMessageForwardCount->id != "" && $chatRoomId != "" && $widgetUIID != "" && $messageId != "" && $departmentId != "") {
+                                                if ($saveMessageForwardCount->id != "" && $chatRoomId != "" && $widgetUIID != "" && $messageId != "" && $departmentId != "") {
 
-                                                $getAllAgentId = DepartmentAgentMap::where('department_id', $departmentId)->select('user_id')->get();
-                                                if (count($getAllAgentId) != 0) {
-                                                    // foreach ($getAllAgentId as $agentId) {
-                                                    $saveMessageAgentTrack = new MessageAgentTrack;
-                                                    $saveMessageAgentTrack->agent_id = $userId;
-                                                    $saveMessageAgentTrack->message_id = $messageId;
-                                                    $saveMessageAgentTrack->chat_room_id = $chatRoomId;
-                                                    $saveMessageAgentTrack->widget_id = $widgetUIID;
-                                                    $saveMessageAgentTrack->message_forward_counter_id = $saveMessageForwardCount->id;
-                                                    $saveMessageAgentTrack->status = 2;
-                                                    if ($saveMessageAgentTrack->save()) {
-                                                        $responseMessageCacheId = $this->saveMessageCache($toNumber, $widgetUIID);  // save to message cache
-                                                        $updateStatus = MessageCache::where('id', $responseMessageCacheId)->update(['status' => 2]);
-                                                        $this->saveMessageCacheData($body, $responseMessageCacheId, $file, $fileType, $fileUrl);        // save to message cache data
-                                                        $updateMEssageCacheData = MessageCacheData::where('message_cache_id', $responseMessageCacheId)->update(['copy' => 2]);
+                                                    $getAllAgentId = DepartmentAgentMap::where('department_id', $departmentId)->select('user_id')->get();
+                                                    if (count($getAllAgentId) != 0) {
+                                                        // foreach ($getAllAgentId as $agentId) {
+                                                        $saveMessageAgentTrack = new MessageAgentTrack;
+                                                        $saveMessageAgentTrack->agent_id = $userId;
+                                                        $saveMessageAgentTrack->message_id = $messageId;
+                                                        $saveMessageAgentTrack->chat_room_id = $chatRoomId;
+                                                        $saveMessageAgentTrack->widget_id = $widgetUIID;
+                                                        $saveMessageAgentTrack->message_forward_counter_id = $saveMessageForwardCount->id;
+                                                        $saveMessageAgentTrack->status = 2;
+                                                        if ($saveMessageAgentTrack->save()) {
+                                                            $responseMessageCacheId = $this->saveMessageCache($toNumber, $widgetUIID);  // save to message cache
+                                                            $updateStatus = MessageCache::where('id', $responseMessageCacheId)->update(['status' => 2]);
+                                                            $this->saveMessageCacheData($body, $responseMessageCacheId, $file, $fileType, $fileUrl);        // save to message cache data
+                                                            $updateMEssageCacheData = MessageCacheData::where('message_cache_id', $responseMessageCacheId)->update(['copy' => 2]);
+                                                        }
+
+                                                    } else {
+                                                        return false;
                                                     }
-
-                                                } else {
-                                                    return false;
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            /** end of inicating */
-                            $saveChatThread = new ChatThread;
-                            $saveChatThread->message_log_id = $responsesaveMessageLog;
-                            $saveChatThread->widget_id = $widgetUIID;
-                            $saveChatThread->chat_thread = $body;
-                            $saveChatThread->type = '1';
-                            $saveChatThread->user_id = $userId;
-                            $saveChatThread->direction = '2';
-                            $saveChatThread->chat_type = '1';
-                            $saveChatThread->is_mms = $file;
-                            $saveChatThread->file_type = $fileType;
-                            $saveChatThread->file_url = $fileUrl;
-                            if ($saveChatThread->save()) {
-                                //call to node API
-                                $getChatInfo = MessageTrack::where('message_id', $responsesaveMessageLog)->select('agent_id', 'chat_room_id', 'status')->first();
-                                if ($getChatInfo) {
-                                    /** call to node API for sending this message to the frontend chat secticon */
-                                    $time = date("Y-m-d H:i:s");
-                                    $url = url('/') . ':3000/mobile-chat';
-                                    $ch = curl_init();
-                                    curl_setopt($ch, CURLOPT_URL, $url);
-                                    curl_setopt($ch, CURLOPT_POST, 1);
-                                    curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                        "messageBody=$body&direction=2&user=$toNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf");
+                                /** end of inicating */
+                                $saveChatThread = new ChatThread;
+                                $saveChatThread->message_log_id = $responsesaveMessageLog;
+                                $saveChatThread->widget_id = $widgetUIID;
+                                $saveChatThread->chat_thread = $body;
+                                $saveChatThread->type = '1';
+                                $saveChatThread->user_id = $userId;
+                                $saveChatThread->direction = '2';
+                                $saveChatThread->chat_type = '1';
+                                $saveChatThread->is_mms = $file;
+                                $saveChatThread->file_type = $fileType;
+                                $saveChatThread->file_url = $fileUrl;
+                                if ($saveChatThread->save()) {
+                                    //call to node API
+                                    $getChatInfo = MessageTrack::where('message_id', $responsesaveMessageLog)->select('agent_id', 'chat_room_id', 'status')->first();
+                                    if ($getChatInfo) {
+                                        /** call to node API for sending this message to the frontend chat secticon */
+                                        $time = date("Y-m-d H:i:s");
+                                        $url = url('/') . ':3000/mobile-chat';
+                                        $ch = curl_init();
+                                        curl_setopt($ch, CURLOPT_URL, $url);
+                                        curl_setopt($ch, CURLOPT_POST, 1);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                            "messageBody=$body&direction=2&user=$toNumber&chatRoomId=$getChatInfo->chat_room_id&time=$time&callFrom=shelf");
 
-                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    $server_output = curl_exec($ch);
-                                    curl_close($ch);
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        $server_output = curl_exec($ch);
+                                        curl_close($ch);
+                                    }
+                                    $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['status' => 2, 'agent_id' => $userId]);
+                                    $updateMessageLog = MessageLog::where('id', $responsesaveContactList)->update(['status' => 2]);
+                                    $updateAgentMessageTruct = MessageAgentTrack::where('agent_id', $userId)
+                                        ->where('message_id', $responsesaveMessageLog)->where('chat_room_id', $chatRoomId)->update(['status' => 2]);
+                                    $this->sendSms($body, $toNumber, $fromNumber, $file, $fileType, $fileUrl);
+                                    return Response::json(array(
+                                        'status' => true,
+                                        'code' => 200,
+                                        'response' => [],
+                                        'error' => false,
+                                        'message' => 'Message Saved'
+                                    ));
+                                } else {
+                                    return Response::json(array(
+                                        'status' => false,
+                                        'code' => 400,
+                                        'response' => [],
+                                        'error' => true,
+                                        'message' => 'message not saved'
+                                    ));
                                 }
-                                $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['status' => 2, 'agent_id' => $userId]);
-                                $updateMessageLog = MessageLog::where('id', $responsesaveContactList)->update(['status' => 2]);
-                                $updateAgentMessageTruct = MessageAgentTrack::where('agent_id', $userId)
-                                    ->where('message_id', $responsesaveMessageLog)->where('chat_room_id', $chatRoomId)->update(['status' => 2]);
-                                $this->sendSms($body, $toNumber, $fromNumber, $file, $fileType, $fileUrl);
-                                return Response::json(array(
-                                    'status' => true,
-                                    'code' => 200,
-                                    'response' => [],
-                                    'error' => false,
-                                    'message' => 'Message Saved'
-                                ));
+
+
                             } else {
-                                return Response::json(array(
-                                    'status' => false,
-                                    'code' => 400,
-                                    'response' => [],
-                                    'error' => true,
-                                    'message' => 'message not saved'
-                                ));
+
                             }
-
-
                         } else {
 
                         }
@@ -2266,7 +2271,13 @@ class ChatController extends Controller
 
                     }
                 } else {
-
+                    return Response::json(array(
+                        'status' => false,
+                        'code' => 400,
+                        'response' => [],
+                        'error' => true,
+                        'message' => 'You can not able to initiate chat with this number as he already has a ongoing/pending chat.'
+                    ));
                 }
             } else {
                 return Response::json(array(
