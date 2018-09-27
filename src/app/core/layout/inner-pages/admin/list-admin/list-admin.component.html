@@ -38,9 +38,9 @@
                                                 class="mdl-data-table__cell--non-numeric">Company </th>
                                             <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Email</th>
                                             <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Phone</th>
-                                            <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Twilio
+                                            <!--<th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Twilio
                                                 SID
-                                            </th>
+                                            </th>-->
                                             <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                                 class="mdl-data-table__cell--non-numeric">Register Date </th>
                                             <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Action
@@ -56,20 +56,27 @@
                                             <td>{{item.company}}</td>
                                             <td>{{item.email}}</td>
                                             <td>{{item.phone}}</td>
-                                            <td>{{item.twilio_info?.twilio_sid}}</td>
+                                            <!--<td>{{item.twilio_info?.twilio_sid}}</td>-->
                                             <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
 
                                             <td>
-                                              <button type="button" class="btn btn-success btn-xs" (click)="onEdit(item.id)">
+                                              <button type="button" class="btn btn-success btn-xs" (click)="onEdit(item.id)"
+                                                      data-toggle="tooltip" data-placement="top" title="Edit Admin">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                               </button>
-                                              <button *ngIf="item.twilio_info?.twilio_sid && item.profile_status == '1'" type="button" class="btn btn-warning btn-xs" (click)="blockUser(item.id)">
+                                              <button *ngIf="item.twilio_info?.twilio_sid && item.profile_status == '1'"
+                                                type="button" class="btn btn-warning btn-xs" (click)="blockUser(item.id)"
+                                                data-toggle="tooltip" data-placement="top" title="Block account">
                                                 <i class="fa fa-lock" aria-hidden="true"></i>
                                               </button>
-                                              <button *ngIf="item.twilio_info?.twilio_sid && item.profile_status == '2'" type="button" class="btn btn-warning btn-xs" (click)="UnblockUser(item.id)">
+                                              <button *ngIf="item.twilio_info?.twilio_sid && item.profile_status == '2'"
+                                                type="button" class="btn btn-warning btn-xs" (click)="UnblockUser(item.id)"
+                                                data-toggle="tooltip" data-placement="top" title="Enable account">
                                                 <i class="fa fa-unlock" aria-hidden="true"></i>
                                               </button>
-                                              <button *ngIf="!item.twilio_info?.twilio_sid" type="button" class="btn btn-success btn-xs" (click)="createTwilioSid(item.id)">
+                                              <button *ngIf="!item.twilio_info?.twilio_sid"
+                                                type="button" class="btn btn-success btn-xs" (click)="createTwilioSid(item.id)"
+                                                data-toggle="tooltip" data-placement="top" title="Create twilio sid">
                                                 <i class="fa fa-retweet" aria-hidden="true"></i>
                                               </button>
 

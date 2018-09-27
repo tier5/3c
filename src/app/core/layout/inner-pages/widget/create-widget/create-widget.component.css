@@ -54,6 +54,8 @@ input[type=file] {
     float: right;
     margin: -27px 10px 0 0;
     cursor: pointer;
+    display:inline-block;
+    position: relative;
 }
 
 .createAgentBtn{

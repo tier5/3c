@@ -12,6 +12,7 @@ import { DepartmentSearchPipe } from './departmentSearch.pipe';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {TextMaskModule} from 'angular2-text-mask';
+import {SweetAlertService} from 'ngx-sweetalert2/src/index';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import {TextMaskModule} from 'angular2-text-mask';
         CreateDepartmentComponent,
         ListDepartmentComponent,
         DepartmentSearchPipe
-    ]
+    ],
+  providers: [SweetAlertService]
 })
 export class DepartmentModule {
 }

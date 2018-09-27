@@ -8,6 +8,7 @@ import {OrderPipe} from 'ngx-order-pipe';
 import {Subscription} from 'rxjs/Subscription';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
+import {SweetAlertService} from 'ngx-sweetalert2/src/index';
 
 @Component({
   selector: 'app-list-agent',
@@ -31,7 +32,8 @@ export class ListAgentComponent implements OnInit {
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router, private orderPipe: OrderPipe) {
+              private router: Router, private orderPipe: OrderPipe,
+              private _swal2: SweetAlertService) {
     this.sortedCollection = orderPipe.transform(this.afterLoginState, 'info.name');
   }
 
@@ -102,7 +104,25 @@ export class ListAgentComponent implements OnInit {
    * @constructor
    */
   DeleteAgent(user_id) {
-    this.store.dispatch(new AgentActions.DeleteAgentAttempt({userId: user_id}));
+    const that = this;
+    this._swal2.warning({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result) {
+        that.store.dispatch(new AgentActions.DeleteAgentAttempt({userId: user_id}));
+      }
+    }, (dismiss) => {
+      // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+      if (dismiss === 'cancel') {
+        console.log('cancel');
+      }
+    });
   }
 
   /**

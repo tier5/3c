@@ -126,19 +126,16 @@
                     <span *ngIf="phone.invalid && phone.touched" class="help-block">Your Phone Number is Required !</span>
                   </div>
                 </div>
-                <!--<div class="col-md-6">-->
-                  <!--<div class="form-group">-->
-                    <!--<label>Company</label>-->
-                    <!--<input type="text"-->
-                           <!--class="form-control"-->
-                           <!--placeholder="Company"-->
-                           <!--[ngModel]="admin.company"-->
-                           <!--name="company"-->
-                           <!--ngModel-->
-                           <!--#company="ngModel"-->
-                    <!--&gt;-->
-                  <!--</div>-->
-                <!--</div>-->
+                <div class="col-md-6" *ngIf="editMode">
+                  <div class="form-group">
+                    <label>Twilio SID</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="twilio sid"
+                           name="twilioSid"
+                            [value]="admin.twilioSid" readonly>
+                  </div>
+                </div>
               </div>
               <div class="col-md-12">
                 <div class="box-footer">

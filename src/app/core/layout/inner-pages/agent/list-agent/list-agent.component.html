@@ -66,19 +66,22 @@
                       <td>{{item.phone}}</td>
                       <td>{{item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                       <td>
-                        <button type="button" class="btn btn-success btn-xs" (click)="onEditAgent(item.id)">
+                        <button type="button" class="btn btn-success btn-xs" (click)="onEditAgent(item.id)"
+                                data-toggle="tooltip" data-placement="top" title="Edit agent">
                           <i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>
-                        <button *ngIf="item.is_block == '1'" type="button" class="btn btn-warning btn-xs" (click)="blockUser(item.id)">
+                        <button *ngIf="item.is_block == '1'" type="button" class="btn btn-warning btn-xs" (click)="blockUser(item.id)"
+                                                             data-toggle="tooltip" data-placement="top" title="Block account">
                           <i class="fa fa-lock" aria-hidden="true"></i>
                         </button>
-                        <button *ngIf="item.is_block != '1'" type="button" class="btn btn-warning btn-xs" (click)="UnblockUser(item.id)">
+                        <button *ngIf="item.is_block != '1'" type="button" class="btn btn-warning btn-xs" (click)="UnblockUser(item.id)"
+                                                             data-toggle="tooltip" data-placement="top" title="Enable account">
                           <i class="fa fa-unlock" aria-hidden="true"></i>
                         </button>
-                        <button type="button" class="btn btn-primary btn-xs" (click)="chatList(item.id)">
+                        <button type="button" class="btn btn-primary btn-xs" (click)="chatList(item.id)" data-toggle="tooltip" data-placement="top" title="View chat list">
                           <i class="fa fa-list" aria-hidden="true"></i>
                         </button>
-                        <button type="button" class="btn btn-danger btn-xs" (click)="DeleteAgent(item.id)">
+                        <button type="button" class="btn btn-danger btn-xs" (click)="DeleteAgent(item.id)" data-toggle="tooltip" data-placement="top" title="Delete agent">
                           <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
                         <!-- Single button -->

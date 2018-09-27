@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute, Data } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -8,7 +8,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import * as AdminActions from '../../../store/admin/admin.actions';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as fromAfterLogin from '../../../store/after-login.reducers';
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-create-admin',
@@ -21,7 +21,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: NgForm;
   authState: Observable<fromAuth.State>;
   afterLoginSubscription: Subscription;
-  editMode: boolean = false;
+  editMode = false;
   userId: number;
   updateAdmin: any;
   mask: Array<string | RegExp> = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
@@ -33,8 +33,9 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
     userName: '',
     phone: '',
     company: '',
+    twilioSid: '',
   };
-  loader: boolean = false;
+  loader = false;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
     private activatedRoute: ActivatedRoute, private router: Router) { }
@@ -46,7 +47,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
       (data: Data) => {
         this.editMode = data['editMode'];
         /** Perform operation is present mode is edit mode */
-        if(this.editMode) {
+        if (this.editMode) {
           /** Checking route params to get id of department to edit */
           this.userId = this.activatedRoute.snapshot.params['id'];
           this.store.dispatch(new AdminActions.GetToEditAdminAttempt({adminId: this.userId}));
@@ -56,6 +57,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
             .subscribe(
               (admin) => {
                   if (admin) {
+                    this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
                     this.admin.userId = admin.id;
                     this.admin.firstName = admin.first_name;
                     this.admin.lastName = admin.last_name;
@@ -73,7 +75,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
       .map(data => data.admin.resetAdminForm)
       .subscribe(
         (data) => {
-          if(data) {
+          if (data) {
             this.loader = false;
             this.form.reset();
             this.store.dispatch(new AdminActions.ResetAdminForm());
@@ -94,9 +96,9 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
             .map(data => data)
             .subscribe(
                 (data) => {
-                    if(data.show && data.type === 'danger') {
+                    if (data.show && data.type === 'danger') {
                         this.loader = false;
-                    } else if(data.show && data.type === 'success') {
+                    } else if (data.show && data.type === 'success') {
                                 this.router.navigate(['/admin/list']);
                     }
                 }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
@@ -108,9 +110,9 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
                 .map(data => data)
                 .subscribe(
                     (data) => {
-                        if(data.show && data.type === 'danger') {
+                        if (data.show && data.type === 'danger') {
                             this.loader = false;
-                        } else if(data.show && data.type === 'success') {
+                        } else if (data.show && data.type === 'success') {
                                     this.router.navigate(['/admin/list']);
                         }
                     }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });

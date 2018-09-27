@@ -53,10 +53,12 @@
                                                     <!--<i class="fa fa-search" aria-hidden="true"></i>-->
                                                      <!--View-->
                                                 <!--</button>-->
-                                                <button type="button" class="btn btn-warning btn-xs" (click)="onEdit(item.id)">
+                                                <button type="button" class="btn btn-warning btn-xs" (click)="onEdit(item.id)"
+                                                        data-toggle="tooltip" data-placement="top" title="Edit department">
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-danger btn-xs" (click)="preDelete(item.id, template)">
+                                                <button type="button" class="btn btn-danger btn-xs" (click)="preDelete(item.id, template)"
+                                                        data-toggle="tooltip" data-placement="top" title="Delete department">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </button>
                                             </td>
@@ -132,7 +134,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button class="btn btn-warning btn-lg pull-right" [disabled]="deleteCheckList['isSingleDepartmentWidgets']" (click)="deleteDepartment(deleteCheckList.department.id)">Delete</button>
+          <button class="btn btn-warning btn-lg pull-right" [disabled]="deleteCheckList['isSingleDepartmentWidgets']" (click)="deleteDepartment(deleteCheckList.department.id, template)">Delete</button>
           <button class="btn btn-success btn-lg" aria-label="Close" (click)="bsModalRef.hide()">Skip</button>
         </div>
       </div>

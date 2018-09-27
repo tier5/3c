@@ -33,17 +33,19 @@
     float: right;
     margin: -27px 10px 0 0;
     cursor: pointer;
+    display:inline-block;
+    position: relative;
 }
 .switch {
   position: relative;
   display: inline-block;
-  width: 87px;
+  width: 220px;
   height: 34px;
 }
 
 .switch input {display:none;}
 
-.slider {
+.sliderEmail {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -55,7 +57,30 @@
   transition: .4s;
 }
 
-.slider:before {
+.sliderEmail:before {
+  position: absolute;
+  content: "";
+  height: 29px;
+  width: 26px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+}
+
+.sliderPhone {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.sliderPhone:before {
   position: absolute;
   content: "";
   height: 29px;
@@ -66,20 +91,37 @@
   transition: .4s;
 }
 
-input:checked + .slider {
+
+input:checked + .sliderEmail {
   background-color: #2196F3;
 }
 
-input:focus + .slider {
+input:focus + .sliderEmail {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
+input:checked + .sliderPhone {
+  background-color: #2196F3;
+}
+
+input:focus + .sliderPhone {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .sliderEmail:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
-  left: 32px;
+  left: 10px;
 }
+
+input:checked + .sliderPhone:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  left: 10px;
+}
+
 
 .filterSubmit {
   /*position: relative;*/
@@ -89,28 +131,60 @@ input:checked + .slider:before {
 }
 .input-box-toggel {
   float: left;
-  width: calc(100% - 84px);
+  width: calc(100% - 222px);
 }
 .input-label-toggel {
   width: 100% !important;
 }
 
-.slider:after
+.sliderEmail:after
 {
-  content:'OFF';
+  content:'Email Notification Off';
   color: white;
   display: block;
   position: absolute;
   transform: translate(-50%,-50%);
   top: 50%;
-  left: 70%;
-  font-size: 15px;
+  left: 64%;
+  font-size: 12px;
   font-family: Verdana, sans-serif;
+  width: 70%;
+  text-align: left;
 }
 
-input:checked + .slider:after
+input:checked + .sliderEmail:after
 {
-  content:'ON';
-  left: 30% !important;
+  content:'Email Notification On';
+  left: 65% !important;
 }
 
+.sliderPhone:after
+{
+  content:'SMS Notification Off';
+  color: white;
+  display: block;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 64%;
+  font-size: 12px;
+  font-family: Verdana, sans-serif;
+  width: 70%;
+  text-align: left;
+}
+
+input:checked + .sliderPhone:after
+{
+  content:'SMS Notification On';
+  left: 65% !important;
+}
+
+@media screen and (max-width: 481px) {
+  .input-box-toggel{
+    width: 100%;
+  }
+  .switch{
+    margin: 10px 15px 0 0;
+    float: right;
+  }
+}

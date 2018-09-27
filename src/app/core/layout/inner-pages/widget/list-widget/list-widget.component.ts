@@ -7,6 +7,7 @@ import * as WidgetActions from '../../../store/widget/widget.actions';
 import { Subscription } from 'rxjs/Subscription';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as AgentActions from '../../../store/agent/agent.actions';
+import {SweetAlertService} from 'ngx-sweetalert2/src/index';
 
 @Component({
   selector: 'app-list-widget',
@@ -26,7 +27,7 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
   companySubscription: Subscription;
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router) { }
+              private router: Router, private _swal2: SweetAlertService) { }
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.companySearch = '';
@@ -81,7 +82,25 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
    * @constructor
    */
   DeleteWidget(id) {
-    this.store.dispatch(new WidgetActions.DeleteWidgetAttempt({widget_id: id}));
+    const that = this;
+    this._swal2.warning({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result) {
+        this.store.dispatch(new WidgetActions.DeleteWidgetAttempt({widget_id: id}));
+      }
+    }, (dismiss) => {
+      // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+      if (dismiss === 'cancel') {
+        console.log('cancel');
+      }
+    });
   }
 
   ngOnDestroy () {

@@ -12,24 +12,28 @@ import * as AuthActions from '../../../store/auth/auth.actions';
 import * as DepartmentActions from '../department/department.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
+import {SpinnerService} from '../../../shared/spinner';
 
 @Injectable()
 export class DepartmentEffects {
 
   constructor (private actions$: Actions,
-               private httpClient: HttpClient) {}
+               private httpClient: HttpClient,
+               private spinnerService: SpinnerService) {}
 
   @Effect()
   addDepartment = this.actions$
     .ofType(DepartmentActions.ADD_DEPARTMENT_ATTEMPT)
     .switchMap((action: DepartmentActions.AddDepartmentAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'create-department';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -40,14 +44,14 @@ export class DepartmentEffects {
                 type: DepartmentActions.ADD_DEPARTMENT_SUCCESS,
                 payload: res.response
               }
-            ]
+            ];
           } else {
             return [
               {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'danger' }
               }
-            ]
+            ];
           }
         })
         .catch((err: HttpErrorResponse) => {
@@ -56,21 +60,23 @@ export class DepartmentEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   editDepartment = this.actions$
     .ofType(DepartmentActions.EDIT_DEPARTMENT_ATTEMPT)
     .switchMap((action: DepartmentActions.EditDepartmentAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'edit-department';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -81,14 +87,14 @@ export class DepartmentEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'success' }
               }
-            ]
+            ];
           } else {
             return [
               {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'danger' }
               }
-            ]
+            ];
           }
         })
         .catch((err: HttpErrorResponse) => {
@@ -97,25 +103,27 @@ export class DepartmentEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   getDepartmentList = this.actions$
     .ofType(DepartmentActions.GET_DEPARTMENT_LIST_ATTEMPT)
     .switchMap((action: DepartmentActions.GetDepartmentListAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'department-list';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           return {
             type: DepartmentActions.GET_DEPARTMENT_LIST_SUCCESS,
             payload: res.response
-          }
+          };
         })
         .catch((err: HttpErrorResponse) => {
           return of(
@@ -123,25 +131,27 @@ export class DepartmentEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   getToEditDepartment = this.actions$
     .ofType(DepartmentActions.GET_TO_EDIT_DEPARTMENT_ATTEMPT)
     .switchMap((action: DepartmentActions.GetToEditDepartmentAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'view-department';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           return {
             type: DepartmentActions.GET_TO_EDIT_DEPARTMENT_SUCCESS,
             payload: res.response
-          }
+          };
         })
         .catch((err: HttpErrorResponse) => {
           return of(
@@ -149,33 +159,35 @@ export class DepartmentEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   preDeleteDepartment = this.actions$
     .ofType(DepartmentActions.PRE_DELETE_ATTEMPT)
     .switchMap((action: DepartmentActions.PreDeleteAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'check-pre-delete-department';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return {
                 type: DepartmentActions.PRE_DELETE_SUCCESS,
                 payload: res.response
-              }
+              };
           } else {
             return [
               {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'danger' }
               }
-            ]
+            ];
           }
         })
         .catch((err: HttpErrorResponse) => {
@@ -184,21 +196,23 @@ export class DepartmentEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   deleteDepartment = this.actions$
     .ofType(DepartmentActions.DEPARTMENT_DELETE_ATTEMPT)
     .switchMap((action: DepartmentActions.DepartmentDeleteAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'delete-department';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -209,14 +223,14 @@ export class DepartmentEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'success' }
               }
-            ]
+            ];
           } else {
             return [
               {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'danger' }
               }
-            ]
+            ];
           }
         })
         .catch((err: HttpErrorResponse) => {
@@ -225,8 +239,8 @@ export class DepartmentEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
 }

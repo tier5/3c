@@ -12,37 +12,41 @@ import * as AuthActions from '../../../store/auth/auth.actions';
 import * as DashboardActions from '../dashboard/dashboard.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
+import {SpinnerService} from '../../../shared/spinner';
 
 @Injectable()
 export class DashboardEffects {
 
     constructor(private actions$: Actions,
-                private httpClient: HttpClient) {}
+                private httpClient: HttpClient,
+                private spinnerService: SpinnerService) {}
     @Effect()
     getDashboardItemsCount = this.actions$
         .ofType(DashboardActions.GET_DASHBOARD_ITEMS_COUNT_ATTEMPT)
         .switchMap((action: DashboardActions.GetDashboardItemsCountAttempt) => {
+            this.spinnerService.show();
             const apiUrl = environment.API_BASE_URL + 'get-dashboard-count';
-            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+            const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
             const config = {
                 headers: headers
-            }
+            };
             return this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap((res: any) => {
+                  this.spinnerService.hide();
                     if (res.status) {
                         return [
                             {
                                 type: DashboardActions.GET_DASHBOARD_ITEMS_COUNT_SUCCESS,
                                 payload: res
                             }
-                        ]
+                        ];
                     } else {
                         return [
                             {
                                 type: AlertActions.ALERT_SHOW,
                                 payload: { message: res.message, type: 'danger' }
                             }
-                        ]
+                        ];
                     }
                 })
                 .catch((err: HttpErrorResponse) => {
@@ -51,8 +55,8 @@ export class DashboardEffects {
                             type: AlertActions.ALERT_SHOW,
                             payload: { message: err.message, type: 'danger' }
                         }
-                    )
-                })
+                    );
+                });
         });
 
 }

@@ -12,24 +12,28 @@ import * as AuthActions from '../../../store/auth/auth.actions';
 import * as AdminActions from './admin.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
+import {SpinnerService} from '../../../shared/spinner';
 
 @Injectable()
 export class AdminEffects {
 
   constructor (private actions$: Actions,
-               private httpClient: HttpClient) {}
+               private httpClient: HttpClient,
+               private spinnerService: SpinnerService) {}
 
   @Effect()
   addAdmin = this.actions$
     .ofType(AdminActions.ADD_ADMIN_ATTEMPT)
     .switchMap((action: AdminActions.AddAdminAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'admin-registration';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -40,14 +44,14 @@ export class AdminEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'success' }
               }
-            ]
+            ];
           } else {
             return [
               {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'danger' }
               }
-            ]
+            ];
           }
         })
         .catch((err: HttpErrorResponse) => {
@@ -56,31 +60,33 @@ export class AdminEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.error, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   getAdminList = this.actions$
     .ofType(AdminActions.GET_ADMIN_LIST_ATTEMPT)
     .switchMap((action: AdminActions.GetAdminListAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'admin-list';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.get(apiUrl, config)
         .map((res: any) => {
-          if(res.status) {
+          this.spinnerService.hide();
+          if (res.status) {
             return {
               type: AdminActions.GET_ADMIN_LIST_SUCCESS,
               payload: res.response
-            }
+            };
           } else {
             return {
               type: AlertActions.ALERT_SHOW,
               payload: { message: res.message, type: 'danger' }
-            }
+            };
           }
 
         })
@@ -90,21 +96,23 @@ export class AdminEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.error, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
   @Effect()
   editAdmin = this.actions$
     .ofType(AdminActions.EDIT_ADMIN_ATTEMPT)
     .switchMap((action: AdminActions.EditAdminAttempt) => {
+      this.spinnerService.show();
         const apiUrl = environment.API_BASE_URL + 'updateuserprofile';
-        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
         const config = {
           headers: headers
-        }
+        };
         return this.httpClient.post(apiUrl, action.payload, config)
           .mergeMap((res: any) => {
+            this.spinnerService.hide();
             if (res.status) {
               return [
                 {
@@ -115,14 +123,14 @@ export class AdminEffects {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'success' }
                 }
-              ]
+              ];
             } else {
               return [
                 {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'danger' }
                 }
-              ]
+              ];
             }
           })
           .catch((err: HttpErrorResponse) => {
@@ -131,21 +139,23 @@ export class AdminEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: err.error, type: 'danger' }
               }
-            )
-          })
+            );
+          });
       });
 
   @Effect()
   createTwilioSid = this.actions$
     .ofType(AdminActions.CREATE_TWILIO_SID_ATTEMPT)
     .switchMap((action: AdminActions.CreateTwilioSidAttempt) => {
+        this.spinnerService.show();
         const apiUrl = environment.API_BASE_URL + 'create-user-twilio-sid';
-        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
         const config = {
           headers: headers
-        }
+        };
         return this.httpClient.post(apiUrl, action.payload, config)
           .mergeMap((res: any) => {
+            this.spinnerService.hide();
             if (res.status) {
               return [
                 {
@@ -156,14 +166,14 @@ export class AdminEffects {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'success' }
                 }
-              ]
+              ];
             } else {
               return [
                 {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'danger' }
                 }
-              ]
+              ];
             }
           })
           .catch((err: HttpErrorResponse) => {
@@ -172,21 +182,23 @@ export class AdminEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: err.error, type: 'danger' }
               }
-            )
-          })
+            );
+          });
       });
 
   @Effect()
   blockUser = this.actions$
     .ofType(AdminActions.BLOCK_ADMIN_USER_ATTEMPT)
     .switchMap((action: AdminActions.BlockAdminUserAttempt) => {
+      this.spinnerService.show();
         const apiUrl = environment.API_BASE_URL + 'block-user';
-        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
         const config = {
           headers: headers
-        }
+        };
         return this.httpClient.post(apiUrl, action.payload, config)
           .mergeMap((res: any) => {
+            this.spinnerService.hide();
             if (res.status) {
               return [
                 {
@@ -197,14 +209,14 @@ export class AdminEffects {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'success' }
                 }
-              ]
+              ];
             } else {
               return [
                 {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'danger' }
                 }
-              ]
+              ];
             }
           })
           .catch((err: HttpErrorResponse) => {
@@ -213,21 +225,23 @@ export class AdminEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: err.error, type: 'danger' }
               }
-            )
-          })
+            );
+          });
       });
 
   @Effect()
   unblockUser = this.actions$
     .ofType(AdminActions.UNBLOCK_ADMIN_USER_ATTEMPT)
     .switchMap((action: AdminActions.UnblockAdminUserAttempt) => {
+        this.spinnerService.show();
         const apiUrl = environment.API_BASE_URL + 'unblock-user';
-        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+        const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
         const config = {
           headers: headers
-        }
+        };
         return this.httpClient.post(apiUrl, action.payload, config)
           .mergeMap((res: any) => {
+            this.spinnerService.hide();
             if (res.status) {
               return [
                 {
@@ -238,14 +252,14 @@ export class AdminEffects {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'success' }
                 }
-              ]
+              ];
             } else {
               return [
                 {
                   type: AlertActions.ALERT_SHOW,
                   payload: { message: res.message, type: 'danger' }
                 }
-              ]
+              ];
             }
           })
           .catch((err: HttpErrorResponse) => {
@@ -254,25 +268,27 @@ export class AdminEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: err.error, type: 'danger' }
               }
-            )
-          })
+            );
+          });
       });
 
   @Effect()
   getToEditAdmin = this.actions$
     .ofType(AdminActions.GET_TO_EDIT_ADMIN_ATTEMPT)
     .switchMap((action: AdminActions.GetToEditAdminAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'view-admin';
-      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest')
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
-      }
+      };
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           return {
             type: AdminActions.GET_TO_EDIT_ADMIN_SUCCESS,
             payload: res.response
-          }
+          };
         })
         .catch((err: HttpErrorResponse) => {
           return of(
@@ -280,8 +296,8 @@ export class AdminEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.message, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 
 }

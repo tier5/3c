@@ -13,6 +13,7 @@ import { MomentModule } from 'angular2-moment';
 import { TableSearchPipe } from './tableSearch.pipe';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {SweetAlertService} from 'ngx-sweetalert2/src/index';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   ],
     providers: [
         // {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
+      SweetAlertService
     ],
   declarations: [
     CreateWidgetComponent,

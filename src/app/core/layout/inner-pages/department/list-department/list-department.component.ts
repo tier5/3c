@@ -9,6 +9,7 @@ import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as AgentActions from '../../../store/agent/agent.actions';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {SweetAlertService} from 'ngx-sweetalert2/src/index';
 
 @Component({
   selector: 'app-list-department',
@@ -32,7 +33,8 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     bsModalRef: BsModalRef;
     deleteCheckList: any[];
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
-              private router: Router,  private modalService: BsModalService) { }
+              private router: Router,  private modalService: BsModalService,
+              private _swal2: SweetAlertService) { }
 
   /** Function to be executed when component initializes */
   ngOnInit() {
@@ -84,9 +86,32 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     );
     this.bsModalRef = this.modalService.show(template);
   }
-  deleteDepartment(id) {
+  deleteDepartment(id, template: TemplateRef<any>) {
     this.bsModalRef.hide();
-    this.store.dispatch(new DepartmentActions.DepartmentDeleteAttempt({deptId: id}));
+    const that = this;
+    this._swal2.warning({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result) {
+        that.store.dispatch(new DepartmentActions.DepartmentDeleteAttempt({deptId: id}));
+      }
+    }, (dismiss) => {
+      if (dismiss === 'cancel') {
+        that.store.dispatch(new DepartmentActions.PreDeleteAttempt({deptId: id}));
+        that.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(
+          (data) => {
+            that.deleteCheckList = data;
+          }
+        );
+        that.bsModalRef = that.modalService.show(template);
+      }
+    });
   }
   ngOnDestroy (): void {
     this.companyList = null;

@@ -1,5 +1,5 @@
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -23,12 +23,12 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   /** Variable declaration */
-  @ViewChild('form') form:NgForm;
+  @ViewChild('form') form: NgForm;
   authState: Observable<fromAuth.State>;
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
   authSubscription: Subscription;
   afterLoginSubscription: Subscription;
-  editMode: boolean = false;
+  editMode = false;
   depId: number;
   updateDep: any;
   loggedInAdminId: number;
@@ -38,16 +38,16 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     departmentDetails: '',
     agents: []
   };
-  loader: boolean = false;
-  createAgentLoader: boolean = false;   /** Loader for add agent button */
-  adminUserId:number;                 /** admin user id from admin selection droupdown */
-  adminId:number;
-  changedDepFlag: boolean = false;
+  loader = false;
+  createAgentLoader = false;   /** Loader for add agent button */
+  adminUserId: number;                 /** admin user id from admin selection droupdown */
+  adminId: number;
+  changedDepFlag = false;
   adminList: Subscription;
   listOfAdmins = [];
   updatedlistOfAdmins = [];
-  adminName:any;
-  showThis: boolean = false;
+  adminName: any;
+  showThis = false;
   dropdownSettings = {};
   bsModalRef: BsModalRef;             /** bootstrap modal */
   agent: any;                            /** initialize the agent object */
@@ -67,13 +67,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
-          if(data.isAdmin) {
+          if (data.isAdmin) {
             this.dep.userId = data.userId;
             this.loggedInAdminId = data.userId;
           }
         }
       );
-    if(this.dep.userId !== 0 ){
+    if (this.dep.userId !== 0 ){
         this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
     }
 
@@ -81,7 +81,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       .map(data => data.department.resetDepartmentForm)
       .subscribe(
         (data) => {
-          if(data) {
+          if (data) {
             this.loader = false;
             this.form.reset();
             this.store.dispatch(new DepartmentActions.ResetDepartmentForm());
@@ -97,7 +97,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       (data: Data) => {
         this.editMode = data['editMode'];
         /** Perform operation is present mode is edit mode */
-         if(this.editMode) {
+         if (this.editMode) {
              /** Checking route params to get id of department to edit */
           this.depId = this.activatedRoute.snapshot.params['id'];
              this.store.dispatch(new DepartmentActions.GetToEditDepartmentAttempt({departmentId: this.depId}));
@@ -105,7 +105,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                  .distinctUntilChanged()
                 .subscribe(
                   (dep) => {
-                    if(dep) {
+                    if (dep) {
                         if (dep.toEdit.department !== undefined) {
                                 this.changedDepFlag = true;
                                 this.dep.userId = dep.toEdit.department.user_id;
@@ -113,7 +113,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                                 this.dep.departmentDetails = dep.toEdit.department.department_details;
                                 this.dep.agents = dep.toEdit.agents;
                                 this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
-                                this.adminName = dep.toEdit.department.user_details.first_name+' '+dep.toEdit.department.user_details.last_name;
+                                this.adminName = dep.toEdit.department.user_details.first_name + ' ' + dep.toEdit.department.user_details.last_name;
 
                         }
                     }
@@ -126,18 +126,18 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
       this.adminList = this.store.select('afterLogin').map(data => data)
           .subscribe(
               (data) => {
-                  if(data.admin.list) {
+                  if (data.admin.list) {
                       this.listOfAdmins = data.admin.list;
                   }
               }
           );
     this.dropdownSettings = {
       singleSelection: false,
-      text:"Select Agents",
-      selectAllText:'Select All',
-      unSelectAllText:'UnSelect All',
+      text: 'Select Agents',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
       enableSearchFilter: false,
-      classes:"myclass custom-class",
+      classes: 'myclass custom-class',
       primaryKey: 'id',
       labelKey: 'name'
     };
@@ -147,10 +147,10 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         userId: '',
         firstName: '',
         lastName: '',
-        email:'',
-        phone:'',
-        isemailNotification:true,
-        isPhoneNotification:true,
+        email: '',
+        phone: '',
+        isemailNotification: true,
+        isPhoneNotification: true,
     };
   }
 
@@ -169,7 +169,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   /** Function call to create a new department */
   onCreateDep(form: NgForm) {
     this.loader = true;
-    if(this.editMode) {
+    if (this.editMode) {
       const data = { ...form.value, departmentId: this.depId };
       this.store.dispatch(new DepartmentActions.EditDepartmentAttempt({...data}));
         /** Loader Show/Hide */
@@ -177,9 +177,9 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
             .map(data => data)
             .subscribe(
                 (data) => {
-                    if(data.show && data.type === 'danger') {
+                    if (data.show && data.type === 'danger') {
                         this.loader = false;
-                    } else if(data.show && data.type === 'success') {
+                    } else if (data.show && data.type === 'success') {
                         this.router.navigate(['/department/list']);
                     }
                 }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
@@ -202,16 +202,16 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     }
 
     /** function to assign value to the hidden field */
-    assignValue(id,first_name,last_name){
+    assignValue(id, first_name, last_name){
         this.dep.userId = id;
-        this.adminName = first_name+' '+last_name;
+        this.adminName = first_name + ' ' + last_name;
         this.showThis = false;
         this.adminChanged(id);
     }
 
     /** Function to reset the admin list when click on close */
-    resetList(){
-        this.adminName = "";
+    resetList() {
+        this.adminName = '';
         this.showThis = true;
         this.dep.userId = 0;
     }
@@ -235,10 +235,10 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                         this.createAgentLoader = false;
                     }else if (data.show && data.type === 'success') {
                         this.bsModalRef.hide();
-                        this.store.select('afterLogin','agent','newAgentInfo')
-                            .subscribe(data=> {
-                                this.dep.agents.push({id:data.id, first_name:data.first_name, last_name: data.last_name});
-                            })
+                        this.store.select('afterLogin', 'agent', 'newAgentInfo')
+                            .subscribe(data => {
+                                this.dep.agents.push({id: data.id, first_name: data.first_name, last_name: data.last_name});
+                            });
                     }
                 }, (error) => { console.error(error); this.createAgentLoader = false; } , () => {this.createAgentLoader = false; });
     }

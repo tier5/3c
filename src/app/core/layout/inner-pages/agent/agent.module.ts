@@ -13,6 +13,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MomentModule } from 'angular2-moment';
 import { AgentSearchPipe } from './agentSearch.pipe';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { SweetAlertService } from 'ngx-sweetalert2';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
         CreateAgentComponent,
         ListAgentComponent,
         AgentSearchPipe
-    ]
+    ],
+  providers: [SweetAlertService]
 })
 export class AgentModule {
 }

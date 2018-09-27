@@ -50,8 +50,7 @@
                     </div>
                   </ng-template>
                   <input type="hidden" [ngModel]="dep.userId" id="admin" name="userId" #selected>
-
-                  <div class="col-md-5" *ngIf="selected.value > 0">
+                  <div class="col-md-5">
                     <div class="form-group">
                       <label class="control-label" for="agents">
                         Select Agents
@@ -67,26 +66,16 @@
                           </ng-template>
                         </c-badge>
                       </angular2-multiselect>
-                      <!--<select class="form-control"-->
-                              <!--id="agents"-->
-                              <!--name="agentIds"-->
-                              <!--[(ngModel)]="dep.agents"-->
-                              <!--multiple>-->
-                          <!--<option [value]="item.id" *ngFor="let item of (afterLoginState | async).agent.list; let i = index">-->
-                              <!--{{item.first_name}} {{item.last_name}}-->
-                          <!--</option>-->
-                      <!--</select>-->
                     </div>
                   </div>
-                    <div class="col-md-1 createAgentBtn"  *ngIf="selected.value > 0">
-                        <div class="form-group">
-                            <button class="btn btn-primary" type="button" (click)="CreateAgent(template)" id="createAgent"><i class="fa fa-plus"> </i> Create Agent</button>
-                        </div>
+                  <div class="col-md-1 createAgentBtn">
+                    <div class="form-group">
+                      <button class="btn btn-success" type="button" (click)="CreateAgent(template)" id="createAgent"><i class="fa fa-plus"> </i> Create Agent</button>
                     </div>
-
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6" *ngIf="selected.value > 0">
+              <div class="col-md-6">
                 <div class="form-group" [ngClass]="(dName.invalid && dName.touched) ? 'has-error': ''">
                   <label class="control-label" for="name">
                     <i *ngIf="dName.invalid && dName.touched" class="fa fa-times-circle-o"></i>
@@ -105,7 +94,7 @@
                         class="help-block">Your Department Name is Required!</span>
                 </div>
               </div>
-              <div class="col-md-6" *ngIf="selected.value > 0">
+              <div class="col-md-6">
                 <div class="form-group" [ngClass]="{ 'has-error': dDes.invalid && dDes.touched }">
                   <label class="control-label" for="detail">
                     <i *ngIf="dDes.invalid && dDes.touched" class="fa fa-times-circle-o"></i>

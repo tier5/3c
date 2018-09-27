@@ -66,43 +66,31 @@
                 <!--</select> OLD SELECT -->
 
                 <div class="col-md-6">
-                 <div class="col-md-10">
-                  <div class="form-group">
-                    <label class="control-label" for="department">
-                      Department for Agent
-                    </label>
-                    <!--<select class="form-control"-->
-                            <!--id="department"-->
-                            <!--name="departmentId"-->
-                            <!--#selectedDepartment-->
-                            <!--[ngModel]="agent.departmentId"-->
-                            <!--(change)="deptChanged(selectedDepartment.value)"-->
-                            <!--required-->
-                    <!--&gt;-->
-                      <!--<option selected value="0">Choose...</option>-->
-                      <!--<option [value]="item.id"-->
-                              <!--*ngFor="let item of (afterLoginState | async).department.list; let i = index">-->
-                        <!--{{item.department_name}}-->
-                      <!--</option>-->
-                      <!--<option value="99999991999999" style="font-weight: bold;">&#43; Create Department</option>-->
-                    <!--</select>-->
-                      <angular2-multiselect
-                              id="department" name="departmentId"
-                              [data]="(afterLoginState | async).department.list"
-                              [(ngModel)]="agent.departmentId" [settings]="dropdownSettings" required>
-                          <c-badge>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <label class="control-label" for="department">
+                            Department for Agent
+                          </label>
+                          <angular2-multiselect
+                            id="department" name="departmentId"
+                            [data]="(afterLoginState | async).department.list"
+                            [(ngModel)]="agent.departmentId" [settings]="dropdownSettings" required>
+                            <c-badge>
                               <ng-template let-item="item">
-                                  <label style="margin: 0px;">{{item.department_name}}</label>
+                                <label style="margin: 0px;">{{item.department_name}}</label>
                               </ng-template>
-                          </c-badge>
-                      </angular2-multiselect>
+                            </c-badge>
+                          </angular2-multiselect>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <a class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
+                          (click)="createDepartment(template)" id="createDepartment"><i class="fa fa-plus"></i> Create Department</a>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                  <div class="col-md-2">
-                    <a class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
-                       (click)="createDepartment(template)" id="createDepartment"><i class="fa fa-plus"></i> Create Department</a>
-                  </div>
-
                 </div>  <!-- col-md-6 End -->
 
               </div>
@@ -165,7 +153,7 @@
                     <div class="row filterSubmit">
                       <label class="switch">
                         <input type="checkbox" name="isEmailNotification" [(ngModel)]="isemailNotification" [checked]="isemailNotification">
-                        <span class="slider"></span>
+                        <span class="sliderEmail"></span>
                       </label>
                     </div>
 
@@ -215,7 +203,7 @@
                     <div class="row filterSubmit">
                       <label class="switch">
                         <input type="checkbox" name="isPhoneNotification" [(ngModel)]="isPhoneNotification" [checked]="isPhoneNotification">
-                        <span class="slider"></span>
+                        <span class="sliderPhone"></span>
                       </label>
                     </div>
                     <span *ngIf="phone.invalid && phone.touched"
