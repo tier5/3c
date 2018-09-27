@@ -1702,6 +1702,7 @@ var GetToEditAdminSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__admin_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/admin/admin.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1723,14 +1724,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AdminEffects = (function () {
-    function AdminEffects(actions$, httpClient) {
+    function AdminEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.addAdmin = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["a" /* ADD_ADMIN_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-registration';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1738,6 +1742,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -1769,6 +1774,7 @@ var AdminEffects = (function () {
         this.getAdminList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["m" /* GET_ADMIN_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1776,6 +1782,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.get(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["n" /* GET_ADMIN_LIST_SUCCESS */],
@@ -1799,6 +1806,7 @@ var AdminEffects = (function () {
         this.editAdmin = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["j" /* EDIT_ADMIN_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'updateuserprofile';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1806,6 +1814,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -1837,6 +1846,7 @@ var AdminEffects = (function () {
         this.createTwilioSid = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["g" /* CREATE_TWILIO_SID_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'create-user-twilio-sid';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1844,6 +1854,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -1875,6 +1886,7 @@ var AdminEffects = (function () {
         this.blockUser = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["d" /* BLOCK_ADMIN_USER_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'block-user';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1882,6 +1894,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -1913,6 +1926,7 @@ var AdminEffects = (function () {
         this.unblockUser = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["u" /* UNBLOCK_ADMIN_USER_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-user';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1920,6 +1934,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -1951,6 +1966,7 @@ var AdminEffects = (function () {
         this.getToEditAdmin = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["o" /* GET_TO_EDIT_ADMIN_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-admin';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -1958,6 +1974,7 @@ var AdminEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["p" /* GET_TO_EDIT_ADMIN_SUCCESS */],
                     payload: res.response
@@ -2003,10 +2020,10 @@ __decorate([
 ], AdminEffects.prototype, "getToEditAdmin", void 0);
 AdminEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], AdminEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=admin.effect.js.map
 
 /***/ }),
@@ -2581,6 +2598,7 @@ var DeleteAgentSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2602,14 +2620,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AgentEffects = (function () {
-    function AgentEffects(actions$, httpClient) {
+    function AgentEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.addAdmin = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["a" /* ADD_AGENT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-register';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2617,6 +2638,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -2648,6 +2670,7 @@ var AgentEffects = (function () {
         this.getAgentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["q" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2655,6 +2678,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */],
@@ -2678,6 +2702,7 @@ var AgentEffects = (function () {
         this.editAgent = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-update';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2685,6 +2710,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -2716,6 +2742,7 @@ var AgentEffects = (function () {
         this.getToEditDepartmentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["u" /* GET_TO_EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2723,6 +2750,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["v" /* GET_TO_EDIT_AGENT_SUCCESS */],
                     payload: res.response
@@ -2738,6 +2766,7 @@ var AgentEffects = (function () {
         this.getAdminAgentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["o" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-admin-agents';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2745,6 +2774,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["p" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
@@ -2768,6 +2798,7 @@ var AgentEffects = (function () {
         this.getCompanyList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["s" /* GET_COMPANY_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-company-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2775,6 +2806,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["t" /* GET_COMPANY_LIST_SUCCESS */],
@@ -2798,6 +2830,7 @@ var AgentEffects = (function () {
         this.blockAgent = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["c" /* AGENT_BLOCK_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'block-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2805,6 +2838,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -2836,6 +2870,7 @@ var AgentEffects = (function () {
         this.unblockAgent = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["g" /* AGENT_UNBLOCK_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2843,6 +2878,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -2874,6 +2910,7 @@ var AgentEffects = (function () {
         this.deleteAgent = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["e" /* AGENT_DELETE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-agent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2881,6 +2918,7 @@ var AgentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -2950,10 +2988,10 @@ __decorate([
 ], AgentEffects.prototype, "deleteAgent", void 0);
 AgentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], AgentEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=agent.effect.js.map
 
 /***/ }),
@@ -3681,6 +3719,7 @@ var GetDashboardItemsCountSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__dashboard_dashboard_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/dashboard/dashboard.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3702,14 +3741,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var DashboardEffects = (function () {
-    function DashboardEffects(actions$, httpClient) {
+    function DashboardEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.getDashboardItemsCount = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__dashboard_dashboard_actions__["a" /* GET_DASHBOARD_ITEMS_COUNT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-dashboard-count';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3717,6 +3759,7 @@ var DashboardEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -3750,10 +3793,10 @@ __decorate([
 ], DashboardEffects.prototype, "getDashboardItemsCount", void 0);
 DashboardEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], DashboardEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=dashboard.effects.js.map
 
 /***/ }),
@@ -3989,6 +4032,7 @@ var DepartmentDeleteSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__department_department_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4010,14 +4054,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var DepartmentEffects = (function () {
-    function DepartmentEffects(actions$, httpClient) {
+    function DepartmentEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.addDepartment = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["a" /* ADD_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'create-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4025,6 +4072,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -4056,6 +4104,7 @@ var DepartmentEffects = (function () {
         this.editDepartment = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["g" /* EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'edit-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4063,6 +4112,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -4094,6 +4144,7 @@ var DepartmentEffects = (function () {
         this.getDepartmentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* GET_DEPARTMENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'department-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4101,6 +4152,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["k" /* GET_DEPARTMENT_LIST_SUCCESS */],
                     payload: res.response
@@ -4116,6 +4168,7 @@ var DepartmentEffects = (function () {
         this.getToEditDepartment = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["l" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4123,6 +4176,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["m" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
                     payload: res.response
@@ -4138,6 +4192,7 @@ var DepartmentEffects = (function () {
         this.preDeleteDepartment = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["p" /* PRE_DELETE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'check-pre-delete-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4145,6 +4200,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["q" /* PRE_DELETE_SUCCESS */],
@@ -4170,6 +4226,7 @@ var DepartmentEffects = (function () {
         this.deleteDepartment = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["d" /* DEPARTMENT_DELETE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-department';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4177,6 +4234,7 @@ var DepartmentEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -4234,10 +4292,10 @@ __decorate([
 ], DepartmentEffects.prototype, "deleteDepartment", void 0);
 DepartmentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], DepartmentEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=department.effects.js.map
 
 /***/ }),

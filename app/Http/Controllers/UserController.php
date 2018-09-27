@@ -656,7 +656,7 @@ class UserController extends Controller
         $adminId = $request->adminId;
 
         if ($adminId != '') { //Get admin details
-            $admin = Users::where('id', $adminId)->first();
+            $admin = Users::where('id', $adminId)->with('twilioInfo')->first();
 
             if (count($admin) != 0) {
 

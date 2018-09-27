@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "label {\n    display: block;\n}\n\ni.fa-upload {\n    position: absolute;\n}\n\ni.fa-upload, i.fa-times-circle {\n    cursor: pointer;\n}\n\ninput[type=file] {\n    opacity: 0;\n}\n\n\n\n\n/** css for auto complite droupdown */\n\n.btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}\n.autoListArea{\n    position: relative;\n}\n.autoList{\n    position: absolute;\n    left: 0;\n    top: 100%;\n    background: #fff;\n    width: 100%;\n    max-height: 200px;\n    overflow-y: scroll;\n    box-shadow: 0 3px 5px rgba(0,0,0,0.3);\n    border: 1px solid #e2e2e2;\n    z-index: 99;\n    padding: 0;\n}\n.autoList li{\n    list-style: none;\n}\n.autoList li span{\n    display: block;\n    padding: 5px 15px;\n}\n.autoList li:hover{\n    background: #e2e2e2;\n}\n.hideList{\n    float: right;\n    margin: -27px 10px 0 0;\n    cursor: pointer;\n}\n\n.createAgentBtn{\n    padding-top: 29px;\n}\n\n/*Media Query for responsive*/\n@media screen and (max-width:764px) {\n    .createAgentBtn {\n        padding-top: 0px !important;\n    }\n}\n\n\n.checkbox label:after,\n.radio label:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.checkbox .cr,\n.radio .cr {\n  position: relative;\n  display: inline-block;\n  border: 1px solid #a9a9a9;\n  border-radius: .25em;\n  width: 1.3em;\n  height: 1.3em;\n  float: left;\n  margin-right: .5em;\n}\n\n.radio .cr {\n  border-radius: 50%;\n}\n\n.checkbox .cr .cr-icon,\n.radio .cr .cr-icon {\n  position: absolute;\n  font-size: .8em;\n  line-height: 0;\n  top: 50%;\n  left: 20%;\n}\n\n.radio .cr .cr-icon {\n  margin-left: 0.04em;\n}\n\n.checkbox label input[type=\"checkbox\"],\n.radio label input[type=\"radio\"] {\n  display: none;\n}\n\n.checkbox label input[type=\"checkbox\"] + .cr > .cr-icon,\n.radio label input[type=\"radio\"] + .cr > .cr-icon {\n  transform: scale(3) rotateZ(-20deg);\n  opacity: 0;\n  transition: all .3s ease-in;\n}\n\n.checkbox label input[type=\"checkbox\"]:checked + .cr > .cr-icon,\n.radio label input[type=\"radio\"]:checked + .cr > .cr-icon {\n  transform: scale(1) rotateZ(0deg);\n  opacity: 1;\n}\n\n.checkbox label input[type=\"checkbox\"]:disabled + .cr,\n.radio label input[type=\"radio\"]:disabled + .cr {\n  opacity: .5;\n}\n", ""]);
+exports.push([module.i, "label {\n    display: block;\n}\n\ni.fa-upload {\n    position: absolute;\n}\n\ni.fa-upload, i.fa-times-circle {\n    cursor: pointer;\n}\n\ninput[type=file] {\n    opacity: 0;\n}\n\n\n\n\n/** css for auto complite droupdown */\n\n.btn-disabled {\n    opacity: .4;\n    cursor: not-allowed;\n    pointer-events: none;\n}\n.autoListArea{\n    position: relative;\n}\n.autoList{\n    position: absolute;\n    left: 0;\n    top: 100%;\n    background: #fff;\n    width: 100%;\n    max-height: 200px;\n    overflow-y: scroll;\n    box-shadow: 0 3px 5px rgba(0,0,0,0.3);\n    border: 1px solid #e2e2e2;\n    z-index: 99;\n    padding: 0;\n}\n.autoList li{\n    list-style: none;\n}\n.autoList li span{\n    display: block;\n    padding: 5px 15px;\n}\n.autoList li:hover{\n    background: #e2e2e2;\n}\n.hideList{\n    float: right;\n    margin: -27px 10px 0 0;\n    cursor: pointer;\n    display:inline-block;\n    position: relative;\n}\n\n.createAgentBtn{\n    padding-top: 29px;\n}\n\n/*Media Query for responsive*/\n@media screen and (max-width:764px) {\n    .createAgentBtn {\n        padding-top: 0px !important;\n    }\n}\n\n\n.checkbox label:after,\n.radio label:after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.checkbox .cr,\n.radio .cr {\n  position: relative;\n  display: inline-block;\n  border: 1px solid #a9a9a9;\n  border-radius: .25em;\n  width: 1.3em;\n  height: 1.3em;\n  float: left;\n  margin-right: .5em;\n}\n\n.radio .cr {\n  border-radius: 50%;\n}\n\n.checkbox .cr .cr-icon,\n.radio .cr .cr-icon {\n  position: absolute;\n  font-size: .8em;\n  line-height: 0;\n  top: 50%;\n  left: 20%;\n}\n\n.radio .cr .cr-icon {\n  margin-left: 0.04em;\n}\n\n.checkbox label input[type=\"checkbox\"],\n.radio label input[type=\"radio\"] {\n  display: none;\n}\n\n.checkbox label input[type=\"checkbox\"] + .cr > .cr-icon,\n.radio label input[type=\"radio\"] + .cr > .cr-icon {\n  transform: scale(3) rotateZ(-20deg);\n  opacity: 0;\n  transition: all .3s ease-in;\n}\n\n.checkbox label input[type=\"checkbox\"]:checked + .cr > .cr-icon,\n.radio label input[type=\"radio\"]:checked + .cr > .cr-icon {\n  transform: scale(1) rotateZ(0deg);\n  opacity: 1;\n}\n\n.checkbox label input[type=\"checkbox\"]:disabled + .cr,\n.radio label input[type=\"radio\"]:disabled + .cr {\n  opacity: .5;\n}\n", ""]);
 
 // exports
 
@@ -815,6 +815,7 @@ module.exports = "<div class=\"content-wrapper\">\n    <!--<section class=\"cont
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_sweetalert2_src_index__ = __webpack_require__("../../../../ngx-sweetalert2/src/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -829,11 +830,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ListWidgetComponent = (function () {
     /** Service injection */
-    function ListWidgetComponent(store, router) {
+    function ListWidgetComponent(store, router, _swal2) {
         this.store = store;
         this.router = router;
+        this._swal2 = _swal2;
     }
     /** Function to be executed when component initializes */
     ListWidgetComponent.prototype.ngOnInit = function () {
@@ -878,7 +881,26 @@ var ListWidgetComponent = (function () {
      * @constructor
      */
     ListWidgetComponent.prototype.DeleteWidget = function (id) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["d" /* DeleteWidgetAttempt */]({ widget_id: id }));
+        var _this = this;
+        var that = this;
+        this._swal2.warning({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then(function (result) {
+            if (result) {
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["d" /* DeleteWidgetAttempt */]({ widget_id: id }));
+            }
+        }, function (dismiss) {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+                console.log('cancel');
+            }
+        });
     };
     ListWidgetComponent.prototype.ngOnDestroy = function () {
         this.authSubscription.unsubscribe();
@@ -891,10 +913,10 @@ ListWidgetComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/list-widget/list-widget.component.html"),
         styles: [__webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/list-widget/list-widget.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5_ngx_sweetalert2_src_index__["a" /* SweetAlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ngx_sweetalert2_src_index__["a" /* SweetAlertService */]) === "function" && _c || Object])
 ], ListWidgetComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=list-widget.component.js.map
 
 /***/ }),
@@ -1077,12 +1099,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__tableSearch_pipe__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/widget/tableSearch.pipe.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__ = __webpack_require__("../../../../angular2-multiselect-dropdown/angular2-multiselect-dropdown.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ngx_sweetalert2_src_index__ = __webpack_require__("../../../../ngx-sweetalert2/src/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1118,7 +1142,10 @@ WidgetModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_13_angular2_multiselect_dropdown_angular2_multiselect_dropdown__["a" /* AngularMultiSelectModule */],
             __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_modal__["b" /* ModalModule */].forRoot()
         ],
-        providers: [],
+        providers: [
+            // {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
+            __WEBPACK_IMPORTED_MODULE_15_ngx_sweetalert2_src_index__["a" /* SweetAlertService */]
+        ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_6__create_widget_create_widget_component__["a" /* CreateWidgetComponent */],
             __WEBPACK_IMPORTED_MODULE_5__list_widget_list_widget_component__["a" /* ListWidgetComponent */],

@@ -477,7 +477,7 @@
                                                     @else
                                                     <p style="margin: 0;font-size: 14px;line-height: 17px"><span
                                                                 style="font-size: 14px; line-height: 16px;"><span
-                                                                    style="line-height: 16px; font-size: 14px;">Thanks for signup up with 3c.Your password for login is : <strong>{{ $password }}</strong></span></span>
+                                                                    style="line-height: 16px; font-size: 14px;">Thanks for signup up with TM SMS.Your password for login is : <strong>{{ $password }}</strong></span></span>
                                                     </p>
                                                     @endif
                                                 </div>
