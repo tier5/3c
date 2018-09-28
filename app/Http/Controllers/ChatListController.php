@@ -145,7 +145,7 @@ class ChatListController extends Controller
                     }
                 }
                 if ($chat->direction == 2) {
-                    $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                    $agentRooms['chats'][$key]['user'] = $chat->agentInfo ? $chat->agentInfo->first_name : '';
                 }
                 $agentRooms['chats'][$key]['created_at'] = $chat->created_at;
             }
@@ -178,10 +178,10 @@ class ChatListController extends Controller
             $checkToken = UserToken::where('token', $userToken)->with('userInfo')->first();
             if (count($checkToken) != "" && $checkToken->userInfo->type == 2) {
 
-                $getAgents = Users::where('parent_id', $checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
+                $getAgents = Users::where('parent_id', $checkToken->userInfo->id)->whereNull('deleted_at')->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
             } else {  // Get all agents
 
-                $getAgents = Users::where('type', 3)->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
+                $getAgents = Users::where('type', 3)->whereNull('deleted_at')->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
             }
 
             if (count($getAgents) != 0) {
@@ -234,7 +234,7 @@ class ChatListController extends Controller
                                 }
                             }
                             if ($chat->direction == 2) {
-                                $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                                $agentRooms['chats'][$key]['user'] = $chat->agentInfo ? $chat->agentInfo->first_name : '';
                             }
                             $agentRooms['chats'][$key]['created_at'] = $chat->created_at;
                         }
@@ -276,10 +276,10 @@ class ChatListController extends Controller
             $checkToken = UserToken::where('token', $userToken)->with('userInfo')->first();
             if (count($checkToken) != "" && $checkToken->userInfo->type == 2) {
 
-                $getAgents = Users::where('parent_id', $checkToken->userInfo->id)->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
+                $getAgents = Users::where('parent_id', $checkToken->userInfo->id)->whereNull('deleted_at')->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
             } else {  // Get all agents
 
-                $getAgents = Users::where('type', 3)->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
+                $getAgents = Users::where('type', 3)->whereNull('deleted_at')->with('departmentAgentMapping.departmentDetails', 'getCompany')->orderBy('created_at', 'desc')->get();
             }
 
             if (count($getAgents) != 0) {

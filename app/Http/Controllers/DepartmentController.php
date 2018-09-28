@@ -5,6 +5,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Model\DepartmentAgentMap;
 use App\Model\WidgetDepartmentMapping;
 use App\Model\Widgets;
@@ -271,7 +272,7 @@ class DepartmentController extends Controller
         $userId    = $request->userId; //user ID
         if( $userToken != "" ) {
             $checkUser  = UserToken::where('token',$userToken)->with('userInfo')->first();
-
+          //  $userId = Helper::getUserIdFromToken($userToken);
             if( count($checkUser) != 0 ) {
 
                 if( $checkUser->userInfo->type == 1 && $userId == "" ) { //Superadmin Department List
@@ -311,8 +312,8 @@ class DepartmentController extends Controller
 
                 if( $checkUser->userInfo->type == 1 && $userId != "" ) { //Superadmin Department List
 
+                    $userId = Helper::getUserIdFromToken($userToken);
                     $allDepartment = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
-
                     if(count($allDepartment) != 0){
                         $department = array();
                         foreach($allDepartment as $key=>$value){
@@ -392,6 +393,7 @@ class DepartmentController extends Controller
             }
         } elseif ( $userId != ""){
             //fetching the list of department for a specific user/admin
+            $userId = Helper::getUserIdFromToken($userToken);
             $allDepartment = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
 
             if( count($allDepartment) != 0 ) {

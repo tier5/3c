@@ -6,6 +6,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Model\Timezone;
 use App\Model\TwilioCredentials;
 use App\Model\TwilioNumber;
@@ -20,7 +21,6 @@ use App\Model\Department;
 use App\Model\WidgetDepartmentMapping;
 use App\Model\WidgetScheduleMapping;
 use App\Http\Controllers\TwilioController;
-use Helper;
 use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use Illuminate\Database\QueryException;
@@ -275,14 +275,14 @@ class WidgetController extends Controller
                             'status' => false,
                             'code' => 400,
                             'response' => [],
-                            'message' => 'Sorry Widget not found !'
+                            'message' => 'Sorry Widget not found EMPTY !'
                         ));
 
                     }
                 }
 
                 if ($checkUser->userInfo->type == 1 && $userId != "") { //Superadmin Widgets List
-
+                    $userId = Helper::getUserIdFromToken($userToken);
                     $allListsWidgetsData = Widgets::where('user_id', $userId)
                         ->with('twilioNumbers', 'widgetSchedule', 'widgetDepartment.departmentDetails', 'userDetails')->orderBy('created_at', 'desc')
                         ->get(); //Get Widgets with Twilio numbers
@@ -321,7 +321,7 @@ class WidgetController extends Controller
                             'status' => false,
                             'code' => 400,
                             'response' => [],
-                            'message' => 'Sorry Widget not found !'
+                            'message' => 'Sorry Widget not found 2nd else!'
                         ));
 
                     }
@@ -368,7 +368,7 @@ class WidgetController extends Controller
                             'status' => false,
                             'code' => 400,
                             'response' => [],
-                            'message' => 'Sorry Widget not found !'
+                            'message' => 'Sorry Widget not found 3rd case !'
                         ));
 
                     }
@@ -385,6 +385,7 @@ class WidgetController extends Controller
 
             }
         } elseif ($userId != "") {
+            $userId = Helper::getUserIdFromToken($userToken);
             //fetching the list of widgets for a specific user/admin
             $allListsWidgetsData = Widgets::where('user_id', $userId)
                 ->with('twilioNumbers', 'widgetSchedule', 'widgetDepartment.departmentDetails', 'userDetails')
@@ -424,7 +425,7 @@ class WidgetController extends Controller
                     'status' => false,
                     'code' => 400,
                     'response' => [],
-                    'message' => 'Sorry Widget not found !'
+                    'message' => 'Sorry Widget not found 4th case !'
                 ));
 
             }
@@ -434,7 +435,7 @@ class WidgetController extends Controller
                 'status' => false,
                 'code' => 400,
                 'response' => [],
-                'message' => 'sorry no widget data found !'
+                'message' => 'sorry no widget data found for this user !'
             ));
 
         }
