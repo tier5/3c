@@ -5947,7 +5947,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "/*.ng2-spinner {*/\n  /*position: absolute;*/\n  /*top: 0;*/\n  /*left: 0;*/\n  /*width: 100%;*/\n  /*height: 100vh;*/\n  /*background-color: rgba(0,0,0,0.25);*/\n  /*z-index: 100000;*/\n/*}*/\n\n.loadingDiv{\n  z-index: 99999;\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: center;\n      justify-content: center;\n  -ms-flex-align: center;\n      align-items: center;\n  background-color: rgba(99, 122, 145, 0.6);\n}\n", ""]);
+exports.push([module.i, "/*.ng2-spinner {*/\n  /*position: absolute;*/\n  /*top: 0;*/\n  /*left: 0;*/\n  /*width: 100%;*/\n  /*height: 100vh;*/\n  /*background-color: rgba(0,0,0,0.25);*/\n  /*z-index: 100000;*/\n/*}*/\n\n.loadingDiv{\n  z-index: 99999;\n  position: fixed;\n  height: 100%;\n  width: 100%;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: center;\n      justify-content: center;\n  -ms-flex-align: center;\n      align-items: center;\n  background-color: rgba(99, 122, 145, 0.6);\n}\n\n\n", ""]);
 
 // exports
 
@@ -5960,7 +5960,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/core/shared/spinner/spinner.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [style.display]=\"show == true ? 'inherit' : 'none'\">\n  <div class=\"loadingDiv\">\n    <img src=\"../../../../assets/img/loading.gif\"/>\n  </div>\n</div>\n"
+module.exports = "<div [style.display]=\"show == true ? 'inherit' : 'none'\">\n  <div class=\"loadingDiv\">\n    <figure>\n    <img src=\"../../../../assets/img/loading.gif\"/>\n    </figure>\n  </div>\n</div>\n"
 
 /***/ }),
 

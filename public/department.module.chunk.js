@@ -200,6 +200,7 @@ var CreateDepartmentComponent = (function () {
         }
         else {
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["c" /* AddDepartmentAttempt */](form.value));
+            this.router.navigate(['/department/list']);
         }
     };
     /** Function to get agent list depending on the selected admin */
