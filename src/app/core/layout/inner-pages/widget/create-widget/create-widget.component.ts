@@ -164,7 +164,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     if (data.isAdmin) {
                         this.widget.userId = data.userId;
                         this.loggedInAdminId = data.userId;
-                        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: data.userId}));
+                        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
                         // this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: data.userId}));
                     }
                 }
@@ -184,7 +184,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                         .subscribe(
                             (widget) => {
                                 if (widget) {
-                                    this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: widget.user_id}));
+                                    this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
                                     this.widget.id = widget.id;
                                     this.widget.userId = widget.user_id;
                                     this.widget.website = widget.website;
@@ -478,7 +478,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     /** Function to fetch department list with respect to adminId/userId */
     adminChanged(id: number) {
         if (!!id) {
-            this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: id}));
+            this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
         }
     }
 
