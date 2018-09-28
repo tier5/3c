@@ -117,7 +117,7 @@ export class DepartmentEffects {
       const config = {
         headers: headers
       };
-      return this.httpClient.post(apiUrl, action.payload, config)
+      return this.httpClient.post(apiUrl, config)
         .map((res: any) => {
           this.spinnerService.hide();
           return {

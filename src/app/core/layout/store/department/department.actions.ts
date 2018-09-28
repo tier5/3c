@@ -59,7 +59,6 @@ export class EditDepartmentSuccess implements Action {
 
 export class GetDepartmentListAttempt implements Action {
   readonly type = GET_DEPARTMENT_LIST_ATTEMPT;
-  constructor(public payload: any) { }
 }
 
 export class GetDepartmentListSuccess implements Action {

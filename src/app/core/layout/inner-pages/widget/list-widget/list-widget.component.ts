@@ -32,25 +32,23 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.companySearch = '';
     this.authState = this.store.select('auth');
-    this.authSubscription = this.store.select('auth')
-      .subscribe(
-        (data) => {
-          if (data.isAdmin) {
-            this.store.dispatch(new WidgetActions.GetWidgetListAttempt({userId: data.userId}));
-          } else {
-            this.store.dispatch(new WidgetActions.GetWidgetListAttempt({}));
-          }
-        }
-      );
-
-    this.afterLoginState = this.store.select('afterLogin');
-    // this.companySubscription = this.store.select('afterLogin')
+    // this.authSubscription = this.store.select('auth')
     //   .subscribe(
     //     (data) => {
-    //       this.companyList = data.widget.list.map(item => item.company)
-    //         .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+    //         console.log('WidgetData-->',data);
+    //       if (data.isAdmin) {
+    //         console.log('Calling This ');
+    //         this.store.dispatch(new WidgetActions.GetWidgetListAttempt({ userId: data.userId }));
+    //       } else {
+    //           console.log('Calling This ELSE');
+    //           this.store.dispatch(new WidgetActions.GetWidgetListAttempt({}));
+    //       }
     //     }
     //   );
+
+    this.store.dispatch(new WidgetActions.GetWidgetListAttempt());
+
+    this.afterLoginState = this.store.select('afterLogin');
 
       this.authSubscription = this.store.select('auth')
           .subscribe(
@@ -104,7 +102,9 @@ export class ListWidgetComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
+    this.companyList = null;
     this.authSubscription.unsubscribe();
+    this.companySubscription.unsubscribe();
   }
 
 }

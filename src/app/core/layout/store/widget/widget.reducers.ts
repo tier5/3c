@@ -38,7 +38,7 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
     case (WidgetActions.GET_WIDGET_LIST_SUCCESS):
       return {
         ...state,
-        list: action.payload
+        list: [ ...action.payload ]
       };
     case (WidgetActions.GET_TIMEZONE_LIST_SUCCESS):
       return {

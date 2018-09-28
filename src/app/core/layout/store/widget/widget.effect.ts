@@ -103,20 +103,12 @@ export class WidgetEffects {
       const config = {
         headers: headers
       };
-      return this.httpClient.post(apiUrl, action.payload, config)
+      return this.httpClient.post(apiUrl, config)
         .map((res: any) => {
-          if (res.status) {
             return {
               type: WidgetActions.GET_WIDGET_LIST_SUCCESS,
               payload: res.response
             };
-          } else {
-            return {
-              type: AlertActions.ALERT_SHOW,
-              payload: {message: res.message, type: 'danger'}
-            };
-          }
-
         })
         .catch((err: HttpErrorResponse) => {
           return of(

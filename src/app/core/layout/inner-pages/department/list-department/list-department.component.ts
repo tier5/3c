@@ -41,16 +41,18 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
       this.page = 1;
       this.companySearch = '';
       this.authState = this.store.select('auth');
-      this.authSubscription = this.store.select('auth')
+      this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
+     /* this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
+          console.log('departmentData-->',data);
           if (data.isAdmin) {
             this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: data.userId}));
           } else {
             this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({}));
           }
         }
-      );
+      );*/
 
     this.afterLoginState = this.store.select('afterLogin');
 
