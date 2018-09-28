@@ -630,6 +630,55 @@ var _a, _b;
 
 /***/ }),
 
+/***/ "../../../../../src/app/core/auth/token.interceptor.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TokenInterceptor; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_add_operator_do__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/do.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var TokenInterceptor = (function () {
+    function TokenInterceptor() {
+    }
+    TokenInterceptor.prototype.intercept = function (request, next) {
+        return next.handle(request).do(function (event) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["f" /* HttpResponse */]) {
+                // console.log('here', event);
+            }
+        }, function (err) {
+            if (err instanceof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpErrorResponse */]) {
+                if (err.status === 401) {
+                    // console.log('hello', err);
+                    localStorage.removeItem('data');
+                    location.href = '/sign-in';
+                }
+            }
+        });
+    };
+    return TokenInterceptor;
+}());
+TokenInterceptor = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [])
+], TokenInterceptor);
+
+//# sourceMappingURL=token.interceptor.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/core/core-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -798,12 +847,14 @@ var _a, _b, _c, _d, _e;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__ = __webpack_require__("../../../../../src/app/core/layout/inner-pages/chat/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__shared_push_notification_service__ = __webpack_require__("../../../../../src/app/core/shared/push.notification.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_notification_alert_service__ = __webpack_require__("../../../../../src/app/core/shared/notification.alert.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__auth_token_interceptor__ = __webpack_require__("../../../../../src/app/core/auth/token.interceptor.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -860,7 +911,16 @@ CoreModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_21__layout_inner_pages_chat_chat_service__["a" /* ChatService */],
             __WEBPACK_IMPORTED_MODULE_22__shared_push_notification_service__["a" /* PushNotificationsService */],
             __WEBPACK_IMPORTED_MODULE_23__shared_notification_alert_service__["a" /* NotificationAlertService */],
-            { provide: __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_9__auth_auth_interceptor__["a" /* AuthInterceptor */], multi: true }
+            {
+                provide: __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HTTP_INTERCEPTORS */],
+                useClass: __WEBPACK_IMPORTED_MODULE_9__auth_auth_interceptor__["a" /* AuthInterceptor */],
+                multi: true
+            },
+            {
+                provide: __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HTTP_INTERCEPTORS */],
+                useClass: __WEBPACK_IMPORTED_MODULE_24__auth_token_interceptor__["a" /* TokenInterceptor */],
+                multi: true
+            }
         ]
     })
 ], CoreModule);
@@ -1736,7 +1796,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-registration';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -1776,7 +1836,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-list';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -1808,7 +1868,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'updateuserprofile';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -1848,7 +1908,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'create-user-twilio-sid';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -1888,7 +1948,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'block-user';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -1928,7 +1988,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-user';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -1968,7 +2028,7 @@ var AdminEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-admin';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2231,7 +2291,7 @@ var AgentChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["c" /* GET_AGENT_LIVE_CHAT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-all-chats';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2263,7 +2323,7 @@ var AgentChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["a" /* GET_AGENT_CLOSE_CHAT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'all-agent-closed-chats';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2632,7 +2692,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-register';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2672,7 +2732,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2704,7 +2764,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-update';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2744,7 +2804,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-agent';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2768,7 +2828,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-admin-agents';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2800,7 +2860,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-company-list';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2832,7 +2892,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'block-agent';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2872,7 +2932,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-agent';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -2912,7 +2972,7 @@ var AgentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-agent';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3343,7 +3403,7 @@ var ChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["n" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3377,7 +3437,7 @@ var ChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["p" /* GET_CHAT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'client-chat';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3407,7 +3467,7 @@ var ChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["r" /* GET_CONTACT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'contact-list';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3445,7 +3505,7 @@ var ChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["t" /* GET_TRANSFER_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-department-list';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3480,7 +3540,7 @@ var ChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["A" /* INI_CHAT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'ini-chat';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3514,7 +3574,7 @@ var ChatEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["l" /* GET_AGENT_CLOSED_CHATS_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-all-closed-chats';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3753,7 +3813,7 @@ var DashboardEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-dashboard-count';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -3940,8 +4000,7 @@ var EditDepartmentSuccess = (function () {
 }());
 
 var GetDepartmentListAttempt = (function () {
-    function GetDepartmentListAttempt(payload) {
-        this.payload = payload;
+    function GetDepartmentListAttempt() {
         this.type = GET_DEPARTMENT_LIST_ATTEMPT;
     }
     return GetDepartmentListAttempt;
@@ -4066,7 +4125,7 @@ var DepartmentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'create-department';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4106,7 +4165,7 @@ var DepartmentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'edit-department';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4146,11 +4205,11 @@ var DepartmentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'department-list';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
-            return _this.httpClient.post(apiUrl, action.payload, config)
+            return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
@@ -4170,7 +4229,7 @@ var DepartmentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-department';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4194,7 +4253,7 @@ var DepartmentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'check-pre-delete-department';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4228,7 +4287,7 @@ var DepartmentEffects = (function () {
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-department';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4485,7 +4544,7 @@ var ProfileEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["h" /* GET_PROFILE_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].API_BASE_URL + 'userprofile';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4515,7 +4574,7 @@ var ProfileEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["a" /* EDIT_PROFILE_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].API_BASE_URL + 'updateuserprofile';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4553,7 +4612,7 @@ var ProfileEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["b" /* EDIT_PROFILE_CHANGE_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].API_BASE_URL + 'reset-password';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4791,7 +4850,7 @@ var TwilioEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__twilio_actions__["a" /* ADD_TWILIO_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].API_BASE_URL + 'twilio-information';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4829,7 +4888,7 @@ var TwilioEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__twilio_actions__["c" /* GET_TWILIO_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].API_BASE_URL + 'get-twilio-information';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -4851,7 +4910,7 @@ var TwilioEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__twilio_actions__["d" /* GET_TWILIO_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].API_BASE_URL + 'twilio-account-list';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5042,8 +5101,7 @@ var EditWidgetSuccess = (function () {
 }());
 
 var GetWidgetListAttempt = (function () {
-    function GetWidgetListAttempt(payload) {
-        this.payload = payload;
+    function GetWidgetListAttempt() {
         this.type = GET_WIDGET_LIST_ATTEMPT;
     }
     return GetWidgetListAttempt;
@@ -5189,7 +5247,7 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-timezone';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5219,7 +5277,7 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["a" /* ADD_WIDGET_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'createWidgets';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5257,24 +5315,16 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listWidgets';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
-            return _this.httpClient.post(apiUrl, action.payload, config)
+            return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
-                if (res.status) {
-                    return {
-                        type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */],
-                        payload: res.response
-                    };
-                }
-                else {
-                    return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
-                        payload: { message: res.message, type: 'danger' }
-                    };
-                }
+                return {
+                    type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */],
+                    payload: res.response
+                };
             })
                 .catch(function (err) {
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
@@ -5287,7 +5337,7 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["e" /* EDIT_WIDGET_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'updateWidgets';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5325,7 +5375,7 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["o" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'viewWidgets';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5355,7 +5405,7 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'search-number';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5387,7 +5437,7 @@ var WidgetEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["w" /* WIDGET_DELETE_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-widget';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -5495,7 +5545,7 @@ function widgetReducer(state, action) {
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["b" /* ADD_WIDGET_SUCCESS */]):
             return __assign({}, state, { list: state.list.concat([action.payload]), resetWidgetForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */]):
-            return __assign({}, state, { list: action.payload });
+            return __assign({}, state, { list: action.payload.slice() });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["l" /* GET_TIMEZONE_LIST_SUCCESS */]):
             return __assign({}, state, { timezoneList: action.payload.slice() });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["u" /* RESET_WIDGET_FORM */]):
@@ -6436,7 +6486,7 @@ var AuthEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["q" /* SIGNUP_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-registration';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -6477,7 +6527,7 @@ var AuthEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["m" /* SIGNIN_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'userlogin';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -6508,7 +6558,7 @@ var AuthEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["f" /* FORGOT_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'forget-password-mail';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -6550,7 +6600,7 @@ var AuthEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["j" /* RESET_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'update-password';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
@@ -6618,7 +6668,7 @@ var AuthEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["b" /* CHECK_TWILIO_ACTIVE_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'validate-twilio-credentials';
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };

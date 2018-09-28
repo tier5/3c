@@ -555,15 +555,18 @@ var ListDepartmentComponent = (function () {
         this.page = 1;
         this.companySearch = '';
         this.authState = this.store.select('auth');
-        this.authSubscription = this.store.select('auth')
-            .subscribe(function (data) {
-            if (data.isAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: data.userId }));
-            }
-            else {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({}));
-            }
-        });
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
+        /* this.authSubscription = this.store.select('auth')
+         .subscribe(
+           (data) => {
+             console.log('departmentData-->',data);
+             if (data.isAdmin) {
+               this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: data.userId}));
+             } else {
+               this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({}));
+             }
+           }
+         );*/
         this.afterLoginState = this.store.select('afterLogin');
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {

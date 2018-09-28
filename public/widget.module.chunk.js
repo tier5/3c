@@ -148,7 +148,7 @@ var CreateWidgetComponent = (function () {
             if (data.isAdmin) {
                 _this.widget.userId = data.userId;
                 _this.loggedInAdminId = data.userId;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: data.userId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
                 // this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: data.userId}));
             }
         });
@@ -163,7 +163,7 @@ var CreateWidgetComponent = (function () {
                     .distinctUntilChanged()
                     .subscribe(function (widget) {
                     if (widget) {
-                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: widget.user_id }));
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
                         _this.widget.id = widget.id;
                         _this.widget.userId = widget.user_id;
                         _this.widget.website = widget.website;
@@ -441,7 +441,7 @@ var CreateWidgetComponent = (function () {
     /** Function to fetch department list with respect to adminId/userId */
     CreateWidgetComponent.prototype.adminChanged = function (id) {
         if (!!id) {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: id }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
         }
     };
     /** Function to remove uploaded image */
@@ -843,23 +843,21 @@ var ListWidgetComponent = (function () {
         var _this = this;
         this.companySearch = '';
         this.authState = this.store.select('auth');
-        this.authSubscription = this.store.select('auth')
-            .subscribe(function (data) {
-            if (data.isAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["s" /* GetWidgetListAttempt */]({ userId: data.userId }));
-            }
-            else {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["s" /* GetWidgetListAttempt */]({}));
-            }
-        });
-        this.afterLoginState = this.store.select('afterLogin');
-        // this.companySubscription = this.store.select('afterLogin')
+        // this.authSubscription = this.store.select('auth')
         //   .subscribe(
         //     (data) => {
-        //       this.companyList = data.widget.list.map(item => item.company)
-        //         .filter((value, index, self) => self.indexOf(value) === index && value !== null && value !== '');
+        //         console.log('WidgetData-->',data);
+        //       if (data.isAdmin) {
+        //         console.log('Calling This ');
+        //         this.store.dispatch(new WidgetActions.GetWidgetListAttempt({ userId: data.userId }));
+        //       } else {
+        //           console.log('Calling This ELSE');
+        //           this.store.dispatch(new WidgetActions.GetWidgetListAttempt({}));
+        //       }
         //     }
         //   );
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_widget_widget_actions__["s" /* GetWidgetListAttempt */]());
+        this.afterLoginState = this.store.select('afterLogin');
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isSuperAdmin) {
@@ -903,7 +901,9 @@ var ListWidgetComponent = (function () {
         });
     };
     ListWidgetComponent.prototype.ngOnDestroy = function () {
+        this.companyList = null;
         this.authSubscription.unsubscribe();
+        this.companySubscription.unsubscribe();
     };
     return ListWidgetComponent;
 }());

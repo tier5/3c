@@ -177,7 +177,7 @@ var DashboardComponent = (function () {
         var formData = new FormData();
         formData.append('file', files[0]);
         var apiUrl = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_BASE_URL + 'file-upload';
-        var headers = new __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
+        var headers = new __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
         var config = {
             headers: headers
         };
@@ -220,7 +220,7 @@ var DashboardComponent = (function () {
                 formData.append('fileUrl', this.fileUrl);
                 formData.append('fileType', this.fileType);
                 var apiUrl = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].API_BASE_URL + 'ini-chat';
-                var headers = new __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
+                var headers = new __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
                 var config = {
                     headers: headers
                 };

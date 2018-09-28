@@ -366,7 +366,7 @@ var OngoingComponent = (function () {
         var formData = new FormData();
         formData.append('file', files[0]);
         var apiUrl = __WEBPACK_IMPORTED_MODULE_8__environments_environment__["a" /* environment */].API_BASE_URL + 'file-upload';
-        var headers = new __WEBPACK_IMPORTED_MODULE_7__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
+        var headers = new __WEBPACK_IMPORTED_MODULE_7__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
         var config = {
             headers: headers
         };

@@ -341,12 +341,12 @@ var CreateAgentComponent = (function () {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["q" /* GetAdminListAttempt */]());
         this.authState = this.store.select('auth');
         this.afterLoginState = this.store.select('afterLogin');
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isAdmin) {
                 _this.agent.parentId = data.userId;
                 _this.loggedInAdminId = data.userId;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: data.userId }));
             }
         });
         this.activatedRoute.data
@@ -363,7 +363,7 @@ var CreateAgentComponent = (function () {
                     .subscribe(function (agent) {
                     if (agent) {
                         _this.adminUserId = agent.parent_id;
-                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: agent.parent_id }));
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
                         _this.agent.parentId = agent.parent_id;
                         _this.agent.firstName = agent.first_name;
                         _this.agent.lastName = agent.last_name;
@@ -480,7 +480,7 @@ var CreateAgentComponent = (function () {
     CreateAgentComponent.prototype.adminChanged = function (id) {
         if (!!id) {
             this.adminUserId = id;
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["n" /* GetDepartmentListAttempt */]({ userId: id }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["n" /* GetDepartmentListAttempt */]());
         }
     };
     /** Function to check if valid department is selected */

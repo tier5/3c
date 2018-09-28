@@ -252,7 +252,7 @@ var SubaccountComponent = (function () {
         }).then(function (result) {
             if (result) {
                 var apiUrl = __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].API_BASE_URL + 'close-twilio-account';
-                var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
+                var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
                 var config = {
                     headers: headers
                 };
@@ -278,7 +278,7 @@ var SubaccountComponent = (function () {
     SubaccountComponent.prototype.fetchTwillioAccount = function () {
         var _this = this;
         var apiUrl = __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].API_BASE_URL + 'list-all-twilio-accounts';
-        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["d" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest').set('enctype', 'multipart/form-data');
         var config = {
             headers: headers
         };
