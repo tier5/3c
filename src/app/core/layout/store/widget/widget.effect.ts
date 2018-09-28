@@ -205,7 +205,7 @@ export class WidgetEffects {
       this.spinnerService.show();
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
-          this.spinnerService.hide();
+           this.spinnerService.hide();
           if (res.status) {
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,

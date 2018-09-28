@@ -74,7 +74,7 @@
 
                 <!-- Department -->
                 <div class="col-md-6">
-                  <div class="col-md-10">
+                  <div class="col-md-9 col-sm-9">
                     <div class="form-group">
                       <label class="control-label" for="department">
                         Department for Widget
@@ -102,9 +102,9 @@
                       </select>-->
                     </div>
                   </div>
-                  <div class="col-md-2 createAgentBtn">
+                  <div class="col-md-3 col-sm-3 createAgentBtn">
                     <div class="form-group">
-                      <button type="button" class="btn btn-primary" (click)="CreateDepartment(template)"><i
+                      <button type="button" class="btn btn-warning newbutton" (click)="CreateDepartment(template)"><i
                         class="fa fa-plus"> </i> Create Department
                       </button>
                     </div>
@@ -275,7 +275,7 @@
                     <!--<input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>-->
                     <!--</div>-->
                     <div class="table-striped">
-                      <table class="table table-responsive ">
+                      <table class="table table-responsive">
                         <tr>
                           <th>Day</th>
                           <th>Start Time</th>
@@ -294,7 +294,7 @@
                           </td>
                           <td  *ngIf="checkSun">
                             <div
-                              class="col-md-6" [ngClass]="(sunStartTime.invalid && sunStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(sunStartTime.invalid && sunStartTime.touched) ? 'has-error': ''">
                               <!--<div class="col-md-6">-->
                               <div class="form-group">
                                 <div class="input-group">
@@ -311,7 +311,7 @@
                           </td>
                           <td  *ngIf="checkSun">
                             <div
-                              class="col-md-6"  [ngClass]="(sunEndTime.invalid && sunEndTime.touched) || sunTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(sunEndTime.invalid && sunEndTime.touched) || sunTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.sunCbk.endTime" name="sunEndTime" #sunEndTime="ngModel"

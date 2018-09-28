@@ -63,7 +63,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     this.store.dispatch(new AdminActions.GetAdminListAttempt());
     this.authState = this.store.select('auth');
     this.afterLoginState = this.store.select('afterLogin');
-
     this.authSubscription = this.store.select('auth')
       .subscribe(
         (data) => {
@@ -73,7 +72,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
           }
         }
       );
-    if (this.dep.userId !== 0 ){
+    if (this.dep.userId !== 0 ) {
         this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
     }
 
@@ -99,7 +98,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         /** Perform operation is present mode is edit mode */
          if (this.editMode) {
              /** Checking route params to get id of department to edit */
-          this.depId = this.activatedRoute.snapshot.params['id'];
+             this.depId = this.activatedRoute.snapshot.params['id'];
              this.store.dispatch(new DepartmentActions.GetToEditDepartmentAttempt({departmentId: this.depId}));
              this.updateDep = this.store.select('department')
                  .distinctUntilChanged()
@@ -185,6 +184,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                 }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
     } else {
       this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
+      this.router.navigate(['/department/list']);
     }
   }
 

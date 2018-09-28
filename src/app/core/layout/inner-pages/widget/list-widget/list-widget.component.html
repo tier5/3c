@@ -67,10 +67,12 @@
                                             <td>{{ item.widget_department | slice:0:120 }}</td>
                                             <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                                             <td>
-                                              <button type="button" class="btn btn-warning btn-xs" (click)="onEditWidget(item.id)">
+                                              <button type="button" class="btn btn-warning btn-xs" (click)="onEditWidget(item.id)"
+                                                      data-toggle="tooltip" data-placement="top" title="Edit widget">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                               </button>
-                                              <button type="button" class="btn btn-danger btn-xs" (click)="DeleteWidget(item.id)">
+                                              <button type="button" class="btn btn-danger btn-xs" (click)="DeleteWidget(item.id)"
+                                                      data-toggle="tooltip" data-placement="top" title="Delete widget">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                               </button>
                                                 <!-- Single button -->

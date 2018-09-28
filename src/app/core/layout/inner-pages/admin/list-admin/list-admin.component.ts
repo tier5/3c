@@ -28,7 +28,7 @@ export class ListAdminComponent implements OnInit {
     this.page = 1;
     this.afterLoginState = this.store.select('afterLogin');
   }
-    
+
   /** Function call to start editing an admin*/
   onEdit(adminId: number) {
     this.router.navigate([ 'admin/edit/', adminId ]);

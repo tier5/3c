@@ -56,6 +56,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
             .distinctUntilChanged()
             .subscribe(
               (admin) => {
+                console.log(admin);
                   if (admin) {
                     this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
                     this.admin.userId = admin.id;
@@ -75,6 +76,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
       .map(data => data.admin.resetAdminForm)
       .subscribe(
         (data) => {
+          //console.log(data);
           if (data) {
             this.loader = false;
             this.form.reset();
