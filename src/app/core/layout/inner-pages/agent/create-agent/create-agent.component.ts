@@ -72,13 +72,13 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       this.store.dispatch(new AdminActions.GetAdminListAttempt());
       this.authState = this.store.select('auth');
       this.afterLoginState = this.store.select('afterLogin');
+        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
       this.authSubscription = this.store.select('auth')
         .subscribe(
           (data) => {
             if (data.isAdmin) {
               this.agent.parentId = data.userId;
               this.loggedInAdminId = data.userId;
-              this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: data.userId}));
             }
           }
         );
@@ -99,7 +99,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                   (agent) => {
                       if (agent) {
                         this.adminUserId = agent.parent_id;
-                        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: agent.parent_id}));
+                        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
                         this.agent.parentId = agent.parent_id;
                         this.agent.firstName = agent.first_name;
                         this.agent.lastName = agent.last_name;
@@ -230,7 +230,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     adminChanged(id: number) {
       if (!!id) {
         this.adminUserId = id;
-        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt({userId: id}));
+        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
       }
     }
 
