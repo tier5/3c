@@ -19,13 +19,13 @@
                         <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                           <div class="row filter">
                             <div class="col-sm-4" *ngIf="!(authState | async).isAdmin;">
-                              company :
-                              <select class='select-option' [(ngModel)]='companySearch'>
+                                <span class="labelwidth">company :</span>
+                              <select class='select-option filterbox' [(ngModel)]='companySearch'>
                                 <option value="">Filter by company</option>
                                 <option class='option' *ngFor='let option of companyList' [value]="option.company">{{option.company}}</option>
                               </select>
                             </div>
-                            <div class="col-sm-8">Search : <input [(ngModel)]="term" placeholder="All keywords"></div>
+                              <div class="col-sm-8"><span class="labelwidth">Search : </span><input [(ngModel)]="term" placeholder="All keywords" class="searchbox"></div>
                           </div>
                             <div class="row">
                                 <div class="col-sm-12">

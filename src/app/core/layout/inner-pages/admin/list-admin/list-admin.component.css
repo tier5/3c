@@ -8,15 +8,8 @@
   border-radius: 20px;
   border: 1px solid #3c8dbc;
   box-shadow: 0px 0px 4px 1px #3c8dbc75;
-  width: 40%;
-  height: 40px;
+  width: 30%;
+  height: 30px;
   outline: none;
-  padding: 20px;
-  float: right;
-}
-.dataTables_wrapper .row p{
-  position: absolute;
-  right: 430px;
-  top: 10px;
-  font-weight: 700;
+  padding: 16px;
 }
