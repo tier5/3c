@@ -341,7 +341,7 @@
                           </td>
                           <td *ngIf="checkMon">
                             <div
-                              class="col-md-6" [ngClass]="(monStartTime.invalid && monStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(monStartTime.invalid && monStartTime.touched) ? 'has-error': ''">
                               <!--<div class="col-md-6">-->
                               <div class="form-group">
                                 <div class="input-group">
@@ -358,7 +358,7 @@
                           </td>
                           <td *ngIf="checkMon">
                             <div
-                              class="col-md-6"  [ngClass]="(monEndTime.invalid && monEndTime.touched) || monTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(monEndTime.invalid && monEndTime.touched) || monTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.monCbk.endTime" name="monEndTime" #monEndTime="ngModel"
@@ -388,7 +388,7 @@
                           </td>
                           <td *ngIf="checkTue">
                             <div
-                              class="col-md-6" [ngClass]="(tueStartTime.invalid && tueStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(tueStartTime.invalid && tueStartTime.touched) ? 'has-error': ''">
                               <!--<div class="col-md-6">-->
                               <div class="form-group">
                                 <div class="input-group">
@@ -405,7 +405,7 @@
                           </td>
                           <td *ngIf="checkTue">
                             <div
-                              class="col-md-6"  [ngClass]="(tueEndTime.invalid && tueEndTime.touched) || tueTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(tueEndTime.invalid && tueEndTime.touched) || tueTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.tueCbk.endTime" name="tueEndTime" #tueEndTime="ngModel"
@@ -437,7 +437,7 @@
 
                           <td *ngIf="checkWed">
                             <div
-                              class="col-md-6" [ngClass]="(wedStartTime.invalid && wedStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(wedStartTime.invalid && wedStartTime.touched) ? 'has-error': ''">
                               <!--<div class="col-md-6">-->
                               <div class="form-group">
                                 <div class="input-group">
@@ -454,7 +454,7 @@
                           </td>
                           <td *ngIf="checkWed">
                             <div
-                              class="col-md-6"  [ngClass]="(wedEndTime.invalid && wedEndTime.touched) || wedTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(wedEndTime.invalid && wedEndTime.touched) || wedTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.wedCbk.endTime" name="wedEndTime" #wedEndTime="ngModel"
@@ -487,7 +487,7 @@
 
                           <td *ngIf="checkThu">
                             <div
-                              class="col-md-6" [ngClass]="(thuStartTime.invalid && thuStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(thuStartTime.invalid && thuStartTime.touched) ? 'has-error': ''">
                               <!--<div class="col-md-6">-->
                               <div class="form-group">
                                 <div class="input-group">
@@ -504,7 +504,7 @@
                           </td>
                           <td *ngIf="checkThu">
                             <div
-                              class="col-md-6"  [ngClass]="(thuEndTime.invalid && thuEndTime.touched) || thuTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(thuEndTime.invalid && thuEndTime.touched) || thuTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.thuCbk.endTime" name="thuEndTime" #thuEndTime="ngModel"
@@ -534,7 +534,7 @@
                           </td>
                           <td *ngIf="checkFri">
                             <div
-                              class="col-md-6" [ngClass]="(friStartTime.invalid && friStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(friStartTime.invalid && friStartTime.touched) ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.friCbk.startTime" name="friStartTime"
@@ -550,7 +550,7 @@
                           </td>
                           <td *ngIf="checkFri">
                             <div
-                              class="col-md-6"  [ngClass]="(friEndTime.invalid && friEndTime.touched) || friTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(friEndTime.invalid && friEndTime.touched) || friTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.friCbk.endTime" name="friEndTime" #friEndTime="ngModel"
@@ -581,7 +581,7 @@
                           </td>
                           <td *ngIf="checkSat">
                             <div
-                              class="col-md-6" [ngClass]="(satStartTime.invalid && satStartTime.touched) ? 'has-error': ''">
+                              class="col-md-10" [ngClass]="(satStartTime.invalid && satStartTime.touched) ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.satCbk.startTime" name="satStartTime"
@@ -597,7 +597,7 @@
                           </td>
                           <td *ngIf="checkSat">
                             <div
-                              class="col-md-6"  [ngClass]="(satEndTime.invalid && satEndTime.touched) || satTimePikerError ? 'has-error': ''">
+                              class="col-md-10"  [ngClass]="(satEndTime.invalid && satEndTime.touched) || satTimePikerError ? 'has-error': ''">
                               <div class="form-group">
                                 <div class="input-group">
                                   <input [ngModel]="widget.satCbk.endTime" name="satEndTime" #satEndTime="ngModel"

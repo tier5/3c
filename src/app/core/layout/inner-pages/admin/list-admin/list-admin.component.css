@@ -12,4 +12,11 @@
   height: 40px;
   outline: none;
   padding: 20px;
+  float: right;
+}
+.dataTables_wrapper .row p{
+  position: absolute;
+  right: 430px;
+  top: 10px;
+  font-weight: 700;
 }

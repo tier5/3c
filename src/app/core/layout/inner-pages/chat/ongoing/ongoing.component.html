@@ -129,7 +129,7 @@
                                         <!-- /.box-body -->
                                       <input type="file" id="fileInput" style="display: none;" (change)="fileSelected($event)">
                                         <div class="box-footer"
-                                             *ngIf="(chatState | async).ongoing[currentChatIndex]?.status != 1">
+                                             *ngIf="(chatState | async).ongoing[currentChatIndex]?.status == 2">
                                             <form #form="ngForm" (submit)="sendMsg(form)">
                                                 <div class="input-group">
                                                   <span class="input-group-btn">

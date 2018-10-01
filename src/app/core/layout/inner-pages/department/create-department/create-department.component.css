@@ -128,3 +128,14 @@ input:checked + .slider:after
     content:'ON';
     left: 30% !important;
 }
+
+.newbutton{
+  height: 46px;
+  margin-top: -4px;
+  font-size: 18px;
+}
+@media only screen and (max-width: 1716px) and (min-width: 768px) {
+  .createAgentBtn {
+    width: 100% !important;
+  }
+}
