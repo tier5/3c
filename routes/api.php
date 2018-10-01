@@ -25,6 +25,34 @@ Route::post('update-password', 'UserController@updateForgetPassword');
 Route::get('update/password/{id}', 'UserController@getUserinfoWithForgetPasswordLink');
 // validate Twilio Credentials
 Route::get('validate-twilio-credentials', 'TwilioController@validateTwilioCredentials');
+//widget data API
+Route::post('widget-data', 'WidgetController@getWidgetData');
+//get widget departments
+Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
+// Upload file
+Route::post('file-upload', 'ChatController@uploadFile');
+//Timezone API
+Route::get('get-timezone', 'WidgetController@getTimezones');
+//reset password API
+Route::post('reset-password', 'UserController@resetPassword');
+//test function route
+Route::post('widget-departments-list', 'ChatController@createSmsTemplate');
+//Mobile chat Route
+Route::post('mobile-chat', 'ChatController@checkMessage');
+//web chat Route
+Route::post('web-chat', 'ChatController@checkWebMessage');
+//web chat message
+Route::post('web-chat-message', 'ChatController@CheckWebChatMessage');
+//chat process
+Route::post('chatProcess', 'ChatController@chatProcess');
+//Agent Action form frontend
+Route::post('agent-chat-action', 'ChatController@agentChatAction');
+//get all agents with the chatrooms
+Route::get('all-agents-chatrooms', 'ChatController@agentWithChatRooms');
+//test route for sms
+Route::any('send-sms', 'ChatController@sendSms');
+
+
 
 Route::group(['middleware' => 'isAuthenticated'], function () {
 
@@ -85,30 +113,6 @@ Route::group(['middleware' => 'isAuthenticated'], function () {
     Route::post('updateWidgetSchedule', 'WidgetController@updateWidgetSchedule');
 // View Widget
     Route::post('viewWidgets', 'WidgetController@viewWidgets');
-//Timezone API
-    Route::get('get-timezone', 'WidgetController@getTimezones');
-//widget data API
-    Route::post('widget-data', 'WidgetController@getWidgetData');
-//reset password API
-    Route::post('reset-password', 'UserController@resetPassword');
-//get widget departments
-    Route::post('widget-departments', 'WidgetController@getWidgetDepartments');
-//test function route
-    Route::post('widget-departments-list', 'ChatController@createSmsTemplate');
-//Mobile chat Route
-    Route::post('mobile-chat', 'ChatController@checkMessage');
-//web chat Route
-    Route::post('web-chat', 'ChatController@checkWebMessage');
-//web chat message
-    Route::post('web-chat-message', 'ChatController@CheckWebChatMessage');
-//chat process
-    Route::post('chatProcess', 'ChatController@chatProcess');
-//Agent Action form frontend
-    Route::post('agent-chat-action', 'ChatController@agentChatAction');
-//get all agents with the chatrooms
-    Route::get('all-agents-chatrooms', 'ChatController@agentWithChatRooms');
-//test route for sms
-    Route::any('send-sms', 'ChatController@sendSms');
 //route for the contact list
     Route::post('contact-list', 'ChatListController@getContactList');
 //route for the agent with all client name and client chat
@@ -139,8 +143,6 @@ Route::group(['middleware' => 'isAuthenticated'], function () {
     Route::post('delete-department', 'DepartmentController@deleteDepartment');
 // Get all the agents with all chats
     Route::post('agent-all-chats', 'ChatListController@getAllAgentChats');
-// Upload file
-    Route::post('file-upload', 'ChatController@uploadFile');
 // Initiate a chat with agent
     Route::post('ini-chat', 'ChatController@initiateChatWithAgent');
 // get only closed chats
