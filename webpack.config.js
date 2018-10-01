@@ -64,9 +64,9 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
-        API_URL : '"http://178.128.187.125/api/v1/"',
-        API_HOST : '"http://178.128.187.125/"',
-        SOCKET_URL : '"http://178.128.187.125:3000"'
+        API_URL : '"http://138.197.215.68/api/v1/"',
+        API_HOST : '"http://138.197.215.68/"',
+        SOCKET_URL : '"http://138.197.215.68:3000"'
 
       }
     }),
@@ -80,6 +80,30 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
+
+}else if (process.env.NODE_ENV === 'staging'){
+    module.exports.devtool = '#source-map'
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"staging"',
+                API_URL : '"http://178.128.187.125/api/v1/"',
+                API_HOST : '"http://178.128.187.125/"',
+                SOCKET_URL : '"http://178.128.187.125:3000"'
+
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
+    ])
 } else {
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
