@@ -5,8 +5,9 @@
   "author": "Tier5 LLC <github@tier5.us>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot ",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "local": "cross-env NODE_ENV= webpack-dev-server --open --hot ",
+    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "development": "cross-env NODE_ENV=development webpack --progress --hide-modules"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
