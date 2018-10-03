@@ -1998,7 +1998,7 @@ class ChatController extends Controller
                         }
                     }
                     if ($chat->direction == 2) {
-                        $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                        $agentRooms['chats'][$key]['user'] = $chat->agentInfo ? $chat->agentInfo->first_name : '';
                     }
                     $agentRooms['chats'][$key]['created_at'] = $chat->created_at;
                 }
@@ -2389,7 +2389,7 @@ class ChatController extends Controller
                         }
                     }
                     if ($chat->direction == 2) {
-                        $agentRooms['chats'][$key]['user'] = $chat->agentInfo->first_name;
+                        $agentRooms['chats'][$key]['user'] = $chat->agentInfo ? $chat->agentInfo->first_name : '';
                     }
                     $agentRooms['chats'][$key]['created_at'] = $chat->created_at;
                 }
