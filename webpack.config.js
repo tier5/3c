@@ -25,12 +25,20 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /(\.css$)/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'file-loader'
+      },
+      {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
     ]
   },
   resolve: {
@@ -55,7 +63,11 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"production"',
+        API_URL : '"http://138.197.215.68/api/v1/"',
+        API_HOST : '"http://138.197.215.68/"',
+        SOCKET_URL : '"http://138.197.215.68:3000"'
+
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -67,5 +79,40 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
+  ])
+}else if (process.env.NODE_ENV === 'staging'){
+    module.exports.devtool = '#source-map'
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"staging"',
+                API_URL : '"http://178.128.187.125/api/v1/"',
+                API_HOST : '"http://178.128.187.125/"',
+                SOCKET_URL : '"http://178.128.187.125:3000"'
+
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
+    ])
+} else {
+  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"',
+        API_URL : '"http://localhost:8000/api/v1/"',
+        API_HOST : '"http://localhost:8000/"',
+        SOCKET_URL : '"http://localhost:3000"'
+      }
+    }),
   ])
 }

@@ -1,2 +1,2 @@
-# textinbulk_frontend
+# widget_frontend
 frontend
