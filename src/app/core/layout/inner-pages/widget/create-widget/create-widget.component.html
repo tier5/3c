@@ -74,7 +74,7 @@
 
                 <!-- Department -->
                 <div class="col-md-6">
-                  <div class="col-md-9 col-sm-9">
+                  <div class="depaertArea">
                     <div class="form-group">
                       <label class="control-label" for="department">
                         Department for Widget
@@ -102,9 +102,9 @@
                       </select>-->
                     </div>
                   </div>
-                  <div class="col-md-3 col-sm-3 createAgentBtn">
+                  <div class="createAgentBtn">
                     <div class="form-group">
-                      <button type="button" class="btn btn-warning newbutton" (click)="CreateDepartment(template)"><i
+                      <button type="button" class="btn btn-warning btn-md" (click)="CreateDepartment(template)"><i
                         class="fa fa-plus"> </i> Create Department
                       </button>
                     </div>
@@ -189,7 +189,8 @@
                       Script URL
                     </label>
                   </div>
-                  {{widget.script_url}}
+                    <p class="widgetScript">{{widget.script_url}}</p>
+
                 </div>
 
               </div>
@@ -239,18 +240,21 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group col-md-6">
-                    <label class="control-label" for="image">Widget Logo </label>
-                    <i class="fa fa-upload fa-4x" aria-hidden="true"></i>
-                    <input type="file"
-                           class="form-control"
-                           id="image"
-                      (change)="fileUploaded($event)"
-                           accept="image/*"
-                           name="image"
-                           ngModel
-                      #fileUpload="ngModel"
+                    <label class="control-label uploadLabel" for="image">Widget Logo </label>
+                    <div class="uploadBtnArea">
+                      <i class="fa fa-upload fa-4x" aria-hidden="true"></i>
+                      <input type="file"
+                             class="form-control"
+                             id="image"
+                             (change)="fileUploaded($event)"
+                             accept="image/*"
+                             name="image"
+                             ngModel
+                             #fileUpload="ngModel"
 
-                    >
+                      >
+                    </div>
+                    <div style="clear: both;"></div>
                   </div>
                   <span *ngIf="fileUpload.invalid && fileUpload.touched && postedImage===undefined" class="help-block">Website URL is Required!</span>
                   <div class="col-md-6" *ngIf="!hideUploadedImage">
@@ -275,7 +279,7 @@
                     <!--<input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>-->
                     <!--</div>-->
                     <div class="table-striped">
-                      <table class="table table-responsive">
+                      <table class="table table-responsive timeTable">
                         <tr>
                           <th>Day</th>
                           <th>Start Time</th>
@@ -300,7 +304,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.sunCbk.startTime" name="sunStartTime"
                                                                              class="form-control" #sunStartTime="ngModel"
-                                                                             required id="sunStartTime"/>
+                                                                             required id="sunStartTime" type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(1)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -317,7 +321,7 @@
                                   <input [ngModel]="widget.sunCbk.endTime" name="sunEndTime" #sunEndTime="ngModel"
                                                                            class="form-control"  [required]="'required'"
                                                                            type="text"
-                                                                           id="sunEndTime" (ngModelChange)="log2($event)"/>
+                                                                           id="sunEndTime" (ngModelChange)="log2($event)" type="text"/>
                                   <span class="input-group-addon" (click)="openEndTimePiker(1)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -347,7 +351,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.monCbk.startTime" name="monStartTime"
                                                                              class="form-control" #monStartTime="ngModel"
-                                                                             required id="startTime1"/>
+                                                                             required id="startTime1"  type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(2)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -364,7 +368,7 @@
                                   <input [ngModel]="widget.monCbk.endTime" name="monEndTime" #monEndTime="ngModel"
                                                                            class="form-control"  [required]="'required'"
                                                                            type="text"
-                                                                           id="endTime1" (ngModelChange)="log2($event)"/>
+                                                                           id="endTime1" (ngModelChange)="log2($event)"  type="text"/>
                                   <span class="input-group-addon" (click)="openEndTimePiker(2)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -394,7 +398,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.tueCbk.startTime" name="tueStartTime"
                                                                              class="form-control" #tueStartTime="ngModel"
-                                                                             required id="tueStartTime"/>
+                                                                             required id="tueStartTime" type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(3)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -411,7 +415,7 @@
                                   <input [ngModel]="widget.tueCbk.endTime" name="tueEndTime" #tueEndTime="ngModel"
                                                                            class="form-control"  [required]="'required'"
                                                                            type="text"
-                                                                           id="tueEndTime" (ngModelChange)="log2($event)"/>
+                                                                           id="tueEndTime" (ngModelChange)="log2($event)" type="text"/>
                                   <span class="input-group-addon" (click)="openEndTimePiker(3)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -443,7 +447,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.wedCbk.startTime" name="wedStartTime"
                                                                              class="form-control" #wedStartTime="ngModel"
-                                                                             required id="wedStartTime"/>
+                                                                             required id="wedStartTime" type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(4)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -460,7 +464,7 @@
                                   <input [ngModel]="widget.wedCbk.endTime" name="wedEndTime" #wedEndTime="ngModel"
                                                                            class="form-control"  [required]="'required'"
                                                                            type="text"
-                                                                           id="wedEndTime" (ngModelChange)="log2($event)"/>
+                                                                           id="wedEndTime" (ngModelChange)="log2($event)" type="text"/>
                                   <span class="input-group-addon" (click)="openEndTimePiker(4)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -493,7 +497,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.thuCbk.startTime" name="thuStartTime"
                                                                              class="form-control" #thuStartTime="ngModel"
-                                                                             required id="thuStartTime"/>
+                                                                             required id="thuStartTime" type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(5)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -510,7 +514,7 @@
                                   <input [ngModel]="widget.thuCbk.endTime" name="thuEndTime" #thuEndTime="ngModel"
                                                                            class="form-control"  [required]="'required'"
                                                                            type="text"
-                                                                           id="thuEndTime" (ngModelChange)="log2($event)"/>
+                                                                           id="thuEndTime" (ngModelChange)="log2($event)" type="text"/>
                                   <span class="input-group-addon" (click)="openEndTimePiker(5)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -539,7 +543,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.friCbk.startTime" name="friStartTime"
                                                                              class="form-control" #friStartTime="ngModel"
-                                                                             required id="friStartTime"/>
+                                                                             required id="friStartTime" type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(6)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -556,7 +560,7 @@
                                   <input [ngModel]="widget.friCbk.endTime" name="friEndTime" #friEndTime="ngModel"
                                                                            class="form-control"  [required]="'required'"
                                                                            type="text"
-                                                                           id="friEndTime" (ngModelChange)="log2($event)"/>
+                                                                           id="friEndTime" (ngModelChange)="log2($event)" type="text"/>
                                   <span class="input-group-addon" (click)="openEndTimePiker(6)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>
@@ -586,7 +590,7 @@
                                 <div class="input-group">
                                   <input [ngModel]="widget.satCbk.startTime" name="satStartTime"
                                                                              class="form-control" #satStartTime="ngModel"
-                                                                             required id="satStartTime"/>
+                                                                             required id="satStartTime" type="text"/>
                                   <span class="input-group-addon" (click)="openStartTimePiker(7)"><i
                                     class="glyphicon glyphicon-time"></i></span>
                                 </div>

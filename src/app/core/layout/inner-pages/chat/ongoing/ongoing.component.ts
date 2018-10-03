@@ -212,7 +212,7 @@ export class OngoingComponent implements OnInit, OnDestroy {
   showChats() {
     return this.store.select('afterLogin')
       .map(data => data.chat)
-      .map(chats => chats.ongoing.filter(chat => chat.status !== 3 && chat.status !== 5 ));
+      .map(chats => chats.ongoing.filter(chat => chat.status == 2));
   }
 
   getLoggedInAgentDetails() {

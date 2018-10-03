@@ -8,8 +8,17 @@
   border-radius: 20px;
   border: 1px solid #3c8dbc;
   box-shadow: 0px 0px 4px 1px #3c8dbc75;
-  width: 30%;
+  width: calc(100% - 48px);
   height: 30px;
   outline: none;
   padding: 16px;
+}
+
+#adminListTable1 tr td:last-child{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#adminListTable1 tr td:nth-child(n+2){
+  min-width: 145px;
 }

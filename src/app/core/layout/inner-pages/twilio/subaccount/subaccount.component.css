@@ -1,0 +1,16 @@
+.box.box-primary{
+    overflow-x: scroll;
+}
+#twilioSubAcc tr td:nth-child(5n){
+    min-width: 105px;
+}
+#twilioSubAcc tr td:nth-child(6n){
+    min-width: 120px;
+}
+#twilioSubAcc tr td:nth-child(7n){
+    min-width: 100px;
+}
+#twilioSubAcc tr td:nth-child(8n){
+    min-width: 135px;
+}
+

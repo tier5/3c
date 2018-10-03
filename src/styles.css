@@ -5,3 +5,17 @@
 
 html{background: #D2D6DE; height: auto;}
 body{background: #D2D6DE;}
+
+angular2-multiselect .c-btn{
+    padding: 3px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-color: #d2d6de !important;
+}
+.depaertArea{
+    padding-left: 0;
+    padding-right: 0;
+    width: calc(100% - 167px);
+    float: left;
+    margin-right: 14px;
+}

@@ -199,3 +199,13 @@ input:checked + .sliderPhone:after
     width:100% !important;
   }
 }
+
+@media screen and (max-width: 767px){
+    .depaertArea{
+        width: 100%;
+    }
+    .createAgentBtn button{
+        margin-top: 0 !important;
+        margin-bottom: 15px;
+    }
+}

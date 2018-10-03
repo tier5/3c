@@ -18,16 +18,16 @@
                     <div class="box-body">
                         <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                             <div class="row filter">
-                                <div class="col-sm-4" *ngIf="!(authState | async).isAdmin;">
+                                <div class="col-lg-4 col-mb-4 col-sm-6 companyArea" *ngIf="!(authState | async).isAdmin;">
                                     company :
-                                    <select class='select-option' [(ngModel)]='companySearch'>
+                                    <select class='select-option filterbox' [(ngModel)]='companySearch'>
                                         <option value="">Filter by company</option>
                                         <option class='option' *ngFor='let option of companyList' [value]="option.company">
                                             {{option.company}}
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-sm-8">Search : <input [(ngModel)]="term" placeholder="All keywords">
+                                <div class="col-lg-4 col-mb-4 col-sm-6">Search : <input [(ngModel)]="term" placeholder="All keywords" class="searchbox">
                                 </div>
                             </div>
                             <div class="row">
