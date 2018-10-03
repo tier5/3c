@@ -1970,7 +1970,7 @@ class ChatController extends Controller
                 $getTransferChats = AgentTransferHistory::where('chat_room_id', $room->chat_room_id)->orderBy('created_at','DESC')->get();
                 if (count($getTransferChats) > 0) {
                     $getAgentName = Users::where('id', $getTransferChats[0]->transfer_from_agent_id)->select('first_name', 'last_name')->first();
-                    $agentRooms['transfer_from_agent'] = $getAgentName->first_name . ' ' . $getAgentName->last_name;
+                    $agentRooms['transfer_from_agent'] = $getAgentName ? $getAgentName->first_name . ' ' . $getAgentName->last_name : '';
                     $agentRooms['transferred'] = true;
                 } else {
                     $agentRooms['transfer_from_agent'] = '';
