@@ -65,6 +65,33 @@ input[type=file] {
     padding-top: 29px;
 }
 
+.uploadBtnArea{
+    width: 52px;
+    height: 56px;
+    float: left;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+input[type=file]{
+    padding: 0;
+    width: 52px;
+    height: 75px;
+    float: left;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    z-index: 50;
+    top: -23px;
+}
+.uploadLabel{
+    pointer-events: none;
+}
+.createAgentBtn{
+    padding-top: 25px;
+}
+
+
 /*Media Query for responsive*/
 @media screen and (max-width:764px) {
     .createAgentBtn {
@@ -132,11 +159,74 @@ input[type=file] {
   opacity: .5;
 }
 
+.timeTable tr td:first-child{
+    width: 114px;
+}
+.timeTable .checkbox label{
+    padding-left: 0;
+}
+.timeTable .col-md-10{
+    padding-left: 0;
+}
+.timeTable .col-md-10{
+    min-width: 145px;
+}
+.widgetScript{
+    word-break: break-all;
+}
+
+
 @media only screen and (max-width: 1716px) and (min-width: 768px){
   .createAgentBtn{
     width:100% !important;
   }
 }
-@media only screen and (max-width: 477px) and (min-width: 320px){
 
+@media screen and (max-width: 764px){
+    .createAgentBtn{
+        padding-top: 25px !important;
+    }
 }
+
+@media screen and (max-width: 991px){
+    .uploadBtnArea{
+        margin-bottom: 32px;
+    }
+    .timeTable{
+        border: 0;
+    }
+    .timeTable tr td{
+        padding-right: 0;
+    }
+    .timeTable tr td:first-child{
+        padding-left: 0;
+    }
+    .timeTable tr td:first-child{
+        width: 90px;
+    }
+    .timeTable tr td:first-child label{
+        font-size: 13px;
+    }
+}
+@media screen and (max-width: 479px){
+    .input-group-addon{
+        padding: 6px 4px;
+    }
+    .timeTable input[type="text"]{
+        padding: 6px 4px;
+    }
+    .timeTable td .col-md-10{
+        width: 83px;
+        padding: 0;
+    }
+    .timeTable .checkbox label{
+        padding-left: 0;
+    }
+    .timeTable .col-md-10{
+        min-width: auto;
+    }
+    .depaertArea{
+        width: 100%;
+    }
+}
+

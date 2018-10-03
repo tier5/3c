@@ -37,15 +37,17 @@
     position: relative;
 }
 .createAgentBtn{
-    padding-top: 29px;
+    padding-top: 25px;
+}
+.depaertArea {
+  padding-left: 0;
+  padding-right: 0;
+  width: calc(100% - 131px);
+  float: left;
+    margin-right: 15px;
 }
 
 /*Media Query for responsive*/
-@media screen and (max-width:764px) {
-    .createAgentBtn {
-        padding-top: 0px !important;
-    }
-}
 
 /* toggle switch  */
 
@@ -134,8 +136,14 @@ input:checked + .slider:after
   margin-top: -4px;
   font-size: 18px;
 }
+
 @media only screen and (max-width: 1716px) and (min-width: 768px) {
   .createAgentBtn {
     width: 100% !important;
   }
+}
+@media screen and (max-width: 479px){
+    .depaertArea{
+        width: 100%;
+    }
 }
