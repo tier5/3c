@@ -1213,8 +1213,8 @@ class UserController extends Controller
                 $agentArray['phone'] = $agent->phone;
                 $agentArray['profile_status'] = $agent->profile_status;
                 $agentArray['type'] = $agent->type;
-                $agentArray['admin_first_name'] = $agent->getParentInfo->first_name;
-                $agentArray['admin_last_name'] = $agent->getParentInfo->last_name;
+                $agentArray['admin_first_name'] = $agent->getParentInfo ? $agent->getParentInfo->first_name : 'N/A';
+                $agentArray['admin_last_name'] = $agent->getParentInfo ? $agent->getParentInfo->last_name : '';
                 $agentDeptArray = [];
                 if(isset($agent->departmentAgentMapping)){
                     foreach($agent->departmentAgentMapping as $maxKey=>$deptValue){
