@@ -3,13 +3,11 @@
         <div class="chat-window col-md-4 col-sm-6">
             <div class="panel panel-default">
                 <div class="top-bar">
-                    <div class="col-md-3 col-xs-3">
-                        <div class="user-icon">
-                            <img :src="apiHost + 'widgets/script/user3.png'" class="img-responsive" alt="user-img">
-                        </div>
-                    </div>
-                    <div class="col-md-7 col-xs-5">
+                    <div class="col-md-9 col-xs-8">
                         <div class="row">
+                            <div class="user-icon">
+                                <img :src="apiHost + 'widgets/script/user3.png'" class="img-responsive" alt="user-img">
+                            </div>
                             <div class="detail">
                                 {{ client.name }}
                                 <p>Chat with Agent</p>
@@ -107,11 +105,11 @@
                             </div>
                         </div>
 
-                        <div class="chat-notification" v-if="message.direction==3">
+                       <!-- <div class="chat-notification" v-if="message.direction==3">
                             <div class="row">
                                 <b> {{ message.message }} </b>
                             </div>
-                        </div>
+                        </div>-->
 
 
                     </div>
@@ -120,11 +118,11 @@
                 <div class="panel-body msg_container_base" v-if="!minimize && chatResolved && !chatFailed"
                      v-chat-scroll>
                     <div class="chat-notification">
-                        <div class="row">
-                            <b> Thank you for chatting with us.</b>
-                        </div>
                         <div class="col-lg-12">
                             <div class="panel-body" v-if="!chat && !departmentSubmitted">
+                                <div class="row">
+                                    <b> Thank you for chatting with us.</b>
+                                </div>
                                 <div class="col-md-12 cust-pad">
                                     <button type="button" class="btn btn-primary" @click="startChat"> Click here to
                                         start chatting
@@ -153,9 +151,9 @@
                             </div>
                             <div class="panel-body" v-if="chat && departmentSubmitted">
                                 <div class="col-md-12 cust-pad">
-                                    <button type="button" class="btn btn-primary" @click="startChatAgain"
+                                    <!--<button type="button" class="btn btn-primary" @click="startChatAgain"
                                             v-if="!chatClicked"> Chat Again
-                                    </button>
+                                    </button>-->
                                     <p v-if="chatClicked"> Please wait.... </p>
                                 </div>
                             </div>
@@ -280,7 +278,8 @@
                 image: {},
                 imageName: '',
                 imageUrl: '',
-                fileType: ''
+                fileType: '',
+                departmentLength: 0
             }
         },
         created() {
@@ -372,10 +371,13 @@
                             if (response.status) {
                                 if (response.body.status) {
                                     if (response.body) {
-                                        const departmentLength = response.body.departments.length;
-                                        if (departmentLength > 1) {
+                                        this.departmentLength = response.body.departments.length;
+                                        if (this.departmentLength > 1) {
                                             this.widgetDepartments = response.body.departments;
-                                        } else if (departmentLength == 1) {
+                                            this.chat = true;
+                                            this.departmentSubmitted = false;
+                                            console.log('department not found');
+                                        } else if (this.departmentLength === 1) {
                                             this.departmentSubmit(response.body.departments[0].id);
                                             this.chat = true;
                                         } else {
@@ -400,6 +402,10 @@
                 Vue.ls.set('client', this.client);
                 console.log(Vue.ls.get('client'));
                 this.departmentSubmitted = true;
+
+                this.chatClicked = true;
+                console.log("Started chat again");
+                this.$socket.emit('client-connected', this.client);
             },
             /** to start the chatting */
             startChatAgain() {
@@ -528,6 +534,11 @@
         height: 40px;
         width: 40px;
         border-radius: 50%;
+    }
+
+    .user-icon {
+        float: left;
+        padding: 0 10px;
     }
 
     .panel-footer {
