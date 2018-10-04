@@ -498,4 +498,54 @@ class DepartmentController extends Controller
         }
         return Response()->json($response);
     }
+
+
+
+    public function getUserDepartmentList(Request $request){
+         $userId = $request->userId;
+         if($userId != 0){
+             $allDepartment = Department::where('user_id',$userId)->with('userDetails')->orderBy('created_at','desc')->get();
+             if(count($allDepartment) != 0){
+                 $department = array();
+                 foreach($allDepartment as $key=>$value){
+                     $department[$key]['id'] = $value->id;
+                     $department[$key]['department_name'] = $value->department_name;
+                     $department[$key]['department_details'] = $value->department_details;
+                     if($value->userDetails != null && $value->userDetails->company != null ){
+                         $department[$key]['company_name'] = $value->userDetails->company;
+                     }else{
+                         $department[$key]['company_name'] = '';
+                     }
+                     $department[$key]['created_at'] = $value->created_at->format('Y-m-d H:i:s');
+                 }
+                 return  Response::json(array(
+                     'status'   => true,
+                     'code'     => 200,
+                     'response' => $department,
+                     'message'  => 'Department List!'
+                 ));
+
+             } else {
+
+                 return  Response::json(array(
+                     'status'   => false,
+                     'code'     => 400,
+                     'response' => [],
+                     'message'  => 'Sorry Department not found !'
+                 ));
+
+             }
+         } else {
+             return  Response::json(array(
+                 'status'   => false,
+                 'code'     => 400,
+                 'response' => [],
+                 'message'  => 'user not found !'
+             ));
+         }
+
+    }
+
+
+
 }

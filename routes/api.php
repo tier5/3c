@@ -153,5 +153,8 @@ Route::group(['middleware' => 'isAuthenticated'], function () {
     Route::post('list-all-twilio-accounts', 'TwilioController@listAllTwilioAccount');
 // close a Twilio account
     Route::post('close-twilio-account', 'TwilioController@closeUserTwilioAccount');
+// List of department according to a user
+    Route::post('user-department-list', 'DepartmentController@getUserDepartmentList');
+
 
 });

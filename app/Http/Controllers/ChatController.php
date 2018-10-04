@@ -2277,7 +2277,7 @@ class ChatController extends Controller
                         'code' => 400,
                         'response' => [],
                         'error' => true,
-                        'message' => 'You can not able to initiate chat with this number as he already has a ongoing/pending chat.'
+                        'message' => 'You can not able to initiate chat with this number as this number already has a ongoing/pending chat.'
                     ));
                 }
             } else {

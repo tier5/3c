@@ -10,6 +10,7 @@ use App\Helpers\Helper;
 use App\Model\Timezone;
 use App\Model\TwilioCredentials;
 use App\Model\TwilioNumber;
+use Couchbase\LookupInBuilder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -644,11 +645,9 @@ class WidgetController extends Controller
     public function updateWidgetDepartment(Request $request)
     {
         $widgetId = $request->widgetId;
-        $widgetUserId = $request->userId;
         $widgetDepartment = explode(',', $request->departmentIdArray);
         $token = $request->token;
         $checkWidget = Widgets::find($widgetId);
-
         // Check Widget
         if (count($checkWidget) != 1) {
 
@@ -656,15 +655,9 @@ class WidgetController extends Controller
 
         }
 
-        // Get User from token
-        if ($widgetUserId == '') {
-
-            $widgetUserId = Helper::getUserIdFromToken($token);
-
-        }
+        $widgetUserId = $checkWidget->user_id;
 
         $checkUser = Users::find($widgetUserId);
-
         // Check User
         if (count($checkUser) != 1) {
 
@@ -673,17 +666,10 @@ class WidgetController extends Controller
         }
 
         // Check Departments of Admin
-        foreach ($widgetDepartment as $checkKey => $checkValue) {
-
-            if ($checkUser->type == 1) {
-                $checkDepartment = Department::where('id', $checkValue)->first();
-
-            } else {
-                $checkDepartment = Department::where('id', $checkValue)->where('user_id', $widgetUserId)->first();
-            }
-
-            if (count($checkDepartment) == 0) {
-
+        foreach ($widgetDepartment as $checkKey => $deptValue) {
+            $checkDepartment = Department::find($deptValue);
+            if ($checkDepartment == '') {
+                Log::info('Department not found');
                 return $response = json_encode(array('code' => 400, 'error' => true, 'response' => [], 'status' => false, 'message' => 'Department not found !'));
 
             }
