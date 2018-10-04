@@ -14,12 +14,14 @@ import { environment } from '../../../../../environments/environment';
 import { ChatService } from '../../inner-pages/chat/chat.service';
 import { GET_CONTACT_LIST_ATTEMPT } from './chat.actions';
 import {GET_AGENT_CLOSED_CHATS_ATTEMPT} from "../chat/chat.actions";
+import {SpinnerService} from '../../../shared/spinner';
 
 @Injectable()
 export class ChatEffects {
 
     constructor (private actions$: Actions,
-                 private httpClient: HttpClient) {}
+                 private httpClient: HttpClient,
+                 private spinnerService: SpinnerService) {}
 
     @Effect()
     connect = this.actions$
@@ -40,6 +42,7 @@ export class ChatEffects {
     getAgentList = this.actions$
         .ofType(ChatActions.GET_AGENT_LIST_ATTEMPT)
         .switchMap((action: ChatActions.GetAgentListAttempt) => {
+          this.spinnerService.show();
             const apiUrl = environment.API_BASE_URL + 'listofAgent';
             const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
             const config = {
@@ -47,6 +50,7 @@ export class ChatEffects {
             };
             return this.httpClient.post(apiUrl, config)
                 .mergeMap((res: any) => {
+                  this.spinnerService.hide();
                     if (res.status) {
                         return [
                             {
@@ -80,6 +84,7 @@ export class ChatEffects {
     getChatList = this.actions$
         .ofType(ChatActions.GET_CHAT_LIST_ATTEMPT)
         .switchMap((action: ChatActions.GetChatListAttempt) => {
+          this.spinnerService.show();
             const apiUrl = environment.API_BASE_URL + 'client-chat';
             const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
             const config = {
@@ -88,6 +93,7 @@ export class ChatEffects {
 
             return this.httpClient.post(apiUrl, action.payload, config)
                 .map((res: any) => {
+                  this.spinnerService.hide();
                     if (res.status) {
                         return {
                             type: ChatActions.GET_CHAT_LIST_SUCCESS,
@@ -116,6 +122,7 @@ export class ChatEffects {
     getContactList = this.actions$
         .ofType(ChatActions.GET_CONTACT_LIST_ATTEMPT)
         .switchMap((action: ChatActions.GetContactListAttempt) => {
+          this.spinnerService.show();
             const apiUrl = environment.API_BASE_URL + 'contact-list';
             const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
             const config = {
@@ -124,6 +131,7 @@ export class ChatEffects {
 
             return this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap((res: any) => {
+                  this.spinnerService.hide();
                     if (res.status) {
                         return [
                             {
@@ -159,6 +167,7 @@ export class ChatEffects {
     getTransferAgentList = this.actions$
         .ofType(ChatActions.GET_TRANSFER_AGENT_LIST_ATTEMPT)
         .switchMap((action: ChatActions.GetTransferAgentListAttempt) => {
+          this.spinnerService.show();
             const apiUrl = environment.API_BASE_URL + 'agent-department-list';
             const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
             const config = {
@@ -167,6 +176,7 @@ export class ChatEffects {
 
             return this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap((res: any) => {
+                  this.spinnerService.hide();
                     if (res.status) {
                          // console.log(res.response);
                         return [
@@ -201,6 +211,7 @@ export class ChatEffects {
   getChatInitEffect = this.actions$
     .ofType(ChatActions.INI_CHAT_ATTEMPT)
     .switchMap((action: ChatActions.IniChatAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'ini-chat';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
@@ -209,6 +220,7 @@ export class ChatEffects {
 
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -240,6 +252,7 @@ export class ChatEffects {
     getAllAgentClosedChats = this.actions$
         .ofType(ChatActions.GET_AGENT_CLOSED_CHATS_ATTEMPT)
         .switchMap((action: ChatActions.IniChatAttempt) => {
+          this.spinnerService.show();
             const apiUrl = environment.API_BASE_URL + 'get-all-closed-chats';
             const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
             const config = {
@@ -248,6 +261,7 @@ export class ChatEffects {
 
             return this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap((res: any) => {
+                  this.spinnerService.hide();
                     if (res.status) {
                         return [
                             {

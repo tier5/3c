@@ -10,6 +10,7 @@ import {ChatService} from '../chat/chat.service';
 import {environment} from '../../../../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {SpinnerService} from '../../../shared/spinner';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-dashboard',
@@ -196,6 +197,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   isNumber(value: string | number): boolean {
     return !isNaN(Number(value.toString()));
+  }
+  pendingChat(chats) {
+    return  chats.filter( chat => chat.status == 1 || chat.status == 6).length;
+  }
+  ongoingChat(chats) {
+    return  chats.filter( chat => chat.status == 2).length;
   }
   ngOnDestroy(): void {
     this.authSubscription.unsubscribe();

@@ -80,7 +80,8 @@
         <!-- small box -->
         <div class="small-box bg-yellow">
           <div class="inner">
-            <h3>{{pendingChatCount}}</h3>
+            <!--<h3>{{ pendingChatCount }}</h3>-->
+            <h3>{{ pendingChat((chatState | async).ongoing) }}</h3>
             <h4>New Requests</h4>
           </div>
           <div class="icon">
@@ -94,7 +95,8 @@
         <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
-            <h3>{{ongoingChatCount}}</h3>
+            <!--<h3>{{ongoingChatCount}}</h3>-->
+            <h3>{{ ongoingChat((chatState | async).ongoing) }}</h3>
             <h4>Live Sessions</h4>
           </div>
           <div class="icon">

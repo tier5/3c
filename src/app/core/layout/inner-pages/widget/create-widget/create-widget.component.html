@@ -36,7 +36,7 @@
 
                     <ng-template #thenTemplateName>
                       <input type="text" class="form-control"
-                             name="adminName" autocomplete="off" readonly [value]="(authState | async).name">
+                             name="adminName" autocomplete="off" readonly [value]="(authState | async).name" #selectedAdminList>
                     </ng-template>
 
                     <ng-template #elseTemplateName>
@@ -44,7 +44,7 @@
 
                         [ngClass]="editMode ?  'form-control' : 'form-control' "
                         [ngModel]="adminName" name="adminName" (click)="checkAdminname($event.target.value)"
-                             autocomplete="off" [readonly]="editMode">
+                             autocomplete="off" [readonly]="editMode" #selectedAdminList>
                       <span *ngIf="( !editMode && this.adminName)" (click)="resetList()" class="hideList"> <i
                         class="fa fa-close"></i> </span>
                       <ul *ngIf="showThis" class="autoList">
@@ -104,8 +104,8 @@
                   </div>
                   <div class="createAgentBtn">
                     <div class="form-group">
-                      <button type="button" class="btn btn-warning btn-md" (click)="CreateDepartment(template)"><i
-                        class="fa fa-plus"> </i> Create Department
+                      <button type="button" class="btn btn-warning btn-md" (click)="CreateDepartment(template)" [disabled]="widget.userId === 0">
+                        <i class="fa fa-plus"> </i> Create Department
                       </button>
                     </div>
                   </div>

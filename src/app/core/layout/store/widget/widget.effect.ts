@@ -23,6 +23,7 @@ export class WidgetEffects {
   getTimezoneList = this.actions$
     .ofType(WidgetActions.GET_TIMEZONE_LIST_ATTEMPT)
     .switchMap((action: WidgetActions.GetTimeZoneListAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'get-timezone';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
@@ -30,6 +31,7 @@ export class WidgetEffects {
       };
       return this.httpClient.get(apiUrl, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return {
               type: WidgetActions.GET_TIMEZONE_LIST_SUCCESS,
@@ -57,6 +59,7 @@ export class WidgetEffects {
   addWidget = this.actions$
     .ofType(WidgetActions.ADD_WIDGET_ATTEMPT)
     .switchMap((action: WidgetActions.AddWidgetAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'createWidgets';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
@@ -64,6 +67,7 @@ export class WidgetEffects {
       };
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -98,6 +102,7 @@ export class WidgetEffects {
   getWidgetList = this.actions$
     .ofType(WidgetActions.GET_WIDGET_LIST_ATTEMPT)
     .switchMap((action: WidgetActions.GetWidgetListAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'listWidgets';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
@@ -105,6 +110,7 @@ export class WidgetEffects {
       };
       return this.httpClient.post(apiUrl, config)
         .map((res: any) => {
+          this.spinnerService.hide();
             return {
               type: WidgetActions.GET_WIDGET_LIST_SUCCESS,
               payload: res.response
@@ -124,6 +130,7 @@ export class WidgetEffects {
   editWidget = this.actions$
     .ofType(WidgetActions.EDIT_WIDGET_ATTEMPT)
     .switchMap((action: WidgetActions.EditWidgetAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'updateWidgets';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
@@ -131,6 +138,7 @@ export class WidgetEffects {
       };
       return this.httpClient.post(apiUrl, action.payload, config)
         .mergeMap((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return [
               {
@@ -165,6 +173,7 @@ export class WidgetEffects {
   widgetToEdit = this.actions$
     .ofType(WidgetActions.GET_WIDGET_TO_EDIT_ATTEMPT)
     .switchMap((action: WidgetActions.GetWidgetToEditAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'viewWidgets';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
@@ -172,6 +181,7 @@ export class WidgetEffects {
       };
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
+          this.spinnerService.hide();
           if (res.status) {
             return {
                 type: WidgetActions.GET_WIDGET_TO_EDIT_SUCCESS,
@@ -197,19 +207,19 @@ export class WidgetEffects {
   searchNumber = this.actions$
     .ofType(WidgetActions.GET_NUMBER_LIST_ATTEMPT)
     .switchMap((action: WidgetActions.GetNumberListAttempt) => {
+      this.spinnerService.show();
       const apiUrl = environment.API_BASE_URL + 'search-number';
       const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
       const config = {
         headers: headers
       };
-      this.spinnerService.show();
       return this.httpClient.post(apiUrl, action.payload, config)
         .map((res: any) => {
            this.spinnerService.hide();
           if (res.status) {
             return {
               type: WidgetActions.GET_NUMBER_LIST_SUCCESS,
-              payload:  { res:res.data, type:'success' }
+              payload:  { res: res.data, type: 'success' }
             };
           } else {
             return {
@@ -248,14 +258,14 @@ export class WidgetEffects {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'success' }
               }
-            ]
+            ];
           } else {
             return [
               {
                 type: AlertActions.ALERT_SHOW,
                 payload: { message: res.message, type: 'danger' }
               }
-            ]
+            ];
           }
         })
         .catch((err: HttpErrorResponse) => {
@@ -264,7 +274,7 @@ export class WidgetEffects {
               type: AlertActions.ALERT_SHOW,
               payload: { message: err.error, type: 'danger' }
             }
-          )
-        })
+          );
+        });
     });
 }

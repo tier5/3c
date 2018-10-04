@@ -82,7 +82,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         (data) => {
           if (data) {
             this.loader = false;
-            this.form.reset();
             this.store.dispatch(new DepartmentActions.ResetDepartmentForm());
             if (!!this.loggedInAdminId) {
               this.form.form.patchValue({ userId: this.loggedInAdminId });
@@ -171,17 +170,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     if (this.editMode) {
       const data = { ...form.value, departmentId: this.depId };
       this.store.dispatch(new DepartmentActions.EditDepartmentAttempt({...data}));
-        /** Loader Show/Hide */
-        this.store.select('alert')
-            .map(data => data)
-            .subscribe(
-                (data) => {
-                    if (data.show && data.type === 'danger') {
-                        this.loader = false;
-                    } else if (data.show && data.type === 'success') {
-                        this.router.navigate(['/department/list']);
-                    }
-                }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
+      this.router.navigate(['/department/list']);
     } else {
       this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
       this.router.navigate(['/department/list']);
@@ -196,7 +185,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   }
 
   /** Function to filter by admin names */
-    checkAdminname($event){
+    checkAdminname($event) {
         this.showThis = true;
         return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.toLowerCase().indexOf($event) !== -1);
     }
@@ -217,7 +206,6 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     }
     /** Function to create agent modal*/
     CreateAgent(template:  TemplateRef<any>) {
-        console.log(this.dep.userId);
         this.bsModalRef = this.modalService.show(template);
     }
 
@@ -226,21 +214,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         this.createAgentLoader = true;
         /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
-        /** Loader Show/Hide */
-        this.store.select('alert')
-            .map(data => data)
-            .subscribe(
-                (data) => {
-                    if (data.show && data.type === 'danger') {
-                        this.createAgentLoader = false;
-                    }else if (data.show && data.type === 'success') {
-                        this.bsModalRef.hide();
-                        this.store.select('afterLogin', 'agent', 'newAgentInfo')
-                            .subscribe(data => {
-                                this.dep.agents.push({id: data.id, first_name: data.first_name, last_name: data.last_name});
-                            });
-                    }
-                }, (error) => { console.error(error); this.createAgentLoader = false; } , () => {this.createAgentLoader = false; });
+      this.store.select('afterLogin', 'agent', 'newAgentInfo')
+        .subscribe(data => {
+          if(typeof data === 'object' && data.id > 0) {
+            this.dep.agents.push({id: data.id, first_name: data.first_name, last_name: data.last_name});
+          }
+        });
+      this.bsModalRef.hide();
     }
 
 }

@@ -69,13 +69,12 @@
                       </angular2-multiselect>
                     </div>
                       </div>
-                      <div class="createAgentBtn">
-                          <div class="form-group">
-                              <button class="btn btn-warning btn-mb" type="button" (click)="CreateAgent(template)" id="createAgent"><i class="fa fa-plus"> </i> Create Agent</button>
-                          </div>
+                    <div class="createAgentBtn">
+                      <div class="form-group">
+                        <button class="btn btn-warning btn-md" type="button" (click)="CreateAgent(template)" id="createAgent" [disabled]="dep.userId === 0"><i class="fa fa-plus"> </i> Create Agent</button>
                       </div>
+                    </div>
                   </div>
-
                 </div>
               </div>
               <div class="col-md-6">

@@ -184,7 +184,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                         .subscribe(
                             (widget) => {
                                 if (widget) {
-                                    this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
+                                  this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({userId: widget.user_id}));
+                                    //this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
                                     this.widget.id = widget.id;
                                     this.widget.userId = widget.user_id;
                                     this.widget.website = widget.website;
@@ -249,15 +250,17 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                                 }
                             }
                         );
+                } else {
+                  this.widget.departmentIdArray = [];
                 }
             }
         );
-        this.afterLoginSubscription = this.store.select('afterLogin')
+       /* this.afterLoginSubscription = this.store.select('afterLogin')
             .map(data => data.widget.resetWidgetForm)
             .subscribe(
                 (data) => {
                     if (data) {
-                        this.form.reset();
+                        //this.form.reset();
                         this.store.dispatch(new WidgetActions.ResetWidgetForm());
                         if (!!this.loggedInAdminId) {
                             this.form.form.patchValue({userId: this.loggedInAdminId});
@@ -265,7 +268,30 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
                     }
                 }
             );
+*/
+      this.newAfterLoginSubscription = this.store.select('department')
+        .subscribe(
+          (data) => {
+            if (data.newDepartmentId > 0) {
+              console.log(data);
+              const oldArray = this.widget.departmentIdArray;
+              const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
+              let fIndex: any = -1;
+              if (oldArray.length > 0) {
+                oldArray.forEach((elem, index) => {
+                  if (elem.id === newObj[0].id) {
+                    fIndex = index;
+                  }
+                });
+              }
+              if (fIndex !== -1) {
+                oldArray.splice(fIndex, 1);
+              }
 
+              this.widget.departmentIdArray = [...oldArray, ...newObj];
+            }
+          }
+        );
         this.adminList = this.store.select('afterLogin').map(data => data)
             .subscribe(
                 (data) => {
@@ -368,24 +394,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formDataEdit.append('satEndTime', form.value.satEndTime);
             formDataEdit.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.EditWidgetAttempt(formDataEdit));
-            /** Loader Show/Hide */
-            this.store.select('alert')
-                .map(data => data)
-                .subscribe(
-                    (data) => {
-                        if (data.show && data.type === 'danger') {
-                            this.loader = false;
-                        }
-                        if (data.show && data.type === 'success') {
-                            this.loader = false;
-                            this.router.navigate(['/widget/edit', this.widget.id]);
-                        }
-                    }, (error) => {
-                        console.error(error);
-                        this.loader = false;
-                    }, () => {
-                        this.loader = false;
-                    });
+            this.router.navigate(['/widget/list']);
         } else {
             const formData = new FormData();
             formData.append('image', this.postedImage);
@@ -420,33 +429,17 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formData.append('satEndTime', form.value.satEndTime);
             formData.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
-            /** Loader Show/Hide */
-            this.store.select('alert')
-                .map(data => data)
-                .subscribe(
-                    (data) => {
-                        if (data.show && data.type === 'danger') {
-                            this.loader = false;
-                        }
-                        if (data.show && data.type === 'success') {
-                            this.loader = false;
-                            this.router.navigate(['widget/create']);
-                        }
-                    }, (error) => {
-                        console.error(error);
-                        this.loader = false;
-                    }, () => {
-                        this.loader = false;
-                    });
+          this.router.navigate(['/widget/list']);
         }
         this.isBuyNumber = false;
     }
 
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
-        this.afterLoginSubscription.unsubscribe();
+       // this.afterLoginSubscription.unsubscribe();
         this.authSubscription.unsubscribe();
         this.adminList.unsubscribe();
+        this.newAfterLoginSubscription.unsubscribe();
     }
 
     /** Function call to upload image or video */
@@ -478,7 +471,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     /** Function to fetch department list with respect to adminId/userId */
     adminChanged(id: number) {
         if (!!id) {
-            this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
+            this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({userId: id}));
         }
     }
 
@@ -563,30 +556,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     /** function to create a department */
     onCreateDep(form) {
         this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
-        const newArray = [];
-        this.newAfterLoginSubscription = this.store.select('department')
-            .subscribe(
-                (data) => {
-                    if (data.newDepartmentId > 0 && data){
-                        newArray.push(data);
-                        const oldArray = this.widget.departmentIdArray;
-                        const newObj = [{id: newArray[newArray.length - 1].newDepartmentId, department_name: newArray[newArray.length - 1].newDepartmentName}];
-                        let fIndex: any = -1;
-                        if (oldArray.length > 0) {
-                            oldArray.forEach((elem, index) => {
-                                if (elem.id === newObj[0].id) {
-                                    fIndex = index;
-                                }
-                            });
-                        }
-                        if (fIndex !== -1){
-                            oldArray.splice(fIndex, 1);
-                        }
-
-                        this.widget.departmentIdArray = [ ...oldArray, ...newObj];
-                    }
-                }
-            );
         this.bsModalRef.hide();
     }
 

@@ -82,7 +82,27 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
             }
           }
         );
-
+      this.updateAgent = this.store.select('afterLogin')
+        .map(data => data.agent.toEdit)
+        .distinctUntilChanged()
+        .subscribe(
+          (agent) => {
+            if (Object.keys(agent).length !== 0) {
+              this.adminUserId = agent.parent_id;
+              this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({userId: this.adminUserId}));
+              this.agent.parentId = agent.parent_id;
+              this.agent.firstName = agent.first_name;
+              this.agent.lastName = agent.last_name;
+              this.agent.userName = agent.username;
+              this.agent.email = agent.email;
+              this.agent.phone = agent.phone;
+              this.agent.departmentId = agent.departments;
+              this.adminName = agent.admin_first_name + ' ' + agent.admin_last_name;
+              this.isemailNotification = agent.is_email_notification;
+              this.isPhoneNotification = agent.is_phone_notification;
+            }
+          }
+        );
         this.activatedRoute.data
           .subscribe(
             (data: Data) => {
@@ -92,28 +112,19 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                 this.selectDept = true;
                 this.userId = this.activatedRoute.snapshot.params['id'];
                 this.store.dispatch(new AgentActions.GetToEditAgentAttempt({agentId: this.userId}));
-                this.updateAgent = this.store.select('afterLogin')
-                  .map(data => data.agent.toEdit)
-                  .distinctUntilChanged()
-                  .subscribe(
-                  (agent) => {
-                      if (agent) {
-                        this.adminUserId = agent.parent_id;
-                        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
-                        this.agent.parentId = agent.parent_id;
-                        this.agent.firstName = agent.first_name;
-                        this.agent.lastName = agent.last_name;
-                        this.agent.userName = agent.username;
-                        this.agent.email = agent.email;
-                        this.agent.phone = agent.phone;
-                        this.agent.departmentId = agent.departments;
-                        this.adminName = agent.admin_first_name + ' ' + agent.admin_last_name;
-                        this.isemailNotification = agent.is_email_notification;
-                        this.isPhoneNotification = agent.is_phone_notification;
-                      }
-                    }
-                  );
                   this.selectAdmin = true;
+              } else {
+                this.adminUserId = 0;
+                this.agent.parentId = 0;
+                this.agent.firstName = '';
+                this.agent.lastName = '';
+                this.agent.userName = '';
+                this.agent.email = '';
+                this.agent.phone = '';
+                this.agent.departmentId = [];
+                this.adminName = '';
+                this.isemailNotification = true;
+                this.isPhoneNotification = true;
               }
             }
         );
@@ -161,7 +172,31 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
             primaryKey: 'id',
             labelKey: 'department_name'
         };
+      this.afterLoginSubscription = this.store.select('department')
+        .subscribe(
+          (data) => {
+            if (data) {
+              if (data.newDepartmentId > 0) {
+                console.log(data);
+                const oldArray = this.agent.departmentId;
+                const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
+                let fIndex: any = -1;
+                if (oldArray.length > 0) {
+                  oldArray.forEach((elem, index) => {
+                    if (elem.id === newObj[0].id) {
+                      fIndex = index;
+                    }
+                  });
+                }
+                if (fIndex !== -1) {
+                  oldArray.splice(fIndex, 1);
+                }
 
+                this.agent.departmentId = [...oldArray, ...newObj];
+              }
+            }
+          }
+        );
     }
 
     checkAdminname($event){
@@ -187,50 +222,33 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     }
 
     /** Function call to create or edit a admin */
-    onSubmit(form: NgForm) {
+    onCreateAgent(form: NgForm) {
+      console.log('create agent');
         this.loader = true;
       if (this.editMode) {
         const data = { ...form.value, userId: this.userId };
         this.store.dispatch(new AgentActions.EditAgentAttempt({...data}));
-          /** Loader Show/Hide */
-          this.store.select('alert')
-              .map(data => data)
-              .subscribe(
-                  (data) => {
-                      if (data.show && data.type === 'danger') {
-                          this.loader = false;
-                      } else if (data.show && data.type === 'success') {
-                                  this.router.navigate(['/agent/list']);
-                      }
-                  }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
+        this.router.navigate(['/agent/list']);
       } else {
           /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
-          /** Loader Show/Hide */
-          this.store.select('alert')
-              .map(data => data)
-              .subscribe(
-                  (data) => {
-                      if (data.show && data.type === 'danger') {
-                          this.loader = false;
-                      }else if (data.show && data.type === 'success') {
-                                  this.router.navigate(['/agent/list']);
-                      }
-                  }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
+        this.router.navigate(['/agent/list']);
       }
     }
 
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
-      // this.afterLoginSubscription.unsubscribe();
+       this.afterLoginSubscription.unsubscribe();
       this.authSubscription.unsubscribe();
+       this.updateAgent.unsubscribe();
     }
 
     /** Function to fetch department list with respect to adminId/userId */
     adminChanged(id: number) {
       if (!!id) {
         this.adminUserId = id;
-        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
+        this.agent.departmentId = [];
+        this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({ userId: id}));
       }
     }
 
@@ -238,7 +256,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     deptChanged(id: any) {
       this.selectDept = id > 0;
         if ( id === '99999991999999' ){
-            const element: HTMLElement = document.getElementById('createDepartment') as HTMLElement;          /** open modal on click */
+            const element: HTMLElement = document.getElementById('createDepartment') as HTMLElement;
             element.click();
         }
     }
@@ -268,30 +286,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     /** function to create a department */
     onCreateDep(form) {
         this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
-        const newArray = [];
-        this.afterLoginSubscription = this.store.select('department')
-            .subscribe(
-                (data) => {
-                    if (data.newDepartmentId > 0 && data){
-                        newArray.push(data);
-                        const oldArray = this.agent.departmentId;
-                        const newObj = [{id: newArray[newArray.length - 1].newDepartmentId, department_name: newArray[newArray.length - 1].newDepartmentName}];
-                        let fIndex: any = -1;
-                        if (oldArray.length > 0) {
-                            oldArray.forEach((elem, index) => {
-                                if (elem.id === newObj[0].id) {
-                                    fIndex = index;
-                                }
-                            });
-                        }
-                        if (fIndex !== -1){
-                            oldArray.splice(fIndex, 1);
-                        }
-
-                        this.agent.departmentId = [ ...oldArray, ...newObj];
-                    }
-                }
-            );
         this.bsModalRef.hide();
     }
 

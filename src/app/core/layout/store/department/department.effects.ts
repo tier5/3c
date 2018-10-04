@@ -136,6 +136,34 @@ export class DepartmentEffects {
     });
 
   @Effect()
+  getAgentDepartmentList = this.actions$
+    .ofType(DepartmentActions.GET_AGENT_DEPARTMENT_LIST_ATTEMPT)
+     .switchMap((action: DepartmentActions.GetAgentDepartmentListAttempt) => {
+      this.spinnerService.show();
+      const apiUrl = environment.API_BASE_URL + 'user-department-list';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+      const config = {
+        headers: headers
+      };
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .map((res: any) => {
+          this.spinnerService.hide();
+          return {
+            type: DepartmentActions.GET_AGENT_DEPARTMENT_LIST_SUCCESS,
+            payload: res.response
+          };
+        })
+        .catch((err: HttpErrorResponse) => {
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.message, type: 'danger' }
+            }
+          );
+        });
+    });
+
+  @Effect()
   getToEditDepartment = this.actions$
     .ofType(DepartmentActions.GET_TO_EDIT_DEPARTMENT_ATTEMPT)
     .switchMap((action: DepartmentActions.GetToEditDepartmentAttempt) => {

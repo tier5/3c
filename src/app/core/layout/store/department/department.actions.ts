@@ -14,6 +14,9 @@ export const EDIT_DEPARTMENT_SUCCESS = 'EDIT_DEPARTMENT_SUCCESS';
 export const GET_DEPARTMENT_LIST_ATTEMPT = 'GET_DEPARTMENT_LIST_ATTEMPT';
 export const GET_DEPARTMENT_LIST_SUCCESS = 'GET_DEPARTMENT_LIST_SUCCESS';
 
+export const GET_AGENT_DEPARTMENT_LIST_ATTEMPT = 'GET_AGENT_DEPARTMENT_LIST_ATTEMPT';
+export const GET_AGENT_DEPARTMENT_LIST_SUCCESS = 'GET_AGENT_DEPARTMENT_LIST_SUCCESS';
+
 export const GET_TO_EDIT_DEPARTMENT_ATTEMPT = 'GET_TO_EDIT_DEPARTMENT_ATTEMPT';
 export const GET_TO_EDIT_DEPARTMENT_SUCCESS = 'GET_TO_EDIT_DEPARTMENT_SUCCESS';
 export const RESET_EDIT_DEPARTMENT = 'RESET_EDIT_DEPARTMENT';
@@ -66,6 +69,16 @@ export class GetDepartmentListSuccess implements Action {
   constructor(public payload: any) { }
 }
 
+export class GetAgentDepartmentListAttempt implements Action {
+  readonly type = GET_AGENT_DEPARTMENT_LIST_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class GetAgentDepartmentListSuccess implements Action {
+  readonly type = GET_AGENT_DEPARTMENT_LIST_SUCCESS;
+  constructor(public payload: any) { }
+}
+
 export class GetToEditDepartmentAttempt implements Action {
   readonly type = GET_TO_EDIT_DEPARTMENT_ATTEMPT;
   constructor(public payload: any) { }
@@ -106,4 +119,5 @@ export type DepartmentActions = ResetDepartmentForm |
   EditDepartmentAttempt | EditDepartmentSuccess |
   GetDepartmentListAttempt | GetDepartmentListSuccess |
   GetToEditDepartmentAttempt | GetToEditDepartmentSuccess | ResetEditDepartment |
-  PreDeleteAttempt | PreDeleteSuccess | DepartmentDeleteAttempt | DepartmentDeleteSuccess;
+  PreDeleteAttempt | PreDeleteSuccess | DepartmentDeleteAttempt | DepartmentDeleteSuccess |
+  GetAgentDepartmentListAttempt | GetAgentDepartmentListSuccess;

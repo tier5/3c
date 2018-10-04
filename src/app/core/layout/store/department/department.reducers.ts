@@ -6,12 +6,14 @@ export interface DepartmentState {
   toEdit: any;
   resetDepartmentForm: boolean;
   newDepartmentId: number;
-  newDepartmentName:string;
+  newDepartmentName: string;
   preDelete: any;
+  agentDepartmentList: any;
 }
 
 const initialState: DepartmentState = {
   list: [],
+  agentDepartmentList: [],
   toEdit: {},
   resetDepartmentForm: false,
   newDepartmentId: 0,
@@ -44,6 +46,11 @@ export function departmentReducer(state = initialState, action: DepartmentAction
         ...state,
         list: [ ...action.payload ]
       };
+    case (DepartmentActions.GET_AGENT_DEPARTMENT_LIST_SUCCESS):
+    return {
+      ...state,
+      list: [ ...action.payload ]
+    };
     case (DepartmentActions.RESET_DEPARTMENT_FORM):
       return {
         ...state,

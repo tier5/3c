@@ -13,7 +13,7 @@
         <div class="box box-primary">
           <!-- /.box-header -->
           <div class="box-body" *ngIf="(authState | async).twilioIsActive">
-            <form #form="ngForm" (submit)="onSubmit(form)">
+            <form #form="ngForm" (submit)="onCreateAgent(form)">
               <!-- text input -->
               <div class="box-header with-border">
                 <h3 class="box-title">{{ editMode ? 'Edit': 'Create' }} Agent</h3>
@@ -87,7 +87,7 @@
                       </div>
                       <div class="createAgentBtn">
                         <button class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
-                          (click)="createDepartment(template)" id="createDepartment"><i class="fa fa-plus"></i> Create Department</button>
+                          (click)="createDepartment(template)" id="createDepartment" [disabled]="agent.parentId === 0"><i class="fa fa-plus"></i> Create Department</button>
                       </div>
                     </div>
                   </div>
@@ -241,7 +241,7 @@
         </button>
       </div>
       <div class="modal-body row">
-        <form #form="ngForm" (submit)="onCreateDep(form)">
+        <form #deptForm="ngForm">
           <input type="hidden"
                  id="userId"
                  name="userId"
@@ -286,8 +286,8 @@
             </div>
           </div>
           <div class="col-md-12">
-            <button type="submit"
-                    [disabled]="form.invalid"
+            <button type="button" (click)="onCreateDep(deptForm)"
+                    [disabled]="deptForm.invalid"
                     class="btn btn-primary pull-right"
             >
               <i *ngIf="loader" class="fa fa-spinner fa-spin"></i> Submit
