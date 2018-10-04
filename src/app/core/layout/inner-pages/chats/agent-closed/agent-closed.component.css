@@ -167,7 +167,10 @@ ul.super-sub li:hover{background: #e1e3e9;}
   pointer-events: none;
 }
 
-
+.chat-list2 ul li{
+  padding-left: 5px;
+  padding-right: 5px;
+}
 .chat-list1 ul li.active{
   position: relative;
 }
@@ -194,13 +197,12 @@ ul.super-sub li:hover{background: #e1e3e9;}
   border-bottom: 7px solid rgba(0,0,0,0);
   border-right: 7px solid #fff;
 }
-.list2{
-  padding: 0;
+.list2 {
+  padding: 0 10px;
 }
 .list2 .chat-list2{
   padding-left: 0;
-  width: 87%;
-  margin-left: 21px;
+  width: 100%;
 }
 .searchKeyword {
   margin-bottom: 20px;
@@ -212,6 +214,39 @@ ul.super-sub li:hover{background: #e1e3e9;}
   outline: none;
   padding: 16px;
 }
+.messageHeading{
+  text-align: center;
+  margin-top: -50px;
+}
+.chat-list2 ul li .chat-content h3{
+  margin: 5px 0 0 0;
+  float: left;
+  width: 100%;
+}
+.chat-list2 ul li .chat-content h3 span{
+  display: block;
+  width: 100%;
+  padding-top: 5px;
+}
+
+@media screen and (max-width: 991px){
+  .chat-list2 ul li{
+    padding: 5px;
+  }
+  .chat-list2 ul li .chat-content-area{
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .chat-list2 ul li .chat-content h3{
+    text-align: center;
+  }
+}
+
+@media screen and (max-width:860px){
+  .messageHeading{
+    margin-top: 0;
+  }
+}
 
 @media screen and (max-width:768px){
   .direct-chat-messages {
@@ -222,6 +257,14 @@ ul.super-sub li:hover{background: #e1e3e9;}
   }
 }
 
+@media screen and (max-width: 767px){
+  .direct-chat-messages{
+    padding: 0;
+  }
+  .chat-btn{
+    margin: 10px;
+  }
+}
 
 .docImage {
   height: 200px;

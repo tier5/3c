@@ -8,14 +8,14 @@
         <div class="box">
           <div class="col-xs-12">
             <div class="row">
-              <h2>Messages
-                <div class="pull-left">Search : <input [(ngModel)]="searchKeywords" placeholder="All keywords" (ngModelChange)="agentFilterKeyUp()" class="searchKeyword"></div>
+              <h2>
+                <div class="pull-left">Search : <input [(ngModel)]="searchKeywords" placeholder="Agent name" (ngModelChange)="agentFilterKeyUp()" class="searchKeyword"></div>
               </h2>
 
             </div>
 
             <div class="row" *ngIf="agentList !== undefined && agentList.length">
-              <div class="col-md-2 col-sm-2">
+              <div class="col-lg-2 col-md-3 col-sm-3">
                 <div class="row">
                   <div class="chat-list chat-list1">
                     <ul>
@@ -34,8 +34,8 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-2 col-sm-2 list2">
-                <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-3 list2">
+                <div class="">
                   <div class="chat-list chat-list2">
                     <ul *ngIf="agentList[agentIndex].chat !== undefined">
                       <ng-container
@@ -48,7 +48,7 @@
                                    class="img-responsive">
                             </div>
                           </div>
-                          <div class="col-md-10">
+                          <div class="col-md-10 chat-content-area">
                             <div class="chat-content">
                               <h3>{{client.client_name}} <span>{{client.chat_time.date | amFromUtc | amLocal | amTimeAgo}}</span>
                               </h3>
@@ -60,9 +60,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-8 col-sm-8" *ngIf="agentList[agentIndex].chat !== undefined && agentList[agentIndex].chat[clientIndex] !== undefined">
+              <div class="col-lg-7 col-md-6 col-sm-6" *ngIf="agentList[agentIndex].chat !== undefined && agentList[agentIndex].chat[clientIndex] !== undefined">
                 <div class="row">
                   <div class="box box-primary direct-chat direct-chat-primary">
+                    <div class="messageHeading">
+                      <h3>Message</h3>
+                    </div>
                     <div class="box-body">
                       <div class="chat-btn">
                         <div class="direct-chat-messages"  #scrollChat [scrollTop]="scrollChat.scrollHeight">

@@ -173,6 +173,15 @@ ul.super-sub li:hover{background: #e1e3e9;}
     pointer-events: none;
 }
 
+.direct-chat-msg.right .direct-chat-text{
+    background: #3c8dbc;
+    border-color: #3c8dbc;
+    color: #ffffff;
+}
+.right .direct-chat-text:after, .right .direct-chat-text:before {
+    border-left-color: #3c8dbc;
+}
+
 @media screen and (max-width:768px){
     .direct-chat-messages {
         height: 300px;
