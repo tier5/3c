@@ -209,18 +209,13 @@ input:checked + .sliderPhone:after
   font-size: 18px;
 }
 
-@media only screen and (max-width: 1716px) and (min-width: 768px){
-  .createAgentBtn{
-    width:100% !important;
+@media only screen and (max-width: 1716px) and (min-width: 768px) {
+  .createAgentBtn {
+    width: 100% !important;
   }
 }
-
-@media screen and (max-width: 767px){
+@media screen and (max-width: 479px){
   .depaertArea{
     width: 100%;
-  }
-  .createAgentBtn button{
-    margin-top: 0 !important;
-    margin-bottom: 15px;
   }
 }
