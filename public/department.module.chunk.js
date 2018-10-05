@@ -558,21 +558,21 @@ var ListDepartmentComponent = (function () {
         this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(function (data) {
             _this.companyList = data.comapnyList;
         });
+        this.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(function (data) {
+            if (Object.keys(data).length !== 0) {
+                _this.deleteCheckList = data;
+            }
+        });
     };
     /** Function call to start editing a department */
     ListDepartmentComponent.prototype.onEdit = function (depId) {
         this.router.navigate(['department/edit/', depId]);
     };
     ListDepartmentComponent.prototype.preDelete = function (dept_id, template) {
-        var _this = this;
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["u" /* PreDeleteAttempt */]({ deptId: dept_id }));
-        this.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(function (data) {
-            _this.deleteCheckList = data;
-        });
         this.bsModalRef = this.modalService.show(template);
     };
     ListDepartmentComponent.prototype.deleteDepartment = function (id, template) {
-        var _this = this;
         this.bsModalRef.hide();
         var that = this;
         this._swal2.warning({
@@ -590,9 +590,6 @@ var ListDepartmentComponent = (function () {
         }, function (dismiss) {
             if (dismiss === 'cancel') {
                 that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["u" /* PreDeleteAttempt */]({ deptId: id }));
-                that.preDeleteSubscription = _this.store.select('afterLogin', 'department', 'preDelete').subscribe(function (data) {
-                    that.deleteCheckList = data;
-                });
                 that.bsModalRef = that.modalService.show(template);
             }
         });
@@ -601,6 +598,7 @@ var ListDepartmentComponent = (function () {
         this.companyList = null;
         this.authSubscription.unsubscribe();
         this.companySubscription.unsubscribe();
+        this.preDeleteSubscription.unsubscribe();
     };
     return ListDepartmentComponent;
 }());

@@ -415,6 +415,9 @@ var ListAdminComponent = (function () {
     ListAdminComponent.prototype.UnblockUser = function (userId) {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_admin_admin_actions__["v" /* UnblockAdminUserAttempt */]({ userId: userId }));
     };
+    ListAdminComponent.prototype.ngOnDestroy = function () {
+        //
+    };
     return ListAdminComponent;
 }());
 ListAdminComponent = __decorate([

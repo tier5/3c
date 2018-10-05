@@ -701,7 +701,8 @@ var ListAgentComponent = (function () {
     };
     /** Un-subscribe from all subscription when component destroys */
     ListAgentComponent.prototype.ngOnDestroy = function () {
-        // this.companySubscription.unsubscribe();
+        this.companySubscription.unsubscribe();
+        this.authSubscription.unsubscribe();
     };
     return ListAgentComponent;
 }());
