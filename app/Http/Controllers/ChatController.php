@@ -2250,7 +2250,7 @@ class ChatController extends Controller
                                         curl_close($ch);
                                     }
                                     $updateMessageTrack = MessageTrack::where('id', $saveMessageTrack->id)->update(['status' => 2, 'agent_id' => $userId]);
-                                    $updateMessageLog = MessageLog::where('id', $responsesaveContactList)->update(['status' => 2]);
+                                    $updateMessageLog = MessageLog::where('id', $responsesaveMessageLog)->update(['status' => 2]);
                                     $updateAgentMessageTruct = MessageAgentTrack::where('agent_id', $userId)
                                         ->where('message_id', $responsesaveMessageLog)->where('chat_room_id', $chatRoomId)->update(['status' => 2]);
                                     $this->sendSms($body, $toNumber, $fromNumber, $file, $fileType, $fileUrl);
