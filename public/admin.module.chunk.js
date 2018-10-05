@@ -274,81 +274,50 @@ var CreateAdminComponent = (function () {
     CreateAdminComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.authState = this.store.select('auth');
-        this.activatedRoute.data.subscribe(function (data) {
+        this.afterLoginSubscription = this.activatedRoute.data.subscribe(function (data) {
             _this.editMode = data['editMode'];
             /** Perform operation is present mode is edit mode */
             if (_this.editMode) {
                 /** Checking route params to get id of department to edit */
                 _this.userId = _this.activatedRoute.snapshot.params['id'];
                 _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["r" /* GetToEditAdminAttempt */]({ adminId: _this.userId }));
-                _this.updateAdmin = _this.store.select('afterLogin')
-                    .map(function (data) { return data.admin.toEdit; })
-                    .distinctUntilChanged()
-                    .subscribe(function (admin) {
-                    console.log(admin);
-                    if (admin) {
-                        _this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
-                        _this.admin.userId = admin.id;
-                        _this.admin.firstName = admin.first_name;
-                        _this.admin.lastName = admin.last_name;
-                        _this.admin.userName = admin.username;
-                        _this.admin.email = admin.email;
-                        _this.admin.phone = admin.phone;
-                        _this.admin.company = admin.company;
-                    }
-                });
             }
         });
-        this.afterLoginSubscription = this.store.select('afterLogin')
-            .map(function (data) { return data.admin.resetAdminForm; })
-            .subscribe(function (data) {
-            //console.log(data);
-            if (data) {
-                _this.loader = false;
-                _this.form.reset();
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["t" /* ResetAdminForm */]());
+        this.updateAdmin = this.store.select('afterLogin')
+            .map(function (data) { return data.admin.toEdit; })
+            .distinctUntilChanged()
+            .subscribe(function (admin) {
+            if (admin) {
+                _this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
+                _this.admin.userId = admin.id;
+                _this.admin.firstName = admin.first_name;
+                _this.admin.lastName = admin.last_name;
+                _this.admin.userName = admin.username;
+                _this.admin.email = admin.email;
+                _this.admin.phone = admin.phone;
+                _this.admin.company = admin.company;
             }
         });
     };
     /** Function call to create or edit a admin */
     CreateAdminComponent.prototype.onSubmit = function (form) {
-        var _this = this;
         this.loader = true;
         if (this.editMode) {
             /** Edit admin */
             var data = __assign({}, form.value, { userId: this.userId });
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["l" /* EditAdminAttempt */](__assign({}, data)));
-            /** Loader Show/Hide */
-            this.store.select('alert')
-                .map(function (data) { return data; })
-                .subscribe(function (data) {
-                if (data.show && data.type === 'danger') {
-                    _this.loader = false;
-                }
-                else if (data.show && data.type === 'success') {
-                    _this.router.navigate(['/admin/list']);
-                }
-            }, function (error) { console.error(error); _this.loader = false; }, function () { _this.loader = false; });
+            this.router.navigate(['/admin/list']);
         }
         else {
             /** Create admin */
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["c" /* AddAdminAttempt */](form.value));
-            /** Loader Show/Hide */
-            this.store.select('alert')
-                .map(function (data) { return data; })
-                .subscribe(function (data) {
-                if (data.show && data.type === 'danger') {
-                    _this.loader = false;
-                }
-                else if (data.show && data.type === 'success') {
-                    _this.router.navigate(['/admin/list']);
-                }
-            }, function (error) { console.error(error); _this.loader = false; }, function () { _this.loader = false; });
+            this.router.navigate(['/admin/list']);
         }
     };
     /** Un-subscribing from all custom made events when component is destroyed */
     CreateAdminComponent.prototype.ngOnDestroy = function () {
         this.afterLoginSubscription.unsubscribe();
+        this.updateAdmin.unsubscribe();
     };
     return CreateAdminComponent;
 }());
@@ -444,7 +413,7 @@ var ListAdminComponent = (function () {
     };
     /** Function for block a admin user account*/
     ListAdminComponent.prototype.UnblockUser = function (userId) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_admin_admin_actions__["w" /* UnblockAdminUserAttempt */]({ userId: userId }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_admin_admin_actions__["v" /* UnblockAdminUserAttempt */]({ userId: userId }));
     };
     return ListAdminComponent;
 }());

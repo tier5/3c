@@ -381,11 +381,11 @@ var AuthInterceptor = (function () {
             .switchMap(function (authState) {
             var copiedReq = req;
             if (authState.isAuthenticated) {
-                copiedReq = req.clone({ params: req.params.set('token', authState.token) });
+                var data = JSON.parse(localStorage.getItem('data'));
+                copiedReq = req.clone({ params: req.params.set('token', data.userToken) });
             }
             return next.handle(copiedReq);
         });
-        // return null;
     };
     return AuthInterceptor;
 }());
@@ -1570,8 +1570,8 @@ var _a;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return CREATE_TWILIO_SID_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return BLOCK_ADMIN_USER_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return BLOCK_ADMIN_USER_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return UNBLOCK_ADMIN_USER_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return UNBLOCK_ADMIN_USER_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return UNBLOCK_ADMIN_USER_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return UNBLOCK_ADMIN_USER_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_TO_EDIT_ADMIN_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_TO_EDIT_ADMIN_SUCCESS; });
 /* unused harmony export GetAdminAttempt */
@@ -1582,12 +1582,12 @@ var _a;
 /* unused harmony export EditAdminSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetAdminListAttempt; });
 /* unused harmony export GetAdminListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return ResetAdminForm; });
+/* unused harmony export ResetAdminForm */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return CreateTwilioSidAttempt; });
 /* unused harmony export CreateTwilioSidSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return BlockAdminUserAttempt; });
 /* unused harmony export BlockAdminUserSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return UnblockAdminUserAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return UnblockAdminUserAttempt; });
 /* unused harmony export UnblockAdminUserSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetToEditAdminAttempt; });
 /* unused harmony export GetToEditAdminSuccess */
@@ -1984,7 +1984,7 @@ var AdminEffects = (function () {
             });
         });
         this.unblockUser = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["u" /* UNBLOCK_ADMIN_USER_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["t" /* UNBLOCK_ADMIN_USER_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-user';
@@ -1998,7 +1998,7 @@ var AdminEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["v" /* UNBLOCK_ADMIN_USER_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["u" /* UNBLOCK_ADMIN_USER_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -2139,7 +2139,7 @@ function adminReducer(state, action) {
             var blockAdminData = state.list.slice();
             blockAdminData[blockIndex] = updatedBlockAdmin;
             return __assign({}, state, { list: blockAdminData.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["v" /* UNBLOCK_ADMIN_USER_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["u" /* UNBLOCK_ADMIN_USER_SUCCESS */]):
             var unblockIndex = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
             var someUnblockAdmins = state.list[unblockIndex];
             var updatedUnblockAdmin = __assign({}, someUnblockAdmins, action.payload);

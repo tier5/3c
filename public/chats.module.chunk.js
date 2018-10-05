@@ -700,7 +700,7 @@ var ListAgentComponent = (function () {
         this.page = 1;
         this.chatState = this.store.select('afterLogin')
             .map(function (data) { return data.chat; });
-        this.activatedRoute.data
+        this.afterLoginSubscription = this.activatedRoute.data
             .subscribe(function (data) {
             _this.chatMode = data['chatMode'];
             _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["w" /* GetAgentListAttempt */]());
@@ -713,6 +713,9 @@ var ListAgentComponent = (function () {
     /** Function to View Contact List of Agent */
     ListAgentComponent.prototype.onViewContact = function (id) {
         this.router.navigate(['chats/contact-list/', id]);
+    };
+    ListAgentComponent.prototype.ngOnDestroy = function () {
+        this.afterLoginSubscription.unsubscribe();
     };
     return ListAgentComponent;
 }());
@@ -789,7 +792,7 @@ var ListChatComponent = (function () {
         var _this = this;
         this.chatState = this.store.select('afterLogin')
             .map(function (data) { return data.chat; });
-        this.activatedRoute.params
+        this.afterLoginSubscription = this.activatedRoute.params
             .subscribe(function (id) {
             _this.agentId = _this.activatedRoute.snapshot.params['id'];
             _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_chat_chat_actions__["x" /* GetChatListAttempt */]({ agentId: id }));
@@ -802,6 +805,9 @@ var ListChatComponent = (function () {
         return this.store.select('afterLogin')
             .map(function (data) { return data.chat; })
             .map(function (chats) { return chats.chatList; });
+    };
+    ListChatComponent.prototype.ngOnDestroy = function () {
+        this.afterLoginSubscription.unsubscribe();
     };
     return ListChatComponent;
 }());
