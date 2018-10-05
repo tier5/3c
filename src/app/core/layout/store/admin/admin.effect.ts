@@ -55,6 +55,7 @@ export class AdminEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -91,6 +92,7 @@ export class AdminEffects {
 
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -134,6 +136,7 @@ export class AdminEffects {
             }
           })
           .catch((err: HttpErrorResponse) => {
+            this.spinnerService.hide();
             return of(
               {
                 type: AlertActions.ALERT_SHOW,
@@ -177,6 +180,7 @@ export class AdminEffects {
             }
           })
           .catch((err: HttpErrorResponse) => {
+            this.spinnerService.hide();
             return of(
               {
                 type: AlertActions.ALERT_SHOW,
@@ -220,6 +224,7 @@ export class AdminEffects {
             }
           })
           .catch((err: HttpErrorResponse) => {
+            this.spinnerService.hide();
             return of(
               {
                 type: AlertActions.ALERT_SHOW,
@@ -263,6 +268,7 @@ export class AdminEffects {
             }
           })
           .catch((err: HttpErrorResponse) => {
+            this.spinnerService.hide();
             return of(
               {
                 type: AlertActions.ALERT_SHOW,
@@ -291,6 +297,7 @@ export class AdminEffects {
           };
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,

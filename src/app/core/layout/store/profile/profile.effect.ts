@@ -38,7 +38,7 @@ export class ProfileEffects {
       };
       return this.httpClient.post(apiUrl, '', config)
         .map((res: any) => {
-          this.spinnerService.show();
+          this.spinnerService.hide();
           if (res.status) {
             return {
               type: ProfileActions.GET_PROFILE_SUCCESS,
@@ -52,6 +52,7 @@ export class ProfileEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -95,6 +96,7 @@ export class ProfileEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -138,6 +140,7 @@ export class ProfileEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,

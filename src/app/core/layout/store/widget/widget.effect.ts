@@ -46,6 +46,7 @@ export class WidgetEffects {
 
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -89,6 +90,7 @@ export class WidgetEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -117,6 +119,7 @@ export class WidgetEffects {
             };
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -160,6 +163,7 @@ export class WidgetEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -195,6 +199,7 @@ export class WidgetEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -229,6 +234,7 @@ export class WidgetEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: WidgetActions.GET_NUMBER_LIST_ERROR,
@@ -269,6 +275,7 @@ export class WidgetEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,

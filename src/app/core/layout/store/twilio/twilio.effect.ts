@@ -56,6 +56,7 @@ export class TwilioEffects {
           }
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -84,6 +85,7 @@ export class TwilioEffects {
           };
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
@@ -120,6 +122,7 @@ export class TwilioEffects {
 
         })
         .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
           return of(
             {
               type: AlertActions.ALERT_SHOW,
