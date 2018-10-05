@@ -69,7 +69,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         isAuthenticated: false,
       };
     case (AuthActions.CHECK_TOKEN):
-      if(localStorage.getItem('data') !== null && localStorage.getItem('data') !== undefined) {
+      if (localStorage.getItem('data') !== null && localStorage.getItem('data') !== undefined) {
         const data = JSON.parse(localStorage.getItem('data'));
         return {
           ...state,
@@ -82,7 +82,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
           isAgent: data.userType == 3,
           name: data.firstName + ' ' + data.lastName,
           email: data.email
-        }
+        };
       } else {
         return state;
       }
@@ -90,7 +90,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
       return {
         ...state,
         twilioIsActive: action.payload
-      }
+      };
     case (AuthActions.UPDATE_ATTEMPT):
       const data = JSON.parse(localStorage.getItem('data'));
       const obj = {
@@ -106,7 +106,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
       return {
         ...state,
         name: action.payload.firstName + ' ' + action.payload.lastName,
-      }
+      };
     default:
       return state;
   }

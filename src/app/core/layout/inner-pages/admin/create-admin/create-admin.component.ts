@@ -43,7 +43,7 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
   /** Function to be executed when component initializes */
   ngOnInit() {
     this.authState = this.store.select('auth');
-    this.activatedRoute.data.subscribe(
+    this.afterLoginSubscription = this.activatedRoute.data.subscribe(
       (data: Data) => {
         this.editMode = data['editMode'];
         /** Perform operation is present mode is edit mode */
@@ -51,36 +51,23 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
           /** Checking route params to get id of department to edit */
           this.userId = this.activatedRoute.snapshot.params['id'];
           this.store.dispatch(new AdminActions.GetToEditAdminAttempt({adminId: this.userId}));
-          this.updateAdmin = this.store.select('afterLogin')
-            .map(data => data.admin.toEdit)
-            .distinctUntilChanged()
-            .subscribe(
-              (admin) => {
-                console.log(admin);
-                  if (admin) {
-                    this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
-                    this.admin.userId = admin.id;
-                    this.admin.firstName = admin.first_name;
-                    this.admin.lastName = admin.last_name;
-                    this.admin.userName = admin.username;
-                    this.admin.email = admin.email;
-                    this.admin.phone = admin.phone;
-                    this.admin.company = admin.company;
-                  }
-              }
-            );
         }
       }
     );
-    this.afterLoginSubscription = this.store.select('afterLogin')
-      .map(data => data.admin.resetAdminForm)
+    this.updateAdmin = this.store.select('afterLogin')
+      .map(data => data.admin.toEdit)
+      .distinctUntilChanged()
       .subscribe(
-        (data) => {
-          //console.log(data);
-          if (data) {
-            this.loader = false;
-            this.form.reset();
-            this.store.dispatch(new AdminActions.ResetAdminForm());
+        (admin) => {
+          if (admin) {
+            this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
+            this.admin.userId = admin.id;
+            this.admin.firstName = admin.first_name;
+            this.admin.lastName = admin.last_name;
+            this.admin.userName = admin.username;
+            this.admin.email = admin.email;
+            this.admin.phone = admin.phone;
+            this.admin.company = admin.company;
           }
         }
       );
@@ -93,37 +80,18 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
         /** Edit admin */
       const data = { ...form.value, userId: this.userId };
       this.store.dispatch(new AdminActions.EditAdminAttempt({...data}));
-        /** Loader Show/Hide */
-        this.store.select('alert')
-            .map(data => data)
-            .subscribe(
-                (data) => {
-                    if (data.show && data.type === 'danger') {
-                        this.loader = false;
-                    } else if (data.show && data.type === 'success') {
-                                this.router.navigate(['/admin/list']);
-                    }
-                }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
+      this.router.navigate(['/admin/list']);
     } else {
       /** Create admin */
       this.store.dispatch(new AdminActions.AddAdminAttempt(form.value));
-      /** Loader Show/Hide */
-            this.store.select('alert')
-                .map(data => data)
-                .subscribe(
-                    (data) => {
-                        if (data.show && data.type === 'danger') {
-                            this.loader = false;
-                        } else if (data.show && data.type === 'success') {
-                                    this.router.navigate(['/admin/list']);
-                        }
-                    }, (error) => { console.error(error); this.loader = false; } , () => {this.loader = false; });
+      this.router.navigate(['/admin/list']);
      }
   }
 
   /** Un-subscribing from all custom made events when component is destroyed */
   ngOnDestroy() {
     this.afterLoginSubscription.unsubscribe();
+    this.updateAdmin.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Data ,Router} from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,12 +12,13 @@ import * as fromChat from '../../../store/chat/chat.reducers';
   templateUrl: './list-chat.component.html',
   styleUrls: ['./list-chat.component.css']
 })
-export class ListChatComponent implements OnInit {
+export class ListChatComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
-  agentId : number;
+  agentId: number;
   currentChatIndex: number = 0;
   chatState: Observable<fromChat.ChatState>;
+  afterLoginSubscription: Subscription;
 
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
@@ -28,7 +29,7 @@ export class ListChatComponent implements OnInit {
     this.chatState = this.store.select('afterLogin')
           .map(data => data.chat);
 
-    this.activatedRoute.params
+    this.afterLoginSubscription = this.activatedRoute.params
         .subscribe(
             (id: any) => {
               this.agentId = this.activatedRoute.snapshot.params['id'];
@@ -46,6 +47,10 @@ export class ListChatComponent implements OnInit {
     return this.store.select('afterLogin')
         .map(data => data.chat)
         .map(chats => chats.chatList);
+  }
+
+  ngOnDestroy() {
+    this.afterLoginSubscription.unsubscribe();
   }
 
 }

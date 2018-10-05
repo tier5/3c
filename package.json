@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "production": "ng build --env=prod --output-hash none"
+    "production": "ng build --env=prod --output-hash none",
+    "staging": "ng build --env=staging --output-hash none"
   },
   "private": true,
   "dependencies": {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Data ,Router} from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,10 +12,11 @@ import * as fromChat from '../../../store/chat/chat.reducers';
   templateUrl: './list-agent.component.html',
   styleUrls: ['./list-agent.component.css']
 })
-export class ListAgentComponent implements OnInit {
+export class ListAgentComponent implements OnInit, OnDestroy{
 
   /** Variable declaration */
     chatState: Observable<fromChat.ChatState>;
+    afterLoginSubscription: Subscription;
     chatMode: boolean = false;
     page: number;
     term: any;
@@ -31,7 +32,7 @@ export class ListAgentComponent implements OnInit {
     this.chatState = this.store.select('afterLogin')
         .map(data => data.chat);
 
-    this.activatedRoute.data
+    this.afterLoginSubscription = this.activatedRoute.data
         .subscribe(
             (data: Data) => {
               this.chatMode = data['chatMode'];
@@ -50,6 +51,10 @@ export class ListAgentComponent implements OnInit {
   /** Function to View Contact List of Agent */
   onViewContact(id: number) {
     this.router.navigate([ 'chats/contact-list/', id ]);
+  }
+
+  ngOnDestroy() {
+    this.afterLoginSubscription.unsubscribe();
   }
 
 }
