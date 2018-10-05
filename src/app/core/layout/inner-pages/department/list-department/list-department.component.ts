@@ -59,7 +59,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
       this.authSubscription = this.store.select('auth')
           .subscribe(
               (data) => {
-                  if(data.isSuperAdmin) {
+                  if (data.isSuperAdmin) {
                       this.store.dispatch(new AgentActions.GetCompanyListAttempt({userId: data.token}));
                   }
               }
@@ -71,6 +71,13 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
               this.companyList = data.comapnyList;
           }
       );
+    this.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(
+      (data) => {
+        if (Object.keys(data).length !== 0) {
+          this.deleteCheckList = data;
+        }
+      }
+    );
 
   }
 
@@ -81,11 +88,6 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
 
   preDelete(dept_id, template: TemplateRef<any>) {
     this.store.dispatch(new DepartmentActions.PreDeleteAttempt({deptId: dept_id}));
-    this.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(
-      (data) => {
-        this.deleteCheckList = data;
-      }
-    );
     this.bsModalRef = this.modalService.show(template);
   }
   deleteDepartment(id, template: TemplateRef<any>) {
@@ -106,11 +108,6 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     }, (dismiss) => {
       if (dismiss === 'cancel') {
         that.store.dispatch(new DepartmentActions.PreDeleteAttempt({deptId: id}));
-        that.preDeleteSubscription = this.store.select('afterLogin', 'department', 'preDelete').subscribe(
-          (data) => {
-            that.deleteCheckList = data;
-          }
-        );
         that.bsModalRef = that.modalService.show(template);
       }
     });
@@ -119,6 +116,7 @@ export class ListDepartmentComponent implements OnInit, OnDestroy {
     this.companyList = null;
     this.authSubscription.unsubscribe();
     this.companySubscription.unsubscribe();
+    this.preDeleteSubscription.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -10,7 +10,7 @@ import * as AdminActions from '../../../store/admin/admin.actions';
   templateUrl: './list-admin.component.html',
   styleUrls: ['./list-admin.component.css']
 })
-export class ListAdminComponent implements OnInit {
+export class ListAdminComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
@@ -44,6 +44,10 @@ export class ListAdminComponent implements OnInit {
   /** Function for block a admin user account*/
   UnblockUser(userId: number){
     this.store.dispatch(new AdminActions.UnblockAdminUserAttempt({userId}));
+  }
+
+  ngOnDestroy() {
+    //
   }
 
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
@@ -15,7 +15,7 @@ import {SweetAlertService} from 'ngx-sweetalert2/src/index';
   templateUrl: './list-agent.component.html',
   styleUrls: ['./list-agent.component.css']
 })
-export class ListAgentComponent implements OnInit {
+export class ListAgentComponent implements OnInit, OnDestroy {
 
   /** Variable declaration */
   afterLoginState: Observable<fromAfterLogin.FeatureState>;
@@ -133,8 +133,9 @@ export class ListAgentComponent implements OnInit {
     this.router.navigate(['chats/list-chat/', id]);
   }
   /** Un-subscribe from all subscription when component destroys */
-  ngOnDestroy(): void {
-    // this.companySubscription.unsubscribe();
+  ngOnDestroy() {
+     this.companySubscription.unsubscribe();
+     this.authSubscription.unsubscribe();
   }
 
 }
