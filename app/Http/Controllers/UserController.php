@@ -1378,7 +1378,7 @@ class UserController extends Controller
                         'error'   => false,
                         'status'  => true,
                         'response'=> [],
-                        'message' => 'Password Updated !'
+                        'message' => 'Twilio sid created!'
                     ]);
                 }
 
