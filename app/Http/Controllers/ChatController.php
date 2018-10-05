@@ -144,18 +144,28 @@ class ChatController extends Controller
                     //$this->checkResolvedMessageCache($messageBody, $fromNumber, $widgetUuid, $checkMessageCache->id);
                 } else {
                     Log::info('2 ===> checking the message accepted and not resolved then save to the chat thread');
-                    $checkMessageTrack = MessageTrack::where('widget_id', $widgetUuid)
+                    $checkMessageTracks = MessageTrack::where('widget_id', $widgetUuid)
                         ->where('from_phone_number', $fromNumber)
-                        ->whereIn('status', [2, 5])->first();
+                        ->whereIn('status', [2, 5])->get();
 
-                    if (count($checkMessageTrack) != 0) {
-                        if ($checkMessageTrack->status == 2) {
+                    if (count($checkMessageTracks) != 0) {
+                        $ongoingMessageTruct = 0;
+                        $closedMessageTruct = 0;
+                        foreach ($checkMessageTracks as $checkMessageTrack) {
+                            if ($checkMessageTrack->status == 2) {
+                                $ongoingMessageTruct = $checkMessageTrack->id;
+                            } else {
+                                $closedMessageTruct = $checkMessageTrack->id;
+                            }
+                        }
+                        if ($ongoingMessageTruct > 0) {
+                            $messageTruct = MessageTrack::find($ongoingMessageTruct);
                             Log::info('2 ===> check message status 2');
                             $type = '1';
                             $direction = '1';
-                            $userId = $checkMessageTrack->agent_id;
-                            $this->saveOtherChat($fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl, $checkMessageTrack->status);
-                        } elseif ($checkMessageTrack->status == 5) {
+                            $userId = $messageTruct->agent_id;
+                            $this->saveOtherChat($fromNumber, $widgetUuid, $messageBody, $type, $direction, $userId, $file, $fileType, $fileUrl, $messageTruct->status);
+                        } elseif ($closedMessageTruct > 0) {
                             Log::info('2 ===> check message status 5');
                             $updateMessageTrack = MessageTrack::where('widget_id', $widgetUuid)
                                 ->where('from_phone_number', $fromNumber)->update(['status' => 6]);
