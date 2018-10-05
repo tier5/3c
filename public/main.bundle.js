@@ -1825,6 +1825,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1857,6 +1858,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1897,6 +1899,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1937,6 +1940,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1977,6 +1981,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2017,6 +2022,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2041,6 +2047,7 @@ var AdminEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -2318,6 +2325,7 @@ var AgentChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2352,6 +2360,7 @@ var AgentChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2728,6 +2737,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2760,6 +2770,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2800,6 +2811,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2824,6 +2836,7 @@ var AgentEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -2856,6 +2869,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2888,6 +2902,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2928,6 +2943,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2968,6 +2984,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3008,6 +3025,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3439,6 +3457,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3471,6 +3490,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3511,6 +3531,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3548,6 +3569,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3584,6 +3606,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3620,6 +3643,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3860,6 +3884,7 @@ var DashboardEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4198,6 +4223,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4238,6 +4264,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4262,6 +4289,7 @@ var DepartmentEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4286,6 +4314,7 @@ var DepartmentEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4310,6 +4339,7 @@ var DepartmentEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4344,6 +4374,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4384,6 +4415,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4629,7 +4661,7 @@ var ProfileEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, '', config)
                 .map(function (res) {
-                _this.spinnerService.show();
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["i" /* GET_PROFILE_SUCCESS */],
@@ -4644,6 +4676,7 @@ var ProfileEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4684,6 +4717,7 @@ var ProfileEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4724,6 +4758,7 @@ var ProfileEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4967,6 +5002,7 @@ var TwilioEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4991,6 +5027,7 @@ var TwilioEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -5023,6 +5060,7 @@ var TwilioEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -5362,6 +5400,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5402,6 +5441,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5426,6 +5466,7 @@ var WidgetEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5466,6 +5507,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5498,6 +5540,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5530,6 +5573,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_ERROR */],
                     payload: { message: err.error, type: 'danger' }
@@ -5568,6 +5612,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -6554,6 +6599,7 @@ var UpdateAttempt = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__auth_actions__ = __webpack_require__("../../../../../src/app/core/store/auth/auth.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6578,16 +6624,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AuthEffects = (function () {
-    function AuthEffects(actions$, httpClient, router, store) {
+    function AuthEffects(actions$, httpClient, router, store, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.router = router;
         this.store = store;
+        this.spinnerService = spinnerService;
         this.authSignUp = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["q" /* SIGNUP_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-registration';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6595,6 +6644,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -6620,6 +6670,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -6629,6 +6680,7 @@ var AuthEffects = (function () {
         this.authSignIn = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["m" /* SIGNIN_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'userlogin';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6636,6 +6688,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/dashboard']);
                     return {
@@ -6651,6 +6704,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6660,6 +6714,7 @@ var AuthEffects = (function () {
         this.authForgotPassword = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["f" /* FORGOT_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'forget-password-mail';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6667,6 +6722,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/sign-in']);
                     return [
@@ -6693,6 +6749,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6702,6 +6759,7 @@ var AuthEffects = (function () {
         this.authResetPassword = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["j" /* RESET_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'update-password';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6709,6 +6767,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/sign-in']);
                     return [
@@ -6735,6 +6794,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6744,9 +6804,11 @@ var AuthEffects = (function () {
         this.authSignOut = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["o" /* SIGNOUT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'log-out';
             return _this.httpClient.post(apiUrl, null)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/']);
                     return {
@@ -6761,6 +6823,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6770,6 +6833,7 @@ var AuthEffects = (function () {
         this.twilioActive = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["b" /* CHECK_TWILIO_ACTIVE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'validate-twilio-credentials';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6777,12 +6841,14 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.get(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_12__auth_actions__["c" /* CHECK_TWILIO_ACTIVE_SUCCESS */],
                     payload: res.status
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6818,10 +6884,10 @@ __decorate([
 ], AuthEffects.prototype, "twilioActive", void 0);
 AuthEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_15__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__shared_spinner__["b" /* SpinnerService */]) === "function" && _e || Object])
 ], AuthEffects);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=auth.effects.js.map
 
 /***/ }),
