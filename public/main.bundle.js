@@ -6992,8 +6992,8 @@ var reducers = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    API_BASE_URL: 'http://138.197.215.68/api/v1/',
-    SOCKET_URL: 'http://138.197.215.68:3000'
+    API_BASE_URL: 'http://178.128.187.125/api/v1/',
+    SOCKET_URL: 'http://178.128.187.125:3000'
 };
 //# sourceMappingURL=environment.js.map
 
