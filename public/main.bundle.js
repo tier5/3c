@@ -381,11 +381,11 @@ var AuthInterceptor = (function () {
             .switchMap(function (authState) {
             var copiedReq = req;
             if (authState.isAuthenticated) {
-                copiedReq = req.clone({ params: req.params.set('token', authState.token) });
+                var data = JSON.parse(localStorage.getItem('data'));
+                copiedReq = req.clone({ params: req.params.set('token', data.userToken) });
             }
             return next.handle(copiedReq);
         });
-        // return null;
     };
     return AuthInterceptor;
 }());
@@ -1570,8 +1570,8 @@ var _a;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return CREATE_TWILIO_SID_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return BLOCK_ADMIN_USER_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return BLOCK_ADMIN_USER_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return UNBLOCK_ADMIN_USER_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return UNBLOCK_ADMIN_USER_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return UNBLOCK_ADMIN_USER_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return UNBLOCK_ADMIN_USER_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_TO_EDIT_ADMIN_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_TO_EDIT_ADMIN_SUCCESS; });
 /* unused harmony export GetAdminAttempt */
@@ -1582,12 +1582,12 @@ var _a;
 /* unused harmony export EditAdminSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetAdminListAttempt; });
 /* unused harmony export GetAdminListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return ResetAdminForm; });
+/* unused harmony export ResetAdminForm */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return CreateTwilioSidAttempt; });
 /* unused harmony export CreateTwilioSidSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return BlockAdminUserAttempt; });
 /* unused harmony export BlockAdminUserSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return UnblockAdminUserAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return UnblockAdminUserAttempt; });
 /* unused harmony export UnblockAdminUserSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetToEditAdminAttempt; });
 /* unused harmony export GetToEditAdminSuccess */
@@ -1825,6 +1825,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1857,6 +1858,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1897,6 +1899,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1937,6 +1940,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1977,6 +1981,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -1984,7 +1989,7 @@ var AdminEffects = (function () {
             });
         });
         this.unblockUser = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["u" /* UNBLOCK_ADMIN_USER_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["t" /* UNBLOCK_ADMIN_USER_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'unblock-user';
@@ -1998,7 +2003,7 @@ var AdminEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["v" /* UNBLOCK_ADMIN_USER_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["u" /* UNBLOCK_ADMIN_USER_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -2017,6 +2022,7 @@ var AdminEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2041,6 +2047,7 @@ var AdminEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -2139,7 +2146,7 @@ function adminReducer(state, action) {
             var blockAdminData = state.list.slice();
             blockAdminData[blockIndex] = updatedBlockAdmin;
             return __assign({}, state, { list: blockAdminData.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["v" /* UNBLOCK_ADMIN_USER_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["u" /* UNBLOCK_ADMIN_USER_SUCCESS */]):
             var unblockIndex = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
             var someUnblockAdmins = state.list[unblockIndex];
             var updatedUnblockAdmin = __assign({}, someUnblockAdmins, action.payload);
@@ -2261,6 +2268,7 @@ var GetAgentCloseChatAttempt = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__ = __webpack_require__("../../../../../src/app/core/layout/store/agent-chat/agent-chat.action.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2282,14 +2290,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AgentChatEffects = (function () {
-    function AgentChatEffects(actions$, httpClient) {
+    function AgentChatEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.getAgentListWithChat = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["c" /* GET_AGENT_LIVE_CHAT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-all-chats';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2297,6 +2308,7 @@ var AgentChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["d" /* GET_AGENT_LIVE_CHAT_SUCCESS */],
@@ -2313,6 +2325,7 @@ var AgentChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2322,6 +2335,7 @@ var AgentChatEffects = (function () {
         this.getAgentCloseListWithChat = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["a" /* GET_AGENT_CLOSE_CHAT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'all-agent-closed-chats';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -2329,6 +2343,7 @@ var AgentChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__agent_chat_agent_chat_action__["b" /* GET_AGENT_CLOSE_CHAT_SUCCESS */],
@@ -2345,6 +2360,7 @@ var AgentChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2364,10 +2380,10 @@ __decorate([
 ], AgentChatEffects.prototype, "getAgentCloseListWithChat", void 0);
 AgentChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], AgentChatEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=agent-chat.effect.js.map
 
 /***/ }),
@@ -2721,6 +2737,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2753,6 +2770,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2793,6 +2811,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2817,6 +2836,7 @@ var AgentEffects = (function () {
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -2849,6 +2869,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2881,6 +2902,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2921,6 +2943,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -2961,6 +2984,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3001,6 +3025,7 @@ var AgentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3363,6 +3388,7 @@ var GetAgentClosedChatsSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/chat/chat.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3384,11 +3410,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChatEffects = (function () {
-    function ChatEffects(actions$, httpClient) {
+    function ChatEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.connect = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["e" /* CONNECT_ATTEMPT */])
             .switchMap(function (action) {
@@ -3402,6 +3430,7 @@ var ChatEffects = (function () {
         this.getAgentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["n" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3409,6 +3438,7 @@ var ChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -3427,6 +3457,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3436,6 +3467,7 @@ var ChatEffects = (function () {
         this.getChatList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["p" /* GET_CHAT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'client-chat';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3443,6 +3475,7 @@ var ChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["q" /* GET_CHAT_LIST_SUCCESS */],
@@ -3457,6 +3490,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3466,6 +3500,7 @@ var ChatEffects = (function () {
         this.getContactList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["r" /* GET_CONTACT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'contact-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3473,6 +3508,7 @@ var ChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -3495,6 +3531,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3504,6 +3541,7 @@ var ChatEffects = (function () {
         this.getTransferAgentList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["t" /* GET_TRANSFER_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-department-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3511,6 +3549,7 @@ var ChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     // console.log(res.response);
                     return [
@@ -3530,6 +3569,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3539,6 +3579,7 @@ var ChatEffects = (function () {
         this.getChatInitEffect = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["A" /* INI_CHAT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'ini-chat';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3546,6 +3587,7 @@ var ChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -3564,6 +3606,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3573,6 +3616,7 @@ var ChatEffects = (function () {
         this.getAllAgentClosedChats = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__chat_chat_actions__["l" /* GET_AGENT_CLOSED_CHATS_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-all-closed-chats';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -3580,6 +3624,7 @@ var ChatEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -3598,6 +3643,7 @@ var ChatEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -3637,10 +3683,10 @@ __decorate([
 ], ChatEffects.prototype, "getAllAgentClosedChats", void 0);
 ChatEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], ChatEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=chat.effects.js.map
 
 /***/ }),
@@ -3838,6 +3884,7 @@ var DashboardEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -3897,35 +3944,39 @@ function dashboardReducer(state, action) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return RESET_DEPARTMENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return RESET_DEPARTMENT_FORM; });
 /* unused harmony export GET_DEPARTMENT_ATTEMPT */
 /* unused harmony export GET_DEPARTMENT_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_DEPARTMENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_DEPARTMENT_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return EDIT_DEPARTMENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_DEPARTMENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return RESET_EDIT_DEPARTMENT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return PRE_DELETE_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return PRE_DELETE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_DEPARTMENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_AGENT_DEPARTMENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_AGENT_DEPARTMENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return RESET_EDIT_DEPARTMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return PRE_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return PRE_DELETE_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DEPARTMENT_DELETE_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return DEPARTMENT_DELETE_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return ResetDepartmentForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return ResetDepartmentForm; });
 /* unused harmony export GetDepartmentAttempt */
 /* unused harmony export GetDepartmentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddDepartmentAttempt; });
 /* unused harmony export AddDepartmentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EditDepartmentAttempt; });
 /* unused harmony export EditDepartmentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GetDepartmentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetDepartmentListAttempt; });
 /* unused harmony export GetDepartmentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetToEditDepartmentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetAgentDepartmentListAttempt; });
+/* unused harmony export GetAgentDepartmentListSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetToEditDepartmentAttempt; });
 /* unused harmony export GetToEditDepartmentSuccess */
 /* unused harmony export ResetEditDepartment */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return PreDeleteAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return PreDeleteAttempt; });
 /* unused harmony export PreDeleteSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return DepartmentDeleteAttempt; });
 /* unused harmony export DepartmentDeleteSuccess */
@@ -3938,6 +3989,8 @@ var EDIT_DEPARTMENT_ATTEMPT = 'EDIT_DEPARTMENT_ATTEMPT';
 var EDIT_DEPARTMENT_SUCCESS = 'EDIT_DEPARTMENT_SUCCESS';
 var GET_DEPARTMENT_LIST_ATTEMPT = 'GET_DEPARTMENT_LIST_ATTEMPT';
 var GET_DEPARTMENT_LIST_SUCCESS = 'GET_DEPARTMENT_LIST_SUCCESS';
+var GET_AGENT_DEPARTMENT_LIST_ATTEMPT = 'GET_AGENT_DEPARTMENT_LIST_ATTEMPT';
+var GET_AGENT_DEPARTMENT_LIST_SUCCESS = 'GET_AGENT_DEPARTMENT_LIST_SUCCESS';
 var GET_TO_EDIT_DEPARTMENT_ATTEMPT = 'GET_TO_EDIT_DEPARTMENT_ATTEMPT';
 var GET_TO_EDIT_DEPARTMENT_SUCCESS = 'GET_TO_EDIT_DEPARTMENT_SUCCESS';
 var RESET_EDIT_DEPARTMENT = 'RESET_EDIT_DEPARTMENT';
@@ -4012,6 +4065,22 @@ var GetDepartmentListSuccess = (function () {
         this.type = GET_DEPARTMENT_LIST_SUCCESS;
     }
     return GetDepartmentListSuccess;
+}());
+
+var GetAgentDepartmentListAttempt = (function () {
+    function GetAgentDepartmentListAttempt(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_DEPARTMENT_LIST_ATTEMPT;
+    }
+    return GetAgentDepartmentListAttempt;
+}());
+
+var GetAgentDepartmentListSuccess = (function () {
+    function GetAgentDepartmentListSuccess(payload) {
+        this.payload = payload;
+        this.type = GET_AGENT_DEPARTMENT_LIST_SUCCESS;
+    }
+    return GetAgentDepartmentListSuccess;
 }());
 
 var GetToEditDepartmentAttempt = (function () {
@@ -4154,6 +4223,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4194,6 +4264,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4201,7 +4272,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* GET_DEPARTMENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["l" /* GET_DEPARTMENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'department-list';
@@ -4213,11 +4284,37 @@ var DepartmentEffects = (function () {
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["k" /* GET_DEPARTMENT_LIST_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["m" /* GET_DEPARTMENT_LIST_SUCCESS */],
                     payload: res.response
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.message, type: 'danger' }
+                });
+            });
+        });
+        this.getAgentDepartmentList = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* GET_AGENT_DEPARTMENT_LIST_ATTEMPT */])
+            .switchMap(function (action) {
+            _this.spinnerService.show();
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'user-department-list';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .map(function (res) {
+                _this.spinnerService.hide();
+                return {
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["k" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */],
+                    payload: res.response
+                };
+            })
+                .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4225,7 +4322,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getToEditDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["l" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["n" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-department';
@@ -4237,11 +4334,12 @@ var DepartmentEffects = (function () {
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["m" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["o" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
                     payload: res.response
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4249,7 +4347,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.preDeleteDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["p" /* PRE_DELETE_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["s" /* PRE_DELETE_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'check-pre-delete-department';
@@ -4262,7 +4360,7 @@ var DepartmentEffects = (function () {
                 _this.spinnerService.hide();
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["q" /* PRE_DELETE_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["t" /* PRE_DELETE_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4276,6 +4374,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4316,6 +4415,7 @@ var DepartmentEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4337,6 +4437,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
 ], DepartmentEffects.prototype, "getDepartmentList", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
+], DepartmentEffects.prototype, "getAgentDepartmentList", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
@@ -4376,6 +4480,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 
 var initialState = {
     list: [],
+    agentDepartmentList: [],
     toEdit: {},
     resetDepartmentForm: false,
     newDepartmentId: 0,
@@ -4394,16 +4499,18 @@ function departmentReducer(state, action) {
             var deps = state.list.slice();
             deps[index] = updatedDep;
             return __assign({}, state, { list: state.list.concat(deps) });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["k" /* GET_DEPARTMENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* GET_DEPARTMENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["s" /* RESET_DEPARTMENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["k" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */]):
+            return __assign({}, state, { list: action.payload.slice() });
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["v" /* RESET_DEPARTMENT_FORM */]):
             return __assign({}, state, { resetDepartmentForm: false });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["o" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
             // console.log(action.payload);
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["t" /* RESET_EDIT_DEPARTMENT */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["w" /* RESET_EDIT_DEPARTMENT */]):
             return __assign({}, state, { toEdit: {} });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["q" /* PRE_DELETE_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["t" /* PRE_DELETE_SUCCESS */]):
             return __assign({}, state, { preDelete: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* DEPARTMENT_DELETE_SUCCESS */]):
             var deleteIndex = state.list.findIndex(function (department) { return department.id === action.payload; });
@@ -4510,6 +4617,7 @@ var EditProfileChangePasswordSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/profile/profile.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4533,16 +4641,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProfileEffects = (function () {
-    function ProfileEffects(actions$, httpClient, router, store) {
+    function ProfileEffects(actions$, httpClient, router, store, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.router = router;
         this.store = store;
+        this.spinnerService = spinnerService;
         this.getProfile = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["h" /* GET_PROFILE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].API_BASE_URL + 'userprofile';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4550,6 +4661,7 @@ var ProfileEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, '', config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["i" /* GET_PROFILE_SUCCESS */],
@@ -4564,6 +4676,7 @@ var ProfileEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4573,6 +4686,7 @@ var ProfileEffects = (function () {
         this.editProfile = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["a" /* EDIT_PROFILE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].API_BASE_URL + 'updateuserprofile';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4580,6 +4694,7 @@ var ProfileEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -4602,6 +4717,7 @@ var ProfileEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4611,6 +4727,7 @@ var ProfileEffects = (function () {
         this.editProfileChangePassword = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__profile_profile_actions__["b" /* EDIT_PROFILE_CHANGE_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_13__environments_environment__["a" /* environment */].API_BASE_URL + 'reset-password';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4618,6 +4735,7 @@ var ProfileEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -4640,6 +4758,7 @@ var ProfileEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_12__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4663,10 +4782,10 @@ __decorate([
 ], ProfileEffects.prototype, "editProfileChangePassword", void 0);
 ProfileEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_14__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__shared_spinner__["b" /* SpinnerService */]) === "function" && _e || Object])
 ], ProfileEffects);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=profile.effect.js.map
 
 /***/ }),
@@ -4819,6 +4938,7 @@ var GetTwilioListSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__twilio_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/twilio/twilio.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4841,14 +4961,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TwilioEffects = (function () {
-    function TwilioEffects(actions$, httpClient) {
+    function TwilioEffects(actions$, httpClient, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
+        this.spinnerService = spinnerService;
         this.addTwilio = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__twilio_actions__["a" /* ADD_TWILIO_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].API_BASE_URL + 'twilio-information';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4856,6 +4979,7 @@ var TwilioEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -4878,6 +5002,7 @@ var TwilioEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4887,6 +5012,7 @@ var TwilioEffects = (function () {
         this.getTwilio = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__twilio_actions__["c" /* GET_TWILIO_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].API_BASE_URL + 'get-twilio-information';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4894,12 +5020,14 @@ var TwilioEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, '', config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_10__twilio_actions__["f" /* GET_TWILIO_SUCCESS */],
                     payload: res.response
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4909,6 +5037,7 @@ var TwilioEffects = (function () {
         this.getTwilioList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__twilio_actions__["d" /* GET_TWILIO_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_12__environments_environment__["a" /* environment */].API_BASE_URL + 'twilio-account-list';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -4916,6 +5045,7 @@ var TwilioEffects = (function () {
             };
             return _this.httpClient.get(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_10__twilio_actions__["e" /* GET_TWILIO_LIST_SUCCESS */],
@@ -4930,6 +5060,7 @@ var TwilioEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_11__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -4953,10 +5084,10 @@ __decorate([
 ], TwilioEffects.prototype, "getTwilioList", void 0);
 TwilioEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_13__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], TwilioEffects);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=twilio.effect.js.map
 
 /***/ }),
@@ -5015,8 +5146,8 @@ function twilioReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_NUMBER_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_NUMBER_LIST_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_NUMBER_LIST_ERROR; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return WIDGET_DELETE_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return WIDGET_DELETE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return WIDGET_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return WIDGET_DELETE_SUCCESS; });
 /* unused harmony export GetWidgetAttempt */
 /* unused harmony export GetWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddWidgetAttempt; });
@@ -5025,7 +5156,7 @@ function twilioReducer(state, action) {
 /* unused harmony export EditWidgetSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GetWidgetListAttempt; });
 /* unused harmony export GetWidgetListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return ResetWidgetForm; });
+/* unused harmony export ResetWidgetForm */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetTimeZoneListAttempt; });
 /* unused harmony export GetTimeZoneListSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetWidgetToEditAttempt; });
@@ -5246,6 +5377,7 @@ var WidgetEffects = (function () {
         this.getTimezoneList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-timezone';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -5253,6 +5385,7 @@ var WidgetEffects = (function () {
             };
             return _this.httpClient.get(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["l" /* GET_TIMEZONE_LIST_SUCCESS */],
@@ -5267,6 +5400,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5276,6 +5410,7 @@ var WidgetEffects = (function () {
         this.addWidget = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["a" /* ADD_WIDGET_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'createWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -5283,6 +5418,7 @@ var WidgetEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -5305,6 +5441,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5314,6 +5451,7 @@ var WidgetEffects = (function () {
         this.getWidgetList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["m" /* GET_WIDGET_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -5321,12 +5459,14 @@ var WidgetEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */],
                     payload: res.response
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5336,6 +5476,7 @@ var WidgetEffects = (function () {
         this.editWidget = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["e" /* EDIT_WIDGET_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'updateWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -5343,6 +5484,7 @@ var WidgetEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -5365,6 +5507,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5374,6 +5517,7 @@ var WidgetEffects = (function () {
         this.widgetToEdit = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["o" /* GET_WIDGET_TO_EDIT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'viewWidgets';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -5381,6 +5525,7 @@ var WidgetEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return {
                         type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["p" /* GET_WIDGET_TO_EDIT_SUCCESS */],
@@ -5395,6 +5540,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5404,12 +5550,12 @@ var WidgetEffects = (function () {
         this.searchNumber = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["h" /* GET_NUMBER_LIST_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'search-number';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
                 headers: headers
             };
-            _this.spinnerService.show();
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
                 _this.spinnerService.hide();
@@ -5427,6 +5573,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["i" /* GET_NUMBER_LIST_ERROR */],
                     payload: { message: err.error, type: 'danger' }
@@ -5434,7 +5581,7 @@ var WidgetEffects = (function () {
             });
         });
         this.deleteWidget = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["w" /* WIDGET_DELETE_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["v" /* WIDGET_DELETE_ATTEMPT */])
             .switchMap(function (action) {
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-widget';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
@@ -5446,7 +5593,7 @@ var WidgetEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["x" /* WIDGET_DELETE_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["w" /* WIDGET_DELETE_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -5465,6 +5612,7 @@ var WidgetEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_9__store_alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error, type: 'danger' }
@@ -5556,7 +5704,7 @@ function widgetReducer(state, action) {
             return __assign({}, state, { numbers: action.payload.res, newSuccessBuyNumberCall: true, buttonLoader: action.payload.type });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["i" /* GET_NUMBER_LIST_ERROR */]):
             return __assign({}, state, { numbers: [], newSuccessBuyNumberCall: false, numberError: true, numberMessage: action.payload.message, buttonLoader: action.payload.type });
-        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["x" /* WIDGET_DELETE_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["w" /* WIDGET_DELETE_SUCCESS */]):
             var deleteIndex = state.list.findIndex(function (widget) { return widget.id === action.payload; });
             var deleteWidgetData = state.list.slice();
             deleteWidgetData.splice(deleteIndex, 1);
@@ -6451,6 +6599,7 @@ var UpdateAttempt = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__auth_actions__ = __webpack_require__("../../../../../src/app/core/store/auth/auth.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6475,16 +6624,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AuthEffects = (function () {
-    function AuthEffects(actions$, httpClient, router, store) {
+    function AuthEffects(actions$, httpClient, router, store, spinnerService) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.router = router;
         this.store = store;
+        this.spinnerService = spinnerService;
         this.authSignUp = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["q" /* SIGNUP_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'admin-registration';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6492,6 +6644,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     return [
                         {
@@ -6517,6 +6670,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.message, type: 'danger' }
@@ -6526,6 +6680,7 @@ var AuthEffects = (function () {
         this.authSignIn = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["m" /* SIGNIN_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'userlogin';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6533,6 +6688,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/dashboard']);
                     return {
@@ -6548,6 +6704,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6557,6 +6714,7 @@ var AuthEffects = (function () {
         this.authForgotPassword = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["f" /* FORGOT_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'forget-password-mail';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6564,6 +6722,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/sign-in']);
                     return [
@@ -6590,6 +6749,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6599,6 +6759,7 @@ var AuthEffects = (function () {
         this.authResetPassword = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["j" /* RESET_PASSWORD_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'update-password';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6606,6 +6767,7 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.post(apiUrl, action.payload, config)
                 .mergeMap(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/sign-in']);
                     return [
@@ -6632,6 +6794,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6641,9 +6804,11 @@ var AuthEffects = (function () {
         this.authSignOut = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["o" /* SIGNOUT_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'log-out';
             return _this.httpClient.post(apiUrl, null)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 if (res.status) {
                     _this.router.navigate(['/']);
                     return {
@@ -6658,6 +6823,7 @@ var AuthEffects = (function () {
                 }
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6667,6 +6833,7 @@ var AuthEffects = (function () {
         this.twilioActive = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__auth_actions__["b" /* CHECK_TWILIO_ACTIVE_ATTEMPT */])
             .switchMap(function (action) {
+            _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_14__environments_environment__["a" /* environment */].API_BASE_URL + 'validate-twilio-credentials';
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
             var config = {
@@ -6674,12 +6841,14 @@ var AuthEffects = (function () {
             };
             return _this.httpClient.get(apiUrl, config)
                 .map(function (res) {
+                _this.spinnerService.hide();
                 return {
                     type: __WEBPACK_IMPORTED_MODULE_12__auth_actions__["c" /* CHECK_TWILIO_ACTIVE_SUCCESS */],
                     payload: res.status
                 };
             })
                 .catch(function (err) {
+                _this.spinnerService.hide();
                 return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
                     type: __WEBPACK_IMPORTED_MODULE_13__alert_alert_actions__["b" /* ALERT_SHOW */],
                     payload: { message: err.error.message, type: 'danger' }
@@ -6715,10 +6884,10 @@ __decorate([
 ], AuthEffects.prototype, "twilioActive", void 0);
 AuthEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ngrx_store__["h" /* Store */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_15__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__shared_spinner__["b" /* SpinnerService */]) === "function" && _e || Object])
 ], AuthEffects);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=auth.effects.js.map
 
 /***/ }),
@@ -6823,8 +6992,8 @@ var reducers = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    API_BASE_URL: 'http://178.128.187.125/api/v1/',
-    SOCKET_URL: 'http://178.128.187.125:3000'
+    API_BASE_URL: 'http://138.197.215.68/api/v1/',
+    SOCKET_URL: 'http://138.197.215.68:3000'
 };
 //# sourceMappingURL=environment.js.map
 
