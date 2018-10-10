@@ -68,8 +68,8 @@ export class ListAgentComponent implements OnInit, OnDestroy {
       .subscribe(
       (data) => {
         if (data) {
-          if (data.comapnyList) {
-            this.companyList = data.comapnyList;
+          if (data) {
+            this.companyList = data;
           }
         }
       }

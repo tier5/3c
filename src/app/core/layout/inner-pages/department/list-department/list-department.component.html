@@ -99,7 +99,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="row" *ngIf="deleteCheckList['agents'] !== undefined && deleteCheckList['agents'].length > 0">
+      <div class="row" *ngIf="deleteCheckList && deleteCheckList['agents'] !== undefined && deleteCheckList['agents'].length > 0">
         <div class="col-md-12">
           <div class="col-md-8">
           <h5>Following agents will be free after deleting this department:</h5>
@@ -113,7 +113,7 @@
         </div>
         </div>
       </div>
-      <div class="row" *ngIf="deleteCheckList['widgets'] !== undefined && deleteCheckList['widgets'].length > 0">
+      <div class="row" *ngIf="deleteCheckList && deleteCheckList['widgets'] !== undefined && deleteCheckList['widgets'].length > 0">
         <div class="col-md-12">
           <div class="col-md-8">
             <h5>Following widgets will be free after deleting this department:</h5>
@@ -127,14 +127,14 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="deleteCheckList['isSingleDepartmentWidgets']">
+      <div class="row" *ngIf="deleteCheckList && deleteCheckList['isSingleDepartmentWidgets']">
         <div class="col-md-12">
           <h4>There is some widgets which contains this department only,can't able to delete this department.</h4>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button class="btn btn-warning btn-lg pull-right" [disabled]="deleteCheckList['isSingleDepartmentWidgets']" (click)="deleteDepartment(deleteCheckList.department.id, template)">Delete</button>
+          <button class="btn btn-warning btn-lg pull-right" [disabled]="deleteCheckList && deleteCheckList['isSingleDepartmentWidgets']" (click)="deleteDepartment(deleteCheckList.department.id, template)">Delete</button>
           <button class="btn btn-success btn-lg" aria-label="Close" (click)="bsModalRef.hide()">Skip</button>
         </div>
       </div>
