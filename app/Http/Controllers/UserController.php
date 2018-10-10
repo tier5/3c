@@ -551,26 +551,36 @@ class UserController extends Controller
 
                         if ($saveAdminTwilioCredentialResponse['code'] == 200) {
 
-                            \Log::info($saveAdminTwilioCredentialResponse['message']);
+                            \Log::info('$saveAdminTwilioCredentialResponse :::200::: '.$saveAdminTwilioCredentialResponse['message']);
 
                         }
 
                         if ($saveAdminTwilioCredentialResponse['code'] == 400) {
 
-                            \Log::info($saveAdminTwilioCredentialResponse['message']);
+                            \Log::info('$saveAdminTwilioCredentialResponse 400::::'.$saveAdminTwilioCredentialResponse['message']);
 
                         }
                     }
                     $this->sendRegistrationEmail($email, $password); //send email and password to the register admin user
-                    return Response()->json([
-                        'code' => 200,
-                        'success' => true,
-                        'error' => false,
-                        'status' => true,
-                        'response' => $saveUser,
-                        'message' => 'Admin User Saved !'
-                    ]);
-
+                    if ($saveAdminTwilioCredentialResponse['code'] == 200) {
+                        return Response()->json([
+                            'code' => 200,
+                            'success' => true,
+                            'error' => false,
+                            'status' => true,
+                            'response' => $saveUser,
+                            'message' => 'Admin User Saved !'
+                        ]);
+                    } else {
+                        return Response()->json([
+                            'code' => 200,
+                            'success' => true,
+                            'error' => false,
+                            'status' => true,
+                            'response' => $saveUser,
+                            'message' => 'Admin User Saved without twilio subaccount,to create a subaccount click on create subaccount button from the admin list.!'
+                        ]);
+                    }
                 } else {
 
                     return Response()->json([
@@ -1294,7 +1304,12 @@ class UserController extends Controller
                     $getAdminInfo=[];
                 }
                 try {
-                    Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl' => url('/')], function ($message) use ($checkUser) {
+                    if(url('/') == 'http://178.128.187.125') {
+                        $siteUrl ='http://greys.telemojo.net';
+                    }else{
+                        $siteUrl = 'http://sms.telemojo.com/';
+                    }
+                    Mail::send('emails.agent-register', ['password' => $password, 'userInfo' => $checkUser, 'getAdminInfo' => $getAdminInfo, 'siteUrl' => $siteUrl], function ($message) use ($checkUser) {
                         $message->from('sms@telemojo.com', 'TM SMS');
                         $message->to($checkUser->email, $checkUser->first_name)->subject('New TM SMS account');
                     });
@@ -1608,7 +1623,7 @@ class UserController extends Controller
             $getUserInfo = UserToken::where('token', $userToken)->with('userInfo')->first();
             if (count($getUserInfo) != "" && $getUserInfo->userInfo->type == 1) {
 
-                $getCompany = Users::select('id', 'company')->where('type', 2)->where('company', '!=', '')->get();
+                $getCompany = Users::select('id', 'company')->where('type', 2)->where('company', '!=', '')->groupBy('company')->get();
                 if (count($getCompany) != 0) {
 
                     $response = array('code' => 200, 'error' => false, 'response' => $getCompany, 'status' => true, 'message' => 'List of Company !');
