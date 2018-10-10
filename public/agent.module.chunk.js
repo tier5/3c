@@ -591,6 +591,7 @@ module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"conten
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_order_pipe__ = __webpack_require__("../../../../ngx-order-pipe/ngx-order-pipe.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_sweetalert2_src_index__ = __webpack_require__("../../../../ngx-sweetalert2/src/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/filter.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -600,6 +601,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -632,12 +634,15 @@ var ListAgentComponent = (function () {
             }
         });
         /* Company List droupdown */
-        this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(function (data) {
+        this.agentListSubscription = this.store.select('afterLogin', 'agent', 'list')
+            .filter(function (response) { return response !== undefined && response.length > 0; })
+            .subscribe(function (data) {
             console.log(data);
+            _this.agentList = data;
+        });
+        this.companySubscription = this.store.select('afterLogin', 'agent', 'comapnyList')
+            .subscribe(function (data) {
             if (data) {
-                if (data.list.length > 0) {
-                    _this.agentList = data.list;
-                }
                 if (data.comapnyList) {
                     _this.companyList = data.comapnyList;
                 }
@@ -710,6 +715,7 @@ var ListAgentComponent = (function () {
     ListAgentComponent.prototype.ngOnDestroy = function () {
         this.companySubscription.unsubscribe();
         this.authSubscription.unsubscribe();
+        this.agentListSubscription.unsubscribe();
     };
     return ListAgentComponent;
 }());

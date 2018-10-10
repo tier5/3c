@@ -39,6 +39,7 @@ module.exports = "<div class=\"content-wrapper\">\n  <!--<section class=\"conten
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/department/department.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/agent/agent.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/filter.js");
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -56,6 +57,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -105,17 +107,19 @@ var CreateDepartmentComponent = (function () {
         if (this.dep.userId !== 0) {
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["w" /* GetAdminAgentListAttempt */]({ userId: this.dep.userId }));
         }
-        this.afterLoginSubscription = this.store.select('afterLogin')
-            .map(function (data) { return data.department.resetDepartmentForm; })
-            .subscribe(function (data) {
-            if (data) {
-                _this.loader = false;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["x" /* ResetDepartmentForm */]());
-                if (!!_this.loggedInAdminId) {
-                    _this.form.form.patchValue({ userId: _this.loggedInAdminId });
-                }
-            }
-        });
+        /* this.afterLoginSubscription = this.store.select('afterLogin')
+           .map(data => data.department.resetDepartmentForm)
+           .subscribe(
+             (data) => {
+               if (data) {
+                 this.loader = false;
+                 this.store.dispatch(new DepartmentActions.ResetDepartmentForm());
+                 if (!!this.loggedInAdminId) {
+                   this.form.form.patchValue({ userId: this.loggedInAdminId });
+                 }
+               }
+             }
+           );*/
         this.activatedRoute.data
             .subscribe(function (data) {
             _this.editMode = data['editMode'];
@@ -175,12 +179,11 @@ var CreateDepartmentComponent = (function () {
     /** Un-subscribe from all subscription when component destroys */
     CreateDepartmentComponent.prototype.ngOnDestroy = function () {
         this.authSubscription.unsubscribe();
-        this.afterLoginSubscription.unsubscribe();
+        // this.afterLoginSubscription.unsubscribe();
         this.adminList.unsubscribe();
     };
     /** Function call to create a new department */
     CreateDepartmentComponent.prototype.onCreateDep = function (form) {
-        this.loader = true;
         if (this.editMode) {
             var data = __assign({}, form.value, { departmentId: this.depId });
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["i" /* EditDepartmentAttempt */](__assign({}, data)));
@@ -222,14 +225,13 @@ var CreateDepartmentComponent = (function () {
     /** Function to create agent */
     CreateDepartmentComponent.prototype.onCreateAgentSubmit = function (form) {
         var _this = this;
-        this.createAgentLoader = true;
         /** Create Agent */
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_agent_agent_actions__["i" /* AddAgentAttempt */](form.value));
         this.store.select('afterLogin', 'agent', 'newAgentInfo')
+            .filter(function (response) { return typeof response === 'object' && response.id > 0; })
+            .take(1)
             .subscribe(function (data) {
-            if (typeof data === 'object' && data.id > 0) {
-                _this.dep.agents.push({ id: data.id, first_name: data.first_name, last_name: data.last_name });
-            }
+            _this.dep.agents.push({ id: data.id, first_name: data.first_name, last_name: data.last_name });
         });
         this.bsModalRef.hide();
     };

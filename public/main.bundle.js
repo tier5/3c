@@ -1763,6 +1763,7 @@ var GetToEditAdminSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1785,12 +1786,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AdminEffects = (function () {
-    function AdminEffects(actions$, httpClient, spinnerService) {
+    function AdminEffects(actions$, httpClient, spinnerService, router) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.spinnerService = spinnerService;
+        this.router = router;
         this.addAdmin = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__admin_actions__["a" /* ADD_ADMIN_ATTEMPT */])
             .switchMap(function (action) {
@@ -1804,6 +1807,7 @@ var AdminEffects = (function () {
                 .mergeMap(function (res) {
                 _this.spinnerService.hide();
                 if (res.status) {
+                    _this.router.navigate(['/admin/list']);
                     return [
                         {
                             type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["b" /* ADD_ADMIN_SUCCESS */],
@@ -2087,10 +2091,10 @@ __decorate([
 ], AdminEffects.prototype, "getToEditAdmin", void 0);
 AdminEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */]) === "function" && _d || Object])
 ], AdminEffects);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=admin.effect.js.map
 
 /***/ }),
@@ -2120,7 +2124,9 @@ function adminReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["b" /* ADD_ADMIN_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), resetAdminForm: true });
+            return __assign({}, state, { 
+                //  list: [ ...state.list, action.payload ],
+                resetAdminForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["k" /* EDIT_ADMIN_SUCCESS */]):
             var index = state.list.indexOf(function (admin) { return admin.id === action.payload.id; });
             var someAdmin = state.list[index];
@@ -3108,8 +3114,14 @@ var initialState = {
 function agentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["a" /* ADD_AGENT_ATTEMPT */]):
+            return __assign({}, state, { newAgentInfo: [] });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["b" /* ADD_AGENT_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), newAgentInfo: action.payload });
+            return __assign({}, state, { 
+                // list: [...state.list, action.payload],
+                newAgentInfo: action.payload });
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["q" /* GET_AGENT_LIST_ATTEMPT */]):
+            return __assign({}, state, { list: [] });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* EDIT_AGENT_SUCCESS */]):
@@ -3959,7 +3971,7 @@ function dashboardReducer(state, action) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return PRE_DELETE_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DEPARTMENT_DELETE_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return DEPARTMENT_DELETE_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return ResetDepartmentForm; });
+/* unused harmony export ResetDepartmentForm */
 /* unused harmony export GetDepartmentAttempt */
 /* unused harmony export GetDepartmentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddDepartmentAttempt; });
@@ -4488,7 +4500,9 @@ function departmentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["b" /* ADD_DEPARTMENT_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), newDepartmentId: action.payload.id, newDepartmentName: action.payload.department_name, resetDepartmentForm: true });
+            return __assign({}, state, { 
+                // list: [ ...state.list, action.payload ],
+                newDepartmentId: action.payload.id, newDepartmentName: action.payload.department_name, resetDepartmentForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */]):
             var index = state.list.indexOf(function (dep) { return dep.id === action.payload.id; });
             var someDep = state.list[index];
@@ -5688,7 +5702,9 @@ function widgetReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["b" /* ADD_WIDGET_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), resetWidgetForm: true });
+            return __assign({}, state, { 
+                // list: [...state.list, action.payload],
+                resetWidgetForm: true });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["n" /* GET_WIDGET_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload.slice() });
         case (__WEBPACK_IMPORTED_MODULE_0__widget_actions__["l" /* GET_TIMEZONE_LIST_SUCCESS */]):

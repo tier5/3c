@@ -311,7 +311,7 @@ var CreateAdminComponent = (function () {
         else {
             /** Create admin */
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["c" /* AddAdminAttempt */](form.value));
-            this.router.navigate(['/admin/list']);
+            // this.router.navigate(['/admin/list']);
         }
     };
     /** Un-subscribing from all custom made events when component is destroyed */
