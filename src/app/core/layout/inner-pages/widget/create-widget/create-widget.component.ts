@@ -140,7 +140,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     checkThu: boolean;
     checkFri: boolean;
     checkSat: boolean;
-
+    selectAll:boolean = false;
+    CreateDepSuccess:boolean = false;
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -272,7 +273,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       this.newAfterLoginSubscription = this.store.select('department')
         .subscribe(
           (data) => {
-            if (data.newDepartmentId > 0) {
+            if (data.newDepartmentId > 0 && this.CreateDepSuccess) {
               console.log(data);
               const oldArray = this.widget.departmentIdArray;
               const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
@@ -548,6 +549,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     }
     /** Function to create modal for creating department */
     CreateDepartment( template:  TemplateRef<any>) {
+        this.CreateDepSuccess = false;
+        this.dep.agents = [];
         this.dep.userId = this.widget.userId;
         this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.widget.userId}));
         this.bsModalRef = this.modalService.show(template);
@@ -555,6 +558,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
     /** function to create a department */
     onCreateDep(form) {
+        this.CreateDepSuccess = true;
         this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
         this.bsModalRef.hide();
     }
@@ -587,7 +591,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     openStartTimePiker(value: number) {
         if ( value == 1 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.sunCbk.startTime = time;
@@ -595,7 +599,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 2 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.monCbk.startTime = time;
@@ -603,7 +607,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 3 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.tueCbk.startTime = time;
@@ -611,7 +615,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 4 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.wedCbk.startTime = time;
@@ -619,7 +623,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 5 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.thuCbk.startTime = time;
@@ -627,7 +631,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 6 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.friCbk.startTime = time;
@@ -635,7 +639,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 7 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.satCbk.startTime = time;
@@ -647,7 +651,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     openEndTimePiker(value: number) {
         if ( value == 1 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.sunCbk.endTime = time;
@@ -656,7 +660,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 2 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.monCbk.endTime = time;
@@ -665,7 +669,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 3 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.tueCbk.endTime = time;
@@ -674,7 +678,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 4 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.wedCbk.endTime = time;
@@ -683,7 +687,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 5 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.thuCbk.endTime = time;
@@ -692,7 +696,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 6 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.friCbk.endTime = time;
@@ -701,7 +705,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         }
         if ( value == 7 ){
             const amazingTimePicker = this.atp.open({
-                onlyHour: true,
+                onlyHour: false,
             });
             amazingTimePicker.afterClose().subscribe(time => {
                 this.widget.satCbk.endTime = time;
@@ -778,5 +782,53 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             }
         }
     }
+
+    /**
+     * Function to check all day and time
+     * as 12:00 AM  to 11:59 pm
+     */
+    makeItAvailable(){
+        this.selectAll = !this.selectAll;
+        if(this.selectAll && this.checkSun == undefined || this.checkSun == false || this.checkMon == false || this.checkMon == undefined || this.checkTue == false || this.checkTue == undefined || this.checkWed == false || this.checkWed == undefined || this.checkThu == false || this.checkFri == false || this.checkSat == false) {
+            this.widget.sunCbk.startTime = '00:00';
+            this.widget.sunCbk.endTime = '23:59';
+            this.checkSun = true;
+            this.widget.monCbk.startTime = '00:00';
+            this.widget.monCbk.endTime = '23:59';
+            this.checkMon = true;
+            this.widget.tueCbk.startTime = '00:00';
+            this.widget.tueCbk.endTime = '23:59';
+            this.checkTue = true;
+            this.widget.wedCbk.startTime = '00:00';
+            this.widget.wedCbk.endTime = '23:59';
+            this.checkWed = true;
+            this.widget.thuCbk.startTime = '00:00';
+            this.widget.thuCbk.endTime = '23:59';
+            this.checkThu = true;
+            this.widget.friCbk.startTime = '00:00';
+            this.widget.friCbk.endTime = '23:59';
+            this.checkFri = true;
+            this.widget.satCbk.startTime = '00:00';
+            this.widget.satCbk.endTime = '23:59';
+            this.checkSat = true;
+        }else if(this.selectAll && this.checkSun == true || this.checkMon == true || this.checkTue == true || this.checkWed == true || this.checkThu == true || this.checkFri == true || this.checkSat == true){
+            this.checkSun = false;
+            this.checkMon = false;
+            this.checkTue = false;
+            this.checkWed = false;
+            this.checkThu = false;
+            this.checkFri = false;
+            this.checkSat = false;
+        } else {
+            this.checkSun = false;
+            this.checkMon = false;
+            this.checkTue = false;
+            this.checkWed = false;
+            this.checkThu = false;
+            this.checkFri = false;
+            this.checkSat = false;
+        }
+    }
+
 
 }

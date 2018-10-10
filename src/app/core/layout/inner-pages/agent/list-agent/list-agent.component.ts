@@ -9,6 +9,7 @@ import {Subscription} from 'rxjs/Subscription';
 import * as fromAuth from '../../../../store/auth/auth.reducers';
 import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 import {SweetAlertService} from 'ngx-sweetalert2/src/index';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-list-agent',
@@ -28,6 +29,7 @@ export class ListAgentComponent implements OnInit, OnDestroy {
   companySearch: any;
   companyList: any[];
   companySubscription: Subscription;
+  agentListSubscription: Subscription;
   authSubscription: Subscription;
   agentList = [];
   /** Service injection */
@@ -54,13 +56,18 @@ export class ListAgentComponent implements OnInit, OnDestroy {
       );
 
     /* Company List droupdown */
-    this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(
+    this.agentListSubscription = this.store.select('afterLogin', 'agent', 'list')
+      .filter((response) => response !== undefined && response.length > 0)
+      .subscribe(
       (data) => {
-        console.log(data);
+            console.log(data);
+            this.agentList = data;
+      }
+    );
+    this.companySubscription = this.store.select('afterLogin', 'agent', 'comapnyList')
+      .subscribe(
+      (data) => {
         if (data) {
-          if (data.list.length > 0) {
-            this.agentList = data.list;
-          }
           if (data.comapnyList) {
             this.companyList = data.comapnyList;
           }
@@ -141,6 +148,7 @@ export class ListAgentComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
      this.companySubscription.unsubscribe();
      this.authSubscription.unsubscribe();
+     this.agentListSubscription.unsubscribe();
   }
 
 }

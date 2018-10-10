@@ -32,7 +32,7 @@ export function widgetReducer (state = initialState, action: WidgetActions.Widge
     case (WidgetActions.ADD_WIDGET_SUCCESS):
       return {
         ...state,
-        list: [...state.list, action.payload],
+        // list: [...state.list, action.payload],
         resetWidgetForm: true
       };
     case (WidgetActions.GET_WIDGET_LIST_SUCCESS):

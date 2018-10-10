@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as AgentActions from '../../../store/agent/agent.actions';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-create-department',
@@ -76,7 +77,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
     }
 
-    this.afterLoginSubscription = this.store.select('afterLogin')
+   /* this.afterLoginSubscription = this.store.select('afterLogin')
       .map(data => data.department.resetDepartmentForm)
       .subscribe(
         (data) => {
@@ -88,7 +89,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
             }
           }
         }
-      );
+      );*/
 
     this.activatedRoute.data
       .subscribe(
@@ -105,14 +106,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
                   (dep) => {
                     if (dep) {
                         if (dep.toEdit.department !== undefined) {
-                                this.changedDepFlag = true;
-                                this.dep.userId = dep.toEdit.department.user_id;
-                                this.dep.departmentName = dep.toEdit.department.department_name;
-                                this.dep.departmentDetails = dep.toEdit.department.department_details;
-                                this.dep.agents = dep.toEdit.agents;
-                                this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
-                                this.adminName = dep.toEdit.department.user_details.first_name + ' ' + dep.toEdit.department.user_details.last_name;
-
+                          this.changedDepFlag = true;
+                          this.dep.userId = dep.toEdit.department.user_id;
+                          this.dep.departmentName = dep.toEdit.department.department_name;
+                          this.dep.departmentDetails = dep.toEdit.department.department_details;
+                          this.dep.agents = dep.toEdit.agents;
+                          this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId}));
+                          this.adminName = dep.toEdit.department.user_details.first_name + ' ' + dep.toEdit.department.user_details.last_name;
                         }
                     }
                   }
@@ -160,13 +160,12 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   /** Un-subscribe from all subscription when component destroys */
   ngOnDestroy(){
     this.authSubscription.unsubscribe();
-    this.afterLoginSubscription.unsubscribe();
+   // this.afterLoginSubscription.unsubscribe();
     this.adminList.unsubscribe();
   }
 
   /** Function call to create a new department */
   onCreateDep(form: NgForm) {
-    this.loader = true;
     if (this.editMode) {
       const data = { ...form.value, departmentId: this.depId };
       this.store.dispatch(new DepartmentActions.EditDepartmentAttempt({...data}));
@@ -211,14 +210,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
 
     /** Function to create agent */
     onCreateAgentSubmit(form){
-        this.createAgentLoader = true;
         /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
       this.store.select('afterLogin', 'agent', 'newAgentInfo')
+        .filter((response) => typeof response === 'object' &&  response.id > 0)
+        .take(1)
         .subscribe(data => {
-          if(typeof data === 'object' && data.id > 0) {
             this.dep.agents.push({id: data.id, first_name: data.first_name, last_name: data.last_name});
-          }
         });
       this.bsModalRef.hide();
     }

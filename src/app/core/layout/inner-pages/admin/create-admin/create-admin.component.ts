@@ -80,11 +80,11 @@ export class CreateAdminComponent implements OnInit, OnDestroy {
         /** Edit admin */
       const data = { ...form.value, userId: this.userId };
       this.store.dispatch(new AdminActions.EditAdminAttempt({...data}));
-      this.router.navigate(['/admin/list']);
+       this.router.navigate(['/admin/list']);
     } else {
       /** Create admin */
       this.store.dispatch(new AdminActions.AddAdminAttempt(form.value));
-      this.router.navigate(['/admin/list']);
+       // this.router.navigate(['/admin/list']);
      }
   }
 

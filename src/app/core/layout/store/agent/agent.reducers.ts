@@ -17,16 +17,26 @@ const initialState: AgentState = {
   comapnyList: [],
   blockAgent: false,
   unblockAgent: false,
-  newAgentInfo:[],
+  newAgentInfo: [],
 };
 
 export function agentReducer(state = initialState, action: AgentActions.AgentActions) {
   switch (action.type) {
+    case (AgentActions.ADD_AGENT_ATTEMPT):
+      return {
+        ...state,
+        newAgentInfo: []
+      };
     case (AgentActions.ADD_AGENT_SUCCESS):
       return {
         ...state,
-        list: [...state.list, action.payload],
+        // list: [...state.list, action.payload],
         newAgentInfo: action.payload
+      };
+    case (AgentActions.GET_AGENT_LIST_ATTEMPT):
+      return {
+        ...state,
+        list: []
       };
     case (AgentActions.GET_AGENT_LIST_SUCCESS):
       return {
@@ -51,7 +61,6 @@ export function agentReducer(state = initialState, action: AgentActions.AgentAct
     case (AgentActions.RESET_AGENT_FORM):
       return {
         ...state,
-        //resetAgentForm: false
       };
     case (AgentActions.GET_ADMIN_AGENT_LIST_SUCCESS):
       return {

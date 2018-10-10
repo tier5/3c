@@ -19,7 +19,7 @@ export function adminReducer(state = initialState, action: AdminActions.AdminAct
     case (AdminActions.ADD_ADMIN_SUCCESS):
       return {
         ...state,
-        list: [ ...state.list, action.payload ],
+      //  list: [ ...state.list, action.payload ],
         resetAdminForm: true
       };
     case (AdminActions.EDIT_ADMIN_SUCCESS):

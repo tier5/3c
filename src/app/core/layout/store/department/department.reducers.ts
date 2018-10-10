@@ -26,7 +26,7 @@ export function departmentReducer(state = initialState, action: DepartmentAction
     case (DepartmentActions.ADD_DEPARTMENT_SUCCESS):
       return {
         ...state,
-        list: [ ...state.list, action.payload ],
+       // list: [ ...state.list, action.payload ],
         newDepartmentId: action.payload.id,
         newDepartmentName: action.payload.department_name,
         resetDepartmentForm: true

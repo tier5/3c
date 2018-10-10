@@ -4,17 +4,17 @@ export interface AlertState {
   message: string;
   show: boolean;
   type: string;
-  loaderStatus : boolean;
+  loaderStatus: boolean;
 }
 
 const initialState: AlertState = {
   message: '',
   show: false,
-  type:'',
+  type: '',
   loaderStatus : false
 };
 
-export function alertReducer (state = initialState, actions:AlertActions.AlertActions) {
+export function alertReducer (state = initialState, actions: AlertActions.AlertActions) {
   switch (actions.type) {
     case AlertActions.ALERT_SHOW:
       return {

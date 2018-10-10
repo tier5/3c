@@ -13,13 +13,15 @@ import * as AdminActions from './admin.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
 import {SpinnerService} from '../../../shared/spinner';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AdminEffects {
 
   constructor (private actions$: Actions,
                private httpClient: HttpClient,
-               private spinnerService: SpinnerService) {}
+               private spinnerService: SpinnerService,
+                private router: Router) {}
 
   @Effect()
   addAdmin = this.actions$
@@ -35,6 +37,7 @@ export class AdminEffects {
         .mergeMap((res: any) => {
           this.spinnerService.hide();
           if (res.status) {
+            this.router.navigate(['/admin/list']);
             return [
               {
                 type: AdminActions.ADD_ADMIN_SUCCESS,

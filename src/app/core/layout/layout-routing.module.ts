@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router'
+import { Routes, RouterModule } from '@angular/router';
 
-import { IsSuperAdminGuard } from '../auth/is-super-admin.guard'
-import { IsAdminOrSuperAdminGuard } from '../auth/is-admin-or-super-admin.guard'
-import { IsAgentGuard } from '../auth/is-agent.guard'
+import { IsSuperAdminGuard } from '../auth/is-super-admin.guard';
+import { IsAdminOrSuperAdminGuard } from '../auth/is-admin-or-super-admin.guard';
+import { IsAgentGuard } from '../auth/is-agent.guard';
 
 const routes: Routes = [
   { path: '', children: [
