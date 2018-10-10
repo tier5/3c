@@ -4498,25 +4498,25 @@ function departmentReducer(state, action) {
             var updatedDep = __assign({}, someDep, action.payload);
             var deps = state.list.slice();
             deps[index] = updatedDep;
-            return __assign({}, state, { list: state.list.concat(deps) });
+            return __assign({}, state, { list: state.list.concat(deps), newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* GET_DEPARTMENT_LIST_SUCCESS */]):
-            return __assign({}, state, { list: action.payload.slice() });
+            return __assign({}, state, { list: action.payload.slice(), newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["k" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */]):
-            return __assign({}, state, { list: action.payload.slice() });
+            return __assign({}, state, { list: action.payload.slice(), newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["v" /* RESET_DEPARTMENT_FORM */]):
-            return __assign({}, state, { resetDepartmentForm: false });
+            return __assign({}, state, { resetDepartmentForm: false, newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["o" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
             // console.log(action.payload);
-            return __assign({}, state, { toEdit: __assign({}, action.payload) });
+            return __assign({}, state, { toEdit: __assign({}, action.payload), newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["w" /* RESET_EDIT_DEPARTMENT */]):
-            return __assign({}, state, { toEdit: {} });
+            return __assign({}, state, { toEdit: {}, newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["t" /* PRE_DELETE_SUCCESS */]):
-            return __assign({}, state, { preDelete: action.payload });
+            return __assign({}, state, { preDelete: action.payload, newDepartmentId: 0, newDepartmentName: '' });
         case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* DEPARTMENT_DELETE_SUCCESS */]):
             var deleteIndex = state.list.findIndex(function (department) { return department.id === action.payload; });
             var deleteData = state.list.slice();
             deleteData.splice(deleteIndex, 1);
-            return __assign({}, state, { list: deleteData.slice() });
+            return __assign({}, state, { list: deleteData.slice(), newDepartmentId: 0, newDepartmentName: '' });
         default:
             return state;
     }
