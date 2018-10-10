@@ -29,7 +29,7 @@ export class ListAgentComponent implements OnInit, OnDestroy {
   companyList: any[];
   companySubscription: Subscription;
   authSubscription: Subscription;
-
+  agentList = [];
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private router: Router, private orderPipe: OrderPipe,
@@ -43,7 +43,6 @@ export class ListAgentComponent implements OnInit, OnDestroy {
     this.authState = this.store.select('auth');
     this.page = 1;
     this.companySearch = '';
-    this.afterLoginState = this.store.select('afterLogin');
 
     this.authSubscription = this.store.select('auth')
       .subscribe(
@@ -57,8 +56,14 @@ export class ListAgentComponent implements OnInit, OnDestroy {
     /* Company List droupdown */
     this.companySubscription = this.store.select('afterLogin', 'agent').subscribe(
       (data) => {
-        if (data.comapnyList) {
-          this.companyList = data.comapnyList;
+        console.log(data);
+        if (data) {
+          if (data.list.length > 0) {
+            this.agentList = data.list;
+          }
+          if (data.comapnyList) {
+            this.companyList = data.comapnyList;
+          }
         }
       }
     );

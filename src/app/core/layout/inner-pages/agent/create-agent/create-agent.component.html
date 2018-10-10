@@ -87,7 +87,11 @@
                       </div>
                       <div class="createAgentBtn">
                         <button class="btn btn-warning btn-md" style="margin-top: 25px;" type="button"
-                          (click)="createDepartment(template)" id="createDepartment" [disabled]="agent.parentId === 0"><i class="fa fa-plus"></i> Create Department</button>
+                          (click)="createDepartment(template)" id="createDepartment"
+                                [disabled]="(authState | async).isSuperAdmin && agent.parentId === 0">
+                          <i class="fa fa-plus"></i>
+                          Create Department
+                        </button>
                       </div>
                     </div>
                   </div>

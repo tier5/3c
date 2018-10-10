@@ -57,7 +57,7 @@
                     </thead>
                     <tbody>
                     <tr role="row" class="odd"
-                        *ngFor="let item of (afterLoginState | async).agent.list | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
+                        *ngFor="let item of agentList | filter : companySearch: term | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                       <td>{{i+1}}</td>
                       <td>{{item.first_name}}</td>
                       <td>{{item.last_name}}</td>

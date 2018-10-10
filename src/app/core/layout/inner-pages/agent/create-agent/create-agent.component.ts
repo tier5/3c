@@ -61,6 +61,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     isemailNotification = true;
     isPhoneNotification = true;
     dropdownSettings = {};          /** dropDown settings blank obj*/
+    createDeptSuccess = false;
   /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -72,7 +73,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       this.store.dispatch(new AdminActions.GetAdminListAttempt());
       this.authState = this.store.select('auth');
       this.afterLoginState = this.store.select('afterLogin');
-        this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
+      this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
       this.authSubscription = this.store.select('auth')
         .subscribe(
           (data) => {
@@ -115,7 +116,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                   this.selectAdmin = true;
               } else {
                 this.adminUserId = 0;
-                this.agent.parentId = 0;
                 this.agent.firstName = '';
                 this.agent.lastName = '';
                 this.agent.userName = '';
@@ -172,11 +172,12 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
             primaryKey: 'id',
             labelKey: 'department_name'
         };
+
       this.afterLoginSubscription = this.store.select('department')
         .subscribe(
           (data) => {
             if (data) {
-              if (data.newDepartmentId > 0) {
+              if (data.newDepartmentId > 0 && this.createDeptSuccess) {
                 console.log(data);
                 const oldArray = this.agent.departmentId;
                 const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
@@ -199,19 +200,19 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         );
     }
 
-    checkAdminname($event){
+    checkAdminname($event) {
         this.showThis = true;
         return this.updatedlistOfAdmins = this.listOfAdmins.filter(item => item.first_name.toLowerCase().indexOf($event) !== -1);
     }
 
-    assignValue(id, first_name, last_name){
+    assignValue(id, first_name, last_name) {
         this.agent.parentId = id;
         this.adminName = first_name + ' ' + last_name;
         this.showThis = false;
         this.adminChanged(id);
     }
 
-    resetList(){
+    resetList() {
         this.adminName = '';
         this.showThis = true;
         this.agent.parentId = 0;
@@ -223,8 +224,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Function call to create or edit a admin */
     onCreateAgent(form: NgForm) {
-      console.log('create agent');
-        this.loader = true;
       if (this.editMode) {
         const data = { ...form.value, userId: this.userId };
         this.store.dispatch(new AgentActions.EditAgentAttempt({...data}));
@@ -238,6 +237,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
+      this.agent.departmentId = [];
        this.afterLoginSubscription.unsubscribe();
       this.authSubscription.unsubscribe();
        this.updateAgent.unsubscribe();
@@ -255,7 +255,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     /** Function to check if valid department is selected */
     deptChanged(id: any) {
       this.selectDept = id > 0;
-        if ( id === '99999991999999' ){
+        if ( id === '99999991999999' ) {
             const element: HTMLElement = document.getElementById('createDepartment') as HTMLElement;
             element.click();
         }
@@ -263,6 +263,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** Function to create a department from the create agent page */
     createDepartment( template:  TemplateRef<any> ) {
+      this.createDeptSuccess = false;
         this.dep.userId = this.adminUserId;
         this.bsModalRef = this.modalService.show(template);
     }
@@ -285,6 +286,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
 
     /** function to create a department */
     onCreateDep(form) {
+      this.createDeptSuccess = true;
         this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
         this.bsModalRef.hide();
     }

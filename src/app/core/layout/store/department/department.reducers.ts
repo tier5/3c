@@ -40,37 +40,51 @@ export function departmentReducer(state = initialState, action: DepartmentAction
       return {
         ...state,
         list: [ ...state.list, ...deps ],
+        newDepartmentId: 0,
+        newDepartmentName: ''
       };
     case (DepartmentActions.GET_DEPARTMENT_LIST_SUCCESS):
       return {
         ...state,
-        list: [ ...action.payload ]
+        list: [ ...action.payload ],
+        newDepartmentId: 0,
+        newDepartmentName: ''
       };
     case (DepartmentActions.GET_AGENT_DEPARTMENT_LIST_SUCCESS):
     return {
       ...state,
-      list: [ ...action.payload ]
+      list: [ ...action.payload ],
+      newDepartmentId: 0,
+      newDepartmentName: ''
     };
     case (DepartmentActions.RESET_DEPARTMENT_FORM):
       return {
         ...state,
-        resetDepartmentForm: false
+        resetDepartmentForm: false,
+        newDepartmentId: 0,
+        newDepartmentName: ''
       };
     case (DepartmentActions.GET_TO_EDIT_DEPARTMENT_SUCCESS):
       // console.log(action.payload);
       return {
         ...state,
-        toEdit: { ...action.payload }
+        toEdit: { ...action.payload },
+        newDepartmentId: 0,
+        newDepartmentName: ''
       };
       case (DepartmentActions.RESET_EDIT_DEPARTMENT):
         return {
             ...state,
-            toEdit : {}
+            toEdit : {},
+          newDepartmentId: 0,
+          newDepartmentName: ''
         };
     case (DepartmentActions.PRE_DELETE_SUCCESS):
       return {
         ...state,
         preDelete: action.payload,
+        newDepartmentId: 0,
+        newDepartmentName: ''
       };
     case (DepartmentActions.DEPARTMENT_DELETE_SUCCESS):
       const deleteIndex = state.list.findIndex(department => department.id === action.payload);
@@ -78,7 +92,9 @@ export function departmentReducer(state = initialState, action: DepartmentAction
       deleteData.splice(deleteIndex, 1);
       return {
         ...state,
-        list: [...deleteData ]
+        list: [...deleteData ],
+        newDepartmentId: 0,
+        newDepartmentName: ''
       };
     default:
       return state;
