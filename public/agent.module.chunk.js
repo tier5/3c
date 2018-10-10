@@ -643,8 +643,8 @@ var ListAgentComponent = (function () {
         this.companySubscription = this.store.select('afterLogin', 'agent', 'comapnyList')
             .subscribe(function (data) {
             if (data) {
-                if (data.comapnyList) {
-                    _this.companyList = data.comapnyList;
+                if (data) {
+                    _this.companyList = data;
                 }
             }
         });
