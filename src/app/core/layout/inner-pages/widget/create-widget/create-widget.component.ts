@@ -141,6 +141,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     checkFri: boolean;
     checkSat: boolean;
     selectAll:boolean = false;
+    CreateDepSuccess:boolean = false;
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -272,7 +273,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       this.newAfterLoginSubscription = this.store.select('department')
         .subscribe(
           (data) => {
-            if (data.newDepartmentId > 0) {
+            if (data.newDepartmentId > 0 && this.CreateDepSuccess) {
               console.log(data);
               const oldArray = this.widget.departmentIdArray;
               const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
@@ -548,6 +549,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     }
     /** Function to create modal for creating department */
     CreateDepartment( template:  TemplateRef<any>) {
+        this.CreateDepSuccess = false;
         this.dep.agents = [];
         this.dep.userId = this.widget.userId;
         this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.widget.userId}));
@@ -556,6 +558,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
     /** function to create a department */
     onCreateDep(form) {
+        this.CreateDepSuccess = true;
         this.store.dispatch(new DepartmentActions.AddDepartmentAttempt(form.value));
         this.bsModalRef.hide();
     }
