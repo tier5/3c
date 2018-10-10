@@ -3100,7 +3100,6 @@ var initialState = {
     info: null,
     list: [],
     toEdit: {},
-    //resetAgentForm: false,
     comapnyList: [],
     blockAgent: false,
     unblockAgent: false,
@@ -3110,9 +3109,7 @@ function agentReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["b" /* ADD_AGENT_SUCCESS */]):
-            return __assign({}, state, { list: state.list.concat([action.payload]), 
-                //resetAgentForm: true,
-                newAgentInfo: action.payload });
+            return __assign({}, state, { list: state.list.concat([action.payload]), newAgentInfo: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* EDIT_AGENT_SUCCESS */]):
@@ -3121,7 +3118,7 @@ function agentReducer(state, action) {
             var updatedAgent = __assign({}, someAgent, action.payload);
             var admins = state.list.slice();
             admins[index] = updatedAgent;
-            return __assign({}, state, { list: state.list.concat(admins) });
+            return __assign({}, state, { list: admins.slice() });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["v" /* GET_TO_EDIT_AGENT_SUCCESS */]):
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["A" /* RESET_AGENT_FORM */]):
