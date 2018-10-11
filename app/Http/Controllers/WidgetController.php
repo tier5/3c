@@ -449,6 +449,7 @@ class WidgetController extends Controller
      */
     public function updateWidgets(Request $request)
     {
+        
         $widgetId = $request->id;
         $widgetWebsite = $request->website;
         $widgetScheduleTimeZone = $request->scheduleTimezone;
@@ -461,6 +462,9 @@ class WidgetController extends Controller
         $userId = $request->userId;
         $token = $request->token;
         $transferTimeout = $request->transferTimeout;
+        $areaCode = $request->areaCode;
+        $numberContains = $request->numberContains;
+
         if (!preg_match("/^(?(?=\d{2})(?:2[0-3]|[01][0-9])|[0-9]):[0-5][0-9]$/", $transferTimeout)) {
             return $response = json_encode(array('code' => 400, 'error' => true, 'response' => null, 'status' => false, 'message' => 'Transfer Time out format is not matching !'));
         }
@@ -508,6 +512,8 @@ class WidgetController extends Controller
             $checkWidget->schedule_timezone = $widgetScheduleTimeZone;
             $checkWidget->details = $widgetDetails;
             $checkWidget->transfer_timeout = $transferTimeout;
+            $checkWidget->area_code = $areaCode;
+            $checkWidget->number_contains = $numberContains;
             if ($imagePath != '') {
                 $checkWidget->image = $imagePath;
             } else {
