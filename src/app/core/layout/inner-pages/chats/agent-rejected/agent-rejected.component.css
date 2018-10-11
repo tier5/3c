@@ -229,6 +229,11 @@ ul.super-sub li:hover{background: #e1e3e9;}
   width: 100%;
   padding-top: 5px;
 }
+.headerSearch {
+  display: inline-block;
+  width: 100%;
+}
+
 
 @media screen and (max-width: 991px){
   .chat-list2 ul li{

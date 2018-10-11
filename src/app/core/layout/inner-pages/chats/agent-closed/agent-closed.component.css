@@ -216,7 +216,10 @@ ul.super-sub li:hover{background: #e1e3e9;}
 }
 .messageHeading{
   text-align: center;
-  margin-top: -50px;
+  margin-top: -15px;
+}
+.messageHeading h3{
+  padding-top: 10px;
 }
 .chat-list2 ul li .chat-content h3{
   margin: 5px 0 0 0;
@@ -228,6 +231,12 @@ ul.super-sub li:hover{background: #e1e3e9;}
   width: 100%;
   padding-top: 5px;
 }
+
+.headerSearch {
+  display: inline-block;
+  width: 100%;
+}
+
 
 @media screen and (max-width: 991px){
   .chat-list2 ul li{
