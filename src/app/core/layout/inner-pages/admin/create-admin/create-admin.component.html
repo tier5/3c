@@ -69,7 +69,7 @@
                            email
                            required
                            placeholder="email"
-                           pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                           pattern="^([a-zA-Z0-9_\-\.\+]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                     >
                     <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.pattern" class="help-block">Please Enter a Proper Email Address!</span>
                     <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required" class="help-block">Your Email Address is Required!</span>
