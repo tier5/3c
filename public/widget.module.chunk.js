@@ -508,7 +508,7 @@ var CreateWidgetComponent = (function () {
         this.CreateDepSuccess = false;
         this.dep.agents = [];
         this.dep.userId = this.widget.userId;
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_10__store_agent_agent_actions__["w" /* GetAdminAgentListAttempt */]({ userId: this.widget.userId }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_10__store_agent_agent_actions__["z" /* GetAdminAgentListAttempt */]({ userId: this.widget.userId }));
         this.bsModalRef = this.modalService.show(template);
     };
     /** function to create a department */
@@ -885,7 +885,7 @@ var ListWidgetComponent = (function () {
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isSuperAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["y" /* GetCompanyListAttempt */]({ userId: data.token }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__store_agent_agent_actions__["B" /* GetCompanyListAttempt */]({ userId: data.token }));
             }
         });
         /* Company List droupdown */

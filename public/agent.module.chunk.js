@@ -376,7 +376,7 @@ var CreateAgentComponent = (function () {
                 /** Perform operation is present mode is edit mode */
                 _this.selectDept = true;
                 _this.userId = _this.activatedRoute.snapshot.params['id'];
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["z" /* GetToEditAgentAttempt */]({ agentId: _this.userId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["C" /* GetToEditAgentAttempt */]({ agentId: _this.userId }));
                 _this.selectAdmin = true;
             }
             else {
@@ -434,7 +434,6 @@ var CreateAgentComponent = (function () {
             .subscribe(function (data) {
             if (data) {
                 if (data.newDepartmentId > 0 && _this.createDeptSuccess) {
-                    console.log(data);
                     var oldArray = _this.agent.departmentId;
                     var newObj_1 = [{ id: data.newDepartmentId, department_name: data.newDepartmentName }];
                     var fIndex_1 = -1;
@@ -475,13 +474,11 @@ var CreateAgentComponent = (function () {
     CreateAgentComponent.prototype.onCreateAgent = function (form) {
         if (this.editMode) {
             var data = __assign({}, form.value, { userId: this.userId });
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["n" /* EditAgentAttempt */](__assign({}, data)));
-            this.router.navigate(['/agent/list']);
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["q" /* EditAgentAttempt */](__assign({}, data)));
         }
         else {
             /** Create Agent */
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["i" /* AddAgentAttempt */](form.value));
-            this.router.navigate(['/agent/list']);
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_agent_agent_actions__["m" /* CreateAgentAttempt */](form.value));
         }
     };
     /** Un-subscribing from all custom made events when component is destroyed */
@@ -623,21 +620,20 @@ var ListAgentComponent = (function () {
     /** Function to be executed when component initializes */
     ListAgentComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["x" /* GetAgentListAttempt */]());
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["A" /* GetAgentListAttempt */]());
         this.authState = this.store.select('auth');
         this.page = 1;
         this.companySearch = '';
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isSuperAdmin) {
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["y" /* GetCompanyListAttempt */]({ userId: data.token }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["B" /* GetCompanyListAttempt */]({ userId: data.token }));
             }
         });
         /* Company List droupdown */
         this.agentListSubscription = this.store.select('afterLogin', 'agent', 'list')
             .filter(function (response) { return response !== undefined && response.length > 0; })
             .subscribe(function (data) {
-            console.log(data);
             _this.agentList = data;
         });
         this.companySubscription = this.store.select('afterLogin', 'agent', 'comapnyList')
@@ -676,7 +672,7 @@ var ListAgentComponent = (function () {
      * @constructor
      */
     ListAgentComponent.prototype.UnblockUser = function (user_id) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["B" /* UnblockAgentAttempt */]({ userId: user_id }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["E" /* UnblockAgentAttempt */]({ userId: user_id }));
     };
     /**
      * Delete a agent
@@ -695,7 +691,7 @@ var ListAgentComponent = (function () {
             confirmButtonText: 'Yes'
         }).then(function (result) {
             if (result) {
-                that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["k" /* DeleteAgentAttempt */]({ userId: user_id }));
+                that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_agent_agent_actions__["n" /* DeleteAgentAttempt */]({ userId: user_id }));
             }
         }, function (dismiss) {
             // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'

@@ -2435,17 +2435,19 @@ function agentChatReducer(state, action) {
 /* unused harmony export GET_AGENT_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_AGENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return RESET_AGENT_FORM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_COMPANY_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GET_COMPANY_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return CREATE_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return CREATE_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GET_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GET_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "D", function() { return RESET_AGENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return GET_TO_EDIT_AGENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return GET_TO_EDIT_AGENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_ADMIN_AGENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GET_ADMIN_AGENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return GET_COMPANY_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GET_COMPANY_LIST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AGENT_BLOCK_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return AGENT_BLOCK_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return AGENT_UNBLOCK_ATTEMPT; });
@@ -2456,27 +2458,31 @@ function agentChatReducer(state, action) {
 /* unused harmony export GetAgentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return AddAgentAttempt; });
 /* unused harmony export AddAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return EditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return CreateAgentAttempt; });
+/* unused harmony export CreateAgentSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return EditAgentAttempt; });
 /* unused harmony export EditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return GetAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return GetAgentListAttempt; });
 /* unused harmony export GetAgentListSuccess */
 /* unused harmony export ResetAgentForm */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return GetToEditAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return GetToEditAgentAttempt; });
 /* unused harmony export GetToEditAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return GetAdminAgentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return GetAdminAgentListAttempt; });
 /* unused harmony export GetAdminAgentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return GetCompanyListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return GetCompanyListAttempt; });
 /* unused harmony export GetCompanyListSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return BlockAgentAttempt; });
 /* unused harmony export BlockAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return UnblockAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return UnblockAgentAttempt; });
 /* unused harmony export UnblockAgentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return DeleteAgentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return DeleteAgentAttempt; });
 /* unused harmony export DeleteAgentSuccess */
 var GET_AGENT_ATTEMPT = 'GET_AGENT_ATTEMPT';
 var GET_AGENT_SUCCESS = 'GET_AGENT_SUCCESS';
 var ADD_AGENT_ATTEMPT = 'ADD_AGENT_ATTEMPT';
 var ADD_AGENT_SUCCESS = 'ADD_AGENT_SUCCESS';
+var CREATE_AGENT_ATTEMPT = 'CREATE_AGENT_ATTEMPT';
+var CREATE_AGENT_SUCCESS = 'CREATE_AGENT_SUCCESS';
 var EDIT_AGENT_ATTEMPT = 'EDIT_AGENT_ATTEMPT';
 var EDIT_AGENT_SUCCESS = 'EDIT_AGENT_SUCCESS';
 var GET_AGENT_LIST_ATTEMPT = 'GET_AGENT_LIST_ATTEMPT';
@@ -2523,6 +2529,22 @@ var AddAgentSuccess = (function () {
         this.type = ADD_AGENT_SUCCESS;
     }
     return AddAgentSuccess;
+}());
+
+var CreateAgentAttempt = (function () {
+    function CreateAgentAttempt(payload) {
+        this.payload = payload;
+        this.type = CREATE_AGENT_ATTEMPT;
+    }
+    return CreateAgentAttempt;
+}());
+
+var CreateAgentSuccess = (function () {
+    function CreateAgentSuccess(payload) {
+        this.payload = payload;
+        this.type = CREATE_AGENT_SUCCESS;
+    }
+    return CreateAgentSuccess;
 }());
 
 var EditAgentAttempt = (function () {
@@ -2681,6 +2703,7 @@ var DeleteAgentSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2703,12 +2726,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AgentEffects = (function () {
-    function AgentEffects(actions$, httpClient, spinnerService) {
+    function AgentEffects(actions$, httpClient, spinnerService, router) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.spinnerService = spinnerService;
+        this.router = router;
         this.addAdmin = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["a" /* ADD_AGENT_ATTEMPT */])
             .switchMap(function (action) {
@@ -2750,8 +2775,50 @@ var AgentEffects = (function () {
                 });
             });
         });
+        this.createAgent = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["k" /* CREATE_AGENT_ATTEMPT */])
+            .switchMap(function (action) {
+            _this.spinnerService.show();
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-register';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                _this.spinnerService.hide();
+                if (res.status) {
+                    _this.router.navigate(['/agent/list']);
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* CREATE_AGENT_SUCCESS */],
+                            payload: res.response
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                _this.spinnerService.hide();
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.error, type: 'danger' }
+                });
+            });
+        });
         this.getAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["q" /* GET_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["t" /* GET_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'listofAgent';
@@ -2764,7 +2831,7 @@ var AgentEffects = (function () {
                 _this.spinnerService.hide();
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["u" /* GET_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2784,7 +2851,7 @@ var AgentEffects = (function () {
             });
         });
         this.editAgent = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["l" /* EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["o" /* EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'agent-update';
@@ -2796,9 +2863,10 @@ var AgentEffects = (function () {
                 .mergeMap(function (res) {
                 _this.spinnerService.hide();
                 if (res.status) {
+                    _this.router.navigate(['/agent/list']);
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["m" /* EDIT_AGENT_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["p" /* EDIT_AGENT_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -2825,7 +2893,7 @@ var AgentEffects = (function () {
             });
         });
         this.getToEditDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["u" /* GET_TO_EDIT_AGENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["x" /* GET_TO_EDIT_AGENT_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-agent';
@@ -2837,7 +2905,7 @@ var AgentEffects = (function () {
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["v" /* GET_TO_EDIT_AGENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["y" /* GET_TO_EDIT_AGENT_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -2850,7 +2918,7 @@ var AgentEffects = (function () {
             });
         });
         this.getAdminAgentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["o" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["r" /* GET_ADMIN_AGENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-admin-agents';
@@ -2863,7 +2931,7 @@ var AgentEffects = (function () {
                 _this.spinnerService.hide();
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["p" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["s" /* GET_ADMIN_AGENT_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -2883,7 +2951,7 @@ var AgentEffects = (function () {
             });
         });
         this.getCompanyList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["s" /* GET_COMPANY_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__agent_actions__["v" /* GET_COMPANY_LIST_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'get-company-list';
@@ -2896,7 +2964,7 @@ var AgentEffects = (function () {
                 _this.spinnerService.hide();
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["t" /* GET_COMPANY_LIST_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__agent_actions__["w" /* GET_COMPANY_LIST_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -3048,6 +3116,10 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
+], AgentEffects.prototype, "createAgent", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
 ], AgentEffects.prototype, "getAgentList", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
@@ -3079,10 +3151,10 @@ __decorate([
 ], AgentEffects.prototype, "deleteAgent", void 0);
 AgentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */]) === "function" && _d || Object])
 ], AgentEffects);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=agent.effect.js.map
 
 /***/ }),
@@ -3120,24 +3192,26 @@ function agentReducer(state, action) {
             return __assign({}, state, { 
                 // list: [...state.list, action.payload],
                 newAgentInfo: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["q" /* GET_AGENT_LIST_ATTEMPT */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["l" /* CREATE_AGENT_SUCCESS */]):
+            return __assign({}, state);
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["t" /* GET_AGENT_LIST_ATTEMPT */]):
             return __assign({}, state, { list: [] });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["r" /* GET_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["u" /* GET_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["m" /* EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["p" /* EDIT_AGENT_SUCCESS */]):
             var index = state.list.indexOf(function (agent) { return agent.id === action.payload.id; });
             var someAgent = state.list[index];
             var updatedAgent = __assign({}, someAgent, action.payload);
             var admins = state.list.slice();
             admins[index] = updatedAgent;
             return __assign({}, state, { list: admins.slice() });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["v" /* GET_TO_EDIT_AGENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["y" /* GET_TO_EDIT_AGENT_SUCCESS */]):
             return __assign({}, state, { toEdit: __assign({}, action.payload) });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["A" /* RESET_AGENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["D" /* RESET_AGENT_FORM */]):
             return __assign({}, state);
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["p" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["s" /* GET_ADMIN_AGENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
-        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["t" /* GET_COMPANY_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["w" /* GET_COMPANY_LIST_SUCCESS */]):
             return __assign({}, state, { comapnyList: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__agent_actions__["d" /* AGENT_BLOCK_SUCCESS */]):
             var unblockIndex = state.list.findIndex(function (admin) { return admin.id === action.payload.id; });
