@@ -60,8 +60,7 @@ export class ListAgentComponent implements OnInit, OnDestroy {
       .filter((response) => response !== undefined && response.length > 0)
       .subscribe(
       (data) => {
-            console.log(data);
-            this.agentList = data;
+        this.agentList = data;
       }
     );
     this.companySubscription = this.store.select('afterLogin', 'agent', 'comapnyList')

@@ -6,6 +6,9 @@ export const GET_AGENT_SUCCESS = 'GET_AGENT_SUCCESS';
 export const ADD_AGENT_ATTEMPT = 'ADD_AGENT_ATTEMPT';
 export const ADD_AGENT_SUCCESS = 'ADD_AGENT_SUCCESS';
 
+export const CREATE_AGENT_ATTEMPT = 'CREATE_AGENT_ATTEMPT';
+export const CREATE_AGENT_SUCCESS = 'CREATE_AGENT_SUCCESS';
+
 export const EDIT_AGENT_ATTEMPT = 'EDIT_AGENT_ATTEMPT';
 export const EDIT_AGENT_SUCCESS = 'EDIT_AGENT_SUCCESS';
 
@@ -48,6 +51,16 @@ export class AddAgentAttempt implements Action {
 
 export class AddAgentSuccess implements Action {
   readonly type = ADD_AGENT_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+export class CreateAgentAttempt implements Action {
+  readonly type = CREATE_AGENT_ATTEMPT;
+  constructor(public payload: { firstName: string, lastName: string, phone: string }) { }
+}
+
+export class CreateAgentSuccess implements Action {
+  readonly type = CREATE_AGENT_SUCCESS;
   constructor(public payload: any) { }
 }
 
@@ -143,4 +156,4 @@ export type AgentActions = ResetAgentForm |
   GetToEditAgentAttempt | GetToEditAgentSuccess | GetAdminAgentListAttempt |
   GetAdminAgentListSuccess | GetCompanyListAttempt | GetCompanyListSuccess |
   BlockAgentAttempt | BlockAgentSuccess | UnblockAgentAttempt | UnblockAgentSuccess |
-  DeleteAgentAttempt | DeleteAgentSuccess;
+  DeleteAgentAttempt | DeleteAgentSuccess | CreateAgentAttempt | CreateAgentSuccess;

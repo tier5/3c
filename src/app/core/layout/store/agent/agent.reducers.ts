@@ -33,6 +33,10 @@ export function agentReducer(state = initialState, action: AgentActions.AgentAct
         // list: [...state.list, action.payload],
         newAgentInfo: action.payload
       };
+    case (AgentActions.CREATE_AGENT_SUCCESS):
+      return {
+        ...state,
+      };
     case (AgentActions.GET_AGENT_LIST_ATTEMPT):
       return {
         ...state,

@@ -16,13 +16,15 @@ import {GET_COMPANY_LIST_ATTEMPT} from './agent.actions';
 import {GET_COMPANY_LIST_SUCCESS} from './agent.actions';
 import * as AdminActions from '../admin/admin.actions';
 import {SpinnerService} from '../../../shared/spinner';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AgentEffects {
 
   constructor (private actions$: Actions,
                private httpClient: HttpClient,
-               private spinnerService: SpinnerService) {}
+               private spinnerService: SpinnerService,
+               private router: Router) {}
 
   @Effect()
   addAdmin = this.actions$
@@ -41,6 +43,51 @@ export class AgentEffects {
             return [
               {
                 type: AgentActions.ADD_AGENT_SUCCESS,
+                payload: res.response
+              },
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'success'}
+              }
+            ];
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: {message: res.message, type: 'danger'}
+              }
+            ];
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: {message: err.error, type: 'danger'}
+            }
+          );
+        });
+    });
+
+  @Effect()
+  createAgent = this.actions$
+    .ofType(AgentActions.CREATE_AGENT_ATTEMPT)
+    .switchMap((action: AgentActions.CreateAgentAttempt) => {
+      this.spinnerService.show();
+      const apiUrl = environment.API_BASE_URL + 'agent-register';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+      const config = {
+        headers: headers
+      };
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .mergeMap((res: any) => {
+          this.spinnerService.hide();
+          if (res.status) {
+            this.router.navigate(['/agent/list']);
+            return [
+              {
+                type: AgentActions.CREATE_AGENT_SUCCESS,
                 payload: res.response
               },
               {
@@ -119,6 +166,7 @@ export class AgentEffects {
         .mergeMap((res: any) => {
           this.spinnerService.hide();
           if (res.status) {
+            this.router.navigate(['/agent/list']);
             return [
               {
                 type: AgentActions.EDIT_AGENT_SUCCESS,

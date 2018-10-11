@@ -178,7 +178,6 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
           (data) => {
             if (data) {
               if (data.newDepartmentId > 0 && this.createDeptSuccess) {
-                console.log(data);
                 const oldArray = this.agent.departmentId;
                 const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
                 let fIndex: any = -1;
@@ -227,11 +226,9 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       if (this.editMode) {
         const data = { ...form.value, userId: this.userId };
         this.store.dispatch(new AgentActions.EditAgentAttempt({...data}));
-        this.router.navigate(['/agent/list']);
       } else {
           /** Create Agent */
-        this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
-        this.router.navigate(['/agent/list']);
+        this.store.dispatch(new AgentActions.CreateAgentAttempt(form.value));
       }
     }
 
