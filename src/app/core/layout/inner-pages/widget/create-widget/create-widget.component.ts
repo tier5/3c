@@ -354,7 +354,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
     /** Function call to create or edit a admin */
     onSubmit(form: NgForm) {
-        this.loader = true;
+        this.loader = false;
         for (const departmentId in form.value.departmentIdArray) {
             this.departmentArrayId.push(form.value.departmentIdArray[departmentId].id);
         }
@@ -395,7 +395,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formDataEdit.append('satEndTime', form.value.satEndTime);
             formDataEdit.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.EditWidgetAttempt(formDataEdit));
-            this.router.navigate(['/widget/list']);
         } else {
             const formData = new FormData();
             formData.append('image', this.postedImage);
@@ -430,7 +429,6 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formData.append('satEndTime', form.value.satEndTime);
             formData.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new WidgetActions.AddWidgetAttempt(formData));
-          this.router.navigate(['/widget/list']);
         }
         this.isBuyNumber = false;
     }

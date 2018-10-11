@@ -13,11 +13,13 @@ import * as WidgetActions from './widget.actions';
 import { environment } from '../../../../../environments/environment';
 import * as AgentActions from '../agent/agent.actions';
 import {SpinnerService} from '../../../shared/spinner';
+import {Router} from '@angular/router';
 @Injectable()
 export class WidgetEffects {
   constructor (private actions$: Actions,
                private httpClient: HttpClient,
-               private spinnerService: SpinnerService) {}
+               private spinnerService: SpinnerService,
+               private router: Router) {}
 
   @Effect()
   getTimezoneList = this.actions$
@@ -70,6 +72,7 @@ export class WidgetEffects {
         .mergeMap((res: any) => {
           this.spinnerService.hide();
           if (res.status) {
+            this.router.navigate(['/widget/list']);
             return [
               {
                 type: WidgetActions.ADD_WIDGET_SUCCESS,
@@ -143,6 +146,7 @@ export class WidgetEffects {
         .mergeMap((res: any) => {
           this.spinnerService.hide();
           if (res.status) {
+            this.router.navigate(['/widget/list']);
             return [
               {
                 type: WidgetActions.EDIT_WIDGET_SUCCESS,
