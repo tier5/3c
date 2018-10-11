@@ -205,6 +205,7 @@
                                      email
                                      required
                                      placeholder="email"
+                                     pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                               >
                               <div class="row filterSubmit">
                                   <label class="switch">
@@ -213,7 +214,7 @@
                                   </label>
                               </div>
 
-                              <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.email"
+                              <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.pattern"
                                     class="help-block">Please Enter a Proper Email Address!</span>
                               <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required"
                                     class="help-block">Your Email Address is Required!</span>
@@ -236,6 +237,8 @@
                                          required
                                          ngModel
                                          #phone="ngModel"
+                                         [minlength]="14"
+                                         [maxlength]="14"
                                   >
                                   <div class="row filterSubmit">
                                       <label class="switch">
@@ -243,8 +246,10 @@
                                           <span class="sliderPhone"></span>
                                       </label>
                                   </div>
-                                  <span *ngIf="phone.invalid && phone.touched"
+                                  <span *ngIf="phone.invalid && phone.touched && phone.required"
                                         class="help-block">Your Phone Number is Required !</span>
+                                <span *ngIf="phone.invalid && phone.touched && ( form.controls.phone?.errors.minlength || form.controls.phone?.errors.maxlength )"
+                                      class="help-block">Your Phone Number Should be always 10 digit!</span>
                               </div>
                           </div>
                       </div>

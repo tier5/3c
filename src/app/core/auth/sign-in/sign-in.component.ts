@@ -14,10 +14,17 @@ export class SignInComponent {
 
   /** Service injection */
   constructor(private store: Store<fromApp.AppState>) { }
-
+  isError: boolean = false;
   /** Function to submit the sign in form */
   onSignIn(form: NgForm) {
-    this.store.dispatch(new AuthActions.SignInAttempt(form.value));
+    if (form.value.email !== '' && form.value.password !== '') {
+      this.store.dispatch(new AuthActions.SignInAttempt(form.value));
+    } else {
+      this.isError = true;
+    }
   }
-
+  /** Check error message **/
+  isErrorChange() {
+    this.isError = false;
+  }
 }
