@@ -69,8 +69,9 @@
                            email
                            required
                            placeholder="email"
+                           pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                     >
-                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.email" class="help-block">Please Enter a Proper Email Address!</span>
+                    <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.pattern" class="help-block">Please Enter a Proper Email Address!</span>
                     <span *ngIf="email.invalid && email.touched && form.controls.email?.errors.required" class="help-block">Your Email Address is Required!</span>
                   </div>
                 </div>
@@ -122,8 +123,12 @@
                            required
                            ngModel
                            #phone="ngModel"
+                           [minlength]="14"
+                           [maxlength]="14"
                     >
-                    <span *ngIf="phone.invalid && phone.touched" class="help-block">Your Phone Number is Required !</span>
+                    <span *ngIf="phone.invalid && phone.touched && phone.required" class="help-block">Your Phone Number is Required !</span>
+                    <span *ngIf="phone.invalid && phone.touched && ( form.controls.phone?.errors.minlength || form.controls.phone?.errors.maxlength )"
+                          class="help-block">Your Phone Number Should be always 10 digit!</span>
                   </div>
                 </div>
                 <div class="col-md-6" *ngIf="editMode">
