@@ -5357,6 +5357,7 @@ var DeleteWidgetSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__widget_actions__ = __webpack_require__("../../../../../src/app/core/layout/store/widget/widget.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5379,12 +5380,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var WidgetEffects = (function () {
-    function WidgetEffects(actions$, httpClient, spinnerService) {
+    function WidgetEffects(actions$, httpClient, spinnerService, router) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.spinnerService = spinnerService;
+        this.router = router;
         this.getTimezoneList = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_10__widget_actions__["k" /* GET_TIMEZONE_LIST_ATTEMPT */])
             .switchMap(function (action) {
@@ -5431,6 +5434,7 @@ var WidgetEffects = (function () {
                 .mergeMap(function (res) {
                 _this.spinnerService.hide();
                 if (res.status) {
+                    _this.router.navigate(['/widget/list']);
                     return [
                         {
                             type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["b" /* ADD_WIDGET_SUCCESS */],
@@ -5497,6 +5501,7 @@ var WidgetEffects = (function () {
                 .mergeMap(function (res) {
                 _this.spinnerService.hide();
                 if (res.status) {
+                    _this.router.navigate(['/widget/list']);
                     return [
                         {
                             type: __WEBPACK_IMPORTED_MODULE_10__widget_actions__["f" /* EDIT_WIDGET_SUCCESS */],
@@ -5663,10 +5668,10 @@ __decorate([
 ], WidgetEffects.prototype, "deleteWidget", void 0);
 WidgetEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */]) === "function" && _d || Object])
 ], WidgetEffects);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=widget.effect.js.map
 
 /***/ }),

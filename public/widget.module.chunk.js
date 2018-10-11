@@ -321,7 +321,7 @@ var CreateWidgetComponent = (function () {
     };
     /** Function call to create or edit a admin */
     CreateWidgetComponent.prototype.onSubmit = function (form) {
-        this.loader = true;
+        this.loader = false;
         for (var departmentId in form.value.departmentIdArray) {
             this.departmentArrayId.push(form.value.departmentIdArray[departmentId].id);
         }
@@ -362,7 +362,6 @@ var CreateWidgetComponent = (function () {
             formDataEdit.append('satEndTime', form.value.satEndTime);
             formDataEdit.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["g" /* EditWidgetAttempt */](formDataEdit));
-            this.router.navigate(['/widget/list']);
         }
         else {
             var formData = new FormData();
@@ -398,7 +397,6 @@ var CreateWidgetComponent = (function () {
             formData.append('satEndTime', form.value.satEndTime);
             formData.append('transferTimeout', form.value.timeout);
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_widget_widget_actions__["c" /* AddWidgetAttempt */](formData));
-            this.router.navigate(['/widget/list']);
         }
         this.isBuyNumber = false;
     };
