@@ -368,6 +368,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             formDataEdit.append('details', form.value.details);
             formDataEdit.append('scheduleTimezone', form.value.scheduleTimezone);
             formDataEdit.append('areaCode', form.value.areaCode);
+            formDataEdit.append('numberContains', form.value.contains);
             formDataEdit.append('daysArray', <any>this.widget.daysArray);
             formDataEdit.append('startTime', form.value.startTime);
             formDataEdit.append('endTime', form.value.endTime);
