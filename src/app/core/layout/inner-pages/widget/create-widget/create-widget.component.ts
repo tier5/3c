@@ -142,6 +142,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     checkSat: boolean;
     selectAll:boolean = false;
     CreateDepSuccess:boolean = false;
+    limitSettingError:boolean = false;
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -358,6 +359,10 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         for (const departmentId in form.value.departmentIdArray) {
             this.departmentArrayId.push(form.value.departmentIdArray[departmentId].id);
         }
+        if(this.checkSun == false || this.checkMon == false || this.checkTue == false || this.checkWed == false || this.checkThu == false || this.checkFri == false || this.checkSat == false || this.checkSun == undefined || this.checkMon == undefined || this.checkTue == undefined || this.checkWed == undefined || this.checkThu == undefined || this.checkFri == undefined || this.checkSat == undefined){
+            this.limitSettingError = true;
+            return false;
+        }
         if (this.editMode) {
             const formDataEdit = new FormData();
             formDataEdit.append('id', <string><any>this.widget.id);
@@ -566,24 +571,31 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     OpenTimer(value: number){
         if (value == 1){
             this.checkSun = !this.checkSun;
+            this.limitSettingError = false;
         }
         if (value == 2){
             this.checkMon = !this.checkMon;
+            this.limitSettingError = false;
         }
         if (value == 3){
             this.checkTue = !this.checkTue;
+            this.limitSettingError = false;
         }
         if (value == 4){
             this.checkWed = !this.checkWed;
+            this.limitSettingError = false;
         }
         if (value == 5){
             this.checkThu = !this.checkThu;
+            this.limitSettingError = false;
         }
         if (value == 6){
             this.checkFri = !this.checkFri;
+            this.limitSettingError = false;
         }
         if (value == 7){
             this.checkSat = !this.checkSat;
+            this.limitSettingError = false;
         }
     }
     /** Function to open start time piker */
@@ -789,6 +801,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     makeItAvailable(){
         this.selectAll = !this.selectAll;
         if(this.selectAll && this.checkSun == undefined || this.checkSun == false || this.checkMon == false || this.checkMon == undefined || this.checkTue == false || this.checkTue == undefined || this.checkWed == false || this.checkWed == undefined || this.checkThu == false || this.checkFri == false || this.checkSat == false) {
+            this.limitSettingError = false;
             this.widget.sunCbk.startTime = '00:00';
             this.widget.sunCbk.endTime = '23:59';
             this.checkSun = true;
@@ -811,6 +824,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.widget.satCbk.endTime = '23:59';
             this.checkSat = true;
         }else if(this.selectAll && this.checkSun == true || this.checkMon == true || this.checkTue == true || this.checkWed == true || this.checkThu == true || this.checkFri == true || this.checkSat == true){
+            this.limitSettingError = true;
             this.checkSun = false;
             this.checkMon = false;
             this.checkTue = false;
@@ -819,6 +833,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.checkFri = false;
             this.checkSat = false;
         } else {
+            this.limitSettingError = true;
             this.checkSun = false;
             this.checkMon = false;
             this.checkTue = false;

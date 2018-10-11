@@ -44,7 +44,7 @@ export class AgentSearchPipe implements PipeTransform {
               }
             }
           } else {
-            return el.get_company.company.toLowerCase() === companyLower;
+                  return el.get_company.company.toLowerCase() === companyLower;
           }
         }
       } else if (companySearch === '' && term !== undefined) {

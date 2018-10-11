@@ -29,6 +29,9 @@
                 <div class="col-md-6" [hidden]="(authState | async).isAdmin">
                   <div class="form-group autoListArea">
                     <label class="control-label" for="admin">
+                      <!--<i *ngIf="adminName.invalid && adminName.touched"-->
+                         <!--class="fa fa-times-circle-o">-->
+                      <!--</i>-->
                       Admin for Widget
                     </label>
 
@@ -36,7 +39,7 @@
 
                     <ng-template #thenTemplateName>
                       <input type="text" class="form-control"
-                             name="adminName" autocomplete="off" readonly [value]="(authState | async).name" #selectedAdminList>
+                            name="adminName" autocomplete="off" readonly [value]="(authState | async).name" #selectedAdminList>
                     </ng-template>
 
                     <ng-template #elseTemplateName>
@@ -53,22 +56,7 @@
                         </li>
                       </ul>
                     </ng-template>
-                    <input type="hidden"  [ngModel]="widget.userId" id="admin" name="userId" #selectedAdmin>
-
-
-                    <!--<select class="form-control"-->
-                    <!--id="admin"-->
-                    <!--name="userId"-->
-                    <!--[disabled]="editMode || (authState | async).isAdmin"-->
-                    <!--#selectedAdmin-->
-                    <!--[ngModel]="widget.userId"-->
-                    <!--(change)="adminChanged(selectedAdmin.value)">-->
-                    <!--<option selected value="0">Choose...</option>-->
-                    <!--<option [value]="item.id"-->
-                    <!--*ngFor="let item of (afterLoginState | async).admin?.list; let i = index">-->
-                    <!--{{item.first_name}} {{item.last_name}}-->
-                    <!--</option>-->
-                    <!--</select> OLD SELECT -->
+                    <input type="hidden" [ngModel]="widget.userId" id="admin" name="userId" #userId="ngModel" #selectedAdmin>
                   </div>
                 </div>
 
@@ -90,16 +78,6 @@
                           </ng-template>
                         </c-badge>
                       </angular2-multiselect>
-                      <!--<select class="form-control"
-                              id="department"
-                              name="departmentIdArray"
-                              #selectedDepartment="ngModel"
-                              [ngModel]="widget.departmentIdArray" multiple>
-                          <option [value]="item.id"
-                                  *ngFor="let item of (afterLoginState | async).department.list">
-                              {{item.department_name}}
-                          </option>
-                      </select>-->
                     </div>
                   </div>
                   <div class="createAgentBtn">
@@ -199,30 +177,38 @@
 
                 <!-- TimeZone -->
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="(selectedTimezone.invalid && selectedTimezone.touched) ? 'has-error': ''">
                     <label class="control-label" for="timezone">
+                      <i *ngIf="selectedTimezone.invalid && selectedTimezone.touched"
+                         class="fa fa-times-circle-o">
+                      </i>
                       Timezone
                     </label>
                     <select class="form-control"
                             id="timezone"
                             name="scheduleTimezone"
-                      #selectedTimezone
+                            #selectedTimezone="ngModel"
                             required
                       [ngModel]="widget.scheduleTimezone"
                     >
-                      <option selected value="0">Choose...</option>
+                      <option selected value="">Choose...</option>
                       <option [value]="item.id"
                         *ngFor="let item of (afterLoginState | async).widget?.timezoneList; let i = index"
                       >
                         {{item.timezone_name}}
                       </option>
                     </select>
+                    <span *ngIf="selectedTimezone.invalid && selectedTimezone.touched"
+                          class="help-block">Widget Timezone is Required !</span>
                   </div>
                 </div>
 
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group"  [ngClass]="(transferTimeout.invalid && transferTimeout.touched) ? 'has-error': ''">
                     <label class="control-label" for="timeout">
+                      <i *ngIf="transferTimeout.invalid && transferTimeout.touched"
+                         class="fa fa-times-circle-o">
+                      </i>
                       Transfer Timeout
                     </label>
                     <input type="text"
@@ -231,8 +217,9 @@
                            name="timeout"
                       [ngModel]="widget.transferTimeout"
                       #transferTimeout="ngModel"
-                           placeholder="Please put a timout in 00:00 format"
-                    >
+                           placeholder="Please put a timout in 00:00 format" pattern="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$" required>
+                    <span *ngIf="transferTimeout.invalid && transferTimeout.touched && transferTimeout.errors?.pattern" class="help-block">Please put a timout in 00:00 format</span>
+                    <span *ngIf="transferTimeout.invalid && transferTimeout.touched && transferTimeout.errors?.required" class="help-block">Transfer timeout is require</span>
                   </div>
                 </div>
               </div>
@@ -273,8 +260,11 @@
 
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="control-label">Limit setting time & days </label>
+                  <div class="form-group" [ngClass]="limitSettingError ? 'has-error': ''">
+                    <label class="control-label">
+                      <i *ngIf="limitSettingError" class="fa fa-times-circle-o"> </i>
+                      Limit setting time & days </label>
+                    <span *ngIf="limitSettingError" class="help-block">Please select atlist one time limit </span>
                     <!--<div *ngFor="let data of limitArray" id="settings">-->
                     <!--<input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>-->
                     <!--</div>-->
@@ -784,7 +774,7 @@
               <div class="col-md-12">
                 <div class="box-footer">
                   <button
-                    type="button" [disabled]="form.invalid || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode)"
+                    type="button" [disabled]="form.invalid || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode) || widget.userId === 0 || (widget.departmentIdArray !== undefined && widget.departmentIdArray.length == 0) || (widget.departmentIdArray !== undefined && widget.departmentIdArray.length == 0 && editMode) || limitSettingError"
                     class="btn btn-primary pull-right" (click)="onSubmit(form)">
                     <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i>
                     Submit
