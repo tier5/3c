@@ -91,6 +91,9 @@
                                                 </div>-->
                                             </td>
                                         </tr>
+                                        <tr  *ngIf="((afterLoginState | async).widget.list | filter : companySearch: term).length == 0">
+                                            <td> <strong>No data found !</strong></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>

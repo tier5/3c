@@ -33,6 +33,9 @@
                 <td>{{item['email']}}</td>
                 <td>{{item['phone']}}</td>
               </tr>
+                <tr  *ngIf="((chatState | async).contactList | filter : term).length == 0">
+                  <td> <strong>No data found !</strong></td>
+                </tr>
               </tbody>
             </table>
               <div class="row">

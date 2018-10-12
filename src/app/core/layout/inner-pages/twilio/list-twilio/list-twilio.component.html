@@ -48,6 +48,9 @@
                                             <td>{{ item.user_info.type == '1' ? 'Main Account' : 'Subaccount' }}</td>
                                             <td>{{ item.created_at | amUtc | amDateFormat:'MMMM DD YYYY' }}</td>
                                         </tr>
+                                        <tr  *ngIf="((afterLoginState | async).twilio.list | filter : term).length == 0">
+                                            <td> <strong>No data found !</strong></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <div class="row">

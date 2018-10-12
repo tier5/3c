@@ -10,10 +10,10 @@ export class AgentSearchPipe implements PipeTransform {
     if (!items) {
       return [];
     }
-    /*if (!term || !companySearch) {
-      return items;
-    }*/
-    return items.filter(function (el: any) {
+      /*if (!term || !companySearch) {
+        return items;
+      }*/
+      return items.filter(function (el: any) {
       // check for first name
       if (companySearch && companySearch !== '') {
         const companyLower = companySearch.toLowerCase().trim();
