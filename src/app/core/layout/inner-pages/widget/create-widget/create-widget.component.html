@@ -69,7 +69,7 @@
                       </label>
                       <angular2-multiselect
                         id="department" name="departmentIdArray"
-                        [data]="(afterLoginState | async).department.list"
+                        [data]="deptList"
                         [(ngModel)]="widget.departmentIdArray" [settings]="dropdownSettings"
                       >
                         <c-badge>
@@ -177,9 +177,9 @@
 
                 <!-- TimeZone -->
                 <div class="col-md-6">
-                  <div class="form-group" [ngClass]="(selectedTimezone.invalid && selectedTimezone.touched) ? 'has-error': ''">
+                  <div class="form-group" [ngClass]="timeZoneError ? 'has-error': ''">
                     <label class="control-label" for="timezone">
-                      <i *ngIf="selectedTimezone.invalid && selectedTimezone.touched"
+                      <i *ngIf="timeZoneError"
                          class="fa fa-times-circle-o">
                       </i>
                       Timezone
@@ -190,15 +190,15 @@
                             #selectedTimezone="ngModel"
                             required
                       [ngModel]="widget.scheduleTimezone"
-                    >
-                      <option selected value="">Choose...</option>
+                    (change)="checkTimezoneValue($event)">
+                      <option value="0" selected>Choose...</option>
                       <option [value]="item.id"
                         *ngFor="let item of (afterLoginState | async).widget?.timezoneList; let i = index"
                       >
                         {{item.timezone_name}}
                       </option>
                     </select>
-                    <span *ngIf="selectedTimezone.invalid && selectedTimezone.touched"
+                    <span *ngIf="timeZoneError"
                           class="help-block">Widget Timezone is Required !</span>
                   </div>
                 </div>
@@ -260,9 +260,13 @@
 
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="limitSettingError ? 'has-error': ''">
                     <label class="control-label">
+                      <i *ngIf="limitSettingError"
+                         class="fa fa-times-circle-o">
+                      </i>
                       Limit setting time & days </label>
+                    <span *ngIf="limitSettingError" class="help-block">Select atlist one limit setting time & days</span>
                     <!--<div *ngFor="let data of limitArray" id="settings">-->
                     <!--<input type="checkbox" name="daysArray" [checked]="widget.daysArray.indexOf(data) > -1" (change)="onChangeDaysArray(data, $event.target.checked)"> {{data}}<br>-->
                     <!--</div>-->
@@ -772,7 +776,7 @@
               <div class="col-md-12">
                 <div class="box-footer">
                   <button
-                    type="button" [disabled]="form.invalid || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode) || widget.userId === 0 || (widget.departmentIdArray !== undefined && widget.departmentIdArray.length == 0) || (widget.departmentIdArray !== undefined && widget.departmentIdArray.length == 0 && editMode)"
+                    type="button" [disabled]="form.invalid || ( (afterLoginState | async).widget.numbers.length == 0 && !editMode) || widget.userId === 0 || (widget.departmentIdArray !== undefined && widget.departmentIdArray.length == 0) || (widget.departmentIdArray !== undefined && widget.departmentIdArray.length == 0 && editMode) || timeZoneError"
                     class="btn btn-primary pull-right" (click)="onSubmit(form)">
                     <i *ngIf ="loader" class="fa fa-spinner fa-spin"></i>
                     Submit

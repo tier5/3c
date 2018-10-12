@@ -142,6 +142,10 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     checkSat: boolean;
     selectAll:boolean = false;
     CreateDepSuccess:boolean = false;
+    timeZoneError:boolean = false;
+    limitSettingError:boolean = false;
+    deptList = [];
+    changeAdmin: boolean = false;
     /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -273,8 +277,12 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
       this.newAfterLoginSubscription = this.store.select('department')
         .subscribe(
           (data) => {
+              if (this.changeAdmin || this.editMode) {
+                  this.deptList = data.list;
+              } if(!this.changeAdmin && !this.editMode){
+                  this.deptList = data.list;
+              }
             if (data.newDepartmentId > 0 && this.CreateDepSuccess) {
-              console.log(data);
               const oldArray = this.widget.departmentIdArray;
               const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
               let fIndex: any = -1;
@@ -352,16 +360,52 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         this.cdr.detectChanges();
     }
 
+    /** Function to check and remove the error message from Widget timezone */
+    checkTimezoneValue($event){
+        if($event.value == 0){
+            this.timeZoneError = true;
+        }else{
+            this.timeZoneError = false;
+        }
+
+    }
+
     /** Function call to create or edit a admin */
     onSubmit(form: NgForm) {
         this.loader = false;
         for (const departmentId in form.value.departmentIdArray) {
             this.departmentArrayId.push(form.value.departmentIdArray[departmentId].id);
         }
-        // if(this.checkSun == false || this.checkMon == false || this.checkTue == false || this.checkWed == false || this.checkThu == false || this.checkFri == false || this.checkSat == false || this.checkSun == undefined || this.checkMon == undefined || this.checkTue == undefined || this.checkWed == undefined || this.checkThu == undefined || this.checkFri == undefined || this.checkSat == undefined){
-        //     this.limitSettingError = true;
-        //     return false;
-        // }
+        let error = 0;
+        if ( this.checkSun == true ) {
+            error++;
+        }
+         if  ( this.checkMon == true ) {
+             error++;
+         }
+          if  ( this.checkTue == true ) {
+              error++;
+          }
+          if ( this.checkWed == true ) {
+              error++;
+          }
+          if  ( this.checkThu == true ) {
+              error++;
+          }
+          if  ( this.checkFri == true ) {
+              error++;
+          }
+          if  (this.checkSat == true ) {
+              error++;
+          }
+          if(error == 0) {
+            this.limitSettingError = true;
+            return false;
+        }
+        else if( form.value.scheduleTimezone == 0 ){
+            this.timeZoneError = true;
+            return false;
+        }
         if (this.editMode) {
             const formDataEdit = new FormData();
             formDataEdit.append('id', <string><any>this.widget.id);
@@ -475,6 +519,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     /** Function to fetch department list with respect to adminId/userId */
     adminChanged(id: number) {
         if (!!id) {
+            this.changeAdmin = true;
             this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({userId: id}));
         }
     }
@@ -526,6 +571,8 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
         this.adminName = '';
         this.showThis = true;
         this.widget.userId = 0;
+        this.deptList = [];
+        this.widget.departmentIdArray = [];
     }
 
     /**
@@ -568,6 +615,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
 
     /** function to toggle timer */
     OpenTimer(value: number){
+        this.limitSettingError = false;
         if (value == 1){
             this.checkSun = !this.checkSun;
         }
@@ -793,6 +841,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
     makeItAvailable(){
         this.selectAll = !this.selectAll;
         if(this.selectAll && this.checkSun == undefined || this.checkSun == false || this.checkMon == false || this.checkMon == undefined || this.checkTue == false || this.checkTue == undefined || this.checkWed == false || this.checkWed == undefined || this.checkThu == false || this.checkFri == false || this.checkSat == false) {
+            this.limitSettingError = false;
             this.widget.sunCbk.startTime = '00:00';
             this.widget.sunCbk.endTime = '23:59';
             this.checkSun = true;
@@ -815,6 +864,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.widget.satCbk.endTime = '23:59';
             this.checkSat = true;
         }else if(this.selectAll && this.checkSun == true || this.checkMon == true || this.checkTue == true || this.checkWed == true || this.checkThu == true || this.checkFri == true || this.checkSat == true){
+            this.limitSettingError = false;
             this.checkSun = false;
             this.checkMon = false;
             this.checkTue = false;
@@ -823,6 +873,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
             this.checkFri = false;
             this.checkSat = false;
         } else {
+            this.limitSettingError = false;
             this.checkSun = false;
             this.checkMon = false;
             this.checkTue = false;
