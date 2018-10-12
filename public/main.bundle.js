@@ -2135,7 +2135,7 @@ function adminReducer(state, action) {
             var updatedAdmin = __assign({}, someAdmin, action.payload);
             var admins = state.list.slice();
             admins[index] = updatedAdmin;
-            return __assign({}, state, { list: state.list.concat(admins) });
+            return __assign({}, state);
         case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["n" /* GET_ADMIN_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload });
         case (__WEBPACK_IMPORTED_MODULE_0__admin_actions__["s" /* RESET_ADMIN_FORM */]):
@@ -4029,47 +4029,53 @@ function dashboardReducer(state, action) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return RESET_DEPARTMENT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return RESET_DEPARTMENT_FORM; });
 /* unused harmony export GET_DEPARTMENT_ATTEMPT */
 /* unused harmony export GET_DEPARTMENT_SUCCESS */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD_DEPARTMENT_ATTEMPT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return EDIT_DEPARTMENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_DEPARTMENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_AGENT_DEPARTMENT_LIST_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_AGENT_DEPARTMENT_LIST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return RESET_EDIT_DEPARTMENT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return PRE_DELETE_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return PRE_DELETE_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DEPARTMENT_DELETE_ATTEMPT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return DEPARTMENT_DELETE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return CREATE_DEPARTMENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return CREATE_DEPARTMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_DEPARTMENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EDIT_DEPARTMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GET_DEPARTMENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GET_DEPARTMENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_AGENT_DEPARTMENT_LIST_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_AGENT_DEPARTMENT_LIST_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GET_TO_EDIT_DEPARTMENT_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GET_TO_EDIT_DEPARTMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return RESET_EDIT_DEPARTMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return PRE_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return PRE_DELETE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return DEPARTMENT_DELETE_ATTEMPT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DEPARTMENT_DELETE_SUCCESS; });
 /* unused harmony export ResetDepartmentForm */
 /* unused harmony export GetDepartmentAttempt */
 /* unused harmony export GetDepartmentSuccess */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return AddDepartmentAttempt; });
 /* unused harmony export AddDepartmentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EditDepartmentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return CreateDepartmentAttempt; });
+/* unused harmony export CreateDepartmentSuccess */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return EditDepartmentAttempt; });
 /* unused harmony export EditDepartmentSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetDepartmentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return GetDepartmentListAttempt; });
 /* unused harmony export GetDepartmentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetAgentDepartmentListAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return GetAgentDepartmentListAttempt; });
 /* unused harmony export GetAgentDepartmentListSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return GetToEditDepartmentAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return GetToEditDepartmentAttempt; });
 /* unused harmony export GetToEditDepartmentSuccess */
 /* unused harmony export ResetEditDepartment */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return PreDeleteAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return PreDeleteAttempt; });
 /* unused harmony export PreDeleteSuccess */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return DepartmentDeleteAttempt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return DepartmentDeleteAttempt; });
 /* unused harmony export DepartmentDeleteSuccess */
 var RESET_DEPARTMENT_FORM = 'RESET_DEPARTMENT_FORM';
 var GET_DEPARTMENT_ATTEMPT = 'GET_DEPARTMENT_ATTEMPT';
 var GET_DEPARTMENT_SUCCESS = 'GET_DEPARTMENT_SUCCESS';
 var ADD_DEPARTMENT_ATTEMPT = 'ADD_DEPARTMENT_ATTEMPT';
 var ADD_DEPARTMENT_SUCCESS = 'ADD_DEPARTMENT_SUCCESS';
+var CREATE_DEPARTMENT_ATTEMPT = 'CREATE_DEPARTMENT_ATTEMPT';
+var CREATE_DEPARTMENT_SUCCESS = 'CREATE_DEPARTMENT_SUCCESS';
 var EDIT_DEPARTMENT_ATTEMPT = 'EDIT_DEPARTMENT_ATTEMPT';
 var EDIT_DEPARTMENT_SUCCESS = 'EDIT_DEPARTMENT_SUCCESS';
 var GET_DEPARTMENT_LIST_ATTEMPT = 'GET_DEPARTMENT_LIST_ATTEMPT';
@@ -4119,6 +4125,22 @@ var AddDepartmentSuccess = (function () {
         this.type = ADD_DEPARTMENT_SUCCESS;
     }
     return AddDepartmentSuccess;
+}());
+
+var CreateDepartmentAttempt = (function () {
+    function CreateDepartmentAttempt(payload) {
+        this.payload = payload;
+        this.type = CREATE_DEPARTMENT_ATTEMPT;
+    }
+    return CreateDepartmentAttempt;
+}());
+
+var CreateDepartmentSuccess = (function () {
+    function CreateDepartmentSuccess(payload) {
+        this.payload = payload;
+        this.type = CREATE_DEPARTMENT_SUCCESS;
+    }
+    return CreateDepartmentSuccess;
 }());
 
 var EditDepartmentAttempt = (function () {
@@ -4246,6 +4268,7 @@ var DepartmentDeleteSuccess = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__ = __webpack_require__("../../../../../src/app/core/store/alert/alert.actions.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_spinner__ = __webpack_require__("../../../../../src/app/core/shared/spinner/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4268,12 +4291,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var DepartmentEffects = (function () {
-    function DepartmentEffects(actions$, httpClient, spinnerService) {
+    function DepartmentEffects(actions$, httpClient, spinnerService, router) {
         var _this = this;
         this.actions$ = actions$;
         this.httpClient = httpClient;
         this.spinnerService = spinnerService;
+        this.router = router;
         this.addDepartment = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["a" /* ADD_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
@@ -4315,8 +4340,50 @@ var DepartmentEffects = (function () {
                 });
             });
         });
+        this.createDepartment = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["d" /* CREATE_DEPARTMENT_ATTEMPT */])
+            .switchMap(function (action) {
+            _this.spinnerService.show();
+            var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'create-department';
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('X-Requested-With', 'XMLHttpRequest');
+            var config = {
+                headers: headers
+            };
+            return _this.httpClient.post(apiUrl, action.payload, config)
+                .mergeMap(function (res) {
+                _this.spinnerService.hide();
+                if (res.status) {
+                    _this.router.navigate(['/department/list']);
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'success' }
+                        },
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["e" /* CREATE_DEPARTMENT_SUCCESS */],
+                            payload: res.response
+                        }
+                    ];
+                }
+                else {
+                    return [
+                        {
+                            type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                            payload: { message: res.message, type: 'danger' }
+                        }
+                    ];
+                }
+            })
+                .catch(function (err) {
+                _this.spinnerService.hide();
+                return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])({
+                    type: __WEBPACK_IMPORTED_MODULE_10__store_alert_alert_actions__["b" /* ALERT_SHOW */],
+                    payload: { message: err.message, type: 'danger' }
+                });
+            });
+        });
         this.editDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["g" /* EDIT_DEPARTMENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'edit-department';
@@ -4328,9 +4395,10 @@ var DepartmentEffects = (function () {
                 .mergeMap(function (res) {
                 _this.spinnerService.hide();
                 if (res.status) {
+                    _this.router.navigate(['/department/list']);
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["k" /* EDIT_DEPARTMENT_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -4357,7 +4425,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["l" /* GET_DEPARTMENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["o" /* GET_DEPARTMENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'department-list';
@@ -4369,7 +4437,7 @@ var DepartmentEffects = (function () {
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["m" /* GET_DEPARTMENT_LIST_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["p" /* GET_DEPARTMENT_LIST_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -4382,7 +4450,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getAgentDepartmentList = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["j" /* GET_AGENT_DEPARTMENT_LIST_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["m" /* GET_AGENT_DEPARTMENT_LIST_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'user-department-list';
@@ -4394,7 +4462,7 @@ var DepartmentEffects = (function () {
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["k" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["n" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -4407,7 +4475,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.getToEditDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["n" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["q" /* GET_TO_EDIT_DEPARTMENT_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'view-department';
@@ -4419,7 +4487,7 @@ var DepartmentEffects = (function () {
                 .map(function (res) {
                 _this.spinnerService.hide();
                 return {
-                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["o" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
+                    type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["r" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */],
                     payload: res.response
                 };
             })
@@ -4432,7 +4500,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.preDeleteDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["s" /* PRE_DELETE_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["v" /* PRE_DELETE_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'check-pre-delete-department';
@@ -4445,7 +4513,7 @@ var DepartmentEffects = (function () {
                 _this.spinnerService.hide();
                 if (res.status) {
                     return {
-                        type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["t" /* PRE_DELETE_SUCCESS */],
+                        type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["w" /* PRE_DELETE_SUCCESS */],
                         payload: res.response
                     };
                 }
@@ -4467,7 +4535,7 @@ var DepartmentEffects = (function () {
             });
         });
         this.deleteDepartment = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["d" /* DEPARTMENT_DELETE_ATTEMPT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_9__department_department_actions__["g" /* DEPARTMENT_DELETE_ATTEMPT */])
             .switchMap(function (action) {
             _this.spinnerService.show();
             var apiUrl = __WEBPACK_IMPORTED_MODULE_11__environments_environment__["a" /* environment */].API_BASE_URL + 'delete-department';
@@ -4481,7 +4549,7 @@ var DepartmentEffects = (function () {
                 if (res.status) {
                     return [
                         {
-                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["e" /* DEPARTMENT_DELETE_SUCCESS */],
+                            type: __WEBPACK_IMPORTED_MODULE_9__department_department_actions__["h" /* DEPARTMENT_DELETE_SUCCESS */],
                             payload: res.response
                         },
                         {
@@ -4517,6 +4585,10 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", Object)
+], DepartmentEffects.prototype, "createDepartment", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", Object)
 ], DepartmentEffects.prototype, "editDepartment", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["b" /* Effect */])(),
@@ -4540,10 +4612,10 @@ __decorate([
 ], DepartmentEffects.prototype, "deleteDepartment", void 0);
 DepartmentEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__ngrx_effects__["a" /* Actions */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__shared_spinner__["b" /* SpinnerService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__angular_router__["b" /* Router */]) === "function" && _d || Object])
 ], DepartmentEffects);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=department.effects.js.map
 
 /***/ }),
@@ -4579,27 +4651,31 @@ function departmentReducer(state, action) {
             return __assign({}, state, { 
                 // list: [ ...state.list, action.payload ],
                 newDepartmentId: action.payload.id, newDepartmentName: action.payload.department_name, resetDepartmentForm: true });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* EDIT_DEPARTMENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* CREATE_DEPARTMENT_SUCCESS */]):
+            return __assign({}, state);
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["k" /* EDIT_DEPARTMENT_SUCCESS */]):
             var index = state.list.indexOf(function (dep) { return dep.id === action.payload.id; });
             var someDep = state.list[index];
             var updatedDep = __assign({}, someDep, action.payload);
             var deps = state.list.slice();
             deps[index] = updatedDep;
-            return __assign({}, state, { list: state.list.concat(deps), newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["m" /* GET_DEPARTMENT_LIST_SUCCESS */]):
+            return __assign({}, state, { 
+                // list: [ ...state.list, ...deps ],
+                newDepartmentId: 0, newDepartmentName: '' });
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["p" /* GET_DEPARTMENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload.slice(), newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["k" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["n" /* GET_AGENT_DEPARTMENT_LIST_SUCCESS */]):
             return __assign({}, state, { list: action.payload.slice(), newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["v" /* RESET_DEPARTMENT_FORM */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["y" /* RESET_DEPARTMENT_FORM */]):
             return __assign({}, state, { resetDepartmentForm: false, newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["o" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["r" /* GET_TO_EDIT_DEPARTMENT_SUCCESS */]):
             // console.log(action.payload);
             return __assign({}, state, { toEdit: __assign({}, action.payload), newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["w" /* RESET_EDIT_DEPARTMENT */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["z" /* RESET_EDIT_DEPARTMENT */]):
             return __assign({}, state, { toEdit: {}, newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["t" /* PRE_DELETE_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["w" /* PRE_DELETE_SUCCESS */]):
             return __assign({}, state, { preDelete: action.payload, newDepartmentId: 0, newDepartmentName: '' });
-        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["e" /* DEPARTMENT_DELETE_SUCCESS */]):
+        case (__WEBPACK_IMPORTED_MODULE_0__department_actions__["h" /* DEPARTMENT_DELETE_SUCCESS */]):
             var deleteIndex = state.list.findIndex(function (department) { return department.id === action.payload; });
             var deleteData = state.list.slice();
             deleteData.splice(deleteIndex, 1);

@@ -342,7 +342,7 @@ var CreateAgentComponent = (function () {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["q" /* GetAdminListAttempt */]());
         this.authState = this.store.select('auth');
         this.afterLoginState = this.store.select('afterLogin');
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["q" /* GetDepartmentListAttempt */]());
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["t" /* GetDepartmentListAttempt */]());
         this.authSubscription = this.store.select('auth')
             .subscribe(function (data) {
             if (data.isAdmin) {
@@ -356,7 +356,7 @@ var CreateAgentComponent = (function () {
             .subscribe(function (agent) {
             if (Object.keys(agent).length !== 0) {
                 _this.adminUserId = agent.parent_id;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["p" /* GetAgentDepartmentListAttempt */]({ userId: _this.adminUserId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["s" /* GetAgentDepartmentListAttempt */]({ userId: _this.adminUserId }));
                 _this.agent.parentId = agent.parent_id;
                 _this.agent.firstName = agent.first_name;
                 _this.agent.lastName = agent.last_name;
@@ -493,7 +493,7 @@ var CreateAgentComponent = (function () {
         if (!!id) {
             this.adminUserId = id;
             this.agent.departmentId = [];
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["p" /* GetAgentDepartmentListAttempt */]({ userId: id }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_7__store_department_department_actions__["s" /* GetAgentDepartmentListAttempt */]({ userId: id }));
         }
     };
     /** Function to check if valid department is selected */

@@ -264,7 +264,7 @@ var OngoingComponent = (function () {
     OngoingComponent.prototype.transferChangeDepartment = function (event) {
         var _this = this;
         this.transferToDepartment = event.target.value;
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_10__store_department_department_actions__["r" /* GetToEditDepartmentAttempt */]({ departmentId: this.transferToDepartment }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_10__store_department_department_actions__["u" /* GetToEditDepartmentAttempt */]({ departmentId: this.transferToDepartment }));
         this.store.select('department')
             .distinctUntilChanged()
             .subscribe(function (dep) {

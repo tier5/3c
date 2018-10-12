@@ -127,7 +127,7 @@ var CreateDepartmentComponent = (function () {
             if (_this.editMode) {
                 /** Checking route params to get id of department to edit */
                 _this.depId = _this.activatedRoute.snapshot.params['id'];
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["r" /* GetToEditDepartmentAttempt */]({ departmentId: _this.depId }));
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["u" /* GetToEditDepartmentAttempt */]({ departmentId: _this.depId }));
                 _this.updateDep = _this.store.select('department')
                     .distinctUntilChanged()
                     .subscribe(function (dep) {
@@ -186,12 +186,10 @@ var CreateDepartmentComponent = (function () {
     CreateDepartmentComponent.prototype.onCreateDep = function (form) {
         if (this.editMode) {
             var data = __assign({}, form.value, { departmentId: this.depId });
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["i" /* EditDepartmentAttempt */](__assign({}, data)));
-            this.router.navigate(['/department/list']);
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["l" /* EditDepartmentAttempt */](__assign({}, data)));
         }
         else {
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["c" /* AddDepartmentAttempt */](form.value));
-            this.router.navigate(['/department/list']);
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_6__store_department_department_actions__["f" /* CreateDepartmentAttempt */](form.value));
         }
     };
     /** Function to get agent list depending on the selected admin */
@@ -537,7 +535,7 @@ var ListDepartmentComponent = (function () {
         this.page = 1;
         this.companySearch = '';
         this.authState = this.store.select('auth');
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["q" /* GetDepartmentListAttempt */]());
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["t" /* GetDepartmentListAttempt */]());
         /* this.authSubscription = this.store.select('auth')
          .subscribe(
            (data) => {
@@ -571,7 +569,7 @@ var ListDepartmentComponent = (function () {
         this.router.navigate(['department/edit/', depId]);
     };
     ListDepartmentComponent.prototype.preDelete = function (dept_id, template) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["u" /* PreDeleteAttempt */]({ deptId: dept_id }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["x" /* PreDeleteAttempt */]({ deptId: dept_id }));
         this.bsModalRef = this.modalService.show(template);
     };
     ListDepartmentComponent.prototype.deleteDepartment = function (id, template) {
@@ -587,11 +585,11 @@ var ListDepartmentComponent = (function () {
             confirmButtonText: 'Yes'
         }).then(function (result) {
             if (result) {
-                that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["f" /* DepartmentDeleteAttempt */]({ deptId: id }));
+                that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["i" /* DepartmentDeleteAttempt */]({ deptId: id }));
             }
         }, function (dismiss) {
             if (dismiss === 'cancel') {
-                that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["u" /* PreDeleteAttempt */]({ deptId: id }));
+                that.store.dispatch(new __WEBPACK_IMPORTED_MODULE_2__store_department_department_actions__["x" /* PreDeleteAttempt */]({ deptId: id }));
                 that.bsModalRef = that.modalService.show(template);
             }
         });

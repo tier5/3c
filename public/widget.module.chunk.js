@@ -154,7 +154,7 @@ var CreateWidgetComponent = (function () {
             if (data.isAdmin) {
                 _this.widget.userId = data.userId;
                 _this.loggedInAdminId = data.userId;
-                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["q" /* GetDepartmentListAttempt */]());
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["t" /* GetDepartmentListAttempt */]());
                 // this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: data.userId}));
             }
         });
@@ -169,7 +169,7 @@ var CreateWidgetComponent = (function () {
                     .distinctUntilChanged()
                     .subscribe(function (widget) {
                     if (widget) {
-                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["p" /* GetAgentDepartmentListAttempt */]({ userId: widget.user_id }));
+                        _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["s" /* GetAgentDepartmentListAttempt */]({ userId: widget.user_id }));
                         //this.store.dispatch(new DepartmentActions.GetDepartmentListAttempt());
                         _this.widget.id = widget.id;
                         _this.widget.userId = widget.user_id;
@@ -486,7 +486,7 @@ var CreateWidgetComponent = (function () {
     CreateWidgetComponent.prototype.adminChanged = function (id) {
         if (!!id) {
             this.changeAdmin = true;
-            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["p" /* GetAgentDepartmentListAttempt */]({ userId: id }));
+            this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["s" /* GetAgentDepartmentListAttempt */]({ userId: id }));
         }
     };
     /** Function to remove uploaded image */
