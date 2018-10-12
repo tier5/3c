@@ -273,6 +273,7 @@ var CreateAdminComponent = (function () {
     /** Function to be executed when component initializes */
     CreateAdminComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["t" /* ResetAdminForm */]());
         this.authState = this.store.select('auth');
         this.afterLoginSubscription = this.activatedRoute.data.subscribe(function (data) {
             _this.editMode = data['editMode'];
@@ -281,21 +282,21 @@ var CreateAdminComponent = (function () {
                 /** Checking route params to get id of department to edit */
                 _this.userId = _this.activatedRoute.snapshot.params['id'];
                 _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["r" /* GetToEditAdminAttempt */]({ adminId: _this.userId }));
-            }
-        });
-        this.updateAdmin = this.store.select('afterLogin')
-            .map(function (data) { return data.admin.toEdit; })
-            .distinctUntilChanged()
-            .subscribe(function (admin) {
-            if (admin) {
-                _this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
-                _this.admin.userId = admin.id;
-                _this.admin.firstName = admin.first_name;
-                _this.admin.lastName = admin.last_name;
-                _this.admin.userName = admin.username;
-                _this.admin.email = admin.email;
-                _this.admin.phone = admin.phone;
-                _this.admin.company = admin.company;
+                _this.updateAdmin = _this.store.select('afterLogin')
+                    .map(function (data) { return data.admin.toEdit; })
+                    .distinctUntilChanged()
+                    .subscribe(function (admin) {
+                    if (admin) {
+                        _this.admin.twilioSid = admin.twilio_info ? admin.twilio_info.twilio_sid : '';
+                        _this.admin.userId = admin.id;
+                        _this.admin.firstName = admin.first_name;
+                        _this.admin.lastName = admin.last_name;
+                        _this.admin.userName = admin.username;
+                        _this.admin.email = admin.email;
+                        _this.admin.phone = admin.phone;
+                        _this.admin.company = admin.company;
+                    }
+                });
             }
         });
     };
@@ -316,7 +317,7 @@ var CreateAdminComponent = (function () {
     /** Un-subscribing from all custom made events when component is destroyed */
     CreateAdminComponent.prototype.ngOnDestroy = function () {
         this.afterLoginSubscription.unsubscribe();
-        this.updateAdmin.unsubscribe();
+        //this.updateAdmin.unsubscribe();
     };
     return CreateAdminComponent;
 }());
@@ -412,7 +413,7 @@ var ListAdminComponent = (function () {
     };
     /** Function for block a admin user account*/
     ListAdminComponent.prototype.UnblockUser = function (userId) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_admin_admin_actions__["v" /* UnblockAdminUserAttempt */]({ userId: userId }));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_3__store_admin_admin_actions__["w" /* UnblockAdminUserAttempt */]({ userId: userId }));
     };
     ListAdminComponent.prototype.ngOnDestroy = function () {
         //
