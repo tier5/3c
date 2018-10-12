@@ -38,7 +38,7 @@
                   <div class="chat-list chat-list2">
                     <ul *ngIf="agentList[agentIndex].chat !== undefined">
                       <ng-container
-                        *ngFor="let client of agentList[agentIndex]?.chat; let j = index;">
+                        *ngFor="let client of agentList[agentIndex]?.chat | orderBy; let j = index;">
                         <li [ngClass]="{ active : clientIndex == j}" (click)="changeClient(j)"
                             *ngIf="client.status === '3'">
                           <div class="col-md-2">

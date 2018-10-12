@@ -23,7 +23,7 @@
                                     <div class="chat-list">
                                         <ul>
                                             <ng-container
-                                                    *ngFor="let contact of (chatState | async).closedChats; let i = index;">
+                                                    *ngFor="let contact of (chatState | async).closedChats | orderByClose; let i = index;">
                                                 <li [ngClass]="{ active : currentChatIndex == i}"
                                                     (click)="changeCurrentChat(i)">
                                                     <div class="col-md-2">

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component'
 import { DashboardRoutingModule } from './dashboard-routing.module'
 import { MomentModule } from 'angular2-moment';
+import {OrderByPipe} from './orderBy.pipe';
 
 
 @NgModule({
@@ -11,6 +12,9 @@ import { MomentModule } from 'angular2-moment';
     CommonModule,
     DashboardRoutingModule, MomentModule
   ],
-  declarations: [DashboardComponent]
+  declarations: [
+    DashboardComponent,
+    OrderByPipe
+  ]
 })
 export class DashboardModule { }
