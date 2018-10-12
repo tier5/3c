@@ -1883,6 +1883,7 @@ var AdminEffects = (function () {
                 .mergeMap(function (res) {
                 _this.spinnerService.hide();
                 if (res.status) {
+                    _this.router.navigate(['/admin/list']);
                     return [
                         {
                             type: __WEBPACK_IMPORTED_MODULE_9__admin_actions__["k" /* EDIT_ADMIN_SUCCESS */],

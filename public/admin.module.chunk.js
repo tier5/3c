@@ -306,7 +306,6 @@ var CreateAdminComponent = (function () {
             /** Edit admin */
             var data = __assign({}, form.value, { userId: this.userId });
             this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_admin_admin_actions__["l" /* EditAdminAttempt */](__assign({}, data)));
-            this.router.navigate(['/admin/list']);
         }
         else {
             /** Create admin */
