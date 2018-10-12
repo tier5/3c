@@ -53,7 +53,7 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
   bsModalRef: BsModalRef;             /** bootstrap modal */
   agent: any;                            /** initialize the agent object */
   mask: Array<string | RegExp> = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-
+  agentList = [];
   /** Service injection */
   constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
               private activatedRoute: ActivatedRoute,
@@ -150,6 +150,11 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         isemailNotification: true,
         isPhoneNotification: true,
     };
+      this.store.select('afterLogin', 'agent', 'list')
+          .filter((response) => typeof response === 'object')
+          .subscribe(data => {
+             this.agentList = data;
+          });
   }
 
   /** Your code to update the model */
@@ -200,6 +205,9 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
         this.adminName = '';
         this.showThis = true;
         this.dep.userId = 0;
+        this.dep.agents = [];
+        this.agentList = [];
+
     }
     /** Function to create agent modal*/
     CreateAgent(template:  TemplateRef<any>) {
@@ -210,12 +218,13 @@ export class CreateDepartmentComponent implements OnInit, AfterViewChecked, OnDe
     onCreateAgentSubmit(form){
         /** Create Agent */
         this.store.dispatch(new AgentActions.AddAgentAttempt(form.value));
-      this.store.select('afterLogin', 'agent', 'newAgentInfo')
-        .filter((response) => typeof response === 'object' &&  response.id > 0)
-        .take(1)
-        .subscribe(data => {
-            this.dep.agents.push({id: data.id, first_name: data.first_name, last_name: data.last_name});
-        });
+        this.store.select('afterLogin', 'agent', 'newAgentInfo')
+            .filter((response) => typeof response === 'object' &&  response.id > 0)
+            .take(1)
+            .subscribe(data => {
+                this.dep.agents.push({id: data.id, first_name: data.first_name, last_name: data.last_name});
+                this.store.dispatch(new AgentActions.GetAdminAgentListAttempt( { userId: this.dep.userId }));
+            });
       this.bsModalRef.hide();
     }
 

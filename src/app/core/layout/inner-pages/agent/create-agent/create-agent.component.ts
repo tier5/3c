@@ -62,6 +62,8 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
     isPhoneNotification = true;
     dropdownSettings = {};          /** dropDown settings blank obj*/
     createDeptSuccess = false;
+    deptList = [];
+    changeAdmin: boolean = false;
   /** Service injection */
     constructor(private store: Store<fromAfterLogin.AfterLoginFeatureState>,
                 private activatedRoute: ActivatedRoute,
@@ -177,6 +179,11 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         .subscribe(
           (data) => {
             if (data) {
+                if (this.changeAdmin || this.editMode) {
+                    this.deptList = data.list;
+                } if(!this.changeAdmin && !this.editMode){
+                    this.deptList = data.list;
+                }
               if (data.newDepartmentId > 0 && this.createDeptSuccess) {
                 const oldArray = this.agent.departmentId;
                 const newObj = [{id: data.newDepartmentId, department_name: data.newDepartmentName}];
@@ -193,6 +200,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
                 }
 
                 this.agent.departmentId = [...oldArray, ...newObj];
+                  this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({userId: this.agent.parentId}));
               }
             }
           }
@@ -215,6 +223,8 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
         this.adminName = '';
         this.showThis = true;
         this.agent.parentId = 0;
+        this.agent.departmentId = [];
+        this.deptList = [];
     }
 
     ngAfterViewChecked() {
@@ -245,6 +255,7 @@ export class CreateAgentComponent implements OnInit, AfterViewChecked, OnDestroy
       if (!!id) {
         this.adminUserId = id;
         this.agent.departmentId = [];
+          this.changeAdmin = true;
         this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({ userId: id}));
       }
     }

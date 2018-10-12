@@ -75,7 +75,7 @@
                           </label>
                           <angular2-multiselect
                             id="department" name="departmentId"
-                            [data]="(afterLoginState | async).department.list"
+                            [data]="deptList"
                             [(ngModel)]="agent.departmentId" [settings]="dropdownSettings" required>
                             <c-badge>
                               <ng-template let-item="item">

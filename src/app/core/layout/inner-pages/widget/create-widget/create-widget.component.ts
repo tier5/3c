@@ -298,6 +298,7 @@ export class CreateWidgetComponent implements OnInit, AfterViewChecked, OnDestro
               }
 
               this.widget.departmentIdArray = [...oldArray, ...newObj];
+                this.store.dispatch(new DepartmentActions.GetAgentDepartmentListAttempt({userId: this.widget.userId}));
             }
           }
         );

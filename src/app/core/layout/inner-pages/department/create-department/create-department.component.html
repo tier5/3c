@@ -58,7 +58,7 @@
                       </label>
                       <angular2-multiselect
                         id="agents" name="agentIds"
-                        [data]="(afterLoginState | async).agent.list"
+                        [data]="agentList"
                         [(ngModel)]="dep.agents" [settings]="dropdownSettings"
                       >
                         <c-badge>
