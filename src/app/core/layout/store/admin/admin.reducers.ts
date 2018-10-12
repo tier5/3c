@@ -30,7 +30,7 @@ export function adminReducer(state = initialState, action: AdminActions.AdminAct
       admins[index] = updatedAdmin;
       return {
         ...state,
-        list: [ ...state.list, ...admins ]
+        //list: [ ...state.list, ...admins ]
       };
     case (AdminActions.GET_ADMIN_LIST_SUCCESS):
       return {
