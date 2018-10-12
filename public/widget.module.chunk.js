@@ -276,6 +276,7 @@ var CreateWidgetComponent = (function () {
                     oldArray.splice(fIndex_1, 1);
                 }
                 _this.widget.departmentIdArray = oldArray.concat(newObj_1);
+                _this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_5__store_department_department_actions__["s" /* GetAgentDepartmentListAttempt */]({ userId: _this.widget.userId }));
             }
         });
         this.adminList = this.store.select('afterLogin').map(function (data) { return data; })
