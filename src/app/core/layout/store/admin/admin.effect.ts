@@ -119,6 +119,7 @@ export class AdminEffects {
           .mergeMap((res: any) => {
             this.spinnerService.hide();
             if (res.status) {
+              this.router.navigate(['/admin/list']);
               return [
                 {
                   type: AdminActions.EDIT_ADMIN_SUCCESS,
