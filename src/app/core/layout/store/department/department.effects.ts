@@ -13,13 +13,15 @@ import * as DepartmentActions from '../department/department.actions';
 import * as AlertActions from '../../../store/alert/alert.actions';
 import { environment } from '../../../../../environments/environment';
 import {SpinnerService} from '../../../shared/spinner';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class DepartmentEffects {
 
   constructor (private actions$: Actions,
                private httpClient: HttpClient,
-               private spinnerService: SpinnerService) {}
+               private spinnerService: SpinnerService,
+               private router: Router) {}
 
   @Effect()
   addDepartment = this.actions$
@@ -66,6 +68,51 @@ export class DepartmentEffects {
     });
 
   @Effect()
+  createDepartment = this.actions$
+    .ofType(DepartmentActions.CREATE_DEPARTMENT_ATTEMPT)
+    .switchMap((action: DepartmentActions.CreateDepartmentAttempt) => {
+      this.spinnerService.show();
+      const apiUrl = environment.API_BASE_URL + 'create-department';
+      const headers = new HttpHeaders().set('X-Requested-With', 'XMLHttpRequest');
+      const config = {
+        headers: headers
+      };
+      return this.httpClient.post(apiUrl, action.payload, config)
+        .mergeMap((res: any) => {
+          this.spinnerService.hide();
+          if (res.status) {
+            this.router.navigate(['/department/list']);
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'success' }
+              },
+              {
+                type: DepartmentActions.CREATE_DEPARTMENT_SUCCESS,
+                payload: res.response
+              }
+            ];
+          } else {
+            return [
+              {
+                type: AlertActions.ALERT_SHOW,
+                payload: { message: res.message, type: 'danger' }
+              }
+            ];
+          }
+        })
+        .catch((err: HttpErrorResponse) => {
+          this.spinnerService.hide();
+          return of(
+            {
+              type: AlertActions.ALERT_SHOW,
+              payload: { message: err.message, type: 'danger' }
+            }
+          );
+        });
+    });
+
+  @Effect()
   editDepartment = this.actions$
     .ofType(DepartmentActions.EDIT_DEPARTMENT_ATTEMPT)
     .switchMap((action: DepartmentActions.EditDepartmentAttempt) => {
@@ -79,6 +126,7 @@ export class DepartmentEffects {
         .mergeMap((res: any) => {
           this.spinnerService.hide();
           if (res.status) {
+            this.router.navigate(['/department/list']);
             return [
               {
                 type: DepartmentActions.EDIT_DEPARTMENT_SUCCESS,

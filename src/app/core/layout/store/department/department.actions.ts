@@ -8,6 +8,9 @@ export const GET_DEPARTMENT_SUCCESS = 'GET_DEPARTMENT_SUCCESS';
 export const ADD_DEPARTMENT_ATTEMPT = 'ADD_DEPARTMENT_ATTEMPT';
 export const ADD_DEPARTMENT_SUCCESS = 'ADD_DEPARTMENT_SUCCESS';
 
+export const CREATE_DEPARTMENT_ATTEMPT = 'CREATE_DEPARTMENT_ATTEMPT';
+export const CREATE_DEPARTMENT_SUCCESS = 'CREATE_DEPARTMENT_SUCCESS';
+
 export const EDIT_DEPARTMENT_ATTEMPT = 'EDIT_DEPARTMENT_ATTEMPT';
 export const EDIT_DEPARTMENT_SUCCESS = 'EDIT_DEPARTMENT_SUCCESS';
 
@@ -47,6 +50,15 @@ export class AddDepartmentAttempt implements Action {
 
 export class AddDepartmentSuccess implements Action {
   readonly type = ADD_DEPARTMENT_SUCCESS;
+  constructor(public payload: any) { }
+}
+export class CreateDepartmentAttempt implements Action {
+  readonly type = CREATE_DEPARTMENT_ATTEMPT;
+  constructor(public payload: any) { }
+}
+
+export class CreateDepartmentSuccess implements Action {
+  readonly type = CREATE_DEPARTMENT_SUCCESS;
   constructor(public payload: any) { }
 }
 
@@ -120,4 +132,4 @@ export type DepartmentActions = ResetDepartmentForm |
   GetDepartmentListAttempt | GetDepartmentListSuccess |
   GetToEditDepartmentAttempt | GetToEditDepartmentSuccess | ResetEditDepartment |
   PreDeleteAttempt | PreDeleteSuccess | DepartmentDeleteAttempt | DepartmentDeleteSuccess |
-  GetAgentDepartmentListAttempt | GetAgentDepartmentListSuccess;
+  GetAgentDepartmentListAttempt | GetAgentDepartmentListSuccess | CreateDepartmentAttempt | CreateDepartmentSuccess;

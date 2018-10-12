@@ -31,6 +31,10 @@ export function departmentReducer(state = initialState, action: DepartmentAction
         newDepartmentName: action.payload.department_name,
         resetDepartmentForm: true
       };
+      case (DepartmentActions.CREATE_DEPARTMENT_SUCCESS):
+      return {
+        ...state,
+      };
     case (DepartmentActions.EDIT_DEPARTMENT_SUCCESS):
       const index = state.list.indexOf(dep => dep.id === action.payload.id);
       const someDep = state.list[index];
@@ -39,7 +43,7 @@ export function departmentReducer(state = initialState, action: DepartmentAction
       deps[index] = updatedDep;
       return {
         ...state,
-        list: [ ...state.list, ...deps ],
+       // list: [ ...state.list, ...deps ],
         newDepartmentId: 0,
         newDepartmentName: ''
       };
