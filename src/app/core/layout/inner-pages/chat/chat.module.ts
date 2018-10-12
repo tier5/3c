@@ -10,6 +10,8 @@ import { SharedModule } from '../../../shared/shared.module';
 import { MomentModule } from 'angular2-moment';
 import { SweetAlertService } from 'ngx-sweetalert2';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {OrderByPipe} from '../dashboard/orderBy.pipe';
+import {OrderByClosePipe} from './orderByClose.pipe';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     OngoingComponent,
     RejectedComponent,
     ResolveComponent,
+    OrderByPipe,
+    OrderByClosePipe
   ],
     providers: [SweetAlertService]
 })

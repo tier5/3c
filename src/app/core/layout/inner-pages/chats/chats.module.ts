@@ -14,6 +14,7 @@ import { ChatSearchPipe } from './chatSearch.pipe';
 import { AgentLiveComponent } from './agent-live/agent-live.component';
 import { AgentRejectedComponent } from './agent-rejected/agent-rejected.component';
 import { AgentClosedComponent } from './agent-closed/agent-closed.component';
+import {OrderByPipe} from './orderBy.pipe';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { AgentClosedComponent } from './agent-closed/agent-closed.component';
         ChatSearchPipe,
         AgentLiveComponent,
         AgentRejectedComponent,
-        AgentClosedComponent
+        AgentClosedComponent,
+        OrderByPipe
     ]
 })
 export class ChatsModule {
