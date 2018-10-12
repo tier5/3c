@@ -46,6 +46,7 @@ var map = {
 	],
 	"./inner-pages/dashboard/dashboard.module": [
 		"../../../../../src/app/core/layout/inner-pages/dashboard/dashboard.module.ts",
+		"common",
 		"dashboard.module"
 	],
 	"./inner-pages/department/department.module": [

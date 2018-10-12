@@ -1940,7 +1940,6 @@ class ChatController extends Controller
             $createTransferHistory->status = 0; // 0 -> No , 1 -> Yes
             $createTransferHistory->save();
             // \Log::info('$createTransferHistory ---> '.printf($createTransferHistory,true));
-
             $this->sendNotificationToAgents($toAgentId, $widgetUuid);
             $response = ['agentId' => $fromAgentId, 'chatRoomId' => $chatRoomId, 'status' => $status];
 
@@ -2037,7 +2036,6 @@ class ChatController extends Controller
 
                 $agentRooms['name'] = $room->chat_room_id;
                 $agentRooms['status'] = $room->status;
-                $agentRooms['chat_time'] = $room->created_at;
                 if ($room->clientInfo->clientName->name != "") {
                     $agentRooms['client_name'] = $room->clientInfo->clientName->name;
                 } else {
@@ -2048,9 +2046,11 @@ class ChatController extends Controller
                     $getAgentName = Users::where('id', $getTransferChats[0]->transfer_from_agent_id)->select('first_name', 'last_name')->first();
                     $agentRooms['transfer_from_agent'] = $getAgentName ? $getAgentName->first_name . ' ' . $getAgentName->last_name : '';
                     $agentRooms['transferred'] = true;
+                    $agentRooms['chat_time'] = $getTransferChats[0]->created_at;
                 } else {
                     $agentRooms['transfer_from_agent'] = '';
                     $agentRooms['transferred'] = false;
+                    $agentRooms['chat_time'] = $room->created_at;
                 }
                 /*if (isset($room->getTransferLog)) {
                     foreach ($room->getTransferLog as $agentKey => $agentValue) {

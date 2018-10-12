@@ -1,5 +1,44 @@
 webpackJsonp(["common"],{
 
+/***/ "../../../../../src/app/core/layout/inner-pages/dashboard/orderBy.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrderByPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var OrderByPipe = (function () {
+    function OrderByPipe() {
+    }
+    OrderByPipe.prototype.transform = function (records, args) {
+        return records.sort(function (a, b) {
+            if (a.chatTime.date < b.chatTime.date) {
+                return -1 * -1;
+            }
+            else if (a.chatTime.date > b.chatTime.date) {
+                return 1 * -1;
+            }
+            else {
+                return 0;
+            }
+        });
+    };
+    return OrderByPipe;
+}());
+OrderByPipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({ name: 'orderBy' })
+], OrderByPipe);
+
+//# sourceMappingURL=orderBy.pipe.js.map
+
+/***/ }),
+
 /***/ "../../../../angular2-multiselect-dropdown/angular2-multiselect-dropdown.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
