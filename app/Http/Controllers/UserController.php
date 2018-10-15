@@ -108,7 +108,7 @@ class UserController extends Controller
         if ($request->token != "") {
 
             $token = $request->token; //User token
-            $getUserInfo = UserToken::where('token', $token)->with('userInfo')->first();
+            $getUserInfo = UserToken::where('token', $token)->with('userInfo','userInfo.getParentInfo')->first();
 
             if (count($getUserInfo) != 0) {
 

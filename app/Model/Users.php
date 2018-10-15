@@ -92,7 +92,7 @@ class Users extends Model
 
     public function getParentInfo()
     {
-        return $this->hasOne('App\Model\Users','id','parent_id')->select('first_name','last_name','id');
+        return $this->hasOne('App\Model\Users','id','parent_id')->select('first_name','last_name','id','company');
     }
 
 }
