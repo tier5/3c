@@ -26,6 +26,7 @@ io.on('connection', function (socket) {
     /** Rest api */
     app.post('/mobile-chat', function (req, res) {
         newMsg(req.body);
+        sendRooms();
         res.status(200).json({
             status: true,
             req: req.body
