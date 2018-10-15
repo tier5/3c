@@ -529,9 +529,9 @@ class WidgetController extends Controller
                 if($phoneNumber!=""){
                     $updatePhoneNUmber = TwilioNumber::where('widget_id',$widgetId)->first();
                     if($updatePhoneNUmber) {
-                        $phoneNumber       = substr($phoneNumber, -10); //phone_number
-                        $updatePhoneNUmber->number = $phoneNumber;
-                        $updatePhoneNUmber->save();
+                        $updatePhoneNUmber->delete();
+                        $twilioController = new TwilioController;
+                        $buyPhoneNumber = $twilioController->buyPhoneNumber($widgetId,$userId,$phoneNumber);
                     } else {
                         $twilioController = new TwilioController;
                         $buyPhoneNumber = $twilioController->buyPhoneNumber($widgetId,$userId,$phoneNumber);
