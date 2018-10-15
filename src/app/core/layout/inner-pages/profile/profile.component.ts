@@ -72,11 +72,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.passwordForm.reset();
           if(afterLogin && afterLogin.user_info) {
             const uInfo = afterLogin.user_info;
+            let companyName = '';
+            if (uInfo.parent_id !== 0 && uInfo.parent_id !== null) {
+              companyName = uInfo.get_parent_info.company;
+            } else if(uInfo.parent_id === null) {
+              companyName = '';
+            } else {
+              companyName = uInfo.company;
+            }
             this.profileForm.patchValue({
               userId: uInfo.id,
               firstName: uInfo.first_name,
               lastName: uInfo.last_name,
-              company: uInfo.company,
+              company: companyName,
               phone: uInfo.phone,
               email: uInfo.email
             });

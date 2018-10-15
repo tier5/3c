@@ -102,7 +102,12 @@
                                                id="company"
                                                formControlName="company"
                                                placeholder="Company Name" disabled>
-                                        <input *ngIf="(authState | async).isSuperAdmin || (authState | async).isAdmin" type="text"
+                                        <input *ngIf="(authState | async).isSuperAdmin" type="text"
+                                               class="form-control"
+                                               id="company"
+                                               formControlName="company"
+                                               placeholder="Company Name" disabled>
+                                        <input *ngIf="(authState | async).isAdmin" type="text"
                                                class="form-control"
                                                id="company"
                                                formControlName="company"
