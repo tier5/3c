@@ -1,16 +1,17 @@
 <template>
   <div class="app">
-    <chat-window></chat-window>
-    <!-- <chatlog></chatlog>
-    <chat v-on:messagesent="addMessage"></chat> -->
+  	<chat-request> </chat-request>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
+	name: 'app',
+  
+ 
 }
 </script>
+
 
 <style>
 </style>
